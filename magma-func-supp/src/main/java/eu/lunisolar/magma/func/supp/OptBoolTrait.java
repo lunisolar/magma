@@ -486,9 +486,14 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptBool.toOpt(self()) : OptBool.toOpt(opt);
 	}
 
-	public default <K> boolean orElseGet(K a1, @Nonnull LPredicate<? super K> supplier) {
+	public default <K> boolean orElseApply(K a1, @Nonnull LPredicate<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.test(a1);
+	}
+
+	public default <K> OptBool orApply(K a1, @Nonnull LFunction<? super K, ? extends OptBoolTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptBool.toOpt(self()) : OptBool.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

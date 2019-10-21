@@ -318,6 +318,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 	// </editor-fold>
 
+	public default <R> Opt<R> filterAndMap(@Nonnull Class<R> clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		return (isPresent() && clazz.isInstance(this.get())) ? (Opt) this : Opt.empty();
+	}
+
 	// <editor-fold desc="map">
 
 	public default OptBool mapToBool(@Nonnull LPredicate<? super T> mapping) {
@@ -685,9 +690,14 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? Opt.toOpt(self()) : Opt.toOpt(opt);
 	}
 
-	public default <K> T orElseGet(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
+	public default <K> T orElseApply(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.apply(a1);
+	}
+
+	public default <K> Opt<T> orApply(K a1, @Nonnull LFunction<? super K, ? extends OptTrait<? extends T, ?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? Opt.toOpt(self()) : Opt.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

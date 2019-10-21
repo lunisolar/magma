@@ -494,9 +494,14 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptFlt.toOpt(self()) : OptFlt.toOpt(opt);
 	}
 
-	public default <K> float orElseGet(K a1, @Nonnull LToFltFunction<? super K> supplier) {
+	public default <K> float orElseApply(K a1, @Nonnull LToFltFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsFlt(a1);
+	}
+
+	public default <K> OptFlt orApply(K a1, @Nonnull LFunction<? super K, ? extends OptFltTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptFlt.toOpt(self()) : OptFlt.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

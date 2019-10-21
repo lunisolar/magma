@@ -494,9 +494,14 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptChar.toOpt(self()) : OptChar.toOpt(opt);
 	}
 
-	public default <K> char orElseGet(K a1, @Nonnull LToCharFunction<? super K> supplier) {
+	public default <K> char orElseApply(K a1, @Nonnull LToCharFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsChar(a1);
+	}
+
+	public default <K> OptChar orApply(K a1, @Nonnull LFunction<? super K, ? extends OptCharTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptChar.toOpt(self()) : OptChar.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

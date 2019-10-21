@@ -494,9 +494,14 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.toOpt(opt);
 	}
 
-	public default <K> short orElseGet(K a1, @Nonnull LToSrtFunction<? super K> supplier) {
+	public default <K> short orElseApply(K a1, @Nonnull LToSrtFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsSrt(a1);
+	}
+
+	public default <K> OptSrt orApply(K a1, @Nonnull LFunction<? super K, ? extends OptSrtTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

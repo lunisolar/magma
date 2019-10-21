@@ -494,9 +494,14 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.toOpt(opt);
 	}
 
-	public default <K> double orElseGet(K a1, @Nonnull LToDblFunction<? super K> supplier) {
+	public default <K> double orElseApply(K a1, @Nonnull LToDblFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsDbl(a1);
+	}
+
+	public default <K> OptDbl orApply(K a1, @Nonnull LFunction<? super K, ? extends OptDblTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

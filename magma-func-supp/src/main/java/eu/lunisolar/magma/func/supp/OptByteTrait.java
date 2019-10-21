@@ -494,9 +494,14 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptByte.toOpt(self()) : OptByte.toOpt(opt);
 	}
 
-	public default <K> byte orElseGet(K a1, @Nonnull LToByteFunction<? super K> supplier) {
+	public default <K> byte orElseApply(K a1, @Nonnull LToByteFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsByte(a1);
+	}
+
+	public default <K> OptByte orApply(K a1, @Nonnull LFunction<? super K, ? extends OptByteTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptByte.toOpt(self()) : OptByte.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

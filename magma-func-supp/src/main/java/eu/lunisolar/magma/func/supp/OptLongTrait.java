@@ -494,9 +494,14 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptLong.toOpt(self()) : OptLong.toOpt(opt);
 	}
 
-	public default <K> long orElseGet(K a1, @Nonnull LToLongFunction<? super K> supplier) {
+	public default <K> long orElseApply(K a1, @Nonnull LToLongFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsLong(a1);
+	}
+
+	public default <K> OptLong orApply(K a1, @Nonnull LFunction<? super K, ? extends OptLongTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptLong.toOpt(self()) : OptLong.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

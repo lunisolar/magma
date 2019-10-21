@@ -684,9 +684,14 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptInt.toOpt(self()) : OptInt.toOpt(opt);
 	}
 
-	public default <K> int orElseGet(K a1, @Nonnull LToIntFunction<? super K> supplier) {
+	public default <K> int orElseApply(K a1, @Nonnull LToIntFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsInt(a1);
+	}
+
+	public default <K> OptInt orApply(K a1, @Nonnull LFunction<? super K, ? extends OptIntTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? OptInt.toOpt(self()) : OptInt.toOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>
