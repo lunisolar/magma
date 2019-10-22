@@ -18,11 +18,18 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.basics.exceptions.ExWF;
+import eu.lunisolar.magma.basics.exceptions.ExWMF;
+import eu.lunisolar.magma.basics.exceptions.HandlingInstructions;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.*;
+import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.conversion.*;
 import eu.lunisolar.magma.func.function.from.LByteFunction;
+import eu.lunisolar.magma.func.function.from.LIntFunction;
+import eu.lunisolar.magma.func.operator.unary.LIntUnaryOperator;
 import eu.lunisolar.magma.func.operator.unary.LLogicalOperator;
+import eu.lunisolar.magma.func.operator.unary.LUnaryOperator;
 import eu.lunisolar.magma.func.predicate.*;
 import eu.lunisolar.magma.func.supplier.*;
 
@@ -76,57 +83,40 @@ public class Example_Collision_Test {
             return 0;
         }
     }
-//
+
 //    public static class MegaFunction<T, X extends Exception> implements LFunction<T, T>, LSupplier<T>, LPredicate<T>, LUnaryOperator<T>, LConsumer<T> {
 //
-//        @Override public void doAccept(T t) {
+//        @Override public void acceptX(T a) throws Throwable {
 //
 //        }
-//
-//        @Nullable @Override public T doApply(T t) {
+//        @Override public T applyX(T a) throws Throwable {
 //            return null;
 //        }
-//
-//        @Override public boolean doTest(T t) {
+//        @Override public boolean testX(T a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Nullable @Override public T doGet() {
+//        @Override public T getX() throws Throwable {
 //            return null;
-//        }
-//
-//        @Nonnull @Override public String functionalInterfaceDescription() {
-//
-//            return "";
 //        }
 //    }
+
+
+//    public static class MegaIntFunction<T> implements LIntFunction<T>, LIntSupplier, LIntPredicate, LIntUnaryOperator, LIntConsumer {
 //
-//
-//    public static class MegaIntFunction<T, X extends Exception> implements LIntFunction<T>, LIntSupplier, LIntPredicate, LIntUnaryOperator, LIntConsumer {
-//
-//        @Override public void doAccept(int i) {
+//        @Override public void acceptX(int a) throws Throwable {
 //
 //        }
-//
-//        @Nullable @Override public T doApply(int i) {
+//        @Override public T applyX(int a) throws Throwable {
 //            return null;
 //        }
-//
-//        @Override public boolean doTest(int i) {
+//        @Override public int applyAsIntX(int a) throws Throwable {
+//            return 0;
+//        }
+//        @Override public boolean testX(int a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public int doGetAsInt() {
+//        @Override public int getAsIntX() throws Throwable {
 //            return 0;
-//        }
-//
-//        @Override public int doApplyAsInt(int i) {
-//            return 0;
-//        }
-//
-//        @Nonnull @Override public String functionalInterfaceDescription() {
-//
-//            return "";
 //        }
 //    }
 
@@ -134,9 +124,6 @@ public class Example_Collision_Test {
 //
 //        @Override public boolean getAsBoolX() throws Throwable {
 //            return false;
-//        }
-//        @Nonnull @Override public String functionalInterfaceDescription() {
-//            return "";
 //        }
 //        @Override public byte getAsByteX() throws Throwable {
 //            return 0;
@@ -166,89 +153,63 @@ public class Example_Collision_Test {
 
 //    public static class MegaConsumer<T> implements LBoolConsumer, LByteConsumer, LSrtConsumer, LIntConsumer, LLongConsumer, LFltConsumer, LDblConsumer, LCharConsumer, LConsumer<T> {
 //
-//        @Override public void doAcceptX(boolean b) {
+//        @Override public void acceptX(T a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(byte b) {
-//
-//        }
-//
-//        @Override public void doAcceptX(char c) {
+//        @Override public void acceptX(boolean a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(T t) {
-//
-//        }
-//
-//        @Override public void doAcceptX(double d) {
+//        @Override public void acceptX(byte a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(float f) {
-//
-//        }
-//
-//        @Override public void doAcceptX(int i) {
+//        @Override public void acceptX(char a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(long l) {
-//
-//        }
-//
-//        @Override public void doAcceptX(short s) {
+//        @Override public void acceptX(double a) throws Throwable {
 //
 //        }
+//        @Override public void acceptX(float a) throws Throwable {
 //
-//        @Nonnull @Override public String functionalInterfaceDescription() {
+//        }
+//        @Override public void acceptX(int a) throws Throwable {
 //
-//            return "";
+//        }
+//        @Override public void acceptX(long a) throws Throwable {
+//
+//        }
+//        @Override public void acceptX(short a) throws Throwable {
+//
 //        }
 //    }
 
 //    public static class MegaConsumerX<T, X extends Exception> implements LBoolConsumer, LByteConsumer, LSrtConsumer, LIntConsumer, LLongConsumer, LFltConsumer, LDblConsumer, LCharConsumer, LConsumer<T> {
 //
-//        @Override public void doAcceptX(boolean b) {
+//        @Override public void acceptX(T a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(byte b) {
-//
-//        }
-//
-//        @Override public void doAcceptX(char c) {
+//        @Override public void acceptX(boolean a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(T t) {
-//
-//        }
-//
-//        @Override public void doAcceptX(double d) {
+//        @Override public void acceptX(byte a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(float f) {
-//
-//        }
-//
-//        @Override public void doAcceptX(int i) {
+//        @Override public void acceptX(char a) throws Throwable {
 //
 //        }
-//
-//        @Override public void doAcceptX(long l) {
-//
-//        }
-//
-//        @Override public void doAcceptX(short s) {
+//        @Override public void acceptX(double a) throws Throwable {
 //
 //        }
+//        @Override public void acceptX(float a) throws Throwable {
 //
-//        @Nonnull @Override public String functionalInterfaceDescription() {
+//        }
+//        @Override public void acceptX(int a) throws Throwable {
 //
-//            return "";
+//        }
+//        @Override public void acceptX(long a) throws Throwable {
+//
+//        }
+//        @Override public void acceptX(short a) throws Throwable {
+//
 //        }
 //    }
 
@@ -256,69 +217,49 @@ public class Example_Collision_Test {
         @Override public boolean test(double value) {
             return false;
         }
-
         @Override public boolean test(int value) {
             return false;
         }
-
         @Override public boolean test(long value) {
             return false;
         }
-
         @Override public boolean test(T t) {
             return false;
         }
 
-        @Override public StdMegaPredicate<T> negate() {
-            return null;
+        @Nonnull @Override public StdMegaPredicate<T> negate() {
+            return new StdMegaPredicate<>();
         }
     }
 
 //    public static class MegaPredicate<T> implements LLogicalOperator, LBytePredicate, LSrtPredicate, LIntPredicate, LLongPredicate, LFltPredicate, LDblPredicate, LCharPredicate, LPredicate<T> {
 //
-//        @Override public boolean doApplyX(boolean b) {
+//        @Override public boolean applyX(boolean a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(byte b) {
+//        @Override public boolean testX(byte a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(char c) {
+//        @Override public boolean testX(char a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(double d) {
+//        @Override public boolean testX(double a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(float f) {
+//        @Override public boolean testX(float a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(int i) {
+//        @Override public boolean testX(int a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(long l) {
+//        @Override public boolean testX(long a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(T t) {
+//        @Override public boolean testX(T a) throws Throwable {
 //            return false;
 //        }
-//
-//        @Override public boolean doTestX(short s) {
+//        @Override public boolean testX(short a) throws Throwable {
 //            return false;
-//        }
-//
-//        @Nonnull @Override public MegaPredicate<T> negate() {
-//            return null;
-//        }
-//
-//        @Nonnull @Override public String functionalInterfaceDescription() {
-//
-//            return "";
 //        }
 //    }
 

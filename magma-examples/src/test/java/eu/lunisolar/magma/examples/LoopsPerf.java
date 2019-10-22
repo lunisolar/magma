@@ -342,22 +342,16 @@ public class LoopsPerf {
         return null;
     }
 
-    public static void main(String[] args) throws Exception {
-//        Options opt = new OptionsBuilder()
-//                .include(StatelessPerf.class.getName())
-//                .forks(1)
-//                .build();
+//    public static void main(String[] args) throws Exception {
 //
-//        new org.openjdk.jmh.runner.Runner(opt).run();
-
-        JMH.jmh()
-           .iterations(3, seconds(3), 3, seconds(3))
-           .classes(LoopsPerf.class)
-           .mode(Mode.Throughput)
-           .opt(o -> o.timeUnit(TimeUnit.MILLISECONDS))
-           .gc()
-//           .mem()
-           .run();
-    }
+//        JMH.jmh()
+//           .iterations(3, seconds(3), 3, seconds(3))
+//           .classes(LoopsPerf.class)
+//           .mode(Mode.Throughput)
+//           .opt(o -> o.timeUnit(TimeUnit.MILLISECONDS))
+//           .gc()
+////           .mem()
+//           .run();
+//    }
 
 }

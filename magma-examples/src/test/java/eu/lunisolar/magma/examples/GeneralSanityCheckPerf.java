@@ -55,13 +55,13 @@ public class GeneralSanityCheckPerf {
         IntUnaryOperator reference = i -> i + 1;
 
         LIntUnaryOperator                    nonThrowing            = i -> i + 1;
-        LIntUnaryOperator/*.LIntUnaryOperatorX*/ theoretically_throwing = i -> i + 1;
+        LIntUnaryOperator theoretically_throwing = i -> i + 1;
 
-        LIntUnaryOperator/*.LIntUnaryOperatorX*/ throwing_for_sure = i -> {
+        LIntUnaryOperator throwing_for_sure = i -> {
             throw new Exception();
         };
 
-        LIntUnaryOperator/*.LIntUnaryOperatorX*/ throwing_for_sure_runtime = i -> {
+        LIntUnaryOperator throwing_for_sure_runtime = i -> {
             throw new RuntimeException();
         };
 
@@ -155,23 +155,17 @@ public class GeneralSanityCheckPerf {
         return f.optional_instead_of_exception.apply(32).get();
     }
 
-    public static void main(String[] args) throws Exception {
-//        Options opt = new OptionsBuilder()
-//                .include(StatelessPerf.class.getName())
-//                .forks(1)
-//                .build();
+//    public static void main(String[] args) throws Exception {
 //
-//        new org.openjdk.jmh.runner.Runner(opt).run();
-
-        JMH.jmh()
-           .iterations(3, seconds(30), 3, seconds(30))
-           .classes(GeneralSanityCheckPerf.class)
-           .mode(Mode.Throughput)
-           .opt(o -> o.timeUnit(TimeUnit.MILLISECONDS))
-           .gc()
-//           .mem()
-           .run();
-    }
+//        JMH.jmh()
+//           .iterations(3, seconds(30), 3, seconds(30))
+//           .classes(GeneralSanityCheckPerf.class)
+//           .mode(Mode.Throughput)
+//           .opt(o -> o.timeUnit(TimeUnit.MILLISECONDS))
+//           .gc()
+////           .mem()
+//           .run();
+//    }
 
 
 }
