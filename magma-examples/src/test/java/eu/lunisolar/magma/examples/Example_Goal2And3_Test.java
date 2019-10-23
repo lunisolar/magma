@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 /**
- * Basic introduction (by example) to implementation details of second and third of main goals:
+ * Basic introduction (by example) to details of second and third of main goals:
  * **More primitive types supported**. **More combinations of arguments**.
  */
 //>inject<:readmore
@@ -42,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ###  Abstract
  *
- * Basic introduction (by example) to implementation details of second and third of main goals:
+ * Basic introduction (by example) to details of second and third of main goals:
  * **More primitive types supported**. **More combinations of arguments**.
  */
 public class Example_Goal2And3_Test {

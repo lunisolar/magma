@@ -21,24 +21,24 @@ package eu.lunisolar.magma.examples.support;
 /**
  *
  */
-public class SmeRuntimeExcepton extends RuntimeException {
+public class SomeRuntimeExcepton extends RuntimeException {
 
-    public SmeRuntimeExcepton() {
+    public SomeRuntimeExcepton() {
     }
 
-    public SmeRuntimeExcepton(String message) {
+    public SomeRuntimeExcepton(String message) {
         super(message);
     }
 
-    public SmeRuntimeExcepton(String message, Throwable cause) {
+    public SomeRuntimeExcepton(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public SmeRuntimeExcepton(Throwable cause) {
+    public SomeRuntimeExcepton(Throwable cause) {
         super(cause);
     }
 
-    public SmeRuntimeExcepton(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public SomeRuntimeExcepton(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

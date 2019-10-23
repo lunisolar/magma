@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 //>transform-to-MD<
 /**
- * Basic introduction (by example) to implemented details of first of main goals -
+ * Basic introduction (by example) to details of first of main goals -
  * **Throwing lambda expressions and functional interfaces that declare and throw
  * checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.
  */
@@ -48,7 +48,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * ### Abstract
  *
- * Basic introduction (by example) to implemented details of first of main goals -
+ * Basic introduction (by example) to details of first of main goals -
  * **Throwing lambda expressions and functional interfaces that declare and throw
  * checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.
  */

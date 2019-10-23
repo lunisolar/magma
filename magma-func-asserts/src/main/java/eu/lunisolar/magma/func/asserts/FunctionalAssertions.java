@@ -69,6 +69,9 @@ import static org.assertj.core.api.Fail.fail;
 @SuppressWarnings("ALL")
 public interface FunctionalAssertions {
 
+	public static final DefaultFunctionalAssertions<ObjectAssert> THEN = new DefaultFunctionalAssertions() {
+	};
+
 	@Nonnull
 	public static <A extends LAction> LActionAssert.The<A> assertAct(LAction func) {
 		return new LActionAssert.The(func);

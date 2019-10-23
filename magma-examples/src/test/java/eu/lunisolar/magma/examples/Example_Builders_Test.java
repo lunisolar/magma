@@ -30,6 +30,7 @@ import org.testng.annotations.Test;
 import java.util.function.*;
 
 import static eu.lunisolar.magma.basics.exceptions.Handling.throwThe;
+import static eu.lunisolar.magma.func.asserts.FunctionalAssertions.THEN;
 import static eu.lunisolar.magma.func.function.to.LToIntBiFunction.apply1stAsInt;
 import static eu.lunisolar.magma.func.predicate.LBiPredicate.test1st;
 
@@ -50,9 +51,6 @@ import static eu.lunisolar.magma.func.predicate.LBiPredicate.test1st;
  * In case there is any value in decoratively specific function implementations, a fluent builders might come handy.
  */
 public class Example_Builders_Test {
-
-    public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
-    };
 
     /**
      * In case you want to define function little more decoratively or you just have methods ready to be referenced, then depending on the context you might
@@ -77,7 +75,7 @@ public class Example_Builders_Test {
                 .build();
         //>example<
 
-        then.assertThat(function)
+        THEN.assertToIntFunc(function)
             .doesApplyAsInt(0).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5).to(a -> a.isEqualTo(5))
             .doesApplyAsInt(44f).to(a -> a.isEqualTo(44))
@@ -120,7 +118,7 @@ public class Example_Builders_Test {
             }
         };
 
-        then.assertThat(function)
+        THEN.assertToIntBiFunc(function)
             .doesApplyAsInt(0, null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5, null).to(a -> a.isEqualTo(5))
             .doesApplyAsInt(44f, null).to(a -> a.isEqualTo(44))
@@ -153,7 +151,7 @@ public class Example_Builders_Test {
                 .inCase(i -> i > 0).evaluate(i -> i)
                 .build();
 
-        then.assertThat(function)
+        THEN.assertIntUnaryOp(function)
             .doesApplyAsInt(0).to(a -> a.isEqualTo(-1))
             .doesApplyAsInt(2).to(a -> a.isEqualTo(2))
             .doesApplyAsInt(44).to(a -> a.isEqualTo(88));

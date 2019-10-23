@@ -19,13 +19,11 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.NestedException;
-import eu.lunisolar.magma.basics.probing.ThrowableProbe;
 import eu.lunisolar.magma.examples.support.CheckedException;
 import eu.lunisolar.magma.examples.support.DifferentRuntimeException;
 import eu.lunisolar.magma.examples.support.DifferentSpecializedRuntimeException;
-import eu.lunisolar.magma.examples.support.SmeRuntimeExcepton;
+import eu.lunisolar.magma.examples.support.SomeRuntimeExcepton;
 import eu.lunisolar.magma.func.function.LFunction;
-import eu.lunisolar.magma.func.predicate.LPredicate;
 import org.testng.annotations.Test;
 
 import java.text.*;
@@ -35,17 +33,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 
-/**
- * Basic introduction (by example) to how to use exception handling functionality for functional interfaces.
+/**                                                                              
+ * Basic introduction (by example) to exception handling with functional interfaces from this library.
  */
 //>inject<:readmore
 
-
 //>inject<:generated
-
-/// <br/>
-/// <br/>
-/// <span style="color:red"> THIS ARTICLE IS OUTDATED AND IS AWAITING FOR REFRESH. </span>
 
 /**
  * Exception Handling
@@ -53,9 +46,54 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ### Abstract
  *
- * Basic introduction (by example) to how exception handling work with functional interfaces from this library.
+ * Basic introduction (by example) to exception handling with functional interfaces from this library.
  */
 public class Example_ExceptionHandling_Test {
+
+///### Handling
+///Each functional interface has the ability to customise exception handling. There are more than few methods to do that. It might be best to present them
+///on one single example:
+///<a href="https://github.com/lunisolar/magma/blob/master/magma-func/src/main/java/eu/lunisolar/magma/func/function/LFunction.java" target="_blank">LFunction</a>.
+///
+///#### Default behaviour
+///
+///First the actual method that need to be implemented is the method that is throwing Throwable. This method is not intended to be called directly:
+///
+///`R applyX(T a) throws Throwable;`
+///
+///The method that is intended to be called is:
+///
+///`default R apply(T a) { ... }`
+///
+///This is what this method does:
+///1. Intercepts Throwable
+///2. Immediately rethrows errors.
+///3. Rethrows runtime exceptions.
+///4. Nests checked exceptions in <a href="https://github.com/lunisolar/magma/blob/master/magma-basics/src/main/java/eu/lunisolar/magma/basics/exceptions/NestedException.java" target="_blank">NestedException</a>.
+///
+///#### Handling customization
+///
+///Following possibilities can only be used for runtime exceptions and checked exceptions:
+///
+///1. There is -handlingApply- method that additionally takes argument HandlingInstructions. See <a href="https://github.com/lunisolar/magma/blob/master/magma-basics/src/main/java/eu/lunisolar/magma/basics/exceptions/HandlingInstructions.java" target="_blank">HandlingInstructions</a>
+///   and <a href="https://github.com/lunisolar/magma/blob/master/magma-basics/src/main/java/eu/lunisolar/magma/basics/exceptions/Handler.java" target="_blank">Handler</a>
+///1. There two -apply- methods that additionally takes reference to exception constructor with option to pass message arguments.
+///1. There is -applyThen- that takes function that is supposed to transform exception into the originally expected value type.
+///
+///For each of those mentioned above there is a:
+///
+///1. Instance methods that is just 'apply' with additional handling. To handle exceptions on per call basis.
+///1. Instance methods that returns function that always does the exact handling every time. To create function that handles exceptions for all calls.
+///1. Static method that takes function arguments, function instance, and handling argument.
+///
+
+    /**
+     * ### Examples
+     *
+     * Here is a example function and its implementation that will be used in the flowing examples:     *
+     */
+
+    //>example<
 
     public static final LFunction<Integer, Integer> throwingAlways = LFunction.func(Example_ExceptionHandling_Test::throwingAlways);
 
@@ -63,49 +101,20 @@ public class Example_ExceptionHandling_Test {
         throw new CheckedException("Something went wrong");
     }
 
+    //>example<
 
     /**
-     * ### Handling
-     *
-     * Each functional interface has the ability to customise exception handling. There are two methods that do exactly that:
-     *
-     * - *handling* - the result function is of a _throwing_ type.
-     * - *handle* - the result function is of a _non-throwing_ type.
-     *
-     * Both of them have only one argument (*HandlingInstructions*) that provides instructions how to handle the exception. Mind that exception is already
-     * caught at this point so traditional try-catch is out of the question (there is nothing that blocks the user from using try-catch just like for JRE
-     * interfaces anyway). *HandlingInstructions* is nothing more than specialized consumer for the *Handler* object. *Handler* contains few conditional
-     * and few unconditional methods. In most cases a _factory_ for a new exception must be provided. Behind the _factory_ are couple of functional interfaces
-     * that corresponds the new usual Throwable constructor methods - so that following options can be used:
-     *
-     * - use constructor reference
-     * - use lambda expression that instantiates the exception (mostly usable in cases when exception has some custom constructor).
-     * - use lambda expression that explicitly throws an exception.
-     * - use some factory object that implements the factory interface.
-     * - in all cases factory is obligated to either throw exception or return it.
-     *
-     * Whenever exception is not processed by the handler it will be propagated (unchecked exception) or nested (checked exception). Errors are propagated
-     * immediately.
+     * And here is an example with handling instructions: 
      */
+
     //>example<
-    @Test(expectedExceptions = SmeRuntimeExcepton.class)
+    @Test(expectedExceptions = DifferentRuntimeException.class)
     public void exampleHandling() {
 
-        LFunction<Integer, Integer> function1 = throwingAlways.handling(h -> h
-                        .wrapWhen(LPredicate::alwaysTrue, (message, e) -> {
-                            e.printStackTrace();
-                            throw new SmeRuntimeExcepton(message);
-                        }, "message")
-                        .wrapWhen(ThrowableProbe::isRuntime, (message, e) -> new SmeRuntimeExcepton(message), "message")
-                        .wrapWhen(ThrowableProbe::isRuntime, SmeRuntimeExcepton::new, "message")
-        );
-
-        LFunction<Integer, Integer> function2 = throwingAlways.handling(h -> h
-                        .wrapWhen(ThrowableProbe::isRuntime, SmeRuntimeExcepton::new)
-        );
-
-        Function<Integer, Integer> function3 = throwingAlways.handling(h -> h
-                        .wrapWhen(ThrowableProbe::isRuntime, SmeRuntimeExcepton::new)
+        LFunction<Integer, Integer> function1 =  throwingAlways.handling(h -> h
+                .wrapIf(e -> e instanceof RuntimeException, RuntimeException::new)
+                .wrapWhen(p -> p.hasCause() && p.isNotRuntime(), DifferentSpecializedRuntimeException::new)
+                .throwWrapper(DifferentRuntimeException::new)
         );
 
         function1.apply(0);
@@ -113,9 +122,9 @@ public class Example_ExceptionHandling_Test {
     //>example<
 
     /**
-     * Handling block can be empty. If so then Nested exception will be produced for any exception except unchecked exceptions that can be freely propagated.
+     * Handling block can be empty. If so, then Nested exception will be produced for any exception except unchecked exceptions that can be freely propagated.
      */
-    //>Example<
+    //>example<
     @Test(expectedExceptions = NestedException.class)
     public void exampleNoHandlingAtAll() {
 
@@ -124,60 +133,40 @@ public class Example_ExceptionHandling_Test {
 
         function.apply(0);
     }
-    //>Example<
+    //>example<
 
     /**
-     * You can do also simple or conditional wrapping to another checked exception. However you need to help the compiler a little to understand what kind of
-     * exceptions the result function is throwing regardless of what is in the handling block. It would not infer the new function X generic type from within
-     * the handling block.
+     * A more simpler examples:
      */
     //>example<
     @Test(expectedExceptions = DifferentRuntimeException.class)
-    public void exampleWrapToDifferentChecked() throws DifferentRuntimeException {
+    public void simpleExample() throws DifferentRuntimeException {
 
-        LFunction<Integer, Integer> function = throwingAlways.handling(h -> h
-                        .throwWrapper(DifferentRuntimeException::new)
-        );
+        throwingAlways.apply(0, DifferentRuntimeException::new);
 
-        function.apply(0);
+    }
 
-        throwingAlways.handling(h -> h
-                        .throwWrapper(DifferentRuntimeException::new)
-        ).apply(0);
+    @Test(expectedExceptions = DifferentRuntimeException.class, expectedExceptionsMessageRegExp = "message text")
+    public void simpleExampleWithMessage() throws DifferentRuntimeException {
+
+        throwingAlways.apply(0, DifferentRuntimeException::new, "message text");
+
     }
     //>example<
 
     /**
-     * You can do handling on the fly this also on the fly.
+     * Following examples shows the purpose of the static handling methods - one-line handling for any method call (assuming that there is a library function
+     * that covers the specific argument case).
      */
     //>example<
-    @Test(expectedExceptions = DifferentRuntimeException.class)
-    public void exampleWrapToDifferentCheckedOnTheFly() throws DifferentRuntimeException {
-
-        throwingAlways.<DifferentRuntimeException>handling(h -> h
-                        .throwWrapper(DifferentRuntimeException::new)
-        ).apply(0);
+    @Test(expectedExceptions = NestedException.class)
+    public void staticExamples()  {
+        LFunction.tryApply(0, Example_ExceptionHandling_Test::throwingAlways);
     }
-    //>example<
 
-    /**
-     * Each method of an handler has its own definition of exception that will/could be thrown. As an effect unchecked exception could be used freely and the
-     * checked one
-     * will be checked by the compiler.
-     *
-     * There are also two sets of conditional methods.
-     * - one is using simple predicates on exception - Predicate<X>
-     * - the other is using predicated on the ThrowableProbe instance that has little more convenient methods - Predicate<ThrowableProbe<X>>
-     */
-    //>example<
-    @Test(expectedExceptions = DifferentRuntimeException.class)
-    public void exampleWrapToDifferentCheckedDifferent() throws DifferentRuntimeException {
-
-        throwingAlways.<DifferentRuntimeException>handling(h -> h
-                        .wrapIf(e -> e instanceof RuntimeException, RuntimeException::new)
-                        .wrapWhen(p -> p.hasCause() && p.isNotRuntime(), DifferentSpecializedRuntimeException::new)
-                        .throwWrapper(DifferentRuntimeException::new)
-        ).apply(0);
+    @Test(expectedExceptions = DifferentRuntimeException.class, expectedExceptionsMessageRegExp = "text message and param")
+    public void staticExamples2()  {
+        LFunction.tryApply(0, Example_ExceptionHandling_Test::throwingAlways, DifferentRuntimeException::new ,"text message and %s", "param");
     }
     //>example<
 
@@ -206,24 +195,24 @@ public class Example_ExceptionHandling_Test {
         return null;
     }
 
-    @Test(expectedExceptions = SmeRuntimeExcepton.class)
+    @Test(expectedExceptions = SomeRuntimeExcepton.class)
     public void example4() throws Throwable {
         throwingAlways
-                .handling(h -> h.throwWrapper(SmeRuntimeExcepton::new))
+                .handling(h -> h.throwWrapper(SomeRuntimeExcepton::new))
                 .apply(0);  // <- exception type was generalized to Exception
     }
 
-    @Test(expectedExceptions = SmeRuntimeExcepton.class)
+    @Test(expectedExceptions = SomeRuntimeExcepton.class)
     public void example5() {
         throwingAlways
-                .handling(h -> h.throwWrapper(SmeRuntimeExcepton::new))
+                .handling(h -> h.throwWrapper(SomeRuntimeExcepton::new))
                 .apply(0);
     }
 
     @Test(expectedExceptions = NestedException.class)
     public void example6() throws ParseException {
         LFunction<Integer, Integer> functionX = throwingAlways.handling((h) -> h
-                        .wrapIf(RuntimeException.class::isInstance, SmeRuntimeExcepton::new)
+                .wrapIf(RuntimeException.class::isInstance, SomeRuntimeExcepton::new)
         );
 
         functionX.apply(0);
@@ -232,15 +221,15 @@ public class Example_ExceptionHandling_Test {
     @Test(expectedExceptions = NestedException.class)
     public void example7_1() {
         throwingAlways.handlingApply(0, h -> h
-                        .wrapIf(RuntimeException.class::isInstance, SmeRuntimeExcepton::new)
+                .wrapIf(RuntimeException.class::isInstance, SomeRuntimeExcepton::new)
 
         );
     }
 
-    @Test(expectedExceptions = SmeRuntimeExcepton.class)
+    @Test(expectedExceptions = SomeRuntimeExcepton.class)
     public void example7_2() {
         throwingAlways.handlingApply(0, h -> h
-                        .wrapWhen(p -> !p.isRuntime(), SmeRuntimeExcepton::new)
+                .wrapWhen(p -> !p.isRuntime(), SomeRuntimeExcepton::new)
         );
     }
 
