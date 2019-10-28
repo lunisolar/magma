@@ -65,6 +65,11 @@ public class X implements FluentSyntax {
     public static IllegalStateException state(String message, Throwable cause) { return new IllegalStateException(message, cause);}
     public static IllegalStateException state(Throwable cause)                 { return new IllegalStateException(cause);}
 
+    public static IllegalValueException value()                                { return new IllegalValueException(); }
+    public static IllegalValueException value(String message)                  { return new IllegalValueException(message);}
+    public static IllegalValueException value(String message, Throwable cause) { return new IllegalValueException(message, cause);}
+    public static IllegalValueException value(Throwable cause)                 { return new IllegalValueException(cause);}
+
     public static final WrapingHandler<UnsupportedOperationException> unsupported =
             handler(UnsupportedOperationException.class, UnsupportedOperationException::new, UnsupportedOperationException::new);
 

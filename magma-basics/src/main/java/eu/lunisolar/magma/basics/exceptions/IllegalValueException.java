@@ -18,25 +18,22 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
-public class ExceptionNotHandled extends RuntimeException {
-    public ExceptionNotHandled() {
+/**
+ * @author Jakub Wach
+ */
+public class IllegalValueException extends IllegalStateException {
+    public IllegalValueException() {
     }
 
-    public ExceptionNotHandled(String message) {
-        super(message);
+    public IllegalValueException(String s) {
+        super(s);
     }
 
-    public ExceptionNotHandled(String message, Throwable cause) {
+    public IllegalValueException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ExceptionNotHandled(String message, Throwable cause, Throwable suppressed) {
-        super(message, cause);
-        addSuppressed(suppressed);
-    }
-
-    public ExceptionNotHandled(Throwable cause, Throwable suppressed) {
+    public IllegalValueException(Throwable cause) {
         super(cause);
-        addSuppressed(suppressed);
     }
 }
