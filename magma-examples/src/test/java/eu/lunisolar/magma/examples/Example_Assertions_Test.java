@@ -37,6 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 //>inject<:readmore
 
+//>inject<:generated
+
 /**
  * Assertions
  * ==========================
@@ -160,7 +162,7 @@ public class Example_Assertions_Test {
      */
     //>example<
     @Test(expectedExceptions = AssertionError.class)
-    public void testRecurringAssertsNegative() {
+    public void testActionAssert() {
 
         THEN.assertAct(action)
             .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
@@ -170,4 +172,24 @@ public class Example_Assertions_Test {
     }
     //>example<
 
+
+    /**
+     * ### Assertions for JRE interfaces
+     *
+     * Provided that JRE interface exists, the library interface extends it. But that will not work for asserting the result of the instance of the only JRE interface.
+     * So for each JRE interface there is also a corresponding factory method (however naming convention is not from JRE): 
+     */
+    //>example<
+    @Test(expectedExceptions = AssertionError.class)
+    public void testRecurringAssertsNegative() {
+
+        THEN.assertAct((Runnable)action)
+            .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
+            .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
+            .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> assertThat(extEffect.get()).isEqualTo(1))
+            .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> assertThat(extEffect.get()).isEqualTo(4000));
+    }
+    //>example<
+
+    //>inject<:generated
 }
