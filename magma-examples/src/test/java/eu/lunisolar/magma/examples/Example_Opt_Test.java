@@ -18,12 +18,42 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
+import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Opt;
 import eu.lunisolar.magma.func.supp.OptInt;
+import eu.lunisolar.magma.func.supp.Validations;
+import org.testng.annotations.Test;
 
 import java.util.*;
 
-public class OptTest {
+import static eu.lunisolar.magma.func.supp.Validations.*;
+
+//>transform-to-MD<
+/**
+ * Basic introduction (by example) to Opt classes.
+ */
+//>inject<:readmore
+
+//>inject<:generated
+
+///
+///Fluent Validations
+///==========================
+///
+///### Abstract
+///
+///Basic introduction (by example) to Opt classes.
+///Available since 2.1.0.
+///
+///### Examples
+///
+///
+
+/**
+ * ...
+ */
+public class Example_Opt_Test {
 
     static {
         Opt<Integer> ooo = Opt.obj(5);
@@ -55,5 +85,27 @@ public class OptTest {
         mmm.flatMap((D) null, S::addO);
         mmm.flatMapWith((D) null, D::addO);
     }
+
+    private int arg45 = 45;
+
+//    /**
+//     * Lets consider very simple validation that need to be done.
+//     */
+//    //>example<
+//    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50.")
+//    public void test1() {
+//
+//        Validations.arg(arg45)
+//                   .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //passes
+//                   .must(Be::lt, 50, "cannot be greater or equal 50"); //passes
+//
+//        var i = arg(60)
+//                .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
+//                .get();
+//    }
+//    //>example<
+
+
+    //>inject<:generated
 
 }

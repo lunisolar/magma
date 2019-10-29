@@ -27,7 +27,7 @@ import static eu.lunisolar.magma.func.supp.Validations.*;
 
 //>transform-to-MD<
 /**
- * Basic introduction (by example) to simple validations with library functions.
+ * Basic introduction (by example) to fluent validations with library functions.
  */
 //>inject<:readmore
 
@@ -39,7 +39,7 @@ import static eu.lunisolar.magma.func.supp.Validations.*;
 ///
 ///### Abstract
 ///
-///Basic introduction (by example) to fluent validations with library functions.
+///Basic introduction (by example) to fluent validations with library functions. Described here functionality is available since version 2.1.0.
 ///
 ///### Examples
 ///
@@ -52,7 +52,7 @@ import static eu.lunisolar.magma.func.supp.Validations.*;
 ///
 
 /**
- * Introduced here examples, cover few most common cases of validation/assertions.
+ * Introduced here examples cover few most common cases of validation/assertions.
  */
 public class Example_Validations_Fluent_Test {
 
@@ -71,7 +71,7 @@ public class Example_Validations_Fluent_Test {
 
         var i = arg(60)
                 .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
-                .value();
+                .get();
     }
     //>example<
 
@@ -83,7 +83,7 @@ public class Example_Validations_Fluent_Test {
     public void test2() throws Exception {
 
         //fails
-        var i = state(60, "number").mustNot$(Be::gtEq, 40, "cannot be greater or equal 40").value();
+        var i = state(60, "number").mustNot$(Be::gtEq, 40, "cannot be greater or equal 40").get();
     }
     //>example<
 

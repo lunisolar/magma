@@ -203,7 +203,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final boolean value() {
+		public final boolean get() {
 			return value;
 		}
 
@@ -284,73 +284,73 @@ public final class Validations implements FluentSyntax {
 			return self();
 		}
 
-		public final Check<T> mustNot(@Nonnull LBiPredicate<T, T> pred, T a2, @Nonnull String newMessage) {
+		public final <T2> Check<T> mustNot(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LBiPredicate.throwIf(value, a2, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 			return self();
 		}
 
-		public final Check<T> mustNot$(@Nonnull LBiPredicate<T, T> pred, T a2, @Nonnull String newMessage) {
+		public final <T2> Check<T> mustNot$(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LBiPredicate.throwIf(value, a2, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 			return self();
 		}
 
-		public final Check<T> mustNot(@Nonnull LBiPredicate<T, T> pred, T a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		public final <T2> Check<T> mustNot(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			LBiPredicate.throwIf(value, a2, pred, factory, newMessage, messageParams);
 			return self();
 		}
 
-		public final Check<T> must(@Nonnull LBiPredicate<T, T> pred, T a2, @Nonnull String newMessage) {
+		public final <T2> Check<T> must(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LBiPredicate.throwIfNot(value, a2, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 			return self();
 		}
 
-		public final Check<T> must$(@Nonnull LBiPredicate<T, T> pred, T a2, @Nonnull String newMessage) {
+		public final <T2> Check<T> must$(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LBiPredicate.throwIfNot(value, a2, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 			return self();
 		}
 
-		public final Check<T> must(@Nonnull LBiPredicate<T, T> pred, T a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		public final <T2> Check<T> must(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			LBiPredicate.throwIfNot(value, a2, pred, factory, newMessage, messageParams);
 			return self();
 		}
 
-		public final Check<T> mustNot(@Nonnull LTriPredicate<T, T, T> pred, T a2, T a3, @Nonnull String newMessage) {
+		public final <T2, T3> Check<T> mustNot(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LTriPredicate.throwIf(value, a2, a3, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 			return self();
 		}
 
-		public final Check<T> mustNot$(@Nonnull LTriPredicate<T, T, T> pred, T a2, T a3, @Nonnull String newMessage) {
+		public final <T2, T3> Check<T> mustNot$(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LTriPredicate.throwIf(value, a2, a3, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 			return self();
 		}
 
-		public final Check<T> mustNot(@Nonnull LTriPredicate<T, T, T> pred, T a2, T a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		public final <T2, T3> Check<T> mustNot(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			LTriPredicate.throwIf(value, a2, a3, pred, factory, newMessage, messageParams);
 			return self();
 		}
 
-		public final Check<T> must(@Nonnull LTriPredicate<T, T, T> pred, T a2, T a3, @Nonnull String newMessage) {
+		public final <T2, T3> Check<T> must(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LTriPredicate.throwIfNot(value, a2, a3, pred, factory, MESSAGE_S_S_S, type, name, newMessage);
 			return self();
 		}
 
-		public final Check<T> must$(@Nonnull LTriPredicate<T, T, T> pred, T a2, T a3, @Nonnull String newMessage) {
+		public final <T2, T3> Check<T> must$(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage) {
 			Null.nonNullArg(pred, "pred");
 			LTriPredicate.throwIfNot(value, a2, a3, pred, factory, MESSAGE_S_S_S_S, type, name, newMessage, value);
 			return self();
 		}
 
-		public final Check<T> must(@Nonnull LTriPredicate<T, T, T> pred, T a2, T a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
+		public final <T2, T3> Check<T> must(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 			Null.nonNullArg(pred, "pred");
 			LTriPredicate.throwIfNot(value, a2, a3, pred, factory, newMessage, messageParams);
 			return self();
@@ -372,7 +372,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final T value() {
+		public final T get() {
 			return value;
 		}
 
@@ -541,7 +541,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final byte value() {
+		public final byte get() {
 			return value;
 		}
 
@@ -710,7 +710,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final double value() {
+		public final double get() {
 			return value;
 		}
 
@@ -879,7 +879,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final char value() {
+		public final char get() {
 			return value;
 		}
 
@@ -1048,7 +1048,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final short value() {
+		public final short get() {
 			return value;
 		}
 
@@ -1217,7 +1217,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final float value() {
+		public final float get() {
 			return value;
 		}
 
@@ -1386,7 +1386,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final int value() {
+		public final int get() {
 			return value;
 		}
 
@@ -1555,7 +1555,7 @@ public final class Validations implements FluentSyntax {
 		}
 
 		/** Returns the arg/state/value. */
-		public final long value() {
+		public final long get() {
 			return value;
 		}
 
