@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp;
+package eu.lunisolar.magma.func.supp.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -61,46 +62,41 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public final class OptLong implements OptLongTrait<OptLong> {
+public final class OptBool implements OptBoolTrait<OptBool> {
 
-	private static final OptLong EMPTY = new OptLong();
+	private static final OptBool EMPTY = new OptBool();
 
-	private final long value;
+	private final boolean value;
 	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
-	private OptLong() {
-		this.value = 0L;
+	private OptBool() {
+		this.value = false;
 		this.isPresent = false;
 	}
 
-	private OptLong(long value) {
+	private OptBool(boolean value) {
 		this.value = value;
 		this.isPresent = true;
 	}
 
-	public static OptLong empty() {
+	public static OptBool empty() {
 		return EMPTY;
 	}
 
-	public static OptLong toOpt(@Nonnull OptLongTrait<?> opt) {
+	public static OptBool toOpt(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptLong.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptBool.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
 	}
 
-	public static OptLong of(long value) {
-		return new OptLong(value);
-	}
-
-	public static OptLong toOpt(@Nonnull OptionalLong optional) {
-		Null.nonNullArg(optional, "optional");
-		return optional.isPresent() ? OptLong.of(optional.getAsLong()) : empty();
+	public static OptBool of(boolean value) {
+		return new OptBool(value);
 	}
 
 	// </editor-fold>
 
-	public long get() {
+	public boolean get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
@@ -113,14 +109,6 @@ public final class OptLong implements OptLongTrait<OptLong> {
 		return !isPresent;
 	}
 
-	public OptionalLong toOpt() {
-		if (isPresent()) {
-			return OptionalLong.of(value);
-		} else {
-			return OptionalLong.empty();
-		}
-	}
-
 	// <editor-fold desc="equals/hashcode/toString">
 
 	public boolean equals(Object obj) {
@@ -128,20 +116,20 @@ public final class OptLong implements OptLongTrait<OptLong> {
 			return true;
 		}
 
-		if (!(obj instanceof OptLong)) {
+		if (!(obj instanceof OptBool)) {
 			return false;
 		}
 
-		OptLong other = (OptLong) obj;
+		OptBool other = (OptBool) obj;
 		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
 	}
 
 	public int hashCode() {
-		return isPresent() ? Long.hashCode(value) : 0;
+		return isPresent() ? Boolean.hashCode(value) : 0;
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("OptLong[%s]", value) : "OptLong.empty";
+		return isPresent() ? String.format("OptBool[%s]", value) : "OptBool.empty";
 	}
 
 	// </editor-fold>

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp;
+package eu.lunisolar.magma.func.supp.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -61,98 +62,63 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public final class Opt<T> implements OptTrait<T, Opt<T>> {
+public final class OptInt implements OptIntTrait<OptInt> {
 
-	private static final Opt<?> EMPTY = new Opt();
+	private static final OptInt EMPTY = new OptInt();
 
-	private final @Nullable T value;
+	private final int value;
+	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
-	private Opt() {
-		this.value = null;
+	private OptInt() {
+		this.value = 0;
+		this.isPresent = false;
 	}
 
-	private Opt(T value) {
-		Null.nonNullArg(value, "value");
+	private OptInt(int value) {
 		this.value = value;
+		this.isPresent = true;
 	}
 
-	public static <T> Opt<T> empty() {
-		return (Opt) EMPTY;
+	public static OptInt empty() {
+		return EMPTY;
 	}
 
-	public static <T> Opt<T> toOpt(@Nonnull OptTrait<? extends T, ?> opt) {
+	public static OptInt toOpt(@Nonnull OptIntTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(Opt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
-	}
-
-	public static <T> Opt<T> of(@Nullable T value) {
-		return value == null ? empty() : new Opt(value);
-	}
-
-	/** If you want to force Opt<T> */
-	public static <T> Opt<T> obj(@Nullable T value) {
-		return value == null ? empty() : new Opt(value);
-	}
-
-	public static OptByte of(byte value) {
-		return OptByte.of(value);
-	}
-
-	public static OptSrt of(short value) {
-		return OptSrt.of(value);
+		return Clazz.assuredClass(OptInt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
 	}
 
 	public static OptInt of(int value) {
-		return OptInt.of(value);
+		return new OptInt(value);
 	}
 
-	public static OptLong of(long value) {
-		return OptLong.of(value);
-	}
-
-	public static OptFlt of(float value) {
-		return OptFlt.of(value);
-	}
-
-	public static OptDbl of(double value) {
-		return OptDbl.of(value);
-	}
-
-	public static OptChar of(char value) {
-		return OptChar.of(value);
-	}
-
-	public static OptBool of(boolean value) {
-		return OptBool.of(value);
-	}
-
-	public static <T> Opt<T> toOpt(@Nonnull Optional<T> optional) {
+	public static OptInt toOpt(@Nonnull OptionalInt optional) {
 		Null.nonNullArg(optional, "optional");
-		return optional.isPresent() ? Opt.of(optional.get()) : empty();
+		return optional.isPresent() ? OptInt.of(optional.getAsInt()) : empty();
 	}
 
 	// </editor-fold>
 
-	public @Nonnull T get() {
-		LPredicate.throwIfNot(this, Opt::isPresent, X::noSuchElement, "No value present.");
+	public int get() {
+		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 
 	public final boolean isPresent() {
-		return value != null;
+		return isPresent;
 	}
 
 	public final boolean isEmpty() {
-		return value == null;
+		return !isPresent;
 	}
 
-	public Optional<T> toOpt() {
+	public OptionalInt toOpt() {
 		if (isPresent()) {
-			return Optional.of(value);
+			return OptionalInt.of(value);
 		} else {
-			return Optional.empty();
+			return OptionalInt.empty();
 		}
 	}
 
@@ -163,20 +129,20 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 			return true;
 		}
 
-		if (!(obj instanceof Opt)) {
+		if (!(obj instanceof OptInt)) {
 			return false;
 		}
 
-		Opt other = (Opt) obj;
-		return (isPresent() && other.isPresent()) ? value.equals(other.value) : isPresent() == other.isPresent();
+		OptInt other = (OptInt) obj;
+		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
 	}
 
 	public int hashCode() {
-		return Objects.hashCode(value);
+		return isPresent() ? Integer.hashCode(value) : 0;
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("Opt[%s]", value) : "Opt.empty";
+		return isPresent() ? String.format("OptInt[%s]", value) : "OptInt.empty";
 	}
 
 	// </editor-fold>

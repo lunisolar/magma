@@ -18,54 +18,58 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
-import eu.lunisolar.magma.func.supp.Opt;
-import eu.lunisolar.magma.func.supp.OptInt;
-import eu.lunisolar.magma.func.supp.Validations;
-import org.testng.annotations.Test;
+import eu.lunisolar.magma.func.supp.opt.Opt;
+import eu.lunisolar.magma.func.supp.opt.OptInt;
 
 import java.util.*;
-
-import static eu.lunisolar.magma.func.supp.Validations.*;
 
 //>transform-to-MD<
 /**
  * Basic introduction (by example) to Opt classes.
+ *
+ * Opt(ional)
+ * ==========================
+ *
+ * ### Abstract
+ *
+ * Basic introduction (by example) to Opt classes.
+ * Available since 2.1.0.
+ *
+ * ### Description
+ *
+ *
+ * ### Examples
  */
 //>inject<:readmore
 
 //>inject<:generated
 
-///
-///Fluent Validations
-///==========================
-///
-///### Abstract
-///
-///Basic introduction (by example) to Opt classes.
-///Available since 2.1.0.
-///
-///### Examples
-///
-///
+/**
+ * Opt(ional)
+ * ==========================
+ *
+ * ### Abstract
+ *
+ * Basic introduction (by example) to Opt classes.
+ * Available since 2.1.0.
+ *
+ * ### Description
+ *
+ *
+ * ### Examples
+ *
+ */
 
 /**
  * ...
  */
 public class Example_Opt_Test {
 
-    static {
-        Opt<Integer> ooo = Opt.obj(5);
-        ooo.is(5, Objects::equals);
-        ooo.is(Objects::equals, 5);
-    }
-
-    static {
-        OptInt ooo = Opt.of(5);
-        ooo.is(5, Objects::equals);
-        ooo.is(Objects::equals, 5);
-    }
+    /**
+     * ...
+     */
+    //>example<
 
     public static interface S {
         S add(D all);
@@ -77,34 +81,51 @@ public class Example_Opt_Test {
         Opt<D> addO(S all);
     }
 
-    static {
-        Opt<S> mmm = Opt.of(null);
-        mmm.map((D) null, S::add);
-        mmm.mapWith((D) null, D::add);
+    //  @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50.")
+    public void test1() {
 
-        mmm.flatMap((D) null, S::addO);
-        mmm.flatMapWith((D) null, D::addO);
+        Opt<S> optS = Opt.of(null);
+        Opt<S> v1 = optS.map((D) null, S::add);
+        Opt<D> v2 = optS.mapWith((D) null, D::add);
+
+        Opt<S> v3 = optS.flatMap((D) null, S::addO);
+        Opt<D> v4 = optS.flatMapWith((D) null, D::addO);
+    }
+
+    //>example<
+
+    static {
+        Opt<Integer> ooo = Opt.obj(5);
+        ooo.is(5, Objects::equals);
+        ooo.must(Be::equal, 5, "must be 5");
+        ooo.is(Objects::equals, 5);
+    }
+
+    static {
+        OptInt ooo = Opt.of(5);
+        ooo.is(5, Objects::equals);
+        ooo.is(Objects::equals, 5);
+    }
+
+    static {
+        Opt<S> optS = Opt.of(null);
+        Opt<S> v1 = optS.map((D) null, S::add);
+        Opt<D> v2 = optS.mapWith((D) null, D::add);
+
+        Opt<S> v3 = optS.flatMap((D) null, S::addO);
+        Opt<D> v4 = optS.flatMapWith((D) null, D::addO);
+    }
+
+    static {
+        Opt<S> optS = Opt.of(null);
+        Opt<S> v1 = optS.map((D) null, S::add);
+        Opt<D> v2 = optS.mapWith((D) null, D::add);
+
+        Opt<S> v3 = optS.flatMap((D) null, S::addO);
+        Opt<D> v4 = optS.flatMapWith((D) null, D::addO);
     }
 
     private int arg45 = 45;
-
-//    /**
-//     * Lets consider very simple validation that need to be done.
-//     */
-//    //>example<
-//    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50.")
-//    public void test1() {
-//
-//        Validations.arg(arg45)
-//                   .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //passes
-//                   .must(Be::lt, 50, "cannot be greater or equal 50"); //passes
-//
-//        var i = arg(60)
-//                .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
-//                .get();
-//    }
-//    //>example<
-
 
     //>inject<:generated
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp;
+package eu.lunisolar.magma.func.supp.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -61,41 +62,41 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public final class OptChar implements OptCharTrait<OptChar> {
+public final class OptFlt implements OptFltTrait<OptFlt> {
 
-	private static final OptChar EMPTY = new OptChar();
+	private static final OptFlt EMPTY = new OptFlt();
 
-	private final char value;
+	private final float value;
 	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
-	private OptChar() {
-		this.value = '\u0000';
+	private OptFlt() {
+		this.value = 0f;
 		this.isPresent = false;
 	}
 
-	private OptChar(char value) {
+	private OptFlt(float value) {
 		this.value = value;
 		this.isPresent = true;
 	}
 
-	public static OptChar empty() {
+	public static OptFlt empty() {
 		return EMPTY;
 	}
 
-	public static OptChar toOpt(@Nonnull OptCharTrait<?> opt) {
+	public static OptFlt toOpt(@Nonnull OptFltTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptChar.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptFlt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
 	}
 
-	public static OptChar of(char value) {
-		return new OptChar(value);
+	public static OptFlt of(float value) {
+		return new OptFlt(value);
 	}
 
 	// </editor-fold>
 
-	public char get() {
+	public float get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
@@ -108,11 +109,11 @@ public final class OptChar implements OptCharTrait<OptChar> {
 		return !isPresent;
 	}
 
-	public OptionalInt toOpt() {
+	public OptionalDouble toOpt() {
 		if (isPresent()) {
-			return OptionalInt.of(value);
+			return OptionalDouble.of(value);
 		} else {
-			return OptionalInt.empty();
+			return OptionalDouble.empty();
 		}
 	}
 
@@ -123,20 +124,20 @@ public final class OptChar implements OptCharTrait<OptChar> {
 			return true;
 		}
 
-		if (!(obj instanceof OptChar)) {
+		if (!(obj instanceof OptFlt)) {
 			return false;
 		}
 
-		OptChar other = (OptChar) obj;
+		OptFlt other = (OptFlt) obj;
 		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
 	}
 
 	public int hashCode() {
-		return isPresent() ? Character.hashCode(value) : 0;
+		return isPresent() ? Float.hashCode(value) : 0;
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("OptChar[%s]", value) : "OptChar.empty";
+		return isPresent() ? String.format("OptFlt[%s]", value) : "OptFlt.empty";
 	}
 
 	// </editor-fold>

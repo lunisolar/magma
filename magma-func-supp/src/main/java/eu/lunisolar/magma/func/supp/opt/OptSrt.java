@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp;
+package eu.lunisolar.magma.func.supp.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -61,41 +62,41 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public final class OptFlt implements OptFltTrait<OptFlt> {
+public final class OptSrt implements OptSrtTrait<OptSrt> {
 
-	private static final OptFlt EMPTY = new OptFlt();
+	private static final OptSrt EMPTY = new OptSrt();
 
-	private final float value;
+	private final short value;
 	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
-	private OptFlt() {
-		this.value = 0f;
+	private OptSrt() {
+		this.value = (short) 0;
 		this.isPresent = false;
 	}
 
-	private OptFlt(float value) {
+	private OptSrt(short value) {
 		this.value = value;
 		this.isPresent = true;
 	}
 
-	public static OptFlt empty() {
+	public static OptSrt empty() {
 		return EMPTY;
 	}
 
-	public static OptFlt toOpt(@Nonnull OptFltTrait<?> opt) {
+	public static OptSrt toOpt(@Nonnull OptSrtTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptFlt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptSrt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
 	}
 
-	public static OptFlt of(float value) {
-		return new OptFlt(value);
+	public static OptSrt of(short value) {
+		return new OptSrt(value);
 	}
 
 	// </editor-fold>
 
-	public float get() {
+	public short get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
@@ -108,11 +109,11 @@ public final class OptFlt implements OptFltTrait<OptFlt> {
 		return !isPresent;
 	}
 
-	public OptionalDouble toOpt() {
+	public OptionalInt toOpt() {
 		if (isPresent()) {
-			return OptionalDouble.of(value);
+			return OptionalInt.of(value);
 		} else {
-			return OptionalDouble.empty();
+			return OptionalInt.empty();
 		}
 	}
 
@@ -123,20 +124,20 @@ public final class OptFlt implements OptFltTrait<OptFlt> {
 			return true;
 		}
 
-		if (!(obj instanceof OptFlt)) {
+		if (!(obj instanceof OptSrt)) {
 			return false;
 		}
 
-		OptFlt other = (OptFlt) obj;
+		OptSrt other = (OptSrt) obj;
 		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
 	}
 
 	public int hashCode() {
-		return isPresent() ? Float.hashCode(value) : 0;
+		return isPresent() ? Short.hashCode(value) : 0;
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("OptFlt[%s]", value) : "OptFlt.empty";
+		return isPresent() ? String.format("OptSrt[%s]", value) : "OptSrt.empty";
 	}
 
 	// </editor-fold>

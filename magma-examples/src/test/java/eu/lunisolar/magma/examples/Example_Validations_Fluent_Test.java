@@ -20,10 +20,11 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
-import eu.lunisolar.magma.func.supp.Validations;
+import eu.lunisolar.magma.func.supp.check.Checks;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
 
-import static eu.lunisolar.magma.func.supp.Validations.*;
+import static eu.lunisolar.magma.func.supp.check.Checks.*;
 
 //>transform-to-MD<
 /**
@@ -65,9 +66,9 @@ public class Example_Validations_Fluent_Test {
     @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50.")
     public void test1() {
 
-        Validations.arg(arg45)
-                   .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //passes
-                   .must(Be::lt, 50, "cannot be greater or equal 50"); //passes
+        Checks.arg(arg45)
+              .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //passes
+              .must(Be::lt, 50, "cannot be greater or equal 50"); //passes
 
         var i = arg(60)
                 .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails

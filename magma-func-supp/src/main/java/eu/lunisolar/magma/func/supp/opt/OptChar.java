@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp;
+package eu.lunisolar.magma.func.supp.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -61,41 +62,41 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public final class OptByte implements OptByteTrait<OptByte> {
+public final class OptChar implements OptCharTrait<OptChar> {
 
-	private static final OptByte EMPTY = new OptByte();
+	private static final OptChar EMPTY = new OptChar();
 
-	private final byte value;
+	private final char value;
 	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
-	private OptByte() {
-		this.value = (byte) 0;
+	private OptChar() {
+		this.value = '\u0000';
 		this.isPresent = false;
 	}
 
-	private OptByte(byte value) {
+	private OptChar(char value) {
 		this.value = value;
 		this.isPresent = true;
 	}
 
-	public static OptByte empty() {
+	public static OptChar empty() {
 		return EMPTY;
 	}
 
-	public static OptByte toOpt(@Nonnull OptByteTrait<?> opt) {
+	public static OptChar toOpt(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptByte.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptChar.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
 	}
 
-	public static OptByte of(byte value) {
-		return new OptByte(value);
+	public static OptChar of(char value) {
+		return new OptChar(value);
 	}
 
 	// </editor-fold>
 
-	public byte get() {
+	public char get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
@@ -123,20 +124,20 @@ public final class OptByte implements OptByteTrait<OptByte> {
 			return true;
 		}
 
-		if (!(obj instanceof OptByte)) {
+		if (!(obj instanceof OptChar)) {
 			return false;
 		}
 
-		OptByte other = (OptByte) obj;
+		OptChar other = (OptChar) obj;
 		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
 	}
 
 	public int hashCode() {
-		return isPresent() ? Byte.hashCode(value) : 0;
+		return isPresent() ? Character.hashCode(value) : 0;
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("OptByte[%s]", value) : "OptByte.empty";
+		return isPresent() ? String.format("OptChar[%s]", value) : "OptChar.empty";
 	}
 
 	// </editor-fold>

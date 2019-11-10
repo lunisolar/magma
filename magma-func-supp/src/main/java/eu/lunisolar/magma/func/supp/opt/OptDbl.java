@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp;
+package eu.lunisolar.magma.func.supp.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -61,46 +62,46 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public final class OptInt implements OptIntTrait<OptInt> {
+public final class OptDbl implements OptDblTrait<OptDbl> {
 
-	private static final OptInt EMPTY = new OptInt();
+	private static final OptDbl EMPTY = new OptDbl();
 
-	private final int value;
+	private final double value;
 	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
-	private OptInt() {
-		this.value = 0;
+	private OptDbl() {
+		this.value = 0d;
 		this.isPresent = false;
 	}
 
-	private OptInt(int value) {
+	private OptDbl(double value) {
 		this.value = value;
 		this.isPresent = true;
 	}
 
-	public static OptInt empty() {
+	public static OptDbl empty() {
 		return EMPTY;
 	}
 
-	public static OptInt toOpt(@Nonnull OptIntTrait<?> opt) {
+	public static OptDbl toOpt(@Nonnull OptDblTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptInt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptDbl.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
 	}
 
-	public static OptInt of(int value) {
-		return new OptInt(value);
+	public static OptDbl of(double value) {
+		return new OptDbl(value);
 	}
 
-	public static OptInt toOpt(@Nonnull OptionalInt optional) {
+	public static OptDbl toOpt(@Nonnull OptionalDouble optional) {
 		Null.nonNullArg(optional, "optional");
-		return optional.isPresent() ? OptInt.of(optional.getAsInt()) : empty();
+		return optional.isPresent() ? OptDbl.of(optional.getAsDouble()) : empty();
 	}
 
 	// </editor-fold>
 
-	public int get() {
+	public double get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
@@ -113,11 +114,11 @@ public final class OptInt implements OptIntTrait<OptInt> {
 		return !isPresent;
 	}
 
-	public OptionalInt toOpt() {
+	public OptionalDouble toOpt() {
 		if (isPresent()) {
-			return OptionalInt.of(value);
+			return OptionalDouble.of(value);
 		} else {
-			return OptionalInt.empty();
+			return OptionalDouble.empty();
 		}
 	}
 
@@ -128,20 +129,20 @@ public final class OptInt implements OptIntTrait<OptInt> {
 			return true;
 		}
 
-		if (!(obj instanceof OptInt)) {
+		if (!(obj instanceof OptDbl)) {
 			return false;
 		}
 
-		OptInt other = (OptInt) obj;
+		OptDbl other = (OptDbl) obj;
 		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
 	}
 
 	public int hashCode() {
-		return isPresent() ? Integer.hashCode(value) : 0;
+		return isPresent() ? Double.hashCode(value) : 0;
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("OptInt[%s]", value) : "OptInt.empty";
+		return isPresent() ? String.format("OptDbl[%s]", value) : "OptDbl.empty";
 	}
 
 	// </editor-fold>
