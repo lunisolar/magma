@@ -67,6 +67,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 
 	int get();
 
+	@Nonnull
+	default String checkTraitType() {
+		return this.getClass().getSimpleName();
+	}
+
 	public boolean isPresent();
 
 	default boolean isEmpty() {

@@ -70,7 +70,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 
 	@Nonnull
 	default String checkTraitName() {
-		return "Value";
+		return "?";
 	}
 
 	@Nonnull

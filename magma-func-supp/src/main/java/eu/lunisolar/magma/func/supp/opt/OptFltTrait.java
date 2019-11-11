@@ -67,6 +67,11 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 
 	float get();
 
+	@Nonnull
+	default String checkTraitType() {
+		return this.getClass().getSimpleName();
+	}
+
 	public boolean isPresent();
 
 	default boolean isEmpty() {

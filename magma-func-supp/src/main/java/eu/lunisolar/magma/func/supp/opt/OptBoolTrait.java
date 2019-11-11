@@ -67,6 +67,11 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 
 	boolean get();
 
+	@Nonnull
+	default String checkTraitType() {
+		return this.getClass().getSimpleName();
+	}
+
 	public boolean isPresent();
 
 	default boolean isEmpty() {

@@ -67,6 +67,11 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 
 	char get();
 
+	@Nonnull
+	default String checkTraitType() {
+		return this.getClass().getSimpleName();
+	}
+
 	public boolean isPresent();
 
 	default boolean isEmpty() {

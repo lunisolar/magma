@@ -18,28 +18,21 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Is;
+import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.opt.Opt;
 import eu.lunisolar.magma.func.supp.opt.OptInt;
+import org.testng.annotations.Test;
 
 import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 /**
  * Basic introduction (by example) to Opt classes.
- *
- * Opt(ional)
- * ==========================
- *
- * ### Abstract
- *
- * Basic introduction (by example) to Opt classes.
- * Available since 2.1.0.
- *
- * ### Description
- *
- *
- * ### Examples
  */
 //>inject<:readmore
 
@@ -55,19 +48,18 @@ import java.util.*;
  * Available since 2.1.0.
  *
  * ### Description
+ * Opt/OptInt/OptLong/OptDouble and other primitive examples are like extension to the Optional/OptionalInt/OptionalLong/OptionalDouble, and you can use them as
+ * 'optional' response. But it is actually impossible to extent the JRE classes. Optional classes from this library aims to provide:
  *
+ *  - more possibility for cases where simply referencing existing method (that can be provided by editor completion).
+ *  - that means more possibility to build 'sentences' that actually tell what happens.
  *
  * ### Examples
- *
- */
-
-/**
- * ...
  */
 public class Example_Opt_Test {
 
     /**
-     * ...
+     * A very abstract example of few mapping methods:
      */
     //>example<
 
@@ -81,9 +73,8 @@ public class Example_Opt_Test {
         Opt<D> addO(S all);
     }
 
-    //  @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50.")
+    @Test
     public void test1() {
-
         Opt<S> optS = Opt.of(null);
         Opt<S> v1 = optS.map((D) null, S::add);
         Opt<D> v2 = optS.mapWith((D) null, D::add);
@@ -94,16 +85,67 @@ public class Example_Opt_Test {
 
     //>example<
 
+    /**
+     * Example of filtering:
+     */
+    //>example<
+    @Test
+    public void test2() {
+
+        Opt<Integer> ooo = Opt.obj(5);
+
+        var result = ooo
+                .filter(Is::equal, 5)
+                .filter(Is::inRange, 5, 7) // 5 is in range from 5 to 7
+                .filter(Is::between, 5, 7); // 5 is NOT between 5 to 7
+
+        assertThat(result.toOpt()).isEmpty();
+    }
+    //>example<
+
+    /**
+     * Here is example of `is` alternative to `filter` methods along with a `must` check.  
+     */
+    //>example<
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Opt \\[\\?\\]: must be 99.")
+    public void test3() {
+
+        Opt<Integer> ooo = Opt.obj(5);
+
+        assertThat(ooo.is(P::equal, 5)).isTrue();
+        assertThat(ooo.is(P::inRange, 5, 7)).isTrue();
+        assertThat(ooo.is(P::between, 5, 7)).isFalse();
+
+        ooo.must(Be::equal, 99, "must be 99");
+    }
+    //>example<
+
+    /**
+     * For the new types of methods following is true in regards to the `empty` value:
+     * 
+     *  - `is` evaluates always false (no predicate is true).
+     *  - `must`/`mustNot` will always throw exception that there is no value present (the predicate cannot be asserted)
+     */
+    //>example<
+    @Test
+    public void test4() {
+        Opt ooo = Opt.empty();
+
+        assertThat(ooo.is(P::Null)).isFalse();
+    }
+
+    @Test(expectedExceptions = NoSuchElementException.class, expectedExceptionsMessageRegExp = "No value present.")
+    public void test5() {
+        OptInt ooo = OptInt.empty();
+
+        ooo.must(Be::equal, 99, "must be 99");
+    }
+    //>example<
+
     static {
         Opt<Integer> ooo = Opt.obj(5);
         ooo.is(5, Objects::equals);
         ooo.must(Be::equal, 5, "must be 5");
-        ooo.is(Objects::equals, 5);
-    }
-
-    static {
-        OptInt ooo = Opt.of(5);
-        ooo.is(5, Objects::equals);
         ooo.is(Objects::equals, 5);
     }
 

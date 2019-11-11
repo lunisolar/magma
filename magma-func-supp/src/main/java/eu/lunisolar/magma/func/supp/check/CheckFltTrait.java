@@ -70,7 +70,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends Fluent<
 
 	@Nonnull
 	default String checkTraitName() {
-		return "Value";
+		return "?";
 	}
 
 	@Nonnull

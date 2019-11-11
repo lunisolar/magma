@@ -70,7 +70,7 @@ public interface CheckDblTrait<SELF extends CheckDblTrait<SELF>> extends Fluent<
 
 	@Nonnull
 	default String checkTraitName() {
-		return "Value";
+		return "?";
 	}
 
 	@Nonnull

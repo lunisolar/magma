@@ -67,6 +67,11 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	byte get();
 
+	@Nonnull
+	default String checkTraitType() {
+		return this.getClass().getSimpleName();
+	}
+
 	public boolean isPresent();
 
 	default boolean isEmpty() {

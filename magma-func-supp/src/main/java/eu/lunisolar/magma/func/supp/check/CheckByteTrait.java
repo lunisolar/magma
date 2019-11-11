@@ -70,7 +70,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 
 	@Nonnull
 	default String checkTraitName() {
-		return "Value";
+		return "?";
 	}
 
 	@Nonnull

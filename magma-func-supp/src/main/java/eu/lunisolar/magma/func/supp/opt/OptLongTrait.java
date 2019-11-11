@@ -67,6 +67,11 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 
 	long get();
 
+	@Nonnull
+	default String checkTraitType() {
+		return this.getClass().getSimpleName();
+	}
+
 	public boolean isPresent();
 
 	default boolean isEmpty() {
