@@ -588,4 +588,17 @@ public final class Is implements FluentSyntax {
 	}
 
 	// </editor-fold>
+
+	public static <T> boolean instanceOf(T object, Class<?> clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		return clazz.isInstance(object);
+	}
+
+	public static boolean assignableFrom(Class<?> specialization, Class<?> clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		return clazz.isAssignableFrom(specialization);
+	}
+
+	// </editor-fold>
+
 }

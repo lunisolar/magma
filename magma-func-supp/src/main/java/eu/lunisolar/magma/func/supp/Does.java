@@ -100,4 +100,5 @@ public final class Does implements FluentSyntax {
 	// <editor-fold desc="arrays">
 
 	// <editor-fold desc="collections">
+
 }
