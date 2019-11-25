@@ -19,29 +19,31 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.examples.support.CheckedException;
+import eu.lunisolar.magma.func.IA;
+import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.obj.LTieIntConsumer;
-import eu.lunisolar.magma.func.function.from.LObjIntFunction;
 import eu.lunisolar.magma.func.function.from.LOiFunction;
-import eu.lunisolar.magma.func.function.from.LTieFunction;
-import eu.lunisolar.magma.func.predicate.LBiObjIntPredicate;
 import eu.lunisolar.magma.func.predicate.LPredicate;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.*;
+import java.util.ArrayList;
 import java.util.*;
-import java.util.function.*;
 
-import static eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer.objIntObj1Cons;
+import static eu.lunisolar.magma.func.IA.ia;
+import static eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer.tieCons;
+import static java.util.Arrays.*;
 import static java.util.stream.Collectors.*;
 
+//TODO this i compilation "test'
 @SuppressWarnings("SimplifyStreamApiCallChains")
-public class Example_Streams_Test {
+public class Example_ForEach_Test {
 
-    int[] intArray = new int[0];
-    String[]  strArray = new String[0];
+    int[]    intArray = new int[0];
+    String[] strArray = new String[0];
 
     List<Integer> intList = new ArrayList<>();
     List<String>  strList = new ArrayList<>();
@@ -53,10 +55,10 @@ public class Example_Streams_Test {
     public void example_TIE_supplier() throws CheckedException {
 
         //noinspection Convert2MethodRef
-        LOiFunction.<List<String>, String>oiFunc((source, index )-> source.get(index) );
+        LOiFunction.<List<String>, String>oiFunc((source, index) -> source.get(index));
         LOiFunction.<List<String>, String>oiFunc(List::get);
 
-        LOiFunction.call(strList, 0, List::get);
+        LOiFunction.call(asList(0), 0, List::get);
 
     }
 
@@ -71,44 +73,34 @@ public class Example_Streams_Test {
 
         String[] targetStrArray = new String[intList.size()];
         // it is not always possible but here should be no GC.
-        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, (tg, element, index) -> tg[index] = element);
-        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, objIntObj1Cons((tg, index, element) -> tg[index] = element));
+        LTieConsumer.tieForEach(targetStrArray, IA.list(), strList, tieCons((tg, index, element) -> tg[index] = element));
+        LTieConsumer.tieForEach(targetStrArray, IA.list(), strList, (tg, index, element) -> tg[index] = element);
 
         //noinspection Convert2MethodRef
-        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, objIntObj1Cons((array, index, value) -> Array.set(array, index, value)));
-        LBiObjIntConsumer.targetedForEach(targetStrArray, strList, objIntObj1Cons(Array::set));
-
-        //noinspection Convert2MethodRef
-        LTieConsumer.targetedForEach(targetStrArray, strList, (tg, index, element) -> Array.set(tg, index, element));
-        LTieConsumer.targetedForEach(targetStrArray, strList, Array::set);
+        LTieConsumer.tieForEach(targetStrArray, IA.list(), strList, tieCons((array, index, value) -> Array.set(array, index, value)));
+        LTieConsumer.tieForEach(targetStrArray, IA.list(), strList, tieCons(Array::set));
+        LTieConsumer.tieForEach(targetStrArray, IA.list(), strList, Array::set);
 
         int[] targetIntArray = new int[intList.size()];
         //noinspection Convert2MethodRef
-        LTieIntConsumer.targetedForEach(targetIntArray, intArray, (tg, index, element) -> Array.setInt(tg, index, element));
-        LTieIntConsumer.targetedForEach(targetIntArray, intArray, Array::setInt);
+        LTieIntConsumer.tieForEach(targetIntArray, IA.intArray(), intArray, (tg, index, element) -> Array.setInt(tg, index, element));
+        LTieIntConsumer.tieForEach(targetIntArray, IA.intArray(), intArray, Array::setInt);
 
         //noinspection Convert2MethodRef
-        LTieConsumer.targetedIterate(targetStrArray, strCollection, (tg, index, element) -> Array.set(tg, index, element));
-        LTieConsumer.targetedIterate(targetStrArray, strCollection, Array::set);
-        
+        LTieConsumer.tieIterate(targetStrArray, SA.collection(), strCollection, (tg, index, element) -> Array.set(tg, index, element));
+        LTieConsumer.tieIterate(targetStrArray, SA.collection(), strCollection, Array::set);
+
         List<String> targetStrList = new ArrayList<>();
         // it is not always possible but here should be no GC.
-        LBiObjIntConsumer.targetedForEach(targetStrList, strList, (tg, element, index) -> tg.add(element));
-        LBiObjIntConsumer.targetedForEach(targetStrList, strList, (tg, element, index) -> tg.add(index, element));
+        LTieConsumer.tieForEach(targetStrList, ia(strList), strList, (tg, index, element) -> tg.add(element));
+        //noinspection Convert2MethodRef
+        LTieConsumer.tieForEach(targetStrList, ia(strList), strList, (tg, index, element) -> tg.add(index, element));
+        LTieConsumer.tieForEach(targetStrList, ia(strList), strList, List::add);
+        LTieConsumer.tieForEach(targetStrList, ia(strList), strList, List::set);
 
         //noinspection Convert2MethodRef
-        LBiObjIntConsumer.targetedForEach(targetStrList, strList, objIntObj1Cons((tg, index, element) -> tg.add(index, element)));
-        LBiObjIntConsumer.targetedForEach(targetStrList, strList, objIntObj1Cons(List::set));  //TODO is this GC or not?
-        LBiObjIntConsumer.targetedForEach(targetStrList, strList, objIntObj1Cons((tg, index, element) -> tg.add(element)));
-        LBiObjIntConsumer.targetedForEach(targetStrList, strList, (tg, element, index) -> tg.add(index, element));
-        
-        //noinspection Convert2MethodRef
-        LTieConsumer.targetedForEach(targetStrList, strList, (tg, index, element) -> tg.add(index, element));
-        LTieConsumer.targetedForEach(targetStrList, strList, List::add);
-
-        //noinspection Convert2MethodRef
-        LBiConsumer.targetedForEach(targetStrList, strList, (tg, element)-> tg.add(element));
-        LBiConsumer.targetedForEach(targetStrList, strList, List::add);
+        LBiConsumer.targetedForEach(targetStrList, ia(strList), strList, (tg, element) -> tg.add(element));
+        LBiConsumer.targetedForEach(targetStrList, ia(strList), strList, List::add);
 
     }
 
@@ -120,7 +112,7 @@ public class Example_Streams_Test {
                                             .collect(toList());
 
         List<Integer> target = new ArrayList<>();
-        LPredicate.<Integer>pred(i -> i > 0).forEach(intList, target::add);
+        LPredicate.<Integer>pred(i -> i > 0).filterForEach(ia(intList), intList, target::add);
     }
 
     @Test
@@ -136,8 +128,8 @@ public class Example_Streams_Test {
 
         // it is not always possible but here should be no GC.
 
-        LPredicate.<Integer>pred(i -> i > 0).tieForEach(intList, target, (tg, element, index) -> tg.add(element));
-        LPredicate.<Integer>pred(i -> i > 0).targetedForEach(intList, target, List::add);
+        LPredicate.<Integer>pred(i -> i > 0).tieForEach(target, ia(intList), intList, (tg, index, element) -> tg.add(element));
+        LPredicate.<Integer>pred(i -> i > 0).targetedForEach(target, ia(intList), intList, List::add);
     }
 
     @Test
@@ -150,12 +142,13 @@ public class Example_Streams_Test {
         int[] target = new int[intList.size()];
 
         // it is not always possible but here should be no GC.
-        LBiObjIntConsumer.forEach(intList, target, (element, tg, index) -> tg[index] = element);
+        LTieConsumer.tieForEach(target, ia(intList), intList, (tg, index, element) -> tg[index] = element);
 
         LBiObjIntConsumer<List<Integer>, Integer> toList = (list, element, index) -> list.set(index, element);
-        LBiObjIntPredicate<Integer, List<Integer>> filter;
 
-        filter.forEach(intList, new ArrayList<>(intList.size()));
+        //TODO where is TiePredicate?
+//        LBiObjIntPredicate<Integer, List<Integer>> filter = (_1, _2, _3) -> true;
+//        filter.filterForEach(new ArrayList<>(intList.size()), ia(intList), intList,Array::set );
     }
 
 }

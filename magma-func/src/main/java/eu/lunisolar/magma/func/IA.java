@@ -59,6 +59,7 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 
 		private static final IA<List, a<Object>> LIST = iA(List::size, oiFunc(List::get), tieCons(List::set));
 
+		private static final IA<Object[], a<Object>> ARRAY = iA(a -> a.length, oiFunc((a, i) -> a[i]), tieCons((a, i, e) -> a[i] = e));
 		private static final IA<int[], aInt> INT_ARRAY = iA(IA::length, oiToIntFunc(IA::getInt), tieIntCons(IA::setInt));
 		private static final IA<long[], aLong> LONG_ARRAY = iA(IA::length, oiToLongFunc(IA::getLong), tieLongCons(IA::setLong));
 		private static final IA<double[], aDouble> DOUBLE_ARRAY = iA(IA::length, oiToDblFunc(IA::getDouble), tieDblCons(IA::setDouble));
@@ -67,7 +68,6 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		private static final IA<char[], aChar> CHAR_ARRAY = iA(IA::length, oiToCharFunc(IA::getChar), tieCharCons(IA::setChar));
 		private static final IA<float[], aFloat> FLOAT_ARRAY = iA(IA::length, oiToFltFunc(IA::getFloat), tieFltCons(IA::setFloat));
 		private static final IA<boolean[], aBool> BOOL_ARRAY = iA(IA::length, objIntPred(IA::getBoolean), tieBoolCons(IA::setBoolean));
-		private static final IA<Object[], a<Object>> ARRAY = iA(a -> a.length, oiFunc((a, i) -> a[i]), tieCons((a, i, e) -> a[i] = e));
 
 		private final LToIntFunction<C> sizeFunc;
 
@@ -112,40 +112,80 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		return (IA) The.LIST;
 	}
 
+	public static <T, L extends List<T>, A extends a<T>> IA<L, A> ia(List ignored) {
+		return list();
+	}
+
 	public static IA<int[], aInt> intArray() {
-		return The.INT_ARRAY;
+		return (IA) The.INT_ARRAY;
+	}
+
+	public static IA<int[], aInt> ia(int[] ignored) {
+		return intArray();
 	}
 
 	public static IA<long[], aLong> longArray() {
-		return The.LONG_ARRAY;
+		return (IA) The.LONG_ARRAY;
+	}
+
+	public static IA<long[], aLong> ia(long[] ignored) {
+		return longArray();
 	}
 
 	public static IA<double[], aDouble> doubleArray() {
-		return The.DOUBLE_ARRAY;
+		return (IA) The.DOUBLE_ARRAY;
+	}
+
+	public static IA<double[], aDouble> ia(double[] ignored) {
+		return doubleArray();
 	}
 
 	public static IA<byte[], aByte> byteArray() {
-		return The.BYTE_ARRAY;
+		return (IA) The.BYTE_ARRAY;
+	}
+
+	public static IA<byte[], aByte> ia(byte[] ignored) {
+		return byteArray();
 	}
 
 	public static IA<short[], aShort> shortArray() {
-		return The.SHORT_ARRAY;
+		return (IA) The.SHORT_ARRAY;
+	}
+
+	public static IA<short[], aShort> ia(short[] ignored) {
+		return shortArray();
 	}
 
 	public static IA<char[], aChar> charArray() {
-		return The.CHAR_ARRAY;
+		return (IA) The.CHAR_ARRAY;
+	}
+
+	public static IA<char[], aChar> ia(char[] ignored) {
+		return charArray();
 	}
 
 	public static IA<float[], aFloat> floatArray() {
-		return The.FLOAT_ARRAY;
+		return (IA) The.FLOAT_ARRAY;
+	}
+
+	public static IA<float[], aFloat> ia(float[] ignored) {
+		return floatArray();
 	}
 
 	public static IA<boolean[], aBool> boolArray() {
-		return The.BOOL_ARRAY;
+		return (IA) The.BOOL_ARRAY;
+	}
+
+	public static IA<boolean[], aBool> ia(boolean[] ignored) {
+		return boolArray();
 	}
 
 	public static <T, A extends a<T>> IA<T[], A> array() {
 		return (IA) The.ARRAY;
+	}
+
+	public static <T, A extends a<T>> IA<T[], A> ia(T[] ignored) {
+		return array();
 	}
 
 	// <editor-fold desc="convenience methods for reference">
