@@ -268,6 +268,26 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 		return null;
 	}
 
+	public default LOiFunction<T, R> rShrink(@Nonnull LOiToCharFunction<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> apply(a1, a2, right.applyAsChar(a1, a2));
+	}
+
+	public default LOiFunction<T, R> rShrink_(char a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LOiToCharFunction<T> right, @Nonnull LObjIntCharFunction<T, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T, R> LOiFunction<T, R> rShrunken_(char a3, @Nonnull LObjIntCharFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T, R> LObjIntCharFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LCharFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -300,6 +300,26 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return false;
 	}
 
+	public default LObjIntPredicate<T1> rShrink(@Nonnull LOiFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> test(a1, a2, right.apply(a1, a2));
+	}
+
+	public default LObjIntPredicate<T1> rShrink_(T2 a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	public static <T1, T2> LObjIntPredicate<T1> rShrunken(@Nonnull LOiFunction<T1, T2> right, @Nonnull LObjIntObjPredicate<T1, T2> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T1, T2> LObjIntPredicate<T1> rShrunken_(T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T1, T2> LObjIntObjPredicate<T1, T2> uncurry(@Nonnull LFunction<T1, LIntFunction<LPredicate<T2>>> func) {
 		Null.nonNullArg(func, "func");

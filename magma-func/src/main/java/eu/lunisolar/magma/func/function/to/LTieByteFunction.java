@@ -266,6 +266,26 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	public default LOiToIntFunction<T> rShrink(@Nonnull LOiToByteFunction<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> applyAsInt(a1, a2, right.applyAsByte(a1, a2));
+	}
+
+	public default LOiToIntFunction<T> rShrink_(byte a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	public static <T> LOiToIntFunction<T> rShrunken(@Nonnull LOiToByteFunction<T> right, @Nonnull LTieByteFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T> LOiToIntFunction<T> rShrunken_(byte a3, @Nonnull LTieByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T> LTieByteFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LByteToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

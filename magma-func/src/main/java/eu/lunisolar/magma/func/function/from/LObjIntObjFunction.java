@@ -268,6 +268,26 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return null;
 	}
 
+	public default LOiFunction<T1, R> rShrink(@Nonnull LOiFunction<T1, T2> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
+	}
+
+	public default LOiFunction<T1, R> rShrink_(T2 a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	public static <T1, R, T2> LOiFunction<T1, R> rShrunken(@Nonnull LOiFunction<T1, T2> right, @Nonnull LObjIntObjFunction<T1, T2, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T1, R, T2> LOiFunction<T1, R> rShrunken_(T2 a3, @Nonnull LObjIntObjFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T1, T2, R> LObjIntObjFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LIntFunction<LFunction<T2, R>>> func) {
 		Null.nonNullArg(func, "func");

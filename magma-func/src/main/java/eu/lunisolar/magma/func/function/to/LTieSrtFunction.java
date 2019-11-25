@@ -266,6 +266,26 @@ public interface LTieSrtFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
+	public default LOiToIntFunction<T> rShrink(@Nonnull LOiToSrtFunction<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> applyAsInt(a1, a2, right.applyAsSrt(a1, a2));
+	}
+
+	public default LOiToIntFunction<T> rShrink_(short a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	public static <T> LOiToIntFunction<T> rShrunken(@Nonnull LOiToSrtFunction<T> right, @Nonnull LTieSrtFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T> LOiToIntFunction<T> rShrunken_(short a3, @Nonnull LTieSrtFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T> LTieSrtFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LSrtToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

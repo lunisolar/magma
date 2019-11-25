@@ -268,6 +268,26 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
+	public default LOiFunction<T, R> rShrink(@Nonnull LOiToFltFunction<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> apply(a1, a2, right.applyAsFlt(a1, a2));
+	}
+
+	public default LOiFunction<T, R> rShrink_(float a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LOiToFltFunction<T> right, @Nonnull LObjIntFltFunction<T, R> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T, R> LOiFunction<T, R> rShrunken_(float a3, @Nonnull LObjIntFltFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T, R> LObjIntFltFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LFltFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

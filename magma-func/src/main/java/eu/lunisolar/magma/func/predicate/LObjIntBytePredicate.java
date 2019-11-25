@@ -300,6 +300,26 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
+	public default LObjIntPredicate<T> rShrink(@Nonnull LOiToByteFunction<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> test(a1, a2, right.applyAsByte(a1, a2));
+	}
+
+	public default LObjIntPredicate<T> rShrink_(byte a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	public static <T> LObjIntPredicate<T> rShrunken(@Nonnull LOiToByteFunction<T> right, @Nonnull LObjIntBytePredicate<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T> LObjIntPredicate<T> rShrunken_(byte a3, @Nonnull LObjIntBytePredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T> LObjIntBytePredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LBytePredicate>> func) {
 		Null.nonNullArg(func, "func");

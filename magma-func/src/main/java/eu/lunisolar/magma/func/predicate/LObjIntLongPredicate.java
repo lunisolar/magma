@@ -300,6 +300,26 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
+	public default LObjIntPredicate<T> rShrink(@Nonnull LOiToLongFunction<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> test(a1, a2, right.applyAsLong(a1, a2));
+	}
+
+	public default LObjIntPredicate<T> rShrink_(long a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	public static <T> LObjIntPredicate<T> rShrunken(@Nonnull LOiToLongFunction<T> right, @Nonnull LObjIntLongPredicate<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T> LObjIntPredicate<T> rShrunken_(long a3, @Nonnull LObjIntLongPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T> LObjIntLongPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLongPredicate>> func) {
 		Null.nonNullArg(func, "func");

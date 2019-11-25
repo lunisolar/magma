@@ -256,6 +256,26 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	public default LObjIntConsumer<T> rShrink(@Nonnull LOiToSrtFunction<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> accept(a1, a2, right.applyAsSrt(a1, a2));
+	}
+
+	public default LObjIntConsumer<T> rShrink_(short a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	public static <T> LObjIntConsumer<T> rShrunken(@Nonnull LOiToSrtFunction<T> right, @Nonnull LTieSrtConsumer<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T> LObjIntConsumer<T> rShrunken_(short a3, @Nonnull LTieSrtConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T> LTieSrtConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LSrtConsumer>> func) {
 		Null.nonNullArg(func, "func");

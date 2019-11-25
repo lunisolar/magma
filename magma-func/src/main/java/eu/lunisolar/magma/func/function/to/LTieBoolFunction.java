@@ -266,6 +266,26 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	public default LOiToIntFunction<T> rShrink(@Nonnull LObjIntPredicate<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> applyAsInt(a1, a2, right.test(a1, a2));
+	}
+
+	public default LOiToIntFunction<T> rShrink_(boolean a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	public static <T> LOiToIntFunction<T> rShrunken(@Nonnull LObjIntPredicate<T> right, @Nonnull LTieBoolFunction<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T> LOiToIntFunction<T> rShrunken_(boolean a3, @Nonnull LTieBoolFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T> LTieBoolFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LBoolToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

@@ -300,6 +300,26 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
+	public default LObjIntPredicate<T> rShrink(@Nonnull LObjIntPredicate<T> right) {
+		Null.nonNullArg(right, "right");
+		return (a1, a2) -> test(a1, a2, right.test(a1, a2));
+	}
+
+	public default LObjIntPredicate<T> rShrink_(boolean a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	public static <T> LObjIntPredicate<T> rShrunken(@Nonnull LObjIntPredicate<T> right, @Nonnull LObjIntBoolPredicate<T> func) {
+		Null.nonNullArg(right, "right");
+		Null.nonNullArg(func, "func");
+		return func.rShrink(right);
+	}
+
+	public static <T> LObjIntPredicate<T> rShrunken_(boolean a3, @Nonnull LObjIntBoolPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.rShrink_(a3);
+	}
+
 	/**  */
 	public static <T> LObjIntBoolPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLogicalOperator>> func) {
 		Null.nonNullArg(func, "func");
