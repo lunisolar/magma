@@ -116,6 +116,14 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		return list();
 	}
 
+	public static <T, A extends a<T>> IA<T[], A> array() {
+		return (IA) The.ARRAY;
+	}
+
+	public static <T, A extends a<T>> IA<T[], A> ia(T[] ignored) {
+		return array();
+	}
+
 	public static IA<int[], aInt> intArray() {
 		return (IA) The.INT_ARRAY;
 	}
@@ -178,14 +186,6 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 
 	public static IA<boolean[], aBool> ia(boolean[] ignored) {
 		return boolArray();
-	}
-
-	public static <T, A extends a<T>> IA<T[], A> array() {
-		return (IA) The.ARRAY;
-	}
-
-	public static <T, A extends a<T>> IA<T[], A> ia(T[] ignored) {
-		return array();
 	}
 
 	// <editor-fold desc="convenience methods for reference">

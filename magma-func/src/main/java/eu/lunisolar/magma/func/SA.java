@@ -40,7 +40,7 @@ import static eu.lunisolar.magma.func.function.LFunction.func;
 import static eu.lunisolar.magma.func.function.LFunction.identity;
 
 /**
- *    
+ *
  */
 @SuppressWarnings("unchecked")
 public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, SequentialWrite<C, E> {
@@ -116,14 +116,6 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		return new The<>(sizeFunc, adapter, tester, getter, consumer);
 	}
 
-	public static <E, I extends Iterator<E>, A extends a<E>> SA<E[], I, A> array() {
-		return (SA) The.ARRAY;
-	}
-
-	public static <E, I extends Iterator<E>, A extends a<E>> SA<E[], I, A> sa(E[] ignored) {
-		return array();
-	}
-
 	public static <E, C extends Collection<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> collection() {
 		return (SA) The.COLLECTION;
 	}
@@ -180,13 +172,21 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		return map();
 	}
 
+	public static <E, I extends Iterator<E>, A extends a<E>> SA<E[], I, A> array() {
+		return (SA) The.ARRAY;
+	}
+
+	public static <E, I extends Iterator<E>, A extends a<E>> SA<E[], I, A> sa(E[] ignored) {
+		return array();
+	}
+
 	/** Sequantial access to int[] (Element are boxed/unboxed) */
-	public static <E, I extends Iterator<E>, A extends a<Integer>> SA<int[], I, A> intArray() {
+	public static <Integer, I extends Iterator<Integer>, A extends a<Integer>> SA<int[], I, A> intArrayObj() {
 		return (SA) The.INT_ARRAY_OBJ;
 	}
 
-	public static <E, I extends Iterator<E>, A extends a<Integer>> SA<int[], I, A> sa(int[] ignored) {
-		return intArray();
+	public static <Integer, I extends Iterator<Integer>, A extends a<Integer>> SA<int[], I, A> sa(int[] ignored) {
+		return intArrayObj();
 	}
 
 }
