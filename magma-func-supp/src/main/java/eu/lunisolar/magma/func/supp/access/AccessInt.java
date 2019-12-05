@@ -160,11 +160,6 @@ public interface AccessInt {
 		accessFunction.accept(a1, a2, tuple);
 	}
 
-	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjIntConsumer.LObj0Int2Obj1Cons<T1, T2> accessFunction) {
-		int tuple = accessInt();
-		accessFunction.acceptObj0Int2Obj1(a1, tuple, a2);
-	}
-
 	default <T1, T2> void useWith(T1 a1, T2 a2, LBiObjIntConsumer.LInt2Obj0Obj1Cons<T1, T2> accessFunction) {
 		int tuple = accessInt();
 		accessFunction.acceptInt2Obj0Obj1(tuple, a1, a2);
@@ -273,11 +268,6 @@ public interface AccessInt {
 	default <T1, T2> void useWith(T1 a1, T2 a3, LTieConsumer<T1, T2> accessFunction) {
 		int tuple = accessInt();
 		accessFunction.accept(a1, tuple, a3);
-	}
-
-	default <T1, T2> void useWith(T1 a1, T2 a3, LTieConsumer.LObj0Obj2Int1Cons<T1, T2> accessFunction) {
-		int tuple = accessInt();
-		accessFunction.acceptObj0Obj2Int1(a1, a3, tuple);
 	}
 
 	default <T1, T2> void useWith(T1 a1, T2 a3, LTieConsumer.LInt1BiObj2Cons<T1, T2> accessFunction) {
@@ -513,13 +503,6 @@ public interface AccessInt {
 	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjIntFunction<T1, T2, R> accessFunction) {
 		int tuple = accessInt();
 		R retval = accessFunction.apply(a1, a2, tuple);
-		releaseInt(tuple);
-		return retval;
-	}
-
-	default <R, T1, T2> R useWith(T1 a1, T2 a2, LBiObjIntFunction.LObj0Int2Obj1Func<T1, T2, R> accessFunction) {
-		int tuple = accessInt();
-		R retval = accessFunction.applyObj0Int2Obj1(a1, tuple, a2);
 		releaseInt(tuple);
 		return retval;
 	}
@@ -835,13 +818,6 @@ public interface AccessInt {
 	default <R, T1, T2> R useWith(T1 a1, T2 a3, LObjIntObjFunction<T1, T2, R> accessFunction) {
 		int tuple = accessInt();
 		R retval = accessFunction.apply(a1, tuple, a3);
-		releaseInt(tuple);
-		return retval;
-	}
-
-	default <R, T1, T2> R useWith(T1 a1, T2 a3, LObjIntObjFunction.LObj0Obj2Int1Func<T1, T2, R> accessFunction) {
-		int tuple = accessInt();
-		R retval = accessFunction.applyObj0Obj2Int1(a1, a3, tuple);
 		releaseInt(tuple);
 		return retval;
 	}
@@ -1385,13 +1361,6 @@ public interface AccessInt {
 		return retval;
 	}
 
-	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjIntPredicate.LObj0Int2Obj1Pred<T1, T2> accessFunction) {
-		int tuple = accessInt();
-		boolean retval = accessFunction.testObj0Int2Obj1(a1, tuple, a2);
-		releaseInt(tuple);
-		return retval;
-	}
-
 	default <T1, T2> boolean useWith(T1 a1, T2 a2, LBiObjIntPredicate.LInt2Obj0Obj1Pred<T1, T2> accessFunction) {
 		int tuple = accessInt();
 		boolean retval = accessFunction.testInt2Obj0Obj1(tuple, a1, a2);
@@ -1787,13 +1756,6 @@ public interface AccessInt {
 	default <T1, T2> boolean useWith(T1 a1, T2 a3, LObjIntObjPredicate<T1, T2> accessFunction) {
 		int tuple = accessInt();
 		boolean retval = accessFunction.test(a1, tuple, a3);
-		releaseInt(tuple);
-		return retval;
-	}
-
-	default <T1, T2> boolean useWith(T1 a1, T2 a3, LObjIntObjPredicate.LObj0Obj2Int1Pred<T1, T2> accessFunction) {
-		int tuple = accessInt();
-		boolean retval = accessFunction.testObj0Obj2Int1(a1, a3, tuple);
 		releaseInt(tuple);
 		return retval;
 	}

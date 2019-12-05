@@ -77,6 +77,45 @@ public final class Be implements FluentSyntax {
 		return n != null;
 	}
 
+	public static final boolean allNull(@Nullable Object... objects) {
+		if (objects == null) {
+			return true;
+		}
+		for (Object o : objects) {
+			if (o != null) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static final boolean noneNull(@Nullable Object... objects) {
+		if (objects == null) {
+			return false;
+		}
+		for (Object o : objects) {
+			if (o == null) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static final boolean anyNull(@Nullable Object... objects) {
+		if (objects == null) {
+			return true;
+		}
+		for (Object o : objects) {
+			if (o == null) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="String">

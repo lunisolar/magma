@@ -19,9 +19,12 @@
 package eu.lunisolar.magma.basics.meta.functional.type;
 
 import eu.lunisolar.magma.basics.meta.aType;
+import eu.lunisolar.magma.basics.meta.aType.a;
+import eu.lunisolar.magma.basics.meta.functional.domain.Codomain;
+import eu.lunisolar.magma.basics.meta.functional.domain.Domain1;
 
 /**
- * 
+ *
  */
-public interface OFunction<C, T extends aType> extends MetaFunction {
+public interface OFunction<T, R extends aType> extends MetaFunction, Codomain<R>, Domain1<a<T>> {
 }

@@ -27,14 +27,14 @@ import eu.lunisolar.magma.basics.meta.functional.domain.Codomain;
 import eu.lunisolar.magma.basics.meta.functional.domain.Domain2;
 
 /**
- * @param <C> Supposed collection.
- * @param <T> Supposed element type to put into collection.
+ * @param <T> Supposed collection.
+ * @param <E> Supposed element type to put into collection.
  */
-public interface TeConsumer<C, T extends aType> extends MetaConsumer, Codomain<aVoid>, Domain2<a<C>, T> {
+public interface TeConsumer<T, E extends aType> extends MetaConsumer, Codomain<aVoid>, Domain2<a<T>, E> {
 
     /** Generalized from of forEach method. */
-    <SRC> C genericForEach(C trg1, IndexedRead<SRC, T> ia, SRC src3);
+    <SRC> T genericForEach(T trg1, IndexedRead<SRC, E> ia, SRC src3);
 
     /** Generalized from of forEach method. */
-    <SRC, I> C genericIterate(C trg1, SequentialRead<SRC, I, T> sa, SRC src3);
+    <SRC, I> T genericIterate(T trg1, SequentialRead<SRC, I, E> sa, SRC src3);
 }

@@ -385,13 +385,6 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2> LTieConsumer.LObj0Obj2Int1Cons<T1, T2> obj0Obj2Int1Cons(final @Nonnull LTieConsumer.LObj0Obj2Int1Cons<T1, T2> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
 	static <T1, T2> LTieConsumer.LInt1BiObj2Cons<T1, T2> int1BiObj2Cons(final @Nonnull LTieConsumer.LInt1BiObj2Cons<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
@@ -400,13 +393,6 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T2, T1> LTieConsumer.LInt1Obj2Obj0Cons<T2, T1> int1Obj2Obj0Cons(final @Nonnull LTieConsumer.LInt1Obj2Obj0Cons<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LTieConsumer.LObj2Obj0Int1Cons<T2, T1> obj2Obj0Int1Cons(final @Nonnull LTieConsumer.LObj2Obj0Int1Cons<T2, T1> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -518,37 +504,10 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 
 	/** Permutation of LTieConsumer for method references. */
 	@FunctionalInterface
-	interface LObj0Obj2Int1Cons<T1, T2> extends LTieConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call accept(T1 a1,int a2,T2 a3)
-		 */
-		default void acceptX(T1 a1, int a2, T2 a3) {
-			this.acceptObj0Obj2Int1(a1, a3, a2);
-		}
-
-		// void acceptObj0Obj2Int1(T1 a1,T2 a3,int a2) ;
-		default void acceptObj0Obj2Int1(T1 a1, T2 a3, int a2) {
-			// nestingAcceptObj0Obj2Int1(a1,a3,a2);
-			try {
-				this.acceptObj0Obj2Int1X(a1, a3, a2);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptObj0Obj2Int1(T1 a1,T2 a3,int a2)
-		 */
-		void acceptObj0Obj2Int1X(T1 a1, T2 a3, int a2) throws Throwable;
-	}
-
-	/** Permutation of LTieConsumer for method references. */
-	@FunctionalInterface
 	interface LInt1BiObj2Cons<T1, T2> extends LTieConsumer<T1, T2> {
 
 		/**
-		 * Implement this, but call acceptObj0Obj2Int1(T1 a1,T2 a3,int a2)
+		 * Implement this, but call accept(T1 a1,int a2,T2 a3)
 		 */
 		default void acceptX(T1 a1, int a2, T2 a3) {
 			this.acceptInt1BiObj2(a2, a1, a3);
@@ -599,37 +558,10 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 
 	/** Permutation of LTieConsumer for method references. */
 	@FunctionalInterface
-	interface LObj2Obj0Int1Cons<T2, T1> extends LTieConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call acceptInt1Obj2Obj0(int a2,T2 a3,T1 a1)
-		 */
-		default void acceptX(T1 a1, int a2, T2 a3) {
-			this.acceptObj2Obj0Int1(a3, a1, a2);
-		}
-
-		// void acceptObj2Obj0Int1(T2 a3,T1 a1,int a2) ;
-		default void acceptObj2Obj0Int1(T2 a3, T1 a1, int a2) {
-			// nestingAcceptObj2Obj0Int1(a3,a1,a2);
-			try {
-				this.acceptObj2Obj0Int1X(a3, a1, a2);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptObj2Obj0Int1(T2 a3,T1 a1,int a2)
-		 */
-		void acceptObj2Obj0Int1X(T2 a3, T1 a1, int a2) throws Throwable;
-	}
-
-	/** Permutation of LTieConsumer for method references. */
-	@FunctionalInterface
 	interface LObj2Int1Obj0Cons<T2, T1> extends LTieConsumer<T1, T2> {
 
 		/**
-		 * Implement this, but call acceptObj2Obj0Int1(T2 a3,T1 a1,int a2)
+		 * Implement this, but call acceptInt1Obj2Obj0(int a2,T2 a3,T1 a1)
 		 */
 		default void acceptX(T1 a1, int a2, T2 a3) {
 			this.acceptObj2Int1Obj0(a3, a2, a1);
@@ -655,11 +587,6 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 
 	/** Does nothing (LTieConsumer) */
 	public static <T1, T2> void doNothing(T1 a1, int a2, T2 a3) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LTieConsumer.LObj0Obj2Int1Cons) */
-	public static <T1, T2> void doNothing(T1 a1, T2 a3, int a2) {
 		// NOSONAR
 	}
 
@@ -1079,6 +1006,12 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 			consumer.accept(trg1, tIndex, a3);
 		}
 		return sEnd - sStart;
+
+	}
+
+	/** ***ITERATION:    TIE_CONSUMER2_GEN:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T1 trg1, type=CONST}, SourcePurpose{arg=T2 a3, type=TIE_SOURCE}, SourcePurpose{arg=T2 a3, type=TE_GEN_PREDICATE}, SourcePurpose{arg=T2 a3, type=TE_GEN_SUPPLIER}] */
+	public default <SRC> int genericTieForEach(int sStart, int tStart, T1 trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, a<T2>> srcAcc3) {
+		return tieForEach(sStart, tStart, trg1, src3, (LPredicate<SRC>) srcTest3, (LFunction<SRC, T2>) srcAcc3, this);
 
 	}
 

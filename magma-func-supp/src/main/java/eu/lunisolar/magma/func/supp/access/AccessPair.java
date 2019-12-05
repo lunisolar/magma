@@ -255,19 +255,9 @@ public interface AccessPair<T1, T2> {
 		accessFunction.accept(tuple.first(), tuple.second(), a3);
 	}
 
-	default void useWith(int a3, LBiObjIntConsumer.LObj0Int2Obj1Cons<T1, T2> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		accessFunction.acceptObj0Int2Obj1(tuple.first(), a3, tuple.second());
-	}
-
 	default void useWith(int a3, LBiObjIntConsumer.LObj1Obj0Int2Cons<T2, T1> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		accessFunction.acceptObj1Obj0Int2(tuple.second(), tuple.first(), a3);
-	}
-
-	default void useWith(int a3, LBiObjIntConsumer.LObj1Int2Obj0Cons<T2, T1> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		accessFunction.acceptObj1Int2Obj0(tuple.second(), a3, tuple.first());
 	}
 
 	default void useWith(int a3, LBiObjIntConsumer.LInt2Obj0Obj1Cons<T1, T2> accessFunction) {
@@ -345,11 +335,6 @@ public interface AccessPair<T1, T2> {
 		accessFunction.accept(tuple.first(), a2, tuple.second());
 	}
 
-	default void useWith(int a2, LTieConsumer.LObj0Obj2Int1Cons<T1, T2> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		accessFunction.acceptObj0Obj2Int1(tuple.first(), tuple.second(), a2);
-	}
-
 	default void useWith(int a2, LTieConsumer.LInt1BiObj2Cons<T1, T2> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		accessFunction.acceptInt1BiObj2(a2, tuple.first(), tuple.second());
@@ -358,11 +343,6 @@ public interface AccessPair<T1, T2> {
 	default void useWith(int a2, LTieConsumer.LInt1Obj2Obj0Cons<T2, T1> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		accessFunction.acceptInt1Obj2Obj0(a2, tuple.second(), tuple.first());
-	}
-
-	default void useWith(int a2, LTieConsumer.LObj2Obj0Int1Cons<T2, T1> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		accessFunction.acceptObj2Obj0Int1(tuple.second(), tuple.first(), a2);
 	}
 
 	default void useWith(int a2, LTieConsumer.LObj2Int1Obj0Cons<T2, T1> accessFunction) {
@@ -629,23 +609,9 @@ public interface AccessPair<T1, T2> {
 		return retval;
 	}
 
-	default <R> R useWith(int a3, LBiObjIntFunction.LObj0Int2Obj1Func<T1, T2, R> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		R retval = accessFunction.applyObj0Int2Obj1(tuple.first(), a3, tuple.second());
-		releasePair(tuple);
-		return retval;
-	}
-
 	default <R> R useWith(int a3, LBiObjIntFunction.LObj1Obj0Int2Func<T2, T1, R> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		R retval = accessFunction.applyObj1Obj0Int2(tuple.second(), tuple.first(), a3);
-		releasePair(tuple);
-		return retval;
-	}
-
-	default <R> R useWith(int a3, LBiObjIntFunction.LObj1Int2Obj0Func<T2, T1, R> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		R retval = accessFunction.applyObj1Int2Obj0(tuple.second(), a3, tuple.first());
 		releasePair(tuple);
 		return retval;
 	}
@@ -755,13 +721,6 @@ public interface AccessPair<T1, T2> {
 		return retval;
 	}
 
-	default <R> R useWith(int a2, LObjIntObjFunction.LObj0Obj2Int1Func<T1, T2, R> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		R retval = accessFunction.applyObj0Obj2Int1(tuple.first(), tuple.second(), a2);
-		releasePair(tuple);
-		return retval;
-	}
-
 	default <R> R useWith(int a2, LObjIntObjFunction.LInt1BiObj2Func<T1, T2, R> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		R retval = accessFunction.applyInt1BiObj2(a2, tuple.first(), tuple.second());
@@ -772,13 +731,6 @@ public interface AccessPair<T1, T2> {
 	default <R> R useWith(int a2, LObjIntObjFunction.LInt1Obj2Obj0Func<T2, T1, R> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		R retval = accessFunction.applyInt1Obj2Obj0(a2, tuple.second(), tuple.first());
-		releasePair(tuple);
-		return retval;
-	}
-
-	default <R> R useWith(int a2, LObjIntObjFunction.LObj2Obj0Int1Func<T2, T1, R> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		R retval = accessFunction.applyObj2Obj0Int1(tuple.second(), tuple.first(), a2);
 		releasePair(tuple);
 		return retval;
 	}
@@ -1161,23 +1113,9 @@ public interface AccessPair<T1, T2> {
 		return retval;
 	}
 
-	default boolean useWith(int a3, LBiObjIntPredicate.LObj0Int2Obj1Pred<T1, T2> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		boolean retval = accessFunction.testObj0Int2Obj1(tuple.first(), a3, tuple.second());
-		releasePair(tuple);
-		return retval;
-	}
-
 	default boolean useWith(int a3, LBiObjIntPredicate.LObj1Obj0Int2Pred<T2, T1> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		boolean retval = accessFunction.testObj1Obj0Int2(tuple.second(), tuple.first(), a3);
-		releasePair(tuple);
-		return retval;
-	}
-
-	default boolean useWith(int a3, LBiObjIntPredicate.LObj1Int2Obj0Pred<T2, T1> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		boolean retval = accessFunction.testObj1Int2Obj0(tuple.second(), a3, tuple.first());
 		releasePair(tuple);
 		return retval;
 	}
@@ -1301,13 +1239,6 @@ public interface AccessPair<T1, T2> {
 		return retval;
 	}
 
-	default boolean useWith(int a2, LObjIntObjPredicate.LObj0Obj2Int1Pred<T1, T2> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		boolean retval = accessFunction.testObj0Obj2Int1(tuple.first(), tuple.second(), a2);
-		releasePair(tuple);
-		return retval;
-	}
-
 	default boolean useWith(int a2, LObjIntObjPredicate.LInt1BiObj2Pred<T1, T2> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		boolean retval = accessFunction.testInt1BiObj2(a2, tuple.first(), tuple.second());
@@ -1318,13 +1249,6 @@ public interface AccessPair<T1, T2> {
 	default boolean useWith(int a2, LObjIntObjPredicate.LInt1Obj2Obj0Pred<T2, T1> accessFunction) {
 		LPair<T1, T2> tuple = accessPair();
 		boolean retval = accessFunction.testInt1Obj2Obj0(a2, tuple.second(), tuple.first());
-		releasePair(tuple);
-		return retval;
-	}
-
-	default boolean useWith(int a2, LObjIntObjPredicate.LObj2Obj0Int1Pred<T2, T1> accessFunction) {
-		LPair<T1, T2> tuple = accessPair();
-		boolean retval = accessFunction.testObj2Obj0Int1(tuple.second(), tuple.first(), a2);
 		releasePair(tuple);
 		return retval;
 	}

@@ -395,18 +395,6 @@ public class LBiObjIntFunctionTest<T1,T2,R> {
 
     //<editor-fold desc="Variants">
 
-    private Integer variantLObj0Int2Obj1Func(Integer a1,int a3,Integer a2) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj0Int2Obj1Func() {
-        LBiObjIntFunction lambda = LBiObjIntFunction./*<T1,T2,R>*/obj0Int2Obj1Func(this::variantLObj0Int2Obj1Func);
-
-        assertThat(lambda).isInstanceOf(LBiObjIntFunction.LObj0Int2Obj1Func.class);
-    }
-
-
     private Integer variantLObj1Obj0Int2Func(Integer a2,Integer a1,int a3) {
         return 100;
     }
@@ -416,18 +404,6 @@ public class LBiObjIntFunctionTest<T1,T2,R> {
         LBiObjIntFunction lambda = LBiObjIntFunction./*<T1,T2,R>*/obj1Obj0Int2Func(this::variantLObj1Obj0Int2Func);
 
         assertThat(lambda).isInstanceOf(LBiObjIntFunction.LObj1Obj0Int2Func.class);
-    }
-
-
-    private Integer variantLObj1Int2Obj0Func(Integer a2,int a3,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Int2Obj0Func() {
-        LBiObjIntFunction lambda = LBiObjIntFunction./*<T1,T2,R>*/obj1Int2Obj0Func(this::variantLObj1Int2Obj0Func);
-
-        assertThat(lambda).isInstanceOf(LBiObjIntFunction.LObj1Int2Obj0Func.class);
     }
 
 

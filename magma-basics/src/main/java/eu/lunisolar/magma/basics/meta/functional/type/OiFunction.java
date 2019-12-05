@@ -32,5 +32,6 @@ import eu.lunisolar.magma.basics.meta.functional.domain.Domain2;
  * @param <C> Supposed collection.
  * @param <T> Supposed element type to pull from collection.
  */
+
 public interface OiFunction<C, T extends aType> extends MetaFunction, Codomain<T>, Domain2<a<C>, aInt> {
 }

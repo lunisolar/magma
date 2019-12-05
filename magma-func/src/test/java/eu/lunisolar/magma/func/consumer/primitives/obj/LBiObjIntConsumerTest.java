@@ -289,17 +289,6 @@ public class LBiObjIntConsumerTest<T1,T2> {
 
     //<editor-fold desc="Variants">
 
-    private void variantLObj0Int2Obj1Cons(Integer a1,int a3,Integer a2) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj0Int2Obj1Cons() {
-        LBiObjIntConsumer lambda = LBiObjIntConsumer./*<T1,T2>*/obj0Int2Obj1Cons(this::variantLObj0Int2Obj1Cons);
-
-        assertThat(lambda).isInstanceOf(LBiObjIntConsumer.LObj0Int2Obj1Cons.class);
-    }
-
-
     private void variantLObj1Obj0Int2Cons(Integer a2,Integer a1,int a3) {
     }
 
@@ -308,17 +297,6 @@ public class LBiObjIntConsumerTest<T1,T2> {
         LBiObjIntConsumer lambda = LBiObjIntConsumer./*<T1,T2>*/obj1Obj0Int2Cons(this::variantLObj1Obj0Int2Cons);
 
         assertThat(lambda).isInstanceOf(LBiObjIntConsumer.LObj1Obj0Int2Cons.class);
-    }
-
-
-    private void variantLObj1Int2Obj0Cons(Integer a2,int a3,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Int2Obj0Cons() {
-        LBiObjIntConsumer lambda = LBiObjIntConsumer./*<T1,T2>*/obj1Int2Obj0Cons(this::variantLObj1Int2Obj0Cons);
-
-        assertThat(lambda).isInstanceOf(LBiObjIntConsumer.LObj1Int2Obj0Cons.class);
     }
 
 

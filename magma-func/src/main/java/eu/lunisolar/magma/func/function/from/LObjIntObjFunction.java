@@ -417,13 +417,6 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	static <T1, T2, R> LObjIntObjFunction.LObj0Obj2Int1Func<T1, T2, R> obj0Obj2Int1Func(final @Nonnull LObjIntObjFunction.LObj0Obj2Int1Func<T1, T2, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
 	static <T1, T2, R> LObjIntObjFunction.LInt1BiObj2Func<T1, T2, R> int1BiObj2Func(final @Nonnull LObjIntObjFunction.LInt1BiObj2Func<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
@@ -432,13 +425,6 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T2, T1, R> LObjIntObjFunction.LInt1Obj2Obj0Func<T2, T1, R> int1Obj2Obj0Func(final @Nonnull LObjIntObjFunction.LInt1Obj2Obj0Func<T2, T1, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1, R> LObjIntObjFunction.LObj2Obj0Int1Func<T2, T1, R> obj2Obj0Int1Func(final @Nonnull LObjIntObjFunction.LObj2Obj0Int1Func<T2, T1, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -575,38 +561,10 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	/** Permutation of LObjIntObjFunction for method references. */
 	@FunctionalInterface
-	interface LObj0Obj2Int1Func<T1, T2, R> extends LObjIntObjFunction<T1, T2, R> {
-
-		/**
-		 * Implement this, but call apply(T1 a1,int a2,T2 a3)
-		 */
-		default R applyX(T1 a1, int a2, T2 a3) {
-			return this.applyObj0Obj2Int1(a1, a3, a2);
-		}
-
-		@Nullable
-		// R applyObj0Obj2Int1(T1 a1,T2 a3,int a2) ;
-		default R applyObj0Obj2Int1(T1 a1, T2 a3, int a2) {
-			// return nestingApplyObj0Obj2Int1(a1,a3,a2);
-			try {
-				return this.applyObj0Obj2Int1X(a1, a3, a2);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyObj0Obj2Int1(T1 a1,T2 a3,int a2)
-		 */
-		R applyObj0Obj2Int1X(T1 a1, T2 a3, int a2) throws Throwable;
-	}
-
-	/** Permutation of LObjIntObjFunction for method references. */
-	@FunctionalInterface
 	interface LInt1BiObj2Func<T1, T2, R> extends LObjIntObjFunction<T1, T2, R> {
 
 		/**
-		 * Implement this, but call applyObj0Obj2Int1(T1 a1,T2 a3,int a2)
+		 * Implement this, but call apply(T1 a1,int a2,T2 a3)
 		 */
 		default R applyX(T1 a1, int a2, T2 a3) {
 			return this.applyInt1BiObj2(a2, a1, a3);
@@ -659,38 +617,10 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	/** Permutation of LObjIntObjFunction for method references. */
 	@FunctionalInterface
-	interface LObj2Obj0Int1Func<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
-
-		/**
-		 * Implement this, but call applyInt1Obj2Obj0(int a2,T2 a3,T1 a1)
-		 */
-		default R applyX(T1 a1, int a2, T2 a3) {
-			return this.applyObj2Obj0Int1(a3, a1, a2);
-		}
-
-		@Nullable
-		// R applyObj2Obj0Int1(T2 a3,T1 a1,int a2) ;
-		default R applyObj2Obj0Int1(T2 a3, T1 a1, int a2) {
-			// return nestingApplyObj2Obj0Int1(a3,a1,a2);
-			try {
-				return this.applyObj2Obj0Int1X(a3, a1, a2);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyObj2Obj0Int1(T2 a3,T1 a1,int a2)
-		 */
-		R applyObj2Obj0Int1X(T2 a3, T1 a1, int a2) throws Throwable;
-	}
-
-	/** Permutation of LObjIntObjFunction for method references. */
-	@FunctionalInterface
 	interface LObj2Int1Obj0Func<T2, T1, R> extends LObjIntObjFunction<T1, T2, R> {
 
 		/**
-		 * Implement this, but call applyObj2Obj0Int1(T2 a3,T1 a1,int a2)
+		 * Implement this, but call applyInt1Obj2Obj0(int a2,T2 a3,T1 a1)
 		 */
 		default R applyX(T1 a1, int a2, T2 a3) {
 			return this.applyObj2Int1Obj0(a3, a2, a1);
@@ -717,11 +647,6 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	/** Does nothing (LObjIntObjFunction) Function */
 	public static <T1, T2, R> R produce(T1 a1, int a2, T2 a3) {
-		return (R) Function4U.defaultObject;
-	}
-
-	/** Does nothing (LObjIntObjFunction.LObj0Obj2Int1Func) Function */
-	public static <T1, T2, R> R produce(T1 a1, T2 a3, int a2) {
 		return (R) Function4U.defaultObject;
 	}
 

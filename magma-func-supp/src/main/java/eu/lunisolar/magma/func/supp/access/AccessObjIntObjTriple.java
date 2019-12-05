@@ -75,19 +75,9 @@ public interface AccessObjIntObjTriple<T1, T2> {
 		accessFunction.accept(tuple.first(), tuple.third(), tuple.second());
 	}
 
-	default void useWith(LBiObjIntConsumer.LObj0Int2Obj1Cons<T1, T2> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		accessFunction.acceptObj0Int2Obj1(tuple.first(), tuple.second(), tuple.third());
-	}
-
 	default void useWith(LBiObjIntConsumer.LObj1Obj0Int2Cons<T2, T1> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		accessFunction.acceptObj1Obj0Int2(tuple.third(), tuple.first(), tuple.second());
-	}
-
-	default void useWith(LBiObjIntConsumer.LObj1Int2Obj0Cons<T2, T1> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		accessFunction.acceptObj1Int2Obj0(tuple.third(), tuple.second(), tuple.first());
 	}
 
 	default void useWith(LBiObjIntConsumer.LInt2Obj0Obj1Cons<T1, T2> accessFunction) {
@@ -105,11 +95,6 @@ public interface AccessObjIntObjTriple<T1, T2> {
 		accessFunction.accept(tuple.first(), tuple.second(), tuple.third());
 	}
 
-	default void useWith(LTieConsumer.LObj0Obj2Int1Cons<T1, T2> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		accessFunction.acceptObj0Obj2Int1(tuple.first(), tuple.third(), tuple.second());
-	}
-
 	default void useWith(LTieConsumer.LInt1BiObj2Cons<T1, T2> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		accessFunction.acceptInt1BiObj2(tuple.second(), tuple.first(), tuple.third());
@@ -118,11 +103,6 @@ public interface AccessObjIntObjTriple<T1, T2> {
 	default void useWith(LTieConsumer.LInt1Obj2Obj0Cons<T2, T1> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		accessFunction.acceptInt1Obj2Obj0(tuple.second(), tuple.third(), tuple.first());
-	}
-
-	default void useWith(LTieConsumer.LObj2Obj0Int1Cons<T2, T1> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		accessFunction.acceptObj2Obj0Int1(tuple.third(), tuple.first(), tuple.second());
 	}
 
 	default void useWith(LTieConsumer.LObj2Int1Obj0Cons<T2, T1> accessFunction) {
@@ -137,23 +117,9 @@ public interface AccessObjIntObjTriple<T1, T2> {
 		return retval;
 	}
 
-	default <R> R useWith(LBiObjIntFunction.LObj0Int2Obj1Func<T1, T2, R> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		R retval = accessFunction.applyObj0Int2Obj1(tuple.first(), tuple.second(), tuple.third());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
 	default <R> R useWith(LBiObjIntFunction.LObj1Obj0Int2Func<T2, T1, R> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		R retval = accessFunction.applyObj1Obj0Int2(tuple.third(), tuple.first(), tuple.second());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
-	default <R> R useWith(LBiObjIntFunction.LObj1Int2Obj0Func<T2, T1, R> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		R retval = accessFunction.applyObj1Int2Obj0(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntObjTriple(tuple);
 		return retval;
 	}
@@ -179,13 +145,6 @@ public interface AccessObjIntObjTriple<T1, T2> {
 		return retval;
 	}
 
-	default <R> R useWith(LObjIntObjFunction.LObj0Obj2Int1Func<T1, T2, R> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		R retval = accessFunction.applyObj0Obj2Int1(tuple.first(), tuple.third(), tuple.second());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
 	default <R> R useWith(LObjIntObjFunction.LInt1BiObj2Func<T1, T2, R> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		R retval = accessFunction.applyInt1BiObj2(tuple.second(), tuple.first(), tuple.third());
@@ -196,13 +155,6 @@ public interface AccessObjIntObjTriple<T1, T2> {
 	default <R> R useWith(LObjIntObjFunction.LInt1Obj2Obj0Func<T2, T1, R> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		R retval = accessFunction.applyInt1Obj2Obj0(tuple.second(), tuple.third(), tuple.first());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
-	default <R> R useWith(LObjIntObjFunction.LObj2Obj0Int1Func<T2, T1, R> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		R retval = accessFunction.applyObj2Obj0Int1(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntObjTriple(tuple);
 		return retval;
 	}
@@ -263,23 +215,9 @@ public interface AccessObjIntObjTriple<T1, T2> {
 		return retval;
 	}
 
-	default boolean useWith(LBiObjIntPredicate.LObj0Int2Obj1Pred<T1, T2> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		boolean retval = accessFunction.testObj0Int2Obj1(tuple.first(), tuple.second(), tuple.third());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
 	default boolean useWith(LBiObjIntPredicate.LObj1Obj0Int2Pred<T2, T1> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		boolean retval = accessFunction.testObj1Obj0Int2(tuple.third(), tuple.first(), tuple.second());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
-	default boolean useWith(LBiObjIntPredicate.LObj1Int2Obj0Pred<T2, T1> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		boolean retval = accessFunction.testObj1Int2Obj0(tuple.third(), tuple.second(), tuple.first());
 		releaseObjIntObjTriple(tuple);
 		return retval;
 	}
@@ -305,13 +243,6 @@ public interface AccessObjIntObjTriple<T1, T2> {
 		return retval;
 	}
 
-	default boolean useWith(LObjIntObjPredicate.LObj0Obj2Int1Pred<T1, T2> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		boolean retval = accessFunction.testObj0Obj2Int1(tuple.first(), tuple.third(), tuple.second());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
 	default boolean useWith(LObjIntObjPredicate.LInt1BiObj2Pred<T1, T2> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		boolean retval = accessFunction.testInt1BiObj2(tuple.second(), tuple.first(), tuple.third());
@@ -322,13 +253,6 @@ public interface AccessObjIntObjTriple<T1, T2> {
 	default boolean useWith(LObjIntObjPredicate.LInt1Obj2Obj0Pred<T2, T1> accessFunction) {
 		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
 		boolean retval = accessFunction.testInt1Obj2Obj0(tuple.second(), tuple.third(), tuple.first());
-		releaseObjIntObjTriple(tuple);
-		return retval;
-	}
-
-	default boolean useWith(LObjIntObjPredicate.LObj2Obj0Int1Pred<T2, T1> accessFunction) {
-		LObjIntObjTriple<T1, T2> tuple = accessObjIntObjTriple();
-		boolean retval = accessFunction.testObj2Obj0Int1(tuple.third(), tuple.first(), tuple.second());
 		releaseObjIntObjTriple(tuple);
 		return retval;
 	}

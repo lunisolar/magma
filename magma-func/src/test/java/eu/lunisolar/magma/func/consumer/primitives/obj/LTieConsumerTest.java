@@ -289,17 +289,6 @@ public class LTieConsumerTest<T1,T2> {
 
     //<editor-fold desc="Variants">
 
-    private void variantLObj0Obj2Int1Cons(Integer a1,Integer a3,int a2) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj0Obj2Int1Cons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj0Obj2Int1Cons(this::variantLObj0Obj2Int1Cons);
-
-        assertThat(lambda).isInstanceOf(LTieConsumer.LObj0Obj2Int1Cons.class);
-    }
-
-
     private void variantLInt1BiObj2Cons(int a2,Integer a1,Integer a3) {
     }
 
@@ -319,17 +308,6 @@ public class LTieConsumerTest<T1,T2> {
         LTieConsumer lambda = LTieConsumer./*<T1,T2>*/int1Obj2Obj0Cons(this::variantLInt1Obj2Obj0Cons);
 
         assertThat(lambda).isInstanceOf(LTieConsumer.LInt1Obj2Obj0Cons.class);
-    }
-
-
-    private void variantLObj2Obj0Int1Cons(Integer a3,Integer a1,int a2) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj2Obj0Int1Cons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj2Obj0Int1Cons(this::variantLObj2Obj0Int1Cons);
-
-        assertThat(lambda).isInstanceOf(LTieConsumer.LObj2Obj0Int1Cons.class);
     }
 
 

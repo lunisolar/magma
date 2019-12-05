@@ -411,18 +411,6 @@ public class LBiObjIntPredicateTest<T1,T2> {
 
     //<editor-fold desc="Variants">
 
-    private boolean variantLObj0Int2Obj1Pred(Integer a1,int a3,Integer a2) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj0Int2Obj1Pred() {
-        LBiObjIntPredicate lambda = LBiObjIntPredicate./*<T1,T2>*/obj0Int2Obj1Pred(this::variantLObj0Int2Obj1Pred);
-
-        assertThat(lambda).isInstanceOf(LBiObjIntPredicate.LObj0Int2Obj1Pred.class);
-    }
-
-
     private boolean variantLObj1Obj0Int2Pred(Integer a2,Integer a1,int a3) {
         return true;
     }
@@ -432,18 +420,6 @@ public class LBiObjIntPredicateTest<T1,T2> {
         LBiObjIntPredicate lambda = LBiObjIntPredicate./*<T1,T2>*/obj1Obj0Int2Pred(this::variantLObj1Obj0Int2Pred);
 
         assertThat(lambda).isInstanceOf(LBiObjIntPredicate.LObj1Obj0Int2Pred.class);
-    }
-
-
-    private boolean variantLObj1Int2Obj0Pred(Integer a2,int a3,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Int2Obj0Pred() {
-        LBiObjIntPredicate lambda = LBiObjIntPredicate./*<T1,T2>*/obj1Int2Obj0Pred(this::variantLObj1Int2Obj0Pred);
-
-        assertThat(lambda).isInstanceOf(LBiObjIntPredicate.LObj1Int2Obj0Pred.class);
     }
 
 

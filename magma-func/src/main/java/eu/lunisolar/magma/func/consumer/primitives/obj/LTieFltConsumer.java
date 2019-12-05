@@ -1096,6 +1096,12 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	}
 
+	/** ***ITERATION:    TIE_CONSUMER2_GEN:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=float a3, type=TIE_SOURCE}, SourcePurpose{arg=float a3, type=TE_GEN_PREDICATE}, SourcePurpose{arg=float a3, type=TE_GEN_SUPPLIER}] */
+	public default <SRC> int genericTieForEach(int sStart, int tStart, T trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, aFloat> srcAcc3) {
+		return tieForEach(sStart, tStart, trg1, src3, (LPredicate<SRC>) srcTest3, (LToFltFunction<SRC>) srcAcc3, this);
+
+	}
+
 	/**
 	* For each element (or tuple) from arguments, calls the consumer (with TIE: 'target', index, element). First argument is designated as 'target' object.
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
