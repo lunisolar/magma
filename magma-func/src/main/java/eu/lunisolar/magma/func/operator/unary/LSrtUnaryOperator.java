@@ -341,10 +341,10 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtUnaryOperator safe() {
-		return LSrtUnaryOperator::produceShort;
+		return LSrtUnaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -483,7 +483,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LSrtUnaryOperator) Operator */
-	public static short produceShort(short a) {
+	public static short doNothing(short a) {
 		return Function4U.defaultShort;
 	}
 

@@ -341,10 +341,10 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteToFltFunction safe() {
-		return LByteToFltFunction::produceFloat;
+		return LByteToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LByteToFltFunction) Function */
-	public static float produceFloat(byte a) {
+	public static float doNothing(byte a) {
 		return Function4U.defaultFloat;
 	}
 

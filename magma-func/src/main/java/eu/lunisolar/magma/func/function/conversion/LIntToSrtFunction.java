@@ -341,10 +341,10 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntToSrtFunction safe() {
-		return LIntToSrtFunction::produceShort;
+		return LIntToSrtFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LIntToSrtFunction) Function */
-	public static short produceShort(int a) {
+	public static short doNothing(int a) {
 		return Function4U.defaultShort;
 	}
 

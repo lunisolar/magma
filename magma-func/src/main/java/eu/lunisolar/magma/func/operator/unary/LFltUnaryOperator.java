@@ -341,10 +341,10 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LFltUnaryOperator safe() {
-		return LFltUnaryOperator::produceFloat;
+		return LFltUnaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -483,7 +483,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LFltUnaryOperator) Operator */
-	public static float produceFloat(float a) {
+	public static float doNothing(float a) {
 		return Function4U.defaultFloat;
 	}
 

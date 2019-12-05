@@ -447,10 +447,10 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LOiToByteFunction<T> safe() {
-		return LOiToByteFunction::produceByte;
+		return LOiToByteFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -612,12 +612,12 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	// </editor-fold>
 
 	/** Does nothing (LOiToByteFunction) Function */
-	public static <T> byte produceByte(T a1, int a2) {
+	public static <T> byte doNothing(T a1, int a2) {
 		return Function4U.defaultByte;
 	}
 
 	/** Does nothing (LOiToByteFunction.LIntObjToByteFunc) Function */
-	public static <T> byte produceByte(int a2, T a1) {
+	public static <T> byte doNothing(int a2, T a1) {
 		return Function4U.defaultByte;
 	}
 

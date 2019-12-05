@@ -387,10 +387,10 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LFunction<T, R> safe() {
-		return LFunction::produce;
+		return LFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -531,7 +531,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Does nothing (LFunction) Function */
-	public static <T, R> R produce(T a) {
+	public static <T, R> R doNothing(T a) {
 		return (R) Function4U.defaultObject;
 	}
 

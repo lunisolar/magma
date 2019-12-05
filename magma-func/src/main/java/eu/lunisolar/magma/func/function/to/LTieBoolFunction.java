@@ -461,10 +461,10 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LTieBoolFunction<T> safe() {
-		return LTieBoolFunction::produceInt;
+		return LTieBoolFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -694,32 +694,32 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LTieBoolFunction) Function */
-	public static <T> int produceInt(T a1, int a2, boolean a3) {
+	public static <T> int doNothing(T a1, int a2, boolean a3) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieBoolFunction.LObjBoolIntToIntFunc) Function */
-	public static <T> int produceInt(T a1, boolean a3, int a2) {
+	public static <T> int doNothing(T a1, boolean a3, int a2) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieBoolFunction.LIntObjBoolToIntFunc) Function */
-	public static <T> int produceInt(int a2, T a1, boolean a3) {
+	public static <T> int doNothing(int a2, T a1, boolean a3) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieBoolFunction.LIntBoolObjToIntFunc) Function */
-	public static <T> int produceInt(int a2, boolean a3, T a1) {
+	public static <T> int doNothing(int a2, boolean a3, T a1) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieBoolFunction.LBoolObjIntToIntFunc) Function */
-	public static <T> int produceInt(boolean a3, T a1, int a2) {
+	public static <T> int doNothing(boolean a3, T a1, int a2) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieBoolFunction.LBoolIntObjToIntFunc) Function */
-	public static <T> int produceInt(boolean a3, int a2, T a1) {
+	public static <T> int doNothing(boolean a3, int a2, T a1) {
 		return Function4U.defaultInteger;
 	}
 

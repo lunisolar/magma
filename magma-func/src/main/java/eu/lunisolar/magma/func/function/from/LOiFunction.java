@@ -451,10 +451,10 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LOiFunction<T, R> safe() {
-		return LOiFunction::produce;
+		return LOiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -630,12 +630,12 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LOiFunction) Function */
-	public static <T, R> R produce(T a1, int a2) {
+	public static <T, R> R doNothing(T a1, int a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LOiFunction.LIntObjFunc) Function */
-	public static <T, R> R produce(int a2, T a1) {
+	public static <T, R> R doNothing(int a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

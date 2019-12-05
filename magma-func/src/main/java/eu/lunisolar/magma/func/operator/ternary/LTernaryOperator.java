@@ -428,10 +428,10 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LTernaryOperator<T> safe() {
-		return LTernaryOperator::produce;
+		return LTernaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -498,7 +498,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Does nothing (LTernaryOperator) Operator */
-	public static <T> T produce(T a1, T a2, T a3) {
+	public static <T> T doNothing(T a1, T a2, T a3) {
 		return (T) Function4U.defaultObject;
 	}
 

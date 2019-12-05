@@ -461,10 +461,10 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LTieLongFunction<T> safe() {
-		return LTieLongFunction::produceInt;
+		return LTieLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -695,32 +695,32 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LTieLongFunction) Function */
-	public static <T> int produceInt(T a1, int a2, long a3) {
+	public static <T> int doNothing(T a1, int a2, long a3) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieLongFunction.LObjLongIntToIntFunc) Function */
-	public static <T> int produceInt(T a1, long a3, int a2) {
+	public static <T> int doNothing(T a1, long a3, int a2) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieLongFunction.LIntObjLongToIntFunc) Function */
-	public static <T> int produceInt(int a2, T a1, long a3) {
+	public static <T> int doNothing(int a2, T a1, long a3) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieLongFunction.LIntLongObjToIntFunc) Function */
-	public static <T> int produceInt(int a2, long a3, T a1) {
+	public static <T> int doNothing(int a2, long a3, T a1) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieLongFunction.LLongObjIntToIntFunc) Function */
-	public static <T> int produceInt(long a3, T a1, int a2) {
+	public static <T> int doNothing(long a3, T a1, int a2) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieLongFunction.LLongIntObjToIntFunc) Function */
-	public static <T> int produceInt(long a3, int a2, T a1) {
+	public static <T> int doNothing(long a3, int a2, T a1) {
 		return Function4U.defaultInteger;
 	}
 

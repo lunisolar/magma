@@ -445,10 +445,10 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LToFltBiFunction<T1, T2> safe() {
-		return LToFltBiFunction::produceFloat;
+		return LToFltBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -598,7 +598,7 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	// </editor-fold>
 
 	/** Does nothing (LToFltBiFunction) Function */
-	public static <T1, T2> float produceFloat(T1 a1, T2 a2) {
+	public static <T1, T2> float doNothing(T1 a1, T2 a2) {
 		return Function4U.defaultFloat;
 	}
 

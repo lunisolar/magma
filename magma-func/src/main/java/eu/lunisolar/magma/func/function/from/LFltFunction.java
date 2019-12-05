@@ -367,10 +367,10 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LFltFunction<R> safe() {
-		return LFltFunction::produce;
+		return LFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -512,7 +512,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Does nothing (LFltFunction) Function */
-	public static <R> R produce(float a) {
+	public static <R> R doNothing(float a) {
 		return (R) Function4U.defaultObject;
 	}
 

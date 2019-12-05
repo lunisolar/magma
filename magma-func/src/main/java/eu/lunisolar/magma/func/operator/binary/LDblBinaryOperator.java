@@ -414,10 +414,10 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LDblBinaryOperator safe() {
-		return LDblBinaryOperator::produceDouble;
+		return LDblBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -544,7 +544,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	// </editor-fold>
 
 	/** Does nothing (LDblBinaryOperator) Operator */
-	public static double produceDouble(double a1, double a2) {
+	public static double doNothing(double a1, double a2) {
 		return Function4U.defaultDouble;
 	}
 

@@ -404,10 +404,10 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLongBinaryOperator safe() {
-		return LLongBinaryOperator::produceLong;
+		return LLongBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -534,7 +534,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	// </editor-fold>
 
 	/** Does nothing (LLongBinaryOperator) Operator */
-	public static long produceLong(long a1, long a2) {
+	public static long doNothing(long a1, long a2) {
 		return Function4U.defaultLong;
 	}
 

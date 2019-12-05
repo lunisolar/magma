@@ -325,10 +325,10 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtSupplier safe() {
-		return LSrtSupplier::produceShort;
+		return LSrtSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -431,7 +431,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	// </editor-fold>
 
 	/** Does nothing (LSrtSupplier) Supplier */
-	public static short produceShort() {
+	public static short doNothing() {
 		return Function4U.defaultShort;
 	}
 

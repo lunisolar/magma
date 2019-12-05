@@ -447,10 +447,10 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LOiToSrtFunction<T> safe() {
-		return LOiToSrtFunction::produceShort;
+		return LOiToSrtFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -612,12 +612,12 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LOiToSrtFunction) Function */
-	public static <T> short produceShort(T a1, int a2) {
+	public static <T> short doNothing(T a1, int a2) {
 		return Function4U.defaultShort;
 	}
 
 	/** Does nothing (LOiToSrtFunction.LIntObjToSrtFunc) Function */
-	public static <T> short produceShort(int a2, T a1) {
+	public static <T> short doNothing(int a2, T a1) {
 		return Function4U.defaultShort;
 	}
 

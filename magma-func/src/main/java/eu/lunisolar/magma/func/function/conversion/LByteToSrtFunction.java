@@ -341,10 +341,10 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteToSrtFunction safe() {
-		return LByteToSrtFunction::produceShort;
+		return LByteToSrtFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LByteToSrtFunction) Function */
-	public static short produceShort(byte a) {
+	public static short doNothing(byte a) {
 		return Function4U.defaultShort;
 	}
 

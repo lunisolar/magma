@@ -341,10 +341,10 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharToIntFunction safe() {
-		return LCharToIntFunction::produceInt;
+		return LCharToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LCharToIntFunction) Function */
-	public static int produceInt(char a) {
+	public static int doNothing(char a) {
 		return Function4U.defaultInteger;
 	}
 

@@ -447,10 +447,10 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LOiToDblFunction<T> safe() {
-		return LOiToDblFunction::produceDouble;
+		return LOiToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -612,12 +612,12 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LOiToDblFunction) Function */
-	public static <T> double produceDouble(T a1, int a2) {
+	public static <T> double doNothing(T a1, int a2) {
 		return Function4U.defaultDouble;
 	}
 
 	/** Does nothing (LOiToDblFunction.LIntObjToDblFunc) Function */
-	public static <T> double produceDouble(int a2, T a1) {
+	public static <T> double doNothing(int a2, T a1) {
 		return Function4U.defaultDouble;
 	}
 

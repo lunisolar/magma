@@ -346,10 +346,10 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntUnaryOperator safe() {
-		return LIntUnaryOperator::produceInt;
+		return LIntUnaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -488,7 +488,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	// </editor-fold>
 
 	/** Does nothing (LIntUnaryOperator) Operator */
-	public static int produceInt(int a) {
+	public static int doNothing(int a) {
 		return Function4U.defaultInteger;
 	}
 

@@ -367,10 +367,10 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LBoolFunction<R> safe() {
-		return LBoolFunction::produce;
+		return LBoolFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -512,7 +512,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Does nothing (LBoolFunction) Function */
-	public static <R> R produce(boolean a) {
+	public static <R> R doNothing(boolean a) {
 		return (R) Function4U.defaultObject;
 	}
 

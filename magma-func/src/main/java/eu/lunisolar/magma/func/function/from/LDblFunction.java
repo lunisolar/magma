@@ -372,10 +372,10 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LDblFunction<R> safe() {
-		return LDblFunction::produce;
+		return LDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -517,7 +517,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** Does nothing (LDblFunction) Function */
-	public static <R> R produce(double a) {
+	public static <R> R doNothing(double a) {
 		return (R) Function4U.defaultObject;
 	}
 

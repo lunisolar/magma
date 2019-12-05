@@ -367,10 +367,10 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LSrtFunction<R> safe() {
-		return LSrtFunction::produce;
+		return LSrtFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -512,7 +512,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Does nothing (LSrtFunction) Function */
-	public static <R> R produce(short a) {
+	public static <R> R doNothing(short a) {
 		return (R) Function4U.defaultObject;
 	}
 

@@ -449,10 +449,10 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LObjDblFunction<T, R> safe() {
-		return LObjDblFunction::produce;
+		return LObjDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -579,12 +579,12 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	// </editor-fold>
 
 	/** Does nothing (LObjDblFunction) Function */
-	public static <T, R> R produce(T a1, double a2) {
+	public static <T, R> R doNothing(T a1, double a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjDblFunction.LDblObjFunc) Function */
-	public static <T, R> R produce(double a2, T a1) {
+	public static <T, R> R doNothing(double a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

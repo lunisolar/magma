@@ -542,10 +542,10 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceBoolean). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLogicalBinaryOperator safe() {
-		return LLogicalBinaryOperator::produceBoolean;
+		return LLogicalBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -709,7 +709,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	// </editor-fold>
 
 	/** Does nothing (LLogicalBinaryOperator) Operator */
-	public static boolean produceBoolean(boolean a1, boolean a2) {
+	public static boolean doNothing(boolean a1, boolean a2) {
 		return Function4U.defaultBoolean;
 	}
 

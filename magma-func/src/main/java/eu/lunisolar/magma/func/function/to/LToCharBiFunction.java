@@ -445,10 +445,10 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LToCharBiFunction<T1, T2> safe() {
-		return LToCharBiFunction::produceChar;
+		return LToCharBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -598,7 +598,7 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	// </editor-fold>
 
 	/** Does nothing (LToCharBiFunction) Function */
-	public static <T1, T2> char produceChar(T1 a1, T2 a2) {
+	public static <T1, T2> char doNothing(T1 a1, T2 a2) {
 		return Function4U.defaultCharacter;
 	}
 

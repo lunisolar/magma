@@ -325,10 +325,10 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LFltSupplier safe() {
-		return LFltSupplier::produceFloat;
+		return LFltSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -431,7 +431,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	// </editor-fold>
 
 	/** Does nothing (LFltSupplier) Supplier */
-	public static float produceFloat() {
+	public static float doNothing() {
 		return Function4U.defaultFloat;
 	}
 

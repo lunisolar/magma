@@ -393,10 +393,10 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LToDblFunction<T> safe() {
-		return LToDblFunction::produceDouble;
+		return LToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -514,7 +514,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	// </editor-fold>
 
 	/** Does nothing (LToDblFunction) Function */
-	public static <T> double produceDouble(T a) {
+	public static <T> double doNothing(T a) {
 		return Function4U.defaultDouble;
 	}
 

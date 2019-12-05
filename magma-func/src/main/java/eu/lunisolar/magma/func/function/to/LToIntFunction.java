@@ -383,10 +383,10 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LToIntFunction<T> safe() {
-		return LToIntFunction::produceInt;
+		return LToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -504,7 +504,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	// </editor-fold>
 
 	/** Does nothing (LToIntFunction) Function */
-	public static <T> int produceInt(T a) {
+	public static <T> int doNothing(T a) {
 		return Function4U.defaultInteger;
 	}
 

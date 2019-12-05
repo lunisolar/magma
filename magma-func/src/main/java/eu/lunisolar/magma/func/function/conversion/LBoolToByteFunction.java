@@ -341,10 +341,10 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolToByteFunction safe() {
-		return LBoolToByteFunction::produceByte;
+		return LBoolToByteFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LBoolToByteFunction) Function */
-	public static byte produceByte(boolean a) {
+	public static byte doNothing(boolean a) {
 		return Function4U.defaultByte;
 	}
 

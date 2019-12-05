@@ -341,10 +341,10 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolToLongFunction safe() {
-		return LBoolToLongFunction::produceLong;
+		return LBoolToLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LBoolToLongFunction) Function */
-	public static long produceLong(boolean a) {
+	public static long doNothing(boolean a) {
 		return Function4U.defaultLong;
 	}
 

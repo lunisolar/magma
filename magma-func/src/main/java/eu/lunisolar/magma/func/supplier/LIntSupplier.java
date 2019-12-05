@@ -330,10 +330,10 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntSupplier safe() {
-		return LIntSupplier::produceInt;
+		return LIntSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -436,7 +436,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	// </editor-fold>
 
 	/** Does nothing (LIntSupplier) Supplier */
-	public static int produceInt() {
+	public static int doNothing() {
 		return Function4U.defaultInteger;
 	}
 

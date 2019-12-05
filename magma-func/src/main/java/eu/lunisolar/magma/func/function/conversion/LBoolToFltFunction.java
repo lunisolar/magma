@@ -341,10 +341,10 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolToFltFunction safe() {
-		return LBoolToFltFunction::produceFloat;
+		return LBoolToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LBoolToFltFunction) Function */
-	public static float produceFloat(boolean a) {
+	public static float doNothing(boolean a) {
 		return Function4U.defaultFloat;
 	}
 

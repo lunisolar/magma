@@ -346,10 +346,10 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LDblToIntFunction safe() {
-		return LDblToIntFunction::produceInt;
+		return LDblToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -478,7 +478,7 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	// </editor-fold>
 
 	/** Does nothing (LDblToIntFunction) Function */
-	public static int produceInt(double a) {
+	public static int doNothing(double a) {
 		return Function4U.defaultInteger;
 	}
 

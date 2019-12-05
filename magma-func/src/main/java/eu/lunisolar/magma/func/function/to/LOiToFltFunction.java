@@ -447,10 +447,10 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LOiToFltFunction<T> safe() {
-		return LOiToFltFunction::produceFloat;
+		return LOiToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -612,12 +612,12 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LOiToFltFunction) Function */
-	public static <T> float produceFloat(T a1, int a2) {
+	public static <T> float doNothing(T a1, int a2) {
 		return Function4U.defaultFloat;
 	}
 
 	/** Does nothing (LOiToFltFunction.LIntObjToFltFunc) Function */
-	public static <T> float produceFloat(int a2, T a1) {
+	public static <T> float doNothing(int a2, T a1) {
 		return Function4U.defaultFloat;
 	}
 

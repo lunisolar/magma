@@ -341,10 +341,10 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolToDblFunction safe() {
-		return LBoolToDblFunction::produceDouble;
+		return LBoolToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LBoolToDblFunction) Function */
-	public static double produceDouble(boolean a) {
+	public static double doNothing(boolean a) {
 		return Function4U.defaultDouble;
 	}
 

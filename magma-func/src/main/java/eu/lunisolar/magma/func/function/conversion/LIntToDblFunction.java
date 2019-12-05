@@ -356,10 +356,10 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntToDblFunction safe() {
-		return LIntToDblFunction::produceDouble;
+		return LIntToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -488,7 +488,7 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 	// </editor-fold>
 
 	/** Does nothing (LIntToDblFunction) Function */
-	public static double produceDouble(int a) {
+	public static double doNothing(int a) {
 		return Function4U.defaultDouble;
 	}
 

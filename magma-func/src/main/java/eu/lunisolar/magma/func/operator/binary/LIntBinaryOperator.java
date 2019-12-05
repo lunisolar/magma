@@ -404,10 +404,10 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntBinaryOperator safe() {
-		return LIntBinaryOperator::produceInt;
+		return LIntBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -534,7 +534,7 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	// </editor-fold>
 
 	/** Does nothing (LIntBinaryOperator) Operator */
-	public static int produceInt(int a1, int a2) {
+	public static int doNothing(int a1, int a2) {
 		return Function4U.defaultInteger;
 	}
 

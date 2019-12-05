@@ -479,10 +479,10 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> safe() {
-		return LToIntTriFunction::produceInt;
+		return LToIntTriFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -700,7 +700,7 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	// </editor-fold>
 
 	/** Does nothing (LToIntTriFunction) Function */
-	public static <T1, T2, T3> int produceInt(T1 a1, T2 a2, T3 a3) {
+	public static <T1, T2, T3> int doNothing(T1 a1, T2 a2, T3 a3) {
 		return Function4U.defaultInteger;
 	}
 

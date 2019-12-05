@@ -461,10 +461,10 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LTieCharFunction<T> safe() {
-		return LTieCharFunction::produceInt;
+		return LTieCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -695,32 +695,32 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LTieCharFunction) Function */
-	public static <T> int produceInt(T a1, int a2, char a3) {
+	public static <T> int doNothing(T a1, int a2, char a3) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieCharFunction.LObjCharIntToIntFunc) Function */
-	public static <T> int produceInt(T a1, char a3, int a2) {
+	public static <T> int doNothing(T a1, char a3, int a2) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieCharFunction.LIntObjCharToIntFunc) Function */
-	public static <T> int produceInt(int a2, T a1, char a3) {
+	public static <T> int doNothing(int a2, T a1, char a3) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieCharFunction.LIntCharObjToIntFunc) Function */
-	public static <T> int produceInt(int a2, char a3, T a1) {
+	public static <T> int doNothing(int a2, char a3, T a1) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieCharFunction.LCharObjIntToIntFunc) Function */
-	public static <T> int produceInt(char a3, T a1, int a2) {
+	public static <T> int doNothing(char a3, T a1, int a2) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieCharFunction.LCharIntObjToIntFunc) Function */
-	public static <T> int produceInt(char a3, int a2, T a1) {
+	public static <T> int doNothing(char a3, int a2, T a1) {
 		return Function4U.defaultInteger;
 	}
 

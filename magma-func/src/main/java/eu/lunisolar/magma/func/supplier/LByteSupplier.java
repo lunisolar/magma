@@ -325,10 +325,10 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteSupplier safe() {
-		return LByteSupplier::produceByte;
+		return LByteSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -431,7 +431,7 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	// </editor-fold>
 
 	/** Does nothing (LByteSupplier) Supplier */
-	public static byte produceByte() {
+	public static byte doNothing() {
 		return Function4U.defaultByte;
 	}
 

@@ -436,10 +436,10 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LBiLongFunction<R> safe() {
-		return LBiLongFunction::produce;
+		return LBiLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -573,7 +573,7 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LBiLongFunction) Function */
-	public static <R> R produce(long a1, long a2) {
+	public static <R> R doNothing(long a1, long a2) {
 		return (R) Function4U.defaultObject;
 	}
 

@@ -341,10 +341,10 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtToDblFunction safe() {
-		return LSrtToDblFunction::produceDouble;
+		return LSrtToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LSrtToDblFunction) Function */
-	public static double produceDouble(short a) {
+	public static double doNothing(short a) {
 		return Function4U.defaultDouble;
 	}
 

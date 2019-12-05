@@ -341,10 +341,10 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharToLongFunction safe() {
-		return LCharToLongFunction::produceLong;
+		return LCharToLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LCharToLongFunction) Function */
-	public static long produceLong(char a) {
+	public static long doNothing(char a) {
 		return Function4U.defaultLong;
 	}
 

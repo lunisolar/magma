@@ -436,10 +436,10 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LBiCharFunction<R> safe() {
-		return LBiCharFunction::produce;
+		return LBiCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -573,7 +573,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LBiCharFunction) Function */
-	public static <R> R produce(char a1, char a2) {
+	public static <R> R doNothing(char a1, char a2) {
 		return (R) Function4U.defaultObject;
 	}
 

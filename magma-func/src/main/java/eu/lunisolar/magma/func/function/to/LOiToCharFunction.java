@@ -447,10 +447,10 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LOiToCharFunction<T> safe() {
-		return LOiToCharFunction::produceChar;
+		return LOiToCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -612,12 +612,12 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 	// </editor-fold>
 
 	/** Does nothing (LOiToCharFunction) Function */
-	public static <T> char produceChar(T a1, int a2) {
+	public static <T> char doNothing(T a1, int a2) {
 		return Function4U.defaultCharacter;
 	}
 
 	/** Does nothing (LOiToCharFunction.LIntObjToCharFunc) Function */
-	public static <T> char produceChar(int a2, T a1) {
+	public static <T> char doNothing(int a2, T a1) {
 		return Function4U.defaultCharacter;
 	}
 

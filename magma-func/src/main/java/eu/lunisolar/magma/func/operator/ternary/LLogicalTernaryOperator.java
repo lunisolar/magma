@@ -548,10 +548,10 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceBoolean). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLogicalTernaryOperator safe() {
-		return LLogicalTernaryOperator::produceBoolean;
+		return LLogicalTernaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -717,7 +717,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	// </editor-fold>
 
 	/** Does nothing (LLogicalTernaryOperator) Operator */
-	public static boolean produceBoolean(boolean a1, boolean a2, boolean a3) {
+	public static boolean doNothing(boolean a1, boolean a2, boolean a3) {
 		return Function4U.defaultBoolean;
 	}
 

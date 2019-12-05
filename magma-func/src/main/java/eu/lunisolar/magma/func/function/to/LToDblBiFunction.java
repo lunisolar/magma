@@ -460,10 +460,10 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LToDblBiFunction<T1, T2> safe() {
-		return LToDblBiFunction::produceDouble;
+		return LToDblBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -613,7 +613,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	// </editor-fold>
 
 	/** Does nothing (LToDblBiFunction) Function */
-	public static <T1, T2> double produceDouble(T1 a1, T2 a2) {
+	public static <T1, T2> double doNothing(T1 a1, T2 a2) {
 		return Function4U.defaultDouble;
 	}
 

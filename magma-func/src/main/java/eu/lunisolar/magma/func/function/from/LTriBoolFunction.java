@@ -431,10 +431,10 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LTriBoolFunction<R> safe() {
-		return LTriBoolFunction::produce;
+		return LTriBoolFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -531,7 +531,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Does nothing (LTriBoolFunction) Function */
-	public static <R> R produce(boolean a1, boolean a2, boolean a3) {
+	public static <R> R doNothing(boolean a1, boolean a2, boolean a3) {
 		return (R) Function4U.defaultObject;
 	}
 

@@ -330,10 +330,10 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLongSupplier safe() {
-		return LLongSupplier::produceLong;
+		return LLongSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -436,7 +436,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	// </editor-fold>
 
 	/** Does nothing (LLongSupplier) Supplier */
-	public static long produceLong() {
+	public static long doNothing() {
 		return Function4U.defaultLong;
 	}
 

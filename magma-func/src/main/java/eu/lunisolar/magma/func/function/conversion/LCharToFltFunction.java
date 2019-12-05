@@ -341,10 +341,10 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharToFltFunction safe() {
-		return LCharToFltFunction::produceFloat;
+		return LCharToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LCharToFltFunction) Function */
-	public static float produceFloat(char a) {
+	public static float doNothing(char a) {
 		return Function4U.defaultFloat;
 	}
 

@@ -341,10 +341,10 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LFltToIntFunction safe() {
-		return LFltToIntFunction::produceInt;
+		return LFltToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LFltToIntFunction) Function */
-	public static int produceInt(float a) {
+	public static int doNothing(float a) {
 		return Function4U.defaultInteger;
 	}
 

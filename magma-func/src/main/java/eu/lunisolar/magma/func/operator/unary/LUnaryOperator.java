@@ -371,10 +371,10 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LUnaryOperator<T> safe() {
-		return LUnaryOperator::produce;
+		return LUnaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -493,7 +493,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** Does nothing (LUnaryOperator) Operator */
-	public static <T> T produce(T a) {
+	public static <T> T doNothing(T a) {
 		return (T) Function4U.defaultObject;
 	}
 

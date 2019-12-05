@@ -450,10 +450,10 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> safe() {
-		return LQuadFunction::produce;
+		return LQuadFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -533,7 +533,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	}
 
 	/** Does nothing (LQuadFunction) Function */
-	public static <T1, T2, T3, T4, R> R produce(T1 a1, T2 a2, T3 a3, T4 a4) {
+	public static <T1, T2, T3, T4, R> R doNothing(T1 a1, T2 a2, T3 a3, T4 a4) {
 		return (R) Function4U.defaultObject;
 	}
 

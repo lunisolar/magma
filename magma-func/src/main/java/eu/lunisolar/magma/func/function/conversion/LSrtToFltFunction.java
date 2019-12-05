@@ -341,10 +341,10 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtToFltFunction safe() {
-		return LSrtToFltFunction::produceFloat;
+		return LSrtToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LSrtToFltFunction) Function */
-	public static float produceFloat(short a) {
+	public static float doNothing(short a) {
 		return Function4U.defaultFloat;
 	}
 

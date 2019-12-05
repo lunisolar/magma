@@ -469,10 +469,10 @@ public interface LBiObjIntFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2, R> LBiObjIntFunction<T1, T2, R> safe() {
-		return LBiObjIntFunction::produce;
+		return LBiObjIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -659,12 +659,12 @@ public interface LBiObjIntFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	// </editor-fold>
 
 	/** Does nothing (LBiObjIntFunction) Function */
-	public static <T1, T2, R> R produce(T1 a1, T2 a2, int a3) {
+	public static <T1, T2, R> R doNothing(T1 a1, T2 a2, int a3) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LBiObjIntFunction.LInt2Obj0Obj1Func) Function */
-	public static <T1, T2, R> R produce(int a3, T1 a1, T2 a2) {
+	public static <T1, T2, R> R doNothing(int a3, T1 a1, T2 a2) {
 		return (R) Function4U.defaultObject;
 	}
 

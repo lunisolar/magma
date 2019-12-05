@@ -372,10 +372,10 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceBoolean). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolSupplier safe() {
-		return LBoolSupplier::produceBoolean;
+		return LBoolSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -478,7 +478,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	// </editor-fold>
 
 	/** Does nothing (LBoolSupplier) Supplier */
-	public static boolean produceBoolean() {
+	public static boolean doNothing() {
 		return Function4U.defaultBoolean;
 	}
 

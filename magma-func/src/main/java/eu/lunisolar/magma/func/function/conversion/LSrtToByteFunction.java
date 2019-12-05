@@ -341,10 +341,10 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtToByteFunction safe() {
-		return LSrtToByteFunction::produceByte;
+		return LSrtToByteFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LSrtToByteFunction) Function */
-	public static byte produceByte(short a) {
+	public static byte doNothing(short a) {
 		return Function4U.defaultByte;
 	}
 

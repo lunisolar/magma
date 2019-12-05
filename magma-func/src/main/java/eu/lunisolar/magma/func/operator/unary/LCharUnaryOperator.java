@@ -341,10 +341,10 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharUnaryOperator safe() {
-		return LCharUnaryOperator::produceChar;
+		return LCharUnaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -483,7 +483,7 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LCharUnaryOperator) Operator */
-	public static char produceChar(char a) {
+	public static char doNothing(char a) {
 		return Function4U.defaultCharacter;
 	}
 

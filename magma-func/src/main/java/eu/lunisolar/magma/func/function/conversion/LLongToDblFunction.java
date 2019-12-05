@@ -356,10 +356,10 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLongToDblFunction safe() {
-		return LLongToDblFunction::produceDouble;
+		return LLongToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -488,7 +488,7 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 	// </editor-fold>
 
 	/** Does nothing (LLongToDblFunction) Function */
-	public static double produceDouble(long a) {
+	public static double doNothing(long a) {
 		return Function4U.defaultDouble;
 	}
 

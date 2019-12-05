@@ -449,10 +449,10 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LObjByteFunction<T, R> safe() {
-		return LObjByteFunction::produce;
+		return LObjByteFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -579,12 +579,12 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	// </editor-fold>
 
 	/** Does nothing (LObjByteFunction) Function */
-	public static <T, R> R produce(T a1, byte a2) {
+	public static <T, R> R doNothing(T a1, byte a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjByteFunction.LByteObjFunc) Function */
-	public static <T, R> R produce(byte a2, T a1) {
+	public static <T, R> R doNothing(byte a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

@@ -341,10 +341,10 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteToDblFunction safe() {
-		return LByteToDblFunction::produceDouble;
+		return LByteToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LByteToDblFunction) Function */
-	public static double produceDouble(byte a) {
+	public static double doNothing(byte a) {
 		return Function4U.defaultDouble;
 	}
 

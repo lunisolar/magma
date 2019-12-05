@@ -483,10 +483,10 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> safe() {
-		return LTriFunction::produce;
+		return LTriFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -722,7 +722,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	// </editor-fold>
 
 	/** Does nothing (LTriFunction) Function */
-	public static <T1, T2, T3, R> R produce(T1 a1, T2 a2, T3 a3) {
+	public static <T1, T2, T3, R> R doNothing(T1 a1, T2 a2, T3 a3) {
 		return (R) Function4U.defaultObject;
 	}
 

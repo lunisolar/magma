@@ -341,10 +341,10 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharToDblFunction safe() {
-		return LCharToDblFunction::produceDouble;
+		return LCharToDblFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LCharToDblFunction) Function */
-	public static double produceDouble(char a) {
+	public static double doNothing(char a) {
 		return Function4U.defaultDouble;
 	}
 

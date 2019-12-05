@@ -445,10 +445,10 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LToByteBiFunction<T1, T2> safe() {
-		return LToByteBiFunction::produceByte;
+		return LToByteBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -598,7 +598,7 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	// </editor-fold>
 
 	/** Does nothing (LToByteBiFunction) Function */
-	public static <T1, T2> byte produceByte(T1 a1, T2 a2) {
+	public static <T1, T2> byte doNothing(T1 a1, T2 a2) {
 		return Function4U.defaultByte;
 	}
 

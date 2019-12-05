@@ -399,10 +399,10 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LFltBinaryOperator safe() {
-		return LFltBinaryOperator::produceFloat;
+		return LFltBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -529,7 +529,7 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LFltBinaryOperator) Operator */
-	public static float produceFloat(float a1, float a2) {
+	public static float doNothing(float a1, float a2) {
 		return Function4U.defaultFloat;
 	}
 

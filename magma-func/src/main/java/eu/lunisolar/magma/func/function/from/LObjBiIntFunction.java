@@ -483,10 +483,10 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LObjBiIntFunction<T, R> safe() {
-		return LObjBiIntFunction::produce;
+		return LObjBiIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -735,17 +735,17 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	// </editor-fold>
 
 	/** Does nothing (LObjBiIntFunction) Function */
-	public static <T, R> R produce(T a1, int a2, int a3) {
+	public static <T, R> R doNothing(T a1, int a2, int a3) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjBiIntFunction.LInt1Obj0Int2Func) Function */
-	public static <T, R> R produce(int a2, T a1, int a3) {
+	public static <T, R> R doNothing(int a2, T a1, int a3) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjBiIntFunction.LInt1Int2Obj0Func) Function */
-	public static <T, R> R produce(int a2, int a3, T a1) {
+	public static <T, R> R doNothing(int a2, int a3, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

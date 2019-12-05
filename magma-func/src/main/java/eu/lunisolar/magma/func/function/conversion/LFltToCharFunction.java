@@ -341,10 +341,10 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LFltToCharFunction safe() {
-		return LFltToCharFunction::produceChar;
+		return LFltToCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LFltToCharFunction) Function */
-	public static char produceChar(float a) {
+	public static char doNothing(float a) {
 		return Function4U.defaultCharacter;
 	}
 

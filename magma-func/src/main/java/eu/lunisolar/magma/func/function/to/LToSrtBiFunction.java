@@ -445,10 +445,10 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LToSrtBiFunction<T1, T2> safe() {
-		return LToSrtBiFunction::produceShort;
+		return LToSrtBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -598,7 +598,7 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	// </editor-fold>
 
 	/** Does nothing (LToSrtBiFunction) Function */
-	public static <T1, T2> short produceShort(T1 a1, T2 a2) {
+	public static <T1, T2> short doNothing(T1 a1, T2 a2) {
 		return Function4U.defaultShort;
 	}
 

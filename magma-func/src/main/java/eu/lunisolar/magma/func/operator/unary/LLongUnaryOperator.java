@@ -346,10 +346,10 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLongUnaryOperator safe() {
-		return LLongUnaryOperator::produceLong;
+		return LLongUnaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -488,7 +488,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	// </editor-fold>
 
 	/** Does nothing (LLongUnaryOperator) Operator */
-	public static long produceLong(long a) {
+	public static long doNothing(long a) {
 		return Function4U.defaultLong;
 	}
 

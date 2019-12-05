@@ -341,10 +341,10 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLongToFltFunction safe() {
-		return LLongToFltFunction::produceFloat;
+		return LLongToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LLongToFltFunction) Function */
-	public static float produceFloat(long a) {
+	public static float doNothing(long a) {
 		return Function4U.defaultFloat;
 	}
 

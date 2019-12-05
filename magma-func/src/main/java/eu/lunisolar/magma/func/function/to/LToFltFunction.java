@@ -378,10 +378,10 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LToFltFunction<T> safe() {
-		return LToFltFunction::produceFloat;
+		return LToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -499,7 +499,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LToFltFunction) Function */
-	public static <T> float produceFloat(T a) {
+	public static <T> float doNothing(T a) {
 		return Function4U.defaultFloat;
 	}
 

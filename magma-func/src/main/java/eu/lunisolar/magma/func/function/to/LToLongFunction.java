@@ -383,10 +383,10 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LToLongFunction<T> safe() {
-		return LToLongFunction::produceLong;
+		return LToLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -504,7 +504,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	// </editor-fold>
 
 	/** Does nothing (LToLongFunction) Function */
-	public static <T> long produceLong(T a) {
+	public static <T> long doNothing(T a) {
 		return Function4U.defaultLong;
 	}
 

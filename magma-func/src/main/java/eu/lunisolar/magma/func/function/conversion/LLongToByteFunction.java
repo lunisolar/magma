@@ -341,10 +341,10 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLongToByteFunction safe() {
-		return LLongToByteFunction::produceByte;
+		return LLongToByteFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LLongToByteFunction) Function */
-	public static byte produceByte(long a) {
+	public static byte doNothing(long a) {
 		return Function4U.defaultByte;
 	}
 

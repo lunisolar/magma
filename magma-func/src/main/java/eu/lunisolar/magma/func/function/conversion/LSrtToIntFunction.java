@@ -341,10 +341,10 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtToIntFunction safe() {
-		return LSrtToIntFunction::produceInt;
+		return LSrtToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LSrtToIntFunction) Function */
-	public static int produceInt(short a) {
+	public static int doNothing(short a) {
 		return Function4U.defaultInteger;
 	}
 

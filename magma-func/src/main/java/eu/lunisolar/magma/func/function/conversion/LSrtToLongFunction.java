@@ -341,10 +341,10 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtToLongFunction safe() {
-		return LSrtToLongFunction::produceLong;
+		return LSrtToLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LSrtToLongFunction) Function */
-	public static long produceLong(short a) {
+	public static long doNothing(short a) {
 		return Function4U.defaultLong;
 	}
 

@@ -325,10 +325,10 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharSupplier safe() {
-		return LCharSupplier::produceChar;
+		return LCharSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -431,7 +431,7 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	// </editor-fold>
 
 	/** Does nothing (LCharSupplier) Supplier */
-	public static char produceChar() {
+	public static char doNothing() {
 		return Function4U.defaultCharacter;
 	}
 

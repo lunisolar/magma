@@ -341,10 +341,10 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LDblToSrtFunction safe() {
-		return LDblToSrtFunction::produceShort;
+		return LDblToSrtFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LDblToSrtFunction) Function */
-	public static short produceShort(double a) {
+	public static short doNothing(double a) {
 		return Function4U.defaultShort;
 	}
 

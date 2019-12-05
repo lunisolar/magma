@@ -463,10 +463,10 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LObjIntBoolFunction<T, R> safe() {
-		return LObjIntBoolFunction::produce;
+		return LObjIntBoolFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -715,32 +715,32 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	// </editor-fold>
 
 	/** Does nothing (LObjIntBoolFunction) Function */
-	public static <T, R> R produce(T a1, int a2, boolean a3) {
+	public static <T, R> R doNothing(T a1, int a2, boolean a3) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntBoolFunction.LObjBoolIntFunc) Function */
-	public static <T, R> R produce(T a1, boolean a3, int a2) {
+	public static <T, R> R doNothing(T a1, boolean a3, int a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntBoolFunction.LIntObjBoolFunc) Function */
-	public static <T, R> R produce(int a2, T a1, boolean a3) {
+	public static <T, R> R doNothing(int a2, T a1, boolean a3) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntBoolFunction.LIntBoolObjFunc) Function */
-	public static <T, R> R produce(int a2, boolean a3, T a1) {
+	public static <T, R> R doNothing(int a2, boolean a3, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntBoolFunction.LBoolObjIntFunc) Function */
-	public static <T, R> R produce(boolean a3, T a1, int a2) {
+	public static <T, R> R doNothing(boolean a3, T a1, int a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntBoolFunction.LBoolIntObjFunc) Function */
-	public static <T, R> R produce(boolean a3, int a2, T a1) {
+	public static <T, R> R doNothing(boolean a3, int a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

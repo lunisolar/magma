@@ -378,10 +378,10 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LToByteFunction<T> safe() {
-		return LToByteFunction::produceByte;
+		return LToByteFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -499,7 +499,7 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LToByteFunction) Function */
-	public static <T> byte produceByte(T a) {
+	public static <T> byte doNothing(T a) {
 		return Function4U.defaultByte;
 	}
 

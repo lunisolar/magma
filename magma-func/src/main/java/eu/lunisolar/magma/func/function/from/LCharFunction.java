@@ -367,10 +367,10 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LCharFunction<R> safe() {
-		return LCharFunction::produce;
+		return LCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -512,7 +512,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Does nothing (LCharFunction) Function */
-	public static <R> R produce(char a) {
+	public static <R> R doNothing(char a) {
 		return (R) Function4U.defaultObject;
 	}
 

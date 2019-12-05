@@ -450,10 +450,10 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LToLongBiFunction<T1, T2> safe() {
-		return LToLongBiFunction::produceLong;
+		return LToLongBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -603,7 +603,7 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 	// </editor-fold>
 
 	/** Does nothing (LToLongBiFunction) Function */
-	public static <T1, T2> long produceLong(T1 a1, T2 a2) {
+	public static <T1, T2> long doNothing(T1 a1, T2 a2) {
 		return Function4U.defaultLong;
 	}
 

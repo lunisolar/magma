@@ -461,10 +461,10 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LTieFunction<T1, T2> safe() {
-		return LTieFunction::produceInt;
+		return LTieFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -695,17 +695,17 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 	// </editor-fold>
 
 	/** Does nothing (LTieFunction) Function */
-	public static <T1, T2> int produceInt(T1 a1, int a2, T2 a3) {
+	public static <T1, T2> int doNothing(T1 a1, int a2, T2 a3) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieFunction.LObj0Obj2Int1ToIntFunc) Function */
-	public static <T1, T2> int produceInt(T1 a1, T2 a3, int a2) {
+	public static <T1, T2> int doNothing(T1 a1, T2 a3, int a2) {
 		return Function4U.defaultInteger;
 	}
 
 	/** Does nothing (LTieFunction.LInt1BiObj2ToIntFunc) Function */
-	public static <T1, T2> int produceInt(int a2, T1 a1, T2 a3) {
+	public static <T1, T2> int doNothing(int a2, T1 a1, T2 a3) {
 		return Function4U.defaultInteger;
 	}
 

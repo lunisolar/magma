@@ -341,10 +341,10 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteToCharFunction safe() {
-		return LByteToCharFunction::produceChar;
+		return LByteToCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LByteToCharFunction) Function */
-	public static char produceChar(byte a) {
+	public static char doNothing(byte a) {
 		return Function4U.defaultCharacter;
 	}
 

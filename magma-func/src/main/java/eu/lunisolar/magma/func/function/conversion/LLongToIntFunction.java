@@ -346,10 +346,10 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LLongToIntFunction safe() {
-		return LLongToIntFunction::produceInt;
+		return LLongToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -478,7 +478,7 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 	// </editor-fold>
 
 	/** Does nothing (LLongToIntFunction) Function */
-	public static int produceInt(long a) {
+	public static int doNothing(long a) {
 		return Function4U.defaultInteger;
 	}
 

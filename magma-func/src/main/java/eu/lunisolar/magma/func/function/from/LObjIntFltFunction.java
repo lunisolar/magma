@@ -463,10 +463,10 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LObjIntFltFunction<T, R> safe() {
-		return LObjIntFltFunction::produce;
+		return LObjIntFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -715,32 +715,32 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 	// </editor-fold>
 
 	/** Does nothing (LObjIntFltFunction) Function */
-	public static <T, R> R produce(T a1, int a2, float a3) {
+	public static <T, R> R doNothing(T a1, int a2, float a3) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntFltFunction.LObjFltIntFunc) Function */
-	public static <T, R> R produce(T a1, float a3, int a2) {
+	public static <T, R> R doNothing(T a1, float a3, int a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntFltFunction.LIntObjFltFunc) Function */
-	public static <T, R> R produce(int a2, T a1, float a3) {
+	public static <T, R> R doNothing(int a2, T a1, float a3) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntFltFunction.LIntFltObjFunc) Function */
-	public static <T, R> R produce(int a2, float a3, T a1) {
+	public static <T, R> R doNothing(int a2, float a3, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntFltFunction.LFltObjIntFunc) Function */
-	public static <T, R> R produce(float a3, T a1, int a2) {
+	public static <T, R> R doNothing(float a3, T a1, int a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjIntFltFunction.LFltIntObjFunc) Function */
-	public static <T, R> R produce(float a3, int a2, T a1) {
+	public static <T, R> R doNothing(float a3, int a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

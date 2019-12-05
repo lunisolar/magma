@@ -341,10 +341,10 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolToIntFunction safe() {
-		return LBoolToIntFunction::produceInt;
+		return LBoolToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LBoolToIntFunction) Function */
-	public static int produceInt(boolean a) {
+	public static int doNothing(boolean a) {
 		return Function4U.defaultInteger;
 	}
 

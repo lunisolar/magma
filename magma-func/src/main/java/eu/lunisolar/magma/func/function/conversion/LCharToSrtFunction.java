@@ -341,10 +341,10 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharToSrtFunction safe() {
-		return LCharToSrtFunction::produceShort;
+		return LCharToSrtFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LCharToSrtFunction) Function */
-	public static short produceShort(char a) {
+	public static short doNothing(char a) {
 		return Function4U.defaultShort;
 	}
 

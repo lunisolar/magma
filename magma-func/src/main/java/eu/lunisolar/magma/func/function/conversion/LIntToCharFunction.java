@@ -341,10 +341,10 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntToCharFunction safe() {
-		return LIntToCharFunction::produceChar;
+		return LIntToCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LIntToCharFunction) Function */
-	public static char produceChar(int a) {
+	public static char doNothing(int a) {
 		return Function4U.defaultCharacter;
 	}
 

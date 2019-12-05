@@ -372,10 +372,10 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LLongFunction<R> safe() {
-		return LLongFunction::produce;
+		return LLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -517,7 +517,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** Does nothing (LLongFunction) Function */
-	public static <R> R produce(long a) {
+	public static <R> R doNothing(long a) {
 		return (R) Function4U.defaultObject;
 	}
 

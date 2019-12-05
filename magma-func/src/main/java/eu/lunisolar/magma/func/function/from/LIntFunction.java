@@ -372,10 +372,10 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LIntFunction<R> safe() {
-		return LIntFunction::produce;
+		return LIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -517,7 +517,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** Does nothing (LIntFunction) Function */
-	public static <R> R produce(int a) {
+	public static <R> R doNothing(int a) {
 		return (R) Function4U.defaultObject;
 	}
 

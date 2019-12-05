@@ -454,10 +454,10 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2, R> LBiFunction<T1, T2, R> safe() {
-		return LBiFunction::produce;
+		return LBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -621,7 +621,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	// </editor-fold>
 
 	/** Does nothing (LBiFunction) Function */
-	public static <T1, T2, R> R produce(T1 a1, T2 a2) {
+	public static <T1, T2, R> R doNothing(T1 a1, T2 a2) {
 		return (R) Function4U.defaultObject;
 	}
 

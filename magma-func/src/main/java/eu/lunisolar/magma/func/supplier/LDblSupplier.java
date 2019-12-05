@@ -340,10 +340,10 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceDouble). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LDblSupplier safe() {
-		return LDblSupplier::produceDouble;
+		return LDblSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -446,7 +446,7 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 	// </editor-fold>
 
 	/** Does nothing (LDblSupplier) Supplier */
-	public static double produceDouble() {
+	public static double doNothing() {
 		return Function4U.defaultDouble;
 	}
 

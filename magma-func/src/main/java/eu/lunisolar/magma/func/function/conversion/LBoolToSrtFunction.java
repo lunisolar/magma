@@ -341,10 +341,10 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolToSrtFunction safe() {
-		return LBoolToSrtFunction::produceShort;
+		return LBoolToSrtFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LBoolToSrtFunction) Function */
-	public static short produceShort(boolean a) {
+	public static short doNothing(boolean a) {
 		return Function4U.defaultShort;
 	}
 

@@ -356,10 +356,10 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LSupplier<T> safe() {
-		return LSupplier::produce;
+		return LSupplier::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -475,7 +475,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** Does nothing (LSupplier) Supplier */
-	public static <T> T produce() {
+	public static <T> T doNothing() {
 		return (T) Function4U.defaultObject;
 	}
 

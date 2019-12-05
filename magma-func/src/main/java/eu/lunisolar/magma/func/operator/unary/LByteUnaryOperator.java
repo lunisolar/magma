@@ -341,10 +341,10 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteUnaryOperator safe() {
-		return LByteUnaryOperator::produceByte;
+		return LByteUnaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -483,7 +483,7 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LByteUnaryOperator) Operator */
-	public static byte produceByte(byte a) {
+	public static byte doNothing(byte a) {
 		return Function4U.defaultByte;
 	}
 

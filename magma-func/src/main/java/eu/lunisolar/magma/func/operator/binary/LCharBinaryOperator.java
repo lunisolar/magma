@@ -399,10 +399,10 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LCharBinaryOperator safe() {
-		return LCharBinaryOperator::produceChar;
+		return LCharBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -529,7 +529,7 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LCharBinaryOperator) Operator */
-	public static char produceChar(char a1, char a2) {
+	public static char doNothing(char a1, char a2) {
 		return Function4U.defaultCharacter;
 	}
 

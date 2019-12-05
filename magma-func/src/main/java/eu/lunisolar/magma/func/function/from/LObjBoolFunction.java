@@ -449,10 +449,10 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T, R> LObjBoolFunction<T, R> safe() {
-		return LObjBoolFunction::produce;
+		return LObjBoolFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -579,12 +579,12 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	// </editor-fold>
 
 	/** Does nothing (LObjBoolFunction) Function */
-	public static <T, R> R produce(T a1, boolean a2) {
+	public static <T, R> R doNothing(T a1, boolean a2) {
 		return (R) Function4U.defaultObject;
 	}
 
 	/** Does nothing (LObjBoolFunction.LBoolObjFunc) Function */
-	public static <T, R> R produce(boolean a2, T a1) {
+	public static <T, R> R doNothing(boolean a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

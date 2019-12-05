@@ -447,10 +447,10 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceLong). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LOiToLongFunction<T> safe() {
-		return LOiToLongFunction::produceLong;
+		return LOiToLongFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -612,12 +612,12 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	// </editor-fold>
 
 	/** Does nothing (LOiToLongFunction) Function */
-	public static <T> long produceLong(T a1, int a2) {
+	public static <T> long doNothing(T a1, int a2) {
 		return Function4U.defaultLong;
 	}
 
 	/** Does nothing (LOiToLongFunction.LIntObjToLongFunc) Function */
-	public static <T> long produceLong(int a2, T a1) {
+	public static <T> long doNothing(int a2, T a1) {
 		return Function4U.defaultLong;
 	}
 

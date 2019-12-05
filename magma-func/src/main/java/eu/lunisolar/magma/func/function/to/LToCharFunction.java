@@ -378,10 +378,10 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LToCharFunction<T> safe() {
-		return LToCharFunction::produceChar;
+		return LToCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -499,7 +499,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LToCharFunction) Function */
-	public static <T> char produceChar(T a) {
+	public static <T> char doNothing(T a) {
 		return Function4U.defaultCharacter;
 	}
 

@@ -341,10 +341,10 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LBoolToCharFunction safe() {
-		return LBoolToCharFunction::produceChar;
+		return LBoolToCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LBoolToCharFunction) Function */
-	public static char produceChar(boolean a) {
+	public static char doNothing(boolean a) {
 		return Function4U.defaultCharacter;
 	}
 

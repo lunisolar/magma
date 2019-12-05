@@ -399,10 +399,10 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceShort). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LSrtBinaryOperator safe() {
-		return LSrtBinaryOperator::produceShort;
+		return LSrtBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -529,7 +529,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LSrtBinaryOperator) Operator */
-	public static short produceShort(short a1, short a2) {
+	public static short doNothing(short a1, short a2) {
 		return Function4U.defaultShort;
 	}
 

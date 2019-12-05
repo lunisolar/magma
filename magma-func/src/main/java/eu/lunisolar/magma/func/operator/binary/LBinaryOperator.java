@@ -427,10 +427,10 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T> LBinaryOperator<T> safe() {
-		return LBinaryOperator::produce;
+		return LBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -559,7 +559,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Does nothing (LBinaryOperator) Operator */
-	public static <T> T produce(T a1, T a2) {
+	public static <T> T doNothing(T a1, T a2) {
 		return (T) Function4U.defaultObject;
 	}
 

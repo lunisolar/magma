@@ -341,10 +341,10 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntToFltFunction safe() {
-		return LIntToFltFunction::produceFloat;
+		return LIntToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LIntToFltFunction) Function */
-	public static float produceFloat(int a) {
+	public static float doNothing(int a) {
 		return Function4U.defaultFloat;
 	}
 

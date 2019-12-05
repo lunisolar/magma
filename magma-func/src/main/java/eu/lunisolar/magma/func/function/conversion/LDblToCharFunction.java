@@ -341,10 +341,10 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceChar). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LDblToCharFunction safe() {
-		return LDblToCharFunction::produceChar;
+		return LDblToCharFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LDblToCharFunction) Function */
-	public static char produceChar(double a) {
+	public static char doNothing(double a) {
 		return Function4U.defaultCharacter;
 	}
 

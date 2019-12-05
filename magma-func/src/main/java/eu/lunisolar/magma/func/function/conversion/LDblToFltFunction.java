@@ -341,10 +341,10 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceFloat). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LDblToFltFunction safe() {
-		return LDblToFltFunction::produceFloat;
+		return LDblToFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LDblToFltFunction) Function */
-	public static float produceFloat(double a) {
+	public static float doNothing(double a) {
 		return Function4U.defaultFloat;
 	}
 

@@ -436,10 +436,10 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produce). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <R> LBiFltFunction<R> safe() {
-		return LBiFltFunction::produce;
+		return LBiFltFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -573,7 +573,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	/** Does nothing (LBiFltFunction) Function */
-	public static <R> R produce(float a1, float a2) {
+	public static <R> R doNothing(float a1, float a2) {
 		return (R) Function4U.defaultObject;
 	}
 

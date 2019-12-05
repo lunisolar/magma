@@ -341,10 +341,10 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteToIntFunction safe() {
-		return LByteToIntFunction::produceInt;
+		return LByteToIntFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LByteToIntFunction) Function */
-	public static int produceInt(byte a) {
+	public static int doNothing(byte a) {
 		return Function4U.defaultInteger;
 	}
 

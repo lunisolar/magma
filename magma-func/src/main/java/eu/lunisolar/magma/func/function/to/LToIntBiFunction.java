@@ -450,10 +450,10 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceInt). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static <T1, T2> LToIntBiFunction<T1, T2> safe() {
-		return LToIntBiFunction::produceInt;
+		return LToIntBiFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -603,7 +603,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	// </editor-fold>
 
 	/** Does nothing (LToIntBiFunction) Function */
-	public static <T1, T2> int produceInt(T1 a1, T2 a2) {
+	public static <T1, T2> int doNothing(T1 a1, T2 a2) {
 		return Function4U.defaultInteger;
 	}
 

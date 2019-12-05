@@ -341,10 +341,10 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LIntToByteFunction safe() {
-		return LIntToByteFunction::produceByte;
+		return LIntToByteFunction::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -473,7 +473,7 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	// </editor-fold>
 
 	/** Does nothing (LIntToByteFunction) Function */
-	public static byte produceByte(int a) {
+	public static byte doNothing(int a) {
 		return Function4U.defaultByte;
 	}
 

@@ -399,10 +399,10 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// <editor-fold desc="safe">
 
-	/** Safe instance. That always returns the same value (as produceByte). */
+	/** Safe instance. That always returns the same value (as doNothing). */
 	@Nonnull
 	static LByteBinaryOperator safe() {
-		return LByteBinaryOperator::produceByte;
+		return LByteBinaryOperator::doNothing;
 	}
 
 	/** Safe instance supplier. Returns supplier of safe() instance. */
@@ -529,7 +529,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	// </editor-fold>
 
 	/** Does nothing (LByteBinaryOperator) Operator */
-	public static byte produceByte(byte a1, byte a2) {
+	public static byte doNothing(byte a1, byte a2) {
 		return Function4U.defaultByte;
 	}
 
