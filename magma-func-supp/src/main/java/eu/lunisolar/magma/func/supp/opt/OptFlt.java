@@ -94,6 +94,10 @@ public final class OptFlt implements OptFltTrait<OptFlt> {
 		return new OptFlt(value);
 	}
 
+	public static OptFlt valueOf(float value) {
+		return of(value);
+	}
+
 	// </editor-fold>
 
 	public float get() {

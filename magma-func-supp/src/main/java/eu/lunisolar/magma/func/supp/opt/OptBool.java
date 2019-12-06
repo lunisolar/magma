@@ -94,6 +94,10 @@ public final class OptBool implements OptBoolTrait<OptBool> {
 		return new OptBool(value);
 	}
 
+	public static OptBool valueOf(boolean value) {
+		return of(value);
+	}
+
 	// </editor-fold>
 
 	public boolean get() {

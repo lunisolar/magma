@@ -94,6 +94,10 @@ public final class OptChar implements OptCharTrait<OptChar> {
 		return new OptChar(value);
 	}
 
+	public static OptChar valueOf(char value) {
+		return of(value);
+	}
+
 	// </editor-fold>
 
 	public char get() {

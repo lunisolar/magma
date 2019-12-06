@@ -94,6 +94,10 @@ public final class OptLong implements OptLongTrait<OptLong> {
 		return new OptLong(value);
 	}
 
+	public static OptLong valueOf(long value) {
+		return of(value);
+	}
+
 	public static OptLong toOpt(@Nonnull OptionalLong optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptLong.of(optional.getAsLong()) : empty();

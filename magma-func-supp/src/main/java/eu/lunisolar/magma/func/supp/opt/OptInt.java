@@ -94,6 +94,10 @@ public final class OptInt implements OptIntTrait<OptInt> {
 		return new OptInt(value);
 	}
 
+	public static OptInt valueOf(int value) {
+		return of(value);
+	}
+
 	public static OptInt toOpt(@Nonnull OptionalInt optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptInt.of(optional.getAsInt()) : empty();

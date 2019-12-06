@@ -94,6 +94,10 @@ public final class OptByte implements OptByteTrait<OptByte> {
 		return new OptByte(value);
 	}
 
+	public static OptByte valueOf(byte value) {
+		return of(value);
+	}
+
 	// </editor-fold>
 
 	public byte get() {

@@ -94,6 +94,10 @@ public final class OptSrt implements OptSrtTrait<OptSrt> {
 		return new OptSrt(value);
 	}
 
+	public static OptSrt valueOf(short value) {
+		return of(value);
+	}
+
 	// </editor-fold>
 
 	public short get() {

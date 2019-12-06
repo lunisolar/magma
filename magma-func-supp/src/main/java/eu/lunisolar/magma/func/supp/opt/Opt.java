@@ -101,32 +101,64 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 		return OptByte.of(value);
 	}
 
+	public static OptByte valueOf(byte value) {
+		return of(value);
+	}
+
 	public static OptSrt of(short value) {
 		return OptSrt.of(value);
+	}
+
+	public static OptSrt valueOf(short value) {
+		return of(value);
 	}
 
 	public static OptInt of(int value) {
 		return OptInt.of(value);
 	}
 
+	public static OptInt valueOf(int value) {
+		return of(value);
+	}
+
 	public static OptLong of(long value) {
 		return OptLong.of(value);
+	}
+
+	public static OptLong valueOf(long value) {
+		return of(value);
 	}
 
 	public static OptFlt of(float value) {
 		return OptFlt.of(value);
 	}
 
+	public static OptFlt valueOf(float value) {
+		return of(value);
+	}
+
 	public static OptDbl of(double value) {
 		return OptDbl.of(value);
+	}
+
+	public static OptDbl valueOf(double value) {
+		return of(value);
 	}
 
 	public static OptChar of(char value) {
 		return OptChar.of(value);
 	}
 
+	public static OptChar valueOf(char value) {
+		return of(value);
+	}
+
 	public static OptBool of(boolean value) {
 		return OptBool.of(value);
+	}
+
+	public static OptBool valueOf(boolean value) {
+		return of(value);
 	}
 
 	public static <T> Opt<T> toOpt(@Nonnull Optional<T> optional) {

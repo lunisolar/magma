@@ -94,6 +94,10 @@ public final class OptDbl implements OptDblTrait<OptDbl> {
 		return new OptDbl(value);
 	}
 
+	public static OptDbl valueOf(double value) {
+		return of(value);
+	}
+
 	public static OptDbl toOpt(@Nonnull OptionalDouble optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptDbl.of(optional.getAsDouble()) : empty();
