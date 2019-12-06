@@ -168,13 +168,8 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 
 	// </editor-fold>
 
-	public @Nonnull T get() {
-		LPredicate.throwIfNot(this, Opt::isPresent, X::noSuchElement, "No value present.");
+	public @Nullable T nullable() {
 		return value;
-	}
-
-	public final boolean isPresent() {
-		return value != null;
 	}
 
 	public final boolean isEmpty() {

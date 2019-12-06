@@ -67,6 +67,10 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 
 	int get();
 
+	default @Nullable Integer nullable() {
+		return isPresent() ? get() : null;
+	}
+
 	@Nonnull
 	default String checkTraitType() {
 		return this.getClass().getSimpleName();

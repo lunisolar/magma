@@ -67,6 +67,10 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	byte get();
 
+	default @Nullable Byte nullable() {
+		return isPresent() ? get() : null;
+	}
+
 	@Nonnull
 	default String checkTraitType() {
 		return this.getClass().getSimpleName();

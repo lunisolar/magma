@@ -67,6 +67,10 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 
 	double get();
 
+	default @Nullable Double nullable() {
+		return isPresent() ? get() : null;
+	}
+
 	@Nonnull
 	default String checkTraitType() {
 		return this.getClass().getSimpleName();

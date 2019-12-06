@@ -65,15 +65,22 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, CheckTrait<T, SELF> {
 
-	@Nullable
-	T get();
+	default @Nonnull T get() {
+		LPredicate.throwIfNot(this, OptTrait::isPresent, X::noSuchElement, "No value present.");
+		return nullable();
+	}
+
+	@Nonnull
+	T nullable();
 
 	@Nonnull
 	default String checkTraitType() {
 		return this.getClass().getSimpleName();
 	}
 
-	public boolean isPresent();
+	default boolean isPresent() {
+		return nullable() != null;
+	}
 
 	default boolean isEmpty() {
 		return !isPresent();

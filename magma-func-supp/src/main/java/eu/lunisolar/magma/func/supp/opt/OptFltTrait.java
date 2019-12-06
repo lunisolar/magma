@@ -67,6 +67,10 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 
 	float get();
 
+	default @Nullable Float nullable() {
+		return isPresent() ? get() : null;
+	}
+
 	@Nonnull
 	default String checkTraitType() {
 		return this.getClass().getSimpleName();

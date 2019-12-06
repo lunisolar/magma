@@ -28,7 +28,9 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
+import static eu.lunisolar.magma.func.asserts.FunctionalAssertions.assertSup;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 //>transform-to-MD<
 /**
@@ -51,8 +53,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Opt/OptInt/OptLong/OptDouble and other primitive examples are like extension to the Optional/OptionalInt/OptionalLong/OptionalDouble, and you can use them as
  * 'optional' response. But it is actually impossible to extent the JRE classes. Optional classes from this library aims to provide:
  *
- *  - more possibility for cases where simply referencing existing method (that can be provided by editor completion).
- *  - that means more possibility to build 'sentences' that actually tell what happens.
+ * - more possibility for cases where simply referencing existing method (that can be provided by editor completion).
+ * - that means more possibility to build 'sentences' that actually tell what happens.
  *
  * ### Examples
  */
@@ -104,7 +106,7 @@ public class Example_Opt_Test {
     //>example<
 
     /**
-     * Here is example of `is` alternative to `filter` methods along with a `must` check.  
+     * Here is example of `is` alternative to `filter` methods along with a `must` check.
      */
     //>example<
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Opt \\[\\?\\]: must be 99.")
@@ -122,9 +124,9 @@ public class Example_Opt_Test {
 
     /**
      * For the new types of methods following is true in regards to the `empty` value:
-     * 
-     *  - `is` evaluates always false (no predicate is true).
-     *  - `must`/`mustNot` will always throw exception that there is no value present (the predicate cannot be asserted)
+     *
+     * - `is` evaluates always false (no predicate is true).
+     * - `must`/`mustNot` will always throw exception that there is no value present (the predicate cannot be asserted)
      */
     //>example<
     @Test
@@ -141,6 +143,42 @@ public class Example_Opt_Test {
         ooo.must(Be::equal, 99, "must be 99");
     }
     //>example<
+
+    @Test
+    public void get_value_nullable() {
+        Opt<String> opt = Opt.of(null);
+
+        // testing value against ANY predicate is impossible.
+        assertThatThrownBy(() -> opt.must(Be::Null, "must be null!"))
+                .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
+
+        // that's part of Optional 'contract'
+        assertSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+
+        // that's part of Opt 'contract'
+        assertThat(opt.nullable()).isNull();
+
+        // that's part of Opt/Check 'contract'
+        assertSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+    }
+
+    @Test
+    public void get_value_nullable_int() {
+        OptInt opt = OptInt.empty();
+
+        // testing value against ANY predicate is impossible.
+        assertThatThrownBy(() -> opt.must(Be::Null, "must be null!"))
+                .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
+
+        // that's part of Optional 'contract'
+        assertSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+
+        // that's part of Opt 'contract'
+        assertThat(opt.nullable()).isNull();
+
+        // that's part of Opt/Check 'contract'
+        assertSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+    }
 
     static {
         Opt<Integer> ooo = Opt.obj(5);

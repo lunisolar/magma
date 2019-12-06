@@ -67,6 +67,10 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 
 	char get();
 
+	default @Nullable Character nullable() {
+		return isPresent() ? get() : null;
+	}
+
 	@Nonnull
 	default String checkTraitType() {
 		return this.getClass().getSimpleName();
