@@ -23,9 +23,9 @@ import eu.lunisolar.magma.basics.meta.SelfReferencing;
 import java.util.function.*;
 
 public interface Fluent<SELF extends Fluent<SELF>> extends SelfReferencing<SELF> {
-
+        
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default <T> SELF fluentInterjection(T ctx, Consumer<SELF> injection) {
+    default <T> SELF fluentInterjection(Consumer<SELF> injection) {
         final SELF self = self();
         injection.accept(self);
         return self;
