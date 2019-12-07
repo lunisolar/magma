@@ -284,7 +284,7 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return func;
 	}
 
-	final class LCharSupplierSingle implements LSingle<LCharSupplier>, LCharSupplier {
+	final class LCharSupplierSingle implements LCharSupplier {
 		private LCharSupplier target = null;
 
 		@Override
@@ -292,10 +292,6 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 			return target.getAsCharX();
 		}
 
-		@Override
-		public LCharSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

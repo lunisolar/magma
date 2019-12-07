@@ -393,7 +393,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return func;
 	}
 
-	final class LToIntBiFunctionSingle<T1, T2> implements LSingle<LToIntBiFunction<T1, T2>>, LToIntBiFunction<T1, T2> {
+	final class LToIntBiFunctionSingle<T1, T2> implements LToIntBiFunction<T1, T2> {
 		private LToIntBiFunction<T1, T2> target = null;
 
 		@Override
@@ -401,10 +401,6 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 			return target.applyAsIntX(a1, a2);
 		}
 
-		@Override
-		public LToIntBiFunction<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

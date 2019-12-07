@@ -300,7 +300,7 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LCharToDblFunctionSingle implements LSingle<LCharToDblFunction>, LCharToDblFunction {
+	final class LCharToDblFunctionSingle implements LCharToDblFunction {
 		private LCharToDblFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsDblX(a);
 		}
 
-		@Override
-		public LCharToDblFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

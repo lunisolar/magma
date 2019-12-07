@@ -276,7 +276,7 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return func;
 	}
 
-	final class LBoolConsumerSingle implements LSingle<LBoolConsumer>, LBoolConsumer {
+	final class LBoolConsumerSingle implements LBoolConsumer {
 		private LBoolConsumer target = null;
 
 		@Override
@@ -284,10 +284,6 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 			target.acceptX(a);
 		}
 
-		@Override
-		public LBoolConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -395,7 +395,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func;
 	}
 
-	final class LOiToLongFunctionSingle<T> implements LSingle<LOiToLongFunction<T>>, LOiToLongFunction<T> {
+	final class LOiToLongFunctionSingle<T> implements LOiToLongFunction<T> {
 		private LOiToLongFunction<T> target = null;
 
 		@Override
@@ -403,10 +403,6 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 			return target.applyAsLongX(a1, a2);
 		}
 
-		@Override
-		public LOiToLongFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

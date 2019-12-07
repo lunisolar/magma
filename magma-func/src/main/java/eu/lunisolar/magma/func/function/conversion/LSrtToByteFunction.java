@@ -300,7 +300,7 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LSrtToByteFunctionSingle implements LSingle<LSrtToByteFunction>, LSrtToByteFunction {
+	final class LSrtToByteFunctionSingle implements LSrtToByteFunction {
 		private LSrtToByteFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LSrtToByteFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

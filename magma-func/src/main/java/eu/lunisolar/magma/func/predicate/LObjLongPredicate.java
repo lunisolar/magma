@@ -547,7 +547,7 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return func;
 	}
 
-	final class LObjLongPredicateSingle<T> implements LSingle<LObjLongPredicate<T>>, LObjLongPredicate<T> {
+	final class LObjLongPredicateSingle<T> implements LObjLongPredicate<T> {
 		private LObjLongPredicate<T> target = null;
 
 		@Override
@@ -555,10 +555,6 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LObjLongPredicate<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

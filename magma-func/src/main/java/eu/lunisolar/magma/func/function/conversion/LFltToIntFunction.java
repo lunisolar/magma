@@ -300,7 +300,7 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LFltToIntFunctionSingle implements LSingle<LFltToIntFunction>, LFltToIntFunction {
+	final class LFltToIntFunctionSingle implements LFltToIntFunction {
 		private LFltToIntFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsIntX(a);
 		}
 
-		@Override
-		public LFltToIntFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

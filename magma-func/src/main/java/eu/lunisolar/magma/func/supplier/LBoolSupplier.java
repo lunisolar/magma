@@ -326,7 +326,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return func;
 	}
 
-	final class LBoolSupplierSingle implements LSingle<LBoolSupplier>, LBoolSupplier {
+	final class LBoolSupplierSingle implements LBoolSupplier {
 		private LBoolSupplier target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 			return target.getAsBoolX();
 		}
 
-		@Override
-		public LBoolSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

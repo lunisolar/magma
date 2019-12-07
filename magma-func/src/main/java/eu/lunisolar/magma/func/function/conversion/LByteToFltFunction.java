@@ -300,7 +300,7 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LByteToFltFunctionSingle implements LSingle<LByteToFltFunction>, LByteToFltFunction {
+	final class LByteToFltFunctionSingle implements LByteToFltFunction {
 		private LByteToFltFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsFltX(a);
 		}
 
-		@Override
-		public LByteToFltFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

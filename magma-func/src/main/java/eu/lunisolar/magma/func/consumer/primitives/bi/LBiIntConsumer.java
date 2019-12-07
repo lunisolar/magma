@@ -334,7 +334,7 @@ public interface LBiIntConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		return func;
 	}
 
-	final class LBiIntConsumerSingle implements LSingle<LBiIntConsumer>, LBiIntConsumer {
+	final class LBiIntConsumerSingle implements LBiIntConsumer {
 		private LBiIntConsumer target = null;
 
 		@Override
@@ -342,10 +342,6 @@ public interface LBiIntConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LBiIntConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

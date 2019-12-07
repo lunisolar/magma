@@ -341,7 +341,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return func;
 	}
 
-	final class LFunctionSingle<T, R> implements LSingle<LFunction<T, R>>, LFunction<T, R> {
+	final class LFunctionSingle<T, R> implements LFunction<T, R> {
 		private LFunction<T, R> target = null;
 
 		@Override
@@ -349,10 +349,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 			return target.applyX(a);
 		}
 
-		@Override
-		public LFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

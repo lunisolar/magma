@@ -358,7 +358,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 		return func;
 	}
 
-	final class LObjDblConsumerSingle<T> implements LSingle<LObjDblConsumer<T>>, LObjDblConsumer<T> {
+	final class LObjDblConsumerSingle<T> implements LObjDblConsumer<T> {
 		private LObjDblConsumer<T> target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LObjDblConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

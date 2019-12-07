@@ -403,7 +403,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return func;
 	}
 
-	final class LToDblBiFunctionSingle<T1, T2> implements LSingle<LToDblBiFunction<T1, T2>>, LToDblBiFunction<T1, T2> {
+	final class LToDblBiFunctionSingle<T1, T2> implements LToDblBiFunction<T1, T2> {
 		private LToDblBiFunction<T1, T2> target = null;
 
 		@Override
@@ -411,10 +411,6 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 			return target.applyAsDblX(a1, a2);
 		}
 
-		@Override
-		public LToDblBiFunction<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

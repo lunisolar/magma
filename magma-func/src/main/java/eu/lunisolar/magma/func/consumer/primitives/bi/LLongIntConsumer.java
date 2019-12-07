@@ -334,7 +334,7 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func;
 	}
 
-	final class LLongIntConsumerSingle implements LSingle<LLongIntConsumer>, LLongIntConsumer {
+	final class LLongIntConsumerSingle implements LLongIntConsumer {
 		private LLongIntConsumer target = null;
 
 		@Override
@@ -342,10 +342,6 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LLongIntConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

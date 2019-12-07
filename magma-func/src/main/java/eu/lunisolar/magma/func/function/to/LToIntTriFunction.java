@@ -399,7 +399,7 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return func;
 	}
 
-	final class LToIntTriFunctionSingle<T1, T2, T3> implements LSingle<LToIntTriFunction<T1, T2, T3>>, LToIntTriFunction<T1, T2, T3> {
+	final class LToIntTriFunctionSingle<T1, T2, T3> implements LToIntTriFunction<T1, T2, T3> {
 		private LToIntTriFunction<T1, T2, T3> target = null;
 
 		@Override
@@ -407,10 +407,6 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 			return target.applyAsIntX(a1, a2, a3);
 		}
 
-		@Override
-		public LToIntTriFunction<T1, T2, T3> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

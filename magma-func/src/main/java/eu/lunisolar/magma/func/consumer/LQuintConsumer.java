@@ -374,7 +374,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return func;
 	}
 
-	final class LQuintConsumerSingle<T1, T2, T3, T4, T5> implements LSingle<LQuintConsumer<T1, T2, T3, T4, T5>>, LQuintConsumer<T1, T2, T3, T4, T5> {
+	final class LQuintConsumerSingle<T1, T2, T3, T4, T5> implements LQuintConsumer<T1, T2, T3, T4, T5> {
 		private LQuintConsumer<T1, T2, T3, T4, T5> target = null;
 
 		@Override
@@ -382,10 +382,6 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 			target.acceptX(a1, a2, a3, a4, a5);
 		}
 
-		@Override
-		public LQuintConsumer<T1, T2, T3, T4, T5> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -337,7 +337,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return func;
 	}
 
-	final class LToLongFunctionSingle<T> implements LSingle<LToLongFunction<T>>, LToLongFunction<T> {
+	final class LToLongFunctionSingle<T> implements LToLongFunction<T> {
 		private LToLongFunction<T> target = null;
 
 		@Override
@@ -345,10 +345,6 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 			return target.applyAsLongX(a);
 		}
 
-		@Override
-		public LToLongFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

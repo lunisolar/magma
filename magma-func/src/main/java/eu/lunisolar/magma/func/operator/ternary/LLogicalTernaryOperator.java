@@ -507,7 +507,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return func;
 	}
 
-	final class LLogicalTernaryOperatorSingle implements LSingle<LLogicalTernaryOperator>, LLogicalTernaryOperator {
+	final class LLogicalTernaryOperatorSingle implements LLogicalTernaryOperator {
 		private LLogicalTernaryOperator target = null;
 
 		@Override
@@ -515,10 +515,6 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LLogicalTernaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

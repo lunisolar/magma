@@ -358,7 +358,7 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LFltBinaryOperatorSingle implements LSingle<LFltBinaryOperator>, LFltBinaryOperator {
+	final class LFltBinaryOperatorSingle implements LFltBinaryOperator {
 		private LFltBinaryOperator target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return target.applyAsFltX(a1, a2);
 		}
 
-		@Override
-		public LFltBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

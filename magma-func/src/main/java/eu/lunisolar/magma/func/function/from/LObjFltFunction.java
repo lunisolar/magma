@@ -397,7 +397,7 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return func;
 	}
 
-	final class LObjFltFunctionSingle<T, R> implements LSingle<LObjFltFunction<T, R>>, LObjFltFunction<T, R> {
+	final class LObjFltFunctionSingle<T, R> implements LObjFltFunction<T, R> {
 		private LObjFltFunction<T, R> target = null;
 
 		@Override
@@ -405,10 +405,6 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LObjFltFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

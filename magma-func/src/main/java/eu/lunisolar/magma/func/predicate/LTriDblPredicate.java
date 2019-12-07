@@ -508,7 +508,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LTriDblPredicateSingle implements LSingle<LTriDblPredicate>, LTriDblPredicate {
+	final class LTriDblPredicateSingle implements LTriDblPredicate {
 		private LTriDblPredicate target = null;
 
 		@Override
@@ -516,10 +516,6 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 			return target.testX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriDblPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

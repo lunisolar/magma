@@ -340,7 +340,7 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func;
 	}
 
-	final class LTriCharConsumerSingle implements LSingle<LTriCharConsumer>, LTriCharConsumer {
+	final class LTriCharConsumerSingle implements LTriCharConsumer {
 		private LTriCharConsumer target = null;
 
 		@Override
@@ -348,10 +348,6 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 			target.acceptX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriCharConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

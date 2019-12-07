@@ -393,7 +393,7 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return func;
 	}
 
-	final class LToFltBiFunctionSingle<T1, T2> implements LSingle<LToFltBiFunction<T1, T2>>, LToFltBiFunction<T1, T2> {
+	final class LToFltBiFunctionSingle<T1, T2> implements LToFltBiFunction<T1, T2> {
 		private LToFltBiFunction<T1, T2> target = null;
 
 		@Override
@@ -401,10 +401,6 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 			return target.applyAsFltX(a1, a2);
 		}
 
-		@Override
-		public LToFltBiFunction<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

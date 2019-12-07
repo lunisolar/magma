@@ -310,7 +310,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return func;
 	}
 
-	final class LSupplierSingle<T> implements LSingle<LSupplier<T>>, LSupplier<T> {
+	final class LSupplierSingle<T> implements LSupplier<T> {
 		private LSupplier<T> target = null;
 
 		@Override
@@ -318,10 +318,6 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 			return target.getX();
 		}
 
-		@Override
-		public LSupplier<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -326,7 +326,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return func;
 	}
 
-	final class LByteFunctionSingle<R> implements LSingle<LByteFunction<R>>, LByteFunction<R> {
+	final class LByteFunctionSingle<R> implements LByteFunction<R> {
 		private LByteFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 			return target.applyX(a);
 		}
 
-		@Override
-		public LByteFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

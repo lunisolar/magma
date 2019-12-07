@@ -395,7 +395,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LOiToDblFunctionSingle<T> implements LSingle<LOiToDblFunction<T>>, LOiToDblFunction<T> {
+	final class LOiToDblFunctionSingle<T> implements LOiToDblFunction<T> {
 		private LOiToDblFunction<T> target = null;
 
 		@Override
@@ -403,10 +403,6 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsDblX(a1, a2);
 		}
 
-		@Override
-		public LOiToDblFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

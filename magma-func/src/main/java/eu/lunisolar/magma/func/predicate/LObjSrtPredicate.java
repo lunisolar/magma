@@ -547,7 +547,7 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return func;
 	}
 
-	final class LObjSrtPredicateSingle<T> implements LSingle<LObjSrtPredicate<T>>, LObjSrtPredicate<T> {
+	final class LObjSrtPredicateSingle<T> implements LObjSrtPredicate<T> {
 		private LObjSrtPredicate<T> target = null;
 
 		@Override
@@ -555,10 +555,6 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LObjSrtPredicate<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

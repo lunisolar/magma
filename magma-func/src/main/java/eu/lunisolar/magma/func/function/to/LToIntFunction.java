@@ -337,7 +337,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return func;
 	}
 
-	final class LToIntFunctionSingle<T> implements LSingle<LToIntFunction<T>>, LToIntFunction<T> {
+	final class LToIntFunctionSingle<T> implements LToIntFunction<T> {
 		private LToIntFunction<T> target = null;
 
 		@Override
@@ -345,10 +345,6 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 			return target.applyAsIntX(a);
 		}
 
-		@Override
-		public LToIntFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -358,7 +358,7 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		return func;
 	}
 
-	final class LIntBinaryOperatorSingle implements LSingle<LIntBinaryOperator>, LIntBinaryOperator {
+	final class LIntBinaryOperatorSingle implements LIntBinaryOperator {
 		private LIntBinaryOperator target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 			return target.applyAsIntX(a1, a2);
 		}
 
-		@Override
-		public LIntBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

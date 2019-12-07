@@ -384,7 +384,7 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LBiBoolFunctionSingle<R> implements LSingle<LBiBoolFunction<R>>, LBiBoolFunction<R> {
+	final class LBiBoolFunctionSingle<R> implements LBiBoolFunction<R> {
 		private LBiBoolFunction<R> target = null;
 
 		@Override
@@ -392,10 +392,6 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LBiBoolFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

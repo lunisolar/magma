@@ -543,7 +543,7 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return func;
 	}
 
-	final class LBiObjLongPredicateSingle<T1, T2> implements LSingle<LBiObjLongPredicate<T1, T2>>, LBiObjLongPredicate<T1, T2> {
+	final class LBiObjLongPredicateSingle<T1, T2> implements LBiObjLongPredicate<T1, T2> {
 		private LBiObjLongPredicate<T1, T2> target = null;
 
 		@Override
@@ -551,10 +551,6 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 			return target.testX(a1, a2, a3);
 		}
 
-		@Override
-		public LBiObjLongPredicate<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

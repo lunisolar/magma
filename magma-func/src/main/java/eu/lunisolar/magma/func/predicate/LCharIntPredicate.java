@@ -521,7 +521,7 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LCharIntPredicateSingle implements LSingle<LCharIntPredicate>, LCharIntPredicate {
+	final class LCharIntPredicateSingle implements LCharIntPredicate {
 		private LCharIntPredicate target = null;
 
 		@Override
@@ -529,10 +529,6 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LCharIntPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

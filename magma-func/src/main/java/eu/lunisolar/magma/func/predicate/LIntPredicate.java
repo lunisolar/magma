@@ -429,7 +429,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		return func;
 	}
 
-	final class LIntPredicateSingle implements LSingle<LIntPredicate>, LIntPredicate {
+	final class LIntPredicateSingle implements LIntPredicate {
 		private LIntPredicate target = null;
 
 		@Override
@@ -437,10 +437,6 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 			return target.testX(a);
 		}
 
-		@Override
-		public LIntPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

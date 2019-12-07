@@ -358,7 +358,7 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LCharBinaryOperatorSingle implements LSingle<LCharBinaryOperator>, LCharBinaryOperator {
+	final class LCharBinaryOperatorSingle implements LCharBinaryOperator {
 		private LCharBinaryOperator target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 			return target.applyAsCharX(a1, a2);
 		}
 
-		@Override
-		public LCharBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

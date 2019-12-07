@@ -399,7 +399,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LOiFunctionSingle<T, R> implements LSingle<LOiFunction<T, R>>, LOiFunction<T, R> {
+	final class LOiFunctionSingle<T, R> implements LOiFunction<T, R> {
 		private LOiFunction<T, R> target = null;
 
 		@Override
@@ -407,10 +407,6 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LOiFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -337,7 +337,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LToSrtFunctionSingle<T> implements LSingle<LToSrtFunction<T>>, LToSrtFunction<T> {
+	final class LToSrtFunctionSingle<T> implements LToSrtFunction<T> {
 		private LToSrtFunction<T> target = null;
 
 		@Override
@@ -345,10 +345,6 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsSrtX(a);
 		}
 
-		@Override
-		public LToSrtFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

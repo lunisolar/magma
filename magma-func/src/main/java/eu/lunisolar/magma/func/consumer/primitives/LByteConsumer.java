@@ -276,7 +276,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return func;
 	}
 
-	final class LByteConsumerSingle implements LSingle<LByteConsumer>, LByteConsumer {
+	final class LByteConsumerSingle implements LByteConsumer {
 		private LByteConsumer target = null;
 
 		@Override
@@ -284,10 +284,6 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 			target.acceptX(a);
 		}
 
-		@Override
-		public LByteConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

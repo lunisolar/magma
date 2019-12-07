@@ -326,7 +326,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return func;
 	}
 
-	final class LSrtFunctionSingle<R> implements LSingle<LSrtFunction<R>>, LSrtFunction<R> {
+	final class LSrtFunctionSingle<R> implements LSrtFunction<R> {
 		private LSrtFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 			return target.applyX(a);
 		}
 
-		@Override
-		public LSrtFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

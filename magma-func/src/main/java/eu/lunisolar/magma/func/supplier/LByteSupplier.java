@@ -284,7 +284,7 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return func;
 	}
 
-	final class LByteSupplierSingle implements LSingle<LByteSupplier>, LByteSupplier {
+	final class LByteSupplierSingle implements LByteSupplier {
 		private LByteSupplier target = null;
 
 		@Override
@@ -292,10 +292,6 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 			return target.getAsByteX();
 		}
 
-		@Override
-		public LByteSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

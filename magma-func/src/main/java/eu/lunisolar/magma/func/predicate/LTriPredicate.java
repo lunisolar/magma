@@ -553,7 +553,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return func;
 	}
 
-	final class LTriPredicateSingle<T1, T2, T3> implements LSingle<LTriPredicate<T1, T2, T3>>, LTriPredicate<T1, T2, T3> {
+	final class LTriPredicateSingle<T1, T2, T3> implements LTriPredicate<T1, T2, T3> {
 		private LTriPredicate<T1, T2, T3> target = null;
 
 		@Override
@@ -561,10 +561,6 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 			return target.testX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriPredicate<T1, T2, T3> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -300,7 +300,7 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LLongToByteFunctionSingle implements LSingle<LLongToByteFunction>, LLongToByteFunction {
+	final class LLongToByteFunctionSingle implements LLongToByteFunction {
 		private LLongToByteFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LLongToByteFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

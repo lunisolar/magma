@@ -284,7 +284,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func;
 	}
 
-	final class LSrtSupplierSingle implements LSingle<LSrtSupplier>, LSrtSupplier {
+	final class LSrtSupplierSingle implements LSrtSupplier {
 		private LSrtSupplier target = null;
 
 		@Override
@@ -292,10 +292,6 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 			return target.getAsSrtX();
 		}
 
-		@Override
-		public LSrtSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

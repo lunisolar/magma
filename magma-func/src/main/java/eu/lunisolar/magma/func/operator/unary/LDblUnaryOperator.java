@@ -310,7 +310,7 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		return func;
 	}
 
-	final class LDblUnaryOperatorSingle implements LSingle<LDblUnaryOperator>, LDblUnaryOperator {
+	final class LDblUnaryOperatorSingle implements LDblUnaryOperator {
 		private LDblUnaryOperator target = null;
 
 		@Override
@@ -318,10 +318,6 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 			return target.applyAsDblX(a);
 		}
 
-		@Override
-		public LDblUnaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

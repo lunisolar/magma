@@ -337,7 +337,7 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LToByteFunctionSingle<T> implements LSingle<LToByteFunction<T>>, LToByteFunction<T> {
+	final class LToByteFunctionSingle<T> implements LToByteFunction<T> {
 		private LToByteFunction<T> target = null;
 
 		@Override
@@ -345,10 +345,6 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LToByteFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

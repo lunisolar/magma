@@ -409,7 +409,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return func;
 	}
 
-	final class LQuadFunctionSingle<T1, T2, T3, T4, R> implements LSingle<LQuadFunction<T1, T2, T3, T4, R>>, LQuadFunction<T1, T2, T3, T4, R> {
+	final class LQuadFunctionSingle<T1, T2, T3, T4, R> implements LQuadFunction<T1, T2, T3, T4, R> {
 		private LQuadFunction<T1, T2, T3, T4, R> target = null;
 
 		@Override
@@ -417,10 +417,6 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 			return target.applyX(a1, a2, a3, a4);
 		}
 
-		@Override
-		public LQuadFunction<T1, T2, T3, T4, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

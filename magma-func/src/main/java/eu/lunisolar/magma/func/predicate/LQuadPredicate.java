@@ -559,7 +559,7 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return func;
 	}
 
-	final class LQuadPredicateSingle<T1, T2, T3, T4> implements LSingle<LQuadPredicate<T1, T2, T3, T4>>, LQuadPredicate<T1, T2, T3, T4> {
+	final class LQuadPredicateSingle<T1, T2, T3, T4> implements LQuadPredicate<T1, T2, T3, T4> {
 		private LQuadPredicate<T1, T2, T3, T4> target = null;
 
 		@Override
@@ -567,10 +567,6 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 			return target.testX(a1, a2, a3, a4);
 		}
 
-		@Override
-		public LQuadPredicate<T1, T2, T3, T4> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

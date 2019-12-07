@@ -300,7 +300,7 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LBoolToIntFunctionSingle implements LSingle<LBoolToIntFunction>, LBoolToIntFunction {
+	final class LBoolToIntFunctionSingle implements LBoolToIntFunction {
 		private LBoolToIntFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsIntX(a);
 		}
 
-		@Override
-		public LBoolToIntFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

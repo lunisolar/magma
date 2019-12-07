@@ -326,7 +326,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		return func;
 	}
 
-	final class LIntFunctionSingle<R> implements LSingle<LIntFunction<R>>, LIntFunction<R> {
+	final class LIntFunctionSingle<R> implements LIntFunction<R> {
 		private LIntFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 			return target.applyX(a);
 		}
 
-		@Override
-		public LIntFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

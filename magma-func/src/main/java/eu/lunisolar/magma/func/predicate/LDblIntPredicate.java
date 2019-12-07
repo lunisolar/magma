@@ -521,7 +521,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LDblIntPredicateSingle implements LSingle<LDblIntPredicate>, LDblIntPredicate {
+	final class LDblIntPredicateSingle implements LDblIntPredicate {
 		private LDblIntPredicate target = null;
 
 		@Override
@@ -529,10 +529,6 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LDblIntPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

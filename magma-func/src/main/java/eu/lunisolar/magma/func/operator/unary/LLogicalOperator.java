@@ -418,7 +418,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return func;
 	}
 
-	final class LLogicalOperatorSingle implements LSingle<LLogicalOperator>, LLogicalOperator {
+	final class LLogicalOperatorSingle implements LLogicalOperator {
 		private LLogicalOperator target = null;
 
 		@Override
@@ -426,10 +426,6 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 			return target.applyX(a);
 		}
 
-		@Override
-		public LLogicalOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

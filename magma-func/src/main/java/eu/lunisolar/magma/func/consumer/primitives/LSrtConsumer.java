@@ -276,7 +276,7 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return func;
 	}
 
-	final class LSrtConsumerSingle implements LSingle<LSrtConsumer>, LSrtConsumer {
+	final class LSrtConsumerSingle implements LSrtConsumer {
 		private LSrtConsumer target = null;
 
 		@Override
@@ -284,10 +284,6 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 			target.acceptX(a);
 		}
 
-		@Override
-		public LSrtConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

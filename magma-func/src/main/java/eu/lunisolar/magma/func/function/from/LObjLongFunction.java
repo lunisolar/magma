@@ -397,7 +397,7 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return func;
 	}
 
-	final class LObjLongFunctionSingle<T, R> implements LSingle<LObjLongFunction<T, R>>, LObjLongFunction<T, R> {
+	final class LObjLongFunctionSingle<T, R> implements LObjLongFunction<T, R> {
 		private LObjLongFunction<T, R> target = null;
 
 		@Override
@@ -405,10 +405,6 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LObjLongFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -300,7 +300,7 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LCharToSrtFunctionSingle implements LSingle<LCharToSrtFunction>, LCharToSrtFunction {
+	final class LCharToSrtFunctionSingle implements LCharToSrtFunction {
 		private LCharToSrtFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsSrtX(a);
 		}
 
-		@Override
-		public LCharToSrtFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

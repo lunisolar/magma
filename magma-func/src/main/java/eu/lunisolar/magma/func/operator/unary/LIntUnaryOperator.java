@@ -300,7 +300,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		return func;
 	}
 
-	final class LIntUnaryOperatorSingle implements LSingle<LIntUnaryOperator>, LIntUnaryOperator {
+	final class LIntUnaryOperatorSingle implements LIntUnaryOperator {
 		private LIntUnaryOperator target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 			return target.applyAsIntX(a);
 		}
 
-		@Override
-		public LIntUnaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

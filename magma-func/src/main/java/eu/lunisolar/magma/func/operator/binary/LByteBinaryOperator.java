@@ -358,7 +358,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LByteBinaryOperatorSingle implements LSingle<LByteBinaryOperator>, LByteBinaryOperator {
+	final class LByteBinaryOperatorSingle implements LByteBinaryOperator {
 		private LByteBinaryOperator target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 			return target.applyAsByteX(a1, a2);
 		}
 
-		@Override
-		public LByteBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

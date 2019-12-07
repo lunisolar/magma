@@ -387,7 +387,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTernaryOperatorSingle<T> implements LSingle<LTernaryOperator<T>>, LTernaryOperator<T> {
+	final class LTernaryOperatorSingle<T> implements LTernaryOperator<T> {
 		private LTernaryOperator<T> target = null;
 
 		@Override
@@ -395,10 +395,6 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LTernaryOperator<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

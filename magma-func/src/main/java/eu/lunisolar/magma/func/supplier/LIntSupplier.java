@@ -284,7 +284,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		return func;
 	}
 
-	final class LIntSupplierSingle implements LSingle<LIntSupplier>, LIntSupplier {
+	final class LIntSupplierSingle implements LIntSupplier {
 		private LIntSupplier target = null;
 
 		@Override
@@ -292,10 +292,6 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 			return target.getAsIntX();
 		}
 
-		@Override
-		public LIntSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

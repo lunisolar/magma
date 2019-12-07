@@ -300,7 +300,7 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LLongToCharFunctionSingle implements LSingle<LLongToCharFunction>, LLongToCharFunction {
+	final class LLongToCharFunctionSingle implements LLongToCharFunction {
 		private LLongToCharFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LLongToCharFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -390,7 +390,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTriBoolFunctionSingle<R> implements LSingle<LTriBoolFunction<R>>, LTriBoolFunction<R> {
+	final class LTriBoolFunctionSingle<R> implements LTriBoolFunction<R> {
 		private LTriBoolFunction<R> target = null;
 
 		@Override
@@ -398,10 +398,6 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriBoolFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -403,7 +403,7 @@ public interface LBiObjByteFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return func;
 	}
 
-	final class LBiObjByteFunctionSingle<T1, T2, R> implements LSingle<LBiObjByteFunction<T1, T2, R>>, LBiObjByteFunction<T1, T2, R> {
+	final class LBiObjByteFunctionSingle<T1, T2, R> implements LBiObjByteFunction<T1, T2, R> {
 		private LBiObjByteFunction<T1, T2, R> target = null;
 
 		@Override
@@ -411,10 +411,6 @@ public interface LBiObjByteFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LBiObjByteFunction<T1, T2, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

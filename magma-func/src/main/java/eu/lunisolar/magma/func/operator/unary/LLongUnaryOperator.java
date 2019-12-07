@@ -300,7 +300,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		return func;
 	}
 
-	final class LLongUnaryOperatorSingle implements LSingle<LLongUnaryOperator>, LLongUnaryOperator {
+	final class LLongUnaryOperatorSingle implements LLongUnaryOperator {
 		private LLongUnaryOperator target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 			return target.applyAsLongX(a);
 		}
 
-		@Override
-		public LLongUnaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

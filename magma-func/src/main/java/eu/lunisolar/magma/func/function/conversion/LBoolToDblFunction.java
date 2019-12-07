@@ -300,7 +300,7 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LBoolToDblFunctionSingle implements LSingle<LBoolToDblFunction>, LBoolToDblFunction {
+	final class LBoolToDblFunctionSingle implements LBoolToDblFunction {
 		private LBoolToDblFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsDblX(a);
 		}
 
-		@Override
-		public LBoolToDblFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

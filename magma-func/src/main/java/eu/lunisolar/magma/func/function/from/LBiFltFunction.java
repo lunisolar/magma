@@ -384,7 +384,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LBiFltFunctionSingle<R> implements LSingle<LBiFltFunction<R>>, LBiFltFunction<R> {
+	final class LBiFltFunctionSingle<R> implements LBiFltFunction<R> {
 		private LBiFltFunction<R> target = null;
 
 		@Override
@@ -392,10 +392,6 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LBiFltFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

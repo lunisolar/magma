@@ -381,7 +381,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTieLongFunctionSingle<T> implements LSingle<LTieLongFunction<T>>, LTieLongFunction<T> {
+	final class LTieLongFunctionSingle<T> implements LTieLongFunction<T> {
 		private LTieLongFunction<T> target = null;
 
 		@Override
@@ -389,10 +389,6 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsIntX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieLongFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

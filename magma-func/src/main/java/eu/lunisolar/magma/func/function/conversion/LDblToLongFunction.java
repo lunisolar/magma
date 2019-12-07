@@ -300,7 +300,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		return func;
 	}
 
-	final class LDblToLongFunctionSingle implements LSingle<LDblToLongFunction>, LDblToLongFunction {
+	final class LDblToLongFunctionSingle implements LDblToLongFunction {
 		private LDblToLongFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 			return target.applyAsLongX(a);
 		}
 
-		@Override
-		public LDblToLongFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

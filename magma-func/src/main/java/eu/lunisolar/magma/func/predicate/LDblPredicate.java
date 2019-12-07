@@ -419,7 +419,7 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return func;
 	}
 
-	final class LDblPredicateSingle implements LSingle<LDblPredicate>, LDblPredicate {
+	final class LDblPredicateSingle implements LDblPredicate {
 		private LDblPredicate target = null;
 
 		@Override
@@ -427,10 +427,6 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 			return target.testX(a);
 		}
 
-		@Override
-		public LDblPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

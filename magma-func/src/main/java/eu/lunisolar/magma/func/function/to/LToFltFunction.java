@@ -337,7 +337,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LToFltFunctionSingle<T> implements LSingle<LToFltFunction<T>>, LToFltFunction<T> {
+	final class LToFltFunctionSingle<T> implements LToFltFunction<T> {
 		private LToFltFunction<T> target = null;
 
 		@Override
@@ -345,10 +345,6 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsFltX(a);
 		}
 
-		@Override
-		public LToFltFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

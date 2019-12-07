@@ -300,7 +300,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LDblToByteFunctionSingle implements LSingle<LDblToByteFunction>, LDblToByteFunction {
+	final class LDblToByteFunctionSingle implements LDblToByteFunction {
 		private LDblToByteFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LDblToByteFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

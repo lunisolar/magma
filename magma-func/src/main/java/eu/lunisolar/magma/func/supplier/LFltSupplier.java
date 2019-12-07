@@ -284,7 +284,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func;
 	}
 
-	final class LFltSupplierSingle implements LSingle<LFltSupplier>, LFltSupplier {
+	final class LFltSupplierSingle implements LFltSupplier {
 		private LFltSupplier target = null;
 
 		@Override
@@ -292,10 +292,6 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 			return target.getAsFltX();
 		}
 
-		@Override
-		public LFltSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -381,7 +381,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return func;
 	}
 
-	final class LBinaryOperatorSingle<T> implements LSingle<LBinaryOperator<T>>, LBinaryOperator<T> {
+	final class LBinaryOperatorSingle<T> implements LBinaryOperator<T> {
 		private LBinaryOperator<T> target = null;
 
 		@Override
@@ -389,10 +389,6 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LBinaryOperator<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

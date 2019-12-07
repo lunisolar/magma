@@ -403,7 +403,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return func;
 	}
 
-	final class LTriFunctionSingle<T1, T2, T3, R> implements LSingle<LTriFunction<T1, T2, T3, R>>, LTriFunction<T1, T2, T3, R> {
+	final class LTriFunctionSingle<T1, T2, T3, R> implements LTriFunction<T1, T2, T3, R> {
 		private LTriFunction<T1, T2, T3, R> target = null;
 
 		@Override
@@ -411,10 +411,6 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriFunction<T1, T2, T3, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

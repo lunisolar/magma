@@ -300,7 +300,7 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		return func;
 	}
 
-	final class LDblToIntFunctionSingle implements LSingle<LDblToIntFunction>, LDblToIntFunction {
+	final class LDblToIntFunctionSingle implements LDblToIntFunction {
 		private LDblToIntFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 			return target.applyAsIntX(a);
 		}
 
-		@Override
-		public LDblToIntFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

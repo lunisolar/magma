@@ -419,7 +419,7 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		return func;
 	}
 
-	final class LFltPredicateSingle implements LSingle<LFltPredicate>, LFltPredicate {
+	final class LFltPredicateSingle implements LFltPredicate {
 		private LFltPredicate target = null;
 
 		@Override
@@ -427,10 +427,6 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 			return target.testX(a);
 		}
 
-		@Override
-		public LFltPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

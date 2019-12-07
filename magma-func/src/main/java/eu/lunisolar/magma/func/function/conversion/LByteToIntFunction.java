@@ -300,7 +300,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LByteToIntFunctionSingle implements LSingle<LByteToIntFunction>, LByteToIntFunction {
+	final class LByteToIntFunctionSingle implements LByteToIntFunction {
 		private LByteToIntFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsIntX(a);
 		}
 
-		@Override
-		public LByteToIntFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

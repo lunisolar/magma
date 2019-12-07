@@ -381,7 +381,7 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTieCharFunctionSingle<T> implements LSingle<LTieCharFunction<T>>, LTieCharFunction<T> {
+	final class LTieCharFunctionSingle<T> implements LTieCharFunction<T> {
 		private LTieCharFunction<T> target = null;
 
 		@Override
@@ -389,10 +389,6 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsIntX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieCharFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

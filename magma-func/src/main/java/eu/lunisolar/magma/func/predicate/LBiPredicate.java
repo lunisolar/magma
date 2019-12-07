@@ -557,7 +557,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return func;
 	}
 
-	final class LBiPredicateSingle<T1, T2> implements LSingle<LBiPredicate<T1, T2>>, LBiPredicate<T1, T2> {
+	final class LBiPredicateSingle<T1, T2> implements LBiPredicate<T1, T2> {
 		private LBiPredicate<T1, T2> target = null;
 
 		@Override
@@ -565,10 +565,6 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LBiPredicate<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

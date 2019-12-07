@@ -362,7 +362,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return func;
 	}
 
-	final class LTriConsumerSingle<T1, T2, T3> implements LSingle<LTriConsumer<T1, T2, T3>>, LTriConsumer<T1, T2, T3> {
+	final class LTriConsumerSingle<T1, T2, T3> implements LTriConsumer<T1, T2, T3> {
 		private LTriConsumer<T1, T2, T3> target = null;
 
 		@Override
@@ -370,10 +370,6 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 			target.acceptX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriConsumer<T1, T2, T3> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

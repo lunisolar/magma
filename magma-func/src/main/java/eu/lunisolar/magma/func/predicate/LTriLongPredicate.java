@@ -508,7 +508,7 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LTriLongPredicateSingle implements LSingle<LTriLongPredicate>, LTriLongPredicate {
+	final class LTriLongPredicateSingle implements LTriLongPredicate {
 		private LTriLongPredicate target = null;
 
 		@Override
@@ -516,10 +516,6 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return target.testX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriLongPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

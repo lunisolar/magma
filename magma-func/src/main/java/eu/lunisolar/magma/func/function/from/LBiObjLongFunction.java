@@ -403,7 +403,7 @@ public interface LBiObjLongFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return func;
 	}
 
-	final class LBiObjLongFunctionSingle<T1, T2, R> implements LSingle<LBiObjLongFunction<T1, T2, R>>, LBiObjLongFunction<T1, T2, R> {
+	final class LBiObjLongFunctionSingle<T1, T2, R> implements LBiObjLongFunction<T1, T2, R> {
 		private LBiObjLongFunction<T1, T2, R> target = null;
 
 		@Override
@@ -411,10 +411,6 @@ public interface LBiObjLongFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LBiObjLongFunction<T1, T2, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

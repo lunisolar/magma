@@ -351,7 +351,7 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTieByteConsumerSingle<T> implements LSingle<LTieByteConsumer<T>>, LTieByteConsumer<T> {
+	final class LTieByteConsumerSingle<T> implements LTieByteConsumer<T> {
 		private LTieByteConsumer<T> target = null;
 
 		@Override
@@ -359,10 +359,6 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 			target.acceptX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieByteConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

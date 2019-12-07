@@ -300,7 +300,7 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LBoolToCharFunctionSingle implements LSingle<LBoolToCharFunction>, LBoolToCharFunction {
+	final class LBoolToCharFunctionSingle implements LBoolToCharFunction {
 		private LBoolToCharFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LBoolToCharFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -300,7 +300,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LFltUnaryOperatorSingle implements LSingle<LFltUnaryOperator>, LFltUnaryOperator {
+	final class LFltUnaryOperatorSingle implements LFltUnaryOperator {
 		private LFltUnaryOperator target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 			return target.applyAsFltX(a);
 		}
 
-		@Override
-		public LFltUnaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

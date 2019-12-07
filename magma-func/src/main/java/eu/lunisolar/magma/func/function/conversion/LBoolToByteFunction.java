@@ -300,7 +300,7 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LBoolToByteFunctionSingle implements LSingle<LBoolToByteFunction>, LBoolToByteFunction {
+	final class LBoolToByteFunctionSingle implements LBoolToByteFunction {
 		private LBoolToByteFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LBoolToByteFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

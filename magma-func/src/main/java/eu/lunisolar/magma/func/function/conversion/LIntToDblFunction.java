@@ -310,7 +310,7 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 		return func;
 	}
 
-	final class LIntToDblFunctionSingle implements LSingle<LIntToDblFunction>, LIntToDblFunction {
+	final class LIntToDblFunctionSingle implements LIntToDblFunction {
 		private LIntToDblFunction target = null;
 
 		@Override
@@ -318,10 +318,6 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 			return target.applyAsDblX(a);
 		}
 
-		@Override
-		public LIntToDblFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

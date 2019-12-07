@@ -300,7 +300,7 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LByteToCharFunctionSingle implements LSingle<LByteToCharFunction>, LByteToCharFunction {
+	final class LByteToCharFunctionSingle implements LByteToCharFunction {
 		private LByteToCharFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LByteToCharFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

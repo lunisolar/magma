@@ -262,7 +262,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return func;
 	}
 
-	final class LActionSingle implements LSingle<LAction>, LAction {
+	final class LActionSingle implements LAction {
 		private LAction target = null;
 
 		@Override
@@ -270,10 +270,6 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 			target.executeX();
 		}
 
-		@Override
-		public LAction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

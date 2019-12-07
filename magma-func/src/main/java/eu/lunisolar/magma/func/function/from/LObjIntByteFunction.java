@@ -383,7 +383,7 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 		return func;
 	}
 
-	final class LObjIntByteFunctionSingle<T, R> implements LSingle<LObjIntByteFunction<T, R>>, LObjIntByteFunction<T, R> {
+	final class LObjIntByteFunctionSingle<T, R> implements LObjIntByteFunction<T, R> {
 		private LObjIntByteFunction<T, R> target = null;
 
 		@Override
@@ -391,10 +391,6 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LObjIntByteFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

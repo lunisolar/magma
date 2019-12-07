@@ -326,7 +326,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return func;
 	}
 
-	final class LBoolFunctionSingle<R> implements LSingle<LBoolFunction<R>>, LBoolFunction<R> {
+	final class LBoolFunctionSingle<R> implements LBoolFunction<R> {
 		private LBoolFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 			return target.applyX(a);
 		}
 
-		@Override
-		public LBoolFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

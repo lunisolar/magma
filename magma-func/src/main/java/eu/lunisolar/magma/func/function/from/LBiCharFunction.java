@@ -384,7 +384,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LBiCharFunctionSingle<R> implements LSingle<LBiCharFunction<R>>, LBiCharFunction<R> {
+	final class LBiCharFunctionSingle<R> implements LBiCharFunction<R> {
 		private LBiCharFunction<R> target = null;
 
 		@Override
@@ -392,10 +392,6 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LBiCharFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

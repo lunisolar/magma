@@ -501,7 +501,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return func;
 	}
 
-	final class LLogicalBinaryOperatorSingle implements LSingle<LLogicalBinaryOperator>, LLogicalBinaryOperator {
+	final class LLogicalBinaryOperatorSingle implements LLogicalBinaryOperator {
 		private LLogicalBinaryOperator target = null;
 
 		@Override
@@ -509,10 +509,6 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LLogicalBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

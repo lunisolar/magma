@@ -276,7 +276,7 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		return func;
 	}
 
-	final class LIntConsumerSingle implements LSingle<LIntConsumer>, LIntConsumer {
+	final class LIntConsumerSingle implements LIntConsumer {
 		private LIntConsumer target = null;
 
 		@Override
@@ -284,10 +284,6 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 			target.acceptX(a);
 		}
 
-		@Override
-		public LIntConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

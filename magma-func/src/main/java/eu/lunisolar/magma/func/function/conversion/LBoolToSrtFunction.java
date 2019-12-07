@@ -300,7 +300,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LBoolToSrtFunctionSingle implements LSingle<LBoolToSrtFunction>, LBoolToSrtFunction {
+	final class LBoolToSrtFunctionSingle implements LBoolToSrtFunction {
 		private LBoolToSrtFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsSrtX(a);
 		}
 
-		@Override
-		public LBoolToSrtFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

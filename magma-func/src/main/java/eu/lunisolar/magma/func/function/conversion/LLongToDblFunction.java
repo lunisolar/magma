@@ -310,7 +310,7 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 		return func;
 	}
 
-	final class LLongToDblFunctionSingle implements LSingle<LLongToDblFunction>, LLongToDblFunction {
+	final class LLongToDblFunctionSingle implements LLongToDblFunction {
 		private LLongToDblFunction target = null;
 
 		@Override
@@ -318,10 +318,6 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 			return target.applyAsDblX(a);
 		}
 
-		@Override
-		public LLongToDblFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

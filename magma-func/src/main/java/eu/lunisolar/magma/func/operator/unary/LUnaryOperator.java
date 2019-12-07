@@ -325,7 +325,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return func;
 	}
 
-	final class LUnaryOperatorSingle<T> implements LSingle<LUnaryOperator<T>>, LUnaryOperator<T> {
+	final class LUnaryOperatorSingle<T> implements LUnaryOperator<T> {
 		private LUnaryOperator<T> target = null;
 
 		@Override
@@ -333,10 +333,6 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 			return target.applyX(a);
 		}
 
-		@Override
-		public LUnaryOperator<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

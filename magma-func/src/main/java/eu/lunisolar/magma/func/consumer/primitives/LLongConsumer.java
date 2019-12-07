@@ -276,7 +276,7 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		return func;
 	}
 
-	final class LLongConsumerSingle implements LSingle<LLongConsumer>, LLongConsumer {
+	final class LLongConsumerSingle implements LLongConsumer {
 		private LLongConsumer target = null;
 
 		@Override
@@ -284,10 +284,6 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 			target.acceptX(a);
 		}
 
-		@Override
-		public LLongConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

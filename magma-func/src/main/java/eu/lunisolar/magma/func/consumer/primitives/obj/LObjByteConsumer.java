@@ -358,7 +358,7 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LObjByteConsumerSingle<T> implements LSingle<LObjByteConsumer<T>>, LObjByteConsumer<T> {
+	final class LObjByteConsumerSingle<T> implements LObjByteConsumer<T> {
 		private LObjByteConsumer<T> target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LObjByteConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

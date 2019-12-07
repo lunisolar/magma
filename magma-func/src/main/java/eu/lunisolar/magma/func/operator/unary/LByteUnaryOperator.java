@@ -300,7 +300,7 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LByteUnaryOperatorSingle implements LSingle<LByteUnaryOperator>, LByteUnaryOperator {
+	final class LByteUnaryOperatorSingle implements LByteUnaryOperator {
 		private LByteUnaryOperator target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LByteUnaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

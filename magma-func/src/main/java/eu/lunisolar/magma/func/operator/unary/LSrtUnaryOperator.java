@@ -300,7 +300,7 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LSrtUnaryOperatorSingle implements LSingle<LSrtUnaryOperator>, LSrtUnaryOperator {
+	final class LSrtUnaryOperatorSingle implements LSrtUnaryOperator {
 		private LSrtUnaryOperator target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 			return target.applyAsSrtX(a);
 		}
 
-		@Override
-		public LSrtUnaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

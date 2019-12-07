@@ -416,7 +416,7 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return func;
 	}
 
-	final class LQuintFunctionSingle<T1, T2, T3, T4, T5, R> implements LSingle<LQuintFunction<T1, T2, T3, T4, T5, R>>, LQuintFunction<T1, T2, T3, T4, T5, R> {
+	final class LQuintFunctionSingle<T1, T2, T3, T4, T5, R> implements LQuintFunction<T1, T2, T3, T4, T5, R> {
 		private LQuintFunction<T1, T2, T3, T4, T5, R> target = null;
 
 		@Override
@@ -424,10 +424,6 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 			return target.applyX(a1, a2, a3, a4, a5);
 		}
 
-		@Override
-		public LQuintFunction<T1, T2, T3, T4, T5, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

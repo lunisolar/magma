@@ -326,7 +326,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return func;
 	}
 
-	final class LCharFunctionSingle<R> implements LSingle<LCharFunction<R>>, LCharFunction<R> {
+	final class LCharFunctionSingle<R> implements LCharFunction<R> {
 		private LCharFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 			return target.applyX(a);
 		}
 
-		@Override
-		public LCharFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

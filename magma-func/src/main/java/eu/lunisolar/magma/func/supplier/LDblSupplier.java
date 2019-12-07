@@ -294,7 +294,7 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		return func;
 	}
 
-	final class LDblSupplierSingle implements LSingle<LDblSupplier>, LDblSupplier {
+	final class LDblSupplierSingle implements LDblSupplier {
 		private LDblSupplier target = null;
 
 		@Override
@@ -302,10 +302,6 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 			return target.getAsDblX();
 		}
 
-		@Override
-		public LDblSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

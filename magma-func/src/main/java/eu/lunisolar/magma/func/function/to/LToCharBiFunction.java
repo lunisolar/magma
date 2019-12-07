@@ -393,7 +393,7 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return func;
 	}
 
-	final class LToCharBiFunctionSingle<T1, T2> implements LSingle<LToCharBiFunction<T1, T2>>, LToCharBiFunction<T1, T2> {
+	final class LToCharBiFunctionSingle<T1, T2> implements LToCharBiFunction<T1, T2> {
 		private LToCharBiFunction<T1, T2> target = null;
 
 		@Override
@@ -401,10 +401,6 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 			return target.applyAsCharX(a1, a2);
 		}
 
-		@Override
-		public LToCharBiFunction<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

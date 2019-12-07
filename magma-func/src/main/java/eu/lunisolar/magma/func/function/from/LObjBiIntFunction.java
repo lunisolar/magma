@@ -403,7 +403,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return func;
 	}
 
-	final class LObjBiIntFunctionSingle<T, R> implements LSingle<LObjBiIntFunction<T, R>>, LObjBiIntFunction<T, R> {
+	final class LObjBiIntFunctionSingle<T, R> implements LObjBiIntFunction<T, R> {
 		private LObjBiIntFunction<T, R> target = null;
 
 		@Override
@@ -411,10 +411,6 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LObjBiIntFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

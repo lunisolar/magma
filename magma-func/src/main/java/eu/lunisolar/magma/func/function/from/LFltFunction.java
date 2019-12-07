@@ -326,7 +326,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return func;
 	}
 
-	final class LFltFunctionSingle<R> implements LSingle<LFltFunction<R>>, LFltFunction<R> {
+	final class LFltFunctionSingle<R> implements LFltFunction<R> {
 		private LFltFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 			return target.applyX(a);
 		}
 
-		@Override
-		public LFltFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

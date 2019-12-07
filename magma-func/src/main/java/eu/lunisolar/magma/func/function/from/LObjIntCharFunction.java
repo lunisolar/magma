@@ -383,7 +383,7 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 		return func;
 	}
 
-	final class LObjIntCharFunctionSingle<T, R> implements LSingle<LObjIntCharFunction<T, R>>, LObjIntCharFunction<T, R> {
+	final class LObjIntCharFunctionSingle<T, R> implements LObjIntCharFunction<T, R> {
 		private LObjIntCharFunction<T, R> target = null;
 
 		@Override
@@ -391,10 +391,6 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LObjIntCharFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -521,7 +521,7 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LBoolIntPredicateSingle implements LSingle<LBoolIntPredicate>, LBoolIntPredicate {
+	final class LBoolIntPredicateSingle implements LBoolIntPredicate {
 		private LBoolIntPredicate target = null;
 
 		@Override
@@ -529,10 +529,6 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LBoolIntPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

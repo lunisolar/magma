@@ -300,7 +300,7 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LFltToCharFunctionSingle implements LSingle<LFltToCharFunction>, LFltToCharFunction {
+	final class LFltToCharFunctionSingle implements LFltToCharFunction {
 		private LFltToCharFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LFltToCharFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

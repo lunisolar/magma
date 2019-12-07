@@ -476,7 +476,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return func;
 	}
 
-	final class LPredicateSingle<T> implements LSingle<LPredicate<T>>, LPredicate<T> {
+	final class LPredicateSingle<T> implements LPredicate<T> {
 		private LPredicate<T> target = null;
 
 		@Override
@@ -484,10 +484,6 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 			return target.testX(a);
 		}
 
-		@Override
-		public LPredicate<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

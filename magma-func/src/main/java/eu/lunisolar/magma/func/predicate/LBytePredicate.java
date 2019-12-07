@@ -419,7 +419,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return func;
 	}
 
-	final class LBytePredicateSingle implements LSingle<LBytePredicate>, LBytePredicate {
+	final class LBytePredicateSingle implements LBytePredicate {
 		private LBytePredicate target = null;
 
 		@Override
@@ -427,10 +427,6 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 			return target.testX(a);
 		}
 
-		@Override
-		public LBytePredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

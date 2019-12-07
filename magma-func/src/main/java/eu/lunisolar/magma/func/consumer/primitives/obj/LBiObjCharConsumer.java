@@ -362,7 +362,7 @@ public interface LBiObjCharConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 		return func;
 	}
 
-	final class LBiObjCharConsumerSingle<T1, T2> implements LSingle<LBiObjCharConsumer<T1, T2>>, LBiObjCharConsumer<T1, T2> {
+	final class LBiObjCharConsumerSingle<T1, T2> implements LBiObjCharConsumer<T1, T2> {
 		private LBiObjCharConsumer<T1, T2> target = null;
 
 		@Override
@@ -370,10 +370,6 @@ public interface LBiObjCharConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 			target.acceptX(a1, a2, a3);
 		}
 
-		@Override
-		public LBiObjCharConsumer<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

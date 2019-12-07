@@ -523,7 +523,7 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 		return func;
 	}
 
-	final class LObjIntBytePredicateSingle<T> implements LSingle<LObjIntBytePredicate<T>>, LObjIntBytePredicate<T> {
+	final class LObjIntBytePredicateSingle<T> implements LObjIntBytePredicate<T> {
 		private LObjIntBytePredicate<T> target = null;
 
 		@Override
@@ -531,10 +531,6 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 			return target.testX(a1, a2, a3);
 		}
 
-		@Override
-		public LObjIntBytePredicate<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

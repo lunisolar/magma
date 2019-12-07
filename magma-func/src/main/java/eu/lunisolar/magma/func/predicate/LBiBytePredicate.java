@@ -502,7 +502,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LBiBytePredicateSingle implements LSingle<LBiBytePredicate>, LBiBytePredicate {
+	final class LBiBytePredicateSingle implements LBiBytePredicate {
 		private LBiBytePredicate target = null;
 
 		@Override
@@ -510,10 +510,6 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LBiBytePredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

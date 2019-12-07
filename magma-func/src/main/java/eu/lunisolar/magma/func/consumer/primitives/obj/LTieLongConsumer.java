@@ -351,7 +351,7 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTieLongConsumerSingle<T> implements LSingle<LTieLongConsumer<T>>, LTieLongConsumer<T> {
+	final class LTieLongConsumerSingle<T> implements LTieLongConsumer<T> {
 		private LTieLongConsumer<T> target = null;
 
 		@Override
@@ -359,10 +359,6 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 			target.acceptX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieLongConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

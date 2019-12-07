@@ -383,7 +383,7 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		return func;
 	}
 
-	final class LObjIntFltFunctionSingle<T, R> implements LSingle<LObjIntFltFunction<T, R>>, LObjIntFltFunction<T, R> {
+	final class LObjIntFltFunctionSingle<T, R> implements LObjIntFltFunction<T, R> {
 		private LObjIntFltFunction<T, R> target = null;
 
 		@Override
@@ -391,10 +391,6 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 			return target.applyX(a1, a2, a3);
 		}
 
-		@Override
-		public LObjIntFltFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

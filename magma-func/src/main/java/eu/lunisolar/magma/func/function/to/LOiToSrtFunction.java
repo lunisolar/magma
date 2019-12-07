@@ -395,7 +395,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LOiToSrtFunctionSingle<T> implements LSingle<LOiToSrtFunction<T>>, LOiToSrtFunction<T> {
+	final class LOiToSrtFunctionSingle<T> implements LOiToSrtFunction<T> {
 		private LOiToSrtFunction<T> target = null;
 
 		@Override
@@ -403,10 +403,6 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsSrtX(a1, a2);
 		}
 
-		@Override
-		public LOiToSrtFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

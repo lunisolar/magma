@@ -300,7 +300,7 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LSrtToLongFunctionSingle implements LSingle<LSrtToLongFunction>, LSrtToLongFunction {
+	final class LSrtToLongFunctionSingle implements LSrtToLongFunction {
 		private LSrtToLongFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsLongX(a);
 		}
 
-		@Override
-		public LSrtToLongFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

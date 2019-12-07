@@ -393,7 +393,7 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return func;
 	}
 
-	final class LToByteBiFunctionSingle<T1, T2> implements LSingle<LToByteBiFunction<T1, T2>>, LToByteBiFunction<T1, T2> {
+	final class LToByteBiFunctionSingle<T1, T2> implements LToByteBiFunction<T1, T2> {
 		private LToByteBiFunction<T1, T2> target = null;
 
 		@Override
@@ -401,10 +401,6 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 			return target.applyAsByteX(a1, a2);
 		}
 
-		@Override
-		public LToByteBiFunction<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -337,7 +337,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LToCharFunctionSingle<T> implements LSingle<LToCharFunction<T>>, LToCharFunction<T> {
+	final class LToCharFunctionSingle<T> implements LToCharFunction<T> {
 		private LToCharFunction<T> target = null;
 
 		@Override
@@ -345,10 +345,6 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LToCharFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

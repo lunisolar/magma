@@ -300,7 +300,7 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LIntToFltFunctionSingle implements LSingle<LIntToFltFunction>, LIntToFltFunction {
+	final class LIntToFltFunctionSingle implements LIntToFltFunction {
 		private LIntToFltFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsFltX(a);
 		}
 
-		@Override
-		public LIntToFltFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

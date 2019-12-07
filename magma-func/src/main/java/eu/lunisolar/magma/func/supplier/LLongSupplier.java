@@ -284,7 +284,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return func;
 	}
 
-	final class LLongSupplierSingle implements LSingle<LLongSupplier>, LLongSupplier {
+	final class LLongSupplierSingle implements LLongSupplier {
 		private LLongSupplier target = null;
 
 		@Override
@@ -292,10 +292,6 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 			return target.getAsLongX();
 		}
 
-		@Override
-		public LLongSupplier value() {
-			return target;
-		}
 	}
 
 	@Nonnull

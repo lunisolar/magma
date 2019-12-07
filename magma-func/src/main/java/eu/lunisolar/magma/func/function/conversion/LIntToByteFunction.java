@@ -300,7 +300,7 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LIntToByteFunctionSingle implements LSingle<LIntToByteFunction>, LIntToByteFunction {
+	final class LIntToByteFunctionSingle implements LIntToByteFunction {
 		private LIntToByteFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LIntToByteFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -358,7 +358,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return func;
 	}
 
-	final class LBiConsumerSingle<T1, T2> implements LSingle<LBiConsumer<T1, T2>>, LBiConsumer<T1, T2> {
+	final class LBiConsumerSingle<T1, T2> implements LBiConsumer<T1, T2> {
 		private LBiConsumer<T1, T2> target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LBiConsumer<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

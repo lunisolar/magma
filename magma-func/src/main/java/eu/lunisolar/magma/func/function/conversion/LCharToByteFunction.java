@@ -300,7 +300,7 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LCharToByteFunctionSingle implements LSingle<LCharToByteFunction>, LCharToByteFunction {
+	final class LCharToByteFunctionSingle implements LCharToByteFunction {
 		private LCharToByteFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsByteX(a);
 		}
 
-		@Override
-		public LCharToByteFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

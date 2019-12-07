@@ -300,7 +300,7 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LCharToLongFunctionSingle implements LSingle<LCharToLongFunction>, LCharToLongFunction {
+	final class LCharToLongFunctionSingle implements LCharToLongFunction {
 		private LCharToLongFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsLongX(a);
 		}
 
-		@Override
-		public LCharToLongFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

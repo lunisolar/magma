@@ -300,7 +300,7 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LCharToIntFunctionSingle implements LSingle<LCharToIntFunction>, LCharToIntFunction {
+	final class LCharToIntFunctionSingle implements LCharToIntFunction {
 		private LCharToIntFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsIntX(a);
 		}
 
-		@Override
-		public LCharToIntFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

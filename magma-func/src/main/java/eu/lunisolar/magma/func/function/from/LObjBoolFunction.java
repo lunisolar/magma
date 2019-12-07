@@ -397,7 +397,7 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return func;
 	}
 
-	final class LObjBoolFunctionSingle<T, R> implements LSingle<LObjBoolFunction<T, R>>, LObjBoolFunction<T, R> {
+	final class LObjBoolFunctionSingle<T, R> implements LObjBoolFunction<T, R> {
 		private LObjBoolFunction<T, R> target = null;
 
 		@Override
@@ -405,10 +405,6 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LObjBoolFunction<T, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

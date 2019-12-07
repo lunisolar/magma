@@ -393,7 +393,7 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return func;
 	}
 
-	final class LToLongBiFunctionSingle<T1, T2> implements LSingle<LToLongBiFunction<T1, T2>>, LToLongBiFunction<T1, T2> {
+	final class LToLongBiFunctionSingle<T1, T2> implements LToLongBiFunction<T1, T2> {
 		private LToLongBiFunction<T1, T2> target = null;
 
 		@Override
@@ -401,10 +401,6 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 			return target.applyAsLongX(a1, a2);
 		}
 
-		@Override
-		public LToLongBiFunction<T1, T2> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

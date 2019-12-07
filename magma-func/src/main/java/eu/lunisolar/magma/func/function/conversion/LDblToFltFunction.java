@@ -300,7 +300,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LDblToFltFunctionSingle implements LSingle<LDblToFltFunction>, LDblToFltFunction {
+	final class LDblToFltFunctionSingle implements LDblToFltFunction {
 		private LDblToFltFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsFltX(a);
 		}
 
-		@Override
-		public LDblToFltFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

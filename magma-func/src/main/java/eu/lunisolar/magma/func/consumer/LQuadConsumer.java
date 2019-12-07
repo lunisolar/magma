@@ -368,7 +368,7 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		return func;
 	}
 
-	final class LQuadConsumerSingle<T1, T2, T3, T4> implements LSingle<LQuadConsumer<T1, T2, T3, T4>>, LQuadConsumer<T1, T2, T3, T4> {
+	final class LQuadConsumerSingle<T1, T2, T3, T4> implements LQuadConsumer<T1, T2, T3, T4> {
 		private LQuadConsumer<T1, T2, T3, T4> target = null;
 
 		@Override
@@ -376,10 +376,6 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 			target.acceptX(a1, a2, a3, a4);
 		}
 
-		@Override
-		public LQuadConsumer<T1, T2, T3, T4> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -371,7 +371,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LTieIntConsumerSingle<T> implements LSingle<LTieIntConsumer<T>>, LTieIntConsumer<T> {
+	final class LTieIntConsumerSingle<T> implements LTieIntConsumer<T> {
 		private LTieIntConsumer<T> target = null;
 
 		@Override
@@ -379,10 +379,6 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 			target.acceptX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieIntConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

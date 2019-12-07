@@ -395,7 +395,7 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LOiToIntFunctionSingle<T> implements LSingle<LOiToIntFunction<T>>, LOiToIntFunction<T> {
+	final class LOiToIntFunctionSingle<T> implements LOiToIntFunction<T> {
 		private LOiToIntFunction<T> target = null;
 
 		@Override
@@ -403,10 +403,6 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsIntX(a1, a2);
 		}
 
-		@Override
-		public LOiToIntFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

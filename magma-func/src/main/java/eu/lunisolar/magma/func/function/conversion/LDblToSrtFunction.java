@@ -300,7 +300,7 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LDblToSrtFunctionSingle implements LSingle<LDblToSrtFunction>, LDblToSrtFunction {
+	final class LDblToSrtFunctionSingle implements LDblToSrtFunction {
 		private LDblToSrtFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsSrtX(a);
 		}
 
-		@Override
-		public LDblToSrtFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

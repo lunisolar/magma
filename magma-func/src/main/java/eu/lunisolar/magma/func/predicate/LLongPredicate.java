@@ -419,7 +419,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return func;
 	}
 
-	final class LLongPredicateSingle implements LSingle<LLongPredicate>, LLongPredicate {
+	final class LLongPredicateSingle implements LLongPredicate {
 		private LLongPredicate target = null;
 
 		@Override
@@ -427,10 +427,6 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 			return target.testX(a);
 		}
 
-		@Override
-		public LLongPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -555,7 +555,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return func;
 	}
 
-	final class LQuintPredicateSingle<T1, T2, T3, T4, T5> implements LSingle<LQuintPredicate<T1, T2, T3, T4, T5>>, LQuintPredicate<T1, T2, T3, T4, T5> {
+	final class LQuintPredicateSingle<T1, T2, T3, T4, T5> implements LQuintPredicate<T1, T2, T3, T4, T5> {
 		private LQuintPredicate<T1, T2, T3, T4, T5> target = null;
 
 		@Override
@@ -563,10 +563,6 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 			return target.testX(a1, a2, a3, a4, a5);
 		}
 
-		@Override
-		public LQuintPredicate<T1, T2, T3, T4, T5> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -358,7 +358,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		return func;
 	}
 
-	final class LLongBinaryOperatorSingle implements LSingle<LLongBinaryOperator>, LLongBinaryOperator {
+	final class LLongBinaryOperatorSingle implements LLongBinaryOperator {
 		private LLongBinaryOperator target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 			return target.applyAsLongX(a1, a2);
 		}
 
-		@Override
-		public LLongBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

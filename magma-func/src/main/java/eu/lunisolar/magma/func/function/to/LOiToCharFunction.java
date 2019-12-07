@@ -395,7 +395,7 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func;
 	}
 
-	final class LOiToCharFunctionSingle<T> implements LSingle<LOiToCharFunction<T>>, LOiToCharFunction<T> {
+	final class LOiToCharFunctionSingle<T> implements LOiToCharFunction<T> {
 		private LOiToCharFunction<T> target = null;
 
 		@Override
@@ -403,10 +403,6 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 			return target.applyAsCharX(a1, a2);
 		}
 
-		@Override
-		public LOiToCharFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

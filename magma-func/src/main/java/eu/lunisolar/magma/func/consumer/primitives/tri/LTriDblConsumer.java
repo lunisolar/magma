@@ -340,7 +340,7 @@ public interface LTriDblConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return func;
 	}
 
-	final class LTriDblConsumerSingle implements LSingle<LTriDblConsumer>, LTriDblConsumer {
+	final class LTriDblConsumerSingle implements LTriDblConsumer {
 		private LTriDblConsumer target = null;
 
 		@Override
@@ -348,10 +348,6 @@ public interface LTriDblConsumer extends MetaConsumer, MetaInterface.NonThrowing
 			target.acceptX(a1, a2, a3);
 		}
 
-		@Override
-		public LTriDblConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

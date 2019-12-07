@@ -300,7 +300,7 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LSrtToDblFunctionSingle implements LSingle<LSrtToDblFunction>, LSrtToDblFunction {
+	final class LSrtToDblFunctionSingle implements LSrtToDblFunction {
 		private LSrtToDblFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsDblX(a);
 		}
 
-		@Override
-		public LSrtToDblFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

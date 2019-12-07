@@ -395,7 +395,7 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LOiToFltFunctionSingle<T> implements LSingle<LOiToFltFunction<T>>, LOiToFltFunction<T> {
+	final class LOiToFltFunctionSingle<T> implements LOiToFltFunction<T> {
 		private LOiToFltFunction<T> target = null;
 
 		@Override
@@ -403,10 +403,6 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsFltX(a1, a2);
 		}
 
-		@Override
-		public LOiToFltFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -358,7 +358,7 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		return func;
 	}
 
-	final class LObjIntConsumerSingle<T> implements LSingle<LObjIntConsumer<T>>, LObjIntConsumer<T> {
+	final class LObjIntConsumerSingle<T> implements LObjIntConsumer<T> {
 		private LObjIntConsumer<T> target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LObjIntConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

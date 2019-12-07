@@ -358,7 +358,7 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		return func;
 	}
 
-	final class LObjLongConsumerSingle<T> implements LSingle<LObjLongConsumer<T>>, LObjLongConsumer<T> {
+	final class LObjLongConsumerSingle<T> implements LObjLongConsumer<T> {
 		private LObjLongConsumer<T> target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LObjLongConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

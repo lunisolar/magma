@@ -300,7 +300,7 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LByteToSrtFunctionSingle implements LSingle<LByteToSrtFunction>, LByteToSrtFunction {
+	final class LByteToSrtFunctionSingle implements LByteToSrtFunction {
 		private LByteToSrtFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsSrtX(a);
 		}
 
-		@Override
-		public LByteToSrtFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

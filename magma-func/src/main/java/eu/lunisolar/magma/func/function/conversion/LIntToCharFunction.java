@@ -300,7 +300,7 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LIntToCharFunctionSingle implements LSingle<LIntToCharFunction>, LIntToCharFunction {
+	final class LIntToCharFunctionSingle implements LIntToCharFunction {
 		private LIntToCharFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LIntToCharFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

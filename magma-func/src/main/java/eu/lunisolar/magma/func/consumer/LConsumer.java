@@ -298,7 +298,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		return func;
 	}
 
-	final class LConsumerSingle<T> implements LSingle<LConsumer<T>>, LConsumer<T> {
+	final class LConsumerSingle<T> implements LConsumer<T> {
 		private LConsumer<T> target = null;
 
 		@Override
@@ -306,10 +306,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 			target.acceptX(a);
 		}
 
-		@Override
-		public LConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

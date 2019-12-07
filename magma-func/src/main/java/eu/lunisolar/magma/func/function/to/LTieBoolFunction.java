@@ -381,7 +381,7 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTieBoolFunctionSingle<T> implements LSingle<LTieBoolFunction<T>>, LTieBoolFunction<T> {
+	final class LTieBoolFunctionSingle<T> implements LTieBoolFunction<T> {
 		private LTieBoolFunction<T> target = null;
 
 		@Override
@@ -389,10 +389,6 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsIntX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieBoolFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -326,7 +326,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		return func;
 	}
 
-	final class LLongFunctionSingle<R> implements LSingle<LLongFunction<R>>, LLongFunction<R> {
+	final class LLongFunctionSingle<R> implements LLongFunction<R> {
 		private LLongFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 			return target.applyX(a);
 		}
 
-		@Override
-		public LLongFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -521,7 +521,7 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LLongIntPredicateSingle implements LSingle<LLongIntPredicate>, LLongIntPredicate {
+	final class LLongIntPredicateSingle implements LLongIntPredicate {
 		private LLongIntPredicate target = null;
 
 		@Override
@@ -529,10 +529,6 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return target.testX(a1, a2);
 		}
 
-		@Override
-		public LLongIntPredicate value() {
-			return target;
-		}
 	}
 
 	@Nonnull

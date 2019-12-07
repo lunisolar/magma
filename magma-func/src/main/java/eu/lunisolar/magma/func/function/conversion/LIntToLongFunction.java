@@ -300,7 +300,7 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 		return func;
 	}
 
-	final class LIntToLongFunctionSingle implements LSingle<LIntToLongFunction>, LIntToLongFunction {
+	final class LIntToLongFunctionSingle implements LIntToLongFunction {
 		private LIntToLongFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 			return target.applyAsLongX(a);
 		}
 
-		@Override
-		public LIntToLongFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

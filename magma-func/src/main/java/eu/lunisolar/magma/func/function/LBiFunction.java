@@ -397,7 +397,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return func;
 	}
 
-	final class LBiFunctionSingle<T1, T2, R> implements LSingle<LBiFunction<T1, T2, R>>, LBiFunction<T1, T2, R> {
+	final class LBiFunctionSingle<T1, T2, R> implements LBiFunction<T1, T2, R> {
 		private LBiFunction<T1, T2, R> target = null;
 
 		@Override
@@ -405,10 +405,6 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LBiFunction<T1, T2, R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

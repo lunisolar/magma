@@ -300,7 +300,7 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LBoolToLongFunctionSingle implements LSingle<LBoolToLongFunction>, LBoolToLongFunction {
+	final class LBoolToLongFunctionSingle implements LBoolToLongFunction {
 		private LBoolToLongFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsLongX(a);
 		}
 
-		@Override
-		public LBoolToLongFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

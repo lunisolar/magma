@@ -384,7 +384,7 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LBiLongFunctionSingle<R> implements LSingle<LBiLongFunction<R>>, LBiLongFunction<R> {
+	final class LBiLongFunctionSingle<R> implements LBiLongFunction<R> {
 		private LBiLongFunction<R> target = null;
 
 		@Override
@@ -392,10 +392,6 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			return target.applyX(a1, a2);
 		}
 
-		@Override
-		public LBiLongFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

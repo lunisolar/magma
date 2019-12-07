@@ -368,7 +368,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return func;
 	}
 
-	final class LDblBinaryOperatorSingle implements LSingle<LDblBinaryOperator>, LDblBinaryOperator {
+	final class LDblBinaryOperatorSingle implements LDblBinaryOperator {
 		private LDblBinaryOperator target = null;
 
 		@Override
@@ -376,10 +376,6 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 			return target.applyAsDblX(a1, a2);
 		}
 
-		@Override
-		public LDblBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

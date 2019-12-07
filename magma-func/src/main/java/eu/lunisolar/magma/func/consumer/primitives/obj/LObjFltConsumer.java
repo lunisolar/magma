@@ -358,7 +358,7 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LObjFltConsumerSingle<T> implements LSingle<LObjFltConsumer<T>>, LObjFltConsumer<T> {
+	final class LObjFltConsumerSingle<T> implements LObjFltConsumer<T> {
 		private LObjFltConsumer<T> target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 			target.acceptX(a1, a2);
 		}
 
-		@Override
-		public LObjFltConsumer<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

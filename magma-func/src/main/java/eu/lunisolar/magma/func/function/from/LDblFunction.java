@@ -326,7 +326,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		return func;
 	}
 
-	final class LDblFunctionSingle<R> implements LSingle<LDblFunction<R>>, LDblFunction<R> {
+	final class LDblFunctionSingle<R> implements LDblFunction<R> {
 		private LDblFunction<R> target = null;
 
 		@Override
@@ -334,10 +334,6 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 			return target.applyX(a);
 		}
 
-		@Override
-		public LDblFunction<R> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

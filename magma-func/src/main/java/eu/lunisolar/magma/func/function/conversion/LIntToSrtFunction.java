@@ -300,7 +300,7 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func;
 	}
 
-	final class LIntToSrtFunctionSingle implements LSingle<LIntToSrtFunction>, LIntToSrtFunction {
+	final class LIntToSrtFunctionSingle implements LIntToSrtFunction {
 		private LIntToSrtFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 			return target.applyAsSrtX(a);
 		}
 
-		@Override
-		public LIntToSrtFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

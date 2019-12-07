@@ -347,7 +347,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return func;
 	}
 
-	final class LToDblFunctionSingle<T> implements LSingle<LToDblFunction<T>>, LToDblFunction<T> {
+	final class LToDblFunctionSingle<T> implements LToDblFunction<T> {
 		private LToDblFunction<T> target = null;
 
 		@Override
@@ -355,10 +355,6 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 			return target.applyAsDblX(a);
 		}
 
-		@Override
-		public LToDblFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

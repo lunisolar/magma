@@ -300,7 +300,7 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LDblToCharFunctionSingle implements LSingle<LDblToCharFunction>, LDblToCharFunction {
+	final class LDblToCharFunctionSingle implements LDblToCharFunction {
 		private LDblToCharFunction target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LDblToCharFunction value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -276,7 +276,7 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		return func;
 	}
 
-	final class LDblConsumerSingle implements LSingle<LDblConsumer>, LDblConsumer {
+	final class LDblConsumerSingle implements LDblConsumer {
 		private LDblConsumer target = null;
 
 		@Override
@@ -284,10 +284,6 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 			target.acceptX(a);
 		}
 
-		@Override
-		public LDblConsumer value() {
-			return target;
-		}
 	}
 
 	@Nonnull

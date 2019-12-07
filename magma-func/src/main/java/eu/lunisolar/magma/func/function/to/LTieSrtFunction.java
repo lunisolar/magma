@@ -381,7 +381,7 @@ public interface LTieSrtFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LTieSrtFunctionSingle<T> implements LSingle<LTieSrtFunction<T>>, LTieSrtFunction<T> {
+	final class LTieSrtFunctionSingle<T> implements LTieSrtFunction<T> {
 		private LTieSrtFunction<T> target = null;
 
 		@Override
@@ -389,10 +389,6 @@ public interface LTieSrtFunction<T> extends MetaFunction, MetaInterface.NonThrow
 			return target.applyAsIntX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieSrtFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

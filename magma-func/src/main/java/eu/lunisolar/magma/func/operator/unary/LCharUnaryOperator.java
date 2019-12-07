@@ -300,7 +300,7 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LCharUnaryOperatorSingle implements LSingle<LCharUnaryOperator>, LCharUnaryOperator {
+	final class LCharUnaryOperatorSingle implements LCharUnaryOperator {
 		private LCharUnaryOperator target = null;
 
 		@Override
@@ -308,10 +308,6 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return target.applyAsCharX(a);
 		}
 
-		@Override
-		public LCharUnaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull

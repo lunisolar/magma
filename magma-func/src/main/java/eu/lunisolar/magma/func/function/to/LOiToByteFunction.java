@@ -395,7 +395,7 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func;
 	}
 
-	final class LOiToByteFunctionSingle<T> implements LSingle<LOiToByteFunction<T>>, LOiToByteFunction<T> {
+	final class LOiToByteFunctionSingle<T> implements LOiToByteFunction<T> {
 		private LOiToByteFunction<T> target = null;
 
 		@Override
@@ -403,10 +403,6 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 			return target.applyAsByteX(a1, a2);
 		}
 
-		@Override
-		public LOiToByteFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

@@ -381,7 +381,7 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func;
 	}
 
-	final class LTieByteFunctionSingle<T> implements LSingle<LTieByteFunction<T>>, LTieByteFunction<T> {
+	final class LTieByteFunctionSingle<T> implements LTieByteFunction<T> {
 		private LTieByteFunction<T> target = null;
 
 		@Override
@@ -389,10 +389,6 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return target.applyAsIntX(a1, a2, a3);
 		}
 
-		@Override
-		public LTieByteFunction<T> value() {
-			return target;
-		}
 	}
 
 	@Nonnull

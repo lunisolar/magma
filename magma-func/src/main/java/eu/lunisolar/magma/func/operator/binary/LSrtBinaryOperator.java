@@ -358,7 +358,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func;
 	}
 
-	final class LSrtBinaryOperatorSingle implements LSingle<LSrtBinaryOperator>, LSrtBinaryOperator {
+	final class LSrtBinaryOperatorSingle implements LSrtBinaryOperator {
 		private LSrtBinaryOperator target = null;
 
 		@Override
@@ -366,10 +366,6 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return target.applyAsSrtX(a1, a2);
 		}
 
-		@Override
-		public LSrtBinaryOperator value() {
-			return target;
-		}
 	}
 
 	@Nonnull
