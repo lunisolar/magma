@@ -114,7 +114,7 @@ public final class OptInt implements OptIntTrait<OptInt> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 

@@ -82,7 +82,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return nullable() != null;
 	}
 
-	default boolean isEmpty() {
+	default boolean isVoid() {
 		return !isPresent();
 	}
 

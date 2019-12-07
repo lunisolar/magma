@@ -109,7 +109,7 @@ public final class OptByte implements OptByteTrait<OptByte> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 

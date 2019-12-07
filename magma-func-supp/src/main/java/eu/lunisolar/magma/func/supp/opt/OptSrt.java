@@ -109,7 +109,7 @@ public final class OptSrt implements OptSrtTrait<OptSrt> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 

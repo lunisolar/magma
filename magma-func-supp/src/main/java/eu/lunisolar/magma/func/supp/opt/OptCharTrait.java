@@ -78,7 +78,7 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 
 	public boolean isPresent();
 
-	default boolean isEmpty() {
+	default boolean isVoid() {
 		return !isPresent();
 	}
 

@@ -78,7 +78,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 
 	public boolean isPresent();
 
-	default boolean isEmpty() {
+	default boolean isVoid() {
 		return !isPresent();
 	}
 

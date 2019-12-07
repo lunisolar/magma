@@ -172,7 +172,7 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 		return value;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return value == null;
 	}
 

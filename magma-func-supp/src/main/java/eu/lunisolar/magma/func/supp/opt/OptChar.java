@@ -109,7 +109,7 @@ public final class OptChar implements OptCharTrait<OptChar> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 

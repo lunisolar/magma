@@ -78,7 +78,7 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 
 	public boolean isPresent();
 
-	default boolean isEmpty() {
+	default boolean isVoid() {
 		return !isPresent();
 	}
 

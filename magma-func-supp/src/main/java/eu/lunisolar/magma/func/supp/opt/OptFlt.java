@@ -109,7 +109,7 @@ public final class OptFlt implements OptFltTrait<OptFlt> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 

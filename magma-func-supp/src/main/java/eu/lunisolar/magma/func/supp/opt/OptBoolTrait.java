@@ -78,7 +78,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 
 	public boolean isPresent();
 
-	default boolean isEmpty() {
+	default boolean isVoid() {
 		return !isPresent();
 	}
 

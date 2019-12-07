@@ -109,7 +109,7 @@ public final class OptBool implements OptBoolTrait<OptBool> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 

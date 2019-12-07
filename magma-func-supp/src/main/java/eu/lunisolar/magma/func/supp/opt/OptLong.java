@@ -114,7 +114,7 @@ public final class OptLong implements OptLongTrait<OptLong> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 

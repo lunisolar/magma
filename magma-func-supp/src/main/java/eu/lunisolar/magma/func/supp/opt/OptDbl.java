@@ -114,7 +114,7 @@ public final class OptDbl implements OptDblTrait<OptDbl> {
 		return isPresent;
 	}
 
-	public final boolean isEmpty() {
+	public final boolean isVoid() {
 		return !isPresent;
 	}
 
