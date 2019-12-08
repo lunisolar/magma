@@ -96,6 +96,10 @@ public final class Checks implements FluentSyntax {
 			return value;
 		}
 
+		public @Nonnull CheckBool value(boolean value) {
+			return new CheckBool(value, name, factory, type);
+		}
+
 	}
 
 	public static CheckBool arg(boolean value) {
@@ -155,6 +159,10 @@ public final class Checks implements FluentSyntax {
 		/** Returns the arg/state/value. */
 		public final T get() {
 			return value;
+		}
+
+		public @Nonnull Check<T> value(@Nullable T value) {
+			return new Check(value, name, factory, type);
 		}
 
 	}
@@ -218,6 +226,10 @@ public final class Checks implements FluentSyntax {
 			return value;
 		}
 
+		public @Nonnull CheckByte value(byte value) {
+			return new CheckByte(value, name, factory, type);
+		}
+
 	}
 
 	public static CheckByte arg(byte value) {
@@ -277,6 +289,10 @@ public final class Checks implements FluentSyntax {
 		/** Returns the arg/state/value. */
 		public final double get() {
 			return value;
+		}
+
+		public @Nonnull CheckDbl value(double value) {
+			return new CheckDbl(value, name, factory, type);
 		}
 
 	}
@@ -340,6 +356,10 @@ public final class Checks implements FluentSyntax {
 			return value;
 		}
 
+		public @Nonnull CheckChar value(char value) {
+			return new CheckChar(value, name, factory, type);
+		}
+
 	}
 
 	public static CheckChar arg(char value) {
@@ -399,6 +419,10 @@ public final class Checks implements FluentSyntax {
 		/** Returns the arg/state/value. */
 		public final short get() {
 			return value;
+		}
+
+		public @Nonnull CheckSrt value(short value) {
+			return new CheckSrt(value, name, factory, type);
 		}
 
 	}
@@ -462,6 +486,10 @@ public final class Checks implements FluentSyntax {
 			return value;
 		}
 
+		public @Nonnull CheckFlt value(float value) {
+			return new CheckFlt(value, name, factory, type);
+		}
+
 	}
 
 	public static CheckFlt arg(float value) {
@@ -523,6 +551,10 @@ public final class Checks implements FluentSyntax {
 			return value;
 		}
 
+		public @Nonnull CheckInt value(int value) {
+			return new CheckInt(value, name, factory, type);
+		}
+
 	}
 
 	public static CheckInt arg(int value) {
@@ -582,6 +614,10 @@ public final class Checks implements FluentSyntax {
 		/** Returns the arg/state/value. */
 		public final long get() {
 			return value;
+		}
+
+		public @Nonnull CheckLong value(long value) {
+			return new CheckLong(value, name, factory, type);
 		}
 
 	}

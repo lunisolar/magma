@@ -65,6 +65,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, CheckTrait<T, SELF> {
 
+	// <editor-fold desc="forcing ValueTrait re-implementation">
+
+	@Nonnull
+	SELF value(@Nullable T value);
+	@Nonnull
+	SELF voidValue();
+
+	// </editor-fold>
+
 	default @Nonnull T get() {
 		LPredicate.throwIfNot(this, OptTrait::isPresent, X::noSuchElement, "No value present.");
 		return nullable();
@@ -215,119 +224,119 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="filtering">
 
-	public default Opt<T> filter(@Nonnull LPredicate<? super T> predicate) {
+	public default SELF filter(@Nonnull LPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
+	public default SELF filter(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+	public default SELF filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
+	public default SELF filter(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
+	public default SELF filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
+	public default SELF filter2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	public default SELF filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
+	public default SELF filter2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	public default SELF filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
+	public default SELF filter2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	public default SELF filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
+	public default SELF filter2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	public default SELF filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
+	public default SELF filter2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	public default SELF filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
+	public default SELF filter2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	public default SELF filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
+	public default SELF filter2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	public default SELF filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
+	public default SELF filter2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default Opt<T> filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	public default SELF filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> Opt<T> filter2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
+	public default <V> SELF filter2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> Opt<T> filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
+	public default <V> SELF filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? Opt.toOpt(self()) : Opt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>
@@ -690,18 +699,18 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? get() : supplier.get();
 	}
 
-	public default Opt<T> orGet(@Nonnull LSupplier<? extends OptTrait<? extends T, ?>> supplier) {
+	public default SELF orGet(@Nonnull LSupplier<? extends OptTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? Opt.toOpt(self()) : Opt.toOpt(supplier.get());
+		return isPresent() ? self() : fromOpt(supplier.get());
 	}
 
-	public default Opt<T> or(@Nullable T value) {
-		return isPresent() ? Opt.toOpt(self()) : Opt.of(value);
+	public default SELF or(@Nullable T value) {
+		return isPresent() ? self() : value(value);
 	}
 
-	public default Opt<T> orOpt(@Nonnull OptTrait<? extends T, ?> opt) {
+	public default SELF orOpt(@Nonnull OptTrait<? extends T, ?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? Opt.toOpt(self()) : Opt.toOpt(opt);
+		return isPresent() ? self() : fromOpt(opt);
 	}
 
 	public default <K> T orElseApply(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
@@ -709,9 +718,9 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? get() : supplier.apply(a1);
 	}
 
-	public default <K> Opt<T> orApply(K a1, @Nonnull LFunction<? super K, ? extends OptTrait<? extends T, ?>> supplier) {
+	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? Opt.toOpt(self()) : Opt.toOpt(supplier.apply(a1));
+		return isPresent() ? self() : fromOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

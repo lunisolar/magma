@@ -180,6 +180,19 @@ public class Example_Opt_Test {
         assertSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
     }
 
+    @Test
+    public void valueTrait() {
+        OptInt opt = OptInt.empty();
+
+        assertThat(opt.voidValue()).isSameAs(opt);
+        assertThat(opt.value(45)).isNotSameAs(opt);
+
+        opt = OptInt.valueOf(45);
+
+        assertThat(opt.voidValue()).isNotSameAs(opt);
+        assertThat(opt.value(45)).isNotSameAs(opt);
+    }
+
     static {
         Opt<Integer> ooo = Opt.obj(5);
         ooo.is(5, Objects::equals);

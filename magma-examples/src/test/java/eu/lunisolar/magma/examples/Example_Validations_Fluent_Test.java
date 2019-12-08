@@ -21,10 +21,11 @@ package eu.lunisolar.magma.examples;
 import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.check.Checks;
-import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 //>transform-to-MD<
 /**
@@ -100,6 +101,17 @@ public class Example_Validations_Fluent_Test {
 
     }
     //>example<
+
+    @Test
+    public void valueTrait() {
+        CheckInt opt = Checks.value(45);
+
+        assertThat(opt.value(45)).isNotSameAs(opt);
+
+        assertThatThrownBy(opt::voidValue).isInstanceOf(UnsupportedOperationException.class)
+                                          .hasMessage("Trait implementation (CheckInt) does not support empty value.");
+
+    }
 
     //>inject<:generated
 

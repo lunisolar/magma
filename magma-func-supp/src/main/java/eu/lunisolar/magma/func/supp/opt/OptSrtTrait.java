@@ -65,6 +65,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF>, aValue<aShort>, CheckSrtTrait<SELF> {
 
+	// <editor-fold desc="forcing ValueTrait re-implementation">
+
+	@Nonnull
+	SELF value(short value);
+	@Nonnull
+	SELF voidValue();
+
+	// </editor-fold>
+
 	short get();
 
 	default @Nullable Short nullable() {
@@ -151,59 +160,59 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="filtering">
 
-	public default OptSrt filter(@Nonnull LSrtPredicate predicate) {
+	public default SELF filter(@Nonnull LSrtPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default OptSrt filter(@Nonnull LBiSrtPredicate predicate, short a2) {
+	public default SELF filter(@Nonnull LBiSrtPredicate predicate, short a2) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default OptSrt filter(short a2, @Nonnull LBiSrtPredicate predicate) {
+	public default SELF filter(short a2, @Nonnull LBiSrtPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default OptSrt filter(@Nonnull LTriSrtPredicate predicate, short a2, short a3) {
+	public default SELF filter(@Nonnull LTriSrtPredicate predicate, short a2, short a3) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default OptSrt filter(short a2, short a3, @Nonnull LTriSrtPredicate predicate) {
+	public default SELF filter(short a2, short a3, @Nonnull LTriSrtPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default OptSrt filter2(@Nonnull LBiSrtPredicate predicate, short v) {
+	public default SELF filter2(@Nonnull LBiSrtPredicate predicate, short v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptSrt filter2(short v, @Nonnull LBiSrtPredicate predicate) {
+	public default SELF filter2(short v, @Nonnull LBiSrtPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default OptSrt filter2(@Nonnull LSrtIntPredicate predicate, int v) {
+	public default SELF filter2(@Nonnull LSrtIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptSrt filter2(int v, @Nonnull LSrtIntPredicate predicate) {
+	public default SELF filter2(int v, @Nonnull LSrtIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> OptSrt filter2_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
+	public default <V> SELF filter2_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is2_(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> OptSrt filter2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
+	public default <V> SELF filter2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? OptSrt.toOpt(self()) : OptSrt.empty();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>
@@ -491,18 +500,18 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? get() : supplier.getAsSrt();
 	}
 
-	public default OptSrt orGet(@Nonnull LSupplier<? extends OptSrtTrait<?>> supplier) {
+	public default SELF orGet(@Nonnull LSupplier<? extends OptSrtTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.toOpt(supplier.get());
+		return isPresent() ? self() : fromOpt(supplier.get());
 	}
 
-	public default OptSrt or(@Nullable short value) {
-		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.of(value);
+	public default SELF or(@Nullable short value) {
+		return isPresent() ? self() : value(value);
 	}
 
-	public default OptSrt orOpt(@Nonnull OptSrtTrait<?> opt) {
+	public default SELF orOpt(@Nonnull OptSrtTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.toOpt(opt);
+		return isPresent() ? self() : fromOpt(opt);
 	}
 
 	public default <K> short orElseApply(K a1, @Nonnull LToSrtFunction<? super K> supplier) {
@@ -510,9 +519,9 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? get() : supplier.applyAsSrt(a1);
 	}
 
-	public default <K> OptSrt orApply(K a1, @Nonnull LFunction<? super K, ? extends OptSrtTrait<?>> supplier) {
+	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptSrtTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptSrt.toOpt(self()) : OptSrt.toOpt(supplier.apply(a1));
+		return isPresent() ? self() : fromOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

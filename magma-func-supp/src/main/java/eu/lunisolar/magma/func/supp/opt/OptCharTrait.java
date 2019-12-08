@@ -65,6 +65,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SELF>, aValue<aChar>, CheckCharTrait<SELF> {
 
+	// <editor-fold desc="forcing ValueTrait re-implementation">
+
+	@Nonnull
+	SELF value(char value);
+	@Nonnull
+	SELF voidValue();
+
+	// </editor-fold>
+
 	char get();
 
 	default @Nullable Character nullable() {
@@ -151,59 +160,59 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="filtering">
 
-	public default OptChar filter(@Nonnull LCharPredicate predicate) {
+	public default SELF filter(@Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default OptChar filter(@Nonnull LBiCharPredicate predicate, char a2) {
+	public default SELF filter(@Nonnull LBiCharPredicate predicate, char a2) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default OptChar filter(char a2, @Nonnull LBiCharPredicate predicate) {
+	public default SELF filter(char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default OptChar filter(@Nonnull LTriCharPredicate predicate, char a2, char a3) {
+	public default SELF filter(@Nonnull LTriCharPredicate predicate, char a2, char a3) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default OptChar filter(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
+	public default SELF filter(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default OptChar filter2(@Nonnull LBiCharPredicate predicate, char v) {
+	public default SELF filter2(@Nonnull LBiCharPredicate predicate, char v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptChar filter2(char v, @Nonnull LBiCharPredicate predicate) {
+	public default SELF filter2(char v, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default OptChar filter2(@Nonnull LCharIntPredicate predicate, int v) {
+	public default SELF filter2(@Nonnull LCharIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptChar filter2(int v, @Nonnull LCharIntPredicate predicate) {
+	public default SELF filter2(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> OptChar filter2_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
+	public default <V> SELF filter2_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is2_(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> OptChar filter2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	public default <V> SELF filter2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? OptChar.toOpt(self()) : OptChar.empty();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>
@@ -491,18 +500,18 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.getAsChar();
 	}
 
-	public default OptChar orGet(@Nonnull LSupplier<? extends OptCharTrait<?>> supplier) {
+	public default SELF orGet(@Nonnull LSupplier<? extends OptCharTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptChar.toOpt(self()) : OptChar.toOpt(supplier.get());
+		return isPresent() ? self() : fromOpt(supplier.get());
 	}
 
-	public default OptChar or(@Nullable char value) {
-		return isPresent() ? OptChar.toOpt(self()) : OptChar.of(value);
+	public default SELF or(@Nullable char value) {
+		return isPresent() ? self() : value(value);
 	}
 
-	public default OptChar orOpt(@Nonnull OptCharTrait<?> opt) {
+	public default SELF orOpt(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? OptChar.toOpt(self()) : OptChar.toOpt(opt);
+		return isPresent() ? self() : fromOpt(opt);
 	}
 
 	public default <K> char orElseApply(K a1, @Nonnull LToCharFunction<? super K> supplier) {
@@ -510,9 +519,9 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.applyAsChar(a1);
 	}
 
-	public default <K> OptChar orApply(K a1, @Nonnull LFunction<? super K, ? extends OptCharTrait<?>> supplier) {
+	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptCharTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptChar.toOpt(self()) : OptChar.toOpt(supplier.apply(a1));
+		return isPresent() ? self() : fromOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

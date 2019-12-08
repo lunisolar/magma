@@ -65,6 +65,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SELF>, aValue<aLong>, CheckLongTrait<SELF> {
 
+	// <editor-fold desc="forcing ValueTrait re-implementation">
+
+	@Nonnull
+	SELF value(long value);
+	@Nonnull
+	SELF voidValue();
+
+	// </editor-fold>
+
 	long get();
 
 	default @Nullable Long nullable() {
@@ -151,59 +160,59 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="filtering">
 
-	public default OptLong filter(@Nonnull LLongPredicate predicate) {
+	public default SELF filter(@Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default OptLong filter(@Nonnull LBiLongPredicate predicate, long a2) {
+	public default SELF filter(@Nonnull LBiLongPredicate predicate, long a2) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default OptLong filter(long a2, @Nonnull LBiLongPredicate predicate) {
+	public default SELF filter(long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default OptLong filter(@Nonnull LTriLongPredicate predicate, long a2, long a3) {
+	public default SELF filter(@Nonnull LTriLongPredicate predicate, long a2, long a3) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default OptLong filter(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
+	public default SELF filter(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default OptLong filter2(@Nonnull LLongIntPredicate predicate, int v) {
+	public default SELF filter2(@Nonnull LLongIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptLong filter2(int v, @Nonnull LLongIntPredicate predicate) {
+	public default SELF filter2(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default OptLong filter2(@Nonnull LBiLongPredicate predicate, long v) {
+	public default SELF filter2(@Nonnull LBiLongPredicate predicate, long v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptLong filter2(long v, @Nonnull LBiLongPredicate predicate) {
+	public default SELF filter2(long v, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> OptLong filter2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
+	public default <V> SELF filter2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is2_(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> OptLong filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	public default <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? OptLong.toOpt(self()) : OptLong.empty();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>
@@ -491,18 +500,18 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.getAsLong();
 	}
 
-	public default OptLong orGet(@Nonnull LSupplier<? extends OptLongTrait<?>> supplier) {
+	public default SELF orGet(@Nonnull LSupplier<? extends OptLongTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptLong.toOpt(self()) : OptLong.toOpt(supplier.get());
+		return isPresent() ? self() : fromOpt(supplier.get());
 	}
 
-	public default OptLong or(@Nullable long value) {
-		return isPresent() ? OptLong.toOpt(self()) : OptLong.of(value);
+	public default SELF or(@Nullable long value) {
+		return isPresent() ? self() : value(value);
 	}
 
-	public default OptLong orOpt(@Nonnull OptLongTrait<?> opt) {
+	public default SELF orOpt(@Nonnull OptLongTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? OptLong.toOpt(self()) : OptLong.toOpt(opt);
+		return isPresent() ? self() : fromOpt(opt);
 	}
 
 	public default <K> long orElseApply(K a1, @Nonnull LToLongFunction<? super K> supplier) {
@@ -510,9 +519,9 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.applyAsLong(a1);
 	}
 
-	public default <K> OptLong orApply(K a1, @Nonnull LFunction<? super K, ? extends OptLongTrait<?>> supplier) {
+	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptLongTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptLong.toOpt(self()) : OptLong.toOpt(supplier.apply(a1));
+		return isPresent() ? self() : fromOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

@@ -65,6 +65,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SELF>, aValue<aByte>, CheckByteTrait<SELF> {
 
+	// <editor-fold desc="forcing ValueTrait re-implementation">
+
+	@Nonnull
+	SELF value(byte value);
+	@Nonnull
+	SELF voidValue();
+
+	// </editor-fold>
+
 	byte get();
 
 	default @Nullable Byte nullable() {
@@ -151,59 +160,59 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="filtering">
 
-	public default OptByte filter(@Nonnull LBytePredicate predicate) {
+	public default SELF filter(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default OptByte filter(@Nonnull LBiBytePredicate predicate, byte a2) {
+	public default SELF filter(@Nonnull LBiBytePredicate predicate, byte a2) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default OptByte filter(byte a2, @Nonnull LBiBytePredicate predicate) {
+	public default SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default OptByte filter(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
+	public default SELF filter(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default OptByte filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	public default SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default OptByte filter2(@Nonnull LBiBytePredicate predicate, byte v) {
+	public default SELF filter2(@Nonnull LBiBytePredicate predicate, byte v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptByte filter2(byte v, @Nonnull LBiBytePredicate predicate) {
+	public default SELF filter2(byte v, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default OptByte filter2(@Nonnull LByteIntPredicate predicate, int v) {
+	public default SELF filter2(@Nonnull LByteIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptByte filter2(int v, @Nonnull LByteIntPredicate predicate) {
+	public default SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> OptByte filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+	public default <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is2_(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> OptByte filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	public default <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? OptByte.toOpt(self()) : OptByte.empty();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>
@@ -491,18 +500,18 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.getAsByte();
 	}
 
-	public default OptByte orGet(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
+	public default SELF orGet(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptByte.toOpt(self()) : OptByte.toOpt(supplier.get());
+		return isPresent() ? self() : fromOpt(supplier.get());
 	}
 
-	public default OptByte or(@Nullable byte value) {
-		return isPresent() ? OptByte.toOpt(self()) : OptByte.of(value);
+	public default SELF or(@Nullable byte value) {
+		return isPresent() ? self() : value(value);
 	}
 
-	public default OptByte orOpt(@Nonnull OptByteTrait<?> opt) {
+	public default SELF orOpt(@Nonnull OptByteTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? OptByte.toOpt(self()) : OptByte.toOpt(opt);
+		return isPresent() ? self() : fromOpt(opt);
 	}
 
 	public default <K> byte orElseApply(K a1, @Nonnull LToByteFunction<? super K> supplier) {
@@ -510,9 +519,9 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.applyAsByte(a1);
 	}
 
-	public default <K> OptByte orApply(K a1, @Nonnull LFunction<? super K, ? extends OptByteTrait<?>> supplier) {
+	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptByteTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptByte.toOpt(self()) : OptByte.toOpt(supplier.apply(a1));
+		return isPresent() ? self() : fromOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

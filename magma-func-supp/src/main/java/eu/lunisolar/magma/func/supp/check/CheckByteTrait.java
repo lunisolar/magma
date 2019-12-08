@@ -52,10 +52,11 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
+import eu.lunisolar.magma.func.supp.value.*;
+
 import static eu.lunisolar.magma.func.supp.check.CheckTrait.*;
 
-@ThreadSafe
-public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluent<SELF>, aValue<aByte>, LByteSingle {
+public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluent<SELF>, aValue<aByte>, LByteSingle, ByteValueTrait<SELF> {
 
 	byte get();
 

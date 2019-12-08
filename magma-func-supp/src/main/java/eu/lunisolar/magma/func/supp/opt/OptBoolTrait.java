@@ -65,6 +65,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SELF>, aValue<aBool>, CheckBoolTrait<SELF> {
 
+	// <editor-fold desc="forcing ValueTrait re-implementation">
+
+	@Nonnull
+	SELF value(boolean value);
+	@Nonnull
+	SELF voidValue();
+
+	// </editor-fold>
+
 	boolean get();
 
 	default @Nullable Boolean nullable() {
@@ -143,59 +152,59 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="filtering">
 
-	public default OptBool filter(@Nonnull LLogicalOperator predicate) {
+	public default SELF filter(@Nonnull LLogicalOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default OptBool filter(@Nonnull LLogicalBinaryOperator predicate, boolean a2) {
+	public default SELF filter(@Nonnull LLogicalBinaryOperator predicate, boolean a2) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default OptBool filter(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
+	public default SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default OptBool filter(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3) {
+	public default SELF filter(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default OptBool filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
+	public default SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default OptBool filter2(@Nonnull LLogicalBinaryOperator predicate, boolean v) {
+	public default SELF filter2(@Nonnull LLogicalBinaryOperator predicate, boolean v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptBool filter2(boolean v, @Nonnull LLogicalBinaryOperator predicate) {
+	public default SELF filter2(boolean v, @Nonnull LLogicalBinaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default OptBool filter2(@Nonnull LBoolIntPredicate predicate, int v) {
+	public default SELF filter2(@Nonnull LBoolIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptBool filter2(int v, @Nonnull LBoolIntPredicate predicate) {
+	public default SELF filter2(int v, @Nonnull LBoolIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> OptBool filter2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
+	public default <V> SELF filter2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is2_(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> OptBool filter2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
+	public default <V> SELF filter2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? OptBool.toOpt(self()) : OptBool.empty();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>
@@ -483,18 +492,18 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.getAsBool();
 	}
 
-	public default OptBool orGet(@Nonnull LSupplier<? extends OptBoolTrait<?>> supplier) {
+	public default SELF orGet(@Nonnull LSupplier<? extends OptBoolTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptBool.toOpt(self()) : OptBool.toOpt(supplier.get());
+		return isPresent() ? self() : fromOpt(supplier.get());
 	}
 
-	public default OptBool or(@Nullable boolean value) {
-		return isPresent() ? OptBool.toOpt(self()) : OptBool.of(value);
+	public default SELF or(@Nullable boolean value) {
+		return isPresent() ? self() : value(value);
 	}
 
-	public default OptBool orOpt(@Nonnull OptBoolTrait<?> opt) {
+	public default SELF orOpt(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? OptBool.toOpt(self()) : OptBool.toOpt(opt);
+		return isPresent() ? self() : fromOpt(opt);
 	}
 
 	public default <K> boolean orElseApply(K a1, @Nonnull LPredicate<? super K> supplier) {
@@ -502,9 +511,9 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return isPresent() ? get() : supplier.test(a1);
 	}
 
-	public default <K> OptBool orApply(K a1, @Nonnull LFunction<? super K, ? extends OptBoolTrait<?>> supplier) {
+	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptBoolTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptBool.toOpt(self()) : OptBool.toOpt(supplier.apply(a1));
+		return isPresent() ? self() : fromOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

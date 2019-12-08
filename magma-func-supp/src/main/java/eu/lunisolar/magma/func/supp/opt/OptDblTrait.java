@@ -65,6 +65,15 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF>, aValue<aDouble>, CheckDblTrait<SELF> {
 
+	// <editor-fold desc="forcing ValueTrait re-implementation">
+
+	@Nonnull
+	SELF value(double value);
+	@Nonnull
+	SELF voidValue();
+
+	// </editor-fold>
+
 	double get();
 
 	default @Nullable Double nullable() {
@@ -151,59 +160,59 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="filtering">
 
-	public default OptDbl filter(@Nonnull LDblPredicate predicate) {
+	public default SELF filter(@Nonnull LDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default OptDbl filter(@Nonnull LBiDblPredicate predicate, double a2) {
+	public default SELF filter(@Nonnull LBiDblPredicate predicate, double a2) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default OptDbl filter(double a2, @Nonnull LBiDblPredicate predicate) {
+	public default SELF filter(double a2, @Nonnull LBiDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default OptDbl filter(@Nonnull LTriDblPredicate predicate, double a2, double a3) {
+	public default SELF filter(@Nonnull LTriDblPredicate predicate, double a2, double a3) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default OptDbl filter(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
+	public default SELF filter(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default OptDbl filter2(@Nonnull LBiDblPredicate predicate, double v) {
+	public default SELF filter2(@Nonnull LBiDblPredicate predicate, double v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptDbl filter2(double v, @Nonnull LBiDblPredicate predicate) {
+	public default SELF filter2(double v, @Nonnull LBiDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default OptDbl filter2(@Nonnull LDblIntPredicate predicate, int v) {
+	public default SELF filter2(@Nonnull LDblIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default OptDbl filter2(int v, @Nonnull LDblIntPredicate predicate) {
+	public default SELF filter2(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> OptDbl filter2_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
+	public default <V> SELF filter2_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is2_(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> OptDbl filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
+	public default <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? OptDbl.toOpt(self()) : OptDbl.empty();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>
@@ -491,18 +500,18 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? get() : supplier.getAsDbl();
 	}
 
-	public default OptDbl orGet(@Nonnull LSupplier<? extends OptDblTrait<?>> supplier) {
+	public default SELF orGet(@Nonnull LSupplier<? extends OptDblTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.toOpt(supplier.get());
+		return isPresent() ? self() : fromOpt(supplier.get());
 	}
 
-	public default OptDbl or(@Nullable double value) {
-		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.of(value);
+	public default SELF or(@Nullable double value) {
+		return isPresent() ? self() : value(value);
 	}
 
-	public default OptDbl orOpt(@Nonnull OptDblTrait<?> opt) {
+	public default SELF orOpt(@Nonnull OptDblTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.toOpt(opt);
+		return isPresent() ? self() : fromOpt(opt);
 	}
 
 	public default <K> double orElseApply(K a1, @Nonnull LToDblFunction<? super K> supplier) {
@@ -510,9 +519,9 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? get() : supplier.applyAsDbl(a1);
 	}
 
-	public default <K> OptDbl orApply(K a1, @Nonnull LFunction<? super K, ? extends OptDblTrait<?>> supplier) {
+	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptDblTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? OptDbl.toOpt(self()) : OptDbl.toOpt(supplier.apply(a1));
+		return isPresent() ? self() : fromOpt(supplier.apply(a1));
 	}
 
 	// </editor-fold>

@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.ThreadSafe; // NOSONAR
 import java.util.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -62,6 +63,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
+@ThreadSafe
 public final class Opt<T> implements OptTrait<T, Opt<T>> {
 
 	private static final Opt<?> EMPTY = new Opt();
@@ -77,6 +79,14 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 	private Opt(T value) {
 		Null.nonNullArg(value, "value");
 		this.value = value;
+	}
+
+	public @Nonnull Opt<T> value(@Nullable T value) {
+		return of(value);
+	}
+
+	public @Nonnull Opt<T> voidValue() {
+		return empty();
 	}
 
 	public static <T> Opt<T> empty() {
