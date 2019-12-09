@@ -434,6 +434,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptInt.of(mapping.applyAsInt(get()))) : OptInt.empty();
 	}
 
+	public default SELF perform(@Nonnull LIntUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsInt(get())) : voidValue();
+	}
+
 	public default <K> OptInt map_(K a2, @Nonnull LOiToIntFunction.LIntObjToIntFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptInt.of(mapping.applyAsIntIntObj(get(), a2))) : OptInt.empty();
@@ -442,6 +447,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 	public default <K> OptInt mapWith(K a1, @Nonnull LOiToIntFunction<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptInt.of(mapping.applyAsInt(a1, get()))) : OptInt.empty();
+	}
+
+	public default SELF performWith(int a1, @Nonnull LIntBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsInt(a1, get())) : voidValue();
 	}
 
 	public default OptLong mapToLong(@Nonnull LIntToLongFunction mapping) {
@@ -573,6 +583,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptInt.toOpt(mapping.apply(get())) : OptInt.empty();
 	}
 
+	public default SELF perform(@Nonnull LIntFunction<? extends OptIntTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptInt flatMap_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptIntTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptInt.toOpt(mapping.applyIntObj(get(), a2)) : OptInt.empty();
@@ -581,6 +596,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 	public default <K> OptInt flatMapWith(K a1, @Nonnull LOiFunction<? super K, ? extends OptIntTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptInt.toOpt(mapping.apply(a1, get())) : OptInt.empty();
+	}
+
+	public default SELF flatPerformWith(int a1, @Nonnull LBiIntFunction<? extends OptIntTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptLong flatMapToLong(@Nonnull LIntFunction<? extends OptLongTrait<?>> mapping) {

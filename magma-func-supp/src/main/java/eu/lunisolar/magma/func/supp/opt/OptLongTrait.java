@@ -269,6 +269,16 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return isPresent() ? (OptLong.of(mapping.applyAsLong(get()))) : OptLong.empty();
 	}
 
+	public default SELF perform(@Nonnull LLongUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsLong(get())) : voidValue();
+	}
+
+	public default SELF performWith(long a1, @Nonnull LLongBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsLong(a1, get())) : voidValue();
+	}
+
 	public default <R> Opt<R> mapToObj(@Nonnull LLongFunction<? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get()))) : Opt.empty();
@@ -398,6 +408,11 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptLong.toOpt(mapping.apply(get())) : OptLong.empty();
 	}
 
+	public default SELF perform(@Nonnull LLongFunction<? extends OptLongTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptLong flatMap_(K a2, @Nonnull LObjLongFunction.LLongObjFunc<? super K, ? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.toOpt(mapping.applyLongObj(get(), a2)) : OptLong.empty();
@@ -406,6 +421,11 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 	public default <K> OptLong flatMapWith(K a1, @Nonnull LObjLongFunction<? super K, ? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.toOpt(mapping.apply(a1, get())) : OptLong.empty();
+	}
+
+	public default SELF flatPerformWith(long a1, @Nonnull LBiLongFunction<? extends OptLongTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default <R> Opt<R> flatMapToObj(@Nonnull LLongFunction<? extends OptTrait<? extends R, ?>> mapping) {

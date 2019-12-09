@@ -259,6 +259,16 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptFlt.of(mapping.applyAsFlt(get()))) : OptFlt.empty();
 	}
 
+	public default SELF perform(@Nonnull LFltUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsFlt(get())) : voidValue();
+	}
+
+	public default SELF performWith(float a1, @Nonnull LFltBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsFlt(a1, get())) : voidValue();
+	}
+
 	public default OptInt mapToInt(@Nonnull LFltToIntFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptInt.of(mapping.applyAsInt(get()))) : OptInt.empty();
@@ -368,6 +378,11 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptFlt.toOpt(mapping.apply(get())) : OptFlt.empty();
 	}
 
+	public default SELF perform(@Nonnull LFltFunction<? extends OptFltTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptFlt flatMap_(K a2, @Nonnull LObjFltFunction.LFltObjFunc<? super K, ? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.toOpt(mapping.applyFltObj(get(), a2)) : OptFlt.empty();
@@ -376,6 +391,11 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 	public default <K> OptFlt flatMapWith(K a1, @Nonnull LObjFltFunction<? super K, ? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.toOpt(mapping.apply(a1, get())) : OptFlt.empty();
+	}
+
+	public default SELF flatPerformWith(float a1, @Nonnull LBiFltFunction<? extends OptFltTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptInt flatMapToInt(@Nonnull LFltFunction<? extends OptIntTrait<?>> mapping) {

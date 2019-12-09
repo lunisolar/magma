@@ -244,6 +244,16 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptDbl.of(mapping.applyAsDbl(get()))) : OptDbl.empty();
 	}
 
+	public default SELF perform(@Nonnull LDblUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsDbl(get())) : voidValue();
+	}
+
+	public default SELF performWith(double a1, @Nonnull LDblBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsDbl(a1, get())) : voidValue();
+	}
+
 	public default OptChar mapToChar(@Nonnull LDblToCharFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptChar.of(mapping.applyAsChar(get()))) : OptChar.empty();
@@ -323,6 +333,11 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptDbl.toOpt(mapping.apply(get())) : OptDbl.empty();
 	}
 
+	public default SELF perform(@Nonnull LDblFunction<? extends OptDblTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptDbl flatMap_(K a2, @Nonnull LObjDblFunction.LDblObjFunc<? super K, ? extends OptDblTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptDbl.toOpt(mapping.applyDblObj(get(), a2)) : OptDbl.empty();
@@ -331,6 +346,11 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 	public default <K> OptDbl flatMapWith(K a1, @Nonnull LObjDblFunction<? super K, ? extends OptDblTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptDbl.toOpt(mapping.apply(a1, get())) : OptDbl.empty();
+	}
+
+	public default SELF flatPerformWith(double a1, @Nonnull LBiDblFunction<? extends OptDblTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptChar flatMapToChar(@Nonnull LDblFunction<? extends OptCharTrait<?>> mapping) {

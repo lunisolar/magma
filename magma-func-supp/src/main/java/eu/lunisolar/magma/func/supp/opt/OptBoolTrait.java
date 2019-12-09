@@ -216,6 +216,11 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return isPresent() ? (OptBool.of(mapping.apply(get()))) : OptBool.empty();
 	}
 
+	public default SELF perform(@Nonnull LLogicalOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptBool map_(K a2, @Nonnull LObjBoolPredicate.LBoolObjPred<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptBool.of(mapping.testBoolObj(get(), a2))) : OptBool.empty();
@@ -224,6 +229,11 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 	public default <K> OptBool mapWith(K a1, @Nonnull LObjBoolPredicate<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptBool.of(mapping.test(a1, get()))) : OptBool.empty();
+	}
+
+	public default SELF performWith(boolean a1, @Nonnull LLogicalBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptByte mapToByte(@Nonnull LBoolToByteFunction mapping) {
@@ -285,6 +295,11 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptBool.toOpt(mapping.apply(get())) : OptBool.empty();
 	}
 
+	public default SELF perform(@Nonnull LBoolFunction<? extends OptBoolTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptBool flatMap_(K a2, @Nonnull LObjBoolFunction.LBoolObjFunc<? super K, ? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptBool.toOpt(mapping.applyBoolObj(get(), a2)) : OptBool.empty();
@@ -293,6 +308,11 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 	public default <K> OptBool flatMapWith(K a1, @Nonnull LObjBoolFunction<? super K, ? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptBool.toOpt(mapping.apply(a1, get())) : OptBool.empty();
+	}
+
+	public default SELF flatPerformWith(boolean a1, @Nonnull LBiBoolFunction<? extends OptBoolTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptByte flatMapToByte(@Nonnull LBoolFunction<? extends OptByteTrait<?>> mapping) {

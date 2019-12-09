@@ -249,6 +249,16 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 		return isPresent() ? (OptChar.of(mapping.applyAsChar(get()))) : OptChar.empty();
 	}
 
+	public default SELF perform(@Nonnull LCharUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsChar(get())) : voidValue();
+	}
+
+	public default SELF performWith(char a1, @Nonnull LCharBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsChar(a1, get())) : voidValue();
+	}
+
 	public default OptSrt mapToSrt(@Nonnull LCharToSrtFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptSrt.of(mapping.applyAsSrt(get()))) : OptSrt.empty();
@@ -338,6 +348,11 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptChar.toOpt(mapping.apply(get())) : OptChar.empty();
 	}
 
+	public default SELF perform(@Nonnull LCharFunction<? extends OptCharTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptChar flatMap_(K a2, @Nonnull LObjCharFunction.LCharObjFunc<? super K, ? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.toOpt(mapping.applyCharObj(get(), a2)) : OptChar.empty();
@@ -346,6 +361,11 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 	public default <K> OptChar flatMapWith(K a1, @Nonnull LObjCharFunction<? super K, ? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.toOpt(mapping.apply(a1, get())) : OptChar.empty();
+	}
+
+	public default SELF flatPerformWith(char a1, @Nonnull LBiCharFunction<? extends OptCharTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptSrt flatMapToSrt(@Nonnull LCharFunction<? extends OptSrtTrait<?>> mapping) {

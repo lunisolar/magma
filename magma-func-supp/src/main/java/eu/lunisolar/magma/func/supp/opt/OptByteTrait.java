@@ -239,6 +239,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return isPresent() ? (OptByte.of(mapping.applyAsByte(get()))) : OptByte.empty();
 	}
 
+	public default SELF perform(@Nonnull LByteUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsByte(get())) : voidValue();
+	}
+
+	public default SELF performWith(byte a1, @Nonnull LByteBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsByte(a1, get())) : voidValue();
+	}
+
 	public default OptDbl mapToDbl(@Nonnull LByteToDblFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptDbl.of(mapping.applyAsDbl(get()))) : OptDbl.empty();
@@ -308,6 +318,11 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return isPresent() ? OptByte.toOpt(mapping.apply(get())) : OptByte.empty();
 	}
 
+	public default SELF perform(@Nonnull LByteFunction<? extends OptByteTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptByte flatMap_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptByte.toOpt(mapping.applyByteObj(get(), a2)) : OptByte.empty();
@@ -316,6 +331,11 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 	public default <K> OptByte flatMapWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptByte.toOpt(mapping.apply(a1, get())) : OptByte.empty();
+	}
+
+	public default SELF flatPerformWith(byte a1, @Nonnull LBiByteFunction<? extends OptByteTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptDbl flatMapToDbl(@Nonnull LByteFunction<? extends OptDblTrait<?>> mapping) {

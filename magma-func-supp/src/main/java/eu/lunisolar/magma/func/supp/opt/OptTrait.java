@@ -473,6 +473,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? (Opt.of(mapping.apply(get()))) : Opt.empty();
 	}
 
+	public default SELF perform(@Nonnull LUnaryOperator<T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(get())) : voidValue();
+	}
+
 	public default <R, K> Opt<R> map(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a2))) : Opt.empty();
@@ -481,6 +486,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	public default <R, K> Opt<R> mapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, get()))) : Opt.empty();
+	}
+
+	public default SELF performWith(T a1, @Nonnull LBinaryOperator<T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(a1, get())) : voidValue();
 	}
 
 	// </editor-fold>
@@ -612,6 +622,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? Opt.toOpt(mapping.apply(get())) : Opt.empty();
 	}
 
+	public default SELF perform(@Nonnull LFunction<T, ? extends OptTrait<? extends T, ? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <R, K> Opt<R> flatMap(K a2, @Nonnull LBiFunction<? super T, ? super K, ? extends OptTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.toOpt(mapping.apply(get(), a2)) : Opt.empty();
@@ -620,6 +635,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	public default <R, K> Opt<R> flatMapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends OptTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.toOpt(mapping.apply(a1, get())) : Opt.empty();
+	}
+
+	public default SELF flatPerformWith(T a1, @Nonnull LBiFunction<T, T, ? extends OptTrait<? extends T, ? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	// </editor-fold>

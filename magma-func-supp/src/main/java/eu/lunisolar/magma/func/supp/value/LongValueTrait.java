@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.Clazz; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -69,7 +70,7 @@ public interface LongValueTrait<SELF extends LongValueTrait<SELF>> extends Fluen
 	}
 
 	default SELF fromOpt(@Nonnull OptLongTrait<?> trait) {
-		return trait.isPresent() ? value(trait.value()) : voidValue();
+		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
 }

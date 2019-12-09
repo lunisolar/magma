@@ -254,6 +254,16 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptSrt.of(mapping.applyAsSrt(get()))) : OptSrt.empty();
 	}
 
+	public default SELF perform(@Nonnull LSrtUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsSrt(get())) : voidValue();
+	}
+
+	public default SELF performWith(short a1, @Nonnull LSrtBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsSrt(a1, get())) : voidValue();
+	}
+
 	public default OptFlt mapToFlt(@Nonnull LSrtToFltFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptFlt.of(mapping.applyAsFlt(get()))) : OptFlt.empty();
@@ -353,6 +363,11 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptSrt.toOpt(mapping.apply(get())) : OptSrt.empty();
 	}
 
+	public default SELF perform(@Nonnull LSrtFunction<? extends OptSrtTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(get())) : voidValue();
+	}
+
 	public default <K> OptSrt flatMap_(K a2, @Nonnull LObjSrtFunction.LSrtObjFunc<? super K, ? extends OptSrtTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptSrt.toOpt(mapping.applySrtObj(get(), a2)) : OptSrt.empty();
@@ -361,6 +376,11 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 	public default <K> OptSrt flatMapWith(K a1, @Nonnull LObjSrtFunction<? super K, ? extends OptSrtTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptSrt.toOpt(mapping.apply(a1, get())) : OptSrt.empty();
+	}
+
+	public default SELF flatPerformWith(short a1, @Nonnull LBiSrtFunction<? extends OptSrtTrait<? extends SELF>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? fromOpt(mapping.apply(a1, get())) : voidValue();
 	}
 
 	public default OptFlt flatMapToFlt(@Nonnull LSrtFunction<? extends OptFltTrait<?>> mapping) {
