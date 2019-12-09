@@ -701,6 +701,15 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	default int orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default int orElse(@Nullable int value) {
 		return isPresent() ? get() : value;
 	}

@@ -511,6 +511,15 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	default long orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default long orElse(@Nullable long value) {
 		return isPresent() ? get() : value;
 	}

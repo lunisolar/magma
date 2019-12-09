@@ -511,6 +511,15 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	default double orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default double orElse(@Nullable double value) {
 		return isPresent() ? get() : value;
 	}

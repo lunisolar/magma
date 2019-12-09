@@ -511,6 +511,15 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	default short orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default short orElse(@Nullable short value) {
 		return isPresent() ? get() : value;
 	}

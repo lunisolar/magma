@@ -511,6 +511,15 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	default char orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default char orElse(@Nullable char value) {
 		return isPresent() ? get() : value;
 	}

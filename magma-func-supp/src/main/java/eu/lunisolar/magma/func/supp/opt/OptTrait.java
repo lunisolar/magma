@@ -710,6 +710,15 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	default T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default T orElse(@Nullable T value) {
 		return isPresent() ? get() : value;
 	}

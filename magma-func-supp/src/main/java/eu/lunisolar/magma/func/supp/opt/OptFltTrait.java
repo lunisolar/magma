@@ -511,6 +511,15 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx, msg);
 	}
 
+	default float orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default float orElse(@Nullable float value) {
 		return isPresent() ? get() : value;
 	}

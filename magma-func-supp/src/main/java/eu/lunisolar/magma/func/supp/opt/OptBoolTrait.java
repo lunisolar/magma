@@ -503,6 +503,15 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	default boolean orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default boolean orElse(@Nullable boolean value) {
 		return isPresent() ? get() : value;
 	}

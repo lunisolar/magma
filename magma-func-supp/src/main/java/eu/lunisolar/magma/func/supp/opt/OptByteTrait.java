@@ -511,6 +511,15 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg);
 	}
 
+	default byte orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
+	}
+
 	public default byte orElse(@Nullable byte value) {
 		return isPresent() ? get() : value;
 	}
