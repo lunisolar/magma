@@ -95,9 +95,9 @@ public final class OptBool implements OptBoolTrait<OptBool> {
 		return EMPTY;
 	}
 
-	public static OptBool toOpt(@Nonnull OptBoolTrait<?> opt) {
+	public static OptBool from(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptBool.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptBool.class, opt, o -> o.isPresent() ? OptBool.of(o.get()) : OptBool.empty());
 	}
 
 	public static OptBool of(boolean value) {

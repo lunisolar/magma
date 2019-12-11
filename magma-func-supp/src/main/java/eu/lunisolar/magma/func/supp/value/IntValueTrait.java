@@ -69,7 +69,7 @@ public interface IntValueTrait<SELF extends IntValueTrait<SELF>> extends Fluent<
 		throw Handling.create(X::unsupported, "Trait implementation (%s) does not support empty value.", this.getClass().getSimpleName());
 	}
 
-	default SELF fromOpt(@Nonnull OptIntTrait<?> trait) {
+	default SELF valueFrom(@Nonnull OptIntTrait<?> trait) {
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 

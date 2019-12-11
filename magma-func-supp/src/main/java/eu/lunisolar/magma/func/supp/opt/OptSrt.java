@@ -95,9 +95,9 @@ public final class OptSrt implements OptSrtTrait<OptSrt> {
 		return EMPTY;
 	}
 
-	public static OptSrt toOpt(@Nonnull OptSrtTrait<?> opt) {
+	public static OptSrt from(@Nonnull OptSrtTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptSrt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptSrt.class, opt, o -> o.isPresent() ? OptSrt.of(o.get()) : OptSrt.empty());
 	}
 
 	public static OptSrt of(short value) {

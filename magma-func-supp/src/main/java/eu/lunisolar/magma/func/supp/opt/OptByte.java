@@ -95,9 +95,9 @@ public final class OptByte implements OptByteTrait<OptByte> {
 		return EMPTY;
 	}
 
-	public static OptByte toOpt(@Nonnull OptByteTrait<?> opt) {
+	public static OptByte from(@Nonnull OptByteTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptByte.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptByte.class, opt, o -> o.isPresent() ? OptByte.of(o.get()) : OptByte.empty());
 	}
 
 	public static OptByte of(byte value) {

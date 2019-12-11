@@ -93,9 +93,49 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 		return (Opt) EMPTY;
 	}
 
-	public static <T> Opt<T> toOpt(@Nonnull OptTrait<? extends T, ?> opt) {
+	public static OptBool from(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(Opt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptBool.class, opt, o -> o.isPresent() ? OptBool.of(o.get()) : OptBool.empty());
+	}
+
+	public static <T> Opt<T> from(@Nonnull OptTrait<? extends T, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(Opt.class, opt, o -> o.isPresent() ? Opt.of(o.get()) : Opt.empty());
+	}
+
+	public static OptByte from(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(OptByte.class, opt, o -> o.isPresent() ? OptByte.of(o.get()) : OptByte.empty());
+	}
+
+	public static OptDbl from(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(OptDbl.class, opt, o -> o.isPresent() ? OptDbl.of(o.get()) : OptDbl.empty());
+	}
+
+	public static OptChar from(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(OptChar.class, opt, o -> o.isPresent() ? OptChar.of(o.get()) : OptChar.empty());
+	}
+
+	public static OptSrt from(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(OptSrt.class, opt, o -> o.isPresent() ? OptSrt.of(o.get()) : OptSrt.empty());
+	}
+
+	public static OptFlt from(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(OptFlt.class, opt, o -> o.isPresent() ? OptFlt.of(o.get()) : OptFlt.empty());
+	}
+
+	public static OptInt from(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(OptInt.class, opt, o -> o.isPresent() ? OptInt.of(o.get()) : OptInt.empty());
+	}
+
+	public static OptLong from(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return Clazz.assuredClass(OptLong.class, opt, o -> o.isPresent() ? OptLong.of(o.get()) : OptLong.empty());
 	}
 
 	public static <T> Opt<T> of(@Nullable T value) {
@@ -171,7 +211,7 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 		return of(value);
 	}
 
-	public static <T> Opt<T> toOpt(@Nonnull Optional<T> optional) {
+	public static <T> Opt<T> from(@Nonnull Optional<T> optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? Opt.of(optional.get()) : empty();
 	}

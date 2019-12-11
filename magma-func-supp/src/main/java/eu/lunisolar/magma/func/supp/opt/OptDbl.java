@@ -95,9 +95,9 @@ public final class OptDbl implements OptDblTrait<OptDbl> {
 		return EMPTY;
 	}
 
-	public static OptDbl toOpt(@Nonnull OptDblTrait<?> opt) {
+	public static OptDbl from(@Nonnull OptDblTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptDbl.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptDbl.class, opt, o -> o.isPresent() ? OptDbl.of(o.get()) : OptDbl.empty());
 	}
 
 	public static OptDbl of(double value) {
@@ -108,7 +108,7 @@ public final class OptDbl implements OptDblTrait<OptDbl> {
 		return of(value);
 	}
 
-	public static OptDbl toOpt(@Nonnull OptionalDouble optional) {
+	public static OptDbl from(@Nonnull OptionalDouble optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptDbl.of(optional.getAsDouble()) : empty();
 	}

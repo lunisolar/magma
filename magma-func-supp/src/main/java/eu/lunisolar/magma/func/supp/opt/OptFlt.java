@@ -95,9 +95,9 @@ public final class OptFlt implements OptFltTrait<OptFlt> {
 		return EMPTY;
 	}
 
-	public static OptFlt toOpt(@Nonnull OptFltTrait<?> opt) {
+	public static OptFlt from(@Nonnull OptFltTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptFlt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptFlt.class, opt, o -> o.isPresent() ? OptFlt.of(o.get()) : OptFlt.empty());
 	}
 
 	public static OptFlt of(float value) {

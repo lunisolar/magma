@@ -69,7 +69,7 @@ public interface ByteValueTrait<SELF extends ByteValueTrait<SELF>> extends Fluen
 		throw Handling.create(X::unsupported, "Trait implementation (%s) does not support empty value.", this.getClass().getSimpleName());
 	}
 
-	default SELF fromOpt(@Nonnull OptByteTrait<?> trait) {
+	default SELF valueFrom(@Nonnull OptByteTrait<?> trait) {
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 

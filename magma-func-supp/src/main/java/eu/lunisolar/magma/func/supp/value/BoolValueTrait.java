@@ -69,7 +69,7 @@ public interface BoolValueTrait<SELF extends BoolValueTrait<SELF>> extends Fluen
 		throw Handling.create(X::unsupported, "Trait implementation (%s) does not support empty value.", this.getClass().getSimpleName());
 	}
 
-	default SELF fromOpt(@Nonnull OptBoolTrait<?> trait) {
+	default SELF valueFrom(@Nonnull OptBoolTrait<?> trait) {
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 

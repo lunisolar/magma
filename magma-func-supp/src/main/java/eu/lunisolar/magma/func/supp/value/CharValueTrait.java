@@ -69,7 +69,7 @@ public interface CharValueTrait<SELF extends CharValueTrait<SELF>> extends Fluen
 		throw Handling.create(X::unsupported, "Trait implementation (%s) does not support empty value.", this.getClass().getSimpleName());
 	}
 
-	default SELF fromOpt(@Nonnull OptCharTrait<?> trait) {
+	default SELF valueFrom(@Nonnull OptCharTrait<?> trait) {
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 

@@ -95,9 +95,9 @@ public final class OptChar implements OptCharTrait<OptChar> {
 		return EMPTY;
 	}
 
-	public static OptChar toOpt(@Nonnull OptCharTrait<?> opt) {
+	public static OptChar from(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptChar.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptChar.class, opt, o -> o.isPresent() ? OptChar.of(o.get()) : OptChar.empty());
 	}
 
 	public static OptChar of(char value) {

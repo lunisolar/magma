@@ -95,9 +95,9 @@ public final class OptInt implements OptIntTrait<OptInt> {
 		return EMPTY;
 	}
 
-	public static OptInt toOpt(@Nonnull OptIntTrait<?> opt) {
+	public static OptInt from(@Nonnull OptIntTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptInt.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptInt.class, opt, o -> o.isPresent() ? OptInt.of(o.get()) : OptInt.empty());
 	}
 
 	public static OptInt of(int value) {
@@ -108,7 +108,7 @@ public final class OptInt implements OptIntTrait<OptInt> {
 		return of(value);
 	}
 
-	public static OptInt toOpt(@Nonnull OptionalInt optional) {
+	public static OptInt from(@Nonnull OptionalInt optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptInt.of(optional.getAsInt()) : empty();
 	}

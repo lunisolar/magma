@@ -95,9 +95,9 @@ public final class OptLong implements OptLongTrait<OptLong> {
 		return EMPTY;
 	}
 
-	public static OptLong toOpt(@Nonnull OptLongTrait<?> opt) {
+	public static OptLong from(@Nonnull OptLongTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptLong.class, opt, o -> o.isPresent() ? of(o.get()) : empty());
+		return Clazz.assuredClass(OptLong.class, opt, o -> o.isPresent() ? OptLong.of(o.get()) : OptLong.empty());
 	}
 
 	public static OptLong of(long value) {
@@ -108,7 +108,7 @@ public final class OptLong implements OptLongTrait<OptLong> {
 		return of(value);
 	}
 
-	public static OptLong toOpt(@Nonnull OptionalLong optional) {
+	public static OptLong from(@Nonnull OptionalLong optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptLong.of(optional.getAsLong()) : empty();
 	}
