@@ -346,6 +346,42 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return (isPresent() && clazz.isInstance(this.get())) ? (Opt) this : Opt.empty();
 	}
 
+	public default <R, O extends OptTrait<R, O>> O alwaysMap(@Nonnull LFunction<? super T, O> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		O result = mapping.apply(isPresent() ? get() : null);
+		return Objects.requireNonNull(result);
+	}
+
+	public default <R, O extends OptTrait<R, O>, K> O alwaysMap(K a1, @Nonnull LBiFunction<? super T, ? super K, O> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		O result = mapping.apply(isPresent() ? get() : null, a1);
+		return Objects.requireNonNull(result);
+	}
+
+	public default <R, O extends OptTrait<R, O>, K> O alwaysMapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, O> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		O result = mapping.apply(a1, isPresent() ? get() : null);
+		return Objects.requireNonNull(result);
+	}
+
+	public default <R, O extends OptTrait<R, O>> O alwaysFlatMap(@Nonnull LFunction<SELF, O> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		O result = mapping.apply(self());
+		return Objects.requireNonNull(result);
+	}
+
+	public default <R, O extends OptTrait<R, O>, K> O alwaysFlatMap(K a1, @Nonnull LBiFunction<SELF, ? super K, O> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		O result = mapping.apply(self(), a1);
+		return Objects.requireNonNull(result);
+	}
+
+	public default <R, O extends OptTrait<R, O>, K> O alwaysFlatMapWith(K a1, @Nonnull LBiFunction<? super K, SELF, O> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		O result = mapping.apply(a1, self());
+		return Objects.requireNonNull(result);
+	}
+
 	// <editor-fold desc="map">
 
 	public default OptBool mapToBool(@Nonnull LPredicate<? super T> mapping) {
