@@ -23,6 +23,8 @@ import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
 
+import java.util.*;
+
 import static eu.lunisolar.magma.func.supp.check.Checks.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -99,6 +101,34 @@ public class Example_Validations_Fluent_Test {
         //fails
         value(arg45, "arg45").must(Be::between, 5, 40, "Fully custom message: must be %d < V(%d) < %s", 5, arg45, 40);
 
+    }
+    //>example<
+
+    /**
+     * Example with values derived from the:
+     */
+    //>example<
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Collection size must be >1.")
+    public void test4() {
+        value(Collections.singleton(2), "collection name")
+                .mustNot(Be::Null, "This collection cannot be null.")
+                //fails:
+                .checkInt(Collection::size, v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
+    }
+    //>example<
+
+    //>example<
+
+    /**
+     * Similar but with name being used:
+     */
+    //>example<
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[collection_name.size\\]: Collection size must be >1.")
+    public void test5() {
+        value(Collections.singleton(2), "collection_name")
+                .mustNot(Be::Null, "This collection cannot be null.")
+                //fails:
+                .checkInt("size", Collection::size, v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
     }
     //>example<
 
