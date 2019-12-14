@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.Be; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
@@ -187,6 +188,11 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 		Null.nonNullArg(pred, "pred");
 		LTriPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
 		return self();
+	}
+
+	default <R> Checks.Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
+		Null.nonNullArg(clazz, "clazz");
+		return (Checks.Check) must(Be::instanceOf, clazz, message);
 	}
 
 	default SELF fails(@Nonnull String newMessage) {
