@@ -195,6 +195,11 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 		return (Checks.Check) must(Be::instanceOf, clazz, message);
 	}
 
+	default @Nonnull T nonnull() {
+		must(Be::notNull, "Value cannot be null!");
+		return value();
+	}
+
 	default SELF fails(@Nonnull String newMessage) {
 		must(LPredicate::alwaysFalse, newMessage);
 		return self();
