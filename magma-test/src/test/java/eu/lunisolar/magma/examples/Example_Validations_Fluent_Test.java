@@ -105,7 +105,7 @@ public class Example_Validations_Fluent_Test {
     //>example<
 
     /**
-     * Example with values derived from the:
+     * Example with values derived from the object:
      */
     //>example<
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Collection size must be >1.")
@@ -115,8 +115,6 @@ public class Example_Validations_Fluent_Test {
                 //fails:
                 .checkInt(Collection::size, v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
     }
-    //>example<
-
     //>example<
 
     /**

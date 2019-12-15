@@ -25,7 +25,7 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.Fluent; // NOSONAR   
+import eu.lunisolar.magma.basics.fluent.Fluent; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -126,6 +126,14 @@ public final class Checks implements FluentSyntax {
 		return new CheckBool(value, name, X::state, "State");
 	}
 
+	public static CheckBool check(boolean value, ExMF<RuntimeException> factory) {
+		return new CheckBool(value, "?", factory, "Check");
+	}
+
+	public static CheckBool check(boolean value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckBool(value, name, factory, "Check");
+	}
+
 	@ThreadSafe
 	public final static class Check<T> implements CheckTrait<T, Check<T>>, Fluent<Check<T>> {
 
@@ -189,6 +197,14 @@ public final class Checks implements FluentSyntax {
 
 	public static <T> Check<T> state(@Nullable T value, @Nullable String name) {
 		return new Check<T>(value, name, X::state, "State");
+	}
+
+	public static <T> Check<T> check(@Nullable T value, ExMF<RuntimeException> factory) {
+		return new Check<T>(value, "?", factory, "Check");
+	}
+
+	public static <T> Check<T> check(@Nullable T value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new Check<T>(value, name, factory, "Check");
 	}
 
 	@ThreadSafe
@@ -256,6 +272,14 @@ public final class Checks implements FluentSyntax {
 		return new CheckByte(value, name, X::state, "State");
 	}
 
+	public static CheckByte check(byte value, ExMF<RuntimeException> factory) {
+		return new CheckByte(value, "?", factory, "Check");
+	}
+
+	public static CheckByte check(byte value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckByte(value, name, factory, "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckDbl implements CheckDblTrait<CheckDbl>, Fluent<CheckDbl> {
 
@@ -319,6 +343,14 @@ public final class Checks implements FluentSyntax {
 
 	public static CheckDbl state(double value, @Nullable String name) {
 		return new CheckDbl(value, name, X::state, "State");
+	}
+
+	public static CheckDbl check(double value, ExMF<RuntimeException> factory) {
+		return new CheckDbl(value, "?", factory, "Check");
+	}
+
+	public static CheckDbl check(double value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckDbl(value, name, factory, "Check");
 	}
 
 	@ThreadSafe
@@ -386,6 +418,14 @@ public final class Checks implements FluentSyntax {
 		return new CheckChar(value, name, X::state, "State");
 	}
 
+	public static CheckChar check(char value, ExMF<RuntimeException> factory) {
+		return new CheckChar(value, "?", factory, "Check");
+	}
+
+	public static CheckChar check(char value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckChar(value, name, factory, "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckSrt implements CheckSrtTrait<CheckSrt>, Fluent<CheckSrt> {
 
@@ -449,6 +489,14 @@ public final class Checks implements FluentSyntax {
 
 	public static CheckSrt state(short value, @Nullable String name) {
 		return new CheckSrt(value, name, X::state, "State");
+	}
+
+	public static CheckSrt check(short value, ExMF<RuntimeException> factory) {
+		return new CheckSrt(value, "?", factory, "Check");
+	}
+
+	public static CheckSrt check(short value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckSrt(value, name, factory, "Check");
 	}
 
 	@ThreadSafe
@@ -516,6 +564,14 @@ public final class Checks implements FluentSyntax {
 		return new CheckFlt(value, name, X::state, "State");
 	}
 
+	public static CheckFlt check(float value, ExMF<RuntimeException> factory) {
+		return new CheckFlt(value, "?", factory, "Check");
+	}
+
+	public static CheckFlt check(float value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckFlt(value, name, factory, "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckInt implements CheckIntTrait<CheckInt>, Fluent<CheckInt> {
 
@@ -581,6 +637,14 @@ public final class Checks implements FluentSyntax {
 		return new CheckInt(value, name, X::state, "State");
 	}
 
+	public static CheckInt check(int value, ExMF<RuntimeException> factory) {
+		return new CheckInt(value, "?", factory, "Check");
+	}
+
+	public static CheckInt check(int value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckInt(value, name, factory, "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckLong implements CheckLongTrait<CheckLong>, Fluent<CheckLong> {
 
@@ -644,6 +708,14 @@ public final class Checks implements FluentSyntax {
 
 	public static CheckLong state(long value, @Nullable String name) {
 		return new CheckLong(value, name, X::state, "State");
+	}
+
+	public static CheckLong check(long value, ExMF<RuntimeException> factory) {
+		return new CheckLong(value, "?", factory, "Check");
+	}
+
+	public static CheckLong check(long value, @Nullable String name, ExMF<RuntimeException> factory) {
+		return new CheckLong(value, name, factory, "Check");
 	}
 
 }
