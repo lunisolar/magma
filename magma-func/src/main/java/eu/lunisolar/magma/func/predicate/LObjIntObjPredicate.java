@@ -366,7 +366,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <T1, T2> T1 throwIf(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <T1, T2, X extends Throwable> T1 throwIf(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -374,7 +374,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <T1, T2> T1 throwIf(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <T1, T2, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -382,7 +382,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static <T1, T2> T1 throwIfNot(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <T1, T2, X extends Throwable> T1 throwIfNot(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -390,7 +390,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static <T1, T2> T1 throwIfNot(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <T1, T2, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -398,7 +398,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <T1, T2> T1 throwIf(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIf(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -406,7 +406,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <T1, T2> T1 throwIf(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -414,7 +414,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static <T1, T2> T1 throwIfNot(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIfNot(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -422,7 +422,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static <T1, T2> T1 throwIfNot(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -433,7 +433,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	* Throws new exception if condition is met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static <T1, T2> T1 throwIf$(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIf$(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, a1, a2, a3);
 		}
@@ -444,7 +444,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	* Throws new exception if condition is met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static <T1, T2> T1 throwIf$(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIf$(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, a1, a2, a3);
 		}
@@ -455,7 +455,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	* Throws new exception if condition is not met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static <T1, T2> T1 throwIfNot$(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIfNot$(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, a1, a2, a3);
 		}
@@ -466,7 +466,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	* Throws new exception if condition is not met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static <T1, T2> T1 throwIfNot$(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <T1, T2, X extends Throwable> T1 throwIfNot$(T1 a1, @Nonnull LObjIntObjPredicate<T1, T2> pred, int a2, T2 a3, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, newMessage, a1, a2, a3);
 		}

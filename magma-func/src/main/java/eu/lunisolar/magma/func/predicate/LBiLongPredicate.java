@@ -358,7 +358,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
-	public static long throwIf(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> long throwIf(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -366,7 +366,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
-	public static long throwIf(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> long throwIf(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -374,7 +374,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static long throwIfNot(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> long throwIfNot(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -382,7 +382,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static long throwIfNot(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> long throwIfNot(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -390,7 +390,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
-	public static long throwIf(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIf(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -398,7 +398,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
-	public static long throwIf(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIf(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -406,7 +406,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static long throwIfNot(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIfNot(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -414,7 +414,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static long throwIfNot(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIfNot(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -425,7 +425,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	* Throws new exception if condition is met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static long throwIf$(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIf$(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}
@@ -436,7 +436,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	* Throws new exception if condition is met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static long throwIf$(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIf$(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}
@@ -447,7 +447,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	* Throws new exception if condition is not met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static long throwIfNot$(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIfNot$(long a1, long a2, @Nonnull LBiLongPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}
@@ -458,7 +458,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	* Throws new exception if condition is not met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static long throwIfNot$(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> long throwIfNot$(long a1, @Nonnull LBiLongPredicate pred, long a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}

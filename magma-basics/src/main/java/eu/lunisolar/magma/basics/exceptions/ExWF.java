@@ -27,4 +27,8 @@ import javax.annotation.Nonnull;
 public interface ExWF<X extends Throwable> {
     @Nonnull
     X produce(@Nonnull Throwable t);
+
+    static <X extends Throwable> ExWF<RuntimeException> shoving(ExWF<X> factory) {
+        return (ExWF) factory;
+    }
 }

@@ -357,7 +357,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is met. */
-	public static boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -365,7 +365,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is met. */
-	public static boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -373,7 +373,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (!pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -381,7 +381,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (!pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -389,7 +389,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is met. */
-	public static boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -397,7 +397,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is met. */
-	public static boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -405,7 +405,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -413,7 +413,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -424,7 +424,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	* Throws new exception if condition is met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static boolean throwIf$(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIf$(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}
@@ -435,7 +435,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	* Throws new exception if condition is met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static boolean throwIf$(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIf$(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}
@@ -446,7 +446,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	* Throws new exception if condition is not met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}
@@ -457,7 +457,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	* Throws new exception if condition is not met.
 	* Message will be formatted with predicate arguments.
 	*/
-	public static boolean throwIfNot$(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.apply(a1, a2)) {
 			throw Handling.create(factory, newMessage, a1, a2);
 		}

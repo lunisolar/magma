@@ -24,4 +24,8 @@ import javax.annotation.Nonnull;
 public interface ExF4<X extends Throwable> {
     @Nonnull
     X produce(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace);
+
+    static <X extends Throwable> ExF4<RuntimeException> shoving(ExF4<X> factory) {
+        return (ExF4) factory;
+    }
 }

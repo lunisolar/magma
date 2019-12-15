@@ -134,6 +134,22 @@ public final class Checks implements FluentSyntax {
 		return new CheckBool(value, name, factory, "Check");
 	}
 
+	public static CheckBool attest(boolean value, ExMF<Error> factory) {
+		return new CheckBool(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckBool attest(boolean value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckBool(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckBool attest(boolean value) {
+		return new CheckBool(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckBool attest(boolean value, @Nullable String name) {
+		return new CheckBool(value, name, ExMF.shoving(X::assertion), "Check");
+	}
+
 	@ThreadSafe
 	public final static class Check<T> implements CheckTrait<T, Check<T>>, Fluent<Check<T>> {
 
@@ -205,6 +221,22 @@ public final class Checks implements FluentSyntax {
 
 	public static <T> Check<T> check(@Nullable T value, @Nullable String name, ExMF<RuntimeException> factory) {
 		return new Check<T>(value, name, factory, "Check");
+	}
+
+	public static <T> Check<T> attest(@Nullable T value, ExMF<Error> factory) {
+		return new Check<T>(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static <T> Check<T> attest(@Nullable T value, @Nullable String name, ExMF<Error> factory) {
+		return new Check<T>(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static <T> Check<T> attest(@Nullable T value) {
+		return new Check<T>(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static <T> Check<T> attest(@Nullable T value, @Nullable String name) {
+		return new Check<T>(value, name, ExMF.shoving(X::assertion), "Check");
 	}
 
 	@ThreadSafe
@@ -280,6 +312,22 @@ public final class Checks implements FluentSyntax {
 		return new CheckByte(value, name, factory, "Check");
 	}
 
+	public static CheckByte attest(byte value, ExMF<Error> factory) {
+		return new CheckByte(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckByte attest(byte value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckByte(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckByte attest(byte value) {
+		return new CheckByte(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckByte attest(byte value, @Nullable String name) {
+		return new CheckByte(value, name, ExMF.shoving(X::assertion), "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckDbl implements CheckDblTrait<CheckDbl>, Fluent<CheckDbl> {
 
@@ -351,6 +399,22 @@ public final class Checks implements FluentSyntax {
 
 	public static CheckDbl check(double value, @Nullable String name, ExMF<RuntimeException> factory) {
 		return new CheckDbl(value, name, factory, "Check");
+	}
+
+	public static CheckDbl attest(double value, ExMF<Error> factory) {
+		return new CheckDbl(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckDbl attest(double value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckDbl(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckDbl attest(double value) {
+		return new CheckDbl(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckDbl attest(double value, @Nullable String name) {
+		return new CheckDbl(value, name, ExMF.shoving(X::assertion), "Check");
 	}
 
 	@ThreadSafe
@@ -426,6 +490,22 @@ public final class Checks implements FluentSyntax {
 		return new CheckChar(value, name, factory, "Check");
 	}
 
+	public static CheckChar attest(char value, ExMF<Error> factory) {
+		return new CheckChar(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckChar attest(char value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckChar(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckChar attest(char value) {
+		return new CheckChar(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckChar attest(char value, @Nullable String name) {
+		return new CheckChar(value, name, ExMF.shoving(X::assertion), "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckSrt implements CheckSrtTrait<CheckSrt>, Fluent<CheckSrt> {
 
@@ -497,6 +577,22 @@ public final class Checks implements FluentSyntax {
 
 	public static CheckSrt check(short value, @Nullable String name, ExMF<RuntimeException> factory) {
 		return new CheckSrt(value, name, factory, "Check");
+	}
+
+	public static CheckSrt attest(short value, ExMF<Error> factory) {
+		return new CheckSrt(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckSrt attest(short value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckSrt(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckSrt attest(short value) {
+		return new CheckSrt(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckSrt attest(short value, @Nullable String name) {
+		return new CheckSrt(value, name, ExMF.shoving(X::assertion), "Check");
 	}
 
 	@ThreadSafe
@@ -572,6 +668,22 @@ public final class Checks implements FluentSyntax {
 		return new CheckFlt(value, name, factory, "Check");
 	}
 
+	public static CheckFlt attest(float value, ExMF<Error> factory) {
+		return new CheckFlt(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckFlt attest(float value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckFlt(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckFlt attest(float value) {
+		return new CheckFlt(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckFlt attest(float value, @Nullable String name) {
+		return new CheckFlt(value, name, ExMF.shoving(X::assertion), "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckInt implements CheckIntTrait<CheckInt>, Fluent<CheckInt> {
 
@@ -645,6 +757,22 @@ public final class Checks implements FluentSyntax {
 		return new CheckInt(value, name, factory, "Check");
 	}
 
+	public static CheckInt attest(int value, ExMF<Error> factory) {
+		return new CheckInt(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckInt attest(int value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckInt(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckInt attest(int value) {
+		return new CheckInt(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckInt attest(int value, @Nullable String name) {
+		return new CheckInt(value, name, ExMF.shoving(X::assertion), "Check");
+	}
+
 	@ThreadSafe
 	public final static class CheckLong implements CheckLongTrait<CheckLong>, Fluent<CheckLong> {
 
@@ -716,6 +844,22 @@ public final class Checks implements FluentSyntax {
 
 	public static CheckLong check(long value, @Nullable String name, ExMF<RuntimeException> factory) {
 		return new CheckLong(value, name, factory, "Check");
+	}
+
+	public static CheckLong attest(long value, ExMF<Error> factory) {
+		return new CheckLong(value, "?", ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckLong attest(long value, @Nullable String name, ExMF<Error> factory) {
+		return new CheckLong(value, name, ExMF.shoving(factory), "Check");
+	}
+
+	public static CheckLong attest(long value) {
+		return new CheckLong(value, "?", ExMF.shoving(X::assertion), "Check");
+	}
+
+	public static CheckLong attest(long value, @Nullable String name) {
+		return new CheckLong(value, name, ExMF.shoving(X::assertion), "Check");
 	}
 
 }

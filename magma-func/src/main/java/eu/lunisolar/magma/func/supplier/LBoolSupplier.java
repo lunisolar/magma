@@ -275,7 +275,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Throws new exception if condition is met. */
-	public static LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.getAsBool()) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -283,7 +283,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) {
+	public static <X extends Throwable> LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (!pred.getAsBool()) {
 			throw Handling.create(factory, newMessage, messageParams);
 		}
@@ -291,7 +291,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Throws new exception if condition is met. */
-	public static LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (pred.getAsBool()) {
 			throw Handling.create(factory, newMessage);
 		}
@@ -299,7 +299,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Throws new exception if condition is not met. */
-	public static LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<RuntimeException> factory, @Nonnull String newMessage) {
+	public static <X extends Throwable> LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
 		if (!pred.getAsBool()) {
 			throw Handling.create(factory, newMessage);
 		}

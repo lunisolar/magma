@@ -108,7 +108,7 @@ public class Example_Validations_Fluent_Test {
      * Example with values derived from the object:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Collection size must be >1.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[\\?\\]: Collection size must be >1.")
     public void test4() {
         value(Collections.singleton(2), "collection name")
                 .mustNot(Be::Null, "This collection cannot be null.")
@@ -121,12 +121,25 @@ public class Example_Validations_Fluent_Test {
      * Similar but with name being used:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[collection_name.size\\]: Collection size must be >1.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection_name.size\\]: Collection size must be >1.")
     public void test5() {
         value(Collections.singleton(2), "collection_name")
                 .mustNot(Be::Null, "This collection cannot be null.")
                 //fails:
                 .checkInt("size", Collection::size, v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
+    }
+    //>example<
+
+    /**
+     * Another good example:
+     */
+    //>example<
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Fully custom message: must be 5 < V\\(45\\) < 40")
+    public void test6() {
+
+        //fails
+        attest(arg45, "arg45").must(Be::between, 5, 40, "Fully custom message: must be %d < V(%d) < %s", 5, arg45, 40);
+
     }
     //>example<
 

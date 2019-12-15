@@ -18,14 +18,15 @@
 
 package eu.lunisolar.magma.basics.asserts;
 
+import eu.lunisolar.magma.basics.Null;
 import org.assertj.core.api.Assert;
-import org.assertj.core.description.Description;
+import org.assertj.core.api.Condition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
-
+import java.util.concurrent.atomic.*;
 import java.util.function.*;
 
 /**
@@ -44,6 +45,19 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
             @Nonnull AssertionFunction<PC, RS> assertFunction,
             @Nullable java.util.function.Consumer<RS> assertPreConsumer) {
         super(context, description, caseDescription, assertFunction, assertPreConsumer);
+    }
+
+    private R stillActualResult() {
+        final AtomicReference<R> reference = new AtomicReference<>();
+
+        to(rs -> rs.satisfies(new Condition<R>() {
+            @Override public boolean matches(R value) {
+                reference.set(value);
+                return true;
+            }
+        }));
+
+        return reference.get();
     }
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
@@ -66,6 +80,28 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
     /** Convenient method to just check equality */
     public CTX asEqualTo(R equalsTo) {
         to(rs -> rs.isEqualTo(equalsTo));
+        return context.self();
+    }
+
+    /** Ads possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
+    public CTX that(@Nonnull Consumer<R> customCheckBlock) {
+        Null.nonNullArg(customCheckBlock, "customCheckBlock");
+        R actualResult = stillActualResult();
+        customCheckBlock.accept(actualResult);
+        return context.self();
+    }
+
+    /** Ads possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
+    public <AA> CTX that(@Nonnull Function<R, AA> adapter, @Nonnull Consumer<AA> customCheckBlock) {
+        Null.nonNullArg(adapter, "adapter");
+        Null.nonNullArg(customCheckBlock, "customCheckBlock");
+
+        R actualResult = stillActualResult();
+
+        AA wrapper = adapter.apply(actualResult);
+        Null.nonNull(wrapper, () -> "Adapter function must produce non-null result!");
+
+        customCheckBlock.accept(wrapper);
         return context.self();
     }
 

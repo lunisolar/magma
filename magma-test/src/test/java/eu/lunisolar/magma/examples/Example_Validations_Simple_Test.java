@@ -134,6 +134,16 @@ public class Example_Validations_Simple_Test {
     }
     //>example<
 
+    /**
+     * AssertionError example:
+     */
+    //>example<
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "'arg'=45  must be between 5 and 40.")
+    public void test6() {
+        throwIfNot$(arg45, Is::between, 5, 40, X::assertion, "'arg'=%s  must be between 5 and 40.");
+    }
+    //>example<
+
     //>inject<:generated
 
 }

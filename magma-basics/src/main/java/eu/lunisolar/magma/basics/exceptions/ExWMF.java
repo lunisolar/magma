@@ -28,4 +28,8 @@ import javax.annotation.Nullable;
 public interface ExWMF<X extends Throwable> {
     @Nonnull
     X produce(@Nonnull String message, @Nullable Throwable cause);
+
+    static <X extends Throwable> ExWMF<RuntimeException> shoving(ExWMF<X> factory) {
+        return (ExWMF) factory;
+    }
 }

@@ -27,4 +27,8 @@ import javax.annotation.Nonnull;
 public interface ExMF<X extends Throwable> {
     @Nonnull
     X produce(@Nonnull String message);
+
+    static <X extends Throwable> ExMF<RuntimeException> shoving(ExMF<X> factory) {
+        return (ExMF) factory;
+    }
 }
