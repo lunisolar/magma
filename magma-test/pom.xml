@@ -31,7 +31,7 @@
     </parent>
 
 
-    <artifactId>magma-examples</artifactId>
+    <artifactId>magma-test</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <version>2.1.0-SNAPSHOT</version>
@@ -68,16 +68,17 @@
             <artifactId>assertj-core</artifactId>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
-            <version>1.19</version>
+            <version>1.22</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
-            <version>1.19</version>
+            <version>1.22</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -92,7 +93,7 @@
                     <destinationPath>${project.build.directory}</destinationPath>
                     <injectables>
                         <readmore>&lt;hr id=&quot;system-readmore&quot; /&gt;</readmore>
-                        <buildId>${version} ${maven.build.timestamp}</buildId>
+                        <buildId>${project.version} ${maven.build.timestamp}</buildId>
                         <generated>Generated from $_templateFile_$ at $buildId$</generated>
                     </injectables>
                 </configuration>
