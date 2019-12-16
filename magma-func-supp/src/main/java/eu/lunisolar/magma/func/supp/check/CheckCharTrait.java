@@ -128,6 +128,12 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LBiCharPredicate pred, char a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiCharPredicate.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LBiCharPredicate pred, char a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LBiCharPredicate.throwIf(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
@@ -143,6 +149,12 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends Fluen
 	default SELF must$(@Nonnull LBiCharPredicate pred, char a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiCharPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LBiCharPredicate pred, char a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiCharPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
 		return self();
 	}
 
@@ -164,6 +176,12 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LTriCharPredicate pred, char a2, char a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriCharPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LTriCharPredicate pred, char a2, char a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LTriCharPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
@@ -179,6 +197,12 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends Fluen
 	default SELF must$(@Nonnull LTriCharPredicate pred, char a2, char a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriCharPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LTriCharPredicate pred, char a2, char a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriCharPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
 		return self();
 	}
 

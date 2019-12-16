@@ -58,7 +58,9 @@ import eu.lunisolar.magma.func.supp.value.*;
 public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, LSingle<T>, ValueTrait<T, SELF> {
 
 	public static final String MESSAGE_S_S_S = "%s [%s]: %s.";
-	public static final String MESSAGE_S_S_S_S = "%s [%s]: %s. Value: %s";
+	public static final String MESSAGE_S_S_S_S = "%s [%s]: %s. Value: `%s`";
+	public static final String MESSAGE_S_S_S_S_1 = "%s [%s]: %s. Param: `%s`; Value: `%s`";
+	public static final String MESSAGE_S_S_S_S_2 = "%s [%s]: %s. Params: `%s`, `%s`; Value: `%s`";
 
 	@Nullable
 	T get();
@@ -130,6 +132,12 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 		return self();
 	}
 
+	default <T2> SELF mustNot$$(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiPredicate.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
+		return self();
+	}
+
 	default <T2> SELF mustNot(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LBiPredicate.throwIf(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
@@ -145,6 +153,12 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default <T2> SELF must$(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default <T2> SELF must$$(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
 		return self();
 	}
 
@@ -166,6 +180,12 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 		return self();
 	}
 
+	default <T2, T3> SELF mustNot$$(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
+		return self();
+	}
+
 	default <T2, T3> SELF mustNot(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LTriPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
@@ -181,6 +201,12 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default <T2, T3> SELF must$(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default <T2, T3> SELF must$$(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
 		return self();
 	}
 

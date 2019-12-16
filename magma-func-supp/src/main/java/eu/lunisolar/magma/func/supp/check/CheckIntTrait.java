@@ -128,6 +128,12 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends Fluent<
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LBiIntPredicate pred, int a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiIntPredicate.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LBiIntPredicate pred, int a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LBiIntPredicate.throwIf(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
@@ -143,6 +149,12 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends Fluent<
 	default SELF must$(@Nonnull LBiIntPredicate pred, int a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiIntPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LBiIntPredicate pred, int a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiIntPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
 		return self();
 	}
 
@@ -164,6 +176,12 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends Fluent<
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LTriIntPredicate pred, int a2, int a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriIntPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LTriIntPredicate pred, int a2, int a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LTriIntPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
@@ -179,6 +197,12 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends Fluent<
 	default SELF must$(@Nonnull LTriIntPredicate pred, int a2, int a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriIntPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LTriIntPredicate pred, int a2, int a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriIntPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
 		return self();
 	}
 

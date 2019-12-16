@@ -128,6 +128,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LBiLongPredicate pred, long a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiLongPredicate.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LBiLongPredicate pred, long a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LBiLongPredicate.throwIf(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
@@ -143,6 +149,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default SELF must$(@Nonnull LBiLongPredicate pred, long a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiLongPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LBiLongPredicate pred, long a2, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBiLongPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
 		return self();
 	}
 
@@ -164,6 +176,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LTriLongPredicate pred, long a2, long a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriLongPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LTriLongPredicate pred, long a2, long a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LTriLongPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
@@ -179,6 +197,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default SELF must$(@Nonnull LTriLongPredicate pred, long a2, long a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriLongPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LTriLongPredicate pred, long a2, long a3, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LTriLongPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
 		return self();
 	}
 

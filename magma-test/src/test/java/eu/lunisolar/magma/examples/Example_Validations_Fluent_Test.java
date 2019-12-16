@@ -74,8 +74,8 @@ public class Example_Validations_Fluent_Test {
               .must(Be::lt, 50, "cannot be greater or equal 50"); //passes
 
         var i = arg(60)
-                .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
-                .get();
+                        .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
+                        .get();
     }
     //>example<
 
@@ -83,7 +83,7 @@ public class Example_Validations_Fluent_Test {
      * Now lets include the value of the argument to the message and the name.
      */
     //>example<
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "State \\[number\\]: cannot be greater or equal 40. Value: 60")
+    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "State \\[number\\]: cannot be greater or equal 40. Value: `60`")
     public void test2() throws Exception {
 
         //fails
@@ -140,6 +140,18 @@ public class Example_Validations_Fluent_Test {
         //fails
         attest(arg45, "arg45").must(Be::between, 5, 40, "Fully custom message: must be %d < V(%d) < %s", 5, arg45, 40);
 
+    }
+    //>example<
+
+    /**
+     * We can also use method that will include check parameters in the message for us.
+     */
+    //>example<
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check \\[arg45\\]: not between. Params: `5`, `40`; Value: `45`")
+    public void test7() {
+
+        //fails
+        attest(arg45, "arg45").must$$(Be::between, 5, 40, "not between");
     }
     //>example<
 
