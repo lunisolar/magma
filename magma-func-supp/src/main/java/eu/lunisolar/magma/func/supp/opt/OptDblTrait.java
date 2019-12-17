@@ -485,12 +485,29 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="orElse">
 
+	default SELF orThrow() {
+		if (isPresent()) {
+			return self();
+		}
+
+		throw Handling.create(X::noSuchElement);
+	}
+
 	default double orElseThrow() {
 		if (isPresent()) {
 			return get();
 		}
 
 		throw Handling.create(X::noSuchElement);
+	}
+
+	default SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx);
 	}
 
 	default double orElseThrow(@Nonnull ExF<RuntimeException> fx) {
@@ -502,6 +519,15 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		throw Handling.create(fx);
 	}
 
+	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg);
+	}
+
 	default double orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
 		if (isPresent()) {
 			return get();
@@ -509,6 +535,15 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 
 		Null.nonNullArg(fx, "fx");
 		throw Handling.create(fx, msg);
+	}
+
+	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
 	}
 
 	default double orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {

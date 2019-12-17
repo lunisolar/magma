@@ -720,12 +720,29 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="orElse">
 
+	default SELF orThrow() {
+		if (isPresent()) {
+			return self();
+		}
+
+		throw Handling.create(X::noSuchElement);
+	}
+
 	default T orElseThrow() {
 		if (isPresent()) {
 			return get();
 		}
 
 		throw Handling.create(X::noSuchElement);
+	}
+
+	default SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx);
 	}
 
 	default T orElseThrow(@Nonnull ExF<RuntimeException> fx) {
@@ -737,6 +754,15 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		throw Handling.create(fx);
 	}
 
+	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg);
+	}
+
 	default T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
 		if (isPresent()) {
 			return get();
@@ -744,6 +770,15 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 		Null.nonNullArg(fx, "fx");
 		throw Handling.create(fx, msg);
+	}
+
+	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, args);
 	}
 
 	default T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
