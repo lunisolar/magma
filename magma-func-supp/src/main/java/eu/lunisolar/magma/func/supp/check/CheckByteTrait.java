@@ -92,6 +92,12 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBytePredicate.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LBytePredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LBytePredicate.throwIf(get(), pred, checkTraitFactory(), newMessage, messageParams);
@@ -107,6 +113,12 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	default SELF must$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBytePredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LBytePredicate pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LBytePredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 

@@ -92,6 +92,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LLogicalOperator pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), newMessage, messageParams);
@@ -107,6 +113,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default SELF must$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 

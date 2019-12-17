@@ -59,6 +59,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 
 	public static final String MESSAGE_S_S_S = "%s [%s]: %s.";
 	public static final String MESSAGE_S_S_S_S = "%s [%s]: %s. Value: `%s`";
+	public static final String MESSAGE_S_S_S_S_0 = MESSAGE_S_S_S_S;
 	public static final String MESSAGE_S_S_S_S_1 = "%s [%s]: %s. Param: `%s`; Value: `%s`";
 	public static final String MESSAGE_S_S_S_S_2 = "%s [%s]: %s. Params: `%s`, `%s`; Value: `%s`";
 
@@ -96,6 +97,12 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LPredicate.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LPredicate<T> pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LPredicate.throwIf(get(), pred, checkTraitFactory(), newMessage, messageParams);
@@ -111,6 +118,12 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF must$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LPredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LPredicate<T> pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LPredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 

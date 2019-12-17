@@ -92,6 +92,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends Fluent<
 		return self();
 	}
 
+	default SELF mustNot$$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LFltPredicate.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
 	default SELF mustNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIf(get(), pred, checkTraitFactory(), newMessage, messageParams);
@@ -107,6 +113,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends Fluent<
 	default SELF must$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		return self();
+	}
+
+	default SELF must$$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+		Null.nonNullArg(pred, "pred");
+		LFltPredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
