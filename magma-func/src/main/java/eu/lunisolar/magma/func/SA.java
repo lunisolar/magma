@@ -74,6 +74,9 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 
 		private static final SA<long[], Iterator, a<Object>> LONG_ARRAY_OBJ = sA(Array::getLength, (long[] c) -> Arrays.stream(c).iterator(), Iterator::hasNext, func(Iterator::next), biConsThrowing(UnsupportedOperationException::new));
 
+		private static final SA<byte[], Iterator, a<Object>> BYTE_ARRAY_OBJ = sA(Array::getLength, (byte[] c) -> IntStream.range(0, c.length).map(idx -> c[idx]).iterator(), Iterator::hasNext, func(Iterator::next),
+				biConsThrowing(UnsupportedOperationException::new));
+
 		private final LToIntFunction<C> sizeFunc;
 
 		private final LFunction<C, I> adapter;
@@ -192,12 +195,21 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 	}
 
 	/** Sequential access to long[] (Element are boxed/unboxed) */
-	public static <Integer, I extends Iterator<Long>, A extends a<Integer>> SA<long[], I, A> longArrayObj() {
+	public static <Integer, I extends Iterator<Long>, A extends a<Long>> SA<long[], I, A> longArrayObj() {
 		return (SA) The.LONG_ARRAY_OBJ;
 	}
 
-	public static <Integer, I extends Iterator<Long>, A extends a<Integer>> SA<long[], I, A> sa(long[] ignored) {
+	public static <Integer, I extends Iterator<Long>, A extends a<Long>> SA<long[], I, A> sa(long[] ignored) {
 		return longArrayObj();
+	}
+
+	/** Sequential access to byte[] (Element are boxed/unboxed) */
+	public static <Integer, I extends Iterator<Byte>, A extends a<Byte>> SA<byte[], I, A> byteArrayObj() {
+		return (SA) The.BYTE_ARRAY_OBJ;
+	}
+
+	public static <Integer, I extends Iterator<Byte>, A extends a<Byte>> SA<byte[], I, A> sa(byte[] ignored) {
+		return byteArrayObj();
 	}
 
 }

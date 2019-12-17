@@ -315,5 +315,29 @@ public class SATest {
         assertThat(hasNextPredicate.test(iterator)).isFalse();
     }
 
+    @Test public void testByteArray() {
+        Object container = new byte[]{22};
+
+        SA<?, ?, a<?>> sa = (SA) SA.byteArrayObj();
+        LToIntFunction size = sa.sizeFunc();
+        LFunction iteratorFunc = sa.adapter();
+        LPredicate hasNextPredicate = sa.tester();
+        LFunction nextFunc = sa.supplier();
+        LBiConsumer consumer = sa.consumer();
+
+        assertThat(size.applyAsInt(container)).isEqualTo(1);
+
+        Object iterator = iteratorFunc.apply(container);
+
+        assertThatThrownBy(() -> consumer.accept(container, 22))
+                .isInstanceOf(UnsupportedOperationException.class);
+
+        assertThat(hasNextPredicate.test(iterator)).isTrue();
+
+        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
+
+        assertThat(hasNextPredicate.test(iterator)).isFalse();
+    }
+
 
 }
