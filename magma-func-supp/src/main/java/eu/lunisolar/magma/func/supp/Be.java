@@ -69,8 +69,8 @@ public final class Be implements FluentSyntax {
 
 	// <editor-fold desc="Object">
 
-	public static boolean same(@Nullable Object n) {
-		return n == null;
+	public static boolean same(@Nullable Object n, @Nullable Object other) {
+		return n == other;
 	}
 
 	public static boolean Null(@Nullable Object n) {
