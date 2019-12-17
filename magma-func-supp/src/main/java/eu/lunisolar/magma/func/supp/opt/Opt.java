@@ -211,6 +211,52 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 		return of(value);
 	}
 
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> boolean r_(OptBoolTrait<?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+
+	public static <T> T r_(OptTrait<T, ?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> byte r_(OptByteTrait<?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> double r_(OptDblTrait<?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> char r_(OptCharTrait<?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> short r_(OptSrtTrait<?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> float r_(OptFltTrait<?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> int r_(OptIntTrait<?> optional) {
+		return optional.get();
+	}
+
+	/** Just to shorten one line in method implementations that just check or/and map or/and return content of optional. */
+	public static <SELF> long r_(OptLongTrait<?> optional) {
+		return optional.get();
+	}
+
 	public static <T> Opt<T> from(@Nonnull Optional<T> optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? Opt.of(optional.get()) : empty();
