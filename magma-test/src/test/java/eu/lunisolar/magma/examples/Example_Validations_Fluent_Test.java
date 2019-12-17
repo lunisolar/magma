@@ -110,7 +110,7 @@ public class Example_Validations_Fluent_Test {
      * Example with values derived from the object:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[\\?\\]: Collection size must be >1.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection name.\\?\\]: Collection size must be >1.")
     public void test4() {
         value(Collections.singleton(2), "collection name")
                 .mustNot(Be::Null, "This collection cannot be null.")

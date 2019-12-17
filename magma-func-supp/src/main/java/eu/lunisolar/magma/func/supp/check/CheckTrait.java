@@ -242,7 +242,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkBool(@Nonnull LPredicate<T> func, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.test(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.test(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -256,7 +256,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkByte(@Nonnull LToByteFunction<T> func, LConsumer<Checks.CheckByte> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsByte(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsByte(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -270,7 +270,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkDbl(@Nonnull LToDblFunction<T> func, LConsumer<Checks.CheckDbl> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsDbl(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsDbl(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -284,7 +284,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkChar(@Nonnull LToCharFunction<T> func, LConsumer<Checks.CheckChar> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsChar(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsChar(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -298,7 +298,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkSrt(@Nonnull LToSrtFunction<T> func, LConsumer<Checks.CheckSrt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsSrt(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsSrt(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -312,7 +312,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkFlt(@Nonnull LToFltFunction<T> func, LConsumer<Checks.CheckFlt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsFlt(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsFlt(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -326,7 +326,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkInt(@Nonnull LToIntFunction<T> func, LConsumer<Checks.CheckInt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsInt(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsInt(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -340,7 +340,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkLong(@Nonnull LToLongFunction<T> func, LConsumer<Checks.CheckLong> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsLong(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsLong(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 
@@ -354,7 +354,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default <R> SELF check(@Nonnull LFunction<T, R> func, LConsumer<Checks.Check<R>> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.apply(get()), checkTraitFactory()));
+		checks.accept(Checks.check(func.apply(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
 		return self();
 	}
 

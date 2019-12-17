@@ -105,4 +105,18 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         return context.self();
     }
 
+    /** Ads possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
+    public <V, AA> CTX that(@Nonnull BiFunction<R, V, AA> adapter, @Nullable V adapterParam, @Nonnull Consumer<AA> customCheckBlock) {
+        Null.nonNullArg(adapter, "adapter");
+        Null.nonNullArg(customCheckBlock, "customCheckBlock");
+
+        R actualResult = stillActualResult();
+
+        AA wrapper = adapter.apply(actualResult, adapterParam);
+        Null.nonNull(wrapper, () -> "Adapter function must produce non-null result!");
+
+        customCheckBlock.accept(wrapper);
+        return context.self();
+    }
+
 }
