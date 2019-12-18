@@ -25,14 +25,14 @@ import java.util.function.*;
 public interface Fluent<SELF extends Fluent<SELF>> extends SelfReferencing<SELF> {
         
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default <T> SELF fluentInterjection(Consumer<SELF> injection) {
+    default <T> SELF fluentUse(Consumer<SELF> injection) {
         final SELF self = self();
         injection.accept(self);
         return self;
     }
 
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default <T> SELF fluentInterjection(T ctx, BiConsumer<SELF, T> injection) {
+    default <T> SELF fluentUse(T ctx, BiConsumer<SELF, T> injection) {
         final SELF self = self();
         injection.accept(self, ctx);
         return self;
