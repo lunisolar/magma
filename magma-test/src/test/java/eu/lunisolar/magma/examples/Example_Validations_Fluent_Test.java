@@ -19,12 +19,10 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
-import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.*;
@@ -110,7 +108,7 @@ public class Example_Validations_Fluent_Test {
      * Example with values derived from the object:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection name.\\?\\]: Collection size must be >1.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection name\\|\\?\\]: Collection size must be >1.")
     public void test4() {
         value(Collections.singleton(2), "collection name")
                 .mustNot(Be::Null, "This collection cannot be null.")
@@ -123,12 +121,12 @@ public class Example_Validations_Fluent_Test {
      * Similar but with name being used:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection_name.size\\]: Collection size must be >1.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection_name\\|size\\]: Collection size must be >1.")
     public void test5() {
         value(Collections.singleton(2), "collection_name")
                 .mustNot(Be::Null, "This collection cannot be null.")
                 //fails:
-                .checkInt("size", Collection::size, v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
+                .checkInt(Collection::size, "size", v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
     }
     //>example<
 
@@ -169,5 +167,5 @@ public class Example_Validations_Fluent_Test {
     }
 
     //>inject<:generated
-    
+
 }

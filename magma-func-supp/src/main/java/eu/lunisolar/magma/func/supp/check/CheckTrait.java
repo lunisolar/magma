@@ -242,126 +242,126 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<
 	default SELF checkBool(@Nonnull LPredicate<T> func, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.test(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.test(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkBool(@Nullable String name, @Nonnull LPredicate<T> func, LConsumer<Checks.CheckBool> checks) {
+	default SELF checkBool(@Nonnull LPredicate<T> func, @Nullable String name, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.test(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.test(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default SELF checkByte(@Nonnull LToByteFunction<T> func, LConsumer<Checks.CheckByte> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsByte(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsByte(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkByte(@Nullable String name, @Nonnull LToByteFunction<T> func, LConsumer<Checks.CheckByte> checks) {
+	default SELF checkByte(@Nonnull LToByteFunction<T> func, @Nullable String name, LConsumer<Checks.CheckByte> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsByte(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsByte(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default SELF checkDbl(@Nonnull LToDblFunction<T> func, LConsumer<Checks.CheckDbl> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsDbl(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsDbl(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkDbl(@Nullable String name, @Nonnull LToDblFunction<T> func, LConsumer<Checks.CheckDbl> checks) {
+	default SELF checkDbl(@Nonnull LToDblFunction<T> func, @Nullable String name, LConsumer<Checks.CheckDbl> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsDbl(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsDbl(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default SELF checkChar(@Nonnull LToCharFunction<T> func, LConsumer<Checks.CheckChar> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsChar(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsChar(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkChar(@Nullable String name, @Nonnull LToCharFunction<T> func, LConsumer<Checks.CheckChar> checks) {
+	default SELF checkChar(@Nonnull LToCharFunction<T> func, @Nullable String name, LConsumer<Checks.CheckChar> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsChar(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsChar(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default SELF checkSrt(@Nonnull LToSrtFunction<T> func, LConsumer<Checks.CheckSrt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsSrt(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsSrt(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkSrt(@Nullable String name, @Nonnull LToSrtFunction<T> func, LConsumer<Checks.CheckSrt> checks) {
+	default SELF checkSrt(@Nonnull LToSrtFunction<T> func, @Nullable String name, LConsumer<Checks.CheckSrt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsSrt(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsSrt(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default SELF checkFlt(@Nonnull LToFltFunction<T> func, LConsumer<Checks.CheckFlt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsFlt(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsFlt(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkFlt(@Nullable String name, @Nonnull LToFltFunction<T> func, LConsumer<Checks.CheckFlt> checks) {
+	default SELF checkFlt(@Nonnull LToFltFunction<T> func, @Nullable String name, LConsumer<Checks.CheckFlt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsFlt(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsFlt(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default SELF checkInt(@Nonnull LToIntFunction<T> func, LConsumer<Checks.CheckInt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsInt(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsInt(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkInt(@Nullable String name, @Nonnull LToIntFunction<T> func, LConsumer<Checks.CheckInt> checks) {
+	default SELF checkInt(@Nonnull LToIntFunction<T> func, @Nullable String name, LConsumer<Checks.CheckInt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsInt(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsInt(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default SELF checkLong(@Nonnull LToLongFunction<T> func, LConsumer<Checks.CheckLong> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsLong(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsLong(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default SELF checkLong(@Nullable String name, @Nonnull LToLongFunction<T> func, LConsumer<Checks.CheckLong> checks) {
+	default SELF checkLong(@Nonnull LToLongFunction<T> func, @Nullable String name, LConsumer<Checks.CheckLong> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsLong(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.applyAsLong(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
 	default <R> SELF check(@Nonnull LFunction<T, R> func, LConsumer<Checks.Check<R>> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.apply(get()), checkTraitName() != null ? checkTraitName() + ".?" : "?.?", checkTraitFactory()));
+		checks.accept(Checks.check(func.apply(get()), checkTraitName() != null ? checkTraitName() + "|?" : "?|?", checkTraitFactory()));
 		return self();
 	}
 
-	default <R> SELF check(@Nullable String name, @Nonnull LFunction<T, R> func, LConsumer<Checks.Check<R>> checks) {
+	default <R> SELF check(@Nonnull LFunction<T, R> func, @Nullable String name, LConsumer<Checks.Check<R>> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.apply(get()), checkTraitName() != null ? checkTraitName() + "." + name : "?." + name, checkTraitFactory()));
+		checks.accept(Checks.check(func.apply(get()), checkTraitName() != null ? checkTraitName() + "|" + name : "?|" + name, checkTraitFactory()));
 		return self();
 	}
 
