@@ -632,9 +632,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIfNot(@Nonnull LIntPredicate predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is(predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf(@Nonnull LBiIntPredicate predicate, int a2, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is(predicate, a2))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIfNot(@Nonnull LBiIntPredicate predicate, int a2, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is(predicate, a2))
 			action.accept(self());
 		return self();
 	}
@@ -646,9 +660,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIfNot(int a2, @Nonnull LBiIntPredicate predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is(a2, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf(@Nonnull LTriIntPredicate predicate, int a2, int a3, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is(predicate, a2, a3))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIfNot(@Nonnull LTriIntPredicate predicate, int a2, int a3, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is(predicate, a2, a3))
 			action.accept(self());
 		return self();
 	}
@@ -660,9 +688,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIfNot(int a2, int a3, @Nonnull LTriIntPredicate predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is(a2, a3, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf2_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2Not_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
@@ -674,9 +716,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIf2Not_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf2_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2Not_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
@@ -688,9 +744,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIf2Not_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf2_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2Not_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
@@ -702,9 +772,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIf2Not_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf2_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2Not_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
@@ -716,9 +800,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIf2Not_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf2_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2Not_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
@@ -730,9 +828,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIf2Not_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf2_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2Not_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
@@ -744,9 +856,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIf2Not_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default SELF doIf2_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2Not_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
@@ -758,6 +884,13 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default SELF doIf2Not_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
 	public default <V> SELF doIf2_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
@@ -765,9 +898,23 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
+	public default <V> SELF doIf2Not_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
 	public default <V> SELF doIf2_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	public default <V> SELF doIf2Not_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (!is2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
