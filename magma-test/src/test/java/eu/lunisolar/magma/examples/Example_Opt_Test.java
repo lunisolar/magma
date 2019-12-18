@@ -105,6 +105,19 @@ public class Example_Opt_Test {
     }
     //>example<
 
+    @Test
+    public void test2Bis() {
+
+        OptInt ooo = Opt.of(5);
+
+        var result = ooo
+                .filter(Is::equal, 5)
+                .filter(Is::inRange, 5, 7) // 5 is in range from 5 to 7
+                .filter(Is::between, 5, 7); // 5 is NOT between 5 to 7
+
+        assertThat(result.toOpt()).isEmpty();
+    }
+
     /**
      * Here is example of `is` alternative to `filter` methods along with a `must` check.
      */

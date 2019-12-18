@@ -126,16 +126,6 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
-	public default boolean is2(@Nonnull LBiSrtPredicate predicate, short v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
-	public default boolean is2(short v, @Nonnull LBiSrtPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
 	public default boolean is2(@Nonnull LSrtIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
@@ -183,16 +173,6 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 	public default SELF filter(short a2, short a3, @Nonnull LTriSrtPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
-	}
-
-	public default SELF filter2(@Nonnull LBiSrtPredicate predicate, short v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
-	public default SELF filter2(short v, @Nonnull LBiSrtPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
 	public default SELF filter2(@Nonnull LSrtIntPredicate predicate, int v) {
@@ -446,6 +426,77 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends Fluent<SELF
 	// </editor-fold>
 
 	// <editor-fold desc="ifPresent">
+
+	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
+		Null.nonNullArg(action, "action");
+		if (isVoid()) {
+			action.execute();
+		}
+		return self();
+	}
+
+	public default SELF doIf(@Nonnull LSrtPredicate predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is(predicate))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf(@Nonnull LBiSrtPredicate predicate, short a2, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is(predicate, a2))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf(short a2, @Nonnull LBiSrtPredicate predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is(a2, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf(@Nonnull LTriSrtPredicate predicate, short a2, short a3, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is(predicate, a2, a3))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf(short a2, short a3, @Nonnull LTriSrtPredicate predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is(a2, a3, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2(@Nonnull LSrtIntPredicate predicate, int v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is2(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default SELF doIf2(int v, @Nonnull LSrtIntPredicate predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is2(v, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	public default <V> SELF doIf2_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is2_(predicate, v))
+			action.accept(self());
+		return self();
+	}
+
+	public default <V> SELF doIf2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, LConsumer<SELF> action) {
+		Null.nonNullArg(predicate, "predicate");
+		if (is2_(v, predicate))
+			action.accept(self());
+		return self();
+	}
 
 	public default SELF ifPresent(@Nonnull LSrtConsumer action) {
 		Null.nonNullArg(action, "action");
