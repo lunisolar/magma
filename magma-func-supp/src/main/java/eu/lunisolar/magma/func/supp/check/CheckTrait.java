@@ -57,11 +57,11 @@ import eu.lunisolar.magma.func.supp.value.*;
 
 public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, LSingle<T>, ValueTrait<T, SELF> {
 
-	public static final String MESSAGE_S_S_S = "%s [%s]: %s.";
-	public static final String MESSAGE_S_S_S_S = "%s [%s]: %s. Value: `%s`";
+	public static final String MESSAGE_S_S_S = "%s [%s]: %s";
+	public static final String MESSAGE_S_S_S_S = "%s [%s]: %s [Value: `%s`]";
 	public static final String MESSAGE_S_S_S_S_0 = MESSAGE_S_S_S_S;
-	public static final String MESSAGE_S_S_S_S_1 = "%s [%s]: %s. Param: `%s`; Value: `%s`";
-	public static final String MESSAGE_S_S_S_S_2 = "%s [%s]: %s. Params: `%s`, `%s`; Value: `%s`";
+	public static final String MESSAGE_S_S_S_S_1 = "%s [%s]: %s [Param: `%s`; Value: `%s`]";
+	public static final String MESSAGE_S_S_S_S_2 = "%s [%s]: %s [Params: `%s`, `%s`; Value: `%s`]";
 	public static final String SEP = " -> ";
 
 	@Nullable

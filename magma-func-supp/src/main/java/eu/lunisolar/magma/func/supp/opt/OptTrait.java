@@ -60,12 +60,8 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - To introduce more possibility for cases where simply referencing existing method (that can be provided by editor completion) just will make the job done.
  * - That means more possibility to build 'sentences' that actually tell what happens.
  * - Performance wise, if use correctly, both Java's Optional and this class work similar way. Given that escape analysis, and 'stack allocation' will not be
- * blocked from providing full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
+ * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
- * - 'doIfNot' vs 'P::notEqual' vs 'not(P::equal)'
- *     - not() is only convinient if you use negation just in one place with just oen type of predicate
- *     - 'doIfNot' vs 'P::notEqual' it does not matter where nagation will be, as long as it exists. Having it on Opt class means that the other places does not
- *       need to have it - and positive predicate can be method-referenced.
  */
 public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, CheckTrait<T, SELF> {
 

@@ -122,7 +122,7 @@ public class Example_Opt_Test {
      * Here is example of `is` alternative to `filter` methods along with a `must` check.
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Opt \\[\\?\\]: must be 99.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Opt \\[\\?\\]: must be 99")
     public void test3() {
 
         Opt<Integer> ooo = Opt.obj(5);

@@ -66,7 +66,7 @@ public class Example_Validations_Fluent_Test {
      * Lets consider very simple validation that need to be done.
      */
     //>example<
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50.")
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50")
     public void test1() {
 
         Checks.arg(arg45)
@@ -83,7 +83,7 @@ public class Example_Validations_Fluent_Test {
      * Now lets include the value of the argument to the message and the name.
      */
     //>example<
-    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "State \\[number\\]: cannot be greater or equal 40. Value: `60`")
+    @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "State \\[number\\]: cannot be greater or equal 40 \\[Value: `60`\\]")
     public void test2() throws Exception {
 
         //fails
@@ -108,7 +108,7 @@ public class Example_Validations_Fluent_Test {
      * Example with values derived from the object:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection name -> \\?\\]: Collection size must be >1.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection name -> \\?\\]: Collection size must be >1")
     public void test4() {
         value(Collections.singleton(2), "collection name")
                 .mustNot(Be::Null, "This collection cannot be null.")
@@ -121,7 +121,7 @@ public class Example_Validations_Fluent_Test {
      * Similar but with name being used:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection_name -> size\\]: Collection size must be >1.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[collection_name -> size\\]: Collection size must be >1")
     public void test5() {
         value(Collections.singleton(2), "collection_name")
                 .mustNot(Be::Null, "This collection cannot be null.")
@@ -147,7 +147,7 @@ public class Example_Validations_Fluent_Test {
      * We can also use method that will include check parameters in the message for us.
      */
     //>example<
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check \\[arg45\\]: not between. Params: `5`, `40`; Value: `45`")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check \\[arg45\\]: not between \\[Params: `5`, `40`; Value: `45`\\]")
     public void test7() {
 
         //fails
@@ -155,7 +155,7 @@ public class Example_Validations_Fluent_Test {
     }
     //>example<
 
-    @Test
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: _message_")
     public void valueTrait() {
         CheckInt opt = Checks.value(45);
 
@@ -164,7 +164,10 @@ public class Example_Validations_Fluent_Test {
         assertThatThrownBy(opt::voidValue).isInstanceOf(UnsupportedOperationException.class)
                                           .hasMessage("Trait implementation (CheckInt) does not support empty value.");
 
+        Checks.value(null).must(Be::notNull, "_message_");
     }
+
+
 
     //>inject<:generated
 
