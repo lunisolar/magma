@@ -76,16 +76,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -165,16 +168,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -254,16 +260,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -343,16 +352,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -432,16 +444,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -521,16 +536,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -610,16 +628,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -699,16 +720,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;
@@ -788,16 +812,19 @@ public final class Checks implements FluentSyntax {
 			this.type = type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitType() {
 			return type;
 		}
 
+		@Nonnull
 		@Override
 		public String checkTraitName() {
 			return name;
 		}
 
+		@Nonnull
 		@Override
 		public ExMF<RuntimeException> checkTraitFactory() {
 			return factory;

@@ -32,7 +32,6 @@ import org.openjdk.jmh.annotations.*;
 import java.util.concurrent.*;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.arg;
-import static eu.lunisolar.magma.func.supp.check.Checks.check;
 import static eu.lunisolar.magma.test.random.Series.series;
 import static eu.lunisolar.magma.test.random.SimpleRandoms.aString;
 import static org.openjdk.jmh.runner.options.TimeValue.seconds;
@@ -48,7 +47,7 @@ public class Validations4U_Perf {
     private static final Number                     INT              = 1;
     public static final  LFunction<Number, Integer> NUM_TO_INT       = Number::intValue;
     public static final  int                        TIMES            = 1;
-    public static final  int                        SERIES_SIZE      = 1000;
+    public static final  int                        SERIES_SIZE      = 10000;
     public static final  int                        COUNT_ITERATIONS = 10000;
 
     private static final LSupplier<String> str     = () -> aString(20);
@@ -195,7 +194,7 @@ public class Validations4U_Perf {
             int i = state.i();
             try {
                 arg(state.values.v(i)).mustNot(Be::nullOrEmpty, "Cannot be empty.")
-                                      .checkInt(String::length, v -> v.must(Be::gtEq, 2, "Must be longer than 2"));
+                                      .checkInt(String::length,"der",  v -> v.must(Be::gtEq, 2, "Must be longer than 2"));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -232,9 +231,64 @@ public class Validations4U_Perf {
         return a;
     }
 
+    @Benchmark @Threads(THREADS) public Object checkIf_ref(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                var s = state.values.v(i);
+                if (s!= null ) {
+                    arg(state.values.v(i)).mustNot$$(Be::equal, "", "Cannot be empty.");
+                }
+
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object checkIf(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i)).checkIf(Is::notNull, __ -> __.mustNot$$(Be::equal, "", "Cannot be empty."));
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object checkIf2(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), "data").checkIf(Is::notNull, __ -> __.mustNot$$(Be::equal, "conditional check", "Cannot be empty."));
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
     public static void main(String... args) {
         JMH.jmh()
            .java10ServerArgs()
+//           .opt(opt -> {
+//               opt.jvmArgs(
+//                       "-server",
+//                       "-XX:+UnlockDiagnosticVMOptions",
+//                       "-XX:MaxInlineLevel=60",
+//                       "-XX:MaxInlineSize=2000",
+//                       "-XX:+PrintInlining"
+//               );
+//           })
 //           .iterations(3, seconds(10), 3, seconds(10))
            .iterations(2, seconds(3), 2, seconds(3))
            .classes(Validations4U_Perf.class)

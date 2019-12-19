@@ -80,161 +80,215 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends Fluent<
 		return X::value;
 	}
 
-	default SELF mustNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+	default @Nonnull SELF mustNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
 		return self();
 	}
 
-	default SELF mustNot$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+	default @Nonnull SELF mustNot$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF mustNot$$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+	default @Nonnull SELF mustNot$$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF mustNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF mustNot(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIf(get(), pred, checkTraitFactory(), newMessage, messageParams);
 		return self();
 	}
 
-	default SELF must(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+	default @Nonnull SELF checkIf(@Nonnull LFltPredicate pred, @Nonnull LConsumer<SELF> conditionalChecks) {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(conditionalChecks, "conditionalChecks");
+		if (pred.test(get())) {
+			conditionalChecks.accept(self());
+		}
+		return self();
+	}
+
+	default @Nonnull SELF must(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
 		return self();
 	}
 
-	default SELF must$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+	default @Nonnull SELF must$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF must$$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
+	default @Nonnull SELF must$$(@Nonnull LFltPredicate pred, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF must(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF must(@Nonnull LFltPredicate pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LFltPredicate.throwIfNot(get(), pred, checkTraitFactory(), newMessage, messageParams);
 		return self();
 	}
 
-	default SELF mustNot(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
+	default @Nonnull SELF checkIfNot(@Nonnull LFltPredicate pred, @Nonnull LConsumer<SELF> conditionalChecks) {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(conditionalChecks, "conditionalChecks");
+		if (!pred.test(get())) {
+			conditionalChecks.accept(self());
+		}
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
 		return self();
 	}
 
-	default SELF mustNot$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
+	default @Nonnull SELF mustNot$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF mustNot$$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
+	default @Nonnull SELF mustNot$$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
 		return self();
 	}
 
-	default SELF mustNot(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF mustNot(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIf(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
 		return self();
 	}
 
-	default SELF must(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
+	default @Nonnull SELF checkIf(@Nonnull LBiFltPredicate pred, float a2, @Nonnull LConsumer<SELF> conditionalChecks) {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(conditionalChecks, "conditionalChecks");
+		if (pred.test(get(), a2)) {
+			conditionalChecks.accept(self());
+		}
+		return self();
+	}
+
+	default @Nonnull SELF must(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
 		return self();
 	}
 
-	default SELF must$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
+	default @Nonnull SELF must$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF must$$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
+	default @Nonnull SELF must$$(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
 		return self();
 	}
 
-	default SELF must(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF must(@Nonnull LBiFltPredicate pred, float a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LBiFltPredicate.throwIfNot(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
 		return self();
 	}
 
-	default SELF mustNot(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
+	default @Nonnull SELF checkIfNot(@Nonnull LBiFltPredicate pred, float a2, @Nonnull LConsumer<SELF> conditionalChecks) {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(conditionalChecks, "conditionalChecks");
+		if (!pred.test(get(), a2)) {
+			conditionalChecks.accept(self());
+		}
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
 		return self();
 	}
 
-	default SELF mustNot$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
+	default @Nonnull SELF mustNot$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF mustNot$$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
+	default @Nonnull SELF mustNot$$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
 		return self();
 	}
 
-	default SELF mustNot(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF mustNot(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIf(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
 		return self();
 	}
 
-	default SELF must(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
+	default @Nonnull SELF checkIf(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull LConsumer<SELF> conditionalChecks) {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(conditionalChecks, "conditionalChecks");
+		if (pred.test(get(), a2, a3)) {
+			conditionalChecks.accept(self());
+		}
+		return self();
+	}
+
+	default @Nonnull SELF must(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
 		return self();
 	}
 
-	default SELF must$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
+	default @Nonnull SELF must$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
 		return self();
 	}
 
-	default SELF must$$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
+	default @Nonnull SELF must$$(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
 		return self();
 	}
 
-	default SELF must(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF must(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
 		LTriFltPredicate.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
 		return self();
 	}
 
-	default SELF fails(@Nonnull String newMessage) {
+	default @Nonnull SELF checkIfNot(@Nonnull LTriFltPredicate pred, float a2, float a3, @Nonnull LConsumer<SELF> conditionalChecks) {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(conditionalChecks, "conditionalChecks");
+		if (!pred.test(get(), a2, a3)) {
+			conditionalChecks.accept(self());
+		}
+		return self();
+	}
+
+	default @Nonnull SELF fails(@Nonnull String newMessage) {
 		must(LFltPredicate::alwaysFalse, newMessage);
 		return self();
 	}
 
-	default SELF fails$(@Nonnull String newMessage) {
+	default @Nonnull SELF fails$(@Nonnull String newMessage) {
 		must$(LFltPredicate::alwaysFalse, newMessage);
 		return self();
 	}
 
-	default SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
 		must(LFltPredicate::alwaysFalse, newMessage, messageParams);
 		return self();
 	}
