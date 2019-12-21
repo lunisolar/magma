@@ -512,7 +512,7 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default SELF doIf2Not(@Nonnull LLongIntPredicate predicate, int v, LConsumer<SELF> action) {
+	public default SELF doIfNot2(@Nonnull LLongIntPredicate predicate, int v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2(predicate, v))
 			action.accept(self());
@@ -526,7 +526,7 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default SELF doIf2Not(int v, @Nonnull LLongIntPredicate predicate, LConsumer<SELF> action) {
+	public default SELF doIfNot2(int v, @Nonnull LLongIntPredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2(v, predicate))
 			action.accept(self());
@@ -540,7 +540,7 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default <V> SELF doIf2Not_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	public default <V> SELF doIfNot2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2_(predicate, v))
 			action.accept(self());
@@ -554,7 +554,7 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default <V> SELF doIf2Not_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, LConsumer<SELF> action) {
+	public default <V> SELF doIfNot2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2_(v, predicate))
 			action.accept(self());

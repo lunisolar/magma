@@ -504,7 +504,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default SELF doIf2Not(@Nonnull LBoolIntPredicate predicate, int v, LConsumer<SELF> action) {
+	public default SELF doIfNot2(@Nonnull LBoolIntPredicate predicate, int v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2(predicate, v))
 			action.accept(self());
@@ -518,7 +518,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default SELF doIf2Not(int v, @Nonnull LBoolIntPredicate predicate, LConsumer<SELF> action) {
+	public default SELF doIfNot2(int v, @Nonnull LBoolIntPredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2(v, predicate))
 			action.accept(self());
@@ -532,7 +532,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default <V> SELF doIf2Not_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	public default <V> SELF doIfNot2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2_(predicate, v))
 			action.accept(self());
@@ -546,7 +546,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default <V> SELF doIf2Not_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
+	public default <V> SELF doIfNot2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2_(v, predicate))
 			action.accept(self());
