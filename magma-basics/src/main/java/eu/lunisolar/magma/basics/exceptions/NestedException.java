@@ -18,7 +18,7 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
-public class NestedException extends RuntimeException {
+public class NestedException extends RE {
 
     public NestedException() {}
     public NestedException(String message) { super(message);}

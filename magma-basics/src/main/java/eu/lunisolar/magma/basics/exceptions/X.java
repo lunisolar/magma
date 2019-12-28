@@ -42,12 +42,12 @@ public class X implements FluentSyntax {
     public static NestedException nested(String message, Throwable cause) { return new NestedException(message, cause);}
     public static NestedException nested(Throwable cause)                 { return new NestedException(cause);}
 
-    public static final WrapingHandler<RuntimeException> re = handler(RuntimeException.class, RuntimeException::new, RuntimeException::new);
+    public static final WrapingHandler<RuntimeException> runtime = handler(RuntimeException.class, RuntimeException::new, RuntimeException::new);
 
-    public static RuntimeException RE()                                { return new RuntimeException(); }
-    public static RuntimeException RE(String message)                  { return new RuntimeException(message);}
-    public static RuntimeException RE(String message, Throwable cause) { return new RuntimeException(message, cause);}
-    public static RuntimeException RE(Throwable cause)                 { return new RuntimeException(cause);}
+    public static RuntimeException runtime()                                { return new RuntimeException(); }
+    public static RuntimeException runtime(String message)                  { return new RuntimeException(message);}
+    public static RuntimeException runtime(String message, Throwable cause) { return new RuntimeException(message, cause);}
+    public static RuntimeException runtime(Throwable cause)                 { return new RuntimeException(cause);}
 
     public static final WrapingHandler<IllegalArgumentException> arg =
             handler(IllegalArgumentException.class, IllegalArgumentException::new, IllegalArgumentException::new);
@@ -65,6 +65,9 @@ public class X implements FluentSyntax {
     public static IllegalStateException state(String message, Throwable cause) { return new IllegalStateException(message, cause);}
     public static IllegalStateException state(Throwable cause)                 { return new IllegalStateException(cause);}
 
+    public static final WrapingHandler<IllegalValueException> value =
+            handler(IllegalValueException.class, IllegalValueException::new, IllegalValueException::new);
+
     public static IllegalValueException value()                                { return new IllegalValueException(); }
     public static IllegalValueException value(String message)                  { return new IllegalValueException(message);}
     public static IllegalValueException value(String message, Throwable cause) { return new IllegalValueException(message, cause);}
@@ -80,29 +83,66 @@ public class X implements FluentSyntax {
 
     public static final WrapingHandler<IOException> io = handler(IOException.class, IOException::new, IOException::new);
 
-    public static IOException io()                                          { return new IOException(); }
-    public static IOException io(String message)                            { return new IOException(message);}
-    public static IOException io(String message, Throwable cause)           { return new IOException(message, cause);}
-    public static IOException io(Throwable cause)                           { return new IOException(cause);}
+    public static IOException io()                                     { return new IOException(); }
+    public static IOException io(String message)                       { return new IOException(message);}
+    public static IOException io(String message, Throwable cause)      { return new IOException(message, cause);}
+    public static IOException io(Throwable cause)                      { return new IOException(cause);}
 
-    public static NullPointerException npe()                                { return new NullPointerException(); }
-    public static NullPointerException npe(String message)                  { return new NullPointerException(message);}
+    public static NullPointerException npe()                           { return new NullPointerException(); }
+    public static NullPointerException npe(String message)             { return new NullPointerException(message);}
 
-    public static NumberFormatException number()                            { return new NumberFormatException(); }
-    public static NumberFormatException number(String message)              { return new NumberFormatException(message);}
+    public static NumberFormatException number()                       { return new NumberFormatException(); }
+    public static NumberFormatException number(String message)         { return new NumberFormatException(message);}
 
-    public static InterruptedException interrupted()                        { return new InterruptedException(); }
-    public static InterruptedException interrupted(String message)          { return new InterruptedException(message);}
+    public static InterruptedException interrupted()                   { return new InterruptedException(); }
+    public static InterruptedException interrupted(String message)     { return new InterruptedException(message);}
 
-    public static ArithmeticException ar()                                  { return new ArithmeticException(); }
-    public static ArithmeticException ar(String message)                    { return new ArithmeticException(message);}
+    public static ArithmeticException ar()                             { return new ArithmeticException(); }
+    public static ArithmeticException ar(String message)               { return new ArithmeticException(message);}
 
-    public static NoSuchElementException noSuchElement()                    { return new NoSuchElementException(); }
-    public static NoSuchElementException noSuchElement(String message)      { return new NoSuchElementException(message);}
+    public static NoSuchElementException noSuchElement()               { return new NoSuchElementException(); }
+    public static NoSuchElementException noSuchElement(String message) { return new NoSuchElementException(message);}
+
+    public static final WrapingHandler<AssertionError> assertion = handler(AssertionError.class, AssertionError::new, AssertionError::new);
 
     public static AssertionError assertion()                                { return new AssertionError(); }
     public static AssertionError assertion(String message)                  { return new AssertionError(message);}
     public static AssertionError assertion(String message, Throwable cause) { return new AssertionError(message, cause);}
     public static AssertionError assertion(Throwable cause)                 { return new AssertionError(cause);}
+
+    public static final WrapingHandler<RE> re = handler(RE.class, RE::new, RE::new);
+
+    public static RE RE()                                { return new RE();}
+    public static RE RE(String message)                  { return new RE(message);}
+    public static RE RE(String message, Throwable cause) { return new RE(message, cause);}
+    public static RE RE(Throwable cause)                 { return new RE(cause);}
+
+    public static RE RE(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        return new RE(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    public static final WrapingHandler<NotYetImplementedException> notYetImplemented =
+            handler(NotYetImplementedException.class, NotYetImplementedException::new, NotYetImplementedException::new);
+
+    public static NotYetImplementedException notYetImplemented()                                { return new NotYetImplementedException();}
+    public static NotYetImplementedException notYetImplemented(String message)                  { return new NotYetImplementedException(message);}
+    public static NotYetImplementedException notYetImplemented(String message, Throwable cause) { return new NotYetImplementedException(message, cause);}
+    public static NotYetImplementedException notYetImplemented(Throwable cause)                 { return new NotYetImplementedException(cause);}
+
+    public static NotYetImplementedException notYetImplemented(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        return new NotYetImplementedException(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    public static final WrapingHandler<UnknownCaseException> unknownCase =
+            handler(UnknownCaseException.class, UnknownCaseException::new, UnknownCaseException::new);
+
+    public static UnknownCaseException unknownCase()                                { return new UnknownCaseException();}
+    public static UnknownCaseException unknownCase(String message)                  { return new UnknownCaseException(message);}
+    public static UnknownCaseException unknownCase(String message, Throwable cause) { return new UnknownCaseException(message, cause);}
+    public static UnknownCaseException unknownCase(Throwable cause)                 { return new UnknownCaseException(cause);}
+
+    public static UnknownCaseException unknownCase(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        return new UnknownCaseException(message, cause, enableSuppression, writableStackTrace);
+    }
 
 }
