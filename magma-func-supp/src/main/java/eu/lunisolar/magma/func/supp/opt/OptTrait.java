@@ -79,6 +79,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return nullable();
 	}
 
+	@Override
+	default @Nonnull T nonnull() {
+		return get();
+	}
+
 	@Nonnull
 	T nullable();
 
