@@ -249,12 +249,12 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltConsumer lShrink(@Nonnull LFltFunction<T> left) {
+	default LFltConsumer lShrink(@Nonnull LFltFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LFltConsumer lShrink_(T a1) {
+	default LFltConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -269,12 +269,12 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(@Nonnull LToFltFunction<T> right) {
+	default LConsumer<T> rShrink(@Nonnull LToFltFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsFlt(a1));
 	}
 
-	public default LConsumer<T> rShrink_(float a2) {
+	default LConsumer<T> rShrink_(float a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -296,12 +296,12 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LObjFltConsumer untyped() {
+	default LObjFltConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjFltConsumer<V2> cast() {
+	default <V2> LObjFltConsumer<V2> cast() {
 		return untyped();
 	}
 
@@ -311,7 +311,7 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjFltConsumer<T> beforeDo(@Nonnull LObjFltConsumer<T> before) {
+	default LObjFltConsumer<T> beforeDo(@Nonnull LObjFltConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, float a2) -> {
 			before.accept(a1, a2);

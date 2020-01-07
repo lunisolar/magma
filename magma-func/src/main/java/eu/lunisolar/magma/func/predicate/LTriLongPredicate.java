@@ -287,12 +287,12 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiLongPredicate lShrink(@Nonnull LLongBinaryOperator left) {
+	default LBiLongPredicate lShrink(@Nonnull LLongBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.applyAsLong(a2, a3), a2, a3);
 	}
 
-	public default LBiLongPredicate lShrink_(long a1) {
+	default LBiLongPredicate lShrink_(long a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -307,12 +307,12 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LBiLongPredicate rShrink(@Nonnull LLongBinaryOperator right) {
+	default LBiLongPredicate rShrink(@Nonnull LLongBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsLong(a1, a2));
 	}
 
-	public default LBiLongPredicate rShrink_(long a3) {
+	default LBiLongPredicate rShrink_(long a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -334,12 +334,12 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriLongConsumer toConsumer() {
+	default LTriLongConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriLongPredicate beforeDo(@Nonnull LTriLongConsumer before) {
+	default LTriLongPredicate beforeDo(@Nonnull LTriLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2, long a3) -> {
 			before.accept(a1, a2, a3);
@@ -348,7 +348,7 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriLongPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LTriLongPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a1, long a2, long a3) -> {
 			final boolean retval = test(a1, a2, a3);

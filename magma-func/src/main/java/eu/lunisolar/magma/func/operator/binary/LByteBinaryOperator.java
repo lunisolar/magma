@@ -251,12 +251,12 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LByteUnaryOperator lShrink(@Nonnull LByteUnaryOperator left) {
+	default LByteUnaryOperator lShrink(@Nonnull LByteUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsByte(left.applyAsByte(a2), a2);
 	}
 
-	public default LByteUnaryOperator lShrink_(byte a1) {
+	default LByteUnaryOperator lShrink_(byte a1) {
 		return a2 -> applyAsByte(a1, a2);
 	}
 
@@ -271,12 +271,12 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LByteUnaryOperator rShrink(@Nonnull LByteUnaryOperator right) {
+	default LByteUnaryOperator rShrink(@Nonnull LByteUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsByte(a1, right.applyAsByte(a1));
 	}
 
-	public default LByteUnaryOperator rShrink_(byte a2) {
+	default LByteUnaryOperator rShrink_(byte a2) {
 		return a1 -> applyAsByte(a1, a2);
 	}
 
@@ -298,12 +298,12 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiByteConsumer toConsumer() {
+	default LBiByteConsumer toConsumer() {
 		return this::applyAsByte;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteBinaryOperator beforeDo(@Nonnull LBiByteConsumer before) {
+	default LByteBinaryOperator beforeDo(@Nonnull LBiByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, byte a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteBinaryOperator afterDo(@Nonnull LByteConsumer after) {
+	default LByteBinaryOperator afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a1, byte a2) -> {
 			final byte retval = applyAsByte(a1, a2);

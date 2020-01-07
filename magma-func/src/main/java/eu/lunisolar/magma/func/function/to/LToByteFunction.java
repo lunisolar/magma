@@ -267,12 +267,12 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LToByteFunction untyped() {
+	default LToByteFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LToByteFunction<V2> cast() {
+	default <V2> LToByteFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -282,12 +282,12 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::applyAsByte;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToByteFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LToByteFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToByteFunction<T> afterDo(@Nonnull LByteConsumer after) {
+	default LToByteFunction<T> afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final byte retval = applyAsByte(a);

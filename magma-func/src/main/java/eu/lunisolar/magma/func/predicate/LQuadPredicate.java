@@ -252,7 +252,7 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return LQuadPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T1 a2, T2 a3, T3 a4, T4 a5, @Nonnull LQuintConsumer<V, ? super T1, ? super T2, ? super T3, ? super T4> consumer) {
+	default <V> boolean doIf(V a1, T1 a2, T2 a3, T3 a4, T4 a5, @Nonnull LQuintConsumer<V, ? super T1, ? super T2, ? super T3, ? super T4> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3, a4, a5)) {
 			consumer.accept(a1, a2, a3, a4, a5);
@@ -310,12 +310,12 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return false;
 	}
 
-	public default LTriPredicate<T2, T3, T4> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
+	default LTriPredicate<T2, T3, T4> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3, a4) -> test(left.apply(a2, a3, a4), a2, a3, a4);
 	}
 
-	public default LTriPredicate<T2, T3, T4> lShrink_(T1 a1) {
+	default LTriPredicate<T2, T3, T4> lShrink_(T1 a1) {
 		return (a2, a3, a4) -> test(a1, a2, a3, a4);
 	}
 
@@ -330,12 +330,12 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return func.lShrink_(a1);
 	}
 
-	public default LTriPredicate<T1, T2, T3> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
+	default LTriPredicate<T1, T2, T3> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2, a3) -> test(a1, a2, a3, right.apply(a1, a2, a3));
 	}
 
-	public default LTriPredicate<T1, T2, T3> rShrink_(T4 a4) {
+	default LTriPredicate<T1, T2, T3> rShrink_(T4 a4) {
 		return (a1, a2, a3) -> test(a1, a2, a3, a4);
 	}
 
@@ -357,12 +357,12 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	}
 
 	/** Cast that removes generics. */
-	public default LQuadPredicate untyped() {
+	default LQuadPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4, V5> LQuadPredicate<V2, V3, V4, V5> cast() {
+	default <V2, V3, V4, V5> LQuadPredicate<V2, V3, V4, V5> cast() {
 		return untyped();
 	}
 
@@ -372,12 +372,12 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LQuadConsumer<T1, T2, T3, T4> toConsumer() {
+	default LQuadConsumer<T1, T2, T3, T4> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LQuadPredicate<T1, T2, T3, T4> beforeDo(@Nonnull LQuadConsumer<T1, T2, T3, T4> before) {
+	default LQuadPredicate<T1, T2, T3, T4> beforeDo(@Nonnull LQuadConsumer<T1, T2, T3, T4> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> {
 			before.accept(a1, a2, a3, a4);
@@ -386,7 +386,7 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LQuadPredicate<T1, T2, T3, T4> afterDo(@Nonnull LBoolConsumer after) {
+	default LQuadPredicate<T1, T2, T3, T4> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> {
 			final boolean retval = test(a1, a2, a3, a4);

@@ -251,12 +251,12 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LIntUnaryOperator lShrink(@Nonnull LIntUnaryOperator left) {
+	default LIntUnaryOperator lShrink(@Nonnull LIntUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsInt(left.applyAsInt(a2), a2);
 	}
 
-	public default LIntUnaryOperator lShrink_(int a1) {
+	default LIntUnaryOperator lShrink_(int a1) {
 		return a2 -> applyAsInt(a1, a2);
 	}
 
@@ -271,12 +271,12 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		return func.lShrink_(a1);
 	}
 
-	public default LIntUnaryOperator rShrink(@Nonnull LIntUnaryOperator right) {
+	default LIntUnaryOperator rShrink(@Nonnull LIntUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsInt(a1, right.applyAsInt(a1));
 	}
 
-	public default LIntUnaryOperator rShrink_(int a2) {
+	default LIntUnaryOperator rShrink_(int a2) {
 		return a1 -> applyAsInt(a1, a2);
 	}
 
@@ -298,12 +298,12 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiIntConsumer toConsumer() {
+	default LBiIntConsumer toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntBinaryOperator beforeDo(@Nonnull LBiIntConsumer before) {
+	default LIntBinaryOperator beforeDo(@Nonnull LBiIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a1, int a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntBinaryOperator afterDo(@Nonnull LIntConsumer after) {
+	default LIntBinaryOperator afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a1, int a2) -> {
 			final int retval = applyAsInt(a1, a2);

@@ -266,12 +266,12 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
-	public default LIntToCharFunction lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntToCharFunction lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsChar(left.apply(a2), a2);
 	}
 
-	public default LIntToCharFunction lShrink_(T a1) {
+	default LIntToCharFunction lShrink_(T a1) {
 		return a2 -> applyAsChar(a1, a2);
 	}
 
@@ -286,12 +286,12 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func.lShrink_(a1);
 	}
 
-	public default LToCharFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LToCharFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsChar(a1, right.applyAsInt(a1));
 	}
 
-	public default LToCharFunction<T> rShrink_(int a2) {
+	default LToCharFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsChar(a1, a2);
 	}
 
@@ -313,12 +313,12 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Cast that removes generics. */
-	public default LOiToCharFunction untyped() {
+	default LOiToCharFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LOiToCharFunction<V2> cast() {
+	default <V2> LOiToCharFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -328,12 +328,12 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsChar;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToCharFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiToCharFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToCharFunction<T> afterDo(@Nonnull LCharConsumer after) {
+	default LOiToCharFunction<T> afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final char retval = applyAsChar(a1, a2);

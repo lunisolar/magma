@@ -268,12 +268,12 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return null;
 	}
 
-	public default LDblFunction<R> lShrink(@Nonnull LDblFunction<T> left) {
+	default LDblFunction<R> lShrink(@Nonnull LDblFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LDblFunction<R> lShrink_(T a1) {
+	default LDblFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -288,12 +288,12 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(@Nonnull LToDblFunction<T> right) {
+	default LFunction<T, R> rShrink(@Nonnull LToDblFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsDbl(a1));
 	}
 
-	public default LFunction<T, R> rShrink_(double a2) {
+	default LFunction<T, R> rShrink_(double a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -315,12 +315,12 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Cast that removes generics. */
-	public default LObjDblFunction untyped() {
+	default LObjDblFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjDblFunction<V2, V3> cast() {
+	default <V2, V3> LObjDblFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjDblConsumer<T> toConsumer() {
+	default LObjDblConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjDblFunction<T, R> beforeDo(@Nonnull LObjDblConsumer<T> before) {
+	default LObjDblFunction<T, R> beforeDo(@Nonnull LObjDblConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, double a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjDblFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjDblFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, double a2) -> {
 			final R retval = apply(a1, a2);

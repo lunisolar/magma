@@ -300,12 +300,12 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return false;
 	}
 
-	public default LObjIntPredicate<T1> rShrink(@Nonnull LOiFunction<T1, T2> right) {
+	default LObjIntPredicate<T1> rShrink(@Nonnull LOiFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LObjIntPredicate<T1> rShrink_(T2 a3) {
+	default LObjIntPredicate<T1> rShrink_(T2 a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -327,12 +327,12 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntObjPredicate untyped() {
+	default LObjIntObjPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjIntObjPredicate<V2, V3> cast() {
+	default <V2, V3> LObjIntObjPredicate<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -342,12 +342,12 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieConsumer<T1, T2> toConsumer() {
+	default LTieConsumer<T1, T2> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntObjPredicate<T1, T2> beforeDo(@Nonnull LTieConsumer<T1, T2> before) {
+	default LObjIntObjPredicate<T1, T2> beforeDo(@Nonnull LTieConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, int a2, T2 a3) -> {
 			before.accept(a1, a2, a3);
@@ -356,7 +356,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntObjPredicate<T1, T2> afterDo(@Nonnull LBoolConsumer after) {
+	default LObjIntObjPredicate<T1, T2> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, int a2, T2 a3) -> {
 			final boolean retval = test(a1, a2, a3);

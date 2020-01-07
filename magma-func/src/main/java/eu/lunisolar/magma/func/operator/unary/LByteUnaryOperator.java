@@ -252,12 +252,12 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LByteConsumer toConsumer() {
+	default LByteConsumer toConsumer() {
 		return this::applyAsByte;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteUnaryOperator beforeDo(@Nonnull LByteConsumer before) {
+	default LByteUnaryOperator beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteUnaryOperator afterDo(@Nonnull LByteConsumer after) {
+	default LByteUnaryOperator afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final byte retval = applyAsByte(a);

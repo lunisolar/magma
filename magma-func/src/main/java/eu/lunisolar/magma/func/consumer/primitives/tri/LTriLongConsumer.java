@@ -247,12 +247,12 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiLongConsumer lShrink(@Nonnull LLongBinaryOperator left) {
+	default LBiLongConsumer lShrink(@Nonnull LLongBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.applyAsLong(a2, a3), a2, a3);
 	}
 
-	public default LBiLongConsumer lShrink_(long a1) {
+	default LBiLongConsumer lShrink_(long a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -267,12 +267,12 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LBiLongConsumer rShrink(@Nonnull LLongBinaryOperator right) {
+	default LBiLongConsumer rShrink(@Nonnull LLongBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsLong(a1, a2));
 	}
 
-	public default LBiLongConsumer rShrink_(long a3) {
+	default LBiLongConsumer rShrink_(long a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -294,7 +294,7 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriLongConsumer beforeDo(@Nonnull LTriLongConsumer before) {
+	default LTriLongConsumer beforeDo(@Nonnull LTriLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2, long a3) -> {
 			before.accept(a1, a2, a3);

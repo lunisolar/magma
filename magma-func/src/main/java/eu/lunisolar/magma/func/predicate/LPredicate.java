@@ -254,7 +254,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return LPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T a2, @Nonnull LBiConsumer<V, ? super T> consumer) {
+	default <V> boolean doIf(V a1, T a2, @Nonnull LBiConsumer<V, ? super T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
@@ -265,7 +265,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** 2 */
-	public default <V> int doIf(V a1, T a2, @Nonnull LToIntBiFunction<V, ? super T> consumer) {
+	default <V> int doIf(V a1, T a2, @Nonnull LToIntBiFunction<V, ? super T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			return consumer.applyAsInt(a1, a2);
@@ -274,7 +274,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> boolean doIf(V a1, T a2, int a3, @Nonnull LBiObjIntConsumer<? super V, ? super T> consumer) {
+	default <V> boolean doIf(V a1, T a2, int a3, @Nonnull LBiObjIntConsumer<? super V, ? super T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2, a3);
@@ -284,7 +284,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, T a3, @Nonnull LTieConsumer<? super V, ? super T> consumer) {
+	default <V> boolean doIf(V a1, int a2, T a3, @Nonnull LTieConsumer<? super V, ? super T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
@@ -294,7 +294,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, T a3, @Nonnull LTieFunction<? super V, ? super T> consumer) {
+	default <V> int doIf(V a1, int a2, T a3, @Nonnull LTieFunction<? super V, ? super T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -352,12 +352,12 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** Cast that removes generics. */
-	public default LPredicate untyped() {
+	default LPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LPredicate<V2> cast() {
+	default <V2> LPredicate<V2> cast() {
 		return untyped();
 	}
 
@@ -367,12 +367,12 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LPredicate<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LPredicate<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -381,7 +381,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
+	default LPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final boolean retval = test(a);

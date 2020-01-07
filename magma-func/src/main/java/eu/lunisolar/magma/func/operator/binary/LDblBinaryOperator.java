@@ -261,12 +261,12 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LDblUnaryOperator lShrink(@Nonnull LDblUnaryOperator left) {
+	default LDblUnaryOperator lShrink(@Nonnull LDblUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsDbl(left.applyAsDbl(a2), a2);
 	}
 
-	public default LDblUnaryOperator lShrink_(double a1) {
+	default LDblUnaryOperator lShrink_(double a1) {
 		return a2 -> applyAsDbl(a1, a2);
 	}
 
@@ -281,12 +281,12 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return func.lShrink_(a1);
 	}
 
-	public default LDblUnaryOperator rShrink(@Nonnull LDblUnaryOperator right) {
+	default LDblUnaryOperator rShrink(@Nonnull LDblUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsDbl(a1, right.applyAsDbl(a1));
 	}
 
-	public default LDblUnaryOperator rShrink_(double a2) {
+	default LDblUnaryOperator rShrink_(double a2) {
 		return a1 -> applyAsDbl(a1, a2);
 	}
 
@@ -308,12 +308,12 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiDblConsumer toConsumer() {
+	default LBiDblConsumer toConsumer() {
 		return this::applyAsDbl;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblBinaryOperator beforeDo(@Nonnull LBiDblConsumer before) {
+	default LDblBinaryOperator beforeDo(@Nonnull LBiDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, double a2) -> {
 			before.accept(a1, a2);
@@ -322,7 +322,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblBinaryOperator afterDo(@Nonnull LDblConsumer after) {
+	default LDblBinaryOperator afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a1, double a2) -> {
 			final double retval = applyAsDbl(a1, a2);

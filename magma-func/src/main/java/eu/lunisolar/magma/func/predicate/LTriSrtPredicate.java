@@ -287,12 +287,12 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiSrtPredicate lShrink(@Nonnull LSrtBinaryOperator left) {
+	default LBiSrtPredicate lShrink(@Nonnull LSrtBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.applyAsSrt(a2, a3), a2, a3);
 	}
 
-	public default LBiSrtPredicate lShrink_(short a1) {
+	default LBiSrtPredicate lShrink_(short a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -307,12 +307,12 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LBiSrtPredicate rShrink(@Nonnull LSrtBinaryOperator right) {
+	default LBiSrtPredicate rShrink(@Nonnull LSrtBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsSrt(a1, a2));
 	}
 
-	public default LBiSrtPredicate rShrink_(short a3) {
+	default LBiSrtPredicate rShrink_(short a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -334,12 +334,12 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriSrtConsumer toConsumer() {
+	default LTriSrtConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriSrtPredicate beforeDo(@Nonnull LTriSrtConsumer before) {
+	default LTriSrtPredicate beforeDo(@Nonnull LTriSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a1, short a2, short a3) -> {
 			before.accept(a1, a2, a3);
@@ -348,7 +348,7 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriSrtPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LTriSrtPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a1, short a2, short a3) -> {
 			final boolean retval = test(a1, a2, a3);

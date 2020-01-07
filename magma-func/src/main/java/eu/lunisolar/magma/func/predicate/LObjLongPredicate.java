@@ -252,7 +252,7 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return LObjLongPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T a2, long a3, @Nonnull LBiObjLongConsumer<V, ? super T> consumer) {
+	default <V> boolean doIf(V a1, T a2, long a3, @Nonnull LBiObjLongConsumer<V, ? super T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3)) {
 			consumer.accept(a1, a2, a3);
@@ -310,12 +310,12 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return false;
 	}
 
-	public default LLongPredicate lShrink(@Nonnull LLongFunction<T> left) {
+	default LLongPredicate lShrink(@Nonnull LLongFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.apply(a2), a2);
 	}
 
-	public default LLongPredicate lShrink_(T a1) {
+	default LLongPredicate lShrink_(T a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -330,12 +330,12 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return func.lShrink_(a1);
 	}
 
-	public default LPredicate<T> rShrink(@Nonnull LToLongFunction<T> right) {
+	default LPredicate<T> rShrink(@Nonnull LToLongFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsLong(a1));
 	}
 
-	public default LPredicate<T> rShrink_(long a2) {
+	default LPredicate<T> rShrink_(long a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -357,12 +357,12 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	}
 
 	/** Cast that removes generics. */
-	public default LObjLongPredicate untyped() {
+	default LObjLongPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjLongPredicate<V2> cast() {
+	default <V2> LObjLongPredicate<V2> cast() {
 		return untyped();
 	}
 
@@ -372,12 +372,12 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjLongConsumer<T> toConsumer() {
+	default LObjLongConsumer<T> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjLongPredicate<T> beforeDo(@Nonnull LObjLongConsumer<T> before) {
+	default LObjLongPredicate<T> beforeDo(@Nonnull LObjLongConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, long a2) -> {
 			before.accept(a1, a2);
@@ -386,7 +386,7 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjLongPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
+	default LObjLongPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, long a2) -> {
 			final boolean retval = test(a1, a2);

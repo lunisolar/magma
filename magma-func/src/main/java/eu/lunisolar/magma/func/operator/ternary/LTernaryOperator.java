@@ -252,12 +252,12 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return null;
 	}
 
-	public default LBinaryOperator<T> lShrink(@Nonnull LBinaryOperator<T> left) {
+	default LBinaryOperator<T> lShrink(@Nonnull LBinaryOperator<T> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBinaryOperator<T> lShrink_(T a1) {
+	default LBinaryOperator<T> lShrink_(T a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
@@ -272,12 +272,12 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LBinaryOperator<T> rShrink(@Nonnull LBinaryOperator<T> right) {
+	default LBinaryOperator<T> rShrink(@Nonnull LBinaryOperator<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBinaryOperator<T> rShrink_(T a3) {
+	default LBinaryOperator<T> rShrink_(T a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -299,12 +299,12 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LTernaryOperator untyped() {
+	default LTernaryOperator untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default LTernaryOperator cast() {
+	default LTernaryOperator cast() {
 		return untyped();
 	}
 
@@ -314,12 +314,12 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriConsumer<T, T, T> toConsumer() {
+	default LTriConsumer<T, T, T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTernaryOperator<T> beforeDo(@Nonnull LTriConsumer<T, T, T> before) {
+	default LTernaryOperator<T> beforeDo(@Nonnull LTriConsumer<T, T, T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, T a2, T a3) -> {
 			before.accept(a1, a2, a3);
@@ -328,7 +328,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTernaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
+	default LTernaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, T a2, T a3) -> {
 			final T retval = apply(a1, a2, a3);

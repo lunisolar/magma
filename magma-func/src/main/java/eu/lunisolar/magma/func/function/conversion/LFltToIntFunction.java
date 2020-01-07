@@ -252,12 +252,12 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LFltConsumer toConsumer() {
+	default LFltConsumer toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltToIntFunction beforeDo(@Nonnull LFltConsumer before) {
+	default LFltToIntFunction beforeDo(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltToIntFunction afterDo(@Nonnull LIntConsumer after) {
+	default LFltToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a) -> {
 			final int retval = applyAsInt(a);

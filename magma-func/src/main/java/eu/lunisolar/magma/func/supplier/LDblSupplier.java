@@ -260,12 +260,12 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::getAsDbl;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblSupplier afterDo(@Nonnull LDblConsumer after) {
+	default LDblSupplier afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final double retval = getAsDbl();

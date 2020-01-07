@@ -255,12 +255,12 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltFunction<R> lShrink(@Nonnull LFltUnaryOperator left) {
+	default LFltFunction<R> lShrink(@Nonnull LFltUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsFlt(a2), a2);
 	}
 
-	public default LFltFunction<R> lShrink_(float a1) {
+	default LFltFunction<R> lShrink_(float a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LFltFunction<R> rShrink(@Nonnull LFltUnaryOperator right) {
+	default LFltFunction<R> rShrink(@Nonnull LFltUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsFlt(a1));
 	}
 
-	public default LFltFunction<R> rShrink_(float a2) {
+	default LFltFunction<R> rShrink_(float a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that removes generics. */
-	public default LBiFltFunction untyped() {
+	default LBiFltFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiFltFunction<V2> cast() {
+	default <V2> LBiFltFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiFltConsumer toConsumer() {
+	default LBiFltConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiFltFunction<R> beforeDo(@Nonnull LBiFltConsumer before) {
+	default LBiFltFunction<R> beforeDo(@Nonnull LBiFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiFltFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiFltFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (float a1, float a2) -> {
 			final R retval = apply(a1, a2);

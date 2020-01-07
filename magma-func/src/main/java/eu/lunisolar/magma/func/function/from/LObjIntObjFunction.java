@@ -268,12 +268,12 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return null;
 	}
 
-	public default LOiFunction<T1, R> rShrink(@Nonnull LOiFunction<T1, T2> right) {
+	default LOiFunction<T1, R> rShrink(@Nonnull LOiFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LOiFunction<T1, R> rShrink_(T2 a3) {
+	default LOiFunction<T1, R> rShrink_(T2 a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -295,12 +295,12 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntObjFunction untyped() {
+	default LObjIntObjFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4> LObjIntObjFunction<V2, V3, V4> cast() {
+	default <V2, V3, V4> LObjIntObjFunction<V2, V3, V4> cast() {
 		return untyped();
 	}
 
@@ -310,12 +310,12 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieConsumer<T1, T2> toConsumer() {
+	default LTieConsumer<T1, T2> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntObjFunction<T1, T2, R> beforeDo(@Nonnull LTieConsumer<T1, T2> before) {
+	default LObjIntObjFunction<T1, T2, R> beforeDo(@Nonnull LTieConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, int a2, T2 a3) -> {
 			before.accept(a1, a2, a3);
@@ -324,7 +324,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntObjFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjIntObjFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, int a2, T2 a3) -> {
 			final R retval = apply(a1, a2, a3);

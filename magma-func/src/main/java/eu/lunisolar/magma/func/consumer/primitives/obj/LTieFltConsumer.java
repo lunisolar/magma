@@ -214,7 +214,7 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return LTieFltConsumer.DESCRIPTION;
 	}
 
-	public default LTieFltFunction<T> toTieFunction() {
+	default LTieFltFunction<T> toTieFunction() {
 		return (t, i, e) -> {
 			this.accept(t, i, e);
 			return 1;
@@ -256,12 +256,12 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
-	public default LObjIntConsumer<T> rShrink(@Nonnull LOiToFltFunction<T> right) {
+	default LObjIntConsumer<T> rShrink(@Nonnull LOiToFltFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsFlt(a1, a2));
 	}
 
-	public default LObjIntConsumer<T> rShrink_(float a3) {
+	default LObjIntConsumer<T> rShrink_(float a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -283,12 +283,12 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LTieFltConsumer untyped() {
+	default LTieFltConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LTieFltConsumer<V2> cast() {
+	default <V2> LTieFltConsumer<V2> cast() {
 		return untyped();
 	}
 
@@ -298,7 +298,7 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieFltConsumer<T> beforeDo(@Nonnull LTieFltConsumer<T> before) {
+	default LTieFltConsumer<T> beforeDo(@Nonnull LTieFltConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, float a3) -> {
 			before.accept(a1, a2, a3);
@@ -1093,7 +1093,7 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** ***ITERATION:    TIE_CONSUMER2_GEN:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=float a3, type=TIE_SOURCE}, SourcePurpose{arg=float a3, type=TE_GEN_PREDICATE}, SourcePurpose{arg=float a3, type=TE_GEN_SUPPLIER}] */
-	public default <SRC> int genericTieForEach(int sStart, int tStart, T trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, aFloat> srcAcc3) {
+	default <SRC> int genericTieForEach(int sStart, int tStart, T trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, aFloat> srcAcc3) {
 		return tieForEach(sStart, tStart, trg1, src3, (LPredicate<SRC>) srcTest3, (LToFltFunction<SRC>) srcAcc3, this);
 
 	}

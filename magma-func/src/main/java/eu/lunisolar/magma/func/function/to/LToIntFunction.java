@@ -267,12 +267,12 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** Cast that removes generics. */
-	public default LToIntFunction untyped() {
+	default LToIntFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LToIntFunction<V2> cast() {
+	default <V2> LToIntFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -282,12 +282,12 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToIntFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LToIntFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToIntFunction<T> afterDo(@Nonnull LIntConsumer after) {
+	default LToIntFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final int retval = applyAsInt(a);

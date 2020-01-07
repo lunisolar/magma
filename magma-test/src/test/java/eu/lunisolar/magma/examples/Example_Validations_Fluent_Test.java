@@ -74,8 +74,8 @@ public class Example_Validations_Fluent_Test {
               .must(Be::lt, 50, "cannot be greater or equal 50"); //passes
 
         var i = arg(60)
-                        .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
-                        .get();
+                .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
+                .get();
     }
     //>example<
 
@@ -167,7 +167,24 @@ public class Example_Validations_Fluent_Test {
         Checks.value(null).must(Be::notNull, "_message_");
     }
 
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: There is no key in the map")
+    public void checkWith() {
+        Map<String, String> map = new HashMap();
+        Checks.value("key22").mustWith(map, Map::containsKey, "There is no key in the map");
+    }
 
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: There is no key in the map \\[Value: `key22`\\]")
+    public void checkWith$() {
+        Map<String, String> map = new HashMap();
+        Checks.value("key22").mustWith$(map, Map::containsKey, "There is no key in the map");
+    }
+
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: There is no key in the map \\[Param: `\\{A=a\\}`; Value: `key22`\\]")
+    public void checkWith$$() {
+        Map<String, String> map = new HashMap();
+        map.put("A", "a");
+        Checks.value("key22").mustWith$$(map, Map::containsKey, "There is no key in the map");
+    }
 
     //>inject<:generated
 

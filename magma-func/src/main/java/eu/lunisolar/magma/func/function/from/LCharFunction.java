@@ -256,12 +256,12 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Cast that removes generics. */
-	public default LCharFunction untyped() {
+	default LCharFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LCharFunction<V2> cast() {
+	default <V2> LCharFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -271,12 +271,12 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LCharConsumer toConsumer() {
+	default LCharConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharFunction<R> beforeDo(@Nonnull LCharConsumer before) {
+	default LCharFunction<R> beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LCharFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final R retval = apply(a);

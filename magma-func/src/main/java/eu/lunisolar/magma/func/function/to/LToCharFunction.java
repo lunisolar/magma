@@ -267,12 +267,12 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LToCharFunction untyped() {
+	default LToCharFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LToCharFunction<V2> cast() {
+	default <V2> LToCharFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -282,12 +282,12 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::applyAsChar;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToCharFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LToCharFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToCharFunction<T> afterDo(@Nonnull LCharConsumer after) {
+	default LToCharFunction<T> afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final char retval = applyAsChar(a);

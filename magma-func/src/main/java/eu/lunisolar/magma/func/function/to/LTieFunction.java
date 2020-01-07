@@ -266,12 +266,12 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
-	public default LOiToIntFunction<T1> rShrink(@Nonnull LOiFunction<T1, T2> right) {
+	default LOiToIntFunction<T1> rShrink(@Nonnull LOiFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> applyAsInt(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LOiToIntFunction<T1> rShrink_(T2 a3) {
+	default LOiToIntFunction<T1> rShrink_(T2 a3) {
 		return (a1, a2) -> applyAsInt(a1, a2, a3);
 	}
 
@@ -293,12 +293,12 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Cast that removes generics. */
-	public default LTieFunction untyped() {
+	default LTieFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LTieFunction<V2, V3> cast() {
+	default <V2, V3> LTieFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -308,12 +308,12 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieConsumer<T1, T2> toConsumer() {
+	default LTieConsumer<T1, T2> toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieFunction<T1, T2> beforeDo(@Nonnull LTieConsumer<T1, T2> before) {
+	default LTieFunction<T1, T2> beforeDo(@Nonnull LTieConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, int a2, T2 a3) -> {
 			before.accept(a1, a2, a3);
@@ -322,7 +322,7 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTieFunction<T1, T2> afterDo(@Nonnull LIntConsumer after) {
+	default LTieFunction<T1, T2> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, int a2, T2 a3) -> {
 			final int retval = applyAsInt(a1, a2, a3);
@@ -746,7 +746,7 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** ***ITERATION:    TIE_CONSUMER2_GEN:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T1 trg1, type=CONST}, SourcePurpose{arg=T2 a3, type=TIE_SOURCE}, SourcePurpose{arg=T2 a3, type=TE_GEN_PREDICATE}, SourcePurpose{arg=T2 a3, type=TE_GEN_SUPPLIER}] */
-	public default <SRC> int genericTieForEach(int sStart, int tStart, T1 trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, a<T2>> srcAcc3) {
+	default <SRC> int genericTieForEach(int sStart, int tStart, T1 trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, a<T2>> srcAcc3) {
 		return tieForEach(sStart, tStart, trg1, src3, (LPredicate<SRC>) srcTest3, (LFunction<SRC, T2>) srcAcc3, this);
 
 	}

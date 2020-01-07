@@ -247,12 +247,12 @@ public interface LDblIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntConsumer lShrink(@Nonnull LIntToDblFunction left) {
+	default LIntConsumer lShrink(@Nonnull LIntToDblFunction left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsDbl(a2), a2);
 	}
 
-	public default LIntConsumer lShrink_(double a1) {
+	default LIntConsumer lShrink_(double a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -267,12 +267,12 @@ public interface LDblIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return func.lShrink_(a1);
 	}
 
-	public default LDblConsumer rShrink(@Nonnull LDblToIntFunction right) {
+	default LDblConsumer rShrink(@Nonnull LDblToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsInt(a1));
 	}
 
-	public default LDblConsumer rShrink_(int a2) {
+	default LDblConsumer rShrink_(int a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -294,7 +294,7 @@ public interface LDblIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblIntConsumer beforeDo(@Nonnull LDblIntConsumer before) {
+	default LDblIntConsumer beforeDo(@Nonnull LDblIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, int a2) -> {
 			before.accept(a1, a2);

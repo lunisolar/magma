@@ -268,12 +268,12 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return null;
 	}
 
-	public default LQuadFunction<T2, T3, T4, T5, R> lShrink(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left) {
+	default LQuadFunction<T2, T3, T4, T5, R> lShrink(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3, a4, a5) -> apply(left.apply(a2, a3, a4, a5), a2, a3, a4, a5);
 	}
 
-	public default LQuadFunction<T2, T3, T4, T5, R> lShrink_(T1 a1) {
+	default LQuadFunction<T2, T3, T4, T5, R> lShrink_(T1 a1) {
 		return (a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5);
 	}
 
@@ -288,12 +288,12 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return func.lShrink_(a1);
 	}
 
-	public default LQuadFunction<T1, T2, T3, T4, R> rShrink(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right) {
+	default LQuadFunction<T1, T2, T3, T4, R> rShrink(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2, a3, a4) -> apply(a1, a2, a3, a4, right.apply(a1, a2, a3, a4));
 	}
 
-	public default LQuadFunction<T1, T2, T3, T4, R> rShrink_(T5 a5) {
+	default LQuadFunction<T1, T2, T3, T4, R> rShrink_(T5 a5) {
 		return (a1, a2, a3, a4) -> apply(a1, a2, a3, a4, a5);
 	}
 
@@ -315,12 +315,12 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 	}
 
 	/** Cast that removes generics. */
-	public default LQuintFunction untyped() {
+	default LQuintFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4, V5, V6, V7> LQuintFunction<V2, V3, V4, V5, V6, V7> cast() {
+	default <V2, V3, V4, V5, V6, V7> LQuintFunction<V2, V3, V4, V5, V6, V7> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LQuintConsumer<T1, T2, T3, T4, T5> toConsumer() {
+	default LQuintConsumer<T1, T2, T3, T4, T5> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LQuintFunction<T1, T2, T3, T4, T5, R> beforeDo(@Nonnull LQuintConsumer<T1, T2, T3, T4, T5> before) {
+	default LQuintFunction<T1, T2, T3, T4, T5, R> beforeDo(@Nonnull LQuintConsumer<T1, T2, T3, T4, T5> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> {
 			before.accept(a1, a2, a3, a4, a5);
@@ -344,7 +344,7 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LQuintFunction<T1, T2, T3, T4, T5, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LQuintFunction<T1, T2, T3, T4, T5, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> {
 			final R retval = apply(a1, a2, a3, a4, a5);

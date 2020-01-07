@@ -286,12 +286,12 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LLogicalOperator lShrink(@Nonnull LLogicalOperator left) {
+	default LLogicalOperator lShrink(@Nonnull LLogicalOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LLogicalOperator lShrink_(boolean a1) {
+	default LLogicalOperator lShrink_(boolean a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -306,12 +306,12 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return func.lShrink_(a1);
 	}
 
-	public default LLogicalOperator rShrink(@Nonnull LLogicalOperator right) {
+	default LLogicalOperator rShrink(@Nonnull LLogicalOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.apply(a1));
 	}
 
-	public default LLogicalOperator rShrink_(boolean a2) {
+	default LLogicalOperator rShrink_(boolean a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -333,12 +333,12 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiBoolConsumer toConsumer() {
+	default LBiBoolConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLogicalBinaryOperator beforeDo(@Nonnull LBiBoolConsumer before) {
+	default LLogicalBinaryOperator beforeDo(@Nonnull LBiBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2) -> {
 			before.accept(a1, a2);
@@ -347,7 +347,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLogicalBinaryOperator afterDo(@Nonnull LBoolConsumer after) {
+	default LLogicalBinaryOperator afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a1, boolean a2) -> {
 			final boolean retval = apply(a1, a2);

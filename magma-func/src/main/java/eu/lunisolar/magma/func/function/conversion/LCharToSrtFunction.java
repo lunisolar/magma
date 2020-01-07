@@ -252,12 +252,12 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LCharConsumer toConsumer() {
+	default LCharConsumer toConsumer() {
 		return this::applyAsSrt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharToSrtFunction beforeDo(@Nonnull LCharConsumer before) {
+	default LCharToSrtFunction beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
+	default LCharToSrtFunction afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final short retval = applyAsSrt(a);

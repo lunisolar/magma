@@ -268,12 +268,12 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return null;
 	}
 
-	public default LBiIntFunction<R> lShrink(@Nonnull LBiIntFunction<T> left) {
+	default LBiIntFunction<R> lShrink(@Nonnull LBiIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiIntFunction<R> lShrink_(T a1) {
+	default LBiIntFunction<R> lShrink_(T a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
@@ -288,12 +288,12 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return func.lShrink_(a1);
 	}
 
-	public default LOiFunction<T, R> rShrink(@Nonnull LOiToIntFunction<T> right) {
+	default LOiFunction<T, R> rShrink(@Nonnull LOiToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LOiFunction<T, R> rShrink_(int a3) {
+	default LOiFunction<T, R> rShrink_(int a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -315,12 +315,12 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** Cast that removes generics. */
-	public default LObjBiIntFunction untyped() {
+	default LObjBiIntFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjBiIntFunction<V2, V3> cast() {
+	default <V2, V3> LObjBiIntFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieIntConsumer<T> toConsumer() {
+	default LTieIntConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjBiIntFunction<T, R> beforeDo(@Nonnull LTieIntConsumer<T> before) {
+	default LObjBiIntFunction<T, R> beforeDo(@Nonnull LTieIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, int a3) -> {
 			before.accept(a1, a2, a3);
@@ -344,7 +344,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjBiIntFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjBiIntFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, int a3) -> {
 			final R retval = apply(a1, a2, a3);

@@ -249,12 +249,12 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LBoolConsumer lShrink(@Nonnull LBoolFunction<T> left) {
+	default LBoolConsumer lShrink(@Nonnull LBoolFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LBoolConsumer lShrink_(T a1) {
+	default LBoolConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -269,12 +269,12 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(@Nonnull LPredicate<T> right) {
+	default LConsumer<T> rShrink(@Nonnull LPredicate<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.test(a1));
 	}
 
-	public default LConsumer<T> rShrink_(boolean a2) {
+	default LConsumer<T> rShrink_(boolean a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -296,12 +296,12 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LObjBoolConsumer untyped() {
+	default LObjBoolConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjBoolConsumer<V2> cast() {
+	default <V2> LObjBoolConsumer<V2> cast() {
 		return untyped();
 	}
 
@@ -311,7 +311,7 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjBoolConsumer<T> beforeDo(@Nonnull LObjBoolConsumer<T> before) {
+	default LObjBoolConsumer<T> beforeDo(@Nonnull LObjBoolConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, boolean a2) -> {
 			before.accept(a1, a2);

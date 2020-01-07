@@ -247,12 +247,12 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiFltConsumer lShrink(@Nonnull LFltBinaryOperator left) {
+	default LBiFltConsumer lShrink(@Nonnull LFltBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.applyAsFlt(a2, a3), a2, a3);
 	}
 
-	public default LBiFltConsumer lShrink_(float a1) {
+	default LBiFltConsumer lShrink_(float a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -267,12 +267,12 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return func.lShrink_(a1);
 	}
 
-	public default LBiFltConsumer rShrink(@Nonnull LFltBinaryOperator right) {
+	default LBiFltConsumer rShrink(@Nonnull LFltBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsFlt(a1, a2));
 	}
 
-	public default LBiFltConsumer rShrink_(float a3) {
+	default LBiFltConsumer rShrink_(float a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -294,7 +294,7 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriFltConsumer beforeDo(@Nonnull LTriFltConsumer before) {
+	default LTriFltConsumer beforeDo(@Nonnull LTriFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2, float a3) -> {
 			before.accept(a1, a2, a3);

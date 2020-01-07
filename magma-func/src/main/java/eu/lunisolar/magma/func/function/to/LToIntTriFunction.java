@@ -264,12 +264,12 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return orElse;
 	}
 
-	public default LToIntBiFunction<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
+	default LToIntBiFunction<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> applyAsInt(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LToIntBiFunction<T2, T3> lShrink_(T1 a1) {
+	default LToIntBiFunction<T2, T3> lShrink_(T1 a1) {
 		return (a2, a3) -> applyAsInt(a1, a2, a3);
 	}
 
@@ -284,12 +284,12 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return func.lShrink_(a1);
 	}
 
-	public default LToIntBiFunction<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
+	default LToIntBiFunction<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> applyAsInt(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LToIntBiFunction<T1, T2> rShrink_(T3 a3) {
+	default LToIntBiFunction<T1, T2> rShrink_(T3 a3) {
 		return (a1, a2) -> applyAsInt(a1, a2, a3);
 	}
 
@@ -311,12 +311,12 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	}
 
 	/** Cast that removes generics. */
-	public default LToIntTriFunction untyped() {
+	default LToIntTriFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4> LToIntTriFunction<V2, V3, V4> cast() {
+	default <V2, V3, V4> LToIntTriFunction<V2, V3, V4> cast() {
 		return untyped();
 	}
 
@@ -326,12 +326,12 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriConsumer<T1, T2, T3> toConsumer() {
+	default LTriConsumer<T1, T2, T3> toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToIntTriFunction<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
+	default LToIntTriFunction<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			before.accept(a1, a2, a3);
@@ -340,7 +340,7 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToIntTriFunction<T1, T2, T3> afterDo(@Nonnull LIntConsumer after) {
+	default LToIntTriFunction<T1, T2, T3> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			final int retval = applyAsInt(a1, a2, a3);

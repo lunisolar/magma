@@ -251,12 +251,12 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltUnaryOperator lShrink(@Nonnull LFltUnaryOperator left) {
+	default LFltUnaryOperator lShrink(@Nonnull LFltUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsFlt(left.applyAsFlt(a2), a2);
 	}
 
-	public default LFltUnaryOperator lShrink_(float a1) {
+	default LFltUnaryOperator lShrink_(float a1) {
 		return a2 -> applyAsFlt(a1, a2);
 	}
 
@@ -271,12 +271,12 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LFltUnaryOperator rShrink(@Nonnull LFltUnaryOperator right) {
+	default LFltUnaryOperator rShrink(@Nonnull LFltUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsFlt(a1, right.applyAsFlt(a1));
 	}
 
-	public default LFltUnaryOperator rShrink_(float a2) {
+	default LFltUnaryOperator rShrink_(float a2) {
 		return a1 -> applyAsFlt(a1, a2);
 	}
 
@@ -298,12 +298,12 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiFltConsumer toConsumer() {
+	default LBiFltConsumer toConsumer() {
 		return this::applyAsFlt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltBinaryOperator beforeDo(@Nonnull LBiFltConsumer before) {
+	default LFltBinaryOperator beforeDo(@Nonnull LBiFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltBinaryOperator afterDo(@Nonnull LFltConsumer after) {
+	default LFltBinaryOperator afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a1, float a2) -> {
 			final float retval = applyAsFlt(a1, a2);

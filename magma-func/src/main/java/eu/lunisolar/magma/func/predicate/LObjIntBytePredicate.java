@@ -300,12 +300,12 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
-	public default LObjIntPredicate<T> rShrink(@Nonnull LOiToByteFunction<T> right) {
+	default LObjIntPredicate<T> rShrink(@Nonnull LOiToByteFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsByte(a1, a2));
 	}
 
-	public default LObjIntPredicate<T> rShrink_(byte a3) {
+	default LObjIntPredicate<T> rShrink_(byte a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -327,12 +327,12 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntBytePredicate untyped() {
+	default LObjIntBytePredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjIntBytePredicate<V2> cast() {
+	default <V2> LObjIntBytePredicate<V2> cast() {
 		return untyped();
 	}
 
@@ -342,12 +342,12 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieByteConsumer<T> toConsumer() {
+	default LTieByteConsumer<T> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntBytePredicate<T> beforeDo(@Nonnull LTieByteConsumer<T> before) {
+	default LObjIntBytePredicate<T> beforeDo(@Nonnull LTieByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, byte a3) -> {
 			before.accept(a1, a2, a3);
@@ -356,7 +356,7 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntBytePredicate<T> afterDo(@Nonnull LBoolConsumer after) {
+	default LObjIntBytePredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, byte a3) -> {
 			final boolean retval = test(a1, a2, a3);

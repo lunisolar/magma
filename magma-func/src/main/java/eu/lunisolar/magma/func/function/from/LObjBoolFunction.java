@@ -268,12 +268,12 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
-	public default LBoolFunction<R> lShrink(@Nonnull LBoolFunction<T> left) {
+	default LBoolFunction<R> lShrink(@Nonnull LBoolFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LBoolFunction<R> lShrink_(T a1) {
+	default LBoolFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -288,12 +288,12 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(@Nonnull LPredicate<T> right) {
+	default LFunction<T, R> rShrink(@Nonnull LPredicate<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.test(a1));
 	}
 
-	public default LFunction<T, R> rShrink_(boolean a2) {
+	default LFunction<T, R> rShrink_(boolean a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -315,12 +315,12 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Cast that removes generics. */
-	public default LObjBoolFunction untyped() {
+	default LObjBoolFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjBoolFunction<V2, V3> cast() {
+	default <V2, V3> LObjBoolFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjBoolConsumer<T> toConsumer() {
+	default LObjBoolConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjBoolFunction<T, R> beforeDo(@Nonnull LObjBoolConsumer<T> before) {
+	default LObjBoolFunction<T, R> beforeDo(@Nonnull LObjBoolConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, boolean a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjBoolFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjBoolFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, boolean a2) -> {
 			final R retval = apply(a1, a2);

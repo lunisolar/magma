@@ -255,12 +255,12 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LIntFunction<R> lShrink(@Nonnull LIntUnaryOperator left) {
+	default LIntFunction<R> lShrink(@Nonnull LIntUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsInt(a2), a2);
 	}
 
-	public default LIntFunction<R> lShrink_(int a1) {
+	default LIntFunction<R> lShrink_(int a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LIntFunction<R> rShrink(@Nonnull LIntUnaryOperator right) {
+	default LIntFunction<R> rShrink(@Nonnull LIntUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsInt(a1));
 	}
 
-	public default LIntFunction<R> rShrink_(int a2) {
+	default LIntFunction<R> rShrink_(int a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that removes generics. */
-	public default LBiIntFunction untyped() {
+	default LBiIntFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiIntFunction<V2> cast() {
+	default <V2> LBiIntFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiIntConsumer toConsumer() {
+	default LBiIntConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiIntFunction<R> beforeDo(@Nonnull LBiIntConsumer before) {
+	default LBiIntFunction<R> beforeDo(@Nonnull LBiIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a1, int a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiIntFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiIntFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (int a1, int a2) -> {
 			final R retval = apply(a1, a2);

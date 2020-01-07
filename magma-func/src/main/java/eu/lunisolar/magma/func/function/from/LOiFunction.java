@@ -270,12 +270,12 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		return null;
 	}
 
-	public default LIntFunction<R> lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntFunction<R> lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LIntFunction<R> lShrink_(T a1) {
+	default LIntFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -290,12 +290,12 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LFunction<T, R> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsInt(a1));
 	}
 
-	public default LFunction<T, R> rShrink_(int a2) {
+	default LFunction<T, R> rShrink_(int a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -317,12 +317,12 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that removes generics. */
-	public default LOiFunction untyped() {
+	default LOiFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LOiFunction<V2, V3> cast() {
+	default <V2, V3> LOiFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -332,12 +332,12 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiFunction<T, R> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiFunction<T, R> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -346,7 +346,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LOiFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final R retval = apply(a1, a2);

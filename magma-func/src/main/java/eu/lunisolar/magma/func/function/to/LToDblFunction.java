@@ -277,12 +277,12 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	/** Cast that removes generics. */
-	public default LToDblFunction untyped() {
+	default LToDblFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LToDblFunction<V2> cast() {
+	default <V2> LToDblFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -292,12 +292,12 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::applyAsDbl;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToDblFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LToDblFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -306,7 +306,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToDblFunction<T> afterDo(@Nonnull LDblConsumer after) {
+	default LToDblFunction<T> afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final double retval = applyAsDbl(a);

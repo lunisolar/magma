@@ -266,12 +266,12 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
-	public default LIntToLongFunction lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntToLongFunction lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsLong(left.apply(a2), a2);
 	}
 
-	public default LIntToLongFunction lShrink_(T a1) {
+	default LIntToLongFunction lShrink_(T a1) {
 		return a2 -> applyAsLong(a1, a2);
 	}
 
@@ -286,12 +286,12 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func.lShrink_(a1);
 	}
 
-	public default LToLongFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LToLongFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsLong(a1, right.applyAsInt(a1));
 	}
 
-	public default LToLongFunction<T> rShrink_(int a2) {
+	default LToLongFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsLong(a1, a2);
 	}
 
@@ -313,12 +313,12 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Cast that removes generics. */
-	public default LOiToLongFunction untyped() {
+	default LOiToLongFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LOiToLongFunction<V2> cast() {
+	default <V2> LOiToLongFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -328,12 +328,12 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToLongFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiToLongFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToLongFunction<T> afterDo(@Nonnull LLongConsumer after) {
+	default LOiToLongFunction<T> afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final long retval = applyAsLong(a1, a2);

@@ -252,7 +252,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return LLongPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, long a2, @Nonnull LObjLongConsumer<V> consumer) {
+	default <V> boolean doIf(V a1, long a2, @Nonnull LObjLongConsumer<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
@@ -262,7 +262,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, long a3, @Nonnull LTieLongConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, long a3, @Nonnull LTieLongConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
@@ -272,7 +272,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, long a3, @Nonnull LTieLongFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, long a3, @Nonnull LTieLongFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -317,12 +317,12 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LLongConsumer toConsumer() {
+	default LLongConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongPredicate beforeDo(@Nonnull LLongConsumer before) {
+	default LLongPredicate beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -331,7 +331,7 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LLongPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final boolean retval = test(a);

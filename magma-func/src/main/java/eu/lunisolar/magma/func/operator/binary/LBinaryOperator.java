@@ -252,12 +252,12 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return null;
 	}
 
-	public default LUnaryOperator<T> lShrink(@Nonnull LUnaryOperator<T> left) {
+	default LUnaryOperator<T> lShrink(@Nonnull LUnaryOperator<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LUnaryOperator<T> lShrink_(T a1) {
+	default LUnaryOperator<T> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -272,12 +272,12 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return func.lShrink_(a1);
 	}
 
-	public default LUnaryOperator<T> rShrink(@Nonnull LUnaryOperator<T> right) {
+	default LUnaryOperator<T> rShrink(@Nonnull LUnaryOperator<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.apply(a1));
 	}
 
-	public default LUnaryOperator<T> rShrink_(T a2) {
+	default LUnaryOperator<T> rShrink_(T a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -299,12 +299,12 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Cast that removes generics. */
-	public default LBinaryOperator untyped() {
+	default LBinaryOperator untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default LBinaryOperator cast() {
+	default LBinaryOperator cast() {
 		return untyped();
 	}
 
@@ -314,12 +314,12 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiConsumer<T, T> toConsumer() {
+	default LBiConsumer<T, T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBinaryOperator<T> beforeDo(@Nonnull LBiConsumer<T, T> before) {
+	default LBinaryOperator<T> beforeDo(@Nonnull LBiConsumer<T, T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, T a2) -> {
 			before.accept(a1, a2);
@@ -328,7 +328,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBinaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
+	default LBinaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, T a2) -> {
 			final T retval = apply(a1, a2);

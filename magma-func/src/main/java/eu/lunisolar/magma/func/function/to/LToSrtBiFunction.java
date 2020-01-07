@@ -264,12 +264,12 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return orElse;
 	}
 
-	public default LToSrtFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
+	default LToSrtFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsSrt(left.apply(a2), a2);
 	}
 
-	public default LToSrtFunction<T2> lShrink_(T1 a1) {
+	default LToSrtFunction<T2> lShrink_(T1 a1) {
 		return a2 -> applyAsSrt(a1, a2);
 	}
 
@@ -284,12 +284,12 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return func.lShrink_(a1);
 	}
 
-	public default LToSrtFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
+	default LToSrtFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsSrt(a1, right.apply(a1));
 	}
 
-	public default LToSrtFunction<T1> rShrink_(T2 a2) {
+	default LToSrtFunction<T1> rShrink_(T2 a2) {
 		return a1 -> applyAsSrt(a1, a2);
 	}
 
@@ -311,12 +311,12 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Cast that removes generics. */
-	public default LToSrtBiFunction untyped() {
+	default LToSrtBiFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LToSrtBiFunction<V2, V3> cast() {
+	default <V2, V3> LToSrtBiFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -326,12 +326,12 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiConsumer<T1, T2> toConsumer() {
+	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsSrt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToSrtBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
+	default LToSrtBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToSrtBiFunction<T1, T2> afterDo(@Nonnull LSrtConsumer after) {
+	default LToSrtBiFunction<T1, T2> afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final short retval = applyAsSrt(a1, a2);

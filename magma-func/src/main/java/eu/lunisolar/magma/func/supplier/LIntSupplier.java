@@ -250,12 +250,12 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::getAsInt;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntSupplier afterDo(@Nonnull LIntConsumer after) {
+	default LIntSupplier afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final int retval = getAsInt();

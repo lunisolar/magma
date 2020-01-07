@@ -252,12 +252,12 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LIntConsumer toConsumer() {
+	default LIntConsumer toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntToLongFunction beforeDo(@Nonnull LIntConsumer before) {
+	default LIntToLongFunction beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntToLongFunction afterDo(@Nonnull LLongConsumer after) {
+	default LIntToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final long retval = applyAsLong(a);

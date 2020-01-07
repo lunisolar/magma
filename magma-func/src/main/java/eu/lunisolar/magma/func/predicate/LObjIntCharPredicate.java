@@ -300,12 +300,12 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
-	public default LObjIntPredicate<T> rShrink(@Nonnull LOiToCharFunction<T> right) {
+	default LObjIntPredicate<T> rShrink(@Nonnull LOiToCharFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsChar(a1, a2));
 	}
 
-	public default LObjIntPredicate<T> rShrink_(char a3) {
+	default LObjIntPredicate<T> rShrink_(char a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -327,12 +327,12 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntCharPredicate untyped() {
+	default LObjIntCharPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjIntCharPredicate<V2> cast() {
+	default <V2> LObjIntCharPredicate<V2> cast() {
 		return untyped();
 	}
 
@@ -342,12 +342,12 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieCharConsumer<T> toConsumer() {
+	default LTieCharConsumer<T> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntCharPredicate<T> beforeDo(@Nonnull LTieCharConsumer<T> before) {
+	default LObjIntCharPredicate<T> beforeDo(@Nonnull LTieCharConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, char a3) -> {
 			before.accept(a1, a2, a3);
@@ -356,7 +356,7 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntCharPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
+	default LObjIntCharPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, char a3) -> {
 			final boolean retval = test(a1, a2, a3);

@@ -247,12 +247,12 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		fromTill(0, max_i, a1, a2, a3, a4, a5, func);
 	}
 
-	public default LQuadConsumer<T2, T3, T4, T5> lShrink(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left) {
+	default LQuadConsumer<T2, T3, T4, T5> lShrink(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3, a4, a5) -> accept(left.apply(a2, a3, a4, a5), a2, a3, a4, a5);
 	}
 
-	public default LQuadConsumer<T2, T3, T4, T5> lShrink_(T1 a1) {
+	default LQuadConsumer<T2, T3, T4, T5> lShrink_(T1 a1) {
 		return (a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5);
 	}
 
@@ -267,12 +267,12 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return func.lShrink_(a1);
 	}
 
-	public default LQuadConsumer<T1, T2, T3, T4> rShrink(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right) {
+	default LQuadConsumer<T1, T2, T3, T4> rShrink(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2, a3, a4) -> accept(a1, a2, a3, a4, right.apply(a1, a2, a3, a4));
 	}
 
-	public default LQuadConsumer<T1, T2, T3, T4> rShrink_(T5 a5) {
+	default LQuadConsumer<T1, T2, T3, T4> rShrink_(T5 a5) {
 		return (a1, a2, a3, a4) -> accept(a1, a2, a3, a4, a5);
 	}
 
@@ -294,12 +294,12 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	}
 
 	/** Cast that removes generics. */
-	public default LQuintConsumer untyped() {
+	default LQuintConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4, V5, V6> LQuintConsumer<V2, V3, V4, V5, V6> cast() {
+	default <V2, V3, V4, V5, V6> LQuintConsumer<V2, V3, V4, V5, V6> cast() {
 		return untyped();
 	}
 
@@ -309,7 +309,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LQuintConsumer<T1, T2, T3, T4, T5> beforeDo(@Nonnull LQuintConsumer<T1, T2, T3, T4, T5> before) {
+	default LQuintConsumer<T1, T2, T3, T4, T5> beforeDo(@Nonnull LQuintConsumer<T1, T2, T3, T4, T5> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> {
 			before.accept(a1, a2, a3, a4, a5);

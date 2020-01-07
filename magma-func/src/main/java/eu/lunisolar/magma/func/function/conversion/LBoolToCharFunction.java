@@ -252,12 +252,12 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBoolConsumer toConsumer() {
+	default LBoolConsumer toConsumer() {
 		return this::applyAsChar;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolToCharFunction beforeDo(@Nonnull LBoolConsumer before) {
+	default LBoolToCharFunction beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolToCharFunction afterDo(@Nonnull LCharConsumer after) {
+	default LBoolToCharFunction afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final char retval = applyAsChar(a);

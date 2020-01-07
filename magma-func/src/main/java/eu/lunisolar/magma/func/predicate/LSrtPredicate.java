@@ -252,7 +252,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		return LSrtPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, short a2, @Nonnull LObjSrtConsumer<V> consumer) {
+	default <V> boolean doIf(V a1, short a2, @Nonnull LObjSrtConsumer<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
@@ -262,7 +262,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, short a3, @Nonnull LTieSrtConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, short a3, @Nonnull LTieSrtConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
@@ -272,7 +272,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, short a3, @Nonnull LTieSrtFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, short a3, @Nonnull LTieSrtFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -317,12 +317,12 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LSrtConsumer toConsumer() {
+	default LSrtConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtPredicate beforeDo(@Nonnull LSrtConsumer before) {
+	default LSrtPredicate beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -331,7 +331,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LSrtPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final boolean retval = test(a);

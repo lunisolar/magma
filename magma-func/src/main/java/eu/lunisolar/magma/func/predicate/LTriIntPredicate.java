@@ -287,12 +287,12 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiIntPredicate lShrink(@Nonnull LIntBinaryOperator left) {
+	default LBiIntPredicate lShrink(@Nonnull LIntBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.applyAsInt(a2, a3), a2, a3);
 	}
 
-	public default LBiIntPredicate lShrink_(int a1) {
+	default LBiIntPredicate lShrink_(int a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -307,12 +307,12 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LBiIntPredicate rShrink(@Nonnull LIntBinaryOperator right) {
+	default LBiIntPredicate rShrink(@Nonnull LIntBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LBiIntPredicate rShrink_(int a3) {
+	default LBiIntPredicate rShrink_(int a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -334,12 +334,12 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriIntConsumer toConsumer() {
+	default LTriIntConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriIntPredicate beforeDo(@Nonnull LTriIntConsumer before) {
+	default LTriIntPredicate beforeDo(@Nonnull LTriIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a1, int a2, int a3) -> {
 			before.accept(a1, a2, a3);
@@ -348,7 +348,7 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriIntPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LTriIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a1, int a2, int a3) -> {
 			final boolean retval = test(a1, a2, a3);

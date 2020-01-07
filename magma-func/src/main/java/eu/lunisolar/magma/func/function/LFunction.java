@@ -271,12 +271,12 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Cast that removes generics. */
-	public default LFunction untyped() {
+	default LFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LFunction<V2, V3> cast() {
+	default <V2, V3> LFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -286,12 +286,12 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFunction<T, R> beforeDo(@Nonnull LConsumer<T> before) {
+	default LFunction<T, R> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -300,7 +300,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final R retval = apply(a);

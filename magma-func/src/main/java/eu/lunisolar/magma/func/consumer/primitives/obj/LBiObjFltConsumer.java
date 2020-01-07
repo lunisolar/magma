@@ -247,12 +247,12 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LObjFltConsumer<T2> lShrink(@Nonnull LObjFltFunction<T2, T1> left) {
+	default LObjFltConsumer<T2> lShrink(@Nonnull LObjFltFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LObjFltConsumer<T2> lShrink_(T1 a1) {
+	default LObjFltConsumer<T2> lShrink_(T1 a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -267,12 +267,12 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		return func.lShrink_(a1);
 	}
 
-	public default LBiConsumer<T1, T2> rShrink(@Nonnull LToFltBiFunction<T1, T2> right) {
+	default LBiConsumer<T1, T2> rShrink(@Nonnull LToFltBiFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsFlt(a1, a2));
 	}
 
-	public default LBiConsumer<T1, T2> rShrink_(float a3) {
+	default LBiConsumer<T1, T2> rShrink_(float a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -294,12 +294,12 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	/** Cast that removes generics. */
-	public default LBiObjFltConsumer untyped() {
+	default LBiObjFltConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LBiObjFltConsumer<V2, V3> cast() {
+	default <V2, V3> LBiObjFltConsumer<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -309,7 +309,7 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiObjFltConsumer<T1, T2> beforeDo(@Nonnull LBiObjFltConsumer<T1, T2> before) {
+	default LBiObjFltConsumer<T1, T2> beforeDo(@Nonnull LBiObjFltConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, float a3) -> {
 			before.accept(a1, a2, a3);

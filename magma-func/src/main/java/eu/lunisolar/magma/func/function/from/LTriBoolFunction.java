@@ -255,12 +255,12 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiBoolFunction<R> lShrink(@Nonnull LLogicalBinaryOperator left) {
+	default LBiBoolFunction<R> lShrink(@Nonnull LLogicalBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiBoolFunction<R> lShrink_(boolean a1) {
+	default LBiBoolFunction<R> lShrink_(boolean a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
@@ -275,12 +275,12 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LBiBoolFunction<R> rShrink(@Nonnull LLogicalBinaryOperator right) {
+	default LBiBoolFunction<R> rShrink(@Nonnull LLogicalBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBiBoolFunction<R> rShrink_(boolean a3) {
+	default LBiBoolFunction<R> rShrink_(boolean a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -302,12 +302,12 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LTriBoolFunction untyped() {
+	default LTriBoolFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LTriBoolFunction<V2> cast() {
+	default <V2> LTriBoolFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriBoolConsumer toConsumer() {
+	default LTriBoolConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriBoolFunction<R> beforeDo(@Nonnull LTriBoolConsumer before) {
+	default LTriBoolFunction<R> beforeDo(@Nonnull LTriBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2, boolean a3) -> {
 			before.accept(a1, a2, a3);
@@ -331,7 +331,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LTriBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a1, boolean a2, boolean a3) -> {
 			final R retval = apply(a1, a2, a3);

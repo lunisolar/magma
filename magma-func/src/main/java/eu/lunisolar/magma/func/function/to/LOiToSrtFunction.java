@@ -266,12 +266,12 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LIntToSrtFunction lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntToSrtFunction lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsSrt(left.apply(a2), a2);
 	}
 
-	public default LIntToSrtFunction lShrink_(T a1) {
+	default LIntToSrtFunction lShrink_(T a1) {
 		return a2 -> applyAsSrt(a1, a2);
 	}
 
@@ -286,12 +286,12 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LToSrtFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LToSrtFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsSrt(a1, right.applyAsInt(a1));
 	}
 
-	public default LToSrtFunction<T> rShrink_(int a2) {
+	default LToSrtFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsSrt(a1, a2);
 	}
 
@@ -313,12 +313,12 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LOiToSrtFunction untyped() {
+	default LOiToSrtFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LOiToSrtFunction<V2> cast() {
+	default <V2> LOiToSrtFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -328,12 +328,12 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsSrt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToSrtFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiToSrtFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToSrtFunction<T> afterDo(@Nonnull LSrtConsumer after) {
+	default LOiToSrtFunction<T> afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final short retval = applyAsSrt(a1, a2);

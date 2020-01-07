@@ -256,12 +256,12 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Cast that removes generics. */
-	public default LBoolFunction untyped() {
+	default LBoolFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBoolFunction<V2> cast() {
+	default <V2> LBoolFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -271,12 +271,12 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBoolConsumer toConsumer() {
+	default LBoolConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolFunction<R> beforeDo(@Nonnull LBoolConsumer before) {
+	default LBoolFunction<R> beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final R retval = apply(a);

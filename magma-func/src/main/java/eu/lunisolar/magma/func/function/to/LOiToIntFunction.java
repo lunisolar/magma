@@ -266,12 +266,12 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LIntUnaryOperator lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntUnaryOperator lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsInt(left.apply(a2), a2);
 	}
 
-	public default LIntUnaryOperator lShrink_(T a1) {
+	default LIntUnaryOperator lShrink_(T a1) {
 		return a2 -> applyAsInt(a1, a2);
 	}
 
@@ -286,12 +286,12 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LToIntFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LToIntFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsInt(a1, right.applyAsInt(a1));
 	}
 
-	public default LToIntFunction<T> rShrink_(int a2) {
+	default LToIntFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsInt(a1, a2);
 	}
 
@@ -313,12 +313,12 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LOiToIntFunction untyped() {
+	default LOiToIntFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LOiToIntFunction<V2> cast() {
+	default <V2> LOiToIntFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -328,12 +328,12 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToIntFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiToIntFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToIntFunction<T> afterDo(@Nonnull LIntConsumer after) {
+	default LOiToIntFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final int retval = applyAsInt(a1, a2);

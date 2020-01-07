@@ -252,12 +252,12 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LCharConsumer toConsumer() {
+	default LCharConsumer toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharToLongFunction beforeDo(@Nonnull LCharConsumer before) {
+	default LCharToLongFunction beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharToLongFunction afterDo(@Nonnull LLongConsumer after) {
+	default LCharToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a) -> {
 			final long retval = applyAsLong(a);

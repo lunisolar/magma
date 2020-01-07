@@ -251,12 +251,12 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LCharUnaryOperator lShrink(@Nonnull LCharUnaryOperator left) {
+	default LCharUnaryOperator lShrink(@Nonnull LCharUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsChar(left.applyAsChar(a2), a2);
 	}
 
-	public default LCharUnaryOperator lShrink_(char a1) {
+	default LCharUnaryOperator lShrink_(char a1) {
 		return a2 -> applyAsChar(a1, a2);
 	}
 
@@ -271,12 +271,12 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LCharUnaryOperator rShrink(@Nonnull LCharUnaryOperator right) {
+	default LCharUnaryOperator rShrink(@Nonnull LCharUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsChar(a1, right.applyAsChar(a1));
 	}
 
-	public default LCharUnaryOperator rShrink_(char a2) {
+	default LCharUnaryOperator rShrink_(char a2) {
 		return a1 -> applyAsChar(a1, a2);
 	}
 
@@ -298,12 +298,12 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiCharConsumer toConsumer() {
+	default LBiCharConsumer toConsumer() {
 		return this::applyAsChar;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LCharBinaryOperator beforeDo(@Nonnull LBiCharConsumer before) {
+	default LCharBinaryOperator beforeDo(@Nonnull LBiCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a1, char a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LCharBinaryOperator afterDo(@Nonnull LCharConsumer after) {
+	default LCharBinaryOperator afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a1, char a2) -> {
 			final char retval = applyAsChar(a1, a2);

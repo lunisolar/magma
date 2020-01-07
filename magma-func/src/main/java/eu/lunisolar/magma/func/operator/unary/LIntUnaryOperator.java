@@ -252,12 +252,12 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LIntConsumer toConsumer() {
+	default LIntConsumer toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntUnaryOperator beforeDo(@Nonnull LIntConsumer before) {
+	default LIntUnaryOperator beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntUnaryOperator afterDo(@Nonnull LIntConsumer after) {
+	default LIntUnaryOperator afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final int retval = applyAsInt(a);

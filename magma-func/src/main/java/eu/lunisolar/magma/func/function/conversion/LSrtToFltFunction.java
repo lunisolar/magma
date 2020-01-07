@@ -252,12 +252,12 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LSrtConsumer toConsumer() {
+	default LSrtConsumer toConsumer() {
 		return this::applyAsFlt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtToFltFunction beforeDo(@Nonnull LSrtConsumer before) {
+	default LSrtToFltFunction beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtToFltFunction afterDo(@Nonnull LFltConsumer after) {
+	default LSrtToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final float retval = applyAsFlt(a);

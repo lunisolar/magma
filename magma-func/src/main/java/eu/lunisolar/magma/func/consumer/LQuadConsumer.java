@@ -247,12 +247,12 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		fromTill(0, max_i, a1, a2, a3, a4, func);
 	}
 
-	public default LTriConsumer<T2, T3, T4> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
+	default LTriConsumer<T2, T3, T4> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3, a4) -> accept(left.apply(a2, a3, a4), a2, a3, a4);
 	}
 
-	public default LTriConsumer<T2, T3, T4> lShrink_(T1 a1) {
+	default LTriConsumer<T2, T3, T4> lShrink_(T1 a1) {
 		return (a2, a3, a4) -> accept(a1, a2, a3, a4);
 	}
 
@@ -267,12 +267,12 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		return func.lShrink_(a1);
 	}
 
-	public default LTriConsumer<T1, T2, T3> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
+	default LTriConsumer<T1, T2, T3> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2, a3) -> accept(a1, a2, a3, right.apply(a1, a2, a3));
 	}
 
-	public default LTriConsumer<T1, T2, T3> rShrink_(T4 a4) {
+	default LTriConsumer<T1, T2, T3> rShrink_(T4 a4) {
 		return (a1, a2, a3) -> accept(a1, a2, a3, a4);
 	}
 
@@ -294,12 +294,12 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 	}
 
 	/** Cast that removes generics. */
-	public default LQuadConsumer untyped() {
+	default LQuadConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4, V5> LQuadConsumer<V2, V3, V4, V5> cast() {
+	default <V2, V3, V4, V5> LQuadConsumer<V2, V3, V4, V5> cast() {
 		return untyped();
 	}
 
@@ -309,7 +309,7 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LQuadConsumer<T1, T2, T3, T4> beforeDo(@Nonnull LQuadConsumer<T1, T2, T3, T4> before) {
+	default LQuadConsumer<T1, T2, T3, T4> beforeDo(@Nonnull LQuadConsumer<T1, T2, T3, T4> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> {
 			before.accept(a1, a2, a3, a4);

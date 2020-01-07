@@ -286,12 +286,12 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LLogicalBinaryOperator lShrink(@Nonnull LLogicalBinaryOperator left) {
+	default LLogicalBinaryOperator lShrink(@Nonnull LLogicalBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LLogicalBinaryOperator lShrink_(boolean a1) {
+	default LLogicalBinaryOperator lShrink_(boolean a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
@@ -306,12 +306,12 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return func.lShrink_(a1);
 	}
 
-	public default LLogicalBinaryOperator rShrink(@Nonnull LLogicalBinaryOperator right) {
+	default LLogicalBinaryOperator rShrink(@Nonnull LLogicalBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LLogicalBinaryOperator rShrink_(boolean a3) {
+	default LLogicalBinaryOperator rShrink_(boolean a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -333,12 +333,12 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriBoolConsumer toConsumer() {
+	default LTriBoolConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLogicalTernaryOperator beforeDo(@Nonnull LTriBoolConsumer before) {
+	default LLogicalTernaryOperator beforeDo(@Nonnull LTriBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2, boolean a3) -> {
 			before.accept(a1, a2, a3);
@@ -347,7 +347,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLogicalTernaryOperator afterDo(@Nonnull LBoolConsumer after) {
+	default LLogicalTernaryOperator afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a1, boolean a2, boolean a3) -> {
 			final boolean retval = apply(a1, a2, a3);

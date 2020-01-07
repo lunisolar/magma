@@ -252,7 +252,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		return LIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, @Nonnull LObjIntConsumer<V> consumer) {
+	default <V> boolean doIf(V a1, int a2, @Nonnull LObjIntConsumer<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
@@ -263,7 +263,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** 2 */
-	public default <V> int doIf(V a1, int a2, @Nonnull LOiToIntFunction<V> consumer) {
+	default <V> int doIf(V a1, int a2, @Nonnull LOiToIntFunction<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			return consumer.applyAsInt(a1, a2);
@@ -272,7 +272,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, int a3, @Nonnull LTieIntConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, int a3, @Nonnull LTieIntConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
@@ -282,7 +282,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, int a3, @Nonnull LTieIntFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, int a3, @Nonnull LTieIntFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -327,12 +327,12 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LIntConsumer toConsumer() {
+	default LIntConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntPredicate beforeDo(@Nonnull LIntConsumer before) {
+	default LIntPredicate beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -341,7 +341,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final boolean retval = test(a);

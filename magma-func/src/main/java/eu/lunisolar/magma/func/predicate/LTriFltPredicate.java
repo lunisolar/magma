@@ -287,12 +287,12 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiFltPredicate lShrink(@Nonnull LFltBinaryOperator left) {
+	default LBiFltPredicate lShrink(@Nonnull LFltBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.applyAsFlt(a2, a3), a2, a3);
 	}
 
-	public default LBiFltPredicate lShrink_(float a1) {
+	default LBiFltPredicate lShrink_(float a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -307,12 +307,12 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LBiFltPredicate rShrink(@Nonnull LFltBinaryOperator right) {
+	default LBiFltPredicate rShrink(@Nonnull LFltBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsFlt(a1, a2));
 	}
 
-	public default LBiFltPredicate rShrink_(float a3) {
+	default LBiFltPredicate rShrink_(float a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -334,12 +334,12 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriFltConsumer toConsumer() {
+	default LTriFltConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriFltPredicate beforeDo(@Nonnull LTriFltConsumer before) {
+	default LTriFltPredicate beforeDo(@Nonnull LTriFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2, float a3) -> {
 			before.accept(a1, a2, a3);
@@ -348,7 +348,7 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriFltPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LTriFltPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a1, float a2, float a3) -> {
 			final boolean retval = test(a1, a2, a3);

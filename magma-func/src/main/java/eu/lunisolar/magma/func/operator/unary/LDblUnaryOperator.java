@@ -262,12 +262,12 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LDblConsumer toConsumer() {
+	default LDblConsumer toConsumer() {
 		return this::applyAsDbl;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblUnaryOperator beforeDo(@Nonnull LDblConsumer before) {
+	default LDblUnaryOperator beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -276,7 +276,7 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblUnaryOperator afterDo(@Nonnull LDblConsumer after) {
+	default LDblUnaryOperator afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final double retval = applyAsDbl(a);

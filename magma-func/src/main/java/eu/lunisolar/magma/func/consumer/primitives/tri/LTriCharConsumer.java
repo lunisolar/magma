@@ -247,12 +247,12 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiCharConsumer lShrink(@Nonnull LCharBinaryOperator left) {
+	default LBiCharConsumer lShrink(@Nonnull LCharBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.applyAsChar(a2, a3), a2, a3);
 	}
 
-	public default LBiCharConsumer lShrink_(char a1) {
+	default LBiCharConsumer lShrink_(char a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -267,12 +267,12 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LBiCharConsumer rShrink(@Nonnull LCharBinaryOperator right) {
+	default LBiCharConsumer rShrink(@Nonnull LCharBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsChar(a1, a2));
 	}
 
-	public default LBiCharConsumer rShrink_(char a3) {
+	default LBiCharConsumer rShrink_(char a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -294,7 +294,7 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriCharConsumer beforeDo(@Nonnull LTriCharConsumer before) {
+	default LTriCharConsumer beforeDo(@Nonnull LTriCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a1, char a2, char a3) -> {
 			before.accept(a1, a2, a3);

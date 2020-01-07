@@ -252,12 +252,12 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LSrtConsumer toConsumer() {
+	default LSrtConsumer toConsumer() {
 		return this::applyAsDbl;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtToDblFunction beforeDo(@Nonnull LSrtConsumer before) {
+	default LSrtToDblFunction beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtToDblFunction afterDo(@Nonnull LDblConsumer after) {
+	default LSrtToDblFunction afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final double retval = applyAsDbl(a);

@@ -256,12 +256,12 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** Cast that removes generics. */
-	public default LDblFunction untyped() {
+	default LDblFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LDblFunction<V2> cast() {
+	default <V2> LDblFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -271,12 +271,12 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LDblConsumer toConsumer() {
+	default LDblConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblFunction<R> beforeDo(@Nonnull LDblConsumer before) {
+	default LDblFunction<R> beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LDblFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final R retval = apply(a);

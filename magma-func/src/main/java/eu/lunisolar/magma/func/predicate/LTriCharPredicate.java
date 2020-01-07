@@ -287,12 +287,12 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiCharPredicate lShrink(@Nonnull LCharBinaryOperator left) {
+	default LBiCharPredicate lShrink(@Nonnull LCharBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.applyAsChar(a2, a3), a2, a3);
 	}
 
-	public default LBiCharPredicate lShrink_(char a1) {
+	default LBiCharPredicate lShrink_(char a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -307,12 +307,12 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LBiCharPredicate rShrink(@Nonnull LCharBinaryOperator right) {
+	default LBiCharPredicate rShrink(@Nonnull LCharBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsChar(a1, a2));
 	}
 
-	public default LBiCharPredicate rShrink_(char a3) {
+	default LBiCharPredicate rShrink_(char a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -334,12 +334,12 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriCharConsumer toConsumer() {
+	default LTriCharConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriCharPredicate beforeDo(@Nonnull LTriCharConsumer before) {
+	default LTriCharPredicate beforeDo(@Nonnull LTriCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a1, char a2, char a3) -> {
 			before.accept(a1, a2, a3);
@@ -348,7 +348,7 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriCharPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LTriCharPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (char a1, char a2, char a3) -> {
 			final boolean retval = test(a1, a2, a3);

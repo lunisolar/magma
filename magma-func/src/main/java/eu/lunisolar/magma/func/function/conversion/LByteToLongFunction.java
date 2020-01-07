@@ -252,12 +252,12 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LByteConsumer toConsumer() {
+	default LByteConsumer toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteToLongFunction beforeDo(@Nonnull LByteConsumer before) {
+	default LByteToLongFunction beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteToLongFunction afterDo(@Nonnull LLongConsumer after) {
+	default LByteToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final long retval = applyAsLong(a);

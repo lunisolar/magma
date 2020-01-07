@@ -252,12 +252,12 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LDblConsumer toConsumer() {
+	default LDblConsumer toConsumer() {
 		return this::applyAsFlt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblToFltFunction beforeDo(@Nonnull LDblConsumer before) {
+	default LDblToFltFunction beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblToFltFunction afterDo(@Nonnull LFltConsumer after) {
+	default LDblToFltFunction afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final float retval = applyAsFlt(a);

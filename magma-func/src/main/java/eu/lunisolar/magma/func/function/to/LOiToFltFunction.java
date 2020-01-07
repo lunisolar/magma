@@ -266,12 +266,12 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LIntToFltFunction lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntToFltFunction lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsFlt(left.apply(a2), a2);
 	}
 
-	public default LIntToFltFunction lShrink_(T a1) {
+	default LIntToFltFunction lShrink_(T a1) {
 		return a2 -> applyAsFlt(a1, a2);
 	}
 
@@ -286,12 +286,12 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LToFltFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LToFltFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsFlt(a1, right.applyAsInt(a1));
 	}
 
-	public default LToFltFunction<T> rShrink_(int a2) {
+	default LToFltFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsFlt(a1, a2);
 	}
 
@@ -313,12 +313,12 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LOiToFltFunction untyped() {
+	default LOiToFltFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LOiToFltFunction<V2> cast() {
+	default <V2> LOiToFltFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -328,12 +328,12 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsFlt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToFltFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiToFltFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToFltFunction<T> afterDo(@Nonnull LFltConsumer after) {
+	default LOiToFltFunction<T> afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final float retval = applyAsFlt(a1, a2);

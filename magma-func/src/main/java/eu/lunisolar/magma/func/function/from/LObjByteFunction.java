@@ -268,12 +268,12 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
-	public default LByteFunction<R> lShrink(@Nonnull LByteFunction<T> left) {
+	default LByteFunction<R> lShrink(@Nonnull LByteFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LByteFunction<R> lShrink_(T a1) {
+	default LByteFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -288,12 +288,12 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(@Nonnull LToByteFunction<T> right) {
+	default LFunction<T, R> rShrink(@Nonnull LToByteFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsByte(a1));
 	}
 
-	public default LFunction<T, R> rShrink_(byte a2) {
+	default LFunction<T, R> rShrink_(byte a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -315,12 +315,12 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Cast that removes generics. */
-	public default LObjByteFunction untyped() {
+	default LObjByteFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjByteFunction<V2, V3> cast() {
+	default <V2, V3> LObjByteFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjByteConsumer<T> toConsumer() {
+	default LObjByteConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjByteFunction<T, R> beforeDo(@Nonnull LObjByteConsumer<T> before) {
+	default LObjByteFunction<T, R> beforeDo(@Nonnull LObjByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, byte a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjByteFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjByteFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, byte a2) -> {
 			final R retval = apply(a1, a2);

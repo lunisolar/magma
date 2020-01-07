@@ -268,12 +268,12 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return null;
 	}
 
-	public default LObjCharFunction<T2, R> lShrink(@Nonnull LObjCharFunction<T2, T1> left) {
+	default LObjCharFunction<T2, R> lShrink(@Nonnull LObjCharFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LObjCharFunction<T2, R> lShrink_(T1 a1) {
+	default LObjCharFunction<T2, R> lShrink_(T1 a1) {
 		return (a2, a3) -> apply(a1, a2, a3);
 	}
 
@@ -288,12 +288,12 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return func.lShrink_(a1);
 	}
 
-	public default LBiFunction<T1, T2, R> rShrink(@Nonnull LToCharBiFunction<T1, T2> right) {
+	default LBiFunction<T1, T2, R> rShrink(@Nonnull LToCharBiFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.applyAsChar(a1, a2));
 	}
 
-	public default LBiFunction<T1, T2, R> rShrink_(char a3) {
+	default LBiFunction<T1, T2, R> rShrink_(char a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -315,12 +315,12 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Cast that removes generics. */
-	public default LBiObjCharFunction untyped() {
+	default LBiObjCharFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4> LBiObjCharFunction<V2, V3, V4> cast() {
+	default <V2, V3, V4> LBiObjCharFunction<V2, V3, V4> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiObjCharConsumer<T1, T2> toConsumer() {
+	default LBiObjCharConsumer<T1, T2> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiObjCharFunction<T1, T2, R> beforeDo(@Nonnull LBiObjCharConsumer<T1, T2> before) {
+	default LBiObjCharFunction<T1, T2, R> beforeDo(@Nonnull LBiObjCharConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, char a3) -> {
 			before.accept(a1, a2, a3);
@@ -344,7 +344,7 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiObjCharFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiObjCharFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, char a3) -> {
 			final R retval = apply(a1, a2, a3);

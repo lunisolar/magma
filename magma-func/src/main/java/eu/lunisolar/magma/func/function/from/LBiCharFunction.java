@@ -255,12 +255,12 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LCharFunction<R> lShrink(@Nonnull LCharUnaryOperator left) {
+	default LCharFunction<R> lShrink(@Nonnull LCharUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsChar(a2), a2);
 	}
 
-	public default LCharFunction<R> lShrink_(char a1) {
+	default LCharFunction<R> lShrink_(char a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LCharFunction<R> rShrink(@Nonnull LCharUnaryOperator right) {
+	default LCharFunction<R> rShrink(@Nonnull LCharUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsChar(a1));
 	}
 
-	public default LCharFunction<R> rShrink_(char a2) {
+	default LCharFunction<R> rShrink_(char a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LBiCharFunction untyped() {
+	default LBiCharFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiCharFunction<V2> cast() {
+	default <V2> LBiCharFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiCharConsumer toConsumer() {
+	default LBiCharConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiCharFunction<R> beforeDo(@Nonnull LBiCharConsumer before) {
+	default LBiCharFunction<R> beforeDo(@Nonnull LBiCharConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (char a1, char a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiCharFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiCharFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (char a1, char a2) -> {
 			final R retval = apply(a1, a2);

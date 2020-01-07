@@ -262,12 +262,12 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LIntConsumer toConsumer() {
+	default LIntConsumer toConsumer() {
 		return this::applyAsDbl;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntToDblFunction beforeDo(@Nonnull LIntConsumer before) {
+	default LIntToDblFunction beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -276,7 +276,7 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntToDblFunction afterDo(@Nonnull LDblConsumer after) {
+	default LIntToDblFunction afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final double retval = applyAsDbl(a);

@@ -266,12 +266,12 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LIntToDblFunction lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntToDblFunction lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsDbl(left.apply(a2), a2);
 	}
 
-	public default LIntToDblFunction lShrink_(T a1) {
+	default LIntToDblFunction lShrink_(T a1) {
 		return a2 -> applyAsDbl(a1, a2);
 	}
 
@@ -286,12 +286,12 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.lShrink_(a1);
 	}
 
-	public default LToDblFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LToDblFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsDbl(a1, right.applyAsInt(a1));
 	}
 
-	public default LToDblFunction<T> rShrink_(int a2) {
+	default LToDblFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsDbl(a1, a2);
 	}
 
@@ -313,12 +313,12 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LOiToDblFunction untyped() {
+	default LOiToDblFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LOiToDblFunction<V2> cast() {
+	default <V2> LOiToDblFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -328,12 +328,12 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsDbl;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToDblFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiToDblFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToDblFunction<T> afterDo(@Nonnull LDblConsumer after) {
+	default LOiToDblFunction<T> afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final double retval = applyAsDbl(a1, a2);

@@ -214,7 +214,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return LTieIntConsumer.DESCRIPTION;
 	}
 
-	public default LTieIntFunction<T> toTieFunction() {
+	default LTieIntFunction<T> toTieFunction() {
 		return (t, i, e) -> {
 			this.accept(t, i, e);
 			return 1;
@@ -256,12 +256,12 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiIntConsumer lShrink(@Nonnull LBiIntFunction<T> left) {
+	default LBiIntConsumer lShrink(@Nonnull LBiIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiIntConsumer lShrink_(T a1) {
+	default LBiIntConsumer lShrink_(T a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -276,12 +276,12 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LObjIntConsumer<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
+	default LObjIntConsumer<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LObjIntConsumer<T> rShrink_(int a3) {
+	default LObjIntConsumer<T> rShrink_(int a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -303,12 +303,12 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LTieIntConsumer untyped() {
+	default LTieIntConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LTieIntConsumer<V2> cast() {
+	default <V2> LTieIntConsumer<V2> cast() {
 		return untyped();
 	}
 
@@ -318,7 +318,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieIntConsumer<T> beforeDo(@Nonnull LTieIntConsumer<T> before) {
+	default LTieIntConsumer<T> beforeDo(@Nonnull LTieIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, int a3) -> {
 			before.accept(a1, a2, a3);
@@ -1185,7 +1185,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** ***ITERATION:    TIE_CONSUMER2_GEN:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=int a3, type=TIE_SOURCE}, SourcePurpose{arg=int a3, type=TE_GEN_PREDICATE}, SourcePurpose{arg=int a3, type=TE_GEN_SUPPLIER}] */
-	public default <SRC> int genericTieForEach(int sStart, int tStart, T trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, aInt> srcAcc3) {
+	default <SRC> int genericTieForEach(int sStart, int tStart, T trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, aInt> srcAcc3) {
 		return tieForEach(sStart, tStart, trg1, src3, (LPredicate<SRC>) srcTest3, (LToIntFunction<SRC>) srcAcc3, this);
 
 	}

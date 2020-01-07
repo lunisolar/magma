@@ -247,12 +247,12 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntConsumer lShrink(@Nonnull LIntPredicate left) {
+	default LIntConsumer lShrink(@Nonnull LIntPredicate left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.test(a2), a2);
 	}
 
-	public default LIntConsumer lShrink_(boolean a1) {
+	default LIntConsumer lShrink_(boolean a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -267,12 +267,12 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LBoolConsumer rShrink(@Nonnull LBoolToIntFunction right) {
+	default LBoolConsumer rShrink(@Nonnull LBoolToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsInt(a1));
 	}
 
-	public default LBoolConsumer rShrink_(int a2) {
+	default LBoolConsumer rShrink_(int a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -294,7 +294,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBoolIntConsumer beforeDo(@Nonnull LBoolIntConsumer before) {
+	default LBoolIntConsumer beforeDo(@Nonnull LBoolIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, int a2) -> {
 			before.accept(a1, a2);

@@ -255,12 +255,12 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LSrtFunction<R> lShrink(@Nonnull LSrtUnaryOperator left) {
+	default LSrtFunction<R> lShrink(@Nonnull LSrtUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsSrt(a2), a2);
 	}
 
-	public default LSrtFunction<R> lShrink_(short a1) {
+	default LSrtFunction<R> lShrink_(short a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LSrtFunction<R> rShrink(@Nonnull LSrtUnaryOperator right) {
+	default LSrtFunction<R> rShrink(@Nonnull LSrtUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsSrt(a1));
 	}
 
-	public default LSrtFunction<R> rShrink_(short a2) {
+	default LSrtFunction<R> rShrink_(short a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that removes generics. */
-	public default LBiSrtFunction untyped() {
+	default LBiSrtFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiSrtFunction<V2> cast() {
+	default <V2> LBiSrtFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiSrtConsumer toConsumer() {
+	default LBiSrtConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiSrtFunction<R> beforeDo(@Nonnull LBiSrtConsumer before) {
+	default LBiSrtFunction<R> beforeDo(@Nonnull LBiSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a1, short a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiSrtFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiSrtFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (short a1, short a2) -> {
 			final R retval = apply(a1, a2);

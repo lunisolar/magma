@@ -248,12 +248,12 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	/** Cast that removes generics. */
-	public default LConsumer untyped() {
+	default LConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LConsumer<V2> cast() {
+	default <V2> LConsumer<V2> cast() {
 		return untyped();
 	}
 
@@ -263,7 +263,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LConsumer<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LConsumer<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);

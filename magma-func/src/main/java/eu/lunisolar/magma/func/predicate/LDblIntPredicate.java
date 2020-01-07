@@ -252,7 +252,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return LDblIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, double a3, @Nonnull LTieDblConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, double a3, @Nonnull LTieDblConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
@@ -262,7 +262,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, double a3, @Nonnull LTieDblFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, double a3, @Nonnull LTieDblFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -306,12 +306,12 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntPredicate lShrink(@Nonnull LIntToDblFunction left) {
+	default LIntPredicate lShrink(@Nonnull LIntToDblFunction left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsDbl(a2), a2);
 	}
 
-	public default LIntPredicate lShrink_(double a1) {
+	default LIntPredicate lShrink_(double a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -326,12 +326,12 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LDblPredicate rShrink(@Nonnull LDblToIntFunction right) {
+	default LDblPredicate rShrink(@Nonnull LDblToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LDblPredicate rShrink_(int a2) {
+	default LDblPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -353,12 +353,12 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LDblIntConsumer toConsumer() {
+	default LDblIntConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblIntPredicate beforeDo(@Nonnull LDblIntConsumer before) {
+	default LDblIntPredicate beforeDo(@Nonnull LDblIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, int a2) -> {
 			before.accept(a1, a2);
@@ -367,7 +367,7 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblIntPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LDblIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a1, int a2) -> {
 			final boolean retval = test(a1, a2);

@@ -266,12 +266,12 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
-	public default LIntToByteFunction lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntToByteFunction lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsByte(left.apply(a2), a2);
 	}
 
-	public default LIntToByteFunction lShrink_(T a1) {
+	default LIntToByteFunction lShrink_(T a1) {
 		return a2 -> applyAsByte(a1, a2);
 	}
 
@@ -286,12 +286,12 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func.lShrink_(a1);
 	}
 
-	public default LToByteFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LToByteFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsByte(a1, right.applyAsInt(a1));
 	}
 
-	public default LToByteFunction<T> rShrink_(int a2) {
+	default LToByteFunction<T> rShrink_(int a2) {
 		return a1 -> applyAsByte(a1, a2);
 	}
 
@@ -313,12 +313,12 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Cast that removes generics. */
-	public default LOiToByteFunction untyped() {
+	default LOiToByteFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LOiToByteFunction<V2> cast() {
+	default <V2> LOiToByteFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -328,12 +328,12 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjIntConsumer<T> toConsumer() {
+	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsByte;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LOiToByteFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LOiToByteFunction<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);
@@ -342,7 +342,7 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LOiToByteFunction<T> afterDo(@Nonnull LByteConsumer after) {
+	default LOiToByteFunction<T> afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2) -> {
 			final byte retval = applyAsByte(a1, a2);

@@ -252,7 +252,7 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return LObjFltPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T a2, float a3, @Nonnull LBiObjFltConsumer<V, ? super T> consumer) {
+	default <V> boolean doIf(V a1, T a2, float a3, @Nonnull LBiObjFltConsumer<V, ? super T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3)) {
 			consumer.accept(a1, a2, a3);
@@ -310,12 +310,12 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return false;
 	}
 
-	public default LFltPredicate lShrink(@Nonnull LFltFunction<T> left) {
+	default LFltPredicate lShrink(@Nonnull LFltFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.apply(a2), a2);
 	}
 
-	public default LFltPredicate lShrink_(T a1) {
+	default LFltPredicate lShrink_(T a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -330,12 +330,12 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return func.lShrink_(a1);
 	}
 
-	public default LPredicate<T> rShrink(@Nonnull LToFltFunction<T> right) {
+	default LPredicate<T> rShrink(@Nonnull LToFltFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsFlt(a1));
 	}
 
-	public default LPredicate<T> rShrink_(float a2) {
+	default LPredicate<T> rShrink_(float a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -357,12 +357,12 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	}
 
 	/** Cast that removes generics. */
-	public default LObjFltPredicate untyped() {
+	default LObjFltPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjFltPredicate<V2> cast() {
+	default <V2> LObjFltPredicate<V2> cast() {
 		return untyped();
 	}
 
@@ -372,12 +372,12 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjFltConsumer<T> toConsumer() {
+	default LObjFltConsumer<T> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjFltPredicate<T> beforeDo(@Nonnull LObjFltConsumer<T> before) {
+	default LObjFltPredicate<T> beforeDo(@Nonnull LObjFltConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, float a2) -> {
 			before.accept(a1, a2);
@@ -386,7 +386,7 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjFltPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
+	default LObjFltPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, float a2) -> {
 			final boolean retval = test(a1, a2);

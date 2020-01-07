@@ -255,12 +255,12 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** Cast that removes generics. */
-	public default LUnaryOperator untyped() {
+	default LUnaryOperator untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default LUnaryOperator cast() {
+	default LUnaryOperator cast() {
 		return untyped();
 	}
 
@@ -270,12 +270,12 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LUnaryOperator<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LUnaryOperator<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -284,7 +284,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LUnaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
+	default LUnaryOperator<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final T retval = apply(a);

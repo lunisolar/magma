@@ -250,12 +250,12 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::getAsSrt;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtSupplier afterDo(@Nonnull LSrtConsumer after) {
+	default LSrtSupplier afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final short retval = getAsSrt();

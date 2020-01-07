@@ -266,12 +266,12 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	public default LOiToIntFunction<T> rShrink(@Nonnull LOiToByteFunction<T> right) {
+	default LOiToIntFunction<T> rShrink(@Nonnull LOiToByteFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> applyAsInt(a1, a2, right.applyAsByte(a1, a2));
 	}
 
-	public default LOiToIntFunction<T> rShrink_(byte a3) {
+	default LOiToIntFunction<T> rShrink_(byte a3) {
 		return (a1, a2) -> applyAsInt(a1, a2, a3);
 	}
 
@@ -293,12 +293,12 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that removes generics. */
-	public default LTieByteFunction untyped() {
+	default LTieByteFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LTieByteFunction<V2> cast() {
+	default <V2> LTieByteFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -308,12 +308,12 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieByteConsumer<T> toConsumer() {
+	default LTieByteConsumer<T> toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTieByteFunction<T> beforeDo(@Nonnull LTieByteConsumer<T> before) {
+	default LTieByteFunction<T> beforeDo(@Nonnull LTieByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, byte a3) -> {
 			before.accept(a1, a2, a3);
@@ -322,7 +322,7 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTieByteFunction<T> afterDo(@Nonnull LIntConsumer after) {
+	default LTieByteFunction<T> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, byte a3) -> {
 			final int retval = applyAsInt(a1, a2, a3);
@@ -761,7 +761,7 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** ***ITERATION:    TIE_CONSUMER2_GEN:  FOR, [SourcePurpose{arg=int sStart, type=CONST}, SourcePurpose{arg=int tStart, type=CONST}, SourcePurpose{arg=T trg1, type=CONST}, SourcePurpose{arg=byte a3, type=TIE_SOURCE}, SourcePurpose{arg=byte a3, type=TE_GEN_PREDICATE}, SourcePurpose{arg=byte a3, type=TE_GEN_SUPPLIER}] */
-	public default <SRC> int genericTieForEach(int sStart, int tStart, T trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, aByte> srcAcc3) {
+	default <SRC> int genericTieForEach(int sStart, int tStart, T trg1, SRC src3, OFunction<SRC, aBool> srcTest3, OFunction<SRC, aByte> srcAcc3) {
 		return tieForEach(sStart, tStart, trg1, src3, (LPredicate<SRC>) srcTest3, (LToByteFunction<SRC>) srcAcc3, this);
 
 	}

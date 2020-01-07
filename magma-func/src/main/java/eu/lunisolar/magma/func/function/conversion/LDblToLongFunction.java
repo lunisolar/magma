@@ -252,12 +252,12 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LDblConsumer toConsumer() {
+	default LDblConsumer toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblToLongFunction beforeDo(@Nonnull LDblConsumer before) {
+	default LDblToLongFunction beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblToLongFunction afterDo(@Nonnull LLongConsumer after) {
+	default LDblToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final long retval = applyAsLong(a);

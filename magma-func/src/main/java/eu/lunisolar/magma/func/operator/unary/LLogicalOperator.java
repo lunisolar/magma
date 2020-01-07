@@ -251,7 +251,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return LLogicalOperator.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, boolean a2, @Nonnull LObjBoolConsumer<V> consumer) {
+	default <V> boolean doIf(V a1, boolean a2, @Nonnull LObjBoolConsumer<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (apply(a2)) {
 			consumer.accept(a1, a2);
@@ -261,7 +261,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, boolean a3, @Nonnull LTieBoolConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, boolean a3, @Nonnull LTieBoolConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (apply(a3)) {
 			consumer.accept(a1, a2, a3);
@@ -271,7 +271,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, boolean a3, @Nonnull LTieBoolFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, boolean a3, @Nonnull LTieBoolFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (apply(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -316,12 +316,12 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBoolConsumer toConsumer() {
+	default LBoolConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLogicalOperator beforeDo(@Nonnull LBoolConsumer before) {
+	default LLogicalOperator beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a) -> {
 			before.accept(a);
@@ -330,7 +330,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLogicalOperator afterDo(@Nonnull LBoolConsumer after) {
+	default LLogicalOperator afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a) -> {
 			final boolean retval = apply(a);

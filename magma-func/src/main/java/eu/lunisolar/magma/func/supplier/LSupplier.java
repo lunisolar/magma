@@ -254,12 +254,12 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** Cast that removes generics. */
-	public default LSupplier untyped() {
+	default LSupplier untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LSupplier<V2> cast() {
+	default <V2> LSupplier<V2> cast() {
 		return untyped();
 	}
 
@@ -269,12 +269,12 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::get;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSupplier<T> afterDo(@Nonnull LConsumer<T> after) {
+	default LSupplier<T> afterDo(@Nonnull LConsumer<T> after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final T retval = get();

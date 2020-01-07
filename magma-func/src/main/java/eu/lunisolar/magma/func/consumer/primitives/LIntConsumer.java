@@ -248,7 +248,7 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntConsumer beforeDo(@Nonnull LIntConsumer before) {
+	default LIntConsumer beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);

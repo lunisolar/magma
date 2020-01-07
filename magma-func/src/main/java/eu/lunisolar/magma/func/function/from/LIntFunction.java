@@ -256,12 +256,12 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** Cast that removes generics. */
-	public default LIntFunction untyped() {
+	default LIntFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LIntFunction<V2> cast() {
+	default <V2> LIntFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -271,12 +271,12 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LIntConsumer toConsumer() {
+	default LIntConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LIntFunction<R> beforeDo(@Nonnull LIntConsumer before) {
+	default LIntFunction<R> beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LIntFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LIntFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (int a) -> {
 			final R retval = apply(a);

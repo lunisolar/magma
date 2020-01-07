@@ -252,7 +252,7 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return LByteIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, byte a3, @Nonnull LTieByteConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, byte a3, @Nonnull LTieByteConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
@@ -262,7 +262,7 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, byte a3, @Nonnull LTieByteFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, byte a3, @Nonnull LTieByteFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -306,12 +306,12 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntPredicate lShrink(@Nonnull LIntToByteFunction left) {
+	default LIntPredicate lShrink(@Nonnull LIntToByteFunction left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsByte(a2), a2);
 	}
 
-	public default LIntPredicate lShrink_(byte a1) {
+	default LIntPredicate lShrink_(byte a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -326,12 +326,12 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LBytePredicate rShrink(@Nonnull LByteToIntFunction right) {
+	default LBytePredicate rShrink(@Nonnull LByteToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LBytePredicate rShrink_(int a2) {
+	default LBytePredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -353,12 +353,12 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LByteIntConsumer toConsumer() {
+	default LByteIntConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteIntPredicate beforeDo(@Nonnull LByteIntConsumer before) {
+	default LByteIntPredicate beforeDo(@Nonnull LByteIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, int a2) -> {
 			before.accept(a1, a2);
@@ -367,7 +367,7 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteIntPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LByteIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a1, int a2) -> {
 			final boolean retval = test(a1, a2);

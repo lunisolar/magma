@@ -250,12 +250,12 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::getAsFlt;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltSupplier afterDo(@Nonnull LFltConsumer after) {
+	default LFltSupplier afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final float retval = getAsFlt();

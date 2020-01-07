@@ -101,47 +101,47 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
-	public default boolean is(@Nonnull LBytePredicate predicate) {
+	default boolean is(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
-	public default boolean is(@Nonnull LBiBytePredicate predicate, byte a2) {
+	default boolean is(@Nonnull LBiBytePredicate predicate, byte a2) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
-	public default boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
+	default boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
-	public default boolean is(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
+	default boolean is(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
-	public default boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	default boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
-	public default boolean is2(@Nonnull LByteIntPredicate predicate, int v) {
+	default boolean is2(@Nonnull LByteIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	public default boolean is2(int v, @Nonnull LByteIntPredicate predicate) {
+	default boolean is2(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	public default <V> boolean is2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+	default <V> boolean is2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testByteObj(get(), v);
 	}
 
-	public default <V> boolean is2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default <V> boolean is2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testByteObj(get(), v);
 	}
@@ -150,47 +150,47 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="filtering">
 
-	public default SELF filter(@Nonnull LBytePredicate predicate) {
+	default SELF filter(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
-	public default SELF filter(@Nonnull LBiBytePredicate predicate, byte a2) {
+	default SELF filter(@Nonnull LBiBytePredicate predicate, byte a2) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate, a2) ? self() : voidValue();
 	}
 
-	public default SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
+	default SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	public default SELF filter(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
+	default SELF filter(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate, a2, a3) ? self() : voidValue();
 	}
 
-	public default SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	default SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	public default SELF filter2(@Nonnull LByteIntPredicate predicate, int v) {
+	default SELF filter2(@Nonnull LByteIntPredicate predicate, int v) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(predicate, v) ? self() : voidValue();
 	}
 
-	public default SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
+	default SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	public default <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+	default <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(predicate, v) ? self() : voidValue();
 	}
 
-	public default <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();
 	}
@@ -199,77 +199,77 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="map">
 
-	public default OptBool mapToBool(@Nonnull LBytePredicate mapping) {
+	default OptBool mapToBool(@Nonnull LBytePredicate mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptBool.of(mapping.test(get()))) : OptBool.empty();
 	}
 
-	public default <K> OptBool mapToBool_(K a2, @Nonnull LObjBytePredicate.LByteObjPred<? super K> mapping) {
+	default <K> OptBool mapToBool_(K a2, @Nonnull LObjBytePredicate.LByteObjPred<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptBool.of(mapping.testByteObj(get(), a2))) : OptBool.empty();
 	}
 
-	public default <K> OptBool mapToBoolWith(K a1, @Nonnull LObjBytePredicate<? super K> mapping) {
+	default <K> OptBool mapToBoolWith(K a1, @Nonnull LObjBytePredicate<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptBool.of(mapping.test(a1, get()))) : OptBool.empty();
 	}
 
-	public default OptByte map(@Nonnull LByteUnaryOperator mapping) {
+	default OptByte map(@Nonnull LByteUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptByte.of(mapping.applyAsByte(get()))) : OptByte.empty();
 	}
 
-	public default SELF perform(@Nonnull LByteUnaryOperator mapping) {
+	default SELF perform(@Nonnull LByteUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? value(mapping.applyAsByte(get())) : voidValue();
 	}
 
-	public default SELF performWith(byte a1, @Nonnull LByteBinaryOperator mapping) {
+	default SELF performWith(byte a1, @Nonnull LByteBinaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? value(mapping.applyAsByte(a1, get())) : voidValue();
 	}
 
-	public default OptDbl mapToDbl(@Nonnull LByteToDblFunction mapping) {
+	default OptDbl mapToDbl(@Nonnull LByteToDblFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptDbl.of(mapping.applyAsDbl(get()))) : OptDbl.empty();
 	}
 
-	public default OptChar mapToChar(@Nonnull LByteToCharFunction mapping) {
+	default OptChar mapToChar(@Nonnull LByteToCharFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptChar.of(mapping.applyAsChar(get()))) : OptChar.empty();
 	}
 
-	public default OptSrt mapToSrt(@Nonnull LByteToSrtFunction mapping) {
+	default OptSrt mapToSrt(@Nonnull LByteToSrtFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptSrt.of(mapping.applyAsSrt(get()))) : OptSrt.empty();
 	}
 
-	public default OptFlt mapToFlt(@Nonnull LByteToFltFunction mapping) {
+	default OptFlt mapToFlt(@Nonnull LByteToFltFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptFlt.of(mapping.applyAsFlt(get()))) : OptFlt.empty();
 	}
 
-	public default OptInt mapToInt(@Nonnull LByteToIntFunction mapping) {
+	default OptInt mapToInt(@Nonnull LByteToIntFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptInt.of(mapping.applyAsInt(get()))) : OptInt.empty();
 	}
 
-	public default OptLong mapToLong(@Nonnull LByteToLongFunction mapping) {
+	default OptLong mapToLong(@Nonnull LByteToLongFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptLong.of(mapping.applyAsLong(get()))) : OptLong.empty();
 	}
 
-	public default <R> Opt<R> mapToObj(@Nonnull LByteFunction<? extends R> mapping) {
+	default <R> Opt<R> mapToObj(@Nonnull LByteFunction<? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get()))) : Opt.empty();
 	}
 
-	public default <R, K> Opt<R> mapToObj_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends R> mapping) {
+	default <R, K> Opt<R> mapToObj_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.applyByteObj(get(), a2))) : Opt.empty();
 	}
 
-	public default <R, K> Opt<R> mapToObjWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends R> mapping) {
+	default <R, K> Opt<R> mapToObjWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, get()))) : Opt.empty();
 	}
@@ -278,147 +278,147 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="flatMap">
 
-	public default OptBool flatMapToBool(@Nonnull LByteFunction<? extends OptBoolTrait<?>> mapping) {
+	default OptBool flatMapToBool(@Nonnull LByteFunction<? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptBool.from(mapping.apply(get())) : OptBool.empty();
 	}
 
-	public default <K> OptBool flatMapToBool_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptBoolTrait<?>> mapping) {
+	default <K> OptBool flatMapToBool_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptBool.from(mapping.applyByteObj(get(), a2)) : OptBool.empty();
 	}
 
-	public default <K> OptBool flatMapToBoolWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptBoolTrait<?>> mapping) {
+	default <K> OptBool flatMapToBoolWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptBool.from(mapping.apply(a1, get())) : OptBool.empty();
 	}
 
-	public default OptByte flatMap(@Nonnull LByteFunction<? extends OptByteTrait<?>> mapping) {
+	default OptByte flatMap(@Nonnull LByteFunction<? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptByte.from(mapping.apply(get())) : OptByte.empty();
 	}
 
-	public default SELF perform(@Nonnull LByteFunction<? extends OptByteTrait<? extends SELF>> mapping) {
+	default SELF perform(@Nonnull LByteFunction<? extends OptByteTrait<? extends SELF>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? valueFrom(mapping.apply(get())) : voidValue();
 	}
 
-	public default <K> OptByte flatMap_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptByteTrait<?>> mapping) {
+	default <K> OptByte flatMap_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptByte.from(mapping.applyByteObj(get(), a2)) : OptByte.empty();
 	}
 
-	public default <K> OptByte flatMapWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptByteTrait<?>> mapping) {
+	default <K> OptByte flatMapWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptByte.from(mapping.apply(a1, get())) : OptByte.empty();
 	}
 
-	public default SELF flatPerformWith(byte a1, @Nonnull LBiByteFunction<? extends OptByteTrait<? extends SELF>> mapping) {
+	default SELF flatPerformWith(byte a1, @Nonnull LBiByteFunction<? extends OptByteTrait<? extends SELF>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? valueFrom(mapping.apply(a1, get())) : voidValue();
 	}
 
-	public default OptDbl flatMapToDbl(@Nonnull LByteFunction<? extends OptDblTrait<?>> mapping) {
+	default OptDbl flatMapToDbl(@Nonnull LByteFunction<? extends OptDblTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptDbl.from(mapping.apply(get())) : OptDbl.empty();
 	}
 
-	public default <K> OptDbl flatMapToDbl_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptDblTrait<?>> mapping) {
+	default <K> OptDbl flatMapToDbl_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptDblTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptDbl.from(mapping.applyByteObj(get(), a2)) : OptDbl.empty();
 	}
 
-	public default <K> OptDbl flatMapToDblWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptDblTrait<?>> mapping) {
+	default <K> OptDbl flatMapToDblWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptDblTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptDbl.from(mapping.apply(a1, get())) : OptDbl.empty();
 	}
 
-	public default OptChar flatMapToChar(@Nonnull LByteFunction<? extends OptCharTrait<?>> mapping) {
+	default OptChar flatMapToChar(@Nonnull LByteFunction<? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.from(mapping.apply(get())) : OptChar.empty();
 	}
 
-	public default <K> OptChar flatMapToChar_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptCharTrait<?>> mapping) {
+	default <K> OptChar flatMapToChar_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.from(mapping.applyByteObj(get(), a2)) : OptChar.empty();
 	}
 
-	public default <K> OptChar flatMapToCharWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptCharTrait<?>> mapping) {
+	default <K> OptChar flatMapToCharWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.from(mapping.apply(a1, get())) : OptChar.empty();
 	}
 
-	public default OptSrt flatMapToSrt(@Nonnull LByteFunction<? extends OptSrtTrait<?>> mapping) {
+	default OptSrt flatMapToSrt(@Nonnull LByteFunction<? extends OptSrtTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptSrt.from(mapping.apply(get())) : OptSrt.empty();
 	}
 
-	public default <K> OptSrt flatMapToSrt_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptSrtTrait<?>> mapping) {
+	default <K> OptSrt flatMapToSrt_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptSrtTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptSrt.from(mapping.applyByteObj(get(), a2)) : OptSrt.empty();
 	}
 
-	public default <K> OptSrt flatMapToSrtWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptSrtTrait<?>> mapping) {
+	default <K> OptSrt flatMapToSrtWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptSrtTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptSrt.from(mapping.apply(a1, get())) : OptSrt.empty();
 	}
 
-	public default OptFlt flatMapToFlt(@Nonnull LByteFunction<? extends OptFltTrait<?>> mapping) {
+	default OptFlt flatMapToFlt(@Nonnull LByteFunction<? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.from(mapping.apply(get())) : OptFlt.empty();
 	}
 
-	public default <K> OptFlt flatMapToFlt_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptFltTrait<?>> mapping) {
+	default <K> OptFlt flatMapToFlt_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.from(mapping.applyByteObj(get(), a2)) : OptFlt.empty();
 	}
 
-	public default <K> OptFlt flatMapToFltWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptFltTrait<?>> mapping) {
+	default <K> OptFlt flatMapToFltWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.from(mapping.apply(a1, get())) : OptFlt.empty();
 	}
 
-	public default OptInt flatMapToInt(@Nonnull LByteFunction<? extends OptIntTrait<?>> mapping) {
+	default OptInt flatMapToInt(@Nonnull LByteFunction<? extends OptIntTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptInt.from(mapping.apply(get())) : OptInt.empty();
 	}
 
-	public default <K> OptInt flatMapToInt_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptIntTrait<?>> mapping) {
+	default <K> OptInt flatMapToInt_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptIntTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptInt.from(mapping.applyByteObj(get(), a2)) : OptInt.empty();
 	}
 
-	public default <K> OptInt flatMapToIntWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptIntTrait<?>> mapping) {
+	default <K> OptInt flatMapToIntWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptIntTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptInt.from(mapping.apply(a1, get())) : OptInt.empty();
 	}
 
-	public default OptLong flatMapToLong(@Nonnull LByteFunction<? extends OptLongTrait<?>> mapping) {
+	default OptLong flatMapToLong(@Nonnull LByteFunction<? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.from(mapping.apply(get())) : OptLong.empty();
 	}
 
-	public default <K> OptLong flatMapToLong_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptLongTrait<?>> mapping) {
+	default <K> OptLong flatMapToLong_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.from(mapping.applyByteObj(get(), a2)) : OptLong.empty();
 	}
 
-	public default <K> OptLong flatMapToLongWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptLongTrait<?>> mapping) {
+	default <K> OptLong flatMapToLongWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.from(mapping.apply(a1, get())) : OptLong.empty();
 	}
 
-	public default <R> Opt<R> flatMapToObj(@Nonnull LByteFunction<? extends OptTrait<? extends R, ?>> mapping) {
+	default <R> Opt<R> flatMapToObj(@Nonnull LByteFunction<? extends OptTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(get())) : Opt.empty();
 	}
 
-	public default <R, K> Opt<R> flatMapToObj_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
+	default <R, K> Opt<R> flatMapToObj_(K a2, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.applyByteObj(get(), a2)) : Opt.empty();
 	}
 
-	public default <R, K> Opt<R> flatMapToObjWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
+	default <R, K> Opt<R> flatMapToObjWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, get())) : Opt.empty();
 	}
@@ -435,133 +435,133 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default SELF doIf(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
+	default SELF doIf(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is(predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIfNot(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
+	default SELF doIfNot(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is(predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIf(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
+	default SELF doIf(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is(predicate, a2))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIfNot(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
+	default SELF doIfNot(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is(predicate, a2))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIf(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
+	default SELF doIf(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is(a2, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIfNot(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
+	default SELF doIfNot(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is(a2, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIf(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
+	default SELF doIf(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is(predicate, a2, a3))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIfNot(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
+	default SELF doIfNot(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is(predicate, a2, a3))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIf(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
+	default SELF doIf(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is(a2, a3, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIfNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
+	default SELF doIfNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is(a2, a3, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIf2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
+	default SELF doIf2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2(predicate, v))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIfNot2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
+	default SELF doIfNot2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2(predicate, v))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIf2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
+	default SELF doIf2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF doIfNot2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
+	default SELF doIfNot2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default <V> SELF doIf2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	default <V> SELF doIf2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
 
-	public default <V> SELF doIfNot2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	default <V> SELF doIfNot2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2_(predicate, v))
 			action.accept(self());
 		return self();
 	}
 
-	public default <V> SELF doIf2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
+	default <V> SELF doIf2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (is2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default <V> SELF doIfNot2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
+	default <V> SELF doIfNot2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
 		Null.nonNullArg(predicate, "predicate");
 		if (!is2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
-	public default SELF ifPresent(@Nonnull LByteConsumer action) {
+	default SELF ifPresent(@Nonnull LByteConsumer action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(get());
@@ -569,7 +569,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default SELF ifPresent(@Nonnull LByteConsumer action, @Nonnull LAction emptyAction) {
+	default SELF ifPresent(@Nonnull LByteConsumer action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(get());
@@ -579,7 +579,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default <K> SELF ifPresent_(K a1, @Nonnull LObjByteConsumer.LByteObjCons<? super K> action) {
+	default <K> SELF ifPresent_(K a1, @Nonnull LObjByteConsumer.LByteObjCons<? super K> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.acceptByteObj(get(), a1);
@@ -587,7 +587,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		return self();
 	}
 
-	public default <K> SELF ifPresentWith(K a1, @Nonnull LObjByteConsumer<? super K> action) {
+	default <K> SELF ifPresentWith(K a1, @Nonnull LObjByteConsumer<? super K> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(a1, get());
@@ -669,35 +669,35 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 		throw Handling.create(fx, msg, args);
 	}
 
-	public default byte orElse(@Nullable byte value) {
+	default byte orElse(@Nullable byte value) {
 		return isPresent() ? get() : value;
 	}
 
-	public default byte orElseGet(@Nonnull LByteSupplier supplier) {
+	default byte orElseGet(@Nonnull LByteSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.getAsByte();
 	}
 
-	public default SELF orGet(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
+	default SELF orGet(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.get());
 	}
 
-	public default SELF or(@Nullable byte value) {
+	default SELF or(@Nullable byte value) {
 		return isPresent() ? self() : value(value);
 	}
 
-	public default SELF orOpt(@Nonnull OptByteTrait<?> opt) {
+	default SELF orOpt(@Nonnull OptByteTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return isPresent() ? self() : valueFrom(opt);
 	}
 
-	public default <K> byte orElseApply(K a1, @Nonnull LToByteFunction<? super K> supplier) {
+	default <K> byte orElseApply(K a1, @Nonnull LToByteFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? get() : supplier.applyAsByte(a1);
 	}
 
-	public default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptByteTrait<?>> supplier) {
+	default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptByteTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}

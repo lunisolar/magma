@@ -300,12 +300,12 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return false;
 	}
 
-	public default LObjLongPredicate<T2> lShrink(@Nonnull LObjLongFunction<T2, T1> left) {
+	default LObjLongPredicate<T2> lShrink(@Nonnull LObjLongFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LObjLongPredicate<T2> lShrink_(T1 a1) {
+	default LObjLongPredicate<T2> lShrink_(T1 a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -320,12 +320,12 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return func.lShrink_(a1);
 	}
 
-	public default LBiPredicate<T1, T2> rShrink(@Nonnull LToLongBiFunction<T1, T2> right) {
+	default LBiPredicate<T1, T2> rShrink(@Nonnull LToLongBiFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsLong(a1, a2));
 	}
 
-	public default LBiPredicate<T1, T2> rShrink_(long a3) {
+	default LBiPredicate<T1, T2> rShrink_(long a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -347,12 +347,12 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Cast that removes generics. */
-	public default LBiObjLongPredicate untyped() {
+	default LBiObjLongPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LBiObjLongPredicate<V2, V3> cast() {
+	default <V2, V3> LBiObjLongPredicate<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -362,12 +362,12 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiObjLongConsumer<T1, T2> toConsumer() {
+	default LBiObjLongConsumer<T1, T2> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiObjLongPredicate<T1, T2> beforeDo(@Nonnull LBiObjLongConsumer<T1, T2> before) {
+	default LBiObjLongPredicate<T1, T2> beforeDo(@Nonnull LBiObjLongConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, long a3) -> {
 			before.accept(a1, a2, a3);
@@ -376,7 +376,7 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiObjLongPredicate<T1, T2> afterDo(@Nonnull LBoolConsumer after) {
+	default LBiObjLongPredicate<T1, T2> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, long a3) -> {
 			final boolean retval = test(a1, a2, a3);

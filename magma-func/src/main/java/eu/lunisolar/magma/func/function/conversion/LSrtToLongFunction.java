@@ -252,12 +252,12 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LSrtConsumer toConsumer() {
+	default LSrtConsumer toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtToLongFunction beforeDo(@Nonnull LSrtConsumer before) {
+	default LSrtToLongFunction beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtToLongFunction afterDo(@Nonnull LLongConsumer after) {
+	default LSrtToLongFunction afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a) -> {
 			final long retval = applyAsLong(a);

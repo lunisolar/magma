@@ -264,12 +264,12 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return orElse;
 	}
 
-	public default LToByteFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
+	default LToByteFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsByte(left.apply(a2), a2);
 	}
 
-	public default LToByteFunction<T2> lShrink_(T1 a1) {
+	default LToByteFunction<T2> lShrink_(T1 a1) {
 		return a2 -> applyAsByte(a1, a2);
 	}
 
@@ -284,12 +284,12 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return func.lShrink_(a1);
 	}
 
-	public default LToByteFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
+	default LToByteFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsByte(a1, right.apply(a1));
 	}
 
-	public default LToByteFunction<T1> rShrink_(T2 a2) {
+	default LToByteFunction<T1> rShrink_(T2 a2) {
 		return a1 -> applyAsByte(a1, a2);
 	}
 
@@ -311,12 +311,12 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Cast that removes generics. */
-	public default LToByteBiFunction untyped() {
+	default LToByteBiFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LToByteBiFunction<V2, V3> cast() {
+	default <V2, V3> LToByteBiFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -326,12 +326,12 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiConsumer<T1, T2> toConsumer() {
+	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsByte;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToByteBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
+	default LToByteBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToByteBiFunction<T1, T2> afterDo(@Nonnull LByteConsumer after) {
+	default LToByteBiFunction<T1, T2> afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final byte retval = applyAsByte(a1, a2);

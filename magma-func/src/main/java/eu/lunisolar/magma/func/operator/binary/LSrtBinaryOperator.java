@@ -251,12 +251,12 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LSrtUnaryOperator lShrink(@Nonnull LSrtUnaryOperator left) {
+	default LSrtUnaryOperator lShrink(@Nonnull LSrtUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsSrt(left.applyAsSrt(a2), a2);
 	}
 
-	public default LSrtUnaryOperator lShrink_(short a1) {
+	default LSrtUnaryOperator lShrink_(short a1) {
 		return a2 -> applyAsSrt(a1, a2);
 	}
 
@@ -271,12 +271,12 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LSrtUnaryOperator rShrink(@Nonnull LSrtUnaryOperator right) {
+	default LSrtUnaryOperator rShrink(@Nonnull LSrtUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsSrt(a1, right.applyAsSrt(a1));
 	}
 
-	public default LSrtUnaryOperator rShrink_(short a2) {
+	default LSrtUnaryOperator rShrink_(short a2) {
 		return a1 -> applyAsSrt(a1, a2);
 	}
 
@@ -298,12 +298,12 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiSrtConsumer toConsumer() {
+	default LBiSrtConsumer toConsumer() {
 		return this::applyAsSrt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LSrtBinaryOperator beforeDo(@Nonnull LBiSrtConsumer before) {
+	default LSrtBinaryOperator beforeDo(@Nonnull LBiSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a1, short a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LSrtBinaryOperator afterDo(@Nonnull LSrtConsumer after) {
+	default LSrtBinaryOperator afterDo(@Nonnull LSrtConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (short a1, short a2) -> {
 			final short retval = applyAsSrt(a1, a2);

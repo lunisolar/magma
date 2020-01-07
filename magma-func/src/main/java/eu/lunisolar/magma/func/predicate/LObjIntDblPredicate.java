@@ -300,12 +300,12 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return false;
 	}
 
-	public default LObjIntPredicate<T> rShrink(@Nonnull LOiToDblFunction<T> right) {
+	default LObjIntPredicate<T> rShrink(@Nonnull LOiToDblFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsDbl(a1, a2));
 	}
 
-	public default LObjIntPredicate<T> rShrink_(double a3) {
+	default LObjIntPredicate<T> rShrink_(double a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -327,12 +327,12 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntDblPredicate untyped() {
+	default LObjIntDblPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjIntDblPredicate<V2> cast() {
+	default <V2> LObjIntDblPredicate<V2> cast() {
 		return untyped();
 	}
 
@@ -342,12 +342,12 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieDblConsumer<T> toConsumer() {
+	default LTieDblConsumer<T> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntDblPredicate<T> beforeDo(@Nonnull LTieDblConsumer<T> before) {
+	default LObjIntDblPredicate<T> beforeDo(@Nonnull LTieDblConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, double a3) -> {
 			before.accept(a1, a2, a3);
@@ -356,7 +356,7 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntDblPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
+	default LObjIntDblPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, double a3) -> {
 			final boolean retval = test(a1, a2, a3);

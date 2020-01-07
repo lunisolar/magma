@@ -80,203 +80,243 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return X::value;
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+	// <editor-fold desc="main methods">
+
+	default @Nonnull SELF must(@Nonnull LLogicalOperator pred, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
+		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull SELF mustNot$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+	default @Nonnull SELF must$(@Nonnull LLogicalOperator pred, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
 		return self();
 	}
 
-	default @Nonnull SELF mustNot$$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
+	default @Nonnull SELF must(@Nonnull LLogicalOperator pred, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
+		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), message, messageParams);
 		return self();
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator pred, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), newMessage, messageParams);
+		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull SELF checkIf(@Nonnull LLogicalOperator pred, @Nonnull LConsumer<SELF> conditionalChecks) {
+	default @Nonnull SELF mustNot$(@Nonnull LLogicalOperator pred, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator pred, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalOperator.throwIf(get(), pred, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF checkWhen(@Nonnull LLogicalOperator pred, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.apply(get())) {
 			conditionalChecks.accept(self());
-		}
+		};
 		return self();
 	}
 
-	default @Nonnull SELF must(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
-		return self();
-	}
-
-	default @Nonnull SELF must$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
-		return self();
-	}
-
-	default @Nonnull SELF must$$(@Nonnull LLogicalOperator pred, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_0, checkTraitType(), checkTraitName(), newMessage, get());
-		return self();
-	}
-
-	default @Nonnull SELF must(@Nonnull LLogicalOperator pred, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalOperator.throwIfNot(get(), pred, checkTraitFactory(), newMessage, messageParams);
-		return self();
-	}
-
-	default @Nonnull SELF checkIfNot(@Nonnull LLogicalOperator pred, @Nonnull LConsumer<SELF> conditionalChecks) {
+	default @Nonnull SELF checkWhenNot(@Nonnull LLogicalOperator pred, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.apply(get())) {
 			conditionalChecks.accept(self());
-		}
+		};
 		return self();
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage) {
+	default @Nonnull SELF must(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
+		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull SELF mustNot$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage) {
+	default @Nonnull SELF must$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
 		return self();
 	}
 
-	default @Nonnull SELF mustNot$$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage) {
+	default @Nonnull SELF must$$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
+		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, a2, get());
 		return self();
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF must(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
+		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), message, messageParams);
 		return self();
 	}
 
-	default @Nonnull SELF checkIf(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull LConsumer<SELF> conditionalChecks) {
+	default @Nonnull SELF mustNot(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, a2, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalBinaryOperator.throwIf(get(), a2, pred, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF checkWhen(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.apply(get(), a2)) {
 			conditionalChecks.accept(self());
-		}
+		};
 		return self();
 	}
 
-	default @Nonnull SELF must(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
-		return self();
-	}
-
-	default @Nonnull SELF must$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
-		return self();
-	}
-
-	default @Nonnull SELF must$$(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), newMessage, a2, get());
-		return self();
-	}
-
-	default @Nonnull SELF must(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalBinaryOperator.throwIfNot(get(), a2, pred, checkTraitFactory(), newMessage, messageParams);
-		return self();
-	}
-
-	default @Nonnull SELF checkIfNot(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull LConsumer<SELF> conditionalChecks) {
+	default @Nonnull SELF checkWhenNot(@Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.apply(get(), a2)) {
 			conditionalChecks.accept(self());
-		}
+		};
 		return self();
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage) {
+	default @Nonnull SELF must(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
+		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull SELF mustNot$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage) {
+	default @Nonnull SELF must$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
+		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
 		return self();
 	}
 
-	default @Nonnull SELF mustNot$$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage) {
+	default @Nonnull SELF must$$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
+		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, a2, a3, get());
 		return self();
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default @Nonnull SELF must(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
+		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), message, messageParams);
 		return self();
 	}
 
-	default @Nonnull SELF checkIf(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull LConsumer<SELF> conditionalChecks) {
+	default @Nonnull SELF mustNot(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, a2, a3, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(pred, "pred");
+		LLogicalTernaryOperator.throwIf(get(), a2, a3, pred, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF checkWhen(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.apply(get(), a2, a3)) {
 			conditionalChecks.accept(self());
-		}
+		};
 		return self();
 	}
 
-	default @Nonnull SELF must(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), newMessage);
-		return self();
-	}
-
-	default @Nonnull SELF must$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), newMessage, get());
-		return self();
-	}
-
-	default @Nonnull SELF must$$(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), newMessage, a2, a3, get());
-		return self();
-	}
-
-	default @Nonnull SELF must(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		Null.nonNullArg(pred, "pred");
-		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, pred, checkTraitFactory(), newMessage, messageParams);
-		return self();
-	}
-
-	default @Nonnull SELF checkIfNot(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull LConsumer<SELF> conditionalChecks) {
+	default @Nonnull SELF checkWhenNot(@Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.apply(get(), a2, a3)) {
 			conditionalChecks.accept(self());
-		}
+		};
 		return self();
 	}
+
+	default @Nonnull <K> SELF mustWith(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIfNot(a1, get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <K> SELF mustWith$(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIfNot(a1, get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <K> SELF mustWith$$(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIfNot(a1, get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, a1, get());
+		return self();
+	}
+
+	default @Nonnull <K> SELF mustWith(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIfNot(a1, get(), pred, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <K> SELF mustNotWith(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIf(a1, get(), pred, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <K> SELF mustNotWith$(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIf(a1, get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <K> SELF mustNotWith$$(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIf(a1, get(), pred, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, a1, get());
+		return self();
+	}
+
+	default @Nonnull <K> SELF mustNotWith(K a1, @Nonnull LObjBoolPredicate<K> pred, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(pred, "pred");
+		LObjBoolPredicate.throwIf(a1, get(), pred, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	// </editor-fold>
 
 	default @Nonnull SELF fails(@Nonnull String newMessage) {
 		must(LLogicalOperator::alwaysFalse, newMessage);

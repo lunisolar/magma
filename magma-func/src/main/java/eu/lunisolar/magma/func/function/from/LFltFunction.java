@@ -256,12 +256,12 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Cast that removes generics. */
-	public default LFltFunction untyped() {
+	default LFltFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LFltFunction<V2> cast() {
+	default <V2> LFltFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -271,12 +271,12 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LFltConsumer toConsumer() {
+	default LFltConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltFunction<R> beforeDo(@Nonnull LFltConsumer before) {
+	default LFltFunction<R> beforeDo(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LFltFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (float a) -> {
 			final R retval = apply(a);

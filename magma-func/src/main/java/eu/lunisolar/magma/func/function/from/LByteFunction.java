@@ -256,12 +256,12 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Cast that removes generics. */
-	public default LByteFunction untyped() {
+	default LByteFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LByteFunction<V2> cast() {
+	default <V2> LByteFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -271,12 +271,12 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LByteConsumer toConsumer() {
+	default LByteConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteFunction<R> beforeDo(@Nonnull LByteConsumer before) {
+	default LByteFunction<R> beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LByteFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final R retval = apply(a);

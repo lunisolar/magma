@@ -256,12 +256,12 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** Cast that removes generics. */
-	public default LLongFunction untyped() {
+	default LLongFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LLongFunction<V2> cast() {
+	default <V2> LLongFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -271,12 +271,12 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LLongConsumer toConsumer() {
+	default LLongConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongFunction<R> beforeDo(@Nonnull LLongConsumer before) {
+	default LLongFunction<R> beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -285,7 +285,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LLongFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final R retval = apply(a);

@@ -300,12 +300,12 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		return false;
 	}
 
-	public default LBiIntPredicate lShrink(@Nonnull LBiIntFunction<T> left) {
+	default LBiIntPredicate lShrink(@Nonnull LBiIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiIntPredicate lShrink_(T a1) {
+	default LBiIntPredicate lShrink_(T a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -320,12 +320,12 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		return func.lShrink_(a1);
 	}
 
-	public default LObjIntPredicate<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
+	default LObjIntPredicate<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsInt(a1, a2));
 	}
 
-	public default LObjIntPredicate<T> rShrink_(int a3) {
+	default LObjIntPredicate<T> rShrink_(int a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -347,12 +347,12 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 	}
 
 	/** Cast that removes generics. */
-	public default LObjBiIntPredicate untyped() {
+	default LObjBiIntPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjBiIntPredicate<V2> cast() {
+	default <V2> LObjBiIntPredicate<V2> cast() {
 		return untyped();
 	}
 
@@ -362,12 +362,12 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieIntConsumer<T> toConsumer() {
+	default LTieIntConsumer<T> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjBiIntPredicate<T> beforeDo(@Nonnull LTieIntConsumer<T> before) {
+	default LObjBiIntPredicate<T> beforeDo(@Nonnull LTieIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, int a3) -> {
 			before.accept(a1, a2, a3);
@@ -376,7 +376,7 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjBiIntPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
+	default LObjBiIntPredicate<T> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, int a3) -> {
 			final boolean retval = test(a1, a2, a3);

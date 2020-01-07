@@ -267,12 +267,12 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	}
 
 	/** Cast that removes generics. */
-	public default LToLongFunction untyped() {
+	default LToLongFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LToLongFunction<V2> cast() {
+	default <V2> LToLongFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -282,12 +282,12 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToLongFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LToLongFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToLongFunction<T> afterDo(@Nonnull LLongConsumer after) {
+	default LToLongFunction<T> afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final long retval = applyAsLong(a);

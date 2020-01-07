@@ -250,12 +250,12 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::getAsByte;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LByteSupplier afterDo(@Nonnull LByteConsumer after) {
+	default LByteSupplier afterDo(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final byte retval = getAsByte();

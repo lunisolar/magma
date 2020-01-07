@@ -251,12 +251,12 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LLongUnaryOperator lShrink(@Nonnull LLongUnaryOperator left) {
+	default LLongUnaryOperator lShrink(@Nonnull LLongUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsLong(left.applyAsLong(a2), a2);
 	}
 
-	public default LLongUnaryOperator lShrink_(long a1) {
+	default LLongUnaryOperator lShrink_(long a1) {
 		return a2 -> applyAsLong(a1, a2);
 	}
 
@@ -271,12 +271,12 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		return func.lShrink_(a1);
 	}
 
-	public default LLongUnaryOperator rShrink(@Nonnull LLongUnaryOperator right) {
+	default LLongUnaryOperator rShrink(@Nonnull LLongUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsLong(a1, right.applyAsLong(a1));
 	}
 
-	public default LLongUnaryOperator rShrink_(long a2) {
+	default LLongUnaryOperator rShrink_(long a2) {
 		return a1 -> applyAsLong(a1, a2);
 	}
 
@@ -298,12 +298,12 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiLongConsumer toConsumer() {
+	default LBiLongConsumer toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongBinaryOperator beforeDo(@Nonnull LBiLongConsumer before) {
+	default LLongBinaryOperator beforeDo(@Nonnull LBiLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2) -> {
 			before.accept(a1, a2);
@@ -312,7 +312,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongBinaryOperator afterDo(@Nonnull LLongConsumer after) {
+	default LLongBinaryOperator afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a1, long a2) -> {
 			final long retval = applyAsLong(a1, a2);

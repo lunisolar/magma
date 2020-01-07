@@ -255,12 +255,12 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LBoolFunction<R> lShrink(@Nonnull LLogicalOperator left) {
+	default LBoolFunction<R> lShrink(@Nonnull LLogicalOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LBoolFunction<R> lShrink_(boolean a1) {
+	default LBoolFunction<R> lShrink_(boolean a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LBoolFunction<R> rShrink(@Nonnull LLogicalOperator right) {
+	default LBoolFunction<R> rShrink(@Nonnull LLogicalOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.apply(a1));
 	}
 
-	public default LBoolFunction<R> rShrink_(boolean a2) {
+	default LBoolFunction<R> rShrink_(boolean a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LBiBoolFunction untyped() {
+	default LBiBoolFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiBoolFunction<V2> cast() {
+	default <V2> LBiBoolFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiBoolConsumer toConsumer() {
+	default LBiBoolConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiBoolFunction<R> beforeDo(@Nonnull LBiBoolConsumer before) {
+	default LBiBoolFunction<R> beforeDo(@Nonnull LBiBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiBoolFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean a1, boolean a2) -> {
 			final R retval = apply(a1, a2);

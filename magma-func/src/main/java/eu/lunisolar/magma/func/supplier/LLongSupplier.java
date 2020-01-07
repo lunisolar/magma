@@ -250,12 +250,12 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::getAsLong;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongSupplier afterDo(@Nonnull LLongConsumer after) {
+	default LLongSupplier afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final long retval = getAsLong();

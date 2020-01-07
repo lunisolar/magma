@@ -247,12 +247,12 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiConsumer<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
+	default LBiConsumer<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiConsumer<T2, T3> lShrink_(T1 a1) {
+	default LBiConsumer<T2, T3> lShrink_(T1 a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -267,12 +267,12 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return func.lShrink_(a1);
 	}
 
-	public default LBiConsumer<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
+	default LBiConsumer<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBiConsumer<T1, T2> rShrink_(T3 a3) {
+	default LBiConsumer<T1, T2> rShrink_(T3 a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -294,12 +294,12 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	}
 
 	/** Cast that removes generics. */
-	public default LTriConsumer untyped() {
+	default LTriConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4> LTriConsumer<V2, V3, V4> cast() {
+	default <V2, V3, V4> LTriConsumer<V2, V3, V4> cast() {
 		return untyped();
 	}
 
@@ -309,7 +309,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriConsumer<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
+	default LTriConsumer<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			before.accept(a1, a2, a3);

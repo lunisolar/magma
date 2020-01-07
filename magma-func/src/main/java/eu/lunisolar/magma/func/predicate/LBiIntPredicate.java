@@ -252,7 +252,7 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return LBiIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, int a3, @Nonnull LTieIntConsumer<V> consumer) {
+	default <V> boolean doIf(V a1, int a2, int a3, @Nonnull LTieIntConsumer<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3)) {
 			consumer.accept(a1, a2, a3);
@@ -262,7 +262,7 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		}
 	}
 
-	public default <V> boolean doIfReverse(V a1, int a2, int a3, @Nonnull LTieIntConsumer<? super V> consumer) {
+	default <V> boolean doIfReverse(V a1, int a2, int a3, @Nonnull LTieIntConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
@@ -272,7 +272,7 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		}
 	}
 
-	public default <V> int doIfReverse(V a1, int a2, int a3, @Nonnull LTieIntFunction<? super V> consumer) {
+	default <V> int doIfReverse(V a1, int a2, int a3, @Nonnull LTieIntFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -282,7 +282,7 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** 2 */
-	public default <V> int doIf(V a1, int a2, int a3, @Nonnull LTieIntFunction<V> consumer) {
+	default <V> int doIf(V a1, int a2, int a3, @Nonnull LTieIntFunction<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -326,12 +326,12 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LIntPredicate lShrink(@Nonnull LIntUnaryOperator left) {
+	default LIntPredicate lShrink(@Nonnull LIntUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsInt(a2), a2);
 	}
 
-	public default LIntPredicate lShrink_(int a1) {
+	default LIntPredicate lShrink_(int a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -346,12 +346,12 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LIntPredicate rShrink(@Nonnull LIntUnaryOperator right) {
+	default LIntPredicate rShrink(@Nonnull LIntUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LIntPredicate rShrink_(int a2) {
+	default LIntPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -373,12 +373,12 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiIntConsumer toConsumer() {
+	default LBiIntConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiIntPredicate beforeDo(@Nonnull LBiIntConsumer before) {
+	default LBiIntPredicate beforeDo(@Nonnull LBiIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (int a1, int a2) -> {
 			before.accept(a1, a2);
@@ -387,7 +387,7 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiIntPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LBiIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (int a1, int a2) -> {
 			final boolean retval = test(a1, a2);

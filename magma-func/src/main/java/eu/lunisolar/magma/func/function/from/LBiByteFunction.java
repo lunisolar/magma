@@ -255,12 +255,12 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LByteFunction<R> lShrink(@Nonnull LByteUnaryOperator left) {
+	default LByteFunction<R> lShrink(@Nonnull LByteUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsByte(a2), a2);
 	}
 
-	public default LByteFunction<R> lShrink_(byte a1) {
+	default LByteFunction<R> lShrink_(byte a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LByteFunction<R> rShrink(@Nonnull LByteUnaryOperator right) {
+	default LByteFunction<R> rShrink(@Nonnull LByteUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsByte(a1));
 	}
 
-	public default LByteFunction<R> rShrink_(byte a2) {
+	default LByteFunction<R> rShrink_(byte a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LBiByteFunction untyped() {
+	default LBiByteFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiByteFunction<V2> cast() {
+	default <V2> LBiByteFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiByteConsumer toConsumer() {
+	default LBiByteConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiByteFunction<R> beforeDo(@Nonnull LBiByteConsumer before) {
+	default LBiByteFunction<R> beforeDo(@Nonnull LBiByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, byte a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiByteFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiByteFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (byte a1, byte a2) -> {
 			final R retval = apply(a1, a2);

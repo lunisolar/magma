@@ -268,12 +268,12 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return null;
 	}
 
-	public default LFunction<T2, R> lShrink(@Nonnull LFunction<T2, T1> left) {
+	default LFunction<T2, R> lShrink(@Nonnull LFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LFunction<T2, R> lShrink_(T1 a1) {
+	default LFunction<T2, R> lShrink_(T1 a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -288,12 +288,12 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T1, R> rShrink(@Nonnull LFunction<T1, T2> right) {
+	default LFunction<T1, R> rShrink(@Nonnull LFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.apply(a1));
 	}
 
-	public default LFunction<T1, R> rShrink_(T2 a2) {
+	default LFunction<T1, R> rShrink_(T2 a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -315,12 +315,12 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** Cast that removes generics. */
-	public default LBiFunction untyped() {
+	default LBiFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4> LBiFunction<V2, V3, V4> cast() {
+	default <V2, V3, V4> LBiFunction<V2, V3, V4> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiConsumer<T1, T2> toConsumer() {
+	default LBiConsumer<T1, T2> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiFunction<T1, T2, R> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
+	default LBiFunction<T1, T2, R> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiFunction<T1, T2, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final R retval = apply(a1, a2);

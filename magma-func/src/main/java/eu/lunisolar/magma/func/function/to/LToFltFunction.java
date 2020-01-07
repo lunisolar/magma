@@ -267,12 +267,12 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that removes generics. */
-	public default LToFltFunction untyped() {
+	default LToFltFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LToFltFunction<V2> cast() {
+	default <V2> LToFltFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -282,12 +282,12 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LConsumer<T> toConsumer() {
+	default LConsumer<T> toConsumer() {
 		return this::applyAsFlt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToFltFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
+	default LToFltFunction<T> beforeDo(@Nonnull LConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a) -> {
 			before.accept(a);
@@ -296,7 +296,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToFltFunction<T> afterDo(@Nonnull LFltConsumer after) {
+	default LToFltFunction<T> afterDo(@Nonnull LFltConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T a) -> {
 			final float retval = applyAsFlt(a);

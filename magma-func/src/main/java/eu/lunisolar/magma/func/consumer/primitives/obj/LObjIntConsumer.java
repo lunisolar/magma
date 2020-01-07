@@ -249,12 +249,12 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntConsumer lShrink(@Nonnull LIntFunction<T> left) {
+	default LIntConsumer lShrink(@Nonnull LIntFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LIntConsumer lShrink_(T a1) {
+	default LIntConsumer lShrink_(T a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -269,12 +269,12 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T> rShrink(@Nonnull LToIntFunction<T> right) {
+	default LConsumer<T> rShrink(@Nonnull LToIntFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsInt(a1));
 	}
 
-	public default LConsumer<T> rShrink_(int a2) {
+	default LConsumer<T> rShrink_(int a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -296,12 +296,12 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntConsumer untyped() {
+	default LObjIntConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LObjIntConsumer<V2> cast() {
+	default <V2> LObjIntConsumer<V2> cast() {
 		return untyped();
 	}
 
@@ -311,7 +311,7 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntConsumer<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
+	default LObjIntConsumer<T> beforeDo(@Nonnull LObjIntConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2) -> {
 			before.accept(a1, a2);

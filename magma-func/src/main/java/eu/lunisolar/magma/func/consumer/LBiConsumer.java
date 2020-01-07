@@ -249,12 +249,12 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LConsumer<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
+	default LConsumer<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LConsumer<T2> lShrink_(T1 a1) {
+	default LConsumer<T2> lShrink_(T1 a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -269,12 +269,12 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return func.lShrink_(a1);
 	}
 
-	public default LConsumer<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
+	default LConsumer<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.apply(a1));
 	}
 
-	public default LConsumer<T1> rShrink_(T2 a2) {
+	default LConsumer<T1> rShrink_(T2 a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -296,12 +296,12 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	}
 
 	/** Cast that removes generics. */
-	public default LBiConsumer untyped() {
+	default LBiConsumer untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LBiConsumer<V2, V3> cast() {
+	default <V2, V3> LBiConsumer<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -311,7 +311,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiConsumer<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
+	default LBiConsumer<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);

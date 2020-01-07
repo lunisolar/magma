@@ -252,12 +252,12 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LDblConsumer toConsumer() {
+	default LDblConsumer toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LDblToIntFunction beforeDo(@Nonnull LDblConsumer before) {
+	default LDblToIntFunction beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LDblToIntFunction afterDo(@Nonnull LIntConsumer after) {
+	default LDblToIntFunction afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (double a) -> {
 			final int retval = applyAsInt(a);

@@ -255,12 +255,12 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LLongFunction<R> lShrink(@Nonnull LLongUnaryOperator left) {
+	default LLongFunction<R> lShrink(@Nonnull LLongUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsLong(a2), a2);
 	}
 
-	public default LLongFunction<R> lShrink_(long a1) {
+	default LLongFunction<R> lShrink_(long a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LLongFunction<R> rShrink(@Nonnull LLongUnaryOperator right) {
+	default LLongFunction<R> rShrink(@Nonnull LLongUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsLong(a1));
 	}
 
-	public default LLongFunction<R> rShrink_(long a2) {
+	default LLongFunction<R> rShrink_(long a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that removes generics. */
-	public default LBiLongFunction untyped() {
+	default LBiLongFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiLongFunction<V2> cast() {
+	default <V2> LBiLongFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiLongConsumer toConsumer() {
+	default LBiLongConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiLongFunction<R> beforeDo(@Nonnull LBiLongConsumer before) {
+	default LBiLongFunction<R> beforeDo(@Nonnull LBiLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiLongFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiLongFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (long a1, long a2) -> {
 			final R retval = apply(a1, a2);

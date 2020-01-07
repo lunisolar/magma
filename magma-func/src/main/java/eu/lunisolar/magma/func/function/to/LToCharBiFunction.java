@@ -264,12 +264,12 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return orElse;
 	}
 
-	public default LToCharFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
+	default LToCharFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsChar(left.apply(a2), a2);
 	}
 
-	public default LToCharFunction<T2> lShrink_(T1 a1) {
+	default LToCharFunction<T2> lShrink_(T1 a1) {
 		return a2 -> applyAsChar(a1, a2);
 	}
 
@@ -284,12 +284,12 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return func.lShrink_(a1);
 	}
 
-	public default LToCharFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
+	default LToCharFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsChar(a1, right.apply(a1));
 	}
 
-	public default LToCharFunction<T1> rShrink_(T2 a2) {
+	default LToCharFunction<T1> rShrink_(T2 a2) {
 		return a1 -> applyAsChar(a1, a2);
 	}
 
@@ -311,12 +311,12 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Cast that removes generics. */
-	public default LToCharBiFunction untyped() {
+	default LToCharBiFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LToCharBiFunction<V2, V3> cast() {
+	default <V2, V3> LToCharBiFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -326,12 +326,12 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiConsumer<T1, T2> toConsumer() {
+	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsChar;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToCharBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
+	default LToCharBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToCharBiFunction<T1, T2> afterDo(@Nonnull LCharConsumer after) {
+	default LToCharBiFunction<T1, T2> afterDo(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final char retval = applyAsChar(a1, a2);

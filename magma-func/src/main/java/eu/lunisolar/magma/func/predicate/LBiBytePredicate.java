@@ -287,12 +287,12 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LBytePredicate lShrink(@Nonnull LByteUnaryOperator left) {
+	default LBytePredicate lShrink(@Nonnull LByteUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsByte(a2), a2);
 	}
 
-	public default LBytePredicate lShrink_(byte a1) {
+	default LBytePredicate lShrink_(byte a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -307,12 +307,12 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LBytePredicate rShrink(@Nonnull LByteUnaryOperator right) {
+	default LBytePredicate rShrink(@Nonnull LByteUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsByte(a1));
 	}
 
-	public default LBytePredicate rShrink_(byte a2) {
+	default LBytePredicate rShrink_(byte a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -334,12 +334,12 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiByteConsumer toConsumer() {
+	default LBiByteConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiBytePredicate beforeDo(@Nonnull LBiByteConsumer before) {
+	default LBiBytePredicate beforeDo(@Nonnull LBiByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, byte a2) -> {
 			before.accept(a1, a2);
@@ -348,7 +348,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiBytePredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LBiBytePredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a1, byte a2) -> {
 			final boolean retval = test(a1, a2);

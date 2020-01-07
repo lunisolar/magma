@@ -268,12 +268,12 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return null;
 	}
 
-	public default LFltFunction<R> lShrink(@Nonnull LFltFunction<T> left) {
+	default LFltFunction<R> lShrink(@Nonnull LFltFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LFltFunction<R> lShrink_(T a1) {
+	default LFltFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -288,12 +288,12 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(@Nonnull LToFltFunction<T> right) {
+	default LFunction<T, R> rShrink(@Nonnull LToFltFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsFlt(a1));
 	}
 
-	public default LFunction<T, R> rShrink_(float a2) {
+	default LFunction<T, R> rShrink_(float a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -315,12 +315,12 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Cast that removes generics. */
-	public default LObjFltFunction untyped() {
+	default LObjFltFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjFltFunction<V2, V3> cast() {
+	default <V2, V3> LObjFltFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjFltConsumer<T> toConsumer() {
+	default LObjFltConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjFltFunction<T, R> beforeDo(@Nonnull LObjFltConsumer<T> before) {
+	default LObjFltFunction<T, R> beforeDo(@Nonnull LObjFltConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, float a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjFltFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjFltFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, float a2) -> {
 			final R retval = apply(a1, a2);

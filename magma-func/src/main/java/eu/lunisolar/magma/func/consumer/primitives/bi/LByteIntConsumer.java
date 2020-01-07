@@ -247,12 +247,12 @@ public interface LByteIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntConsumer lShrink(@Nonnull LIntToByteFunction left) {
+	default LIntConsumer lShrink(@Nonnull LIntToByteFunction left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsByte(a2), a2);
 	}
 
-	public default LIntConsumer lShrink_(byte a1) {
+	default LIntConsumer lShrink_(byte a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -267,12 +267,12 @@ public interface LByteIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LByteConsumer rShrink(@Nonnull LByteToIntFunction right) {
+	default LByteConsumer rShrink(@Nonnull LByteToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsInt(a1));
 	}
 
-	public default LByteConsumer rShrink_(int a2) {
+	default LByteConsumer rShrink_(int a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -294,7 +294,7 @@ public interface LByteIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LByteIntConsumer beforeDo(@Nonnull LByteIntConsumer before) {
+	default LByteIntConsumer beforeDo(@Nonnull LByteIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, int a2) -> {
 			before.accept(a1, a2);

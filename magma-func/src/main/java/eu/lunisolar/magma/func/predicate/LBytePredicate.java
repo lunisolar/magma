@@ -252,7 +252,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return LBytePredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, byte a2, @Nonnull LObjByteConsumer<V> consumer) {
+	default <V> boolean doIf(V a1, byte a2, @Nonnull LObjByteConsumer<V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2)) {
 			consumer.accept(a1, a2);
@@ -262,7 +262,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		}
 	}
 
-	public default <V> boolean doIf(V a1, int a2, byte a3, @Nonnull LTieByteConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, byte a3, @Nonnull LTieByteConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			consumer.accept(a1, a2, a3);
@@ -272,7 +272,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, byte a3, @Nonnull LTieByteFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, byte a3, @Nonnull LTieByteFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -317,12 +317,12 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LByteConsumer toConsumer() {
+	default LByteConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBytePredicate beforeDo(@Nonnull LByteConsumer before) {
+	default LBytePredicate beforeDo(@Nonnull LByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a) -> {
 			before.accept(a);
@@ -331,7 +331,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBytePredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LBytePredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a) -> {
 			final boolean retval = test(a);

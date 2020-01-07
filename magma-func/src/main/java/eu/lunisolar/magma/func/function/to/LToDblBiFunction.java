@@ -274,12 +274,12 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return orElse;
 	}
 
-	public default LToDblFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
+	default LToDblFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsDbl(left.apply(a2), a2);
 	}
 
-	public default LToDblFunction<T2> lShrink_(T1 a1) {
+	default LToDblFunction<T2> lShrink_(T1 a1) {
 		return a2 -> applyAsDbl(a1, a2);
 	}
 
@@ -294,12 +294,12 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return func.lShrink_(a1);
 	}
 
-	public default LToDblFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
+	default LToDblFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsDbl(a1, right.apply(a1));
 	}
 
-	public default LToDblFunction<T1> rShrink_(T2 a2) {
+	default LToDblFunction<T1> rShrink_(T2 a2) {
 		return a1 -> applyAsDbl(a1, a2);
 	}
 
@@ -321,12 +321,12 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** Cast that removes generics. */
-	public default LToDblBiFunction untyped() {
+	default LToDblBiFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LToDblBiFunction<V2, V3> cast() {
+	default <V2, V3> LToDblBiFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -336,12 +336,12 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiConsumer<T1, T2> toConsumer() {
+	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsDbl;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToDblBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
+	default LToDblBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -350,7 +350,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToDblBiFunction<T1, T2> afterDo(@Nonnull LDblConsumer after) {
+	default LToDblBiFunction<T1, T2> afterDo(@Nonnull LDblConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final double retval = applyAsDbl(a1, a2);

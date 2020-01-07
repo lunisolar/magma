@@ -268,12 +268,12 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 		return null;
 	}
 
-	public default LOiFunction<T, R> rShrink(@Nonnull LOiToByteFunction<T> right) {
+	default LOiFunction<T, R> rShrink(@Nonnull LOiToByteFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.applyAsByte(a1, a2));
 	}
 
-	public default LOiFunction<T, R> rShrink_(byte a3) {
+	default LOiFunction<T, R> rShrink_(byte a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -295,12 +295,12 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntByteFunction untyped() {
+	default LObjIntByteFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjIntByteFunction<V2, V3> cast() {
+	default <V2, V3> LObjIntByteFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -310,12 +310,12 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieByteConsumer<T> toConsumer() {
+	default LTieByteConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntByteFunction<T, R> beforeDo(@Nonnull LTieByteConsumer<T> before) {
+	default LObjIntByteFunction<T, R> beforeDo(@Nonnull LTieByteConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, byte a3) -> {
 			before.accept(a1, a2, a3);
@@ -324,7 +324,7 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntByteFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjIntByteFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, byte a3) -> {
 			final R retval = apply(a1, a2, a3);

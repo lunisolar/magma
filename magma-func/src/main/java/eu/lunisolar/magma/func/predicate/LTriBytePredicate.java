@@ -287,12 +287,12 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiBytePredicate lShrink(@Nonnull LByteBinaryOperator left) {
+	default LBiBytePredicate lShrink(@Nonnull LByteBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.applyAsByte(a2, a3), a2, a3);
 	}
 
-	public default LBiBytePredicate lShrink_(byte a1) {
+	default LBiBytePredicate lShrink_(byte a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -307,12 +307,12 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LBiBytePredicate rShrink(@Nonnull LByteBinaryOperator right) {
+	default LBiBytePredicate rShrink(@Nonnull LByteBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.applyAsByte(a1, a2));
 	}
 
-	public default LBiBytePredicate rShrink_(byte a3) {
+	default LBiBytePredicate rShrink_(byte a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -334,12 +334,12 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriByteConsumer toConsumer() {
+	default LTriByteConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriBytePredicate beforeDo(@Nonnull LTriByteConsumer before) {
+	default LTriBytePredicate beforeDo(@Nonnull LTriByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, byte a2, byte a3) -> {
 			before.accept(a1, a2, a3);
@@ -348,7 +348,7 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriBytePredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LTriBytePredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (byte a1, byte a2, byte a3) -> {
 			final boolean retval = test(a1, a2, a3);

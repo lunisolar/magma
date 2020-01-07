@@ -252,7 +252,7 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return LFltIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, float a3, @Nonnull LTieFltConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, float a3, @Nonnull LTieFltConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
@@ -262,7 +262,7 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, float a3, @Nonnull LTieFltFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, float a3, @Nonnull LTieFltFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -306,12 +306,12 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_a2, a1, func);
 	}
 
-	public default LIntPredicate lShrink(@Nonnull LIntToFltFunction left) {
+	default LIntPredicate lShrink(@Nonnull LIntToFltFunction left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsFlt(a2), a2);
 	}
 
-	public default LIntPredicate lShrink_(float a1) {
+	default LIntPredicate lShrink_(float a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -326,12 +326,12 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LFltPredicate rShrink(@Nonnull LFltToIntFunction right) {
+	default LFltPredicate rShrink(@Nonnull LFltToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LFltPredicate rShrink_(int a2) {
+	default LFltPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -353,12 +353,12 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LFltIntConsumer toConsumer() {
+	default LFltIntConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LFltIntPredicate beforeDo(@Nonnull LFltIntConsumer before) {
+	default LFltIntPredicate beforeDo(@Nonnull LFltIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, int a2) -> {
 			before.accept(a1, a2);
@@ -367,7 +367,7 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LFltIntPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LFltIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a1, int a2) -> {
 			final boolean retval = test(a1, a2);

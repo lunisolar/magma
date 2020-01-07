@@ -247,12 +247,12 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LBoolConsumer lShrink(@Nonnull LLogicalOperator left) {
+	default LBoolConsumer lShrink(@Nonnull LLogicalOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.apply(a2), a2);
 	}
 
-	public default LBoolConsumer lShrink_(boolean a1) {
+	default LBoolConsumer lShrink_(boolean a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -267,12 +267,12 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return func.lShrink_(a1);
 	}
 
-	public default LBoolConsumer rShrink(@Nonnull LLogicalOperator right) {
+	default LBoolConsumer rShrink(@Nonnull LLogicalOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.apply(a1));
 	}
 
-	public default LBoolConsumer rShrink_(boolean a2) {
+	default LBoolConsumer rShrink_(boolean a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -294,7 +294,7 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiBoolConsumer beforeDo(@Nonnull LBiBoolConsumer before) {
+	default LBiBoolConsumer beforeDo(@Nonnull LBiBoolConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (boolean a1, boolean a2) -> {
 			before.accept(a1, a2);

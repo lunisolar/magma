@@ -247,12 +247,12 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiSrtConsumer lShrink(@Nonnull LSrtBinaryOperator left) {
+	default LBiSrtConsumer lShrink(@Nonnull LSrtBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.applyAsSrt(a2, a3), a2, a3);
 	}
 
-	public default LBiSrtConsumer lShrink_(short a1) {
+	default LBiSrtConsumer lShrink_(short a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -267,12 +267,12 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return func.lShrink_(a1);
 	}
 
-	public default LBiSrtConsumer rShrink(@Nonnull LSrtBinaryOperator right) {
+	default LBiSrtConsumer rShrink(@Nonnull LSrtBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsSrt(a1, a2));
 	}
 
-	public default LBiSrtConsumer rShrink_(short a3) {
+	default LBiSrtConsumer rShrink_(short a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -294,7 +294,7 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriSrtConsumer beforeDo(@Nonnull LTriSrtConsumer before) {
+	default LTriSrtConsumer beforeDo(@Nonnull LTriSrtConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (short a1, short a2, short a3) -> {
 			before.accept(a1, a2, a3);

@@ -300,12 +300,12 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return false;
 	}
 
-	public default LQuadPredicate<T2, T3, T4, T5> lShrink(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left) {
+	default LQuadPredicate<T2, T3, T4, T5> lShrink(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3, a4, a5) -> test(left.apply(a2, a3, a4, a5), a2, a3, a4, a5);
 	}
 
-	public default LQuadPredicate<T2, T3, T4, T5> lShrink_(T1 a1) {
+	default LQuadPredicate<T2, T3, T4, T5> lShrink_(T1 a1) {
 		return (a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5);
 	}
 
@@ -320,12 +320,12 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return func.lShrink_(a1);
 	}
 
-	public default LQuadPredicate<T1, T2, T3, T4> rShrink(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right) {
+	default LQuadPredicate<T1, T2, T3, T4> rShrink(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2, a3, a4) -> test(a1, a2, a3, a4, right.apply(a1, a2, a3, a4));
 	}
 
-	public default LQuadPredicate<T1, T2, T3, T4> rShrink_(T5 a5) {
+	default LQuadPredicate<T1, T2, T3, T4> rShrink_(T5 a5) {
 		return (a1, a2, a3, a4) -> test(a1, a2, a3, a4, a5);
 	}
 
@@ -347,12 +347,12 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	/** Cast that removes generics. */
-	public default LQuintPredicate untyped() {
+	default LQuintPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4, V5, V6> LQuintPredicate<V2, V3, V4, V5, V6> cast() {
+	default <V2, V3, V4, V5, V6> LQuintPredicate<V2, V3, V4, V5, V6> cast() {
 		return untyped();
 	}
 
@@ -362,12 +362,12 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LQuintConsumer<T1, T2, T3, T4, T5> toConsumer() {
+	default LQuintConsumer<T1, T2, T3, T4, T5> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LQuintPredicate<T1, T2, T3, T4, T5> beforeDo(@Nonnull LQuintConsumer<T1, T2, T3, T4, T5> before) {
+	default LQuintPredicate<T1, T2, T3, T4, T5> beforeDo(@Nonnull LQuintConsumer<T1, T2, T3, T4, T5> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> {
 			before.accept(a1, a2, a3, a4, a5);
@@ -376,7 +376,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LQuintPredicate<T1, T2, T3, T4, T5> afterDo(@Nonnull LBoolConsumer after) {
+	default LQuintPredicate<T1, T2, T3, T4, T5> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> {
 			final boolean retval = test(a1, a2, a3, a4, a5);

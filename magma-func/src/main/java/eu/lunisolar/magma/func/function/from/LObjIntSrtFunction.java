@@ -268,12 +268,12 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
-	public default LOiFunction<T, R> rShrink(@Nonnull LOiToSrtFunction<T> right) {
+	default LOiFunction<T, R> rShrink(@Nonnull LOiToSrtFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.applyAsSrt(a1, a2));
 	}
 
-	public default LOiFunction<T, R> rShrink_(short a3) {
+	default LOiFunction<T, R> rShrink_(short a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -295,12 +295,12 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntSrtFunction untyped() {
+	default LObjIntSrtFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjIntSrtFunction<V2, V3> cast() {
+	default <V2, V3> LObjIntSrtFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -310,12 +310,12 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieSrtConsumer<T> toConsumer() {
+	default LTieSrtConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntSrtFunction<T, R> beforeDo(@Nonnull LTieSrtConsumer<T> before) {
+	default LObjIntSrtFunction<T, R> beforeDo(@Nonnull LTieSrtConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, short a3) -> {
 			before.accept(a1, a2, a3);
@@ -324,7 +324,7 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntSrtFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjIntSrtFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, short a3) -> {
 			final R retval = apply(a1, a2, a3);

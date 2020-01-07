@@ -252,7 +252,7 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return LLongIntPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, int a2, long a3, @Nonnull LTieLongConsumer<? super V> consumer) {
+	default <V> boolean doIf(V a1, int a2, long a3, @Nonnull LTieLongConsumer<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			consumer.accept(a1, a2, a3);
@@ -262,7 +262,7 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
-	public default <V> int doIf(V a1, int a2, long a3, @Nonnull LTieLongFunction<? super V> consumer) {
+	default <V> int doIf(V a1, int a2, long a3, @Nonnull LTieLongFunction<? super V> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a3, a2)) {
 			return consumer.applyAsInt(a1, a2, a3);
@@ -306,12 +306,12 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LIntPredicate lShrink(@Nonnull LIntToLongFunction left) {
+	default LIntPredicate lShrink(@Nonnull LIntToLongFunction left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsLong(a2), a2);
 	}
 
-	public default LIntPredicate lShrink_(long a1) {
+	default LIntPredicate lShrink_(long a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -326,12 +326,12 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.lShrink_(a1);
 	}
 
-	public default LLongPredicate rShrink(@Nonnull LLongToIntFunction right) {
+	default LLongPredicate rShrink(@Nonnull LLongToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsInt(a1));
 	}
 
-	public default LLongPredicate rShrink_(int a2) {
+	default LLongPredicate rShrink_(int a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -353,12 +353,12 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LLongIntConsumer toConsumer() {
+	default LLongIntConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongIntPredicate beforeDo(@Nonnull LLongIntConsumer before) {
+	default LLongIntPredicate beforeDo(@Nonnull LLongIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, int a2) -> {
 			before.accept(a1, a2);
@@ -367,7 +367,7 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongIntPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LLongIntPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a1, int a2) -> {
 			final boolean retval = test(a1, a2);

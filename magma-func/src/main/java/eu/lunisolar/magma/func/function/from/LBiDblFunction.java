@@ -255,12 +255,12 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LDblFunction<R> lShrink(@Nonnull LDblUnaryOperator left) {
+	default LDblFunction<R> lShrink(@Nonnull LDblUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.applyAsDbl(a2), a2);
 	}
 
-	public default LDblFunction<R> lShrink_(double a1) {
+	default LDblFunction<R> lShrink_(double a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -275,12 +275,12 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LDblFunction<R> rShrink(@Nonnull LDblUnaryOperator right) {
+	default LDblFunction<R> rShrink(@Nonnull LDblUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsDbl(a1));
 	}
 
-	public default LDblFunction<R> rShrink_(double a2) {
+	default LDblFunction<R> rShrink_(double a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -302,12 +302,12 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that removes generics. */
-	public default LBiDblFunction untyped() {
+	default LBiDblFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2> LBiDblFunction<V2> cast() {
+	default <V2> LBiDblFunction<V2> cast() {
 		return untyped();
 	}
 
@@ -317,12 +317,12 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiDblConsumer toConsumer() {
+	default LBiDblConsumer toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiDblFunction<R> beforeDo(@Nonnull LBiDblConsumer before) {
+	default LBiDblFunction<R> beforeDo(@Nonnull LBiDblConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (double a1, double a2) -> {
 			before.accept(a1, a2);
@@ -331,7 +331,7 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiDblFunction<R> afterDo(@Nonnull LConsumer<R> after) {
+	default LBiDblFunction<R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (double a1, double a2) -> {
 			final R retval = apply(a1, a2);

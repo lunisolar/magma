@@ -268,12 +268,12 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 		return null;
 	}
 
-	public default LOiFunction<T, R> rShrink(@Nonnull LObjIntPredicate<T> right) {
+	default LOiFunction<T, R> rShrink(@Nonnull LObjIntPredicate<T> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> apply(a1, a2, right.test(a1, a2));
 	}
 
-	public default LOiFunction<T, R> rShrink_(boolean a3) {
+	default LOiFunction<T, R> rShrink_(boolean a3) {
 		return (a1, a2) -> apply(a1, a2, a3);
 	}
 
@@ -295,12 +295,12 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Cast that removes generics. */
-	public default LObjIntBoolFunction untyped() {
+	default LObjIntBoolFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjIntBoolFunction<V2, V3> cast() {
+	default <V2, V3> LObjIntBoolFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -310,12 +310,12 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTieBoolConsumer<T> toConsumer() {
+	default LTieBoolConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjIntBoolFunction<T, R> beforeDo(@Nonnull LTieBoolConsumer<T> before) {
+	default LObjIntBoolFunction<T, R> beforeDo(@Nonnull LTieBoolConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, int a2, boolean a3) -> {
 			before.accept(a1, a2, a3);
@@ -324,7 +324,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjIntBoolFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjIntBoolFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, int a2, boolean a3) -> {
 			final R retval = apply(a1, a2, a3);

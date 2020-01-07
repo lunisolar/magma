@@ -268,12 +268,12 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
-	public default LCharFunction<R> lShrink(@Nonnull LCharFunction<T> left) {
+	default LCharFunction<R> lShrink(@Nonnull LCharFunction<T> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> apply(left.apply(a2), a2);
 	}
 
-	public default LCharFunction<R> lShrink_(T a1) {
+	default LCharFunction<R> lShrink_(T a1) {
 		return a2 -> apply(a1, a2);
 	}
 
@@ -288,12 +288,12 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return func.lShrink_(a1);
 	}
 
-	public default LFunction<T, R> rShrink(@Nonnull LToCharFunction<T> right) {
+	default LFunction<T, R> rShrink(@Nonnull LToCharFunction<T> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> apply(a1, right.applyAsChar(a1));
 	}
 
-	public default LFunction<T, R> rShrink_(char a2) {
+	default LFunction<T, R> rShrink_(char a2) {
 		return a1 -> apply(a1, a2);
 	}
 
@@ -315,12 +315,12 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Cast that removes generics. */
-	public default LObjCharFunction untyped() {
+	default LObjCharFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LObjCharFunction<V2, V3> cast() {
+	default <V2, V3> LObjCharFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LObjCharConsumer<T> toConsumer() {
+	default LObjCharConsumer<T> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LObjCharFunction<T, R> beforeDo(@Nonnull LObjCharConsumer<T> before) {
+	default LObjCharFunction<T, R> beforeDo(@Nonnull LObjCharConsumer<T> before) {
 		Null.nonNullArg(before, "before");
 		return (T a1, char a2) -> {
 			before.accept(a1, a2);
@@ -344,7 +344,7 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LObjCharFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LObjCharFunction<T, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T a1, char a2) -> {
 			final R retval = apply(a1, a2);

@@ -254,7 +254,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).checkIf(Is::notNull, __ -> __.mustNot$$(Be::equal, "", "Cannot be empty."));
+                arg(state.values.v(i)).checkWhen(Is::notNull, __ -> __.mustNot$$(Be::equal, "", "Cannot be empty."));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -268,7 +268,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), "data").checkIf(Is::notNull, __ -> __.mustNot$$(Be::equal, "conditional check", "Cannot be empty."));
+                arg(state.values.v(i), "data").checkWhen(Is::notNull, __ -> __.mustNot$$(Be::equal, "conditional check", "Cannot be empty."));
                 a++;
             } catch (RuntimeException e) {
                 a--;

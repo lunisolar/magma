@@ -247,12 +247,12 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltConsumer lShrink(@Nonnull LFltUnaryOperator left) {
+	default LFltConsumer lShrink(@Nonnull LFltUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsFlt(a2), a2);
 	}
 
-	public default LFltConsumer lShrink_(float a1) {
+	default LFltConsumer lShrink_(float a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -267,12 +267,12 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		return func.lShrink_(a1);
 	}
 
-	public default LFltConsumer rShrink(@Nonnull LFltUnaryOperator right) {
+	default LFltConsumer rShrink(@Nonnull LFltUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsFlt(a1));
 	}
 
-	public default LFltConsumer rShrink_(float a2) {
+	default LFltConsumer rShrink_(float a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -294,7 +294,7 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiFltConsumer beforeDo(@Nonnull LBiFltConsumer before) {
+	default LBiFltConsumer beforeDo(@Nonnull LBiFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2) -> {
 			before.accept(a1, a2);

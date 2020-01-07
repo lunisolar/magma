@@ -247,12 +247,12 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	public default LBiByteConsumer lShrink(@Nonnull LByteBinaryOperator left) {
+	default LBiByteConsumer lShrink(@Nonnull LByteBinaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> accept(left.applyAsByte(a2, a3), a2, a3);
 	}
 
-	public default LBiByteConsumer lShrink_(byte a1) {
+	default LBiByteConsumer lShrink_(byte a1) {
 		return (a2, a3) -> accept(a1, a2, a3);
 	}
 
@@ -267,12 +267,12 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LBiByteConsumer rShrink(@Nonnull LByteBinaryOperator right) {
+	default LBiByteConsumer rShrink(@Nonnull LByteBinaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> accept(a1, a2, right.applyAsByte(a1, a2));
 	}
 
-	public default LBiByteConsumer rShrink_(byte a3) {
+	default LBiByteConsumer rShrink_(byte a3) {
 		return (a1, a2) -> accept(a1, a2, a3);
 	}
 
@@ -294,7 +294,7 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriByteConsumer beforeDo(@Nonnull LTriByteConsumer before) {
+	default LTriByteConsumer beforeDo(@Nonnull LTriByteConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (byte a1, byte a2, byte a3) -> {
 			before.accept(a1, a2, a3);

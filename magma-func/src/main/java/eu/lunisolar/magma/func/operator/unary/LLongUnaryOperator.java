@@ -252,12 +252,12 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LLongConsumer toConsumer() {
+	default LLongConsumer toConsumer() {
 		return this::applyAsLong;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongUnaryOperator beforeDo(@Nonnull LLongConsumer before) {
+	default LLongUnaryOperator beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a) -> {
 			before.accept(a);
@@ -266,7 +266,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LLongUnaryOperator afterDo(@Nonnull LLongConsumer after) {
+	default LLongUnaryOperator afterDo(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a) -> {
 			final long retval = applyAsLong(a);

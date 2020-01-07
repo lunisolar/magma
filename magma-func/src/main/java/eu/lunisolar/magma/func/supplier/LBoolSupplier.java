@@ -260,12 +260,12 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LAction toConsumer() {
+	default LAction toConsumer() {
 		return this::getAsBool;
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBoolSupplier afterDo(@Nonnull LBoolConsumer after) {
+	default LBoolSupplier afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return () -> {
 			final boolean retval = getAsBool();

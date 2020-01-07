@@ -268,12 +268,12 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return null;
 	}
 
-	public default LTriFunction<T2, T3, T4, R> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
+	default LTriFunction<T2, T3, T4, R> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3, a4) -> apply(left.apply(a2, a3, a4), a2, a3, a4);
 	}
 
-	public default LTriFunction<T2, T3, T4, R> lShrink_(T1 a1) {
+	default LTriFunction<T2, T3, T4, R> lShrink_(T1 a1) {
 		return (a2, a3, a4) -> apply(a1, a2, a3, a4);
 	}
 
@@ -288,12 +288,12 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return func.lShrink_(a1);
 	}
 
-	public default LTriFunction<T1, T2, T3, R> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
+	default LTriFunction<T1, T2, T3, R> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2, a3) -> apply(a1, a2, a3, right.apply(a1, a2, a3));
 	}
 
-	public default LTriFunction<T1, T2, T3, R> rShrink_(T4 a4) {
+	default LTriFunction<T1, T2, T3, R> rShrink_(T4 a4) {
 		return (a1, a2, a3) -> apply(a1, a2, a3, a4);
 	}
 
@@ -315,12 +315,12 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	}
 
 	/** Cast that removes generics. */
-	public default LQuadFunction untyped() {
+	default LQuadFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4, V5, V6> LQuadFunction<V2, V3, V4, V5, V6> cast() {
+	default <V2, V3, V4, V5, V6> LQuadFunction<V2, V3, V4, V5, V6> cast() {
 		return untyped();
 	}
 
@@ -330,12 +330,12 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LQuadConsumer<T1, T2, T3, T4> toConsumer() {
+	default LQuadConsumer<T1, T2, T3, T4> toConsumer() {
 		return this::apply;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LQuadFunction<T1, T2, T3, T4, R> beforeDo(@Nonnull LQuadConsumer<T1, T2, T3, T4> before) {
+	default LQuadFunction<T1, T2, T3, T4, R> beforeDo(@Nonnull LQuadConsumer<T1, T2, T3, T4> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> {
 			before.accept(a1, a2, a3, a4);
@@ -344,7 +344,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LQuadFunction<T1, T2, T3, T4, R> afterDo(@Nonnull LConsumer<R> after) {
+	default LQuadFunction<T1, T2, T3, T4, R> afterDo(@Nonnull LConsumer<R> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> {
 			final R retval = apply(a1, a2, a3, a4);

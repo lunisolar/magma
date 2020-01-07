@@ -287,12 +287,12 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LLongPredicate lShrink(@Nonnull LLongUnaryOperator left) {
+	default LLongPredicate lShrink(@Nonnull LLongUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsLong(a2), a2);
 	}
 
-	public default LLongPredicate lShrink_(long a1) {
+	default LLongPredicate lShrink_(long a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -307,12 +307,12 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.lShrink_(a1);
 	}
 
-	public default LLongPredicate rShrink(@Nonnull LLongUnaryOperator right) {
+	default LLongPredicate rShrink(@Nonnull LLongUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsLong(a1));
 	}
 
-	public default LLongPredicate rShrink_(long a2) {
+	default LLongPredicate rShrink_(long a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -334,12 +334,12 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiLongConsumer toConsumer() {
+	default LBiLongConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiLongPredicate beforeDo(@Nonnull LBiLongConsumer before) {
+	default LBiLongPredicate beforeDo(@Nonnull LBiLongConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, long a2) -> {
 			before.accept(a1, a2);
@@ -348,7 +348,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiLongPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LBiLongPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (long a1, long a2) -> {
 			final boolean retval = test(a1, a2);

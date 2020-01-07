@@ -264,12 +264,12 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return orElse;
 	}
 
-	public default LToIntFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
+	default LToIntFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> applyAsInt(left.apply(a2), a2);
 	}
 
-	public default LToIntFunction<T2> lShrink_(T1 a1) {
+	default LToIntFunction<T2> lShrink_(T1 a1) {
 		return a2 -> applyAsInt(a1, a2);
 	}
 
@@ -284,12 +284,12 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return func.lShrink_(a1);
 	}
 
-	public default LToIntFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
+	default LToIntFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> applyAsInt(a1, right.apply(a1));
 	}
 
-	public default LToIntFunction<T1> rShrink_(T2 a2) {
+	default LToIntFunction<T1> rShrink_(T2 a2) {
 		return a1 -> applyAsInt(a1, a2);
 	}
 
@@ -311,12 +311,12 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	}
 
 	/** Cast that removes generics. */
-	public default LToIntBiFunction untyped() {
+	default LToIntBiFunction untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3> LToIntBiFunction<V2, V3> cast() {
+	default <V2, V3> LToIntBiFunction<V2, V3> cast() {
 		return untyped();
 	}
 
@@ -326,12 +326,12 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiConsumer<T1, T2> toConsumer() {
+	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsInt;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LToIntBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
+	default LToIntBiFunction<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2) -> {
 			before.accept(a1, a2);
@@ -340,7 +340,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LToIntBiFunction<T1, T2> afterDo(@Nonnull LIntConsumer after) {
+	default LToIntBiFunction<T1, T2> afterDo(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2) -> {
 			final int retval = applyAsInt(a1, a2);

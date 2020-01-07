@@ -247,12 +247,12 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LIntConsumer lShrink(@Nonnull LIntToLongFunction left) {
+	default LIntConsumer lShrink(@Nonnull LIntToLongFunction left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> accept(left.applyAsLong(a2), a2);
 	}
 
-	public default LIntConsumer lShrink_(long a1) {
+	default LIntConsumer lShrink_(long a1) {
 		return a2 -> accept(a1, a2);
 	}
 
@@ -267,12 +267,12 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LLongConsumer rShrink(@Nonnull LLongToIntFunction right) {
+	default LLongConsumer rShrink(@Nonnull LLongToIntFunction right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> accept(a1, right.applyAsInt(a1));
 	}
 
-	public default LLongConsumer rShrink_(int a2) {
+	default LLongConsumer rShrink_(int a2) {
 		return a1 -> accept(a1, a2);
 	}
 
@@ -294,7 +294,7 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LLongIntConsumer beforeDo(@Nonnull LLongIntConsumer before) {
+	default LLongIntConsumer beforeDo(@Nonnull LLongIntConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (long a1, int a2) -> {
 			before.accept(a1, a2);

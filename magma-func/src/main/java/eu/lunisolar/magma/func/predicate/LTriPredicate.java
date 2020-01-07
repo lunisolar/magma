@@ -252,7 +252,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return LTriPredicate.DESCRIPTION;
 	}
 
-	public default <V> boolean doIf(V a1, T1 a2, T2 a3, T3 a4, @Nonnull LQuadConsumer<V, ? super T1, ? super T2, ? super T3> consumer) {
+	default <V> boolean doIf(V a1, T1 a2, T2 a3, T3 a4, @Nonnull LQuadConsumer<V, ? super T1, ? super T2, ? super T3> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		if (test(a2, a3, a4)) {
 			consumer.accept(a1, a2, a3, a4);
@@ -310,12 +310,12 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return false;
 	}
 
-	public default LBiPredicate<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
+	default LBiPredicate<T2, T3> lShrink(@Nonnull LBiFunction<T2, T3, T1> left) {
 		Null.nonNullArg(left, "left");
 		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
 	}
 
-	public default LBiPredicate<T2, T3> lShrink_(T1 a1) {
+	default LBiPredicate<T2, T3> lShrink_(T1 a1) {
 		return (a2, a3) -> test(a1, a2, a3);
 	}
 
@@ -330,12 +330,12 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return func.lShrink_(a1);
 	}
 
-	public default LBiPredicate<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
+	default LBiPredicate<T1, T2> rShrink(@Nonnull LBiFunction<T1, T2, T3> right) {
 		Null.nonNullArg(right, "right");
 		return (a1, a2) -> test(a1, a2, right.apply(a1, a2));
 	}
 
-	public default LBiPredicate<T1, T2> rShrink_(T3 a3) {
+	default LBiPredicate<T1, T2> rShrink_(T3 a3) {
 		return (a1, a2) -> test(a1, a2, a3);
 	}
 
@@ -357,12 +357,12 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** Cast that removes generics. */
-	public default LTriPredicate untyped() {
+	default LTriPredicate untyped() {
 		return this;
 	}
 
 	/** Cast that replace generics. */
-	public default <V2, V3, V4> LTriPredicate<V2, V3, V4> cast() {
+	default <V2, V3, V4> LTriPredicate<V2, V3, V4> cast() {
 		return untyped();
 	}
 
@@ -372,12 +372,12 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LTriConsumer<T1, T2, T3> toConsumer() {
+	default LTriConsumer<T1, T2, T3> toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LTriPredicate<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
+	default LTriPredicate<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
 		Null.nonNullArg(before, "before");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			before.accept(a1, a2, a3);
@@ -386,7 +386,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LTriPredicate<T1, T2, T3> afterDo(@Nonnull LBoolConsumer after) {
+	default LTriPredicate<T1, T2, T3> afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (T1 a1, T2 a2, T3 a3) -> {
 			final boolean retval = test(a1, a2, a3);

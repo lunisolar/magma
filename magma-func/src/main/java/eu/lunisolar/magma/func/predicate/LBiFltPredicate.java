@@ -287,12 +287,12 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	public default LFltPredicate lShrink(@Nonnull LFltUnaryOperator left) {
+	default LFltPredicate lShrink(@Nonnull LFltUnaryOperator left) {
 		Null.nonNullArg(left, "left");
 		return a2 -> test(left.applyAsFlt(a2), a2);
 	}
 
-	public default LFltPredicate lShrink_(float a1) {
+	default LFltPredicate lShrink_(float a1) {
 		return a2 -> test(a1, a2);
 	}
 
@@ -307,12 +307,12 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return func.lShrink_(a1);
 	}
 
-	public default LFltPredicate rShrink(@Nonnull LFltUnaryOperator right) {
+	default LFltPredicate rShrink(@Nonnull LFltUnaryOperator right) {
 		Null.nonNullArg(right, "right");
 		return a1 -> test(a1, right.applyAsFlt(a1));
 	}
 
-	public default LFltPredicate rShrink_(float a2) {
+	default LFltPredicate rShrink_(float a2) {
 		return a1 -> test(a1, a2);
 	}
 
@@ -334,12 +334,12 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Change function to consumer that ignores output. */
-	public default LBiFltConsumer toConsumer() {
+	default LBiFltConsumer toConsumer() {
 		return this::test;
 	}
 
 	/** Calls domain consumer before main function. */
-	public default LBiFltPredicate beforeDo(@Nonnull LBiFltConsumer before) {
+	default LBiFltPredicate beforeDo(@Nonnull LBiFltConsumer before) {
 		Null.nonNullArg(before, "before");
 		return (float a1, float a2) -> {
 			before.accept(a1, a2);
@@ -348,7 +348,7 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Calls codomain consumer after main function. */
-	public default LBiFltPredicate afterDo(@Nonnull LBoolConsumer after) {
+	default LBiFltPredicate afterDo(@Nonnull LBoolConsumer after) {
 		Null.nonNullArg(after, "after");
 		return (float a1, float a2) -> {
 			final boolean retval = test(a1, a2);
