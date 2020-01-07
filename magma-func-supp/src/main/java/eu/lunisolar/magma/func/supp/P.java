@@ -626,6 +626,26 @@ public final class P implements FluentSyntax {
 
 	// <editor-fold desc="collections">
 
+	public static <T> boolean contain(@Nonnull Collection<T> collection, T element) {
+		Null.nonNullArg(collection, "collection");
+		return collection.contains(element);
+	}
+
+	public static <K> boolean containKey(@Nonnull Map<K, ?> map, K key) {
+		Null.nonNullArg(map, "map");
+		return map.containsKey(key);
+	}
+
+	public static <T> boolean partOf(T element, @Nonnull Collection<T> collection) {
+		Null.nonNullArg(collection, "collection");
+		return collection.contains(element);
+	}
+
+	public static <K> boolean aKeyIn(K key, @Nonnull Map<K, ?> map) {
+		Null.nonNullArg(map, "map");
+		return map.containsKey(key);
+	}
+
 	public static <T> boolean ofSize(@Nonnull Collection<T> collection, int i) {
 		Null.nonNullArg(collection, "collection");
 		return collection.size() == i;

@@ -101,4 +101,16 @@ public final class Does implements FluentSyntax {
 
 	// <editor-fold desc="collections">
 
+	public static <T> boolean contain(@Nonnull Collection<T> collection, T element) {
+		Null.nonNullArg(collection, "collection");
+		return collection.contains(element);
+	}
+
+	public static <K> boolean containKey(@Nonnull Map<K, ?> map, K key) {
+		Null.nonNullArg(map, "map");
+		return map.containsKey(key);
+	}
+
+	// </editor-fold>
+
 }

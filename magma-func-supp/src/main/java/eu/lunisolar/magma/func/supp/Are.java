@@ -122,4 +122,6 @@ public final class Are implements FluentSyntax {
 
 	// <editor-fold desc="collections">
 
+	// </editor-fold>
+
 }
