@@ -18,24 +18,53 @@
 
 package eu.lunisolar.magma.basics.fluent;
 
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.meta.SelfReferencing;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.function.*;
 
 public interface Fluent<SELF extends Fluent<SELF>> extends SelfReferencing<SELF> {
-        
+
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default <T> SELF fluentUse(Consumer<SELF> injection) {
+    default @Nonnull SELF fluentUse(@Nonnull Consumer<SELF> interjection) {
+        Null.nonNull(interjection);
         final SELF self = self();
-        injection.accept(self);
+        interjection.accept(self);
         return self;
     }
 
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default <T> SELF fluentUse(T ctx, BiConsumer<SELF, T> injection) {
+    default @Nonnull <T> SELF fluentUse(T ctx, @Nonnull BiConsumer<SELF, T> interjection) {
+        Null.nonNull(interjection);
         final SELF self = self();
-        injection.accept(self, ctx);
+        interjection.accept(self, ctx);
         return self;
+    }
+
+    default @Nonnull <R> R fluentMap(@Nonnull Function<SELF, R> mapping) {
+        Null.nonNull(mapping);
+        final SELF self = self();
+        return Null.nonNull(mapping.apply(self));
+    }
+
+    default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull BiFunction<SELF, T, R> mapping) {
+        Null.nonNull(mapping);
+        final SELF self = self();
+        return Null.nonNull(mapping.apply(self, ctx));
+    }
+
+    default @Nullable <R> R fluentNullableMap(@Nonnull Function<SELF, R> mapping) {
+        Null.nonNull(mapping);
+        final SELF self = self();
+        return mapping.apply(self);
+    }
+
+    default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull BiFunction<SELF, T, R> mapping) {
+        Null.nonNull(mapping);
+        final SELF self = self();
+        return mapping.apply(self, ctx);
     }
 
 }
