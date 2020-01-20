@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -63,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, CheckTrait<T, SELF> {
+public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, CheckTrait<T, SELF>, FilterTrait<T, SELF>, IsTrait<T, SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
@@ -110,116 +111,73 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
+	@Override
 	default boolean is(@Nonnull LPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
-	default boolean is(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
-	}
-
+	@Override
 	default boolean is(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
-	default boolean is(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
-	}
-
+	@Override
 	default boolean is(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
-	default boolean is2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default boolean is2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default boolean is2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default boolean is2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default boolean is2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default boolean is2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default boolean is2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default boolean is2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default <V> boolean is2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default <V> boolean is2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
@@ -229,116 +187,73 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="filtering">
 
+	@Override
 	default SELF filter(@Nonnull LPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default <V> SELF filter2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default <V> SELF filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();

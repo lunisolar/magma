@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -63,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SELF>, aValue<aLong>, CheckLongTrait<SELF> {
+public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SELF>, aValue<aLong>, CheckLongTrait<SELF>, FilterLongTrait<SELF>, IsLongTrait<SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
@@ -101,46 +102,31 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
+	@Override
 	default boolean is(@Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
-	default boolean is(@Nonnull LBiLongPredicate predicate, long a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
-	}
-
+	@Override
 	default boolean is(long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
-	default boolean is(@Nonnull LTriLongPredicate predicate, long a2, long a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
-	}
-
+	@Override
 	default boolean is(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
-	default boolean is2(@Nonnull LLongIntPredicate predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default <V> boolean is2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testLongObj(get(), v);
-	}
-
+	@Override
 	default <V> boolean is2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testLongObj(get(), v);
@@ -150,46 +136,31 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="filtering">
 
+	@Override
 	default SELF filter(@Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LBiLongPredicate predicate, long a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LTriLongPredicate predicate, long a2, long a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LLongIntPredicate predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default <V> SELF filter2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();

@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.*;
 
+@Deprecated // simply use FluentTrait from 'support' module
 public interface Fluent<SELF extends Fluent<SELF>> extends SelfReferencing<SELF> {
 
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */

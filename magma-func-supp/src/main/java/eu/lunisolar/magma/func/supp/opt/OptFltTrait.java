@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -63,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF>, aValue<aFloat>, CheckFltTrait<SELF> {
+public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF>, aValue<aFloat>, CheckFltTrait<SELF>, FilterFltTrait<SELF>, IsFltTrait<SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
@@ -101,46 +102,31 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
+	@Override
 	default boolean is(@Nonnull LFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
-	default boolean is(@Nonnull LBiFltPredicate predicate, float a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
-	}
-
+	@Override
 	default boolean is(float a2, @Nonnull LBiFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
-	default boolean is(@Nonnull LTriFltPredicate predicate, float a2, float a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
-	}
-
+	@Override
 	default boolean is(float a2, float a3, @Nonnull LTriFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
-	default boolean is2(@Nonnull LFltIntPredicate predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default <V> boolean is2_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testFltObj(get(), v);
-	}
-
+	@Override
 	default <V> boolean is2_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testFltObj(get(), v);
@@ -150,46 +136,31 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF
 
 	// <editor-fold desc="filtering">
 
+	@Override
 	default SELF filter(@Nonnull LFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LBiFltPredicate predicate, float a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(float a2, @Nonnull LBiFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LTriFltPredicate predicate, float a2, float a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(float a2, float a3, @Nonnull LTriFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LFltIntPredicate predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default <V> SELF filter2_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default <V> SELF filter2_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();

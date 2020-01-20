@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -63,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SELF>, aValue<aByte>, CheckByteTrait<SELF> {
+public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SELF>, aValue<aByte>, CheckByteTrait<SELF>, FilterByteTrait<SELF>, IsByteTrait<SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
@@ -101,46 +102,31 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
+	@Override
 	default boolean is(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
-	default boolean is(@Nonnull LBiBytePredicate predicate, byte a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
-	}
-
+	@Override
 	default boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
-	default boolean is(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
-	}
-
+	@Override
 	default boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
-	default boolean is2(@Nonnull LByteIntPredicate predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
-	}
-
+	@Override
 	default boolean is2(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
-	default <V> boolean is2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testByteObj(get(), v);
-	}
-
+	@Override
 	default <V> boolean is2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testByteObj(get(), v);
@@ -150,46 +136,31 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends Fluent<SE
 
 	// <editor-fold desc="filtering">
 
+	@Override
 	default SELF filter(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LBiBytePredicate predicate, byte a2) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate, a2, a3) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	default SELF filter2(@Nonnull LByteIntPredicate predicate, int v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	default <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(predicate, v) ? self() : voidValue();
-	}
-
+	@Override
 	default <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();
