@@ -16,27 +16,26 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.value;
+package eu.lunisolar.magma.func.supp.traits;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.ThreadSafe; // NOSONAR
-import java.util.Objects; // NOSONAR
+import java.util.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.Fluent; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.Clazz; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.traits.FluentTrait; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.FluentSyntax;
+import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -54,24 +53,42 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import eu.lunisolar.magma.func.supp.opt.*;
+/**
+ * Trait for any class that has fluent filter method.
+ */
+public interface FilterFltSingleTrait<SELF extends FilterFltSingleTrait<SELF>> extends FilterFltTrait<SELF>, IsFltTrait<SELF> {
 
-public interface SrtValueTrait<SELF extends SrtValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aShort>, LSrtSingle {
+	// <editor-fold desc="is">
 
-	/**
-	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).
-	 * It gives specializations to create instance of SELF.
-	 **/
-	@Nonnull
-	SELF value(short value);
-
-	/** Provided that implementation supports empty values this will produce 'SELF' representing it. */
-	default @Nonnull SELF voidValue() {
-		throw Handling.create(X::unsupported, "Trait implementation (%s) does not support empty value.", this.getClass().getSimpleName());
+	@Override
+	default SELF filter(@Nonnull LFltPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	default SELF valueFrom(@Nonnull OptSrtTrait<?> trait) {
-		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
+	@Override
+	default SELF filter(float a2, @Nonnull LBiFltPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
+	@Override
+	default SELF filter(float a2, float a3, @Nonnull LTriFltPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is(a2, a3, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default SELF filter2(int v, @Nonnull LFltIntPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default <V> SELF filter2_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2_(v, predicate) ? self() : voidValue();
+	}
+
+	// </editor-fold>
 }

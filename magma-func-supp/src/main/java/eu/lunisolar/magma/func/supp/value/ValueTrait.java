@@ -34,6 +34,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.Clazz; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.FluentTrait; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
 
@@ -55,7 +56,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface ValueTrait<T, SELF extends ValueTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, LSingle<T> {
+public interface ValueTrait<T, SELF extends ValueTrait<T, SELF>> extends FluentTrait<SELF>, aValue<a<T>>, LSingle<T> {
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).

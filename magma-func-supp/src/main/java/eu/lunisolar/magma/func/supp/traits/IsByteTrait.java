@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR   
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -55,54 +56,108 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface IsByteTrait<SELF extends IsByteTrait<SELF>> extends Fluent<SELF> {
+public interface IsByteTrait<SELF extends IsByteTrait<SELF>> extends ByteValueTrait<SELF> {
 
-	// <editor-fold desc="filtering">
+	// <editor-fold desc="is">
 
-	public boolean is(@Nonnull LBytePredicate predicate);
-
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.test(a, a2));
+		return predicate.test(value());
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot(@Nonnull LBytePredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(value());
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(value(), a2);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default boolean is(@Nonnull LBiBytePredicate predicate, byte a2) {
 		return is(a2, predicate);
 	}
 
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.test(a, a2, a3));
+		return !predicate.test(value(), a2);
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean isNot(@Nonnull LBiBytePredicate predicate, byte a2) {
+		return isNot(a2, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(value(), a2, a3);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default boolean is(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
 		return is(a2, a3, predicate);
 	}
 
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(int v, @Nonnull LByteIntPredicate predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.test(a, v));
+		return !predicate.test(value(), a2, a3);
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean isNot(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
+		return isNot(a2, a3, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is2(int v, @Nonnull LByteIntPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(value(), v);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default boolean is2(@Nonnull LByteIntPredicate predicate, int v) {
 		return is2(v, predicate);
 	}
 
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot2(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.testByteObj(a, v));
+		return !predicate.test(value(), v);
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean isNot2(@Nonnull LByteIntPredicate predicate, int v) {
+		return isNot2(v, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V> boolean is2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.testByteObj(value(), v);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default <V> boolean is2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
 		return is2_(v, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V> boolean isNot2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.testByteObj(value(), v);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V> boolean isNot2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+		return isNot2_(v, predicate);
 	}
 
 	// </editor-fold>

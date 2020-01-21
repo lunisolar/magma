@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface FilterCharTrait<SELF extends FilterCharTrait<SELF>> extends Fluent<SELF> {
+public interface FilterCharTrait<SELF extends FilterCharTrait<SELF>> extends FluentTrait<SELF> {
 
 	// <editor-fold desc="filtering">
 
@@ -63,7 +63,6 @@ public interface FilterCharTrait<SELF extends FilterCharTrait<SELF>> extends Flu
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(char a2, @Nonnull LBiCharPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2));
 	}
 
@@ -74,7 +73,6 @@ public interface FilterCharTrait<SELF extends FilterCharTrait<SELF>> extends Flu
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2, a3));
 	}
 
@@ -85,7 +83,6 @@ public interface FilterCharTrait<SELF extends FilterCharTrait<SELF>> extends Flu
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(int v, @Nonnull LCharIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -96,7 +93,6 @@ public interface FilterCharTrait<SELF extends FilterCharTrait<SELF>> extends Flu
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default <V> SELF filter2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testCharObj(a, v));
 	}
 

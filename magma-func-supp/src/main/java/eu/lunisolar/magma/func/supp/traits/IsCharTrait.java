@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR   
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -55,54 +56,108 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface IsCharTrait<SELF extends IsCharTrait<SELF>> extends Fluent<SELF> {
+public interface IsCharTrait<SELF extends IsCharTrait<SELF>> extends CharValueTrait<SELF> {
 
-	// <editor-fold desc="filtering">
+	// <editor-fold desc="is">
 
-	public boolean is(@Nonnull LCharPredicate predicate);
-
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(char a2, @Nonnull LBiCharPredicate predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is(@Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.test(a, a2));
+		return predicate.test(value());
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot(@Nonnull LCharPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(value());
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is(char a2, @Nonnull LBiCharPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(value(), a2);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default boolean is(@Nonnull LBiCharPredicate predicate, char a2) {
 		return is(a2, predicate);
 	}
 
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot(char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.test(a, a2, a3));
+		return !predicate.test(value(), a2);
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean isNot(@Nonnull LBiCharPredicate predicate, char a2) {
+		return isNot(a2, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(value(), a2, a3);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default boolean is(@Nonnull LTriCharPredicate predicate, char a2, char a3) {
 		return is(a2, a3, predicate);
 	}
 
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(int v, @Nonnull LCharIntPredicate predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.test(a, v));
+		return !predicate.test(value(), a2, a3);
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean isNot(@Nonnull LTriCharPredicate predicate, char a2, char a3) {
+		return isNot(a2, a3, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean is2(int v, @Nonnull LCharIntPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(value(), v);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default boolean is2(@Nonnull LCharIntPredicate predicate, int v) {
 		return is2(v, predicate);
 	}
 
-	/** Variant 'obj.is(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean isNot2(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return is(a -> predicate.testCharObj(a, v));
+		return !predicate.test(value(), v);
 	}
 
-	/** Variant 'obj.is(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean isNot2(@Nonnull LCharIntPredicate predicate, int v) {
+		return isNot2(v, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V> boolean is2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.testCharObj(value(), v);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	default <V> boolean is2_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
 		return is2_(v, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V> boolean isNot2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.testCharObj(value(), v);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V> boolean isNot2_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
+		return isNot2_(v, predicate);
 	}
 
 	// </editor-fold>

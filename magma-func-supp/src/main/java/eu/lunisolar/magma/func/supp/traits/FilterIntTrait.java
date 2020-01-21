@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluent<SELF> {
+public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends FluentTrait<SELF> {
 
 	// <editor-fold desc="filtering">
 
@@ -63,7 +63,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(int a2, @Nonnull LBiIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2));
 	}
 
@@ -74,7 +73,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(int a2, int a3, @Nonnull LTriIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2, a3));
 	}
 
@@ -85,7 +83,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntBool(a, v));
 	}
 
@@ -96,7 +93,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntByte(a, v));
 	}
 
@@ -107,7 +103,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntDbl(a, v));
 	}
 
@@ -118,7 +113,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntChar(a, v));
 	}
 
@@ -129,7 +123,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntSrt(a, v));
 	}
 
@@ -140,7 +133,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntFlt(a, v));
 	}
 
@@ -151,7 +143,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntLong(a, v));
 	}
 
@@ -162,7 +153,6 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default <V> SELF filter2_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testIntObj(a, v));
 	}
 

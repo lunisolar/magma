@@ -64,12 +64,14 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF>, aValue<aDouble>, CheckDblTrait<SELF>, FilterDblTrait<SELF>, IsDblTrait<SELF> {
+public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF>, aValue<aDouble>, CheckDblTrait<SELF>, FilterDblSingleTrait<SELF>, IsDblTrait<SELF>, DoIfDblTrait<SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
+	@Override
 	@Nonnull
 	SELF value(double value);
+	@Override
 	@Nonnull
 	SELF voidValue();
 
@@ -109,7 +111,19 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot(@Nonnull LDblPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get());
+	}
+
+	@Override
 	default boolean is(double a2, @Nonnull LBiDblPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), a2);
+	}
+
+	@Override
+	default boolean isNot(double a2, @Nonnull LBiDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
@@ -121,7 +135,19 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), a2, a3);
+	}
+
+	@Override
 	default boolean is2(int v, @Nonnull LDblIntPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
+	default boolean isNot2(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -132,39 +158,15 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		return isPresent() && predicate.testDblObj(get(), v);
 	}
 
+	@Override
+	default <V> boolean isNot2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.testDblObj(get(), v);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="filtering">
-
-	@Override
-	default SELF filter(@Nonnull LDblPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter(double a2, @Nonnull LBiDblPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(int v, @Nonnull LDblIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
-	}
 
 	// </editor-fold>
 
@@ -396,6 +398,10 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 
 	// </editor-fold>
 
+	// <editor-fold desc="doIf">
+
+	// </editor-fold>
+
 	// <editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
@@ -403,132 +409,6 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends Fluent<SELF
 		if (isVoid()) {
 			action.execute();
 		}
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LDblPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LDblPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LBiDblPredicate predicate, double a2, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate, a2))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LBiDblPredicate predicate, double a2, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate, a2))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(double a2, @Nonnull LBiDblPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(a2, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(double a2, @Nonnull LBiDblPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(a2, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LTriDblPredicate predicate, double a2, double a3, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate, a2, a3))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LTriDblPredicate predicate, double a2, double a3, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate, a2, a3))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(double a2, double a3, @Nonnull LTriDblPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(a2, a3, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(double a2, double a3, @Nonnull LTriDblPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(a2, a3, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LDblIntPredicate predicate, int v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LDblIntPredicate predicate, int v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(int v, @Nonnull LDblIntPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(int v, @Nonnull LDblIntPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIf2_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2_(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIfNot2_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2_(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIf2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2_(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIfNot2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2_(v, predicate))
-			action.accept(self());
 		return self();
 	}
 

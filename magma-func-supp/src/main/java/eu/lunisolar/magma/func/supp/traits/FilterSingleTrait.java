@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -55,50 +56,80 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface FilterLongTrait<SELF extends FilterLongTrait<SELF>> extends FluentTrait<SELF> {
+public interface FilterSingleTrait<T, SELF extends FilterSingleTrait<T, SELF>> extends FilterTrait<T, SELF>, IsTrait<T, SELF> {
 
-	// <editor-fold desc="filtering">
+	// <editor-fold desc="is">
 
-	public SELF filter(@Nonnull LLongPredicate predicate);
-
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(long a2, @Nonnull LBiLongPredicate predicate) {
-		return filter(a -> predicate.test(a, a2));
+	@Override
+	default SELF filter(@Nonnull LPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is(predicate) ? self() : voidValue();
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LBiLongPredicate predicate, long a2) {
-		return filter(a2, predicate);
+	@Override
+	default SELF filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
-		return filter(a -> predicate.test(a, a2, a3));
+	@Override
+	default SELF filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LTriLongPredicate predicate, long a2, long a3) {
-		return filter(a2, a3, predicate);
+	@Override
+	default SELF filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(int v, @Nonnull LLongIntPredicate predicate) {
-		return filter(a -> predicate.test(a, v));
+	@Override
+	default SELF filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LLongIntPredicate predicate, int v) {
-		return filter2(v, predicate);
+	@Override
+	default SELF filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
-		return filter(a -> predicate.testLongObj(a, v));
+	@Override
+	default SELF filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		return filter2_(v, predicate);
+	@Override
+	default SELF filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default SELF filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default SELF filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default SELF filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default <V> SELF filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

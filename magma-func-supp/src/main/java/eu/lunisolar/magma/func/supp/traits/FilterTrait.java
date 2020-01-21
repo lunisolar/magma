@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluent<SELF> {
+public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends FluentTrait<SELF> {
 
 	// <editor-fold desc="filtering">
 
@@ -63,7 +63,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2));
 	}
 
@@ -74,7 +73,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2, a3));
 	}
 
@@ -85,7 +83,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -96,7 +93,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -107,7 +103,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -118,7 +113,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -129,7 +123,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -140,7 +133,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -151,7 +143,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -162,7 +153,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -173,7 +163,6 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default <V> SELF filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 

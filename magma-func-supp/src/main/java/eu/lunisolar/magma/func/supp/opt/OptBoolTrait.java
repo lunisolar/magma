@@ -64,12 +64,14 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SELF>, aValue<aBool>, CheckBoolTrait<SELF>, FilterBoolTrait<SELF>, IsBoolTrait<SELF> {
+public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SELF>, aValue<aBool>, CheckBoolTrait<SELF>, FilterBoolSingleTrait<SELF>, IsBoolTrait<SELF>, DoIfBoolTrait<SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
+	@Override
 	@Nonnull
 	SELF value(boolean value);
+	@Override
 	@Nonnull
 	SELF voidValue();
 
@@ -101,7 +103,19 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 	}
 
 	@Override
+	default boolean isNot(@Nonnull LLogicalOperator predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.apply(get());
+	}
+
+	@Override
 	default boolean is(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.apply(get(), a2);
+	}
+
+	@Override
+	default boolean isNot(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.apply(get(), a2);
 	}
@@ -113,7 +127,19 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 	}
 
 	@Override
+	default boolean isNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.apply(get(), a2, a3);
+	}
+
+	@Override
 	default boolean is2(int v, @Nonnull LBoolIntPredicate predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
+	default boolean isNot2(int v, @Nonnull LBoolIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -124,39 +150,15 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		return isPresent() && predicate.testBoolObj(get(), v);
 	}
 
+	@Override
+	default <V> boolean isNot2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.testBoolObj(get(), v);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="filtering">
-
-	@Override
-	default SELF filter(@Nonnull LLogicalOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(int v, @Nonnull LBoolIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default <V> SELF filter2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
-	}
 
 	// </editor-fold>
 
@@ -388,6 +390,10 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 
 	// </editor-fold>
 
+	// <editor-fold desc="doIf">
+
+	// </editor-fold>
+
 	// <editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
@@ -395,132 +401,6 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends Fluent<SE
 		if (isVoid()) {
 			action.execute();
 		}
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LLogicalOperator predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LLogicalOperator predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LLogicalBinaryOperator predicate, boolean a2, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate, a2))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LLogicalBinaryOperator predicate, boolean a2, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate, a2))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(boolean a2, @Nonnull LLogicalBinaryOperator predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(a2, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(boolean a2, @Nonnull LLogicalBinaryOperator predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(a2, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate, a2, a3))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate, a2, a3))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(a2, a3, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(a2, a3, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LBoolIntPredicate predicate, int v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LBoolIntPredicate predicate, int v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(int v, @Nonnull LBoolIntPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(int v, @Nonnull LBoolIntPredicate predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIf2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2_(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIfNot2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2_(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIf2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2_(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIfNot2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2_(v, predicate))
-			action.accept(self());
 		return self();
 	}
 

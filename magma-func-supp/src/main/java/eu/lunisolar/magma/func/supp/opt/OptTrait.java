@@ -64,12 +64,14 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, CheckTrait<T, SELF>, FilterTrait<T, SELF>, IsTrait<T, SELF> {
+public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, CheckTrait<T, SELF>, FilterSingleTrait<T, SELF>, IsTrait<T, SELF>, DoIfTrait<T, SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
+	@Override
 	@Nonnull
 	SELF value(@Nullable T value);
+	@Override
 	@Nonnull
 	SELF voidValue();
 
@@ -118,7 +120,19 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot(@Nonnull LPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get());
+	}
+
+	@Override
 	default boolean is(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), a2);
+	}
+
+	@Override
+	default boolean isNot(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
@@ -130,7 +144,19 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), a2, a3);
+	}
+
+	@Override
 	default boolean is2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
+	default boolean isNot2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -142,7 +168,19 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
 	default boolean is2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
+	default boolean isNot2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -154,7 +192,19 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
 	default boolean is2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
+	default boolean isNot2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -166,7 +216,19 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
 	default boolean is2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
+	default boolean isNot2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -178,7 +240,19 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	}
 
 	@Override
+	default boolean isNot2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
 	default <V> boolean is2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(get(), v);
+	}
+
+	@Override
+	default <V> boolean isNot2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -186,78 +260,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 	// </editor-fold>
 
 	// <editor-fold desc="filtering">
-
-	@Override
-	default SELF filter(@Nonnull LPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default SELF filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
-
-	@Override
-	default <V> SELF filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
-	}
 
 	// </editor-fold>
 
@@ -600,6 +602,10 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 
 	// </editor-fold>
 
+	// <editor-fold desc="doIf">
+
+	// </editor-fold>
+
 	// <editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
@@ -607,328 +613,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		if (isVoid()) {
 			action.execute();
 		}
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate, a2))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate, a2))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(a2, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(a2, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(predicate, a2, a3))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(predicate, a2, a3))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is(a2, a3, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is(a2, a3, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjBytePredicate<? super T> predicate, byte v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjBytePredicate<? super T> predicate, byte v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(byte v, @Nonnull LObjBytePredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(byte v, @Nonnull LObjBytePredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjDblPredicate<? super T> predicate, double v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjDblPredicate<? super T> predicate, double v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(double v, @Nonnull LObjDblPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(double v, @Nonnull LObjDblPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjCharPredicate<? super T> predicate, char v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjCharPredicate<? super T> predicate, char v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(char v, @Nonnull LObjCharPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(char v, @Nonnull LObjCharPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjSrtPredicate<? super T> predicate, short v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjSrtPredicate<? super T> predicate, short v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(short v, @Nonnull LObjSrtPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(short v, @Nonnull LObjSrtPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjFltPredicate<? super T> predicate, float v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjFltPredicate<? super T> predicate, float v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(float v, @Nonnull LObjFltPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(float v, @Nonnull LObjFltPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjIntPredicate<? super T> predicate, int v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjIntPredicate<? super T> predicate, int v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(int v, @Nonnull LObjIntPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(int v, @Nonnull LObjIntPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(@Nonnull LObjLongPredicate<? super T> predicate, long v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(@Nonnull LObjLongPredicate<? super T> predicate, long v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIf2(long v, @Nonnull LObjLongPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default SELF doIfNot2(long v, @Nonnull LObjLongPredicate<? super T> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIf2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIfNot2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(predicate, v))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIf2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (is2(v, predicate))
-			action.accept(self());
-		return self();
-	}
-
-	default <V> SELF doIfNot2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate, LConsumer<SELF> action) {
-		Null.nonNullArg(predicate, "predicate");
-		if (!is2(v, predicate))
-			action.accept(self());
 		return self();
 	}
 

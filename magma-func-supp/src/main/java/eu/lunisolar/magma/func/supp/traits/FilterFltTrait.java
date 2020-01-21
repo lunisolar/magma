@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface FilterFltTrait<SELF extends FilterFltTrait<SELF>> extends Fluent<SELF> {
+public interface FilterFltTrait<SELF extends FilterFltTrait<SELF>> extends FluentTrait<SELF> {
 
 	// <editor-fold desc="filtering">
 
@@ -63,7 +63,6 @@ public interface FilterFltTrait<SELF extends FilterFltTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(float a2, @Nonnull LBiFltPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2));
 	}
 
@@ -74,7 +73,6 @@ public interface FilterFltTrait<SELF extends FilterFltTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter(float a2, float a3, @Nonnull LTriFltPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, a2, a3));
 	}
 
@@ -85,7 +83,6 @@ public interface FilterFltTrait<SELF extends FilterFltTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default SELF filter2(int v, @Nonnull LFltIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.test(a, v));
 	}
 
@@ -96,7 +93,6 @@ public interface FilterFltTrait<SELF extends FilterFltTrait<SELF>> extends Fluen
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default <V> SELF filter2_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
 		return filter(a -> predicate.testFltObj(a, v));
 	}
 
