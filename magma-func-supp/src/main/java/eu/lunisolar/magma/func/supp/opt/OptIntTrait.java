@@ -141,97 +141,97 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 	}
 
 	@Override
-	default boolean is2_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
+	default boolean is2Variant(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntBool(get(), v);
 	}
 
 	@Override
-	default boolean isNot2_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
+	default boolean isNot2Variant(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntBool(get(), v);
 	}
 
 	@Override
-	default boolean is2_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
+	default boolean is2Variant(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntByte(get(), v);
 	}
 
 	@Override
-	default boolean isNot2_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
+	default boolean isNot2Variant(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntByte(get(), v);
 	}
 
 	@Override
-	default boolean is2_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
+	default boolean is2Variant(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntDbl(get(), v);
 	}
 
 	@Override
-	default boolean isNot2_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
+	default boolean isNot2Variant(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntDbl(get(), v);
 	}
 
 	@Override
-	default boolean is2_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
+	default boolean is2Variant(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntChar(get(), v);
 	}
 
 	@Override
-	default boolean isNot2_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
+	default boolean isNot2Variant(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntChar(get(), v);
 	}
 
 	@Override
-	default boolean is2_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
+	default boolean is2Variant(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntSrt(get(), v);
 	}
 
 	@Override
-	default boolean isNot2_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
+	default boolean isNot2Variant(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntSrt(get(), v);
 	}
 
 	@Override
-	default boolean is2_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
+	default boolean is2Variant(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntFlt(get(), v);
 	}
 
 	@Override
-	default boolean isNot2_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
+	default boolean isNot2Variant(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntFlt(get(), v);
 	}
 
 	@Override
-	default boolean is2_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
+	default boolean is2Variant(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntLong(get(), v);
 	}
 
 	@Override
-	default boolean isNot2_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
+	default boolean isNot2Variant(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntLong(get(), v);
 	}
 
 	@Override
-	default <V> boolean is2_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
+	default <V> boolean is2Variant(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntObj(get(), v);
 	}
 
 	@Override
-	default <V> boolean isNot2_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
+	default <V> boolean isNot2Variant(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntObj(get(), v);
 	}
@@ -249,7 +249,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptBool.of(mapping.test(get()))) : OptBool.empty();
 	}
 
-	default <K> OptBool mapToBool_(K a2, @Nonnull LObjIntPredicate.LIntObjPred<? super K> mapping) {
+	default <K> OptBool mapToBoolVariant(K a2, @Nonnull LObjIntPredicate.LIntObjPred<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptBool.of(mapping.testIntObj(get(), a2))) : OptBool.empty();
 	}
@@ -264,7 +264,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptByte.of(mapping.applyAsByte(get()))) : OptByte.empty();
 	}
 
-	default <K> OptByte mapToByte_(K a2, @Nonnull LOiToByteFunction.LIntObjToByteFunc<? super K> mapping) {
+	default <K> OptByte mapToByteVariant(K a2, @Nonnull LOiToByteFunction.LIntObjToByteFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptByte.of(mapping.applyAsByteIntObj(get(), a2))) : OptByte.empty();
 	}
@@ -279,7 +279,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptDbl.of(mapping.applyAsDbl(get()))) : OptDbl.empty();
 	}
 
-	default <K> OptDbl mapToDbl_(K a2, @Nonnull LOiToDblFunction.LIntObjToDblFunc<? super K> mapping) {
+	default <K> OptDbl mapToDblVariant(K a2, @Nonnull LOiToDblFunction.LIntObjToDblFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptDbl.of(mapping.applyAsDblIntObj(get(), a2))) : OptDbl.empty();
 	}
@@ -294,7 +294,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptChar.of(mapping.applyAsChar(get()))) : OptChar.empty();
 	}
 
-	default <K> OptChar mapToChar_(K a2, @Nonnull LOiToCharFunction.LIntObjToCharFunc<? super K> mapping) {
+	default <K> OptChar mapToCharVariant(K a2, @Nonnull LOiToCharFunction.LIntObjToCharFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptChar.of(mapping.applyAsCharIntObj(get(), a2))) : OptChar.empty();
 	}
@@ -309,7 +309,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptSrt.of(mapping.applyAsSrt(get()))) : OptSrt.empty();
 	}
 
-	default <K> OptSrt mapToSrt_(K a2, @Nonnull LOiToSrtFunction.LIntObjToSrtFunc<? super K> mapping) {
+	default <K> OptSrt mapToSrtVariant(K a2, @Nonnull LOiToSrtFunction.LIntObjToSrtFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptSrt.of(mapping.applyAsSrtIntObj(get(), a2))) : OptSrt.empty();
 	}
@@ -324,7 +324,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptFlt.of(mapping.applyAsFlt(get()))) : OptFlt.empty();
 	}
 
-	default <K> OptFlt mapToFlt_(K a2, @Nonnull LOiToFltFunction.LIntObjToFltFunc<? super K> mapping) {
+	default <K> OptFlt mapToFltVariant(K a2, @Nonnull LOiToFltFunction.LIntObjToFltFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptFlt.of(mapping.applyAsFltIntObj(get(), a2))) : OptFlt.empty();
 	}
@@ -339,12 +339,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptInt.of(mapping.applyAsInt(get()))) : OptInt.empty();
 	}
 
-	default SELF perform(@Nonnull LIntUnaryOperator mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.applyAsInt(get())) : voidValue();
-	}
-
-	default <K> OptInt map_(K a2, @Nonnull LOiToIntFunction.LIntObjToIntFunc<? super K> mapping) {
+	default <K> OptInt mapVariant(K a2, @Nonnull LOiToIntFunction.LIntObjToIntFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptInt.of(mapping.applyAsIntIntObj(get(), a2))) : OptInt.empty();
 	}
@@ -354,17 +349,12 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (OptInt.of(mapping.applyAsInt(a1, get()))) : OptInt.empty();
 	}
 
-	default SELF performWith(int a1, @Nonnull LIntBinaryOperator mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.applyAsInt(a1, get())) : voidValue();
-	}
-
 	default OptLong mapToLong(@Nonnull LIntToLongFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptLong.of(mapping.applyAsLong(get()))) : OptLong.empty();
 	}
 
-	default <K> OptLong mapToLong_(K a2, @Nonnull LOiToLongFunction.LIntObjToLongFunc<? super K> mapping) {
+	default <K> OptLong mapToLongVariant(K a2, @Nonnull LOiToLongFunction.LIntObjToLongFunc<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (OptLong.of(mapping.applyAsLongIntObj(get(), a2))) : OptLong.empty();
 	}
@@ -379,7 +369,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? (Opt.of(mapping.apply(get()))) : Opt.empty();
 	}
 
-	default <R, K> Opt<R> mapToObj_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends R> mapping) {
+	default <R, K> Opt<R> mapToObjVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.applyIntObj(get(), a2))) : Opt.empty();
 	}
@@ -398,7 +388,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptBool.from(mapping.apply(get())) : OptBool.empty();
 	}
 
-	default <K> OptBool flatMapToBool_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptBoolTrait<?>> mapping) {
+	default <K> OptBool flatMapToBoolVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptBool.from(mapping.applyIntObj(get(), a2)) : OptBool.empty();
 	}
@@ -413,7 +403,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptByte.from(mapping.apply(get())) : OptByte.empty();
 	}
 
-	default <K> OptByte flatMapToByte_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptByteTrait<?>> mapping) {
+	default <K> OptByte flatMapToByteVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptByte.from(mapping.applyIntObj(get(), a2)) : OptByte.empty();
 	}
@@ -428,7 +418,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptDbl.from(mapping.apply(get())) : OptDbl.empty();
 	}
 
-	default <K> OptDbl flatMapToDbl_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptDblTrait<?>> mapping) {
+	default <K> OptDbl flatMapToDblVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptDblTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptDbl.from(mapping.applyIntObj(get(), a2)) : OptDbl.empty();
 	}
@@ -443,7 +433,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptChar.from(mapping.apply(get())) : OptChar.empty();
 	}
 
-	default <K> OptChar flatMapToChar_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptCharTrait<?>> mapping) {
+	default <K> OptChar flatMapToCharVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.from(mapping.applyIntObj(get(), a2)) : OptChar.empty();
 	}
@@ -458,7 +448,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptSrt.from(mapping.apply(get())) : OptSrt.empty();
 	}
 
-	default <K> OptSrt flatMapToSrt_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptSrtTrait<?>> mapping) {
+	default <K> OptSrt flatMapToSrtVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptSrtTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptSrt.from(mapping.applyIntObj(get(), a2)) : OptSrt.empty();
 	}
@@ -473,7 +463,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptFlt.from(mapping.apply(get())) : OptFlt.empty();
 	}
 
-	default <K> OptFlt flatMapToFlt_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptFltTrait<?>> mapping) {
+	default <K> OptFlt flatMapToFltVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.from(mapping.applyIntObj(get(), a2)) : OptFlt.empty();
 	}
@@ -488,12 +478,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptInt.from(mapping.apply(get())) : OptInt.empty();
 	}
 
-	default SELF perform(@Nonnull LIntFunction<? extends OptIntTrait<? extends SELF>> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? valueFrom(mapping.apply(get())) : voidValue();
-	}
-
-	default <K> OptInt flatMap_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptIntTrait<?>> mapping) {
+	default <K> OptInt flatMapVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptIntTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptInt.from(mapping.applyIntObj(get(), a2)) : OptInt.empty();
 	}
@@ -503,17 +488,12 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? OptInt.from(mapping.apply(a1, get())) : OptInt.empty();
 	}
 
-	default SELF flatPerformWith(int a1, @Nonnull LBiIntFunction<? extends OptIntTrait<? extends SELF>> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? valueFrom(mapping.apply(a1, get())) : voidValue();
-	}
-
 	default OptLong flatMapToLong(@Nonnull LIntFunction<? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.from(mapping.apply(get())) : OptLong.empty();
 	}
 
-	default <K> OptLong flatMapToLong_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptLongTrait<?>> mapping) {
+	default <K> OptLong flatMapToLongVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.from(mapping.applyIntObj(get(), a2)) : OptLong.empty();
 	}
@@ -528,7 +508,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return isPresent() ? Opt.from(mapping.apply(get())) : Opt.empty();
 	}
 
-	default <R, K> Opt<R> flatMapToObj_(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
+	default <R, K> Opt<R> flatMapToObjVariant(K a2, @Nonnull LOiFunction.LIntObjFunc<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.applyIntObj(get(), a2)) : Opt.empty();
 	}
@@ -572,7 +552,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends Fluent<SELF
 		return self();
 	}
 
-	default <K> SELF ifPresent_(K a1, @Nonnull LObjIntConsumer.LIntObjCons<? super K> action) {
+	default <K> SELF ifPresentVariant(K a1, @Nonnull LObjIntConsumer.LIntObjCons<? super K> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.acceptIntObj(get(), a1);

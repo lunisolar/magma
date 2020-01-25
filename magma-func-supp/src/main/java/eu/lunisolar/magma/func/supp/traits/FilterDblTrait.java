@@ -92,13 +92,13 @@ public interface FilterDblTrait<SELF extends FilterDblTrait<SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
+	default <V> SELF filter2Variant(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		return filter(a -> predicate.testDblObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
-		return filter2_(v, predicate);
+	default <V> SELF filter2Variant(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
+		return filter2Variant(v, predicate);
 	}
 
 	// </editor-fold>

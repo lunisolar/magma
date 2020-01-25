@@ -139,25 +139,25 @@ public interface IsBoolTrait<SELF extends IsBoolTrait<SELF>> extends BoolValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
+	default <V> boolean is2Variant(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.testBoolObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
-		return is2_(v, predicate);
+	default <V> boolean is2Variant(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
+		return is2Variant(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
+	default <V> boolean isNot2Variant(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.testBoolObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
-		return isNot2_(v, predicate);
+	default <V> boolean isNot2Variant(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
+		return isNot2Variant(v, predicate);
 	}
 
 	// </editor-fold>

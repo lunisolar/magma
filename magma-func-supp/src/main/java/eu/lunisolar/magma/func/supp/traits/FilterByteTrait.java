@@ -92,13 +92,13 @@ public interface FilterByteTrait<SELF extends FilterByteTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default <V> SELF filter2Variant(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		return filter(a -> predicate.testByteObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
-		return filter2_(v, predicate);
+	default <V> SELF filter2Variant(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+		return filter2Variant(v, predicate);
 	}
 
 	// </editor-fold>

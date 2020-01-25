@@ -139,25 +139,25 @@ public interface IsFltTrait<SELF extends IsFltTrait<SELF>> extends FltValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is2_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
+	default <V> boolean is2Variant(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.testFltObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is2_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
-		return is2_(v, predicate);
+	default <V> boolean is2Variant(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
+		return is2Variant(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot2_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
+	default <V> boolean isNot2Variant(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.testFltObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot2_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
-		return isNot2_(v, predicate);
+	default <V> boolean isNot2Variant(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
+		return isNot2Variant(v, predicate);
 	}
 
 	// </editor-fold>

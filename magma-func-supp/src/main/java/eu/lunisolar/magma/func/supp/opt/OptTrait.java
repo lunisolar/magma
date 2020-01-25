@@ -431,7 +431,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? (Opt.of(mapping.apply(get()))) : Opt.empty();
 	}
 
-	default SELF perform(@Nonnull LUnaryOperator<T> mapping) {
+	default SELF uniMap(@Nonnull LUnaryOperator<T> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? value(mapping.apply(get())) : voidValue();
 	}
@@ -446,7 +446,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? (Opt.of(mapping.apply(a1, get()))) : Opt.empty();
 	}
 
-	default SELF performWith(T a1, @Nonnull LBinaryOperator<T> mapping) {
+	default SELF uniMapWith(T a1, @Nonnull LBinaryOperator<T> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? value(mapping.apply(a1, get())) : voidValue();
 	}
@@ -580,7 +580,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? Opt.from(mapping.apply(get())) : Opt.empty();
 	}
 
-	default SELF perform(@Nonnull LFunction<T, ? extends OptTrait<? extends T, ? extends SELF>> mapping) {
+	default SELF flatUniMap(@Nonnull LFunction<T, ? extends OptTrait<? extends T, ? extends SELF>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? valueFrom(mapping.apply(get())) : voidValue();
 	}
@@ -595,7 +595,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends Fluent<SELF
 		return isPresent() ? Opt.from(mapping.apply(a1, get())) : Opt.empty();
 	}
 
-	default SELF flatPerformWith(T a1, @Nonnull LBiFunction<T, T, ? extends OptTrait<? extends T, ? extends SELF>> mapping) {
+	default SELF flatUniMapWith(T a1, @Nonnull LBiFunction<T, T, ? extends OptTrait<? extends T, ? extends SELF>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? valueFrom(mapping.apply(a1, get())) : voidValue();
 	}
