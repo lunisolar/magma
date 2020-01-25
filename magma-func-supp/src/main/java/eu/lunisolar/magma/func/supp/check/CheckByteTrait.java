@@ -34,6 +34,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.Be; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
 
@@ -57,7 +58,7 @@ import eu.lunisolar.magma.func.supp.value.*;
 
 import static eu.lunisolar.magma.func.supp.check.CheckTrait.*;
 
-public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluent<SELF>, aValue<aByte>, LByteSingle, ByteValueTrait<SELF> {
+public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends FluentTrait<SELF>, aValue<aByte>, LByteSingle, ByteValueTrait<SELF> {
 
 	byte get();
 

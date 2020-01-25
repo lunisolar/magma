@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends Fluent<SELF>, aValue<aFloat>, CheckFltTrait<SELF>, FilterFltSingleTrait<SELF>, IsFltTrait<SELF>, DoIfFltTrait<SELF> {
+public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait<SELF>, aValue<aFloat>, CheckFltTrait<SELF>, FilterFltSingleTrait<SELF>, IsFltTrait<SELF>, DoIfFltTrait<SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 

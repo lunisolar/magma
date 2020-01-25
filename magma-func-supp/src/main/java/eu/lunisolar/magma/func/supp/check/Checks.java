@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
 
@@ -62,7 +63,7 @@ public final class Checks implements FluentSyntax {
 	// </editor-fold>
 
 	@ThreadSafe
-	public final static class CheckBool implements CheckBoolTrait<CheckBool>, Fluent<CheckBool> {
+	public final static class CheckBool implements CheckBoolTrait<CheckBool> {
 
 		private final String type;
 		private final boolean value;
@@ -154,7 +155,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class Check<T> implements CheckTrait<T, Check<T>>, Fluent<Check<T>> {
+	public final static class Check<T> implements CheckTrait<T, Check<T>> {
 
 		private final String type;
 		private final @Nullable T value;
@@ -246,7 +247,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class CheckByte implements CheckByteTrait<CheckByte>, Fluent<CheckByte> {
+	public final static class CheckByte implements CheckByteTrait<CheckByte> {
 
 		private final String type;
 		private final byte value;
@@ -338,7 +339,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class CheckDbl implements CheckDblTrait<CheckDbl>, Fluent<CheckDbl> {
+	public final static class CheckDbl implements CheckDblTrait<CheckDbl> {
 
 		private final String type;
 		private final double value;
@@ -430,7 +431,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class CheckChar implements CheckCharTrait<CheckChar>, Fluent<CheckChar> {
+	public final static class CheckChar implements CheckCharTrait<CheckChar> {
 
 		private final String type;
 		private final char value;
@@ -522,7 +523,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class CheckSrt implements CheckSrtTrait<CheckSrt>, Fluent<CheckSrt> {
+	public final static class CheckSrt implements CheckSrtTrait<CheckSrt> {
 
 		private final String type;
 		private final short value;
@@ -614,7 +615,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class CheckFlt implements CheckFltTrait<CheckFlt>, Fluent<CheckFlt> {
+	public final static class CheckFlt implements CheckFltTrait<CheckFlt> {
 
 		private final String type;
 		private final float value;
@@ -706,7 +707,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class CheckInt implements CheckIntTrait<CheckInt>, Fluent<CheckInt> {
+	public final static class CheckInt implements CheckIntTrait<CheckInt> {
 
 		private final String type;
 		private final int value;
@@ -798,7 +799,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	@ThreadSafe
-	public final static class CheckLong implements CheckLongTrait<CheckLong>, Fluent<CheckLong> {
+	public final static class CheckLong implements CheckLongTrait<CheckLong> {
 
 		private final String type;
 		private final long value;

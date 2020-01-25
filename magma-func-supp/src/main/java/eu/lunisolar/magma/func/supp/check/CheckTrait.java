@@ -34,6 +34,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.Be; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.FluentSyntax;
 
@@ -55,7 +56,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.value.*;
 
-public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends Fluent<SELF>, aValue<a<T>>, LSingle<T>, ValueTrait<T, SELF> {
+public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentTrait<SELF>, aValue<a<T>>, LSingle<T>, ValueTrait<T, SELF> {
 
 	public static final String MESSAGE_S_S_S = "%s [%s]: %s";
 	public static final String MESSAGE_S_S_S_S = "%s [%s]: %s [Value: `%s`]";
