@@ -137,26 +137,26 @@ public interface DoIfBoolTrait<SELF extends DoIfBoolTrait<SELF>> extends FluentT
 		return doIfNot2(v, predicate, action);
 	}
 
-	default <V> SELF doIf2Variant(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
-		if (is2Variant(v, predicate))
+	default <V> SELF doIf2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
+		if (is2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default <V> SELF doIf2Variant(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		return doIf2Variant(v, predicate, action);
+	default <V> SELF doIf2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+		return doIf2_(v, predicate, action);
 	}
 
-	default <V> SELF doIfNot2Variant(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
-		if (isNot2Variant(v, predicate))
+	default <V> SELF doIfNot2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, LConsumer<SELF> action) {
+		if (isNot2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default <V> SELF doIfNot2Variant(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		return doIfNot2Variant(v, predicate, action);
+	default <V> SELF doIfNot2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+		return doIfNot2_(v, predicate, action);
 	}
 
 	// </editor-fold>

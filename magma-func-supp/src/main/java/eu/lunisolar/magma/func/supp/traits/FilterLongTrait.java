@@ -92,13 +92,13 @@ public interface FilterLongTrait<SELF extends FilterLongTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2Variant(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	default <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		return filter(a -> predicate.testLongObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2Variant(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		return filter2Variant(v, predicate);
+	default <V> SELF filter2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
+		return filter2_(v, predicate);
 	}
 
 	// </editor-fold>

@@ -85,9 +85,9 @@ public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> e
 	}
 
 	@Override
-	default <V> SELF filter2Variant(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
+	default <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2Variant(v, predicate) ? self() : voidValue();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

@@ -139,25 +139,25 @@ public interface IsSrtTrait<SELF extends IsSrtTrait<SELF>> extends SrtValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is2Variant(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
+	default <V> boolean is2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.testSrtObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is2Variant(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
-		return is2Variant(v, predicate);
+	default <V> boolean is2_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
+		return is2_(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot2Variant(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
+	default <V> boolean isNot2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.testSrtObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot2Variant(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
-		return isNot2Variant(v, predicate);
+	default <V> boolean isNot2_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
+		return isNot2_(v, predicate);
 	}
 
 	// </editor-fold>

@@ -85,9 +85,9 @@ public interface FilterSrtSingleTrait<SELF extends FilterSrtSingleTrait<SELF>> e
 	}
 
 	@Override
-	default <V> SELF filter2Variant(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
+	default <V> SELF filter2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2Variant(v, predicate) ? self() : voidValue();
+		return this.is2_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

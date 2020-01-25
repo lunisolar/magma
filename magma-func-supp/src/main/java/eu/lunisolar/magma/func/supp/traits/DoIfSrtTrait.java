@@ -137,26 +137,26 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNot2(v, predicate, action);
 	}
 
-	default <V> SELF doIf2Variant(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, LConsumer<SELF> action) {
-		if (is2Variant(v, predicate))
+	default <V> SELF doIf2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, LConsumer<SELF> action) {
+		if (is2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default <V> SELF doIf2Variant(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		return doIf2Variant(v, predicate, action);
+	default <V> SELF doIf2_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+		return doIf2_(v, predicate, action);
 	}
 
-	default <V> SELF doIfNot2Variant(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, LConsumer<SELF> action) {
-		if (isNot2Variant(v, predicate))
+	default <V> SELF doIfNot2_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, LConsumer<SELF> action) {
+		if (isNot2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default <V> SELF doIfNot2Variant(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
-		return doIfNot2Variant(v, predicate, action);
+	default <V> SELF doIfNot2_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+		return doIfNot2_(v, predicate, action);
 	}
 
 	// </editor-fold>

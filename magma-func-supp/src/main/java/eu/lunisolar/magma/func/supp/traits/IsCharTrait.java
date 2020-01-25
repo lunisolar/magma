@@ -139,25 +139,25 @@ public interface IsCharTrait<SELF extends IsCharTrait<SELF>> extends CharValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is2Variant(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	default <V> boolean is2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.testCharObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is2Variant(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
-		return is2Variant(v, predicate);
+	default <V> boolean is2_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
+		return is2_(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot2Variant(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	default <V> boolean isNot2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.testCharObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot2Variant(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
-		return isNot2Variant(v, predicate);
+	default <V> boolean isNot2_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
+		return isNot2_(v, predicate);
 	}
 
 	// </editor-fold>
