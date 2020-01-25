@@ -62,42 +62,42 @@ public interface FilterByteTrait<SELF extends FilterByteTrait<SELF>> extends Flu
 	public SELF filter(@Nonnull LBytePredicate predicate);
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
+	default @Nonnull SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
 		return filter(a -> predicate.test(a, a2));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LBiBytePredicate predicate, byte a2) {
+	default @Nonnull SELF filter(@Nonnull LBiBytePredicate predicate, byte a2) {
 		return filter(a2, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	default @Nonnull SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		return filter(a -> predicate.test(a, a2, a3));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
+	default @Nonnull SELF filter(@Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
 		return filter(a2, a3, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LByteIntPredicate predicate, int v) {
+	default @Nonnull SELF filter2(@Nonnull LByteIntPredicate predicate, int v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		return filter(a -> predicate.testByteObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+	default @Nonnull <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
 		return filter2_(v, predicate);
 	}
 

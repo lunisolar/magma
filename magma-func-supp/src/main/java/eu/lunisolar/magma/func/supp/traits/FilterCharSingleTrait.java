@@ -61,31 +61,31 @@ public interface FilterCharSingleTrait<SELF extends FilterCharSingleTrait<SELF>>
 	// <editor-fold desc="is">
 
 	@Override
-	default SELF filter(@Nonnull LCharPredicate predicate) {
+	default @Nonnull SELF filter(@Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(char a2, @Nonnull LBiCharPredicate predicate) {
+	default @Nonnull SELF filter(char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
+	default @Nonnull SELF filter(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter2(int v, @Nonnull LCharIntPredicate predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default <V> SELF filter2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();
 	}

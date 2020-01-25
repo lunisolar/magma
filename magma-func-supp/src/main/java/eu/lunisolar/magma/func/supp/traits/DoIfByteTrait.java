@@ -59,103 +59,103 @@ public interface DoIfByteTrait<SELF extends DoIfByteTrait<SELF>> extends FluentT
 
 	// <editor-fold desc="doIf">
 
-	default SELF doIf(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
 		if (is(predicate))
 			action.accept(self());
 		return self();
 	}
 
-	default SELF doIfNot(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(@Nonnull LBytePredicate predicate, LConsumer<SELF> action) {
 		if (isNot(predicate))
 			action.accept(self());
 		return self();
 	}
 
-	default SELF doIf(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
 		if (is(a2, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default SELF doIf(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
 		return doIf(a2, predicate, action);
 	}
 
-	default SELF doIfNot(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(byte a2, @Nonnull LBiBytePredicate predicate, LConsumer<SELF> action) {
 		if (isNot(a2, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default SELF doIfNot(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(@Nonnull LBiBytePredicate predicate, byte a2, LConsumer<SELF> action) {
 		return doIfNot(a2, predicate, action);
 	}
 
-	default SELF doIf(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
 		if (is(a2, a3, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default SELF doIf(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
 		return doIf(a2, a3, predicate, action);
 	}
 
-	default SELF doIfNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, LConsumer<SELF> action) {
 		if (isNot(a2, a3, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default SELF doIfNot(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, LConsumer<SELF> action) {
 		return doIfNot(a2, a3, predicate, action);
 	}
 
-	default SELF doIf2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
 		if (is2(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default SELF doIf2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
 		return doIf2(v, predicate, action);
 	}
 
-	default SELF doIfNot2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot2(int v, @Nonnull LByteIntPredicate predicate, LConsumer<SELF> action) {
 		if (isNot2(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default SELF doIfNot2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot2(@Nonnull LByteIntPredicate predicate, int v, LConsumer<SELF> action) {
 		return doIfNot2(v, predicate, action);
 	}
 
-	default <V> SELF doIf2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
+	default @Nonnull <V> SELF doIf2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
 		if (is2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default <V> SELF doIf2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	default @Nonnull <V> SELF doIf2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
 		return doIf2_(v, predicate, action);
 	}
 
-	default <V> SELF doIfNot2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
+	default @Nonnull <V> SELF doIfNot2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, LConsumer<SELF> action) {
 		if (isNot2_(v, predicate))
 			action.accept(self());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default <V> SELF doIfNot2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	default @Nonnull <V> SELF doIfNot2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
 		return doIfNot2_(v, predicate, action);
 	}
 

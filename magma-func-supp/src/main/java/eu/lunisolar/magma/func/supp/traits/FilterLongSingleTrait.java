@@ -61,31 +61,31 @@ public interface FilterLongSingleTrait<SELF extends FilterLongSingleTrait<SELF>>
 	// <editor-fold desc="is">
 
 	@Override
-	default SELF filter(@Nonnull LLongPredicate predicate) {
+	default @Nonnull SELF filter(@Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(long a2, @Nonnull LBiLongPredicate predicate) {
+	default @Nonnull SELF filter(long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
+	default @Nonnull SELF filter(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter2(int v, @Nonnull LLongIntPredicate predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();
 	}

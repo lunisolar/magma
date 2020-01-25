@@ -61,31 +61,31 @@ public interface FilterByteSingleTrait<SELF extends FilterByteSingleTrait<SELF>>
 	// <editor-fold desc="is">
 
 	@Override
-	default SELF filter(@Nonnull LBytePredicate predicate) {
+	default @Nonnull SELF filter(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
+	default @Nonnull SELF filter(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	default @Nonnull SELF filter(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();
 	}

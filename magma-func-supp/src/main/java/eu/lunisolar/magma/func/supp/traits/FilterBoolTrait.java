@@ -62,42 +62,42 @@ public interface FilterBoolTrait<SELF extends FilterBoolTrait<SELF>> extends Flu
 	public SELF filter(@Nonnull LLogicalOperator predicate);
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
+	default @Nonnull SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
 		return filter(a -> predicate.apply(a, a2));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LLogicalBinaryOperator predicate, boolean a2) {
+	default @Nonnull SELF filter(@Nonnull LLogicalBinaryOperator predicate, boolean a2) {
 		return filter(a2, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
+	default @Nonnull SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
 		return filter(a -> predicate.apply(a, a2, a3));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3) {
+	default @Nonnull SELF filter(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3) {
 		return filter(a2, a3, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(int v, @Nonnull LBoolIntPredicate predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LBoolIntPredicate predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LBoolIntPredicate predicate, int v) {
+	default @Nonnull SELF filter2(@Nonnull LBoolIntPredicate predicate, int v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
 		return filter(a -> predicate.testBoolObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
+	default @Nonnull <V> SELF filter2_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
 		return filter2_(v, predicate);
 	}
 

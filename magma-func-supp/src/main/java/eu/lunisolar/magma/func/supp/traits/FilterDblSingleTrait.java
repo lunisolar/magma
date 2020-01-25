@@ -61,31 +61,31 @@ public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> e
 	// <editor-fold desc="is">
 
 	@Override
-	default SELF filter(@Nonnull LDblPredicate predicate) {
+	default @Nonnull SELF filter(@Nonnull LDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(double a2, @Nonnull LBiDblPredicate predicate) {
+	default @Nonnull SELF filter(double a2, @Nonnull LBiDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
+	default @Nonnull SELF filter(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default SELF filter2(int v, @Nonnull LDblIntPredicate predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.is2_(v, predicate) ? self() : voidValue();
 	}

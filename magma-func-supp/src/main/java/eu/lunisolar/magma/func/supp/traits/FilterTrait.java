@@ -62,112 +62,112 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 	public SELF filter(@Nonnull LPredicate<? super T> predicate);
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+	default @Nonnull SELF filter(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		return filter(a -> predicate.test(a, a2));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
+	default @Nonnull SELF filter(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
 		return filter(a2, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
+	default @Nonnull SELF filter(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
 		return filter(a -> predicate.test(a, a2, a3));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
+	default @Nonnull SELF filter(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
 		return filter(a2, a3, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
+	default @Nonnull SELF filter2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
+	default @Nonnull SELF filter2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
+	default @Nonnull SELF filter2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
+	default @Nonnull SELF filter2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
+	default @Nonnull SELF filter2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
+	default @Nonnull SELF filter2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
+	default @Nonnull SELF filter2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	default @Nonnull SELF filter2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
+	default @Nonnull SELF filter2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
+	default @Nonnull <V> SELF filter2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
+	default @Nonnull <V> SELF filter2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
 		return filter2(v, predicate);
 	}
 

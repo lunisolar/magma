@@ -62,42 +62,42 @@ public interface FilterDblTrait<SELF extends FilterDblTrait<SELF>> extends Fluen
 	public SELF filter(@Nonnull LDblPredicate predicate);
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(double a2, @Nonnull LBiDblPredicate predicate) {
+	default @Nonnull SELF filter(double a2, @Nonnull LBiDblPredicate predicate) {
 		return filter(a -> predicate.test(a, a2));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LBiDblPredicate predicate, double a2) {
+	default @Nonnull SELF filter(@Nonnull LBiDblPredicate predicate, double a2) {
 		return filter(a2, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
+	default @Nonnull SELF filter(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
 		return filter(a -> predicate.test(a, a2, a3));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter(@Nonnull LTriDblPredicate predicate, double a2, double a3) {
+	default @Nonnull SELF filter(@Nonnull LTriDblPredicate predicate, double a2, double a3) {
 		return filter(a2, a3, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default SELF filter2(int v, @Nonnull LDblIntPredicate predicate) {
+	default @Nonnull SELF filter2(int v, @Nonnull LDblIntPredicate predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default SELF filter2(@Nonnull LDblIntPredicate predicate, int v) {
+	default @Nonnull SELF filter2(@Nonnull LDblIntPredicate predicate, int v) {
 		return filter2(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		return filter(a -> predicate.testDblObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default <V> SELF filter2_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
+	default @Nonnull <V> SELF filter2_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
 		return filter2_(v, predicate);
 	}
 

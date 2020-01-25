@@ -61,256 +61,256 @@ public interface IsTrait<T, SELF extends IsTrait<T, SELF>> extends ValueTrait<T,
 	// <editor-fold desc="is">
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(@Nonnull LPredicate<? super T> predicate) {
+	default @Nonnull boolean is(@Nonnull LPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value());
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(@Nonnull LPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot(@Nonnull LPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value());
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+	default @Nonnull boolean is(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), a2);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
+	default @Nonnull boolean is(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
 		return is(a2, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+	default @Nonnull boolean isNot(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), a2);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
+	default @Nonnull boolean isNot(@Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
 		return isNot(a2, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
+	default @Nonnull boolean is(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), a2, a3);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
+	default @Nonnull boolean is(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
 		return is(a2, a3, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
+	default @Nonnull boolean isNot(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), a2, a3);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
+	default @Nonnull boolean isNot(@Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
 		return isNot(a2, a3, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	default @Nonnull boolean is2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
+	default @Nonnull boolean is2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	default @Nonnull boolean is2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
+	default @Nonnull boolean is2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjBytePredicate<? super T> predicate, byte v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	default @Nonnull boolean is2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
+	default @Nonnull boolean is2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjDblPredicate<? super T> predicate, double v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	default @Nonnull boolean is2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
+	default @Nonnull boolean is2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjCharPredicate<? super T> predicate, char v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	default @Nonnull boolean is2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
+	default @Nonnull boolean is2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjSrtPredicate<? super T> predicate, short v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	default @Nonnull boolean is2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
+	default @Nonnull boolean is2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjFltPredicate<? super T> predicate, float v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	default @Nonnull boolean is2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
+	default @Nonnull boolean is2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjIntPredicate<? super T> predicate, int v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	default @Nonnull boolean is2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
+	default @Nonnull boolean is2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	default @Nonnull boolean isNot2(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
+	default @Nonnull boolean isNot2(@Nonnull LObjLongPredicate<? super T> predicate, long v) {
 		return isNot2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
+	default @Nonnull <V> boolean is2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
+	default @Nonnull <V> boolean is2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
 		return is2(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
+	default @Nonnull <V> boolean isNot2(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
+	default @Nonnull <V> boolean isNot2(@Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
 		return isNot2(v, predicate);
 	}
 
