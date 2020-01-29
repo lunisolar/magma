@@ -79,51 +79,51 @@ public interface FilterIntSingleTrait<SELF extends FilterIntSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull SELF filter2_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
+	default @Nonnull SELF filter_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter2_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
+	default @Nonnull SELF filter_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter2_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
+	default @Nonnull SELF filter_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter2_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
+	default @Nonnull SELF filter_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter2_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
+	default @Nonnull SELF filter_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter2_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
+	default @Nonnull SELF filter_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter2_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
+	default @Nonnull SELF filter_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

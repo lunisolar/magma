@@ -82,83 +82,83 @@ public interface FilterIntTrait<SELF extends FilterIntTrait<SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
+	default @Nonnull SELF filter_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		return filter(a -> predicate.testIntBool(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v) {
-		return filter2_(v, predicate);
+	default @Nonnull SELF filter_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v) {
+		return filter_(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
+	default @Nonnull SELF filter_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		return filter(a -> predicate.testIntByte(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v) {
-		return filter2_(v, predicate);
+	default @Nonnull SELF filter_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v) {
+		return filter_(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
+	default @Nonnull SELF filter_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		return filter(a -> predicate.testIntDbl(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v) {
-		return filter2_(v, predicate);
+	default @Nonnull SELF filter_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v) {
+		return filter_(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
+	default @Nonnull SELF filter_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		return filter(a -> predicate.testIntChar(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v) {
-		return filter2_(v, predicate);
+	default @Nonnull SELF filter_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v) {
+		return filter_(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
+	default @Nonnull SELF filter_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		return filter(a -> predicate.testIntSrt(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v) {
-		return filter2_(v, predicate);
+	default @Nonnull SELF filter_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v) {
+		return filter_(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
+	default @Nonnull SELF filter_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		return filter(a -> predicate.testIntFlt(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v) {
-		return filter2_(v, predicate);
+	default @Nonnull SELF filter_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v) {
+		return filter_(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
+	default @Nonnull SELF filter_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		return filter(a -> predicate.testIntLong(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v) {
-		return filter2_(v, predicate);
+	default @Nonnull SELF filter_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v) {
+		return filter_(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
 		return filter(a -> predicate.testIntObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter2_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v) {
-		return filter2_(v, predicate);
+	default @Nonnull <V> SELF filter_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v) {
+		return filter_(v, predicate);
 	}
 
 	// </editor-fold>

@@ -82,23 +82,23 @@ public interface FilterLongTrait<SELF extends FilterLongTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2(int v, @Nonnull LLongIntPredicate predicate) {
+	default @Nonnull SELF filter(int v, @Nonnull LLongIntPredicate predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2(@Nonnull LLongIntPredicate predicate, int v) {
-		return filter2(v, predicate);
+	default @Nonnull SELF filter(@Nonnull LLongIntPredicate predicate, int v) {
+		return filter(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		return filter(a -> predicate.testLongObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter2_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		return filter2_(v, predicate);
+	default @Nonnull <V> SELF filter_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
+		return filter_(v, predicate);
 	}
 
 	// </editor-fold>

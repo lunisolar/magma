@@ -79,15 +79,15 @@ public interface FilterLongSingleTrait<SELF extends FilterLongSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull SELF filter2(int v, @Nonnull LLongIntPredicate predicate) {
+	default @Nonnull SELF filter(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
+		return this.is(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

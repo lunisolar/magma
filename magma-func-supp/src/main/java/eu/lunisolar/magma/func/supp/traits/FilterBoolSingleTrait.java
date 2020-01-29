@@ -79,15 +79,15 @@ public interface FilterBoolSingleTrait<SELF extends FilterBoolSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull SELF filter2(int v, @Nonnull LBoolIntPredicate predicate) {
+	default @Nonnull SELF filter(int v, @Nonnull LBoolIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2(v, predicate) ? self() : voidValue();
+		return this.is(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is2_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

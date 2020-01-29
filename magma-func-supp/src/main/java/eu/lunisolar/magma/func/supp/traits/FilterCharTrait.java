@@ -82,23 +82,23 @@ public interface FilterCharTrait<SELF extends FilterCharTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2(int v, @Nonnull LCharIntPredicate predicate) {
+	default @Nonnull SELF filter(int v, @Nonnull LCharIntPredicate predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2(@Nonnull LCharIntPredicate predicate, int v) {
-		return filter2(v, predicate);
+	default @Nonnull SELF filter(@Nonnull LCharIntPredicate predicate, int v) {
+		return filter(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		return filter(a -> predicate.testCharObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter2_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
-		return filter2_(v, predicate);
+	default @Nonnull <V> SELF filter_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
+		return filter_(v, predicate);
 	}
 
 	// </editor-fold>

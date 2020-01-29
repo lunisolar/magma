@@ -105,61 +105,61 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
-	default @Nonnull boolean is(@Nonnull LBytePredicate predicate) {
+	default boolean is(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
 	@Override
-	default @Nonnull boolean isNot(@Nonnull LBytePredicate predicate) {
+	default boolean isNot(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
 	@Override
-	default @Nonnull boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
+	default boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
 	@Override
-	default @Nonnull boolean isNot(byte a2, @Nonnull LBiBytePredicate predicate) {
+	default boolean isNot(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
 	@Override
-	default @Nonnull boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	default boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
 	@Override
-	default @Nonnull boolean isNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	default boolean isNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
 	@Override
-	default @Nonnull boolean is2(int v, @Nonnull LByteIntPredicate predicate) {
+	default boolean is(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default @Nonnull boolean isNot2(int v, @Nonnull LByteIntPredicate predicate) {
+	default boolean isNot(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default @Nonnull <V> boolean is2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default <V> boolean is_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testByteObj(get(), v);
 	}
 
 	@Override
-	default @Nonnull <V> boolean isNot2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default <V> boolean isNot_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testByteObj(get(), v);
 	}

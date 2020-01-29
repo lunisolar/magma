@@ -105,61 +105,61 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
-	default @Nonnull boolean is(@Nonnull LCharPredicate predicate) {
+	default boolean is(@Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
 	@Override
-	default @Nonnull boolean isNot(@Nonnull LCharPredicate predicate) {
+	default boolean isNot(@Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
 	@Override
-	default @Nonnull boolean is(char a2, @Nonnull LBiCharPredicate predicate) {
+	default boolean is(char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
 	@Override
-	default @Nonnull boolean isNot(char a2, @Nonnull LBiCharPredicate predicate) {
+	default boolean isNot(char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
 	@Override
-	default @Nonnull boolean is(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
+	default boolean is(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
 	@Override
-	default @Nonnull boolean isNot(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
+	default boolean isNot(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
 	@Override
-	default @Nonnull boolean is2(int v, @Nonnull LCharIntPredicate predicate) {
+	default boolean is(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default @Nonnull boolean isNot2(int v, @Nonnull LCharIntPredicate predicate) {
+	default boolean isNot(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default @Nonnull <V> boolean is2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	default <V> boolean is_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testCharObj(get(), v);
 	}
 
 	@Override
-	default @Nonnull <V> boolean isNot2_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	default <V> boolean isNot_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testCharObj(get(), v);
 	}

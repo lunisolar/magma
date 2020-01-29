@@ -82,23 +82,23 @@ public interface FilterByteTrait<SELF extends FilterByteTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter2(int v, @Nonnull LByteIntPredicate predicate) {
+	default @Nonnull SELF filter(int v, @Nonnull LByteIntPredicate predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter2(@Nonnull LByteIntPredicate predicate, int v) {
-		return filter2(v, predicate);
+	default @Nonnull SELF filter(@Nonnull LByteIntPredicate predicate, int v) {
+		return filter(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter2_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		return filter(a -> predicate.testByteObj(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter2_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
-		return filter2_(v, predicate);
+	default @Nonnull <V> SELF filter_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+		return filter_(v, predicate);
 	}
 
 	// </editor-fold>

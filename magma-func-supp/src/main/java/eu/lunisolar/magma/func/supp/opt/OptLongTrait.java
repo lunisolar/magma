@@ -105,61 +105,61 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 	// <editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
-	default @Nonnull boolean is(@Nonnull LLongPredicate predicate) {
+	default boolean is(@Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
 	@Override
-	default @Nonnull boolean isNot(@Nonnull LLongPredicate predicate) {
+	default boolean isNot(@Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get());
 	}
 
 	@Override
-	default @Nonnull boolean is(long a2, @Nonnull LBiLongPredicate predicate) {
+	default boolean is(long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
 	@Override
-	default @Nonnull boolean isNot(long a2, @Nonnull LBiLongPredicate predicate) {
+	default boolean isNot(long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2);
 	}
 
 	@Override
-	default @Nonnull boolean is(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
+	default boolean is(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
 	@Override
-	default @Nonnull boolean isNot(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
+	default boolean isNot(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
 	@Override
-	default @Nonnull boolean is2(int v, @Nonnull LLongIntPredicate predicate) {
+	default boolean is(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default @Nonnull boolean isNot2(int v, @Nonnull LLongIntPredicate predicate) {
+	default boolean isNot(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default @Nonnull <V> boolean is2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	default <V> boolean is_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testLongObj(get(), v);
 	}
 
 	@Override
-	default @Nonnull <V> boolean isNot2_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	default <V> boolean isNot_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testLongObj(get(), v);
 	}
