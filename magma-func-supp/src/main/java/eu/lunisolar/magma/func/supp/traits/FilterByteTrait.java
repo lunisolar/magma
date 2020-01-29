@@ -101,5 +101,15 @@ public interface FilterByteTrait<SELF extends FilterByteTrait<SELF>> extends Flu
 		return filter_(v, predicate);
 	}
 
+	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
+	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+		return filter(a -> predicate.test(with, a));
+	}
+
+	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	default @Nonnull <V1> SELF filterWith(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with) {
+		return filterWith(with, predicate);
+	}
+
 	// </editor-fold>
 }

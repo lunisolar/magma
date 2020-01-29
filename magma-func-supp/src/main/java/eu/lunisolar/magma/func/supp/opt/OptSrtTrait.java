@@ -164,6 +164,18 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() && predicate.testSrtObj(get(), v);
 	}
 
+	@Override
+	default <V1> boolean isWith(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
+	@Override
+	default <V1> boolean isNotWith(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="filtering">

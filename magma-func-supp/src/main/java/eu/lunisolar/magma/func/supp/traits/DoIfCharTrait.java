@@ -159,5 +159,27 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 		return doIfNot_(v, predicate, action);
 	}
 
+	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, LConsumer<SELF> action) {
+		if (isWith(with, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	/** Variant with reverse predicate arguments order. */
+	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, LConsumer<SELF> action) {
+		return doIfWith(with, predicate, action);
+	}
+
+	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, LConsumer<SELF> action) {
+		if (isNotWith(with, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	/** Variant with reverse predicate arguments order. */
+	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, LConsumer<SELF> action) {
+		return doIfNotWith(with, predicate, action);
+	}
+
 	// </editor-fold>
 }

@@ -164,6 +164,18 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() && predicate.testByteObj(get(), v);
 	}
 
+	@Override
+	default <V1> boolean isWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
+	@Override
+	default <V1> boolean isNotWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="filtering">

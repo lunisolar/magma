@@ -281,6 +281,30 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() && predicate.test(get(), a2, a3);
 	}
 
+	@Override
+	default <V1> boolean isWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
+	@Override
+	default <V1> boolean isNotWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
+	@Override
+	default boolean uniIsWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
+	@Override
+	default boolean uniIsNotWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="filtering">

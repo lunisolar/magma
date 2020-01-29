@@ -160,5 +160,27 @@ public interface IsCharTrait<SELF extends IsCharTrait<SELF>> extends CharValueTr
 		return isNot_(v, predicate);
 	}
 
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1> boolean isWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(with, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1> boolean isWith(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with) {
+		return isWith(with, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1> boolean isNotWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(with, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1> boolean isNotWith(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with) {
+		return isNotWith(with, predicate);
+	}
+
 	// </editor-fold>
 }

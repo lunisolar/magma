@@ -164,6 +164,18 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() && predicate.testDblObj(get(), v);
 	}
 
+	@Override
+	default <V1> boolean isWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
+	@Override
+	default <V1> boolean isNotWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && predicate.test(with, get());
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="filtering">

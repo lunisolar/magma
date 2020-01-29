@@ -144,5 +144,17 @@ public interface FilterSingleTrait<T, SELF extends FilterSingleTrait<T, SELF>> e
 		return this.is(a2, a3, predicate) ? self() : voidValue();
 	}
 
+	@Override
+	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.isWith(with, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default @Nonnull SELF uniFilterWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.uniIsWith(with, predicate) ? self() : voidValue();
+	}
+
 	// </editor-fold>
 }

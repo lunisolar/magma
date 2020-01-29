@@ -357,5 +357,49 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 		return doIfNot(a2, a3, predicate, action);
 	}
 
+	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate, LConsumer<SELF> action) {
+		if (isWith(with, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	/** Variant with reverse predicate arguments order. */
+	default @Nonnull <V1> SELF doIfWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with, LConsumer<SELF> action) {
+		return doIfWith(with, predicate, action);
+	}
+
+	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate, LConsumer<SELF> action) {
+		if (isNotWith(with, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	/** Variant with reverse predicate arguments order. */
+	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with, LConsumer<SELF> action) {
+		return doIfNotWith(with, predicate, action);
+	}
+
+	default @Nonnull SELF uniDoIfWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate, LConsumer<SELF> action) {
+		if (uniIsWith(with, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	/** Variant with reverse predicate arguments order. */
+	default @Nonnull SELF uniDoIfWith(@Nonnull LBiPredicate<? super T, ? super T> predicate, T with, LConsumer<SELF> action) {
+		return uniDoIfWith(with, predicate, action);
+	}
+
+	default @Nonnull SELF uniDoIfNotWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate, LConsumer<SELF> action) {
+		if (uniIsNotWith(with, predicate))
+			action.accept(self());
+		return self();
+	}
+
+	/** Variant with reverse predicate arguments order. */
+	default @Nonnull SELF uniDoIfNotWith(@Nonnull LBiPredicate<? super T, ? super T> predicate, T with, LConsumer<SELF> action) {
+		return uniDoIfNotWith(with, predicate, action);
+	}
+
 	// </editor-fold>
 }

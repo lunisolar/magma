@@ -358,5 +358,49 @@ public interface IsTrait<T, SELF extends IsTrait<T, SELF>> extends ValueTrait<T,
 		return isNot(a2, a3, predicate);
 	}
 
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1> boolean isWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(with, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1> boolean isWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with) {
+		return isWith(with, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1> boolean isNotWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(with, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1> boolean isNotWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with) {
+		return isNotWith(with, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean uniIsWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(with, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean uniIsWith(@Nonnull LBiPredicate<? super T, ? super T> predicate, T with) {
+		return uniIsWith(with, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default boolean uniIsNotWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(with, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default boolean uniIsNotWith(@Nonnull LBiPredicate<? super T, ? super T> predicate, T with) {
+		return uniIsNotWith(with, predicate);
+	}
+
 	// </editor-fold>
 }

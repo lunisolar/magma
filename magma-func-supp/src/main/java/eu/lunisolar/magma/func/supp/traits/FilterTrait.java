@@ -191,5 +191,25 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 		return filter(a2, a3, predicate);
 	}
 
+	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
+	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+		return filter(a -> predicate.test(with, a));
+	}
+
+	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	default @Nonnull <V1> SELF filterWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with) {
+		return filterWith(with, predicate);
+	}
+
+	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
+	default @Nonnull SELF uniFilterWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+		return filter(a -> predicate.test(with, a));
+	}
+
+	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	default @Nonnull SELF uniFilterWith(@Nonnull LBiPredicate<? super T, ? super T> predicate, T with) {
+		return uniFilterWith(with, predicate);
+	}
+
 	// </editor-fold>
 }
