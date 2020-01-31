@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -55,22 +56,36 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTrait<SELF> {
+public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> extends LSingle<T>, DoIfTrait<T, SELF>, IsTrait<T, SELF>, ValueTrait<T, SELF> {
 
+	@Override
 	default <R> SELF doIf(@Nonnull Class<R> clazz, @Nonnull LConsumer<R> action) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(action, "action");
-		return (SELF) doIf(clazz::isInstance, (LConsumer) action);
+		if (is(P::instanceOf, clazz)) {
+			action.accept((R) value());
+		}
+		return self();
 	}
 
 	// <editor-fold desc="doIf">
 
-	public @Nonnull SELF doIf(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action);
+	default @Nonnull SELF doIf(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
+		if (is(predicate))
+			action.accept(value());
+		return self();
+	}
 
-	public @Nonnull SELF doIfNot(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action);
+	default @Nonnull SELF doIfNot(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
+		if (isNot(predicate))
+			action.accept(value());
+		return self();
+	}
 
 	default @Nonnull SELF uniDoIf(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, a2), action);
+		if (uniIs(a2, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -79,7 +94,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF uniDoIfNot(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, a2), action);
+		if (uniIsNot(a2, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -88,7 +105,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF uniDoIf(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, a2, a3), action);
+		if (uniIs(a2, a3, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -97,7 +116,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF uniDoIfNot(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, a2, a3), action);
+		if (uniIsNot(a2, a3, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -106,7 +127,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF uniDoIf(T a2, T a3, T a4, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, a2, a3, a4), action);
+		if (uniIs(a2, a3, a4, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -115,7 +138,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF uniDoIfNot(T a2, T a3, T a4, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, a2, a3, a4), action);
+		if (uniIsNot(a2, a3, a4, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -124,7 +149,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -133,7 +160,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -142,7 +171,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(byte v, @Nonnull LObjBytePredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -151,7 +182,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(byte v, @Nonnull LObjBytePredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -160,7 +193,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(double v, @Nonnull LObjDblPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -169,7 +204,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(double v, @Nonnull LObjDblPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -178,7 +215,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(char v, @Nonnull LObjCharPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -187,7 +226,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(char v, @Nonnull LObjCharPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -196,7 +237,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(short v, @Nonnull LObjSrtPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -205,7 +248,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(short v, @Nonnull LObjSrtPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -214,7 +259,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(float v, @Nonnull LObjFltPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -223,7 +270,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(float v, @Nonnull LObjFltPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -232,7 +281,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(int v, @Nonnull LObjIntPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -241,7 +292,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(int v, @Nonnull LObjIntPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -250,7 +303,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIf(long v, @Nonnull LObjLongPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -259,7 +314,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF doIfNot(long v, @Nonnull LObjLongPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -268,7 +325,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull <V> SELF doIf(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -277,7 +336,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull <V> SELF doIfNot(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -286,7 +347,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull <V2, V3> SELF doIf(V2 a2, V3 a3, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(a, a2, a3), action);
+		if (is(a2, a3, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -295,7 +358,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull <V2, V3> SELF doIfNot(V2 a2, V3 a3, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(a, a2, a3), action);
+		if (isNot(a2, a3, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -304,7 +369,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(with, a), action);
+		if (isWith(with, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -313,7 +380,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(with, a), action);
+		if (isNotWith(with, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -322,7 +391,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF uniDoIfWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIf(a -> predicate.test(with, a), action);
+		if (uniIsWith(with, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -331,7 +402,9 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 	}
 
 	default @Nonnull SELF uniDoIfNotWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
-		return doIfNot(a -> predicate.test(with, a), action);
+		if (uniIsNotWith(with, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */

@@ -55,129 +55,101 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface DoIfDblTrait<SELF extends DoIfDblTrait<SELF>> extends FluentTrait<SELF>, IsDblTrait<SELF> {
+public interface DoIfDblTrait<SELF extends DoIfDblTrait<SELF>> extends FluentTrait<SELF> {
 
 	// <editor-fold desc="doIf">
 
-	default @Nonnull SELF doIf(@Nonnull LDblPredicate predicate, LConsumer<SELF> action) {
-		if (is(predicate))
-			action.accept(self());
-		return self();
-	}
+	public @Nonnull SELF doIf(@Nonnull LDblPredicate predicate, @Nonnull LDblConsumer action);
 
-	default @Nonnull SELF doIfNot(@Nonnull LDblPredicate predicate, LConsumer<SELF> action) {
-		if (isNot(predicate))
-			action.accept(self());
-		return self();
-	}
+	public @Nonnull SELF doIfNot(@Nonnull LDblPredicate predicate, @Nonnull LDblConsumer action);
 
-	default @Nonnull SELF doIf(double a2, @Nonnull LBiDblPredicate predicate, LConsumer<SELF> action) {
-		if (is(a2, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull SELF doIf(double a2, @Nonnull LBiDblPredicate predicate, @Nonnull LDblConsumer action) {
+		return doIf(a -> predicate.test(a, a2), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf(@Nonnull LBiDblPredicate predicate, double a2, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(@Nonnull LBiDblPredicate predicate, double a2, @Nonnull LDblConsumer action) {
 		return doIf(a2, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot(double a2, @Nonnull LBiDblPredicate predicate, LConsumer<SELF> action) {
-		if (isNot(a2, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull SELF doIfNot(double a2, @Nonnull LBiDblPredicate predicate, @Nonnull LDblConsumer action) {
+		return doIfNot(a -> predicate.test(a, a2), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot(@Nonnull LBiDblPredicate predicate, double a2, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(@Nonnull LBiDblPredicate predicate, double a2, @Nonnull LDblConsumer action) {
 		return doIfNot(a2, predicate, action);
 	}
 
-	default @Nonnull SELF doIf(double a2, double a3, @Nonnull LTriDblPredicate predicate, LConsumer<SELF> action) {
-		if (is(a2, a3, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull SELF doIf(double a2, double a3, @Nonnull LTriDblPredicate predicate, @Nonnull LDblConsumer action) {
+		return doIf(a -> predicate.test(a, a2, a3), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf(@Nonnull LTriDblPredicate predicate, double a2, double a3, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(@Nonnull LTriDblPredicate predicate, double a2, double a3, @Nonnull LDblConsumer action) {
 		return doIf(a2, a3, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot(double a2, double a3, @Nonnull LTriDblPredicate predicate, LConsumer<SELF> action) {
-		if (isNot(a2, a3, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull SELF doIfNot(double a2, double a3, @Nonnull LTriDblPredicate predicate, @Nonnull LDblConsumer action) {
+		return doIfNot(a -> predicate.test(a, a2, a3), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot(@Nonnull LTriDblPredicate predicate, double a2, double a3, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(@Nonnull LTriDblPredicate predicate, double a2, double a3, @Nonnull LDblConsumer action) {
 		return doIfNot(a2, a3, predicate, action);
 	}
 
-	default @Nonnull SELF doIf(int v, @Nonnull LDblIntPredicate predicate, LConsumer<SELF> action) {
-		if (is(v, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull SELF doIf(int v, @Nonnull LDblIntPredicate predicate, @Nonnull LDblConsumer action) {
+		return doIf(a -> predicate.test(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf(@Nonnull LDblIntPredicate predicate, int v, LConsumer<SELF> action) {
+	default @Nonnull SELF doIf(@Nonnull LDblIntPredicate predicate, int v, @Nonnull LDblConsumer action) {
 		return doIf(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot(int v, @Nonnull LDblIntPredicate predicate, LConsumer<SELF> action) {
-		if (isNot(v, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull SELF doIfNot(int v, @Nonnull LDblIntPredicate predicate, @Nonnull LDblConsumer action) {
+		return doIfNot(a -> predicate.test(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot(@Nonnull LDblIntPredicate predicate, int v, LConsumer<SELF> action) {
+	default @Nonnull SELF doIfNot(@Nonnull LDblIntPredicate predicate, int v, @Nonnull LDblConsumer action) {
 		return doIfNot(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, LConsumer<SELF> action) {
-		if (is_(v, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
+		return doIf(a -> predicate.testDblObj(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	default @Nonnull <V> SELF doIf_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, @Nonnull LDblConsumer action) {
 		return doIf_(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, LConsumer<SELF> action) {
-		if (isNot_(v, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
+		return doIfNot(a -> predicate.testDblObj(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, LConsumer<SELF> action) {
+	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, @Nonnull LDblConsumer action) {
 		return doIfNot_(v, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate, LConsumer<SELF> action) {
-		if (isWith(with, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate, @Nonnull LDblConsumer action) {
+		return doIf(a -> predicate.test(with, a), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with, LConsumer<SELF> action) {
+	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with, @Nonnull LDblConsumer action) {
 		return doIfWith(with, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate, LConsumer<SELF> action) {
-		if (isNotWith(with, predicate))
-			action.accept(self());
-		return self();
+	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate, @Nonnull LDblConsumer action) {
+		return doIfNot(a -> predicate.test(with, a), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with, LConsumer<SELF> action) {
+	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with, @Nonnull LDblConsumer action) {
 		return doIfNotWith(with, predicate, action);
 	}
 

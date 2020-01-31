@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -55,16 +56,26 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentTrait<SELF> {
+public interface DoIfCharSingleTrait<SELF extends DoIfCharSingleTrait<SELF>> extends LCharSingle, DoIfCharTrait<SELF>, IsCharTrait<SELF>, CharValueTrait<SELF> {
 
 	// <editor-fold desc="doIf">
 
-	public @Nonnull SELF doIf(@Nonnull LCharPredicate predicate, @Nonnull LCharConsumer action);
+	default @Nonnull SELF doIf(@Nonnull LCharPredicate predicate, @Nonnull LCharConsumer action) {
+		if (is(predicate))
+			action.accept(value());
+		return self();
+	}
 
-	public @Nonnull SELF doIfNot(@Nonnull LCharPredicate predicate, @Nonnull LCharConsumer action);
+	default @Nonnull SELF doIfNot(@Nonnull LCharPredicate predicate, @Nonnull LCharConsumer action) {
+		if (isNot(predicate))
+			action.accept(value());
+		return self();
+	}
 
 	default @Nonnull SELF doIf(char a2, @Nonnull LBiCharPredicate predicate, @Nonnull LCharConsumer action) {
-		return doIf(a -> predicate.test(a, a2), action);
+		if (is(a2, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -73,7 +84,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull SELF doIfNot(char a2, @Nonnull LBiCharPredicate predicate, @Nonnull LCharConsumer action) {
-		return doIfNot(a -> predicate.test(a, a2), action);
+		if (isNot(a2, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -82,7 +95,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull SELF doIf(char a2, char a3, @Nonnull LTriCharPredicate predicate, @Nonnull LCharConsumer action) {
-		return doIf(a -> predicate.test(a, a2, a3), action);
+		if (is(a2, a3, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -91,7 +106,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull SELF doIfNot(char a2, char a3, @Nonnull LTriCharPredicate predicate, @Nonnull LCharConsumer action) {
-		return doIfNot(a -> predicate.test(a, a2, a3), action);
+		if (isNot(a2, a3, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -100,7 +117,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull SELF doIf(int v, @Nonnull LCharIntPredicate predicate, @Nonnull LCharConsumer action) {
-		return doIf(a -> predicate.test(a, v), action);
+		if (is(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -109,7 +128,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull SELF doIfNot(int v, @Nonnull LCharIntPredicate predicate, @Nonnull LCharConsumer action) {
-		return doIfNot(a -> predicate.test(a, v), action);
+		if (isNot(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -118,7 +139,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, @Nonnull LCharConsumer action) {
-		return doIf(a -> predicate.testCharObj(a, v), action);
+		if (is_(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -127,7 +150,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, @Nonnull LCharConsumer action) {
-		return doIfNot(a -> predicate.testCharObj(a, v), action);
+		if (isNot_(v, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -136,7 +161,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull LCharConsumer action) {
-		return doIf(a -> predicate.test(with, a), action);
+		if (isWith(with, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
@@ -145,7 +172,9 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 	}
 
 	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull LCharConsumer action) {
-		return doIfNot(a -> predicate.test(with, a), action);
+		if (isNotWith(with, predicate))
+			action.accept(value());
+		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
