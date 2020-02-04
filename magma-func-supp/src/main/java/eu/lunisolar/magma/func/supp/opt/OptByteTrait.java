@@ -71,11 +71,17 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	@Override
 	@Nonnull
 	SELF value(byte value);
+
 	@Override
 	@Nonnull
 	SELF voidValue();
 
 	// </editor-fold>
+
+	default @Nonnull SELF valueFrom(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() ? value(opt.value()) : voidValue();
+	}
 
 	byte get();
 
@@ -521,7 +527,12 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? get() : supplier.getAsByte();
 	}
 
-	default SELF orGet(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
+	default SELF orGet(@Nonnull LByteSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.getAsByte());
+	}
+
+	default SELF orFlatGet(@Nonnull LSupplier<? extends OptByteTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.get());
 	}
@@ -540,10 +551,20 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? get() : supplier.applyAsByte(a1);
 	}
 
-	default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptByteTrait<?>> supplier) {
+	default <K> SELF orApply(K a1, @Nonnull LToByteFunction<? super K> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.applyAsByte(a1));
+	}
+
+	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends OptByteTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
 	// </editor-fold>
+
+	default OptionalInt toOptional() {
+		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();
+	}
+
 }

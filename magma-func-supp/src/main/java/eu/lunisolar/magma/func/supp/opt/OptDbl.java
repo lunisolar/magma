@@ -64,23 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class OptDbl implements OptDblTrait<OptDbl> {
+public final class OptDbl extends OptDblBase<OptDbl> {
 
 	private static final OptDbl EMPTY = new OptDbl();
-
-	private final double value;
-	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
 	private OptDbl() {
-		this.value = 0d;
-		this.isPresent = false;
+		super();
 	}
 
 	private OptDbl(double value) {
-		this.value = value;
-		this.isPresent = true;
+		super(value);
 	}
 
 	public @Nonnull OptDbl value(double value) {
@@ -111,52 +106,6 @@ public final class OptDbl implements OptDblTrait<OptDbl> {
 	public static OptDbl from(@Nonnull OptionalDouble optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptDbl.of(optional.getAsDouble()) : empty();
-	}
-
-	// </editor-fold>
-
-	public double get() {
-		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
-		return value;
-	}
-
-	public final boolean isPresent() {
-		return isPresent;
-	}
-
-	public final boolean isVoid() {
-		return !isPresent;
-	}
-
-	public OptionalDouble toOpt() {
-		if (isPresent()) {
-			return OptionalDouble.of(value);
-		} else {
-			return OptionalDouble.empty();
-		}
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OptDbl)) {
-			return false;
-		}
-
-		OptDbl other = (OptDbl) obj;
-		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return isPresent() ? Double.hashCode(value) : 0;
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("OptDbl[%s]", value) : "OptDbl.empty";
 	}
 
 	// </editor-fold>

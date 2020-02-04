@@ -64,23 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class OptByte implements OptByteTrait<OptByte> {
+public final class OptByte extends OptByteBase<OptByte> {
 
 	private static final OptByte EMPTY = new OptByte();
-
-	private final byte value;
-	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
 	private OptByte() {
-		this.value = (byte) 0;
-		this.isPresent = false;
+		super();
 	}
 
 	private OptByte(byte value) {
-		this.value = value;
-		this.isPresent = true;
+		super(value);
 	}
 
 	public @Nonnull OptByte value(byte value) {
@@ -106,52 +101,6 @@ public final class OptByte implements OptByteTrait<OptByte> {
 
 	public static OptByte valueOf(byte value) {
 		return of(value);
-	}
-
-	// </editor-fold>
-
-	public byte get() {
-		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
-		return value;
-	}
-
-	public final boolean isPresent() {
-		return isPresent;
-	}
-
-	public final boolean isVoid() {
-		return !isPresent;
-	}
-
-	public OptionalInt toOpt() {
-		if (isPresent()) {
-			return OptionalInt.of(value);
-		} else {
-			return OptionalInt.empty();
-		}
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OptByte)) {
-			return false;
-		}
-
-		OptByte other = (OptByte) obj;
-		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return isPresent() ? Byte.hashCode(value) : 0;
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("OptByte[%s]", value) : "OptByte.empty";
 	}
 
 	// </editor-fold>

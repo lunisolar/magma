@@ -64,23 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class OptFlt implements OptFltTrait<OptFlt> {
+public final class OptFlt extends OptFltBase<OptFlt> {
 
 	private static final OptFlt EMPTY = new OptFlt();
-
-	private final float value;
-	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
 	private OptFlt() {
-		this.value = 0f;
-		this.isPresent = false;
+		super();
 	}
 
 	private OptFlt(float value) {
-		this.value = value;
-		this.isPresent = true;
+		super(value);
 	}
 
 	public @Nonnull OptFlt value(float value) {
@@ -106,52 +101,6 @@ public final class OptFlt implements OptFltTrait<OptFlt> {
 
 	public static OptFlt valueOf(float value) {
 		return of(value);
-	}
-
-	// </editor-fold>
-
-	public float get() {
-		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
-		return value;
-	}
-
-	public final boolean isPresent() {
-		return isPresent;
-	}
-
-	public final boolean isVoid() {
-		return !isPresent;
-	}
-
-	public OptionalDouble toOpt() {
-		if (isPresent()) {
-			return OptionalDouble.of(value);
-		} else {
-			return OptionalDouble.empty();
-		}
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OptFlt)) {
-			return false;
-		}
-
-		OptFlt other = (OptFlt) obj;
-		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return isPresent() ? Float.hashCode(value) : 0;
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("OptFlt[%s]", value) : "OptFlt.empty";
 	}
 
 	// </editor-fold>

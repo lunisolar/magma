@@ -71,11 +71,17 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 	@Override
 	@Nonnull
 	SELF value(boolean value);
+
 	@Override
 	@Nonnull
 	SELF voidValue();
 
 	// </editor-fold>
+
+	default @Nonnull SELF valueFrom(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() ? value(opt.value()) : voidValue();
+	}
 
 	boolean get();
 
@@ -513,7 +519,12 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() ? get() : supplier.getAsBool();
 	}
 
-	default SELF orGet(@Nonnull LSupplier<? extends OptBoolTrait<?>> supplier) {
+	default SELF orGet(@Nonnull LBoolSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.getAsBool());
+	}
+
+	default SELF orFlatGet(@Nonnull LSupplier<? extends OptBoolTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.get());
 	}
@@ -532,10 +543,16 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() ? get() : supplier.test(a1);
 	}
 
-	default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptBoolTrait<?>> supplier) {
+	default <K> SELF orApply(K a1, @Nonnull LPredicate<? super K> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.test(a1));
+	}
+
+	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends OptBoolTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
 	// </editor-fold>
+
 }

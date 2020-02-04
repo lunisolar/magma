@@ -64,21 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class Opt<T> implements OptTrait<T, Opt<T>> {
+public final class Opt<T> extends OptBase<T, Opt<T>> {
 
 	private static final Opt<?> EMPTY = new Opt();
-
-	private final @Nullable T value;
 
 	// <editor-fold desc="factories">
 
 	private Opt() {
-		this.value = null;
+		super();
 	}
 
-	private Opt(T value) {
-		Null.nonNullArg(value, "value");
-		this.value = value;
+	private Opt(@Nullable T value) {
+		super(value);
 	}
 
 	public @Nonnull Opt<T> value(@Nullable T value) {
@@ -260,47 +257,6 @@ public final class Opt<T> implements OptTrait<T, Opt<T>> {
 	public static <T> Opt<T> from(@Nonnull Optional<T> optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? Opt.of(optional.get()) : empty();
-	}
-
-	// </editor-fold>
-
-	public @Nullable T nullable() {
-		return value;
-	}
-
-	public final boolean isVoid() {
-		return value == null;
-	}
-
-	public Optional<T> toOpt() {
-		if (isPresent()) {
-			return Optional.of(value);
-		} else {
-			return Optional.empty();
-		}
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof Opt)) {
-			return false;
-		}
-
-		Opt other = (Opt) obj;
-		return (isPresent() && other.isPresent()) ? value.equals(other.value) : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return Objects.hashCode(value);
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("Opt[%s]", value) : "Opt.empty";
 	}
 
 	// </editor-fold>

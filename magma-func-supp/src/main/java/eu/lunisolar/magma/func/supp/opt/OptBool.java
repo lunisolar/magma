@@ -64,23 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class OptBool implements OptBoolTrait<OptBool> {
+public final class OptBool extends OptBoolBase<OptBool> {
 
 	private static final OptBool EMPTY = new OptBool();
-
-	private final boolean value;
-	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
 	private OptBool() {
-		this.value = false;
-		this.isPresent = false;
+		super();
 	}
 
 	private OptBool(boolean value) {
-		this.value = value;
-		this.isPresent = true;
+		super(value);
 	}
 
 	public @Nonnull OptBool value(boolean value) {
@@ -106,44 +101,6 @@ public final class OptBool implements OptBoolTrait<OptBool> {
 
 	public static OptBool valueOf(boolean value) {
 		return of(value);
-	}
-
-	// </editor-fold>
-
-	public boolean get() {
-		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
-		return value;
-	}
-
-	public final boolean isPresent() {
-		return isPresent;
-	}
-
-	public final boolean isVoid() {
-		return !isPresent;
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OptBool)) {
-			return false;
-		}
-
-		OptBool other = (OptBool) obj;
-		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return isPresent() ? Boolean.hashCode(value) : 0;
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("OptBool[%s]", value) : "OptBool.empty";
 	}
 
 	// </editor-fold>

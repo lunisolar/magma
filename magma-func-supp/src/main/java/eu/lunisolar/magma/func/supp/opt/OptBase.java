@@ -52,60 +52,48 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/**
- * Extension over the Optional/OptionalInt/OptionalLong/OptionalDouble. You can use them as 'optional' response. But this class mainly aims to provide more
- * flexible possibility to have further transformations.
- *
- * Why?
- * - To introduce more possibility for cases where simply referencing existing method (that can be provided by editor completion) just will make the job done.
- * - That means more possibility to build 'sentences' that actually tell what happens.
- * - Performance wise, if use correctly, both Java's Optional and this class work similar way. Given that escape analysis, and 'stack allocation' will not be
- * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
- * costly as one would expected (in correct circumstances).
- */
-@ThreadSafe
-public final class OptLong extends OptLongBase<OptLong> {
+public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTrait<T, SELF> {
 
-	private static final OptLong EMPTY = new OptLong();
+	protected final @Nullable T value;
 
-	// <editor-fold desc="factories">
-
-	private OptLong() {
-		super();
+	protected OptBase() {
+		this.value = null;
 	}
 
-	private OptLong(long value) {
-		super(value);
+	protected OptBase(@Nullable T value) {
+		Null.nonNullArg(value, "value");
+		this.value = value;
 	}
 
-	public @Nonnull OptLong value(long value) {
-		return of(value);
+	public final @Nullable T nullable() {
+		return value;
 	}
 
-	public @Nonnull OptLong voidValue() {
-		return empty();
+	public final boolean isVoid() {
+		return value == null;
 	}
 
-	public static OptLong empty() {
-		return EMPTY;
+	// <editor-fold desc="equals/hashcode/toString">
+
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(this.getClass().isInstance(obj))) {
+			return false;
+		}
+
+		Opt other = (Opt) obj;
+		return (isPresent() && other.isPresent()) ? value().equals(other.value()) : isPresent() == other.isPresent();
 	}
 
-	public static OptLong from(@Nonnull OptLongTrait<?> opt) {
-		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(OptLong.class, opt, o -> o.isPresent() ? OptLong.of(o.get()) : OptLong.empty());
+	public int hashCode() {
+		return Objects.hashCode(nullable());
 	}
 
-	public static OptLong of(long value) {
-		return new OptLong(value);
-	}
-
-	public static OptLong valueOf(long value) {
-		return of(value);
-	}
-
-	public static OptLong from(@Nonnull OptionalLong optional) {
-		Null.nonNullArg(optional, "optional");
-		return optional.isPresent() ? OptLong.of(optional.getAsLong()) : empty();
+	public String toString() {
+		return isPresent() ? String.format("%s[%s]", getClass(), value()) : String.format("%s.empty", getClass());
 	}
 
 	// </editor-fold>

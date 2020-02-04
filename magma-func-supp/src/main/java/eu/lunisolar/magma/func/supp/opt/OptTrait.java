@@ -71,11 +71,17 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	@Override
 	@Nonnull
 	SELF value(@Nullable T value);
+
 	@Override
 	@Nonnull
 	SELF voidValue();
 
 	// </editor-fold>
+
+	default @Nonnull SELF valueFrom(@Nonnull OptTrait<? extends T, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return value(opt.nullable());
+	}
 
 	default @Nonnull T get() {
 		LPredicate.throwIfNot(this, OptTrait::isPresent, X::noSuchElement, "No value present.");
@@ -87,7 +93,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return get();
 	}
 
-	@Nonnull
+	@Nullable
 	T nullable();
 
 	@Nonnull
@@ -781,7 +787,12 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? get() : supplier.get();
 	}
 
-	default SELF orGet(@Nonnull LSupplier<? extends OptTrait<? extends T, ?>> supplier) {
+	default SELF orGet(@Nonnull LSupplier<? extends T> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.get());
+	}
+
+	default SELF orFlatGet(@Nonnull LSupplier<? extends OptTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.get());
 	}
@@ -800,10 +811,20 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? get() : supplier.apply(a1);
 	}
 
-	default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptTrait<? extends T, ?>> supplier) {
+	default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.apply(a1));
+	}
+
+	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends OptTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
 	// </editor-fold>
+
+	default Optional<T> toOptional() {
+		return isPresent() ? Optional.of(value()) : Optional.empty();
+	}
+
 }

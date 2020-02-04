@@ -64,23 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class OptSrt implements OptSrtTrait<OptSrt> {
+public final class OptSrt extends OptSrtBase<OptSrt> {
 
 	private static final OptSrt EMPTY = new OptSrt();
-
-	private final short value;
-	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
 	private OptSrt() {
-		this.value = (short) 0;
-		this.isPresent = false;
+		super();
 	}
 
 	private OptSrt(short value) {
-		this.value = value;
-		this.isPresent = true;
+		super(value);
 	}
 
 	public @Nonnull OptSrt value(short value) {
@@ -106,52 +101,6 @@ public final class OptSrt implements OptSrtTrait<OptSrt> {
 
 	public static OptSrt valueOf(short value) {
 		return of(value);
-	}
-
-	// </editor-fold>
-
-	public short get() {
-		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
-		return value;
-	}
-
-	public final boolean isPresent() {
-		return isPresent;
-	}
-
-	public final boolean isVoid() {
-		return !isPresent;
-	}
-
-	public OptionalInt toOpt() {
-		if (isPresent()) {
-			return OptionalInt.of(value);
-		} else {
-			return OptionalInt.empty();
-		}
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OptSrt)) {
-			return false;
-		}
-
-		OptSrt other = (OptSrt) obj;
-		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return isPresent() ? Short.hashCode(value) : 0;
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("OptSrt[%s]", value) : "OptSrt.empty";
 	}
 
 	// </editor-fold>

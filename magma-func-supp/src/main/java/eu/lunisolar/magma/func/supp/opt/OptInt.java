@@ -64,23 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class OptInt implements OptIntTrait<OptInt> {
+public final class OptInt extends OptIntBase<OptInt> {
 
 	private static final OptInt EMPTY = new OptInt();
-
-	private final int value;
-	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
 	private OptInt() {
-		this.value = 0;
-		this.isPresent = false;
+		super();
 	}
 
 	private OptInt(int value) {
-		this.value = value;
-		this.isPresent = true;
+		super(value);
 	}
 
 	public @Nonnull OptInt value(int value) {
@@ -111,52 +106,6 @@ public final class OptInt implements OptIntTrait<OptInt> {
 	public static OptInt from(@Nonnull OptionalInt optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptInt.of(optional.getAsInt()) : empty();
-	}
-
-	// </editor-fold>
-
-	public int get() {
-		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
-		return value;
-	}
-
-	public final boolean isPresent() {
-		return isPresent;
-	}
-
-	public final boolean isVoid() {
-		return !isPresent;
-	}
-
-	public OptionalInt toOpt() {
-		if (isPresent()) {
-			return OptionalInt.of(value);
-		} else {
-			return OptionalInt.empty();
-		}
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OptInt)) {
-			return false;
-		}
-
-		OptInt other = (OptInt) obj;
-		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return isPresent() ? Integer.hashCode(value) : 0;
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("OptInt[%s]", value) : "OptInt.empty";
 	}
 
 	// </editor-fold>

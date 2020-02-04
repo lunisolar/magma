@@ -71,11 +71,17 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 	@Override
 	@Nonnull
 	SELF value(double value);
+
 	@Override
 	@Nonnull
 	SELF voidValue();
 
 	// </editor-fold>
+
+	default @Nonnull SELF valueFrom(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() ? value(opt.value()) : voidValue();
+	}
 
 	double get();
 
@@ -521,7 +527,12 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() ? get() : supplier.getAsDbl();
 	}
 
-	default SELF orGet(@Nonnull LSupplier<? extends OptDblTrait<?>> supplier) {
+	default SELF orGet(@Nonnull LDblSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.getAsDbl());
+	}
+
+	default SELF orFlatGet(@Nonnull LSupplier<? extends OptDblTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.get());
 	}
@@ -540,10 +551,20 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() ? get() : supplier.applyAsDbl(a1);
 	}
 
-	default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends OptDblTrait<?>> supplier) {
+	default <K> SELF orApply(K a1, @Nonnull LToDblFunction<? super K> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.applyAsDbl(a1));
+	}
+
+	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends OptDblTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
 	// </editor-fold>
+
+	default OptionalDouble toOptional() {
+		return isPresent() ? OptionalDouble.of(value()) : OptionalDouble.empty();
+	}
+
 }

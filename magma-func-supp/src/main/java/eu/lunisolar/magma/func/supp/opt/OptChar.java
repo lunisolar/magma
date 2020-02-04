@@ -64,23 +64,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * costly as one would expected (in correct circumstances).
  */
 @ThreadSafe
-public final class OptChar implements OptCharTrait<OptChar> {
+public final class OptChar extends OptCharBase<OptChar> {
 
 	private static final OptChar EMPTY = new OptChar();
-
-	private final char value;
-	private final boolean isPresent;
 
 	// <editor-fold desc="factories">
 
 	private OptChar() {
-		this.value = '\u0000';
-		this.isPresent = false;
+		super();
 	}
 
 	private OptChar(char value) {
-		this.value = value;
-		this.isPresent = true;
+		super(value);
 	}
 
 	public @Nonnull OptChar value(char value) {
@@ -106,52 +101,6 @@ public final class OptChar implements OptCharTrait<OptChar> {
 
 	public static OptChar valueOf(char value) {
 		return of(value);
-	}
-
-	// </editor-fold>
-
-	public char get() {
-		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
-		return value;
-	}
-
-	public final boolean isPresent() {
-		return isPresent;
-	}
-
-	public final boolean isVoid() {
-		return !isPresent;
-	}
-
-	public OptionalInt toOpt() {
-		if (isPresent()) {
-			return OptionalInt.of(value);
-		} else {
-			return OptionalInt.empty();
-		}
-	}
-
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(obj instanceof OptChar)) {
-			return false;
-		}
-
-		OptChar other = (OptChar) obj;
-		return (isPresent() && other.isPresent()) ? value == other.value : isPresent() == other.isPresent();
-	}
-
-	public int hashCode() {
-		return isPresent() ? Character.hashCode(value) : 0;
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("OptChar[%s]", value) : "OptChar.empty";
 	}
 
 	// </editor-fold>
