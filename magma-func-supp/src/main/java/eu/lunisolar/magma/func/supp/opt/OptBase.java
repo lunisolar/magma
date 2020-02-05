@@ -61,7 +61,6 @@ public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTr
 	}
 
 	protected OptBase(@Nullable T value) {
-		Null.nonNullArg(value, "value");
 		this.value = value;
 	}
 
