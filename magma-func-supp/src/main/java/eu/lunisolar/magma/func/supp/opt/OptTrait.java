@@ -706,6 +706,20 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	// </editor-fold>
 
+	/** Compared to ifPresent it will simply fails if there is no value */
+	default @Nonnull SELF visit(@Nonnull LConsumer<T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		consumer.accept(get());
+		return self();
+	}
+
+	/** Compared to ifPresent if no value is present then it will be substituted with null.  */
+	default @Nonnull SELF visitNullable(@Nonnull LConsumer<T> consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		consumer.accept(nullable());
+		return self();
+	}
+
 	// <editor-fold desc="orElse">
 
 	default SELF orThrow() {

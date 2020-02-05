@@ -446,6 +446,13 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 
 	// </editor-fold>
 
+	/** Compared to ifPresent it will simply fails if there is no value */
+	default @Nonnull SELF visit(@Nonnull LDblConsumer consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		consumer.accept(get());
+		return self();
+	}
+
 	// <editor-fold desc="orElse">
 
 	default SELF orThrow() {
