@@ -553,6 +553,21 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
+	default <K1, K2> boolean orElseApply(K1 a1, K2 a2, @Nonnull LBiPredicate<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? get() : supplier.test(a1, a2);
+	}
+
+	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LBiPredicate<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.test(a1, a2));
+	}
+
+	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends OptBoolTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+	}
+
 	// </editor-fold>
 
 }

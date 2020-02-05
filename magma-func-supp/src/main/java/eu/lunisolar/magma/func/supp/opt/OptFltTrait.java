@@ -561,6 +561,21 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
+	default <K1, K2> float orElseApply(K1 a1, K2 a2, @Nonnull LToFltBiFunction<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? get() : supplier.applyAsFlt(a1, a2);
+	}
+
+	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LToFltBiFunction<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.applyAsFlt(a1, a2));
+	}
+
+	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends OptFltTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+	}
+
 	// </editor-fold>
 
 	default OptionalDouble toOptional() {

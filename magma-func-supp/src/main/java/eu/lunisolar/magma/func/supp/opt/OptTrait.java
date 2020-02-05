@@ -821,6 +821,21 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
+	default <K1, K2> T orElseApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends T> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? get() : supplier.apply(a1, a2);
+	}
+
+	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends T> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.apply(a1, a2));
+	}
+
+	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends OptTrait<? extends T, ?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+	}
+
 	// </editor-fold>
 
 	default Optional<T> toOptional() {

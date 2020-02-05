@@ -561,6 +561,21 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
+	default <K1, K2> byte orElseApply(K1 a1, K2 a2, @Nonnull LToByteBiFunction<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? get() : supplier.applyAsByte(a1, a2);
+	}
+
+	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LToByteBiFunction<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.applyAsByte(a1, a2));
+	}
+
+	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends OptByteTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+	}
+
 	// </editor-fold>
 
 	default OptionalInt toOptional() {

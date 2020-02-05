@@ -561,6 +561,21 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
 
+	default <K1, K2> short orElseApply(K1 a1, K2 a2, @Nonnull LToSrtBiFunction<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? get() : supplier.applyAsSrt(a1, a2);
+	}
+
+	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LToSrtBiFunction<? super K1, ? super K2> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : value(supplier.applyAsSrt(a1, a2));
+	}
+
+	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends OptSrtTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+	}
+
 	// </editor-fold>
 
 	default OptionalInt toOptional() {
