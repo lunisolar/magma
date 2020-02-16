@@ -147,13 +147,13 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait
 	}
 
 	@Override
-	default boolean is(int v, @Nonnull LFltIntPredicate predicate) {
+	default boolean isInt(int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(int v, @Nonnull LFltIntPredicate predicate) {
+	default boolean isNotInt(int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -171,13 +171,13 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait
 	}
 
 	@Override
-	default <V1> boolean isWith(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
+	default <V1> boolean isWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}
 
 	@Override
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}

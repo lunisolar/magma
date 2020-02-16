@@ -116,26 +116,26 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return doIfNot(a2, a3, predicate, action);
 	}
 
-	default @Nonnull SELF doIf(int v, @Nonnull LFltIntPredicate predicate, @Nonnull LFltConsumer action) {
-		if (is(v, predicate))
+	default @Nonnull SELF doIfInt(int v, @Nonnull LFltIntPredicate predicate, @Nonnull LFltConsumer action) {
+		if (isInt(v, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf(@Nonnull LFltIntPredicate predicate, int v, @Nonnull LFltConsumer action) {
-		return doIf(v, predicate, action);
+	default @Nonnull SELF doIfInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull LFltConsumer action) {
+		return doIfInt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot(int v, @Nonnull LFltIntPredicate predicate, @Nonnull LFltConsumer action) {
-		if (isNot(v, predicate))
+	default @Nonnull SELF doIfNotInt(int v, @Nonnull LFltIntPredicate predicate, @Nonnull LFltConsumer action) {
+		if (isNotInt(v, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot(@Nonnull LFltIntPredicate predicate, int v, @Nonnull LFltConsumer action) {
-		return doIfNot(v, predicate, action);
+	default @Nonnull SELF doIfNotInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull LFltConsumer action) {
+		return doIfNotInt(v, predicate, action);
 	}
 
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull LFltConsumer action) {
@@ -160,26 +160,26 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return doIfNot_(v, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull LFltConsumer action) {
-		if (isWith(with, predicate))
+	default @Nonnull <V1> SELF doIfWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull LFltConsumer action) {
+		if (isWithFlt(with, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull LFltConsumer action) {
-		return doIfWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull LFltConsumer action) {
+		return doIfWithFlt(with, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull LFltConsumer action) {
-		if (isNotWith(with, predicate))
+	default @Nonnull <V1> SELF doIfNotWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull LFltConsumer action) {
+		if (isNotWithFlt(with, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull LFltConsumer action) {
-		return doIfNotWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfNotWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull LFltConsumer action) {
+		return doIfNotWithFlt(with, predicate, action);
 	}
 
 	// </editor-fold>

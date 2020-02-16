@@ -117,25 +117,25 @@ public interface IsDblTrait<SELF extends IsDblTrait<SELF>> extends DblValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(int v, @Nonnull LDblIntPredicate predicate) {
+	default boolean isInt(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is(@Nonnull LDblIntPredicate predicate, int v) {
-		return is(v, predicate);
+	default boolean isInt(@Nonnull LDblIntPredicate predicate, int v) {
+		return isInt(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(int v, @Nonnull LDblIntPredicate predicate) {
+	default boolean isNotInt(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot(@Nonnull LDblIntPredicate predicate, int v) {
-		return isNot(v, predicate);
+	default boolean isNotInt(@Nonnull LDblIntPredicate predicate, int v) {
+		return isNotInt(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
@@ -161,25 +161,25 @@ public interface IsDblTrait<SELF extends IsDblTrait<SELF>> extends DblValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
+	default <V1> boolean isWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isWith(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with) {
-		return isWith(with, predicate);
+	default <V1> boolean isWithDbl(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with) {
+		return isWithDbl(with, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isNotWith(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with) {
-		return isNotWith(with, predicate);
+	default <V1> boolean isNotWithDbl(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with) {
+		return isNotWithDbl(with, predicate);
 	}
 
 	// </editor-fold>

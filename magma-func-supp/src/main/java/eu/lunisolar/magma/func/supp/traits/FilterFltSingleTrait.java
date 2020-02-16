@@ -79,9 +79,9 @@ public interface FilterFltSingleTrait<SELF extends FilterFltSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull SELF filter(int v, @Nonnull LFltIntPredicate predicate) {
+	default @Nonnull SELF filterInt(int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isInt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
@@ -91,9 +91,9 @@ public interface FilterFltSingleTrait<SELF extends FilterFltSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWith(with, predicate) ? self() : voidValue();
+		return this.isWithFlt(with, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

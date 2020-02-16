@@ -117,25 +117,25 @@ public interface IsByteTrait<SELF extends IsByteTrait<SELF>> extends ByteValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(int v, @Nonnull LByteIntPredicate predicate) {
+	default boolean isInt(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is(@Nonnull LByteIntPredicate predicate, int v) {
-		return is(v, predicate);
+	default boolean isInt(@Nonnull LByteIntPredicate predicate, int v) {
+		return isInt(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(int v, @Nonnull LByteIntPredicate predicate) {
+	default boolean isNotInt(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot(@Nonnull LByteIntPredicate predicate, int v) {
-		return isNot(v, predicate);
+	default boolean isNotInt(@Nonnull LByteIntPredicate predicate, int v) {
+		return isNotInt(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
@@ -161,25 +161,25 @@ public interface IsByteTrait<SELF extends IsByteTrait<SELF>> extends ByteValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	default <V1> boolean isWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isWith(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with) {
-		return isWith(with, predicate);
+	default <V1> boolean isWithByte(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with) {
+		return isWithByte(with, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isNotWith(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with) {
-		return isNotWith(with, predicate);
+	default <V1> boolean isNotWithByte(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with) {
+		return isNotWithByte(with, predicate);
 	}
 
 	// </editor-fold>

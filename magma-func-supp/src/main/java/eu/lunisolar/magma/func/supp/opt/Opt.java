@@ -261,4 +261,15 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 
 	// </editor-fold>
 
+	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
+		Null.nonNullArg(clazz, "clazz");
+		return (Opt) must(Be::instanceOf, clazz, message);
+	}
+
+	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		var nullable = nullable();
+		return (Opt) must(Be::instanceOf, clazz, "Must be instance of %s but is %s.", clazz, nullable == null ? null : nullable.getClass());
+	}
+
 }

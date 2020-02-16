@@ -117,25 +117,25 @@ public interface IsCharTrait<SELF extends IsCharTrait<SELF>> extends CharValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(int v, @Nonnull LCharIntPredicate predicate) {
+	default boolean isInt(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is(@Nonnull LCharIntPredicate predicate, int v) {
-		return is(v, predicate);
+	default boolean isInt(@Nonnull LCharIntPredicate predicate, int v) {
+		return isInt(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(int v, @Nonnull LCharIntPredicate predicate) {
+	default boolean isNotInt(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot(@Nonnull LCharIntPredicate predicate, int v) {
-		return isNot(v, predicate);
+	default boolean isNotInt(@Nonnull LCharIntPredicate predicate, int v) {
+		return isNotInt(v, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
@@ -161,25 +161,25 @@ public interface IsCharTrait<SELF extends IsCharTrait<SELF>> extends CharValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	default <V1> boolean isWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isWith(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with) {
-		return isWith(with, predicate);
+	default <V1> boolean isWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with) {
+		return isWithChar(with, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return !predicate.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isNotWith(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with) {
-		return isNotWith(with, predicate);
+	default <V1> boolean isNotWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with) {
+		return isNotWithChar(with, predicate);
 	}
 
 	// </editor-fold>

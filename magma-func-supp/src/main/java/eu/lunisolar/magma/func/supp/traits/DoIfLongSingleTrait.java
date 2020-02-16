@@ -116,26 +116,26 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return doIfNot(a2, a3, predicate, action);
 	}
 
-	default @Nonnull SELF doIf(int v, @Nonnull LLongIntPredicate predicate, @Nonnull LLongConsumer action) {
-		if (is(v, predicate))
+	default @Nonnull SELF doIfInt(int v, @Nonnull LLongIntPredicate predicate, @Nonnull LLongConsumer action) {
+		if (isInt(v, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf(@Nonnull LLongIntPredicate predicate, int v, @Nonnull LLongConsumer action) {
-		return doIf(v, predicate, action);
+	default @Nonnull SELF doIfInt(@Nonnull LLongIntPredicate predicate, int v, @Nonnull LLongConsumer action) {
+		return doIfInt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot(int v, @Nonnull LLongIntPredicate predicate, @Nonnull LLongConsumer action) {
-		if (isNot(v, predicate))
+	default @Nonnull SELF doIfNotInt(int v, @Nonnull LLongIntPredicate predicate, @Nonnull LLongConsumer action) {
+		if (isNotInt(v, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot(@Nonnull LLongIntPredicate predicate, int v, @Nonnull LLongConsumer action) {
-		return doIfNot(v, predicate, action);
+	default @Nonnull SELF doIfNotInt(@Nonnull LLongIntPredicate predicate, int v, @Nonnull LLongConsumer action) {
+		return doIfNotInt(v, predicate, action);
 	}
 
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, @Nonnull LLongConsumer action) {
@@ -160,26 +160,26 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return doIfNot_(v, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate, @Nonnull LLongConsumer action) {
-		if (isWith(with, predicate))
+	default @Nonnull <V1> SELF doIfWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate, @Nonnull LLongConsumer action) {
+		if (isWithLong(with, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with, @Nonnull LLongConsumer action) {
-		return doIfWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfWithLong(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with, @Nonnull LLongConsumer action) {
+		return doIfWithLong(with, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate, @Nonnull LLongConsumer action) {
-		if (isNotWith(with, predicate))
+	default @Nonnull <V1> SELF doIfNotWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate, @Nonnull LLongConsumer action) {
+		if (isNotWithLong(with, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with, @Nonnull LLongConsumer action) {
-		return doIfNotWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfNotWithLong(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with, @Nonnull LLongConsumer action) {
+		return doIfNotWithLong(with, predicate, action);
 	}
 
 	// </editor-fold>

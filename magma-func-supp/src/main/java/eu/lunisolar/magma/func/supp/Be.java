@@ -59,7 +59,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - must({@link Be}::equal, 4)
  * - when({@link Is}::equal, 4)
  *
- * @see {@link P}, {@link Is}, {@link Does}, {@link Be}
+ * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
 public final class Be implements FluentSyntax {
 	// <editor-fold desc="no instance">
@@ -122,7 +122,12 @@ public final class Be implements FluentSyntax {
 
 	// </editor-fold>
 
-	// <editor-fold desc="String">
+	// <editor-fold desc="`String`">
+
+	public static boolean ofLength(@Nonnull CharSequence s, int size) {
+		Null.nonNullArg(s, "s");
+		return size == s.length();
+	}
 
 	public static boolean empty(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
@@ -435,17 +440,17 @@ public final class Be implements FluentSyntax {
 	// </editor-fold>
 
 	// <editor-fold desc="arrays">
-	private static boolean privately_ofSize(Object array, int i) {
+	private static boolean privately_ofLength(Object array, int i) {
 		return Array.getLength(array) == i;
 	}
 
-	public static boolean ofSize(@Nonnull boolean[] array, int i) {
+	public static boolean ofLength(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull boolean[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable boolean[] array) {
@@ -453,16 +458,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull boolean[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static boolean ofSize(@Nonnull byte[] array, int i) {
+	public static boolean ofLength(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull byte[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable byte[] array) {
@@ -470,16 +475,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull byte[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static boolean ofSize(@Nonnull double[] array, int i) {
+	public static boolean ofLength(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull double[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable double[] array) {
@@ -487,16 +492,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull double[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static boolean ofSize(@Nonnull char[] array, int i) {
+	public static boolean ofLength(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull char[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable char[] array) {
@@ -504,16 +509,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull char[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static boolean ofSize(@Nonnull short[] array, int i) {
+	public static boolean ofLength(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull short[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable short[] array) {
@@ -521,16 +526,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull short[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static boolean ofSize(@Nonnull float[] array, int i) {
+	public static boolean ofLength(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull float[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable float[] array) {
@@ -538,16 +543,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull float[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static boolean ofSize(@Nonnull int[] array, int i) {
+	public static boolean ofLength(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull int[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable int[] array) {
@@ -555,16 +560,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull int[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static boolean ofSize(@Nonnull long[] array, int i) {
+	public static boolean ofLength(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull long[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static boolean nullOrEmpty(@Nullable long[] array) {
@@ -572,16 +577,16 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static boolean singleton(@Nonnull long[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
-	public static <T> boolean ofSize(@Nonnull T[] array, int i) {
+	public static <T> boolean ofLength(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofSize(array, i);
+		return privately_ofLength(array, i);
 	}
 
 	public static <T> boolean empty(@Nonnull T[] array) {
-		return ofSize(array, 0);
+		return ofLength(array, 0);
 	}
 
 	public static <T> boolean nullOrEmpty(@Nullable T[] array) {
@@ -589,7 +594,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	public static <T> boolean singleton(@Nonnull T[] array) {
-		return ofSize(array, 1);
+		return ofLength(array, 1);
 	}
 
 	// </editor-fold>

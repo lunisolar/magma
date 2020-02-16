@@ -147,13 +147,13 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default boolean is(int v, @Nonnull LCharIntPredicate predicate) {
+	default boolean isInt(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(int v, @Nonnull LCharIntPredicate predicate) {
+	default boolean isNotInt(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -171,13 +171,13 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default <V1> boolean isWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	default <V1> boolean isWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}
 
 	@Override
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}

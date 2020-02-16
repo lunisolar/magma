@@ -79,9 +79,9 @@ public interface FilterLongSingleTrait<SELF extends FilterLongSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull SELF filter(int v, @Nonnull LLongIntPredicate predicate) {
+	default @Nonnull SELF filterInt(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isInt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
@@ -91,9 +91,9 @@ public interface FilterLongSingleTrait<SELF extends FilterLongSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWith(with, predicate) ? self() : voidValue();
+		return this.isWithLong(with, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

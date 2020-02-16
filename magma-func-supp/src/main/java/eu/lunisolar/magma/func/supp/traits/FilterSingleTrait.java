@@ -85,51 +85,51 @@ public interface FilterSingleTrait<T, SELF extends FilterSingleTrait<T, SELF>> e
 	}
 
 	@Override
-	default @Nonnull SELF filter(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	default @Nonnull SELF filterBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isBool(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	default @Nonnull SELF filterByte(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isByte(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	default @Nonnull SELF filterDbl(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isDbl(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	default @Nonnull SELF filterChar(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isChar(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	default @Nonnull SELF filterSrt(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isSrt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	default @Nonnull SELF filterFlt(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isFlt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	default @Nonnull SELF filterInt(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isInt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	default @Nonnull SELF filterLong(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isLong(v, predicate) ? self() : voidValue();
 	}
 
 	@Override

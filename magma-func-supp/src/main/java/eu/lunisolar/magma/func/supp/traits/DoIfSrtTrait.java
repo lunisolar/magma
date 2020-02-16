@@ -99,22 +99,22 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNot(a2, a3, predicate, action);
 	}
 
-	default @Nonnull SELF doIf(int v, @Nonnull LSrtIntPredicate predicate, @Nonnull LSrtConsumer action) {
+	default @Nonnull SELF doIfInt(int v, @Nonnull LSrtIntPredicate predicate, @Nonnull LSrtConsumer action) {
 		return doIf(a -> predicate.test(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf(@Nonnull LSrtIntPredicate predicate, int v, @Nonnull LSrtConsumer action) {
-		return doIf(v, predicate, action);
+	default @Nonnull SELF doIfInt(@Nonnull LSrtIntPredicate predicate, int v, @Nonnull LSrtConsumer action) {
+		return doIfInt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot(int v, @Nonnull LSrtIntPredicate predicate, @Nonnull LSrtConsumer action) {
+	default @Nonnull SELF doIfNotInt(int v, @Nonnull LSrtIntPredicate predicate, @Nonnull LSrtConsumer action) {
 		return doIfNot(a -> predicate.test(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot(@Nonnull LSrtIntPredicate predicate, int v, @Nonnull LSrtConsumer action) {
-		return doIfNot(v, predicate, action);
+	default @Nonnull SELF doIfNotInt(@Nonnull LSrtIntPredicate predicate, int v, @Nonnull LSrtConsumer action) {
+		return doIfNotInt(v, predicate, action);
 	}
 
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, @Nonnull LSrtConsumer action) {
@@ -135,22 +135,22 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNot_(v, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
+	default @Nonnull <V1> SELF doIfWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
 		return doIf(a -> predicate.test(with, a), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with, @Nonnull LSrtConsumer action) {
-		return doIfWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with, @Nonnull LSrtConsumer action) {
+		return doIfWithSrt(with, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
+	default @Nonnull <V1> SELF doIfNotWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
 		return doIfNot(a -> predicate.test(with, a), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with, @Nonnull LSrtConsumer action) {
-		return doIfNotWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfNotWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with, @Nonnull LSrtConsumer action) {
+		return doIfNotWithSrt(with, predicate, action);
 	}
 
 	// </editor-fold>

@@ -116,26 +116,26 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return doIfNot(a2, a3, predicate, action);
 	}
 
-	default @Nonnull SELF doIf(int v, @Nonnull LByteIntPredicate predicate, @Nonnull LByteConsumer action) {
-		if (is(v, predicate))
+	default @Nonnull SELF doIfInt(int v, @Nonnull LByteIntPredicate predicate, @Nonnull LByteConsumer action) {
+		if (isInt(v, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf(@Nonnull LByteIntPredicate predicate, int v, @Nonnull LByteConsumer action) {
-		return doIf(v, predicate, action);
+	default @Nonnull SELF doIfInt(@Nonnull LByteIntPredicate predicate, int v, @Nonnull LByteConsumer action) {
+		return doIfInt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot(int v, @Nonnull LByteIntPredicate predicate, @Nonnull LByteConsumer action) {
-		if (isNot(v, predicate))
+	default @Nonnull SELF doIfNotInt(int v, @Nonnull LByteIntPredicate predicate, @Nonnull LByteConsumer action) {
+		if (isNotInt(v, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot(@Nonnull LByteIntPredicate predicate, int v, @Nonnull LByteConsumer action) {
-		return doIfNot(v, predicate, action);
+	default @Nonnull SELF doIfNotInt(@Nonnull LByteIntPredicate predicate, int v, @Nonnull LByteConsumer action) {
+		return doIfNotInt(v, predicate, action);
 	}
 
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LByteConsumer action) {
@@ -160,26 +160,26 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return doIfNot_(v, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LByteConsumer action) {
-		if (isWith(with, predicate))
+	default @Nonnull <V1> SELF doIfWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LByteConsumer action) {
+		if (isWithByte(with, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with, @Nonnull LByteConsumer action) {
-		return doIfWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfWithByte(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with, @Nonnull LByteConsumer action) {
+		return doIfWithByte(with, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LByteConsumer action) {
-		if (isNotWith(with, predicate))
+	default @Nonnull <V1> SELF doIfNotWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LByteConsumer action) {
+		if (isNotWithByte(with, predicate))
 			action.accept(value());
 		return self();
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with, @Nonnull LByteConsumer action) {
-		return doIfNotWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfNotWithByte(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with, @Nonnull LByteConsumer action) {
+		return doIfNotWithByte(with, predicate, action);
 	}
 
 	// </editor-fold>

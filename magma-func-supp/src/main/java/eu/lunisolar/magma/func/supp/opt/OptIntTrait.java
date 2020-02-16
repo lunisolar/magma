@@ -147,85 +147,85 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	}
 
 	@Override
-	default boolean is_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
+	default boolean is_Bool(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntBool(get(), v);
 	}
 
 	@Override
-	default boolean isNot_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
+	default boolean isNot_Bool(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntBool(get(), v);
 	}
 
 	@Override
-	default boolean is_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
+	default boolean is_Byte(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntByte(get(), v);
 	}
 
 	@Override
-	default boolean isNot_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
+	default boolean isNot_Byte(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntByte(get(), v);
 	}
 
 	@Override
-	default boolean is_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
+	default boolean is_Dbl(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntDbl(get(), v);
 	}
 
 	@Override
-	default boolean isNot_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
+	default boolean isNot_Dbl(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntDbl(get(), v);
 	}
 
 	@Override
-	default boolean is_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
+	default boolean is_Char(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntChar(get(), v);
 	}
 
 	@Override
-	default boolean isNot_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
+	default boolean isNot_Char(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntChar(get(), v);
 	}
 
 	@Override
-	default boolean is_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
+	default boolean is_Srt(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntSrt(get(), v);
 	}
 
 	@Override
-	default boolean isNot_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
+	default boolean isNot_Srt(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntSrt(get(), v);
 	}
 
 	@Override
-	default boolean is_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
+	default boolean is_Flt(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntFlt(get(), v);
 	}
 
 	@Override
-	default boolean isNot_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
+	default boolean isNot_Flt(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntFlt(get(), v);
 	}
 
 	@Override
-	default boolean is_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
+	default boolean is_Long(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntLong(get(), v);
 	}
 
 	@Override
-	default boolean isNot_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
+	default boolean isNot_Long(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.testIntLong(get(), v);
 	}
@@ -243,13 +243,13 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	}
 
 	@Override
-	default <V1> boolean isWith(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
+	default <V1> boolean isWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}
 
 	@Override
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}

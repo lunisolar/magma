@@ -82,13 +82,13 @@ public interface FilterSrtTrait<SELF extends FilterSrtTrait<SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter(int v, @Nonnull LSrtIntPredicate predicate) {
+	default @Nonnull SELF filterInt(int v, @Nonnull LSrtIntPredicate predicate) {
 		return filter(a -> predicate.test(a, v));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter(@Nonnull LSrtIntPredicate predicate, int v) {
-		return filter(v, predicate);
+	default @Nonnull SELF filterInt(@Nonnull LSrtIntPredicate predicate, int v) {
+		return filterInt(v, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
@@ -102,13 +102,13 @@ public interface FilterSrtTrait<SELF extends FilterSrtTrait<SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		return filter(a -> predicate.test(with, a));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V1> SELF filterWith(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with) {
-		return filterWith(with, predicate);
+	default @Nonnull <V1> SELF filterWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with) {
+		return filterWithSrt(with, predicate);
 	}
 
 	// </editor-fold>

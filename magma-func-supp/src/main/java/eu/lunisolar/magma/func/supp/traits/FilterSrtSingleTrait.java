@@ -79,9 +79,9 @@ public interface FilterSrtSingleTrait<SELF extends FilterSrtSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull SELF filter(int v, @Nonnull LSrtIntPredicate predicate) {
+	default @Nonnull SELF filterInt(int v, @Nonnull LSrtIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isInt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
@@ -91,9 +91,9 @@ public interface FilterSrtSingleTrait<SELF extends FilterSrtSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWith(with, predicate) ? self() : voidValue();
+		return this.isWithSrt(with, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

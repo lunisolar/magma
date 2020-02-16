@@ -59,7 +59,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - must({@link Be}::equal, 4)
  * - when({@link Is}::equal, 4)
  *
- * @see {@link P}, {@link Is}, {@link Does}, {@link Be}
+ * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
 public final class Are implements FluentSyntax {
 	// <editor-fold desc="no instance">
@@ -110,7 +110,7 @@ public final class Are implements FluentSyntax {
 
 	// </editor-fold>
 
-	// <editor-fold desc="String">
+	// <editor-fold desc="`String`">
 
 	// </editor-fold>
 

@@ -79,9 +79,9 @@ public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull SELF filter(int v, @Nonnull LDblIntPredicate predicate) {
+	default @Nonnull SELF filterInt(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isInt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
@@ -91,9 +91,9 @@ public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWith(with, predicate) ? self() : voidValue();
+		return this.isWithDbl(with, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

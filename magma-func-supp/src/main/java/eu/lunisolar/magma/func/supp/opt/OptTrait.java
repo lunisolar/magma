@@ -168,97 +168,97 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	}
 
 	@Override
-	default boolean is(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	default boolean isBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	default boolean isNotBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean is(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	default boolean isByte(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	default boolean isNotByte(byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean is(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	default boolean isDbl(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	default boolean isNotDbl(double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean is(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	default boolean isChar(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	default boolean isNotChar(char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean is(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	default boolean isSrt(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	default boolean isNotSrt(short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean is(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	default boolean isFlt(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	default boolean isNotFlt(float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean is(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	default boolean isInt(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	default boolean isNotInt(int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean is(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	default boolean isLong(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	default boolean isNotLong(long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}

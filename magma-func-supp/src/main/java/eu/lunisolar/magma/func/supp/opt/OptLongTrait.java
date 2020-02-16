@@ -147,13 +147,13 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default boolean is(int v, @Nonnull LLongIntPredicate predicate) {
+	default boolean isInt(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(int v, @Nonnull LLongIntPredicate predicate) {
+	default boolean isNotInt(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -171,13 +171,13 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default <V1> boolean isWith(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
+	default <V1> boolean isWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}
 
 	@Override
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}

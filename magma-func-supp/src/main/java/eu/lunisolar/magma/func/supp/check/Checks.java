@@ -31,6 +31,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
@@ -194,6 +195,17 @@ public final class Checks implements FluentSyntax {
 
 		public @Nonnull Check<T> value(@Nullable T value) {
 			return new Check(value, name, factory, type);
+		}
+
+		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
+			Null.nonNullArg(clazz, "clazz");
+			return (Check) must(Be::instanceOf, clazz, message);
+		}
+
+		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
+			Null.nonNullArg(clazz, "clazz");
+			var nullable = nullable();
+			return (Check) must(Be::instanceOf, clazz, "Must be instance of %s but is %s.", clazz, nullable == null ? null : nullable.getClass());
 		}
 
 	}

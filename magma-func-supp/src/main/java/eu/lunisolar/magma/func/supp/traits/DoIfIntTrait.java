@@ -99,130 +99,130 @@ public interface DoIfIntTrait<SELF extends DoIfIntTrait<SELF>> extends FluentTra
 		return doIfNot(a2, a3, predicate, action);
 	}
 
-	default @Nonnull SELF doIf_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIf_Bool(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.testIntBool(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull LIntConsumer action) {
-		return doIf_(v, predicate, action);
+	default @Nonnull SELF doIf_Bool(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull LIntConsumer action) {
+		return doIf_Bool(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIfNot_Bool(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.testIntBool(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull LIntConsumer action) {
-		return doIfNot_(v, predicate, action);
+	default @Nonnull SELF doIfNot_Bool(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull LIntConsumer action) {
+		return doIfNot_Bool(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIf_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIf_Byte(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.testIntByte(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull LIntConsumer action) {
-		return doIf_(v, predicate, action);
+	default @Nonnull SELF doIf_Byte(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull LIntConsumer action) {
+		return doIf_Byte(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIfNot_Byte(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.testIntByte(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull LIntConsumer action) {
-		return doIfNot_(v, predicate, action);
+	default @Nonnull SELF doIfNot_Byte(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull LIntConsumer action) {
+		return doIfNot_Byte(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIf_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIf_Dbl(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.testIntDbl(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull LIntConsumer action) {
-		return doIf_(v, predicate, action);
+	default @Nonnull SELF doIf_Dbl(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull LIntConsumer action) {
+		return doIf_Dbl(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIfNot_Dbl(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.testIntDbl(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull LIntConsumer action) {
-		return doIfNot_(v, predicate, action);
+	default @Nonnull SELF doIfNot_Dbl(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull LIntConsumer action) {
+		return doIfNot_Dbl(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIf_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIf_Char(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.testIntChar(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull LIntConsumer action) {
-		return doIf_(v, predicate, action);
+	default @Nonnull SELF doIf_Char(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull LIntConsumer action) {
+		return doIf_Char(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIfNot_Char(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.testIntChar(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull LIntConsumer action) {
-		return doIfNot_(v, predicate, action);
+	default @Nonnull SELF doIfNot_Char(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull LIntConsumer action) {
+		return doIfNot_Char(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIf_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIf_Srt(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.testIntSrt(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull LIntConsumer action) {
-		return doIf_(v, predicate, action);
+	default @Nonnull SELF doIf_Srt(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull LIntConsumer action) {
+		return doIf_Srt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIfNot_Srt(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.testIntSrt(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull LIntConsumer action) {
-		return doIfNot_(v, predicate, action);
+	default @Nonnull SELF doIfNot_Srt(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull LIntConsumer action) {
+		return doIfNot_Srt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIf_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIf_Flt(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.testIntFlt(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull LIntConsumer action) {
-		return doIf_(v, predicate, action);
+	default @Nonnull SELF doIf_Flt(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull LIntConsumer action) {
+		return doIf_Flt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIfNot_Flt(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.testIntFlt(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull LIntConsumer action) {
-		return doIfNot_(v, predicate, action);
+	default @Nonnull SELF doIfNot_Flt(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull LIntConsumer action) {
+		return doIfNot_Flt(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIf_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIf_Long(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.testIntLong(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIf_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull LIntConsumer action) {
-		return doIf_(v, predicate, action);
+	default @Nonnull SELF doIf_Long(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull LIntConsumer action) {
+		return doIf_Long(v, predicate, action);
 	}
 
-	default @Nonnull SELF doIfNot_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull SELF doIfNot_Long(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.testIntLong(a, v), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull SELF doIfNot_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull LIntConsumer action) {
-		return doIfNot_(v, predicate, action);
+	default @Nonnull SELF doIfNot_Long(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull LIntConsumer action) {
+		return doIfNot_Long(v, predicate, action);
 	}
 
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull LIntConsumer action) {
@@ -243,22 +243,22 @@ public interface DoIfIntTrait<SELF extends DoIfIntTrait<SELF>> extends FluentTra
 		return doIfNot_(v, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWith(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull <V1> SELF doIfWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LIntConsumer action) {
 		return doIf(a -> predicate.test(with, a), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfWith(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with, @Nonnull LIntConsumer action) {
-		return doIfWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with, @Nonnull LIntConsumer action) {
+		return doIfWithInt(with, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWith(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LIntConsumer action) {
+	default @Nonnull <V1> SELF doIfNotWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LIntConsumer action) {
 		return doIfNot(a -> predicate.test(with, a), action);
 	}
 
 	/** Variant with reverse predicate arguments order. */
-	default @Nonnull <V1> SELF doIfNotWith(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with, @Nonnull LIntConsumer action) {
-		return doIfNotWith(with, predicate, action);
+	default @Nonnull <V1> SELF doIfNotWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with, @Nonnull LIntConsumer action) {
+		return doIfNotWithInt(with, predicate, action);
 	}
 
 	// </editor-fold>

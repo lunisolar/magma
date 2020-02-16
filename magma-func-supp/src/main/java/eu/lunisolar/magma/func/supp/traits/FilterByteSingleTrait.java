@@ -79,9 +79,9 @@ public interface FilterByteSingleTrait<SELF extends FilterByteSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull SELF filter(int v, @Nonnull LByteIntPredicate predicate) {
+	default @Nonnull SELF filterInt(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(v, predicate) ? self() : voidValue();
+		return this.isInt(v, predicate) ? self() : voidValue();
 	}
 
 	@Override
@@ -91,9 +91,9 @@ public interface FilterByteSingleTrait<SELF extends FilterByteSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWith(with, predicate) ? self() : voidValue();
+		return this.isWithByte(with, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

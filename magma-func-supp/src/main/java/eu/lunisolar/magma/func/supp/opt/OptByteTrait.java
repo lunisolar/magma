@@ -147,13 +147,13 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default boolean is(int v, @Nonnull LByteIntPredicate predicate) {
+	default boolean isInt(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
 
 	@Override
-	default boolean isNot(int v, @Nonnull LByteIntPredicate predicate) {
+	default boolean isNotInt(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(get(), v);
 	}
@@ -171,13 +171,13 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default <V1> boolean isWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	default <V1> boolean isWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}
 
 	@Override
-	default <V1> boolean isNotWith(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && predicate.test(with, get());
 	}
