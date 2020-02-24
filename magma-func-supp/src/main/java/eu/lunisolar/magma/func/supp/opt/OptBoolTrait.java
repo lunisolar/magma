@@ -105,73 +105,73 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 	@Override
 	default boolean is(@Nonnull LLogicalOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.apply(get());
+		return isPresent() && FilterBoolSingleTrait.super.is(predicate);
 	}
 
 	@Override
 	default boolean isNot(@Nonnull LLogicalOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.apply(get());
+		return isPresent() && FilterBoolSingleTrait.super.isNot(predicate);
 	}
 
 	@Override
 	default boolean is(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.apply(get(), a2);
+		return isPresent() && FilterBoolSingleTrait.super.is(a2, predicate);
 	}
 
 	@Override
 	default boolean isNot(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.apply(get(), a2);
+		return isPresent() && FilterBoolSingleTrait.super.isNot(a2, predicate);
 	}
 
 	@Override
 	default boolean is(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.apply(get(), a2, a3);
+		return isPresent() && FilterBoolSingleTrait.super.is(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.apply(get(), a2, a3);
+		return isPresent() && FilterBoolSingleTrait.super.isNot(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isInt(int v, @Nonnull LBoolIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterBoolSingleTrait.super.isInt(v, predicate);
 	}
 
 	@Override
 	default boolean isNotInt(int v, @Nonnull LBoolIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterBoolSingleTrait.super.isNotInt(v, predicate);
 	}
 
 	@Override
 	default <V> boolean is_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testBoolObj(get(), v);
+		return isPresent() && FilterBoolSingleTrait.super.is_(v, predicate);
 	}
 
 	@Override
 	default <V> boolean isNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testBoolObj(get(), v);
+		return isPresent() && FilterBoolSingleTrait.super.isNot_(v, predicate);
 	}
 
 	@Override
 	default <V1> boolean isWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterBoolSingleTrait.super.isWithBool(with, predicate);
 	}
 
 	@Override
 	default <V1> boolean isNotWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterBoolSingleTrait.super.isNotWithBool(with, predicate);
 	}
 
 	// </editor-fold>

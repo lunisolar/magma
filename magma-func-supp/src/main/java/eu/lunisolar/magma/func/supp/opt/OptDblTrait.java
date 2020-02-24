@@ -113,73 +113,73 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 	@Override
 	default boolean is(@Nonnull LDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterDblSingleTrait.super.is(predicate);
 	}
 
 	@Override
 	default boolean isNot(@Nonnull LDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterDblSingleTrait.super.isNot(predicate);
 	}
 
 	@Override
 	default boolean is(double a2, @Nonnull LBiDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterDblSingleTrait.super.is(a2, predicate);
 	}
 
 	@Override
 	default boolean isNot(double a2, @Nonnull LBiDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterDblSingleTrait.super.isNot(a2, predicate);
 	}
 
 	@Override
 	default boolean is(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterDblSingleTrait.super.is(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isNot(double a2, double a3, @Nonnull LTriDblPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterDblSingleTrait.super.isNot(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isInt(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterDblSingleTrait.super.isInt(v, predicate);
 	}
 
 	@Override
 	default boolean isNotInt(int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterDblSingleTrait.super.isNotInt(v, predicate);
 	}
 
 	@Override
 	default <V> boolean is_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testDblObj(get(), v);
+		return isPresent() && FilterDblSingleTrait.super.is_(v, predicate);
 	}
 
 	@Override
 	default <V> boolean isNot_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testDblObj(get(), v);
+		return isPresent() && FilterDblSingleTrait.super.isNot_(v, predicate);
 	}
 
 	@Override
 	default <V1> boolean isWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterDblSingleTrait.super.isWithDbl(with, predicate);
 	}
 
 	@Override
 	default <V1> boolean isNotWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterDblSingleTrait.super.isNotWithDbl(with, predicate);
 	}
 
 	// </editor-fold>

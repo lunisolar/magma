@@ -113,145 +113,145 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	@Override
 	default boolean is(@Nonnull LIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterIntSingleTrait.super.is(predicate);
 	}
 
 	@Override
 	default boolean isNot(@Nonnull LIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterIntSingleTrait.super.isNot(predicate);
 	}
 
 	@Override
 	default boolean is(int a2, @Nonnull LBiIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterIntSingleTrait.super.is(a2, predicate);
 	}
 
 	@Override
 	default boolean isNot(int a2, @Nonnull LBiIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterIntSingleTrait.super.isNot(a2, predicate);
 	}
 
 	@Override
 	default boolean is(int a2, int a3, @Nonnull LTriIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterIntSingleTrait.super.is(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isNot(int a2, int a3, @Nonnull LTriIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterIntSingleTrait.super.isNot(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean is_Bool(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntBool(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_Bool(v, predicate);
 	}
 
 	@Override
 	default boolean isNot_Bool(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntBool(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_Bool(v, predicate);
 	}
 
 	@Override
 	default boolean is_Byte(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntByte(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_Byte(v, predicate);
 	}
 
 	@Override
 	default boolean isNot_Byte(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntByte(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_Byte(v, predicate);
 	}
 
 	@Override
 	default boolean is_Dbl(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntDbl(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_Dbl(v, predicate);
 	}
 
 	@Override
 	default boolean isNot_Dbl(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntDbl(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_Dbl(v, predicate);
 	}
 
 	@Override
 	default boolean is_Char(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntChar(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_Char(v, predicate);
 	}
 
 	@Override
 	default boolean isNot_Char(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntChar(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_Char(v, predicate);
 	}
 
 	@Override
 	default boolean is_Srt(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntSrt(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_Srt(v, predicate);
 	}
 
 	@Override
 	default boolean isNot_Srt(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntSrt(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_Srt(v, predicate);
 	}
 
 	@Override
 	default boolean is_Flt(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntFlt(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_Flt(v, predicate);
 	}
 
 	@Override
 	default boolean isNot_Flt(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntFlt(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_Flt(v, predicate);
 	}
 
 	@Override
 	default boolean is_Long(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntLong(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_Long(v, predicate);
 	}
 
 	@Override
 	default boolean isNot_Long(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntLong(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_Long(v, predicate);
 	}
 
 	@Override
 	default <V> boolean is_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntObj(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.is_(v, predicate);
 	}
 
 	@Override
 	default <V> boolean isNot_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testIntObj(get(), v);
+		return isPresent() && FilterIntSingleTrait.super.isNot_(v, predicate);
 	}
 
 	@Override
 	default <V1> boolean isWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterIntSingleTrait.super.isWithInt(with, predicate);
 	}
 
 	@Override
 	default <V1> boolean isNotWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterIntSingleTrait.super.isNotWithInt(with, predicate);
 	}
 
 	// </editor-fold>

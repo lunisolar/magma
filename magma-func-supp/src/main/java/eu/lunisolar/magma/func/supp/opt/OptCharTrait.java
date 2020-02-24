@@ -113,73 +113,73 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 	@Override
 	default boolean is(@Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterCharSingleTrait.super.is(predicate);
 	}
 
 	@Override
 	default boolean isNot(@Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterCharSingleTrait.super.isNot(predicate);
 	}
 
 	@Override
 	default boolean is(char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterCharSingleTrait.super.is(a2, predicate);
 	}
 
 	@Override
 	default boolean isNot(char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterCharSingleTrait.super.isNot(a2, predicate);
 	}
 
 	@Override
 	default boolean is(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterCharSingleTrait.super.is(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isNot(char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterCharSingleTrait.super.isNot(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isInt(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterCharSingleTrait.super.isInt(v, predicate);
 	}
 
 	@Override
 	default boolean isNotInt(int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterCharSingleTrait.super.isNotInt(v, predicate);
 	}
 
 	@Override
 	default <V> boolean is_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testCharObj(get(), v);
+		return isPresent() && FilterCharSingleTrait.super.is_(v, predicate);
 	}
 
 	@Override
 	default <V> boolean isNot_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testCharObj(get(), v);
+		return isPresent() && FilterCharSingleTrait.super.isNot_(v, predicate);
 	}
 
 	@Override
 	default <V1> boolean isWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterCharSingleTrait.super.isWithChar(with, predicate);
 	}
 
 	@Override
 	default <V1> boolean isNotWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterCharSingleTrait.super.isNotWithChar(with, predicate);
 	}
 
 	// </editor-fold>

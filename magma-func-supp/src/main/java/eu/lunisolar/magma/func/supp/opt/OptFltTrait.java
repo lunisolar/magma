@@ -113,73 +113,73 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait
 	@Override
 	default boolean is(@Nonnull LFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterFltSingleTrait.super.is(predicate);
 	}
 
 	@Override
 	default boolean isNot(@Nonnull LFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterFltSingleTrait.super.isNot(predicate);
 	}
 
 	@Override
 	default boolean is(float a2, @Nonnull LBiFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterFltSingleTrait.super.is(a2, predicate);
 	}
 
 	@Override
 	default boolean isNot(float a2, @Nonnull LBiFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterFltSingleTrait.super.isNot(a2, predicate);
 	}
 
 	@Override
 	default boolean is(float a2, float a3, @Nonnull LTriFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterFltSingleTrait.super.is(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isNot(float a2, float a3, @Nonnull LTriFltPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterFltSingleTrait.super.isNot(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isInt(int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterFltSingleTrait.super.isInt(v, predicate);
 	}
 
 	@Override
 	default boolean isNotInt(int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterFltSingleTrait.super.isNotInt(v, predicate);
 	}
 
 	@Override
 	default <V> boolean is_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testFltObj(get(), v);
+		return isPresent() && FilterFltSingleTrait.super.is_(v, predicate);
 	}
 
 	@Override
 	default <V> boolean isNot_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testFltObj(get(), v);
+		return isPresent() && FilterFltSingleTrait.super.isNot_(v, predicate);
 	}
 
 	@Override
 	default <V1> boolean isWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterFltSingleTrait.super.isWithFlt(with, predicate);
 	}
 
 	@Override
 	default <V1> boolean isNotWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterFltSingleTrait.super.isNotWithFlt(with, predicate);
 	}
 
 	// </editor-fold>

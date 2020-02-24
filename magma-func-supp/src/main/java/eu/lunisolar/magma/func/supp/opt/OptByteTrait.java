@@ -113,73 +113,73 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	@Override
 	default boolean is(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterByteSingleTrait.super.is(predicate);
 	}
 
 	@Override
 	default boolean isNot(@Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get());
+		return isPresent() && FilterByteSingleTrait.super.isNot(predicate);
 	}
 
 	@Override
 	default boolean is(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterByteSingleTrait.super.is(a2, predicate);
 	}
 
 	@Override
 	default boolean isNot(byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2);
+		return isPresent() && FilterByteSingleTrait.super.isNot(a2, predicate);
 	}
 
 	@Override
 	default boolean is(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterByteSingleTrait.super.is(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), a2, a3);
+		return isPresent() && FilterByteSingleTrait.super.isNot(a2, a3, predicate);
 	}
 
 	@Override
 	default boolean isInt(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterByteSingleTrait.super.isInt(v, predicate);
 	}
 
 	@Override
 	default boolean isNotInt(int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(get(), v);
+		return isPresent() && FilterByteSingleTrait.super.isNotInt(v, predicate);
 	}
 
 	@Override
 	default <V> boolean is_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testByteObj(get(), v);
+		return isPresent() && FilterByteSingleTrait.super.is_(v, predicate);
 	}
 
 	@Override
 	default <V> boolean isNot_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.testByteObj(get(), v);
+		return isPresent() && FilterByteSingleTrait.super.isNot_(v, predicate);
 	}
 
 	@Override
 	default <V1> boolean isWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterByteSingleTrait.super.isWithByte(with, predicate);
 	}
 
 	@Override
 	default <V1> boolean isNotWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && predicate.test(with, get());
+		return isPresent() && FilterByteSingleTrait.super.isNotWithByte(with, predicate);
 	}
 
 	// </editor-fold>
