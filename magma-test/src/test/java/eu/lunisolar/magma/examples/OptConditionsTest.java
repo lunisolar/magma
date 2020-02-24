@@ -27,7 +27,16 @@ import java.util.concurrent.atomic.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("unchecked")
-public class ConditionsTest {
+public class OptConditionsTest {
+
+    @Test
+    public void filterAndMap() {
+        var sut = Opt.obj(Integer.valueOf(1));
+
+        assertThat(sut.filterAndMap(Integer.class).nullable()).isEqualTo(1);
+        assertThat(sut.filterAndMap(String.class).nullable()).isNull();
+    }
+
 
     @Test
     public void ifPresent() {
