@@ -101,6 +101,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
+	default @Nonnull SELF mustX(@Nonnull LFltPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltPredicate.throwIfNot(get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot(@Nonnull LFltPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LFltPredicate.throwIf(get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
@@ -116,6 +122,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 	default @Nonnull SELF mustNot(@Nonnull LFltPredicate predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
 		LFltPredicate.throwIf(get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustXNot(@Nonnull LFltPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltPredicate.throwIf(get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -143,27 +155,9 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message) {
+	default @Nonnull SELF mustX(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
-		return self();
-	}
-
-	default @Nonnull SELF mustNot$(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
-		return self();
-	}
-
-	default @Nonnull SELF mustNot$$(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, a2, get());
-		return self();
-	}
-
-	default @Nonnull SELF mustNot(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message, @Nullable Object... messageParams) {
-		Null.nonNullArg(predicate, "predicate");
-		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), message, messageParams);
+		LBiFltPredicate.throwIfNot(get(), a2, predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -191,6 +185,42 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
+	default @Nonnull SELF mustX(float a2, @Nonnull LBiFltPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiFltPredicate.throwIfNot(get(), a2, predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$$(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, a2, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustXNot(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiFltPredicate.throwIf(get(), a2, predicate, ex, message, messageParams);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot(float a2, @Nonnull LBiFltPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
@@ -212,6 +242,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 	default @Nonnull SELF mustNot(float a2, @Nonnull LBiFltPredicate predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiFltPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustXNot(float a2, @Nonnull LBiFltPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiFltPredicate.throwIf(get(), a2, predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -239,27 +275,9 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
-	default @Nonnull SELF mustNot(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message) {
+	default @Nonnull SELF mustX(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
-		return self();
-	}
-
-	default @Nonnull SELF mustNot$(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
-		return self();
-	}
-
-	default @Nonnull SELF mustNot$$(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, a2, a3, get());
-		return self();
-	}
-
-	default @Nonnull SELF mustNot(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message, @Nullable Object... messageParams) {
-		Null.nonNullArg(predicate, "predicate");
-		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), message, messageParams);
+		LTriFltPredicate.throwIfNot(get(), a2, a3, predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -287,6 +305,42 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
+	default @Nonnull SELF mustX(float a2, float a3, @Nonnull LTriFltPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LTriFltPredicate.throwIfNot(get(), a2, a3, predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot$$(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, a2, a3, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustXNot(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LTriFltPredicate.throwIf(get(), a2, a3, predicate, ex, message, messageParams);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot(float a2, float a3, @Nonnull LTriFltPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
@@ -308,6 +362,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 	default @Nonnull SELF mustNot(float a2, float a3, @Nonnull LTriFltPredicate predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
 		LTriFltPredicate.throwIf(get(), a2, a3, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustXNot(float a2, float a3, @Nonnull LTriFltPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LTriFltPredicate.throwIf(get(), a2, a3, predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -335,27 +395,9 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
-	default @Nonnull SELF mustNotInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message) {
+	default @Nonnull SELF mustXInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
-		return self();
-	}
-
-	default @Nonnull SELF mustNotInt$(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
-		return self();
-	}
-
-	default @Nonnull SELF mustNotInt$$(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, v, get());
-		return self();
-	}
-
-	default @Nonnull SELF mustNotInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message, @Nullable Object... messageParams) {
-		Null.nonNullArg(predicate, "predicate");
-		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), message, messageParams);
+		LFltIntPredicate.throwIfNot(get(), v, predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -383,6 +425,42 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
+	default @Nonnull SELF mustXInt(int v, @Nonnull LFltIntPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltIntPredicate.throwIfNot(get(), v, predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustNotInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNotInt$(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNotInt$$(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, v, get());
+		return self();
+	}
+
+	default @Nonnull SELF mustNotInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustXNotInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltIntPredicate.throwIf(get(), v, predicate, ex, message, messageParams);
+		return self();
+	}
+
 	default @Nonnull SELF mustNotInt(int v, @Nonnull LFltIntPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
@@ -404,6 +482,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 	default @Nonnull SELF mustNotInt(int v, @Nonnull LFltIntPredicate predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
 		LFltIntPredicate.throwIf(get(), v, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull SELF mustXNotInt(int v, @Nonnull LFltIntPredicate predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LFltIntPredicate.throwIf(get(), v, predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -431,27 +515,9 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
-	default @Nonnull <V> SELF mustNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF mustX_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
-		return self();
-	}
-
-	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
-		return self();
-	}
-
-	default @Nonnull <V> SELF mustNot_$$(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, v, get());
-		return self();
-	}
-
-	default @Nonnull <V> SELF mustNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object... messageParams) {
-		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), message, messageParams);
+		LObjFltPredicate.throwIfNot(v, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -479,6 +545,42 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
+	default @Nonnull <V> SELF mustX_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIfNot(v, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustNot_$$(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, v, get());
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustXNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(v, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
 	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
@@ -500,6 +602,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjFltPredicate.throwIf(v, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustXNot_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(v, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -527,27 +635,9 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustXWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
-		return self();
-	}
-
-	default @Nonnull <V1> SELF mustNotWithFlt$(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
-		return self();
-	}
-
-	default @Nonnull <V1> SELF mustNotWithFlt$$(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
-		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with, get());
-		return self();
-	}
-
-	default @Nonnull <V1> SELF mustNotWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message, @Nullable Object... messageParams) {
-		Null.nonNullArg(predicate, "predicate");
-		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), message, messageParams);
+		LObjFltPredicate.throwIfNot(with, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
@@ -575,6 +665,42 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 		return self();
 	}
 
+	default @Nonnull <V1> SELF mustXWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIfNot(with, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustNotWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustNotWithFlt$(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustNotWithFlt$$(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with, get());
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustNotWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustXNotWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(with, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
 	default @Nonnull <V1> SELF mustNotWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
@@ -596,6 +722,12 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentT
 	default @Nonnull <V1> SELF mustNotWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjFltPredicate.throwIf(with, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustXNotWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjFltPredicate.throwIf(with, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
