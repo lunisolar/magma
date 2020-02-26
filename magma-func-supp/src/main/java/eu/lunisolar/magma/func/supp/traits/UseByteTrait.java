@@ -55,60 +55,55 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface FilterBoolTrait<SELF extends FilterBoolTrait<SELF>> extends FluentTrait<SELF> {
+public interface UseByteTrait<SELF extends UseByteTrait<SELF>> extends FluentTrait<SELF> {
 
-	// <editor-fold desc="filtering">
+	// <editor-fold desc="doIf">
 
-	public SELF filter(@Nonnull LLogicalOperator operator);
+	public @Nonnull SELF use(@Nonnull LByteConsumer consumer);
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator operator) {
-		return filter(a -> operator.apply(a, a2));
+	default @Nonnull SELF use(byte a2, @Nonnull LBiByteConsumer consumer) {
+		return use(a -> consumer.accept(a, a2));
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter(@Nonnull LLogicalBinaryOperator operator, boolean a2) {
-		return filter(a2, operator);
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull SELF use(@Nonnull LBiByteConsumer consumer, byte a2) {
+		return use(a2, consumer);
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
-		return filter(a -> operator.apply(a, a2, a3));
+	default @Nonnull SELF use(byte a2, byte a3, @Nonnull LTriByteConsumer consumer) {
+		return use(a -> consumer.accept(a, a2, a3));
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3) {
-		return filter(a2, a3, operator);
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull SELF use(@Nonnull LTriByteConsumer consumer, byte a2, byte a3) {
+		return use(a2, a3, consumer);
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filterInt(int v, @Nonnull LBoolIntPredicate operator) {
-		return filter(a -> operator.test(a, v));
+	default @Nonnull SELF useInt(int v, @Nonnull LByteIntPredicate consumer) {
+		return use(a -> consumer.test(a, v));
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filterInt(@Nonnull LBoolIntPredicate operator, int v) {
-		return filterInt(v, operator);
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LByteIntPredicate consumer, int v) {
+		return useInt(v, consumer);
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
-		return filter(a -> operator.testBoolObj(a, v));
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> consumer) {
+		return use(a -> consumer.testByteObj(a, v));
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
-		return filter_(v, operator);
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> consumer, V v) {
+		return use_(v, consumer);
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V1> SELF filterWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
-		return filter(a -> operator.test(with, a));
+	default @Nonnull <V1> SELF useWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> consumer) {
+		return use(a -> consumer.test(with, a));
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V1> SELF filterWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with) {
-		return filterWithBool(with, operator);
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull <V1> SELF useWithByte(@Nonnull LObjBytePredicate<? super V1> consumer, V1 with) {
+		return useWithByte(with, consumer);
 	}
 
 	// </editor-fold>

@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -55,60 +56,63 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface FilterBoolTrait<SELF extends FilterBoolTrait<SELF>> extends FluentTrait<SELF> {
+public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> extends LLongSingle, UseLongTrait<SELF>, LongValueTrait<SELF> {
 
-	// <editor-fold desc="filtering">
+	// <editor-fold desc="doIf">
 
-	public SELF filter(@Nonnull LLogicalOperator operator);
-
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator operator) {
-		return filter(a -> operator.apply(a, a2));
+	default @Nonnull SELF use(@Nonnull LLongConsumer consumer) {
+		consumer.accept(value());
+		return self();
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter(@Nonnull LLogicalBinaryOperator operator, boolean a2) {
-		return filter(a2, operator);
+	default @Nonnull SELF use(long a2, @Nonnull LBiLongConsumer consumer) {
+		consumer.accept(value(), a2);
+		return self();
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
-		return filter(a -> operator.apply(a, a2, a3));
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull SELF use(@Nonnull LBiLongConsumer consumer, long a2) {
+		return use(a2, consumer);
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filter(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3) {
-		return filter(a2, a3, operator);
+	default @Nonnull SELF use(long a2, long a3, @Nonnull LTriLongConsumer consumer) {
+		consumer.accept(value(), a2, a3);
+		return self();
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull SELF filterInt(int v, @Nonnull LBoolIntPredicate operator) {
-		return filter(a -> operator.test(a, v));
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull SELF use(@Nonnull LTriLongConsumer consumer, long a2, long a3) {
+		return use(a2, a3, consumer);
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull SELF filterInt(@Nonnull LBoolIntPredicate operator, int v) {
-		return filterInt(v, operator);
+	default @Nonnull SELF useInt(int v, @Nonnull LLongIntPredicate consumer) {
+		consumer.test(value(), v);
+		return self();
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
-		return filter(a -> operator.testBoolObj(a, v));
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LLongIntPredicate consumer, int v) {
+		return useInt(v, consumer);
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
-		return filter_(v, operator);
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> consumer) {
+		consumer.testLongObj(value(), v);
+		return self();
 	}
 
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V1> SELF filterWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
-		return filter(a -> operator.test(with, a));
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> consumer, V v) {
+		return use_(v, consumer);
 	}
 
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V1> SELF filterWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with) {
-		return filterWithBool(with, operator);
+	default @Nonnull <V1> SELF useWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> consumer) {
+		consumer.test(with, value());
+		return self();
+	}
+
+	/** Variant with reverse predicate-vs-arg order. */
+	default @Nonnull <V1> SELF useWithLong(@Nonnull LObjLongPredicate<? super V1> consumer, V1 with) {
+		return useWithLong(with, consumer);
 	}
 
 	// </editor-fold>

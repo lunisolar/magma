@@ -78,7 +78,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LBiLongPredicate predicate, long a2, @Nonnull LLongConsumer action) {
 		return doIf(a2, predicate, action);
 	}
@@ -89,7 +89,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LBiLongPredicate predicate, long a2, @Nonnull LLongConsumer action) {
 		return doIfNot(a2, predicate, action);
 	}
@@ -100,7 +100,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LTriLongPredicate predicate, long a2, long a3, @Nonnull LLongConsumer action) {
 		return doIf(a2, a3, predicate, action);
 	}
@@ -111,7 +111,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LTriLongPredicate predicate, long a2, long a3, @Nonnull LLongConsumer action) {
 		return doIfNot(a2, a3, predicate, action);
 	}
@@ -122,7 +122,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfInt(@Nonnull LLongIntPredicate predicate, int v, @Nonnull LLongConsumer action) {
 		return doIfInt(v, predicate, action);
 	}
@@ -133,7 +133,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNotInt(@Nonnull LLongIntPredicate predicate, int v, @Nonnull LLongConsumer action) {
 		return doIfNotInt(v, predicate, action);
 	}
@@ -144,7 +144,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V> SELF doIf_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, @Nonnull LLongConsumer action) {
 		return doIf_(v, predicate, action);
 	}
@@ -155,7 +155,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, @Nonnull LLongConsumer action) {
 		return doIfNot_(v, predicate, action);
 	}
@@ -166,7 +166,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V1> SELF doIfWithLong(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with, @Nonnull LLongConsumer action) {
 		return doIfWithLong(with, predicate, action);
 	}
@@ -177,7 +177,7 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V1> SELF doIfNotWithLong(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with, @Nonnull LLongConsumer action) {
 		return doIfNotWithLong(with, predicate, action);
 	}

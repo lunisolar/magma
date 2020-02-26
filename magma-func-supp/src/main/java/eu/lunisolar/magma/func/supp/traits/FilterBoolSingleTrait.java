@@ -61,39 +61,39 @@ public interface FilterBoolSingleTrait<SELF extends FilterBoolSingleTrait<SELF>>
 	// <editor-fold desc="is">
 
 	@Override
-	default @Nonnull SELF filter(@Nonnull LLogicalOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? self() : voidValue();
+	default @Nonnull SELF filter(@Nonnull LLogicalOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return this.is(operator) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? self() : voidValue();
+	default @Nonnull SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return this.is(a2, operator) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? self() : voidValue();
+	default @Nonnull SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return this.is(a2, a3, operator) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull SELF filterInt(int v, @Nonnull LBoolIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isInt(v, predicate) ? self() : voidValue();
+	default @Nonnull SELF filterInt(int v, @Nonnull LBoolIntPredicate operator) {
+		Null.nonNullArg(operator, "operator");
+		return this.isInt(v, operator) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is_(v, predicate) ? self() : voidValue();
+	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
+		Null.nonNullArg(operator, "operator");
+		return this.is_(v, operator) ? self() : voidValue();
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isWithBool(with, predicate) ? self() : voidValue();
+	default @Nonnull <V1> SELF filterWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+		Null.nonNullArg(operator, "operator");
+		return this.isWithBool(with, operator) ? self() : voidValue();
 	}
 
 	// </editor-fold>

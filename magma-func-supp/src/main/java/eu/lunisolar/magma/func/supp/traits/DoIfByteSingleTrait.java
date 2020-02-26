@@ -78,7 +78,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull LByteConsumer action) {
 		return doIf(a2, predicate, action);
 	}
@@ -89,7 +89,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull LByteConsumer action) {
 		return doIfNot(a2, predicate, action);
 	}
@@ -100,7 +100,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull LByteConsumer action) {
 		return doIf(a2, a3, predicate, action);
 	}
@@ -111,7 +111,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull LByteConsumer action) {
 		return doIfNot(a2, a3, predicate, action);
 	}
@@ -122,7 +122,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfInt(@Nonnull LByteIntPredicate predicate, int v, @Nonnull LByteConsumer action) {
 		return doIfInt(v, predicate, action);
 	}
@@ -133,7 +133,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNotInt(@Nonnull LByteIntPredicate predicate, int v, @Nonnull LByteConsumer action) {
 		return doIfNotInt(v, predicate, action);
 	}
@@ -144,7 +144,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V> SELF doIf_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LByteConsumer action) {
 		return doIf_(v, predicate, action);
 	}
@@ -155,7 +155,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LByteConsumer action) {
 		return doIfNot_(v, predicate, action);
 	}
@@ -166,7 +166,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V1> SELF doIfWithByte(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with, @Nonnull LByteConsumer action) {
 		return doIfWithByte(with, predicate, action);
 	}
@@ -177,7 +177,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V1> SELF doIfNotWithByte(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with, @Nonnull LByteConsumer action) {
 		return doIfNotWithByte(with, predicate, action);
 	}

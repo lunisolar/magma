@@ -61,125 +61,125 @@ public interface IsBoolTrait<SELF extends IsBoolTrait<SELF>> extends BoolValueTr
 	// <editor-fold desc="is">
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(@Nonnull LLogicalOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.apply(value());
+	default boolean is(@Nonnull LLogicalOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return operator.apply(value());
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(@Nonnull LLogicalOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.apply(value());
+	default boolean isNot(@Nonnull LLogicalOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return !operator.apply(value());
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.apply(value(), a2);
+	default boolean is(boolean a2, @Nonnull LLogicalBinaryOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return operator.apply(value(), a2);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is(@Nonnull LLogicalBinaryOperator predicate, boolean a2) {
-		return is(a2, predicate);
+	default boolean is(@Nonnull LLogicalBinaryOperator operator, boolean a2) {
+		return is(a2, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(boolean a2, @Nonnull LLogicalBinaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.apply(value(), a2);
+	default boolean isNot(boolean a2, @Nonnull LLogicalBinaryOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return !operator.apply(value(), a2);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot(@Nonnull LLogicalBinaryOperator predicate, boolean a2) {
-		return isNot(a2, predicate);
+	default boolean isNot(@Nonnull LLogicalBinaryOperator operator, boolean a2) {
+		return isNot(a2, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean is(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.apply(value(), a2, a3);
+	default boolean is(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return operator.apply(value(), a2, a3);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean is(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3) {
-		return is(a2, a3, predicate);
+	default boolean is(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3) {
+		return is(a2, a3, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.apply(value(), a2, a3);
+	default boolean isNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
+		Null.nonNullArg(operator, "operator");
+		return !operator.apply(value(), a2, a3);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNot(@Nonnull LLogicalTernaryOperator predicate, boolean a2, boolean a3) {
-		return isNot(a2, a3, predicate);
+	default boolean isNot(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3) {
+		return isNot(a2, a3, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isInt(int v, @Nonnull LBoolIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.test(value(), v);
+	default boolean isInt(int v, @Nonnull LBoolIntPredicate operator) {
+		Null.nonNullArg(operator, "operator");
+		return operator.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isInt(@Nonnull LBoolIntPredicate predicate, int v) {
-		return isInt(v, predicate);
+	default boolean isInt(@Nonnull LBoolIntPredicate operator, int v) {
+		return isInt(v, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default boolean isNotInt(int v, @Nonnull LBoolIntPredicate predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.test(value(), v);
+	default boolean isNotInt(int v, @Nonnull LBoolIntPredicate operator) {
+		Null.nonNullArg(operator, "operator");
+		return !operator.test(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default boolean isNotInt(@Nonnull LBoolIntPredicate predicate, int v) {
-		return isNotInt(v, predicate);
+	default boolean isNotInt(@Nonnull LBoolIntPredicate operator, int v) {
+		return isNotInt(v, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.testBoolObj(value(), v);
+	default <V> boolean is_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
+		Null.nonNullArg(operator, "operator");
+		return operator.testBoolObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
-		return is_(v, predicate);
+	default <V> boolean is_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
+		return is_(v, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.testBoolObj(value(), v);
+	default <V> boolean isNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
+		Null.nonNullArg(operator, "operator");
+		return !operator.testBoolObj(value(), v);
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> predicate, V v) {
-		return isNot_(v, predicate);
+	default <V> boolean isNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
+		return isNot_(v, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.test(with, value());
+	default <V1> boolean isWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+		Null.nonNullArg(operator, "operator");
+		return operator.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isWithBool(@Nonnull LObjBoolPredicate<? super V1> predicate, V1 with) {
-		return isWithBool(with, predicate);
+	default <V1> boolean isWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with) {
+		return isWithBool(with, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isNotWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.test(with, value());
+	default <V1> boolean isNotWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+		Null.nonNullArg(operator, "operator");
+		return !operator.test(with, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isNotWithBool(@Nonnull LObjBoolPredicate<? super V1> predicate, V1 with) {
-		return isNotWithBool(with, predicate);
+	default <V1> boolean isNotWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with) {
+		return isNotWithBool(with, operator);
 	}
 
 	// </editor-fold>

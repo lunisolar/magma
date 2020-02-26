@@ -78,7 +78,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull LFltConsumer action) {
 		return doIf(a2, predicate, action);
 	}
@@ -89,7 +89,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LBiFltPredicate predicate, float a2, @Nonnull LFltConsumer action) {
 		return doIfNot(a2, predicate, action);
 	}
@@ -100,7 +100,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull LFltConsumer action) {
 		return doIf(a2, a3, predicate, action);
 	}
@@ -111,7 +111,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LTriFltPredicate predicate, float a2, float a3, @Nonnull LFltConsumer action) {
 		return doIfNot(a2, a3, predicate, action);
 	}
@@ -122,7 +122,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull LFltConsumer action) {
 		return doIfInt(v, predicate, action);
 	}
@@ -133,7 +133,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull SELF doIfNotInt(@Nonnull LFltIntPredicate predicate, int v, @Nonnull LFltConsumer action) {
 		return doIfNotInt(v, predicate, action);
 	}
@@ -144,7 +144,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V> SELF doIf_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull LFltConsumer action) {
 		return doIf_(v, predicate, action);
 	}
@@ -155,7 +155,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull LFltConsumer action) {
 		return doIfNot_(v, predicate, action);
 	}
@@ -166,7 +166,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V1> SELF doIfWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull LFltConsumer action) {
 		return doIfWithFlt(with, predicate, action);
 	}
@@ -177,7 +177,7 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate arguments order. */
+	/** Variant with reverse predicate-vs-arg order. */
 	default @Nonnull <V1> SELF doIfNotWithFlt(@Nonnull LObjFltPredicate<? super V1> predicate, V1 with, @Nonnull LFltConsumer action) {
 		return doIfNotWithFlt(with, predicate, action);
 	}
