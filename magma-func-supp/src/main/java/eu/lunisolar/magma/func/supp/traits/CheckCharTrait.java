@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.check;
+package eu.lunisolar.magma.func.supp.traits;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
@@ -33,10 +33,11 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.Be; // NOSONAR
+import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.FluentSyntax;
+import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -56,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.value.*;
 
-import static eu.lunisolar.magma.func.supp.check.CheckTrait.*;
+import static eu.lunisolar.magma.func.supp.traits.CheckTrait.*;
 
 public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FluentTrait<SELF>, aValue<aChar>, LCharSingle, CharValueTrait<SELF> {
 
@@ -611,123 +612,243 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends Fluen
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithChar$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar$$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithChar$$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with, get());
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with1, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), message, messageParams);
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), message, messageParams);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustXWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustXWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, ex, message, messageParams);
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar$(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithChar$(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar$$(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithChar$$(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with, get());
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with1, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, checkTraitFactory(), message, messageParams);
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), message, messageParams);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustXWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustXWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIfNot(with, get(), predicate, ex, message, messageParams);
+		LObjCharPredicate.throwIfNot(with1, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithChar$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar$$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithChar$$(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with, get());
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with1, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustNotWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), message, messageParams);
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), message, messageParams);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustXNotWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustXNotWithChar(@Nonnull LObjCharPredicate<? super V1> predicate, V1 with1, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, ex, message, messageParams);
+		LObjCharPredicate.throwIf(with1, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar$(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithChar$(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar$$(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithChar$$(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with, get());
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_1, checkTraitType(), checkTraitName(), message, with1, get());
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustNotWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustNotWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, checkTraitFactory(), message, messageParams);
+		LObjCharPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), message, messageParams);
 		return self();
 	}
 
-	default @Nonnull <V1> SELF mustXNotWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+	default @Nonnull <V1> SELF mustXNotWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
 		Null.nonNullArg(predicate, "predicate");
-		LObjCharPredicate.throwIf(with, get(), predicate, ex, message, messageParams);
+		LObjCharPredicate.throwIf(with1, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$$(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, with1, with2, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustXWith(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$$(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, with1, with2, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustXWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIfNot(with1, with2, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith$$(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, with1, with2, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustXNotWith(@Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith$(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith$$(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S_2, checkTraitType(), checkTraitName(), message, with1, with2, get());
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustXNotWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjCharPredicate.throwIf(with1, with2, get(), predicate, ex, message, messageParams);
 		return self();
 	}
 

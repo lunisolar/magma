@@ -70,7 +70,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF uniUse(@Nonnull LBiConsumer<? super T, ? super T> consumer, T a2) {
 		return uniUse(a2, consumer);
 	}
@@ -80,7 +80,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF uniUse(@Nonnull LTriConsumer<? super T, ? super T, ? super T> consumer, T a2, T a3) {
 		return uniUse(a2, a3, consumer);
 	}
@@ -90,98 +90,98 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF uniUse(@Nonnull LQuadConsumer<? super T, ? super T, ? super T, ? super T> consumer, T a2, T a3, T a4) {
 		return uniUse(a2, a3, a4, consumer);
 	}
 
-	default @Nonnull SELF useBool(boolean v, @Nonnull LObjBoolPredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useBool(boolean v, @Nonnull LObjBoolConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useBool(@Nonnull LObjBoolPredicate<? super T> consumer, boolean v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useBool(@Nonnull LObjBoolConsumer<? super T> consumer, boolean v) {
 		return useBool(v, consumer);
 	}
 
-	default @Nonnull SELF useByte(byte v, @Nonnull LObjBytePredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useByte(byte v, @Nonnull LObjByteConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useByte(@Nonnull LObjBytePredicate<? super T> consumer, byte v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useByte(@Nonnull LObjByteConsumer<? super T> consumer, byte v) {
 		return useByte(v, consumer);
 	}
 
-	default @Nonnull SELF useDbl(double v, @Nonnull LObjDblPredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useDbl(double v, @Nonnull LObjDblConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useDbl(@Nonnull LObjDblPredicate<? super T> consumer, double v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useDbl(@Nonnull LObjDblConsumer<? super T> consumer, double v) {
 		return useDbl(v, consumer);
 	}
 
-	default @Nonnull SELF useChar(char v, @Nonnull LObjCharPredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useChar(char v, @Nonnull LObjCharConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useChar(@Nonnull LObjCharPredicate<? super T> consumer, char v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useChar(@Nonnull LObjCharConsumer<? super T> consumer, char v) {
 		return useChar(v, consumer);
 	}
 
-	default @Nonnull SELF useSrt(short v, @Nonnull LObjSrtPredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useSrt(short v, @Nonnull LObjSrtConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useSrt(@Nonnull LObjSrtPredicate<? super T> consumer, short v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useSrt(@Nonnull LObjSrtConsumer<? super T> consumer, short v) {
 		return useSrt(v, consumer);
 	}
 
-	default @Nonnull SELF useFlt(float v, @Nonnull LObjFltPredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useFlt(float v, @Nonnull LObjFltConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useFlt(@Nonnull LObjFltPredicate<? super T> consumer, float v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useFlt(@Nonnull LObjFltConsumer<? super T> consumer, float v) {
 		return useFlt(v, consumer);
 	}
 
-	default @Nonnull SELF useInt(int v, @Nonnull LObjIntPredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useInt(int v, @Nonnull LObjIntConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useInt(@Nonnull LObjIntPredicate<? super T> consumer, int v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LObjIntConsumer<? super T> consumer, int v) {
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull SELF useLong(long v, @Nonnull LObjLongPredicate<? super T> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useLong(long v, @Nonnull LObjLongConsumer<? super T> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useLong(@Nonnull LObjLongPredicate<? super T> consumer, long v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useLong(@Nonnull LObjLongConsumer<? super T> consumer, long v) {
 		return useLong(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use(V v, @Nonnull LBiPredicate<? super T, ? super V> consumer) {
-		consumer.test(value(), v);
+	default @Nonnull <V> SELF use(V v, @Nonnull LBiConsumer<? super T, ? super V> consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V> SELF use(@Nonnull LBiPredicate<? super T, ? super V> consumer, V v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF use(@Nonnull LBiConsumer<? super T, ? super V> consumer, V v) {
 		return use(v, consumer);
 	}
 
@@ -190,28 +190,38 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull <V2, V3> SELF use(@Nonnull LTriConsumer<? super T, ? super V2, ? super V3> consumer, V2 a2, V3 a3) {
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull <V1> SELF useWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> consumer) {
-		consumer.test(with, value());
+	default @Nonnull <V1> SELF useWith(V1 with1, @Nonnull LBiConsumer<? super V1, ? super T> consumer) {
+		consumer.accept(with1, value());
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF useWith(@Nonnull LBiPredicate<? super V1, ? super T> consumer, V1 with) {
-		return useWith(with, consumer);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF useWith(@Nonnull LBiConsumer<? super V1, ? super T> consumer, V1 with1) {
+		return useWith(with1, consumer);
 	}
 
-	default @Nonnull SELF uniUseWith(T with, @Nonnull LBiPredicate<? super T, ? super T> consumer) {
-		consumer.test(with, value());
+	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LTriConsumer<? super V1, ? super V2, ? super T> consumer) {
+		consumer.accept(with1, with2, value());
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF uniUseWith(@Nonnull LBiPredicate<? super T, ? super T> consumer, T with) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF useWith(@Nonnull LTriConsumer<? super V1, ? super V2, ? super T> consumer, V1 with1, V2 with2) {
+		return useWith(with1, with2, consumer);
+	}
+
+	default @Nonnull SELF uniUseWith(T with, @Nonnull LBiConsumer<? super T, ? super T> consumer) {
+		consumer.accept(with, value());
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF uniUseWith(@Nonnull LBiConsumer<? super T, ? super T> consumer, T with) {
 		return uniUseWith(with, consumer);
 	}
 

@@ -161,25 +161,47 @@ public interface IsBoolTrait<SELF extends IsBoolTrait<SELF>> extends BoolValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+	default <V1> boolean isWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
-		return operator.test(with, value());
+		return operator.test(with1, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with) {
-		return isWithBool(with, operator);
+	default <V1> boolean isWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1) {
+		return isWithBool(with1, operator);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isNotWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+	default <V1> boolean isNotWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
-		return !operator.test(with, value());
+		return !operator.test(with1, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isNotWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with) {
-		return isNotWithBool(with, operator);
+	default <V1> boolean isNotWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1) {
+		return isNotWithBool(with1, operator);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
+		Null.nonNullArg(operator, "operator");
+		return operator.test(with1, with2, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1, V2> boolean isWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2) {
+		return isWith(with1, with2, operator);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
+		Null.nonNullArg(operator, "operator");
+		return !operator.test(with1, with2, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1, V2> boolean isNotWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2) {
+		return isNotWith(with1, with2, operator);
 	}
 
 	// </editor-fold>

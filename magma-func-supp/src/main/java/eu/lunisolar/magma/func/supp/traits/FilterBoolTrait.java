@@ -102,13 +102,23 @@ public interface FilterBoolTrait<SELF extends FilterBoolTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V1> SELF filterWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
-		return filter(a -> operator.test(with, a));
+	default @Nonnull <V1> SELF filterWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
+		return filter(a -> operator.test(with1, a));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V1> SELF filterWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with) {
-		return filterWithBool(with, operator);
+	default @Nonnull <V1> SELF filterWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1) {
+		return filterWithBool(with1, operator);
+	}
+
+	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
+	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
+		return filter(a -> operator.test(with1, with2, a));
+	}
+
+	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	default @Nonnull <V1, V2> SELF filterWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2) {
+		return filterWith(with1, with2, operator);
 	}
 
 	// </editor-fold>

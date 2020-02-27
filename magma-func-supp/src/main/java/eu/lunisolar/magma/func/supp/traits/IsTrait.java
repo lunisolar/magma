@@ -359,25 +359,47 @@ public interface IsTrait<T, SELF extends IsTrait<T, SELF>> extends ValueTrait<T,
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+	default <V1> boolean isWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return predicate.test(with, value());
+		return predicate.test(with1, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with) {
-		return isWith(with, predicate);
+	default <V1> boolean isWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with1) {
+		return isWith(with1, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isNotWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+	default <V1> boolean isNotWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return !predicate.test(with, value());
+		return !predicate.test(with1, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isNotWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with) {
-		return isNotWith(with, predicate);
+	default <V1> boolean isNotWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with1) {
+		return isNotWith(with1, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(with1, with2, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1, V2> boolean isWith(@Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate, V1 with1, V2 with2) {
+		return isWith(with1, with2, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(with1, with2, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1, V2> boolean isNotWith(@Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate, V1 with1, V2 with2) {
+		return isNotWith(with1, with2, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */

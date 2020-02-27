@@ -171,15 +171,27 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default <V1> boolean isWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	default <V1> boolean isWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterCharSingleTrait.super.isWithChar(with, predicate);
+		return isPresent() && FilterCharSingleTrait.super.isWithChar(with1, predicate);
 	}
 
 	@Override
-	default <V1> boolean isNotWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterCharSingleTrait.super.isNotWithChar(with, predicate);
+		return isPresent() && FilterCharSingleTrait.super.isNotWithChar(with1, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterCharSingleTrait.super.isWith(with1, with2, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterCharSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
 	// </editor-fold>

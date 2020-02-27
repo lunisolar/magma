@@ -145,9 +145,15 @@ public interface FilterSingleTrait<T, SELF extends FilterSingleTrait<T, SELF>> e
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+	default @Nonnull <V1> SELF filterWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWith(with, predicate) ? self() : voidValue();
+		return this.isWith(with1, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.isWith(with1, with2, predicate) ? self() : voidValue();
 	}
 
 	@Override

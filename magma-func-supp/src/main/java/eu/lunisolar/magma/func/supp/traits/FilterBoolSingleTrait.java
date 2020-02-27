@@ -91,9 +91,15 @@ public interface FilterBoolSingleTrait<SELF extends FilterBoolSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+	default @Nonnull <V1> SELF filterWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.isWithBool(with, operator) ? self() : voidValue();
+		return this.isWithBool(with1, operator) ? self() : voidValue();
+	}
+
+	@Override
+	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
+		Null.nonNullArg(operator, "operator");
+		return this.isWith(with1, with2, operator) ? self() : voidValue();
 	}
 
 	// </editor-fold>

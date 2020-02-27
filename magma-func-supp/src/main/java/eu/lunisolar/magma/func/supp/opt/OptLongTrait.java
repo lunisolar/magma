@@ -171,15 +171,27 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default <V1> boolean isWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
+	default <V1> boolean isWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterLongSingleTrait.super.isWithLong(with, predicate);
+		return isPresent() && FilterLongSingleTrait.super.isWithLong(with1, predicate);
 	}
 
 	@Override
-	default <V1> boolean isNotWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterLongSingleTrait.super.isNotWithLong(with, predicate);
+		return isPresent() && FilterLongSingleTrait.super.isNotWithLong(with1, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterLongSingleTrait.super.isWith(with1, with2, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterLongSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
 	// </editor-fold>

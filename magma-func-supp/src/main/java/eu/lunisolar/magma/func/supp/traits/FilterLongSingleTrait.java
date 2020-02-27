@@ -91,9 +91,15 @@ public interface FilterLongSingleTrait<SELF extends FilterLongSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWithLong(with, predicate) ? self() : voidValue();
+		return this.isWithLong(with1, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.isWith(with1, with2, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

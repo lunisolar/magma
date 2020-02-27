@@ -288,15 +288,27 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	}
 
 	@Override
-	default <V1> boolean isWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+	default <V1> boolean isWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterSingleTrait.super.isWith(with, predicate);
+		return isPresent() && FilterSingleTrait.super.isWith(with1, predicate);
 	}
 
 	@Override
-	default <V1> boolean isNotWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+	default <V1> boolean isNotWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterSingleTrait.super.isNotWith(with, predicate);
+		return isPresent() && FilterSingleTrait.super.isNotWith(with1, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterSingleTrait.super.isWith(with1, with2, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
 	@Override

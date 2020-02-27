@@ -243,15 +243,27 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	}
 
 	@Override
-	default <V1> boolean isWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
+	default <V1> boolean isWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterIntSingleTrait.super.isWithInt(with, predicate);
+		return isPresent() && FilterIntSingleTrait.super.isWithInt(with1, predicate);
 	}
 
 	@Override
-	default <V1> boolean isNotWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterIntSingleTrait.super.isNotWithInt(with, predicate);
+		return isPresent() && FilterIntSingleTrait.super.isNotWithInt(with1, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterIntSingleTrait.super.isWith(with1, with2, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterIntSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
 	// </editor-fold>

@@ -171,15 +171,27 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 	}
 
 	@Override
-	default <V1> boolean isWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
+	default <V1> boolean isWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterDblSingleTrait.super.isWithDbl(with, predicate);
+		return isPresent() && FilterDblSingleTrait.super.isWithDbl(with1, predicate);
 	}
 
 	@Override
-	default <V1> boolean isNotWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterDblSingleTrait.super.isNotWithDbl(with, predicate);
+		return isPresent() && FilterDblSingleTrait.super.isNotWithDbl(with1, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterDblSingleTrait.super.isWith(with1, with2, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterDblSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
 	// </editor-fold>

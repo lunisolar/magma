@@ -67,7 +67,7 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIf(a -> predicate.test(a, a2), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LBiSrtPredicate predicate, short a2, @Nonnull LSrtConsumer action) {
 		return doIf(a2, predicate, action);
 	}
@@ -76,7 +76,7 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNot(a -> predicate.test(a, a2), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LBiSrtPredicate predicate, short a2, @Nonnull LSrtConsumer action) {
 		return doIfNot(a2, predicate, action);
 	}
@@ -85,7 +85,7 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIf(a -> predicate.test(a, a2, a3), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LTriSrtPredicate predicate, short a2, short a3, @Nonnull LSrtConsumer action) {
 		return doIf(a2, a3, predicate, action);
 	}
@@ -94,7 +94,7 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNot(a -> predicate.test(a, a2, a3), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LTriSrtPredicate predicate, short a2, short a3, @Nonnull LSrtConsumer action) {
 		return doIfNot(a2, a3, predicate, action);
 	}
@@ -103,7 +103,7 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIf(a -> predicate.test(a, v), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfInt(@Nonnull LSrtIntPredicate predicate, int v, @Nonnull LSrtConsumer action) {
 		return doIfInt(v, predicate, action);
 	}
@@ -112,7 +112,7 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNot(a -> predicate.test(a, v), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfNotInt(@Nonnull LSrtIntPredicate predicate, int v, @Nonnull LSrtConsumer action) {
 		return doIfNotInt(v, predicate, action);
 	}
@@ -121,7 +121,7 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIf(a -> predicate.testSrtObj(a, v), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull <V> SELF doIf_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, @Nonnull LSrtConsumer action) {
 		return doIf_(v, predicate, action);
 	}
@@ -130,27 +130,45 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNot(a -> predicate.testSrtObj(a, v), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, @Nonnull LSrtConsumer action) {
 		return doIfNot_(v, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
-		return doIf(a -> predicate.test(with, a), action);
+	default @Nonnull <V1> SELF doIfWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
+		return doIf(a -> predicate.test(with1, a), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF doIfWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with, @Nonnull LSrtConsumer action) {
-		return doIfWithSrt(with, predicate, action);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF doIfWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with1, @Nonnull LSrtConsumer action) {
+		return doIfWithSrt(with1, predicate, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
-		return doIfNot(a -> predicate.test(with, a), action);
+	default @Nonnull <V1> SELF doIfNotWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
+		return doIfNot(a -> predicate.test(with1, a), action);
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF doIfNotWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with, @Nonnull LSrtConsumer action) {
-		return doIfNotWithSrt(with, predicate, action);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF doIfNotWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with1, @Nonnull LSrtConsumer action) {
+		return doIfNotWithSrt(with1, predicate, action);
+	}
+
+	default @Nonnull <V1, V2> SELF doIfWith(V1 with1, V2 with2, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, @Nonnull LSrtConsumer action) {
+		return doIf(a -> predicate.test(with1, with2, a), action);
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF doIfWith(@Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LSrtConsumer action) {
+		return doIfWith(with1, with2, predicate, action);
+	}
+
+	default @Nonnull <V1, V2> SELF doIfNotWith(V1 with1, V2 with2, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, @Nonnull LSrtConsumer action) {
+		return doIfNot(a -> predicate.test(with1, with2, a), action);
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF doIfNotWith(@Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LSrtConsumer action) {
+		return doIfNotWith(with1, with2, predicate, action);
 	}
 
 	// </editor-fold>

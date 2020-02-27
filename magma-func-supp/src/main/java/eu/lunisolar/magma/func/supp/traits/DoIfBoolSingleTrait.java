@@ -78,7 +78,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull LBoolConsumer action) {
 		return doIf(a2, operator, action);
 	}
@@ -89,7 +89,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull LBoolConsumer action) {
 		return doIfNot(a2, operator, action);
 	}
@@ -100,7 +100,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIf(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull LBoolConsumer action) {
 		return doIf(a2, a3, operator, action);
 	}
@@ -111,7 +111,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfNot(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull LBoolConsumer action) {
 		return doIfNot(a2, a3, operator, action);
 	}
@@ -122,7 +122,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfInt(@Nonnull LBoolIntPredicate operator, int v, @Nonnull LBoolConsumer action) {
 		return doIfInt(v, operator, action);
 	}
@@ -133,7 +133,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF doIfNotInt(@Nonnull LBoolIntPredicate operator, int v, @Nonnull LBoolConsumer action) {
 		return doIfNotInt(v, operator, action);
 	}
@@ -144,7 +144,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull <V> SELF doIf_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LBoolConsumer action) {
 		return doIf_(v, operator, action);
 	}
@@ -155,31 +155,53 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LBoolConsumer action) {
 		return doIfNot_(v, operator, action);
 	}
 
-	default @Nonnull <V1> SELF doIfWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
-		if (isWithBool(with, operator))
+	default @Nonnull <V1> SELF doIfWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
+		if (isWithBool(with1, operator))
 			action.accept(value());
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF doIfWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with, @Nonnull LBoolConsumer action) {
-		return doIfWithBool(with, operator, action);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF doIfWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull LBoolConsumer action) {
+		return doIfWithBool(with1, operator, action);
 	}
 
-	default @Nonnull <V1> SELF doIfNotWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
-		if (isNotWithBool(with, operator))
+	default @Nonnull <V1> SELF doIfNotWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
+		if (isNotWithBool(with1, operator))
 			action.accept(value());
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF doIfNotWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with, @Nonnull LBoolConsumer action) {
-		return doIfNotWithBool(with, operator, action);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF doIfNotWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull LBoolConsumer action) {
+		return doIfNotWithBool(with1, operator, action);
+	}
+
+	default @Nonnull <V1, V2> SELF doIfWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBoolConsumer action) {
+		if (isWith(with1, with2, operator))
+			action.accept(value());
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF doIfWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull LBoolConsumer action) {
+		return doIfWith(with1, with2, operator, action);
+	}
+
+	default @Nonnull <V1, V2> SELF doIfNotWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBoolConsumer action) {
+		if (isNotWith(with1, with2, operator))
+			action.accept(value());
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF doIfNotWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull LBoolConsumer action) {
+		return doIfNotWith(with1, with2, operator, action);
 	}
 
 	// </editor-fold>

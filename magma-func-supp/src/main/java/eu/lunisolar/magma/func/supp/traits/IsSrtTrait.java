@@ -161,25 +161,47 @@ public interface IsSrtTrait<SELF extends IsSrtTrait<SELF>> extends SrtValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
+	default <V1> boolean isWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return predicate.test(with, value());
+		return predicate.test(with1, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with) {
-		return isWithSrt(with, predicate);
+	default <V1> boolean isWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with1) {
+		return isWithSrt(with1, predicate);
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V1> boolean isNotWithSrt(V1 with, @Nonnull LObjSrtPredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return !predicate.test(with, value());
+		return !predicate.test(with1, value());
 	}
 
 	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V1> boolean isNotWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with) {
-		return isNotWithSrt(with, predicate);
+	default <V1> boolean isNotWithSrt(@Nonnull LObjSrtPredicate<? super V1> predicate, V1 with1) {
+		return isNotWithSrt(with1, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(with1, with2, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1, V2> boolean isWith(@Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return isWith(with1, with2, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(with1, with2, value());
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V1, V2> boolean isNotWith(@Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return isNotWith(with1, with2, predicate);
 	}
 
 	// </editor-fold>

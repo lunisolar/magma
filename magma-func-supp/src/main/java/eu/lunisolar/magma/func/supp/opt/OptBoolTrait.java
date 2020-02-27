@@ -163,15 +163,27 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default <V1> boolean isWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+	default <V1> boolean isWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
-		return isPresent() && FilterBoolSingleTrait.super.isWithBool(with, operator);
+		return isPresent() && FilterBoolSingleTrait.super.isWithBool(with1, operator);
 	}
 
 	@Override
-	default <V1> boolean isNotWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> operator) {
+	default <V1> boolean isNotWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
-		return isPresent() && FilterBoolSingleTrait.super.isNotWithBool(with, operator);
+		return isPresent() && FilterBoolSingleTrait.super.isNotWithBool(with1, operator);
+	}
+
+	@Override
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
+		Null.nonNullArg(operator, "operator");
+		return isPresent() && FilterBoolSingleTrait.super.isWith(with1, with2, operator);
+	}
+
+	@Override
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
+		Null.nonNullArg(operator, "operator");
+		return isPresent() && FilterBoolSingleTrait.super.isNotWith(with1, with2, operator);
 	}
 
 	// </editor-fold>

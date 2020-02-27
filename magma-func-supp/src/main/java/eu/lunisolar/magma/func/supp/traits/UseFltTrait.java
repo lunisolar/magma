@@ -65,7 +65,7 @@ public interface UseFltTrait<SELF extends UseFltTrait<SELF>> extends FluentTrait
 		return use(a -> consumer.accept(a, a2));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LBiFltConsumer consumer, float a2) {
 		return use(a2, consumer);
 	}
@@ -74,36 +74,45 @@ public interface UseFltTrait<SELF extends UseFltTrait<SELF>> extends FluentTrait
 		return use(a -> consumer.accept(a, a2, a3));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LTriFltConsumer consumer, float a2, float a3) {
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull SELF useInt(int v, @Nonnull LFltIntPredicate consumer) {
-		return use(a -> consumer.test(a, v));
+	default @Nonnull SELF useInt(int v, @Nonnull LFltIntConsumer consumer) {
+		return use(a -> consumer.accept(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useInt(@Nonnull LFltIntPredicate consumer, int v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LFltIntConsumer consumer, int v) {
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> consumer) {
-		return use(a -> consumer.testFltObj(a, v));
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjFltConsumer.LFltObjCons<? super V> consumer) {
+		return use(a -> consumer.acceptFltObj(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> consumer, V v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjFltConsumer.LFltObjCons<? super V> consumer, V v) {
 		return use_(v, consumer);
 	}
 
-	default @Nonnull <V1> SELF useWithFlt(V1 with, @Nonnull LObjFltPredicate<? super V1> consumer) {
-		return use(a -> consumer.test(with, a));
+	default @Nonnull <V1> SELF useWithFlt(V1 with1, @Nonnull LObjFltConsumer<? super V1> consumer) {
+		return use(a -> consumer.accept(with1, a));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF useWithFlt(@Nonnull LObjFltPredicate<? super V1> consumer, V1 with) {
-		return useWithFlt(with, consumer);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF useWithFlt(@Nonnull LObjFltConsumer<? super V1> consumer, V1 with1) {
+		return useWithFlt(with1, consumer);
+	}
+
+	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjFltConsumer<? super V1, ? super V2> consumer) {
+		return use(a -> consumer.accept(with1, with2, a));
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF useWith(@Nonnull LBiObjFltConsumer<? super V1, ? super V2> consumer, V1 with1, V2 with2) {
+		return useWith(with1, with2, consumer);
 	}
 
 	// </editor-fold>

@@ -70,7 +70,7 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LBiLongConsumer consumer, long a2) {
 		return use(a2, consumer);
 	}
@@ -80,39 +80,49 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LTriLongConsumer consumer, long a2, long a3) {
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull SELF useInt(int v, @Nonnull LLongIntPredicate consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useInt(int v, @Nonnull LLongIntConsumer consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useInt(@Nonnull LLongIntPredicate consumer, int v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LLongIntConsumer consumer, int v) {
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> consumer) {
-		consumer.testLongObj(value(), v);
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjLongConsumer.LLongObjCons<? super V> consumer) {
+		consumer.acceptLongObj(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> consumer, V v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjLongConsumer.LLongObjCons<? super V> consumer, V v) {
 		return use_(v, consumer);
 	}
 
-	default @Nonnull <V1> SELF useWithLong(V1 with, @Nonnull LObjLongPredicate<? super V1> consumer) {
-		consumer.test(with, value());
+	default @Nonnull <V1> SELF useWithLong(V1 with1, @Nonnull LObjLongConsumer<? super V1> consumer) {
+		consumer.accept(with1, value());
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF useWithLong(@Nonnull LObjLongPredicate<? super V1> consumer, V1 with) {
-		return useWithLong(with, consumer);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF useWithLong(@Nonnull LObjLongConsumer<? super V1> consumer, V1 with1) {
+		return useWithLong(with1, consumer);
+	}
+
+	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjLongConsumer<? super V1, ? super V2> consumer) {
+		consumer.accept(with1, with2, value());
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF useWith(@Nonnull LBiObjLongConsumer<? super V1, ? super V2> consumer, V1 with1, V2 with2) {
+		return useWith(with1, with2, consumer);
 	}
 
 	// </editor-fold>

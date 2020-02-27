@@ -91,9 +91,15 @@ public interface FilterCharSingleTrait<SELF extends FilterCharSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull <V1> SELF filterWithChar(V1 with, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	default @Nonnull <V1> SELF filterWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWithChar(with, predicate) ? self() : voidValue();
+		return this.isWithChar(with1, predicate) ? self() : voidValue();
+	}
+
+	@Override
+	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.isWith(with1, with2, predicate) ? self() : voidValue();
 	}
 
 	// </editor-fold>

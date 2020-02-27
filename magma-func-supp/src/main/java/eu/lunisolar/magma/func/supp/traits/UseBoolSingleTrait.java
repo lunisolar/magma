@@ -70,7 +70,7 @@ public interface UseBoolSingleTrait<SELF extends UseBoolSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LBiBoolConsumer consumer, boolean a2) {
 		return use(a2, consumer);
 	}
@@ -80,39 +80,49 @@ public interface UseBoolSingleTrait<SELF extends UseBoolSingleTrait<SELF>> exten
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LTriBoolConsumer consumer, boolean a2, boolean a3) {
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull SELF useInt(int v, @Nonnull LBoolIntPredicate consumer) {
-		consumer.test(value(), v);
+	default @Nonnull SELF useInt(int v, @Nonnull LBoolIntConsumer consumer) {
+		consumer.accept(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useInt(@Nonnull LBoolIntPredicate consumer, int v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LBoolIntConsumer consumer, int v) {
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> consumer) {
-		consumer.testBoolObj(value(), v);
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjBoolConsumer.LBoolObjCons<? super V> consumer) {
+		consumer.acceptBoolObj(value(), v);
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> consumer, V v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjBoolConsumer.LBoolObjCons<? super V> consumer, V v) {
 		return use_(v, consumer);
 	}
 
-	default @Nonnull <V1> SELF useWithBool(V1 with, @Nonnull LObjBoolPredicate<? super V1> consumer) {
-		consumer.test(with, value());
+	default @Nonnull <V1> SELF useWithBool(V1 with1, @Nonnull LObjBoolConsumer<? super V1> consumer) {
+		consumer.accept(with1, value());
 		return self();
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF useWithBool(@Nonnull LObjBoolPredicate<? super V1> consumer, V1 with) {
-		return useWithBool(with, consumer);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF useWithBool(@Nonnull LObjBoolConsumer<? super V1> consumer, V1 with1) {
+		return useWithBool(with1, consumer);
+	}
+
+	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjBoolConsumer<? super V1, ? super V2> consumer) {
+		consumer.accept(with1, with2, value());
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF useWith(@Nonnull LBiObjBoolConsumer<? super V1, ? super V2> consumer, V1 with1, V2 with2) {
+		return useWith(with1, with2, consumer);
 	}
 
 	// </editor-fold>

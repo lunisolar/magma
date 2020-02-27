@@ -102,13 +102,23 @@ public interface FilterDblTrait<SELF extends FilterDblTrait<SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V1> SELF filterWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> predicate) {
-		return filter(a -> predicate.test(with, a));
+	default @Nonnull <V1> SELF filterWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
+		return filter(a -> predicate.test(with1, a));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V1> SELF filterWithDbl(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with) {
-		return filterWithDbl(with, predicate);
+	default @Nonnull <V1> SELF filterWithDbl(@Nonnull LObjDblPredicate<? super V1> predicate, V1 with1) {
+		return filterWithDbl(with1, predicate);
+	}
+
+	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
+	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate) {
+		return filter(a -> predicate.test(with1, with2, a));
+	}
+
+	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	default @Nonnull <V1, V2> SELF filterWith(@Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return filterWith(with1, with2, predicate);
 	}
 
 	// </editor-fold>

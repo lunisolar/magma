@@ -192,13 +192,23 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V1> SELF filterWith(V1 with, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
-		return filter(a -> predicate.test(with, a));
+	default @Nonnull <V1> SELF filterWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+		return filter(a -> predicate.test(with1, a));
 	}
 
 	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V1> SELF filterWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with) {
-		return filterWith(with, predicate);
+	default @Nonnull <V1> SELF filterWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with1) {
+		return filterWith(with1, predicate);
+	}
+
+	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
+	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
+		return filter(a -> predicate.test(with1, with2, a));
+	}
+
+	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	default @Nonnull <V1, V2> SELF filterWith(@Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate, V1 with1, V2 with2) {
+		return filterWith(with1, with2, predicate);
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */

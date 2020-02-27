@@ -171,15 +171,27 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	}
 
 	@Override
-	default <V1> boolean isWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	default <V1> boolean isWithByte(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterByteSingleTrait.super.isWithByte(with, predicate);
+		return isPresent() && FilterByteSingleTrait.super.isWithByte(with1, predicate);
 	}
 
 	@Override
-	default <V1> boolean isNotWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	default <V1> boolean isNotWithByte(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return isPresent() && FilterByteSingleTrait.super.isNotWithByte(with, predicate);
+		return isPresent() && FilterByteSingleTrait.super.isNotWithByte(with1, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isWith(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterByteSingleTrait.super.isWith(with1, with2, predicate);
+	}
+
+	@Override
+	default <V1, V2> boolean isNotWith(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterByteSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
 	// </editor-fold>

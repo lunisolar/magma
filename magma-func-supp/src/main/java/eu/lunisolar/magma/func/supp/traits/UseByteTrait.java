@@ -65,7 +65,7 @@ public interface UseByteTrait<SELF extends UseByteTrait<SELF>> extends FluentTra
 		return use(a -> consumer.accept(a, a2));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LBiByteConsumer consumer, byte a2) {
 		return use(a2, consumer);
 	}
@@ -74,36 +74,45 @@ public interface UseByteTrait<SELF extends UseByteTrait<SELF>> extends FluentTra
 		return use(a -> consumer.accept(a, a2, a3));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LTriByteConsumer consumer, byte a2, byte a3) {
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull SELF useInt(int v, @Nonnull LByteIntPredicate consumer) {
-		return use(a -> consumer.test(a, v));
+	default @Nonnull SELF useInt(int v, @Nonnull LByteIntConsumer consumer) {
+		return use(a -> consumer.accept(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useInt(@Nonnull LByteIntPredicate consumer, int v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LByteIntConsumer consumer, int v) {
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> consumer) {
-		return use(a -> consumer.testByteObj(a, v));
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjByteConsumer.LByteObjCons<? super V> consumer) {
+		return use(a -> consumer.acceptByteObj(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> consumer, V v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjByteConsumer.LByteObjCons<? super V> consumer, V v) {
 		return use_(v, consumer);
 	}
 
-	default @Nonnull <V1> SELF useWithByte(V1 with, @Nonnull LObjBytePredicate<? super V1> consumer) {
-		return use(a -> consumer.test(with, a));
+	default @Nonnull <V1> SELF useWithByte(V1 with1, @Nonnull LObjByteConsumer<? super V1> consumer) {
+		return use(a -> consumer.accept(with1, a));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF useWithByte(@Nonnull LObjBytePredicate<? super V1> consumer, V1 with) {
-		return useWithByte(with, consumer);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF useWithByte(@Nonnull LObjByteConsumer<? super V1> consumer, V1 with1) {
+		return useWithByte(with1, consumer);
+	}
+
+	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjByteConsumer<? super V1, ? super V2> consumer) {
+		return use(a -> consumer.accept(with1, with2, a));
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF useWith(@Nonnull LBiObjByteConsumer<? super V1, ? super V2> consumer, V1 with1, V2 with2) {
+		return useWith(with1, with2, consumer);
 	}
 
 	// </editor-fold>

@@ -65,7 +65,7 @@ public interface UseIntTrait<SELF extends UseIntTrait<SELF>> extends FluentTrait
 		return use(a -> consumer.accept(a, a2));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LBiIntConsumer consumer, int a2) {
 		return use(a2, consumer);
 	}
@@ -74,90 +74,99 @@ public interface UseIntTrait<SELF extends UseIntTrait<SELF>> extends FluentTrait
 		return use(a -> consumer.accept(a, a2, a3));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LTriIntConsumer consumer, int a2, int a3) {
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull SELF use_Bool(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred consumer) {
-		return use(a -> consumer.testIntBool(a, v));
+	default @Nonnull SELF use_Bool(boolean v, @Nonnull LBoolIntConsumer.LIntBoolCons consumer) {
+		return use(a -> consumer.acceptIntBool(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF use_Bool(@Nonnull LBoolIntPredicate.LIntBoolPred consumer, boolean v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF use_Bool(@Nonnull LBoolIntConsumer.LIntBoolCons consumer, boolean v) {
 		return use_Bool(v, consumer);
 	}
 
-	default @Nonnull SELF use_Byte(byte v, @Nonnull LByteIntPredicate.LIntBytePred consumer) {
-		return use(a -> consumer.testIntByte(a, v));
+	default @Nonnull SELF use_Byte(byte v, @Nonnull LByteIntConsumer.LIntByteCons consumer) {
+		return use(a -> consumer.acceptIntByte(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF use_Byte(@Nonnull LByteIntPredicate.LIntBytePred consumer, byte v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF use_Byte(@Nonnull LByteIntConsumer.LIntByteCons consumer, byte v) {
 		return use_Byte(v, consumer);
 	}
 
-	default @Nonnull SELF use_Dbl(double v, @Nonnull LDblIntPredicate.LIntDblPred consumer) {
-		return use(a -> consumer.testIntDbl(a, v));
+	default @Nonnull SELF use_Dbl(double v, @Nonnull LDblIntConsumer.LIntDblCons consumer) {
+		return use(a -> consumer.acceptIntDbl(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF use_Dbl(@Nonnull LDblIntPredicate.LIntDblPred consumer, double v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF use_Dbl(@Nonnull LDblIntConsumer.LIntDblCons consumer, double v) {
 		return use_Dbl(v, consumer);
 	}
 
-	default @Nonnull SELF use_Char(char v, @Nonnull LCharIntPredicate.LIntCharPred consumer) {
-		return use(a -> consumer.testIntChar(a, v));
+	default @Nonnull SELF use_Char(char v, @Nonnull LCharIntConsumer.LIntCharCons consumer) {
+		return use(a -> consumer.acceptIntChar(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF use_Char(@Nonnull LCharIntPredicate.LIntCharPred consumer, char v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF use_Char(@Nonnull LCharIntConsumer.LIntCharCons consumer, char v) {
 		return use_Char(v, consumer);
 	}
 
-	default @Nonnull SELF use_Srt(short v, @Nonnull LSrtIntPredicate.LIntSrtPred consumer) {
-		return use(a -> consumer.testIntSrt(a, v));
+	default @Nonnull SELF use_Srt(short v, @Nonnull LSrtIntConsumer.LIntSrtCons consumer) {
+		return use(a -> consumer.acceptIntSrt(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF use_Srt(@Nonnull LSrtIntPredicate.LIntSrtPred consumer, short v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF use_Srt(@Nonnull LSrtIntConsumer.LIntSrtCons consumer, short v) {
 		return use_Srt(v, consumer);
 	}
 
-	default @Nonnull SELF use_Flt(float v, @Nonnull LFltIntPredicate.LIntFltPred consumer) {
-		return use(a -> consumer.testIntFlt(a, v));
+	default @Nonnull SELF use_Flt(float v, @Nonnull LFltIntConsumer.LIntFltCons consumer) {
+		return use(a -> consumer.acceptIntFlt(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF use_Flt(@Nonnull LFltIntPredicate.LIntFltPred consumer, float v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF use_Flt(@Nonnull LFltIntConsumer.LIntFltCons consumer, float v) {
 		return use_Flt(v, consumer);
 	}
 
-	default @Nonnull SELF use_Long(long v, @Nonnull LLongIntPredicate.LIntLongPred consumer) {
-		return use(a -> consumer.testIntLong(a, v));
+	default @Nonnull SELF use_Long(long v, @Nonnull LLongIntConsumer.LIntLongCons consumer) {
+		return use(a -> consumer.acceptIntLong(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF use_Long(@Nonnull LLongIntPredicate.LIntLongPred consumer, long v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF use_Long(@Nonnull LLongIntConsumer.LIntLongCons consumer, long v) {
 		return use_Long(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> consumer) {
-		return use(a -> consumer.testIntObj(a, v));
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjIntConsumer.LIntObjCons<? super V> consumer) {
+		return use(a -> consumer.acceptIntObj(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> consumer, V v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjIntConsumer.LIntObjCons<? super V> consumer, V v) {
 		return use_(v, consumer);
 	}
 
-	default @Nonnull <V1> SELF useWithInt(V1 with, @Nonnull LObjIntPredicate<? super V1> consumer) {
-		return use(a -> consumer.test(with, a));
+	default @Nonnull <V1> SELF useWithInt(V1 with1, @Nonnull LObjIntConsumer<? super V1> consumer) {
+		return use(a -> consumer.accept(with1, a));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF useWithInt(@Nonnull LObjIntPredicate<? super V1> consumer, V1 with) {
-		return useWithInt(with, consumer);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF useWithInt(@Nonnull LObjIntConsumer<? super V1> consumer, V1 with1) {
+		return useWithInt(with1, consumer);
+	}
+
+	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjIntConsumer<? super V1, ? super V2> consumer) {
+		return use(a -> consumer.accept(with1, with2, a));
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF useWith(@Nonnull LBiObjIntConsumer<? super V1, ? super V2> consumer, V1 with1, V2 with2) {
+		return useWith(with1, with2, consumer);
 	}
 
 	// </editor-fold>

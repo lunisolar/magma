@@ -65,7 +65,7 @@ public interface UseDblTrait<SELF extends UseDblTrait<SELF>> extends FluentTrait
 		return use(a -> consumer.accept(a, a2));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LBiDblConsumer consumer, double a2) {
 		return use(a2, consumer);
 	}
@@ -74,36 +74,45 @@ public interface UseDblTrait<SELF extends UseDblTrait<SELF>> extends FluentTrait
 		return use(a -> consumer.accept(a, a2, a3));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
+	/** Variant with reverse function-vs-arg order. */
 	default @Nonnull SELF use(@Nonnull LTriDblConsumer consumer, double a2, double a3) {
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull SELF useInt(int v, @Nonnull LDblIntPredicate consumer) {
-		return use(a -> consumer.test(a, v));
+	default @Nonnull SELF useInt(int v, @Nonnull LDblIntConsumer consumer) {
+		return use(a -> consumer.accept(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull SELF useInt(@Nonnull LDblIntPredicate consumer, int v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull SELF useInt(@Nonnull LDblIntConsumer consumer, int v) {
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> consumer) {
-		return use(a -> consumer.testDblObj(a, v));
+	default @Nonnull <V> SELF use_(V v, @Nonnull LObjDblConsumer.LDblObjCons<? super V> consumer) {
+		return use(a -> consumer.acceptDblObj(a, v));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> consumer, V v) {
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF use_(@Nonnull LObjDblConsumer.LDblObjCons<? super V> consumer, V v) {
 		return use_(v, consumer);
 	}
 
-	default @Nonnull <V1> SELF useWithDbl(V1 with, @Nonnull LObjDblPredicate<? super V1> consumer) {
-		return use(a -> consumer.test(with, a));
+	default @Nonnull <V1> SELF useWithDbl(V1 with1, @Nonnull LObjDblConsumer<? super V1> consumer) {
+		return use(a -> consumer.accept(with1, a));
 	}
 
-	/** Variant with reverse predicate-vs-arg order. */
-	default @Nonnull <V1> SELF useWithDbl(@Nonnull LObjDblPredicate<? super V1> consumer, V1 with) {
-		return useWithDbl(with, consumer);
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1> SELF useWithDbl(@Nonnull LObjDblConsumer<? super V1> consumer, V1 with1) {
+		return useWithDbl(with1, consumer);
+	}
+
+	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjDblConsumer<? super V1, ? super V2> consumer) {
+		return use(a -> consumer.accept(with1, with2, a));
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V1, V2> SELF useWith(@Nonnull LBiObjDblConsumer<? super V1, ? super V2> consumer, V1 with1, V2 with2) {
+		return useWith(with1, with2, consumer);
 	}
 
 	// </editor-fold>
