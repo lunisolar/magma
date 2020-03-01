@@ -24,11 +24,14 @@ import eu.lunisolar.magma.examples.support.DifferentRuntimeException;
 import eu.lunisolar.magma.examples.support.DifferentSpecializedRuntimeException;
 import eu.lunisolar.magma.examples.support.SomeRuntimeExcepton;
 import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.func.supp.Has;
+import eu.lunisolar.magma.func.supp.Is;
 import org.testng.annotations.Test;
 
 import java.text.*;
 import java.util.function.*;
 
+import static eu.lunisolar.magma.func.predicate.LPredicate.pred;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
@@ -113,8 +116,8 @@ public class Example_ExceptionHandling_Test {
 
         LFunction<Integer, Integer> function1 =  throwingAlways.handling(h -> h
                 .wrapIf(e -> e instanceof RuntimeException, RuntimeException::new)
-                .wrapWhen(p -> p.hasCause() && p.isNotRuntime(), DifferentSpecializedRuntimeException::new)
-                .throwWrapper(DifferentRuntimeException::new)
+                .wrapIf(pred(Has::cause).and(Is::notRuntime), DifferentSpecializedRuntimeException::new)
+                .wrap(DifferentRuntimeException::new)
         );
 
         function1.apply(0);
@@ -198,14 +201,14 @@ public class Example_ExceptionHandling_Test {
     @Test(expectedExceptions = SomeRuntimeExcepton.class)
     public void example4() throws Throwable {
         throwingAlways
-                .handling(h -> h.throwWrapper(SomeRuntimeExcepton::new))
+                .handling(h -> h.wrap(SomeRuntimeExcepton::new))
                 .apply(0);  // <- exception type was generalized to Exception
     }
 
     @Test(expectedExceptions = SomeRuntimeExcepton.class)
     public void example5() {
         throwingAlways
-                .handling(h -> h.throwWrapper(SomeRuntimeExcepton::new))
+                .handling(h -> h.wrap(SomeRuntimeExcepton::new))
                 .apply(0);
     }
 
@@ -229,7 +232,7 @@ public class Example_ExceptionHandling_Test {
     @Test(expectedExceptions = SomeRuntimeExcepton.class)
     public void example7_2() {
         throwingAlways.handlingApply(0, h -> h
-                .wrapWhen(p -> !p.isRuntime(), SomeRuntimeExcepton::new)
+                .wrapIf(Is::notRuntime, SomeRuntimeExcepton::new)
         );
     }
 

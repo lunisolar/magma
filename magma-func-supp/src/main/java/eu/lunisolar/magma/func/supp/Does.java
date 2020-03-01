@@ -99,6 +99,8 @@ public final class Does implements FluentSyntax {
 
 	// <editor-fold desc="arrays">
 
+	// </editor-fold>
+
 	// <editor-fold desc="collections">
 
 	public static <T> boolean contain(@Nonnull Collection<T> collection, T element) {

@@ -32,7 +32,7 @@ public class HandlerTest {
     @Test
     public void testHandler() throws Exception {
         assertThat(Handler.handler(RUNTIME))
-                .isExactlyInstanceOf(Handler.The.class);
+                .isExactlyInstanceOf(Handler.class);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class HandlerTest {
     @Test
     public void testThrowIf_conditionMeet() throws Exception {
         assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.throwIf(OriginalException.class);
+            h.rethrowIf(OriginalException.class);
         }))
                 .isInstanceOf(OriginalException.class)
                 .hasMessage(ORIGINAL_MESSAGE);
@@ -80,7 +80,7 @@ public class HandlerTest {
     @Test
     public void testThrowIf_conditionNotMeet() throws Exception {
         assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.throwIf(OriginalRuntimeException.class);
+            h.rethrowIf(OriginalRuntimeException.class);
         }))
                 .isInstanceOf(ExceptionNotHandled.class)
                 .hasMessage("Exception has not been handled.")
@@ -149,64 +149,20 @@ public class HandlerTest {
                 .hasCauseExactlyInstanceOf(OriginalException.class);
     }
 
-    // </editor-fold>
-
-    // <editor-fold desc="when">
-
     @Test
-    public void testReplaceWhen_conditionMeet() throws Exception {
+    public void testCombineIf1_conditionMeet() throws Exception {
         assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.replaceWhen(p -> true, Exception1::new, "New message %s", "with params");
+            h.combineIf(x -> true, Exception1::new, "New message %s", "with params");
         }))
                 .isInstanceOf(Exception1.class)
-                .hasMessage("New message with params")
-                .hasNoCause();
-    }
-
-    @Test
-    public void testReplaceWhen_conditionNotMeet() throws Exception {
-        assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.replaceWhen(p -> false, Exception1::new, "New message %s", "with params");
-        }))
-                .isInstanceOf(ExceptionNotHandled.class)
-                .hasMessage("Exception has not been handled.")
+                .hasMessage("New message with params OriginalMessage")
                 .hasCauseExactlyInstanceOf(OriginalException.class);
     }
 
     @Test
-    public void testWrapWhen1_conditionMeet() throws Exception {
+    public void testCombineIf1_conditionNotMeet() throws Exception {
         assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.wrapWhen(p -> true, Exception1::new, "New message %s", "with params");
-        }))
-                .isInstanceOf(Exception1.class)
-                .hasMessage("New message with params")
-                .hasCauseExactlyInstanceOf(OriginalException.class);
-    }
-
-    @Test
-    public void testWrapWhen1_conditionNotMeet() throws Exception {
-        assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.wrapWhen(p -> false, Exception1::new, "New message %s", "with params");
-        }))
-                .isInstanceOf(ExceptionNotHandled.class)
-                .hasMessage("Exception has not been handled.")
-                .hasCauseExactlyInstanceOf(OriginalException.class);
-    }
-
-    @Test
-    public void testWrapWhen2_conditionMeet() throws Exception {
-        assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.wrapWhen(p -> true, Exception1::new);
-        }))
-                .isInstanceOf(Exception1.class)
-                .hasMessageContaining(ORIGINAL_MESSAGE)
-                .hasCauseExactlyInstanceOf(OriginalException.class);
-    }
-
-    @Test
-    public void testWrapWhen2_conditionNotMeet() throws Exception {
-        assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.wrapWhen(p -> false, Exception1::new);
+            h.combineIf(x -> false, Exception1::new, "New message %s", "with params");
         }))
                 .isInstanceOf(ExceptionNotHandled.class)
                 .hasMessage("Exception has not been handled.")
@@ -236,9 +192,9 @@ public class HandlerTest {
     }
 
     @Test
-    public void testThrowReplacement() throws Exception {
+    public void testReplace() throws Exception {
         assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.throwReplacement(Exception1::new, "New message %s", "with params");
+            h.replace(Exception1::new, "New message %s", "with params");
         }))
                 .isInstanceOf(Exception1.class)
                 .hasMessage("New message with params")
@@ -246,9 +202,9 @@ public class HandlerTest {
     }
 
     @Test
-    public void testThrowWrapper1() throws Exception {
+    public void testWrap1() throws Exception {
         assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.throwWrapper(Exception1::new, "New message %s", "with params");
+            h.wrap(Exception1::new, "New message %s", "with params");
         }))
                 .isInstanceOf(Exception1.class)
                 .hasMessage("New message with params")
@@ -256,12 +212,22 @@ public class HandlerTest {
     }
 
     @Test
-    public void testThrowWrapper2() throws Exception {
+    public void testWrap2() throws Exception {
         assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
-            h.throwWrapper(Exception1::new);
+            h.wrap(Exception1::new);
         }))
                 .isInstanceOf(Exception1.class)
                 .hasMessageContaining(ORIGINAL_MESSAGE)
+                .hasCauseExactlyInstanceOf(OriginalException.class);
+    }
+
+    @Test
+    public void testCombine1() throws Exception {
+        assertThatThrownBy(() -> Handler.<Throwable, Throwable>handleOrFail(CHECKED, h -> {
+            h.combine(Exception1::new, "New message %s", "with params");
+        }))
+                .isInstanceOf(Exception1.class)
+                .hasMessage("New message with params OriginalMessage")
                 .hasCauseExactlyInstanceOf(OriginalException.class);
     }
 

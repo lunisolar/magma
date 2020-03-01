@@ -18,9 +18,8 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
-import eu.lunisolar.magma.basics.fluent.Fluent;
-import eu.lunisolar.magma.basics.probing.Probe;
-import eu.lunisolar.magma.basics.probing.ThrowableProbe;
+import eu.lunisolar.magma.basics.Null;
+import eu.lunisolar.magma.basics.meta.SelfReferencing;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,17 +27,27 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.function.*;
 
 import static eu.lunisolar.magma.basics.exceptions.Handling.*;
-import static java.util.Objects.*;
 
 /**
  * It should never be treated as replacement for TRY-CATCH. It is intended to be a sugar in places where generic exception are being handled.
  */
 @SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "unchecked", "unused"})
 @NotThreadSafe
-public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, Y extends Throwable> extends Fluent<SELF>, ThrowableProbe<X> {
+public final class Handler<X extends Throwable> implements SelfReferencing<Handler<X>> {
 
-    static <X extends Throwable, Y extends Throwable> Handler.The<X, Y> handler(@Nonnull X throwable) {
-        return new The(throwable);
+    private final X e;
+
+    public Handler(@Nonnull X e) {
+        Null.nonNullArg(e, "e");
+        this.e = e;
+    }
+
+    public static <X extends Throwable, Y extends Throwable> Handler<X> handler(@Nonnull X throwable) {
+        return new Handler<>(throwable);
+    }
+
+    public X target() {
+        return e;
     }
 
     /**
@@ -47,7 +56,7 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
      *
      * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
-    static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
             @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
 
         handleErrors(throwable);
@@ -66,7 +75,7 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
      *
      * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
-    static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
             @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
 
         handleErrors(throwable);
@@ -85,7 +94,7 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
      *
      * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
-    static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
             @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
 
         handleErrors(throwable);
@@ -97,7 +106,7 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         throw shoveIt(throwable);
     }
 
-    default <Z extends Throwable> SELF throwIf(Class<Z> yClass) throws Z {
+    public <Z extends Throwable> Handler<X> rethrowIf(Class<Z> yClass) throws Z {
         X throwable = target();
         if (yClass.isInstance(throwable)) {
             throw yClass.cast(throwable);
@@ -106,7 +115,7 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         return self();
     }
 
-    default <Z extends Throwable> SELF replaceIf(
+    public <Z extends Throwable> Handler<X> replaceIf(
             @Nonnull Predicate<X> condition, @Nonnull ExMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
 
@@ -114,40 +123,26 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         return self();
     }
 
-    default <Z extends Throwable> SELF wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExWF<Z> factory) throws Z {
+    public <Z extends Throwable> Handler<X> wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExWF<Z> factory) throws Z {
         Handling.throwWrapperIf(condition, target(), factory);
         return self();
     }
 
-    default <Z extends Throwable> SELF wrapIf(
+    public <Z extends Throwable> Handler<X> wrapIf(
             @Nonnull Predicate<X> condition, @Nonnull ExWMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
-        Handling.throwWrapperIf(condition, nonNullTarget(), factory, newMessage, messageParams);
+        Handling.throwWrapperIf(condition, target(), factory, newMessage, messageParams);
         return self();
     }
 
-    default <Z extends Throwable> SELF replaceWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExMF<Z> factory,
+    public <Z extends Throwable> Handler<X> combineIf(
+            @Nonnull Predicate<X> condition, @Nonnull ExWMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
-
-        Handling.throwReplacementIf(condition.test(this), factory, newMessage, messageParams);
+        Handling.throwCombineIf(condition, target(), factory, newMessage, messageParams);
         return self();
     }
 
-    default <Z extends Throwable> SELF wrapWhen(@Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExWF<Z> factory) throws Z {
-        Handling.throwWrapperIf(condition.test(this), nonNullTarget(), factory);
-        return self();
-    }
-
-    default <Z extends Throwable> SELF wrapWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExWMF<Z> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
-
-        Handling.throwWrapperIf(condition.test(this), nonNullTarget(), factory, newMessage, messageParams);
-        return self();
-    }
-
-    default SELF nestIfChecked() {
+    public Handler<X> nestIfChecked() {
         X throwable = target();
         if (throwable instanceof RuntimeException) {
             return self();
@@ -158,43 +153,43 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         }
     }
 
-    default <Z extends Throwable> void throwReplacement(
+    public <Z extends Throwable> void replace(
             @Nonnull ExMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
         throw Handling.throwReplacement(factory, newMessage, messageParams);
     }
 
-    default <Z extends Throwable> void throwWrapper(@Nonnull ExWF<Z> factory) throws Z {
-        throw Handling.throwWrapper(nonNullTarget(), factory);
+    public <Z extends Throwable> void wrap(@Nonnull ExWF<Z> factory) throws Z {
+        throw Handling.throwWrapper(target(), factory);
     }
 
-    default <Z extends Throwable> void throwWrapper(
+    public <Z extends Throwable> void wrap(
             @Nonnull ExWMF<Z> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
-        throw Handling.throwWrapper(nonNullTarget(), factory, newMessage, messageParams);
+        throw Handling.throwWrapper(target(), factory, newMessage, messageParams);
     }
 
-    default void throwFailure() {
+    public <Z extends Throwable> void combine(
+            @Nonnull ExWMF<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
+        throw Handling.throwCombine(target(), factory, newMessage, messageParams);
+    }
+
+    public void throwFailure() {
         throwFailure(target());
     }
 
-    static void throwFailure(Throwable throwable) {
+    public static void throwFailure(Throwable throwable) {
         throw new ExceptionNotHandled("Exception has not been handled.", throwable);
     }
 
-    default void throwAsIs() {
-        throw Handling.shoveIt(nonNullTarget());
+    public void throwAsIs() {
+        throw Handling.shoveIt(target());
     }
 
-    default void handleRest() {
+    public void handleRest() {
         X throwable = target();
         nestCheckedAndThrow(throwable);
-    }
-
-    final class The<X extends Throwable, Y extends Throwable> extends Probe.Base<X> implements Handler<The<X, Y>, X, Y> {
-        public The(@Nonnull X throwable) {
-            super(requireNonNull(throwable));
-        }
     }
 
 }

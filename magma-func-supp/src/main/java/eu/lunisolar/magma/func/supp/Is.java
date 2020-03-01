@@ -427,13 +427,10 @@ public final class Is implements FluentSyntax {
 	// </editor-fold>
 
 	// <editor-fold desc="arrays">
-	private static boolean privately_ofLength(Object array, int i) {
-		return Array.getLength(array) == i;
-	}
 
 	public static boolean ofLength(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull boolean[] array) {
@@ -450,7 +447,7 @@ public final class Is implements FluentSyntax {
 
 	public static boolean ofLength(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull byte[] array) {
@@ -467,7 +464,7 @@ public final class Is implements FluentSyntax {
 
 	public static boolean ofLength(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull double[] array) {
@@ -484,7 +481,7 @@ public final class Is implements FluentSyntax {
 
 	public static boolean ofLength(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull char[] array) {
@@ -501,7 +498,7 @@ public final class Is implements FluentSyntax {
 
 	public static boolean ofLength(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull short[] array) {
@@ -518,7 +515,7 @@ public final class Is implements FluentSyntax {
 
 	public static boolean ofLength(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull float[] array) {
@@ -535,7 +532,7 @@ public final class Is implements FluentSyntax {
 
 	public static boolean ofLength(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull int[] array) {
@@ -552,7 +549,7 @@ public final class Is implements FluentSyntax {
 
 	public static boolean ofLength(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static boolean empty(@Nonnull long[] array) {
@@ -569,7 +566,7 @@ public final class Is implements FluentSyntax {
 
 	public static <T> boolean ofLength(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return privately_ofLength(array, i);
+		return P.privately_ofLength(array, i);
 	}
 
 	public static <T> boolean empty(@Nonnull T[] array) {
@@ -588,6 +585,16 @@ public final class Is implements FluentSyntax {
 
 	// <editor-fold desc="collections">
 
+	public static <T> boolean ofSize(@Nonnull Collection<T> collection, int i) {
+		Null.nonNullArg(collection, "collection");
+		return collection.size() == i;
+	}
+
+	public static <K, V> boolean ofSize(@Nonnull Map<K, V> map, int i) {
+		Null.nonNullArg(map, "map");
+		return map.size() == i;
+	}
+
 	public static <T> boolean partOf(T element, @Nonnull Collection<T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return collection.contains(element);
@@ -596,11 +603,6 @@ public final class Is implements FluentSyntax {
 	public static <K> boolean aKeyIn(K key, @Nonnull Map<K, ?> map) {
 		Null.nonNullArg(map, "map");
 		return map.containsKey(key);
-	}
-
-	public static <T> boolean ofSize(@Nonnull Collection<T> collection, int i) {
-		Null.nonNullArg(collection, "collection");
-		return collection.size() == i;
 	}
 
 	public static <T> boolean empty(@Nonnull Collection<T> collection) {
@@ -613,11 +615,6 @@ public final class Is implements FluentSyntax {
 
 	public static <T> boolean singleton(@Nonnull Collection<T> collection) {
 		return ofSize(collection, 1);
-	}
-
-	public static <K, V> boolean ofSize(@Nonnull Map<K, V> map, int i) {
-		Null.nonNullArg(map, "map");
-		return map.size() == i;
 	}
 
 	public static <K, V> boolean empty(@Nonnull Map<K, V> map) {
@@ -650,11 +647,13 @@ public final class Is implements FluentSyntax {
 
 	// <editor-fold desc="Throwables">
 
-	public static <T> boolean runtime(Throwable e) {
+	public static boolean runtime(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
 		return instanceOf(e, RuntimeException.class);
 	}
 
-	public static <T> boolean notRuntime(Throwable e) {
+	public static boolean notRuntime(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
 		return !instanceOf(e, RuntimeException.class);
 	}
 

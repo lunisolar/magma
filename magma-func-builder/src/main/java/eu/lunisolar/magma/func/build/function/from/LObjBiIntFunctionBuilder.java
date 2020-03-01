@@ -94,7 +94,7 @@ public final class LObjBiIntFunctionBuilder<T, R> extends PerCaseBuilderWithProd
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LObjBiIntFunctionBuilder<T, R> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LObjBiIntFunctionBuilder<T, R> withHandling(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -152,7 +152,7 @@ public final class LObjBiIntFunctionBuilder<T, R> extends PerCaseBuilderWithProd
 		return retval;
 	}
 
-	public final LObjBiIntFunction<T, R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LObjBiIntFunction<T, R> build(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

@@ -94,7 +94,7 @@ public final class LObjIntByteFunctionBuilder<T, R> extends PerCaseBuilderWithPr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LObjIntByteFunctionBuilder<T, R> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LObjIntByteFunctionBuilder<T, R> withHandling(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -152,7 +152,7 @@ public final class LObjIntByteFunctionBuilder<T, R> extends PerCaseBuilderWithPr
 		return retval;
 	}
 
-	public final LObjIntByteFunction<T, R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LObjIntByteFunction<T, R> build(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

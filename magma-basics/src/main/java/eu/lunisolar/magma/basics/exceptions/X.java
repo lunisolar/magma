@@ -145,4 +145,17 @@ public class X implements FluentSyntax {
         return new UnknownCaseException(message, cause, enableSuppression, writableStackTrace);
     }
 
+
+    public static Throwable getRootCause(Throwable throwable) {
+        if (throwable.getCause() == null) {
+            return null;
+        }
+
+        Throwable cause;
+        while ((cause = throwable.getCause()) != null) {
+            throwable = cause;
+        }
+        return throwable;
+    }
+
 }

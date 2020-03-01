@@ -100,7 +100,7 @@ public abstract class OptFltBase<SELF extends OptFltBase<SELF>> implements OptFl
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("%s[%s]", getClass(), value()) : String.format("%s.empty", getClass());
+		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass());
 	}
 
 	// </editor-fold>

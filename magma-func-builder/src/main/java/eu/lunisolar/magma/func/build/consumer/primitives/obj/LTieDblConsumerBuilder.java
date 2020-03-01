@@ -94,7 +94,7 @@ public final class LTieDblConsumerBuilder<T> extends PerCaseBuilder.Base<LTieDbl
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LTieDblConsumerBuilder<T> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LTieDblConsumerBuilder<T> withHandling(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -153,7 +153,7 @@ public final class LTieDblConsumerBuilder<T> extends PerCaseBuilder.Base<LTieDbl
 		return retval;
 	}
 
-	public final LTieDblConsumer<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LTieDblConsumer<T> build(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

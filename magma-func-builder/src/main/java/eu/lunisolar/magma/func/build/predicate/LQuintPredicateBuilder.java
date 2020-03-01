@@ -94,7 +94,7 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LQuintPredicateBuilder<T1, T2, T3, T4, T5> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LQuintPredicateBuilder<T1, T2, T3, T4, T5> withHandling(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -156,7 +156,7 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 		return retval;
 	}
 
-	public final LQuintPredicate<T1, T2, T3, T4, T5> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LQuintPredicate<T1, T2, T3, T4, T5> build(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

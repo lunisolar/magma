@@ -94,7 +94,7 @@ public final class LObjIntBytePredicateBuilder<T> extends PerCaseBuilderWithBool
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LObjIntBytePredicateBuilder<T> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LObjIntBytePredicateBuilder<T> withHandling(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -152,7 +152,7 @@ public final class LObjIntBytePredicateBuilder<T> extends PerCaseBuilderWithBool
 		return retval;
 	}
 
-	public final LObjIntBytePredicate<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LObjIntBytePredicate<T> build(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

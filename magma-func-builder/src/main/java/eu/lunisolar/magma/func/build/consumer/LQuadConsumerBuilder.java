@@ -94,7 +94,7 @@ public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.B
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LQuadConsumerBuilder<T1, T2, T3, T4> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LQuadConsumerBuilder<T1, T2, T3, T4> withHandling(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -153,7 +153,7 @@ public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.B
 		return retval;
 	}
 
-	public final LQuadConsumer<T1, T2, T3, T4> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LQuadConsumer<T1, T2, T3, T4> build(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}

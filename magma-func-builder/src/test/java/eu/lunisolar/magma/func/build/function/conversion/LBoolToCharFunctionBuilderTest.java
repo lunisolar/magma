@@ -71,7 +71,7 @@ public class LBoolToCharFunctionBuilderTest{
 
             function.applyAsChar(true);
 
-            fail("No exception were thrown.");
+            fail("No exception was thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("There is no case configured for the arguments (if any).");
@@ -83,11 +83,11 @@ public class LBoolToCharFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolToCharFunction function = boolToCharFunctionFrom(b-> b
-                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
-                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .withHandling(h -> h.wrapIf(RuntimeException.class::isInstance, RuntimeException::new))
+                .build(h -> h.wrapIf(RuntimeException.class::isInstance, RuntimeException::new))
             );
 
-            fail("No exception were thrown.");
+            fail("No exception was thrown.");
         })
                     .isExactlyInstanceOf(UnsupportedOperationException.class)
                     .hasMessageContaining("Handling is already set for this builder.");
@@ -101,12 +101,12 @@ public class LBoolToCharFunctionBuilderTest{
                 .eventually(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
-                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"))
+                .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
             );
 
             function.applyAsChar(true);
 
-            fail("No exception were thrown.");
+            fail("No exception was thrown.");
         })
                     .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("NEW EXCEPTION")

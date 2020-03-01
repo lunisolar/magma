@@ -27,9 +27,6 @@ import java.util.function.*;
 
 import static eu.lunisolar.magma.basics.Null.nonNullArg;
 
-/**
- * Obfuscated version eu.lunisolar.lava.core.exceptions.Routine.
- */
 @SuppressWarnings({"unchecked", "unused"})
 public final class Handling implements Serializable {
 
@@ -53,16 +50,16 @@ public final class Handling implements Serializable {
         }
     }
 
-    static <X extends Throwable, Y extends Throwable> Handler.The<X, Y> handleInstructions(
+    static <X extends Throwable, Y extends Throwable> Handler<X> handleInstructions(
             @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
         nonNullArg(throwable, "throwable");
         nonNullArg(instructions, "instructions");
-        Handler.The<X, Y> handler = Handler.handler(throwable);
+        Handler<X> handler = Handler.handler(throwable);
         instructions.processWith(handler);
         return handler;
     }
 
-    // <editor-fold desc="General">
+    // <editor-fold desc="Message">
 
     @Nonnull
     public static String constructMessage(@Nullable Throwable e, @Nullable String newMessage, @Nullable Object... messageParams) {
@@ -117,7 +114,7 @@ public final class Handling implements Serializable {
 
     // </editor-fold>
 
-    // <editor-fold desc="create-ExF">
+    // <editor-fold desc="ExF">
 
     public static <X extends Throwable> X create(@Nonnull ExF<X> fx) {
         return nonNullArg(fx, "Exception factory cannot be null.").produce();
@@ -125,7 +122,7 @@ public final class Handling implements Serializable {
 
     //</editor-fold>
 
-    // <editor-fold desc="create-ExMF">
+    // <editor-fold desc="ExMF">
 
     public static <X extends Throwable> X create(@Nonnull ExMF<X> fx, @Nullable String msg) {
         return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg));
@@ -137,7 +134,7 @@ public final class Handling implements Serializable {
 
     //</editor-fold>
 
-    //<editor-fold desc="create-ExWF">
+    //<editor-fold desc="ExWF">
 
     public static <X extends Throwable> X wrapIfNot(@Nullable Class<X> c, @Nullable Throwable e, @Nonnull ExWF<X> fx) {
         handleErrors(e);
@@ -153,7 +150,7 @@ public final class Handling implements Serializable {
 
     //</editor-fold>
 
-    // <editor-fold desc="create-ExMF">
+    // <editor-fold desc="ExMF">
 
     public static <X extends Throwable> X wrapIfNot(
             @Nullable Class<X> c, @Nullable Throwable e, @Nonnull ExWMF<X> fx, boolean combine, @Nullable String msg
@@ -181,14 +178,6 @@ public final class Handling implements Serializable {
 
     public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
         return wrapIfNot(null, e, fx, false, msg, args);
-    }
-
-    public static <X extends Throwable> X combine(@Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg) {
-        return wrapIfNot(null, e, fx, true, msg);
-    }
-
-    public static <X extends Throwable> X combine(@Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
-        return wrapIfNot(null, e, fx, true, msg, args);
     }
 
     public static <X extends Throwable> X wrapIfNot(@Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg) {
@@ -266,7 +255,7 @@ public final class Handling implements Serializable {
 
     // <editor-fold desc="create or propagate">
 
-    public static <X extends Throwable> X wrapCombineMessage(
+    public static <X extends Throwable> X combine(
             @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
             @Nonnull String newMessage, @Nullable Object... messageParams) {
         handleErrors(e);
@@ -280,7 +269,7 @@ public final class Handling implements Serializable {
         return exceptionFactory.produce(finalMessage, e);
     }
 
-    public static <X extends Throwable> X wrapCombineMessage(
+    public static <X extends Throwable> X combine(
             @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
             @Nonnull String newMessage) {
         handleErrors(e);
@@ -348,6 +337,13 @@ public final class Handling implements Serializable {
         }
     }
 
+    protected static <Y extends Throwable, X extends Throwable> void throwCombineIf(
+            boolean conditionMeet, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args) throws Y {
+        if (conditionMeet) {
+            throw Handling.combine(e, fx, format, args);
+        }
+    }
+
     protected static <Y extends Throwable, X extends Throwable> void throwWrapperIf(
             boolean conditionMeet, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
     ) throws Y {
@@ -374,6 +370,12 @@ public final class Handling implements Serializable {
         throwWrapperIf(condition.test(e), e, fx, format, args);
     }
 
+    protected static <Y extends Throwable, X extends Throwable> void throwCombineIf(
+            @Nonnull Predicate<X> condition, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
+        throwCombineIf(condition.test(e), e, fx, format, args);
+    }
+
     protected static <Y extends Throwable, X extends Throwable> Y throwReplacement(
             @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... args) throws Y {
         throw Handling.create(fx, format, args);
@@ -387,6 +389,12 @@ public final class Handling implements Serializable {
             @Nonnull X throwable, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
     ) throws Y {
         throw Handling.wrap(throwable, fx, format, args);
+    }
+
+    protected static <Y extends Throwable, X extends Throwable> Y throwCombine(
+            @Nonnull X throwable, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
+        throw Handling.combine(throwable, fx, format, args);
     }
 
     // </editor-fold>

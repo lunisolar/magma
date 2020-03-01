@@ -75,11 +75,11 @@ public class HandlingTest {
     @Test
     public void testHandleInstructions() throws Exception {
 
-        Handler.The<Throwable, RuntimeException> handle = Handling.handleInstructions(RUNTIME, h -> {
+        Handler<Throwable> handle = Handling.handleInstructions(RUNTIME, h -> {
         });
 
         assertThat(handle)
-                .isExactlyInstanceOf(Handler.The.class);
+                .isExactlyInstanceOf(Handler.class);
 
     }
 
@@ -199,7 +199,7 @@ public class HandlingTest {
 
     @Test
     public void testWrap3_messageToPropagate() throws Exception {
-        assertThat((Throwable) Handling.wrapCombineMessage(RUNTIME, Exception1::new, "New message %s", "with param"))
+        assertThat((Throwable) Handling.combine(RUNTIME, Exception1::new, "New message %s", "with param"))
                 .isInstanceOf(Exception1.class)
                 .hasMessageContaining("New message with param")
                 .hasMessageContaining(" " + ORIGINAL_MESSAGE)
@@ -208,7 +208,7 @@ public class HandlingTest {
 
     @Test
     public void testWrap3_noMessageToPropagate() throws Exception {
-        assertThat((Throwable) Handling.wrapCombineMessage(new RuntimeException(), Exception1::new, "New message %s", "with param"))
+        assertThat((Throwable) Handling.combine(new RuntimeException(), Exception1::new, "New message %s", "with param"))
                 .isInstanceOf(Exception1.class)
                 .hasMessageContaining("New message with param")
                 .hasMessageNotContaining(ORIGINAL_MESSAGE)

@@ -22,7 +22,7 @@ import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.predicate.LPredicate;
 import eu.lunisolar.magma.func.supp.Be;
-import eu.lunisolar.magma.func.supp.Have;
+import eu.lunisolar.magma.func.supp.Has;
 import eu.lunisolar.magma.func.supp.Is;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supplier.LSupplier;
@@ -284,7 +284,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).must(P.have(String::length, P::ltEq, 32*state.names.v(i).length()), "must have specific length");
+                arg(state.values.v(i)).must(P.has(String::length, P::ltEq, 32*state.names.v(i).length()), "must have specific length");
                 a++;
             } catch (RuntimeException e) {
                 a--;

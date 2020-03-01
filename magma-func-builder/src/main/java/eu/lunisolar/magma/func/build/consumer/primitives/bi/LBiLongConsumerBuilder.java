@@ -94,7 +94,7 @@ public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongCon
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public final LBiLongConsumerBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LBiLongConsumerBuilder withHandling(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
@@ -135,7 +135,7 @@ public final class LBiLongConsumerBuilder extends PerCaseBuilder.Base<LBiLongCon
 		return retval;
 	}
 
-	public final LBiLongConsumer build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+	public final LBiLongConsumer build(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		this.withHandling(handling);
 		return build();
 	}
