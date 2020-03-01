@@ -368,6 +368,28 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 		return doIfNot(a2, a3, predicate, action);
 	}
 
+	default @Nonnull <V2, V3, V4> SELF doIf(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull LConsumer<? super T> action) {
+		if (is(a2, a3, a4, predicate))
+			action.accept(value());
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V2, V3, V4> SELF doIf(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull LConsumer<? super T> action) {
+		return doIf(a2, a3, a4, predicate, action);
+	}
+
+	default @Nonnull <V2, V3, V4> SELF doIfNot(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull LConsumer<? super T> action) {
+		if (isNot(a2, a3, a4, predicate))
+			action.accept(value());
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V2, V3, V4> SELF doIfNot(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull LConsumer<? super T> action) {
+		return doIfNot(a2, a3, a4, predicate, action);
+	}
+
 	default @Nonnull <V1> SELF doIfWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isWith(with1, predicate))
 			action.accept(value());

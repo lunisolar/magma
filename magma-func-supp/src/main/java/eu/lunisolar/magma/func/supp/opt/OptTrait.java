@@ -288,6 +288,18 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	}
 
 	@Override
+	default <V2, V3, V4> boolean is(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterSingleTrait.super.is(a2, a3, a4, predicate);
+	}
+
+	@Override
+	default <V2, V3, V4> boolean isNot(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterSingleTrait.super.isNot(a2, a3, a4, predicate);
+	}
+
+	@Override
 	default <V1> boolean isWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && FilterSingleTrait.super.isWith(with1, predicate);

@@ -1697,6 +1697,126 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		return self();
 	}
 
+	default @Nonnull <V2, V3, V4> SELF must(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF must$(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF must$$(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_3, checkTraitType(), checkTraitName(), message, a2, a3, a4, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF must(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustX(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF must(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF must$(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF must$$(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_3, checkTraitType(), checkTraitName(), message, a2, a3, a4, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF must(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustX(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIfNot(get(), a2, a3, a4, predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot$(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot$$(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_3, checkTraitType(), checkTraitName(), message, a2, a3, a4, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustXNot(@Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, ex, message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot$(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot$$(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), MESSAGE_S_S_S_S_3, checkTraitType(), checkTraitName(), message, a2, a3, a4, get());
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustNot(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, checkTraitFactory(), message, messageParams);
+		return self();
+	}
+
+	default @Nonnull <V2, V3, V4> SELF mustXNot(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull ExMF<RuntimeException> ex, @Nonnull String message, @Nullable Object... messageParams) {
+		Null.nonNullArg(predicate, "predicate");
+		LQuadPredicate.throwIf(get(), a2, a3, a4, predicate, ex, message, messageParams);
+		return self();
+	}
+
 	default @Nonnull <V1> SELF mustWith(@Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);

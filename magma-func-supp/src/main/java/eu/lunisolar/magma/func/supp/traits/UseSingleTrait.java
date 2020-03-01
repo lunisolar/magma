@@ -195,6 +195,16 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 		return use(a2, a3, consumer);
 	}
 
+	default @Nonnull <V2, V3, V4> SELF use(V2 a2, V3 a3, V4 a4, @Nonnull LQuadConsumer<? super T, ? super V2, ? super V3, ? super V4> consumer) {
+		consumer.accept(value(), a2, a3, a4);
+		return self();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V2, V3, V4> SELF use(@Nonnull LQuadConsumer<? super T, ? super V2, ? super V3, ? super V4> consumer, V2 a2, V3 a3, V4 a4) {
+		return use(a2, a3, a4, consumer);
+	}
+
 	default @Nonnull <V1> SELF useWith(V1 with1, @Nonnull LBiConsumer<? super V1, ? super T> consumer) {
 		consumer.accept(with1, value());
 		return self();

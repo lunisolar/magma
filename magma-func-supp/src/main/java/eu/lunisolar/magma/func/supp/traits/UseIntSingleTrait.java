@@ -85,74 +85,74 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 		return use(a2, a3, consumer);
 	}
 
-	default @Nonnull SELF use_Bool(boolean v, @Nonnull LBoolIntConsumer.LIntBoolCons consumer) {
+	default @Nonnull SELF useBool_(boolean v, @Nonnull LBoolIntConsumer.LIntBoolCons consumer) {
 		consumer.acceptIntBool(value(), v);
 		return self();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull SELF use_Bool(@Nonnull LBoolIntConsumer.LIntBoolCons consumer, boolean v) {
-		return use_Bool(v, consumer);
+	default @Nonnull SELF useBool_(@Nonnull LBoolIntConsumer.LIntBoolCons consumer, boolean v) {
+		return useBool_(v, consumer);
 	}
 
-	default @Nonnull SELF use_Byte(byte v, @Nonnull LByteIntConsumer.LIntByteCons consumer) {
+	default @Nonnull SELF useByte_(byte v, @Nonnull LByteIntConsumer.LIntByteCons consumer) {
 		consumer.acceptIntByte(value(), v);
 		return self();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull SELF use_Byte(@Nonnull LByteIntConsumer.LIntByteCons consumer, byte v) {
-		return use_Byte(v, consumer);
+	default @Nonnull SELF useByte_(@Nonnull LByteIntConsumer.LIntByteCons consumer, byte v) {
+		return useByte_(v, consumer);
 	}
 
-	default @Nonnull SELF use_Dbl(double v, @Nonnull LDblIntConsumer.LIntDblCons consumer) {
+	default @Nonnull SELF useDbl_(double v, @Nonnull LDblIntConsumer.LIntDblCons consumer) {
 		consumer.acceptIntDbl(value(), v);
 		return self();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull SELF use_Dbl(@Nonnull LDblIntConsumer.LIntDblCons consumer, double v) {
-		return use_Dbl(v, consumer);
+	default @Nonnull SELF useDbl_(@Nonnull LDblIntConsumer.LIntDblCons consumer, double v) {
+		return useDbl_(v, consumer);
 	}
 
-	default @Nonnull SELF use_Char(char v, @Nonnull LCharIntConsumer.LIntCharCons consumer) {
+	default @Nonnull SELF useChar_(char v, @Nonnull LCharIntConsumer.LIntCharCons consumer) {
 		consumer.acceptIntChar(value(), v);
 		return self();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull SELF use_Char(@Nonnull LCharIntConsumer.LIntCharCons consumer, char v) {
-		return use_Char(v, consumer);
+	default @Nonnull SELF useChar_(@Nonnull LCharIntConsumer.LIntCharCons consumer, char v) {
+		return useChar_(v, consumer);
 	}
 
-	default @Nonnull SELF use_Srt(short v, @Nonnull LSrtIntConsumer.LIntSrtCons consumer) {
+	default @Nonnull SELF useSrt_(short v, @Nonnull LSrtIntConsumer.LIntSrtCons consumer) {
 		consumer.acceptIntSrt(value(), v);
 		return self();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull SELF use_Srt(@Nonnull LSrtIntConsumer.LIntSrtCons consumer, short v) {
-		return use_Srt(v, consumer);
+	default @Nonnull SELF useSrt_(@Nonnull LSrtIntConsumer.LIntSrtCons consumer, short v) {
+		return useSrt_(v, consumer);
 	}
 
-	default @Nonnull SELF use_Flt(float v, @Nonnull LFltIntConsumer.LIntFltCons consumer) {
+	default @Nonnull SELF useFlt_(float v, @Nonnull LFltIntConsumer.LIntFltCons consumer) {
 		consumer.acceptIntFlt(value(), v);
 		return self();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull SELF use_Flt(@Nonnull LFltIntConsumer.LIntFltCons consumer, float v) {
-		return use_Flt(v, consumer);
+	default @Nonnull SELF useFlt_(@Nonnull LFltIntConsumer.LIntFltCons consumer, float v) {
+		return useFlt_(v, consumer);
 	}
 
-	default @Nonnull SELF use_Long(long v, @Nonnull LLongIntConsumer.LIntLongCons consumer) {
+	default @Nonnull SELF useLong_(long v, @Nonnull LLongIntConsumer.LIntLongCons consumer) {
 		consumer.acceptIntLong(value(), v);
 		return self();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull SELF use_Long(@Nonnull LLongIntConsumer.LIntLongCons consumer, long v) {
-		return use_Long(v, consumer);
+	default @Nonnull SELF useLong_(@Nonnull LLongIntConsumer.LIntLongCons consumer, long v) {
+		return useLong_(v, consumer);
 	}
 
 	default @Nonnull <V> SELF use_(V v, @Nonnull LObjIntConsumer.LIntObjCons<? super V> consumer) {

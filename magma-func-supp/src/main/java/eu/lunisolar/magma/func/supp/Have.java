@@ -61,52 +61,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
-public final class Are implements FluentSyntax {
+public final class Have implements FluentSyntax {
 	// <editor-fold desc="no instance">
-	private Are() {
+	private Have() {
 	}
 	// </editor-fold>
 
 	// <editor-fold desc="Object">
-
-	public static final boolean allNull(@Nullable Object... objects) {
-		if (objects == null) {
-			return true;
-		}
-		for (Object o : objects) {
-			if (o != null) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public static final boolean noneNull(@Nullable Object... objects) {
-		if (objects == null) {
-			return false;
-		}
-		for (Object o : objects) {
-			if (o == null) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public static final boolean anyNull(@Nullable Object... objects) {
-		if (objects == null) {
-			return true;
-		}
-		for (Object o : objects) {
-			if (o == null) {
-				return true;
-			}
-		}
-
-		return false;
-	}
 
 	// </editor-fold>
 
@@ -129,6 +90,10 @@ public final class Are implements FluentSyntax {
 	// </editor-fold>
 
 	// <editor-fold desc="Throwables">
+
+	public static <T> boolean cause(Throwable e) {
+		return false;// //!@!!!!!@@
+	}
 
 	// </editor-fold>
 

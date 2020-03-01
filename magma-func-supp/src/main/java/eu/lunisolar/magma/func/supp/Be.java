@@ -647,6 +647,8 @@ public final class Be implements FluentSyntax {
 
 	// </editor-fold>
 
+	// <editor-fold desc="object derivatives">
+
 	public static <T> boolean instanceOf(T object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return clazz.isInstance(object);
@@ -655,6 +657,18 @@ public final class Be implements FluentSyntax {
 	public static boolean assignableFrom(Class<?> specialization, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return clazz.isAssignableFrom(specialization);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="Throwables">
+
+	public static <T> boolean runtime(Throwable e) {
+		return instanceOf(e, RuntimeException.class);
+	}
+
+	public static <T> boolean notRuntime(Throwable e) {
+		return !instanceOf(e, RuntimeException.class);
 	}
 
 	// </editor-fold>

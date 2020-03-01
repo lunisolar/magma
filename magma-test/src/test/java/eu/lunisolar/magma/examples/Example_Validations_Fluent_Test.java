@@ -20,6 +20,7 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
 
@@ -185,6 +186,19 @@ public class Example_Validations_Fluent_Test {
         map.put("A", "a");
         Checks.value("key22").mustWith$$(map, Map::containsKey, "There is no key in the map");
     }
+
+    /**
+     * Alternatively you can build predicate with P.have (or Does.have) methods.
+     */
+    //>example<
+    @Test
+    public void test8() {
+        attest(new Integer(1))
+                .must(P.have(Object::toString, P::notNull), "serialise to non-null string")
+                .must(P.have(Object::toString, P::equal, "1"), "serialize to '1'")
+                .must(P.haveInt(Integer::intValue, P::equal, 1), "not between");
+    }
+    //>example<
 
     //>inject<:generated
 
