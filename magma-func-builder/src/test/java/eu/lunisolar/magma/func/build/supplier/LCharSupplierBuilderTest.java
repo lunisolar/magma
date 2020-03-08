@@ -62,7 +62,7 @@ public class LCharSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharSupplier function = charSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharSupplier function = charSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LCharSupplierBuilderTest{
                              .evaluate(() -> '\u0000'))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> '\u0001')
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> '\u0002')
-            .eventually(() -> '\u0099')
+            .otherwise(() -> '\u0099')
             .build()
         );
 

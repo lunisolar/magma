@@ -57,12 +57,12 @@ public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriBoolFunction EVENTUALLY_THROW = LTriBoolFunction.triBoolFunc((a1, a2, a3) -> {
+	public static final LTriBoolFunction OTHERWISE_THROW = LTriBoolFunction.triBoolFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTriBoolFunctionBuilder(@Nullable Consumer<LTriBoolFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LTriBoolFunction::constant, () -> new LTriBoolFunctionBuilder(null));
+		super(OTHERWISE_THROW, LTriBoolFunction::constant, () -> new LTriBoolFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 	@Nonnull
 	public final LTriBoolFunction<R> build() {
 
-		final LTriBoolFunction<R> eventuallyFinal = this.eventually;
+		final LTriBoolFunction<R> otherwiseFinal = this.otherwise;
 
 		LTriBoolFunction<R> retval;
 
@@ -120,7 +120,7 @@ public final class LTriBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2, a3);
+				return otherwiseFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

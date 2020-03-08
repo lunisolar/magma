@@ -45,7 +45,7 @@ public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithPr
 
     /** Sets the function to evaluate _eventually_ when input data do not match any case. */
     public final PCB eventuallyProduce(@Nonnull R directValue) {
-        eventually = directToFunction.apply(directValue);
+        otherwise = directToFunction.apply(directValue);
         return self();
     }
 

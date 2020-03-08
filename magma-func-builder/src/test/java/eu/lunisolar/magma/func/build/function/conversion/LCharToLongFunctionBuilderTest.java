@@ -62,7 +62,7 @@ public class LCharToLongFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharToLongFunction function = charToLongFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharToLongFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharToLongFunction function = charToLongFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LCharToLongFunctionBuilderTest{
                              .evaluate(a -> 0L))
             .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> 1L)
             .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> 2L)
-            .eventually(a -> 99L)
+            .otherwise(a -> 99L)
             .build()
         );
 

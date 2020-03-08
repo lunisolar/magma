@@ -62,7 +62,7 @@ public class LSrtPredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LSrtPredicate function = srtPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LSrtPredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LSrtPredicate function = srtPredicateFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LSrtPredicateBuilderTest{
                              .evaluate(a -> false))
             .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> true)
             .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> true)
-            .eventually(a -> true)
+            .otherwise(a -> true)
             .build()
         );
 

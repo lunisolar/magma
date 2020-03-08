@@ -57,12 +57,12 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LUnaryOperator EVENTUALLY_THROW = LUnaryOperator.unaryOp(a -> {
+	public static final LUnaryOperator OTHERWISE_THROW = LUnaryOperator.unaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LUnaryOperatorBuilder(@Nullable Consumer<LUnaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, LUnaryOperator::constant, () -> new LUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LUnaryOperator::constant, () -> new LUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 	@Nonnull
 	public final LUnaryOperator<T> build() {
 
-		final LUnaryOperator<T> eventuallyFinal = this.eventually;
+		final LUnaryOperator<T> otherwiseFinal = this.otherwise;
 
 		LUnaryOperator<T> retval;
 
@@ -138,7 +138,7 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.apply(a);
+				return otherwiseFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

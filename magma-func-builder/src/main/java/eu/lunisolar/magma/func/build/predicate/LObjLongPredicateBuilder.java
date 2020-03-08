@@ -57,12 +57,12 @@ public final class LObjLongPredicateBuilder<T> extends PerCaseBuilderWithBoolPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjLongPredicate EVENTUALLY_THROW = LObjLongPredicate.objLongPred((a1, a2) -> {
+	public static final LObjLongPredicate OTHERWISE_THROW = LObjLongPredicate.objLongPred((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LObjLongPredicateBuilder(@Nullable Consumer<LObjLongPredicate<T>> consumer) {
-		super(EVENTUALLY_THROW, LObjLongPredicate::constant, () -> new LObjLongPredicateBuilder(null));
+		super(OTHERWISE_THROW, LObjLongPredicate::constant, () -> new LObjLongPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LObjLongPredicateBuilder<T> extends PerCaseBuilderWithBoolPro
 	@Nonnull
 	public final LObjLongPredicate<T> build() {
 
-		final LObjLongPredicate<T> eventuallyFinal = this.eventually;
+		final LObjLongPredicate<T> otherwiseFinal = this.otherwise;
 
 		LObjLongPredicate<T> retval;
 
@@ -138,7 +138,7 @@ public final class LObjLongPredicateBuilder<T> extends PerCaseBuilderWithBoolPro
 					}
 				}
 
-				return eventuallyFinal.test(a1, a2);
+				return otherwiseFinal.test(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

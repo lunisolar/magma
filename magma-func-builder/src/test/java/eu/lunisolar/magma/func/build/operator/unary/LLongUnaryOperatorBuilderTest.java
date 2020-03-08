@@ -62,7 +62,7 @@ public class LLongUnaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLongUnaryOperator function = longUnaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LLongUnaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LLongUnaryOperator function = longUnaryOperatorFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LLongUnaryOperatorBuilderTest{
                              .evaluate(a -> 0L))
             .inCase(a -> a > 0L && a < 10L).evaluate(a -> 1L)
             .inCase(a -> a > 10L && a < 20L).evaluate(a -> 2L)
-            .eventually(a -> 99L)
+            .otherwise(a -> 99L)
             .build()
         );
 

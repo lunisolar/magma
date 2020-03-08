@@ -57,12 +57,12 @@ public final class LToSrtFunctionBuilder<T> extends PerCaseBuilderWithSrtProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToSrtFunction EVENTUALLY_THROW = LToSrtFunction.toSrtFunc(a -> {
+	public static final LToSrtFunction OTHERWISE_THROW = LToSrtFunction.toSrtFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LToSrtFunctionBuilder(@Nullable Consumer<LToSrtFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToSrtFunction::constant, () -> new LToSrtFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToSrtFunction::constant, () -> new LToSrtFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LToSrtFunctionBuilder<T> extends PerCaseBuilderWithSrtProduct
 	@Nonnull
 	public final LToSrtFunction<T> build() {
 
-		final LToSrtFunction<T> eventuallyFinal = this.eventually;
+		final LToSrtFunction<T> otherwiseFinal = this.otherwise;
 
 		LToSrtFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LToSrtFunctionBuilder<T> extends PerCaseBuilderWithSrtProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsSrt(a);
+				return otherwiseFinal.applyAsSrt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteBinaryOperator EVENTUALLY_THROW = LByteBinaryOperator.byteBinaryOp((a1, a2) -> {
+	public static final LByteBinaryOperator OTHERWISE_THROW = LByteBinaryOperator.byteBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LByteBinaryOperatorBuilder(@Nullable Consumer<LByteBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LByteBinaryOperator::constant, () -> new LByteBinaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LByteBinaryOperator::constant, () -> new LByteBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 	@Nonnull
 	public final LByteBinaryOperator build() {
 
-		final LByteBinaryOperator eventuallyFinal = this.eventually;
+		final LByteBinaryOperator otherwiseFinal = this.otherwise;
 
 		LByteBinaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a1, a2);
+				return otherwiseFinal.applyAsByte(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

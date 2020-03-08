@@ -57,12 +57,12 @@ public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntBinaryOperator EVENTUALLY_THROW = LIntBinaryOperator.intBinaryOp((a1, a2) -> {
+	public static final LIntBinaryOperator OTHERWISE_THROW = LIntBinaryOperator.intBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LIntBinaryOperatorBuilder(@Nullable Consumer<LIntBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LIntBinaryOperator::constant, () -> new LIntBinaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LIntBinaryOperator::constant, () -> new LIntBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduc
 	@Nonnull
 	public final LIntBinaryOperator build() {
 
-		final LIntBinaryOperator eventuallyFinal = this.eventually;
+		final LIntBinaryOperator otherwiseFinal = this.otherwise;
 
 		LIntBinaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a1, a2);
+				return otherwiseFinal.applyAsInt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

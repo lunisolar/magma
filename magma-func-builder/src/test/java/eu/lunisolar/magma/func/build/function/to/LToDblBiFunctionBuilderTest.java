@@ -62,7 +62,7 @@ public class LToDblBiFunctionBuilderTest<T1,T2>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LToDblBiFunction<Integer,Integer> function = toDblBiFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LToDblBiFunctionBuilderTest<T1,T2>{
 
         assertThatThrownBy(() -> {
             LToDblBiFunction<Integer,Integer> function = toDblBiFunctionFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LToDblBiFunctionBuilderTest<T1,T2>{
                              .evaluate((a1,a2) -> 0d))
             .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> 1d)
             .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> 2d)
-            .eventually((a1,a2) -> 99d)
+            .otherwise((a1,a2) -> 99d)
             .build()
         );
 

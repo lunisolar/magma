@@ -57,12 +57,12 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final IntFunction EVENTUALLY_THROW = Function4U.intFunc(a -> {
+	public static final IntFunction OTHERWISE_THROW = Function4U.intFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public IntFunctionBuilder(@Nullable Consumer<IntFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LIntFunction::constant, () -> new IntFunctionBuilder(null));
+		super(OTHERWISE_THROW, LIntFunction::constant, () -> new IntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 	@Nonnull
 	public final IntFunction<R> build() {
 
-		final IntFunction<R> eventuallyFinal = this.eventually;
+		final IntFunction<R> otherwiseFinal = this.otherwise;
 
 		IntFunction<R> retval;
 
@@ -120,7 +120,7 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 					}
 				}
 
-				return eventuallyFinal.apply(a);
+				return otherwiseFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

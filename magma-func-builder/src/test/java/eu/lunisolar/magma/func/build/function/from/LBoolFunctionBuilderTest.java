@@ -62,7 +62,7 @@ public class LBoolFunctionBuilderTest<R>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolFunction<Integer> function = boolFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolFunctionBuilderTest<R>{
 
         assertThatThrownBy(() -> {
             LBoolFunction<Integer> function = boolFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LBoolFunctionBuilderTest<R>{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> 0))
             .inCase(a -> a == true ).evaluate(a -> 1)
-            .eventually(a -> 99)
+            .otherwise(a -> 99)
             .build()
         );
 

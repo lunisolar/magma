@@ -62,7 +62,7 @@ public class LBoolToSrtFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolToSrtFunction function = boolToSrtFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolToSrtFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolToSrtFunction function = boolToSrtFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LBoolToSrtFunctionBuilderTest{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> (short)0))
             .inCase(a -> a == true ).evaluate(a -> (short)1)
-            .eventually(a -> (short)99)
+            .otherwise(a -> (short)99)
             .build()
         );
 

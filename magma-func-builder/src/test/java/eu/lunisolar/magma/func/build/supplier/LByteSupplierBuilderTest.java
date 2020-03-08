@@ -62,7 +62,7 @@ public class LByteSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LByteSupplier function = byteSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class LByteSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             LByteSupplier function = byteSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LByteSupplierBuilderTest{
                              .evaluate(() -> (byte)0))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (byte)1)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (byte)2)
-            .eventually(() -> (byte)99)
+            .otherwise(() -> (byte)99)
             .build()
         );
 

@@ -57,12 +57,12 @@ public final class LToIntTriFunctionBuilder<T1, T2, T3> extends PerCaseBuilderWi
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToIntTriFunction EVENTUALLY_THROW = LToIntTriFunction.toIntTriFunc((a1, a2, a3) -> {
+	public static final LToIntTriFunction OTHERWISE_THROW = LToIntTriFunction.toIntTriFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LToIntTriFunctionBuilder(@Nullable Consumer<LToIntTriFunction<T1, T2, T3>> consumer) {
-		super(EVENTUALLY_THROW, LToIntTriFunction::constant, () -> new LToIntTriFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToIntTriFunction::constant, () -> new LToIntTriFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LToIntTriFunctionBuilder<T1, T2, T3> extends PerCaseBuilderWi
 	@Nonnull
 	public final LToIntTriFunction<T1, T2, T3> build() {
 
-		final LToIntTriFunction<T1, T2, T3> eventuallyFinal = this.eventually;
+		final LToIntTriFunction<T1, T2, T3> otherwiseFinal = this.otherwise;
 
 		LToIntTriFunction<T1, T2, T3> retval;
 
@@ -138,7 +138,7 @@ public final class LToIntTriFunctionBuilder<T1, T2, T3> extends PerCaseBuilderWi
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a1, a2, a3);
+				return otherwiseFinal.applyAsInt(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

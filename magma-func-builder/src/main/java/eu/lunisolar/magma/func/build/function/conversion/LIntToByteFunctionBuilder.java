@@ -57,12 +57,12 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToByteFunction EVENTUALLY_THROW = LIntToByteFunction.intToByteFunc(a -> {
+	public static final LIntToByteFunction OTHERWISE_THROW = LIntToByteFunction.intToByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LIntToByteFunctionBuilder(@Nullable Consumer<LIntToByteFunction> consumer) {
-		super(EVENTUALLY_THROW, LIntToByteFunction::constant, () -> new LIntToByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LIntToByteFunction::constant, () -> new LIntToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 	@Nonnull
 	public final LIntToByteFunction build() {
 
-		final LIntToByteFunction eventuallyFinal = this.eventually;
+		final LIntToByteFunction otherwiseFinal = this.otherwise;
 
 		LIntToByteFunction retval;
 
@@ -120,7 +120,7 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a);
+				return otherwiseFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

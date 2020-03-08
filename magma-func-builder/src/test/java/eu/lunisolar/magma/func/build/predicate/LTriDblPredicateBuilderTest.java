@@ -62,7 +62,7 @@ public class LTriDblPredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LTriDblPredicate function = triDblPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LTriDblPredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LTriDblPredicate function = triDblPredicateFrom(b -> b
-                .eventually((a1,a2,a3) -> {
+                .otherwise((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LTriDblPredicateBuilderTest{
                              .evaluate((a1,a2,a3) -> false))
             .inCase((a1,a2,a3) -> a1 > 0d && a1 < 10d).evaluate((a1,a2,a3) -> true)
             .inCase((a1,a2,a3) -> a1 > 10d && a1 < 20d).evaluate((a1,a2,a3) -> true)
-            .eventually((a1,a2,a3) -> true)
+            .otherwise((a1,a2,a3) -> true)
             .build()
         );
 

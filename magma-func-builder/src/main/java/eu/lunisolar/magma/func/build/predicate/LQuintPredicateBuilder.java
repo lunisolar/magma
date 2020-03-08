@@ -57,12 +57,12 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LQuintPredicate EVENTUALLY_THROW = LQuintPredicate.quintPred((a1, a2, a3, a4, a5) -> {
+	public static final LQuintPredicate OTHERWISE_THROW = LQuintPredicate.quintPred((a1, a2, a3, a4, a5) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LQuintPredicateBuilder(@Nullable Consumer<LQuintPredicate<T1, T2, T3, T4, T5>> consumer) {
-		super(EVENTUALLY_THROW, LQuintPredicate::constant, () -> new LQuintPredicateBuilder(null));
+		super(OTHERWISE_THROW, LQuintPredicate::constant, () -> new LQuintPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -129,7 +129,7 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 	@Nonnull
 	public final LQuintPredicate<T1, T2, T3, T4, T5> build() {
 
-		final LQuintPredicate<T1, T2, T3, T4, T5> eventuallyFinal = this.eventually;
+		final LQuintPredicate<T1, T2, T3, T4, T5> otherwiseFinal = this.otherwise;
 
 		LQuintPredicate<T1, T2, T3, T4, T5> retval;
 
@@ -142,7 +142,7 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 					}
 				}
 
-				return eventuallyFinal.test(a1, a2, a3, a4, a5);
+				return otherwiseFinal.test(a1, a2, a3, a4, a5);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

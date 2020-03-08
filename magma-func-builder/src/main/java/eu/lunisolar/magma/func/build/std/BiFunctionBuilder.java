@@ -57,12 +57,12 @@ public final class BiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final BiFunction EVENTUALLY_THROW = Function4U.biFunc((a1, a2) -> {
+	public static final BiFunction OTHERWISE_THROW = Function4U.biFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public BiFunctionBuilder(@Nullable Consumer<BiFunction<T1, T2, R>> consumer) {
-		super(EVENTUALLY_THROW, LBiFunction::constant, () -> new BiFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBiFunction::constant, () -> new BiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class BiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProduc
 	@Nonnull
 	public final BiFunction<T1, T2, R> build() {
 
-		final BiFunction<T1, T2, R> eventuallyFinal = this.eventually;
+		final BiFunction<T1, T2, R> otherwiseFinal = this.otherwise;
 
 		BiFunction<T1, T2, R> retval;
 
@@ -138,7 +138,7 @@ public final class BiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProduc
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2);
+				return otherwiseFinal.apply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

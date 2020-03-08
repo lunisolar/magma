@@ -57,12 +57,12 @@ public final class LSrtToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSrtToByteFunction EVENTUALLY_THROW = LSrtToByteFunction.srtToByteFunc(a -> {
+	public static final LSrtToByteFunction OTHERWISE_THROW = LSrtToByteFunction.srtToByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LSrtToByteFunctionBuilder(@Nullable Consumer<LSrtToByteFunction> consumer) {
-		super(EVENTUALLY_THROW, LSrtToByteFunction::constant, () -> new LSrtToByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LSrtToByteFunction::constant, () -> new LSrtToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LSrtToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 	@Nonnull
 	public final LSrtToByteFunction build() {
 
-		final LSrtToByteFunction eventuallyFinal = this.eventually;
+		final LSrtToByteFunction otherwiseFinal = this.otherwise;
 
 		LSrtToByteFunction retval;
 
@@ -120,7 +120,7 @@ public final class LSrtToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a);
+				return otherwiseFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

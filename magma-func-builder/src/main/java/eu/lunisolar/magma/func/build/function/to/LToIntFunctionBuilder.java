@@ -57,12 +57,12 @@ public final class LToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToIntFunction EVENTUALLY_THROW = LToIntFunction.toIntFunc(a -> {
+	public static final LToIntFunction OTHERWISE_THROW = LToIntFunction.toIntFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LToIntFunctionBuilder(@Nullable Consumer<LToIntFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToIntFunction::constant, () -> new LToIntFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToIntFunction::constant, () -> new LToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct
 	@Nonnull
 	public final LToIntFunction<T> build() {
 
-		final LToIntFunction<T> eventuallyFinal = this.eventually;
+		final LToIntFunction<T> otherwiseFinal = this.otherwise;
 
 		LToIntFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a);
+				return otherwiseFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

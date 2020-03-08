@@ -57,12 +57,12 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongUnaryOperator EVENTUALLY_THROW = LLongUnaryOperator.longUnaryOp(a -> {
+	public static final LLongUnaryOperator OTHERWISE_THROW = LLongUnaryOperator.longUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLongUnaryOperatorBuilder(@Nullable Consumer<LLongUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LLongUnaryOperator::constant, () -> new LLongUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LLongUnaryOperator::constant, () -> new LLongUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 	@Nonnull
 	public final LLongUnaryOperator build() {
 
-		final LLongUnaryOperator eventuallyFinal = this.eventually;
+		final LLongUnaryOperator otherwiseFinal = this.otherwise;
 
 		LLongUnaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a);
+				return otherwiseFinal.applyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

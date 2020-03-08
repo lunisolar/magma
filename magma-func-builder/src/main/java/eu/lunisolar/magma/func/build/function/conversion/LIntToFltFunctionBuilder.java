@@ -57,12 +57,12 @@ public final class LIntToFltFunctionBuilder extends PerCaseBuilderWithFltProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToFltFunction EVENTUALLY_THROW = LIntToFltFunction.intToFltFunc(a -> {
+	public static final LIntToFltFunction OTHERWISE_THROW = LIntToFltFunction.intToFltFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LIntToFltFunctionBuilder(@Nullable Consumer<LIntToFltFunction> consumer) {
-		super(EVENTUALLY_THROW, LIntToFltFunction::constant, () -> new LIntToFltFunctionBuilder(null));
+		super(OTHERWISE_THROW, LIntToFltFunction::constant, () -> new LIntToFltFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LIntToFltFunctionBuilder extends PerCaseBuilderWithFltProduct
 	@Nonnull
 	public final LIntToFltFunction build() {
 
-		final LIntToFltFunction eventuallyFinal = this.eventually;
+		final LIntToFltFunction otherwiseFinal = this.otherwise;
 
 		LIntToFltFunction retval;
 
@@ -120,7 +120,7 @@ public final class LIntToFltFunctionBuilder extends PerCaseBuilderWithFltProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsFlt(a);
+				return otherwiseFinal.applyAsFlt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LSrtUnaryOperatorBuilder extends PerCaseBuilderWithSrtProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSrtUnaryOperator EVENTUALLY_THROW = LSrtUnaryOperator.srtUnaryOp(a -> {
+	public static final LSrtUnaryOperator OTHERWISE_THROW = LSrtUnaryOperator.srtUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LSrtUnaryOperatorBuilder(@Nullable Consumer<LSrtUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LSrtUnaryOperator::constant, () -> new LSrtUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LSrtUnaryOperator::constant, () -> new LSrtUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LSrtUnaryOperatorBuilder extends PerCaseBuilderWithSrtProduct
 	@Nonnull
 	public final LSrtUnaryOperator build() {
 
-		final LSrtUnaryOperator eventuallyFinal = this.eventually;
+		final LSrtUnaryOperator otherwiseFinal = this.otherwise;
 
 		LSrtUnaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LSrtUnaryOperatorBuilder extends PerCaseBuilderWithSrtProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsSrt(a);
+				return otherwiseFinal.applyAsSrt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

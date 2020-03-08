@@ -62,7 +62,7 @@ public class LTieByteFunctionBuilderTest<T>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LTieByteFunction<Integer> function = tieByteFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LTieByteFunctionBuilderTest<T>{
 
         assertThatThrownBy(() -> {
             LTieByteFunction<Integer> function = tieByteFunctionFrom(b -> b
-                .eventually((a1,a2,a3) -> {
+                .otherwise((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LTieByteFunctionBuilderTest<T>{
                              .evaluate((a1,a2,a3) -> 0))
             .inCase((a1,a2,a3) -> a1 > 0 && a1 < 10).evaluate((a1,a2,a3) -> 1)
             .inCase((a1,a2,a3) -> a1 > 10 && a1 < 20).evaluate((a1,a2,a3) -> 2)
-            .eventually((a1,a2,a3) -> 99)
+            .otherwise((a1,a2,a3) -> 99)
             .build()
         );
 

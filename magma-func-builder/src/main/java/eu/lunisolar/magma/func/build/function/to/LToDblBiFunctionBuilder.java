@@ -57,12 +57,12 @@ public final class LToDblBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithDbl
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToDblBiFunction EVENTUALLY_THROW = LToDblBiFunction.toDblBiFunc((a1, a2) -> {
+	public static final LToDblBiFunction OTHERWISE_THROW = LToDblBiFunction.toDblBiFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LToDblBiFunctionBuilder(@Nullable Consumer<LToDblBiFunction<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LToDblBiFunction::constant, () -> new LToDblBiFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToDblBiFunction::constant, () -> new LToDblBiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LToDblBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithDbl
 	@Nonnull
 	public final LToDblBiFunction<T1, T2> build() {
 
-		final LToDblBiFunction<T1, T2> eventuallyFinal = this.eventually;
+		final LToDblBiFunction<T1, T2> otherwiseFinal = this.otherwise;
 
 		LToDblBiFunction<T1, T2> retval;
 
@@ -138,7 +138,7 @@ public final class LToDblBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithDbl
 					}
 				}
 
-				return eventuallyFinal.applyAsDbl(a1, a2);
+				return otherwiseFinal.applyAsDbl(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

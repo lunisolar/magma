@@ -57,12 +57,12 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ToLongFunction EVENTUALLY_THROW = Function4U.toLongFunc(a -> {
+	public static final ToLongFunction OTHERWISE_THROW = Function4U.toLongFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ToLongFunctionBuilder(@Nullable Consumer<ToLongFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToLongFunction::constant, () -> new ToLongFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToLongFunction::constant, () -> new ToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 	@Nonnull
 	public final ToLongFunction<T> build() {
 
-		final ToLongFunction<T> eventuallyFinal = this.eventually;
+		final ToLongFunction<T> otherwiseFinal = this.otherwise;
 
 		ToLongFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a);
+				return otherwiseFinal.applyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

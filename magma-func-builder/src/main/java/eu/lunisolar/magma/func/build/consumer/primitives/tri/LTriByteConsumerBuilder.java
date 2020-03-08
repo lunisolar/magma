@@ -57,12 +57,12 @@ public final class LTriByteConsumerBuilder extends PerCaseBuilder.Base<LTriByteC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriByteConsumer EVENTUALLY_THROW = LTriByteConsumer.triByteCons((a1, a2, a3) -> {
+	public static final LTriByteConsumer OTHERWISE_THROW = LTriByteConsumer.triByteCons((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTriByteConsumerBuilder(@Nullable Consumer<LTriByteConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LTriByteConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LTriByteConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LTriByteConsumerBuilder extends PerCaseBuilder.Base<LTriByteC
 	@Nonnull
 	public final LTriByteConsumer build() {
 
-		final LTriByteConsumer eventuallyFinal = this.eventually;
+		final LTriByteConsumer otherwiseFinal = this.otherwise;
 
 		LTriByteConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LTriByteConsumerBuilder extends PerCaseBuilder.Base<LTriByteC
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2, a3);
+				otherwiseFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

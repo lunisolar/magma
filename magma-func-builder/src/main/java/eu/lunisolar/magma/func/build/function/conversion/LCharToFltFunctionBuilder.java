@@ -57,12 +57,12 @@ public final class LCharToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToFltFunction EVENTUALLY_THROW = LCharToFltFunction.charToFltFunc(a -> {
+	public static final LCharToFltFunction OTHERWISE_THROW = LCharToFltFunction.charToFltFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LCharToFltFunctionBuilder(@Nullable Consumer<LCharToFltFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToFltFunction::constant, () -> new LCharToFltFunctionBuilder(null));
+		super(OTHERWISE_THROW, LCharToFltFunction::constant, () -> new LCharToFltFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LCharToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 	@Nonnull
 	public final LCharToFltFunction build() {
 
-		final LCharToFltFunction eventuallyFinal = this.eventually;
+		final LCharToFltFunction otherwiseFinal = this.otherwise;
 
 		LCharToFltFunction retval;
 
@@ -120,7 +120,7 @@ public final class LCharToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsFlt(a);
+				return otherwiseFinal.applyAsFlt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

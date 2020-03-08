@@ -57,12 +57,12 @@ public final class LDblToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblToByteFunction EVENTUALLY_THROW = LDblToByteFunction.dblToByteFunc(a -> {
+	public static final LDblToByteFunction OTHERWISE_THROW = LDblToByteFunction.dblToByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblToByteFunctionBuilder(@Nullable Consumer<LDblToByteFunction> consumer) {
-		super(EVENTUALLY_THROW, LDblToByteFunction::constant, () -> new LDblToByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LDblToByteFunction::constant, () -> new LDblToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 	@Nonnull
 	public final LDblToByteFunction build() {
 
-		final LDblToByteFunction eventuallyFinal = this.eventually;
+		final LDblToByteFunction otherwiseFinal = this.otherwise;
 
 		LDblToByteFunction retval;
 
@@ -120,7 +120,7 @@ public final class LDblToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a);
+				return otherwiseFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

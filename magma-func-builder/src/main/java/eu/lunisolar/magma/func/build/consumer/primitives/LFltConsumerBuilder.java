@@ -57,12 +57,12 @@ public final class LFltConsumerBuilder extends PerCaseBuilder.Base<LFltConsumerB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFltConsumer EVENTUALLY_THROW = LFltConsumer.fltCons(a -> {
+	public static final LFltConsumer OTHERWISE_THROW = LFltConsumer.fltCons(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LFltConsumerBuilder(@Nullable Consumer<LFltConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LFltConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LFltConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LFltConsumerBuilder extends PerCaseBuilder.Base<LFltConsumerB
 	@Nonnull
 	public final LFltConsumer build() {
 
-		final LFltConsumer eventuallyFinal = this.eventually;
+		final LFltConsumer otherwiseFinal = this.otherwise;
 
 		LFltConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LFltConsumerBuilder extends PerCaseBuilder.Base<LFltConsumerB
 					}
 				}
 
-				eventuallyFinal.accept(a);
+				otherwiseFinal.accept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LBoolToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToCharFunction EVENTUALLY_THROW = LBoolToCharFunction.boolToCharFunc(a -> {
+	public static final LBoolToCharFunction OTHERWISE_THROW = LBoolToCharFunction.boolToCharFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBoolToCharFunctionBuilder(@Nullable Consumer<LBoolToCharFunction> consumer) {
-		super(EVENTUALLY_THROW, LBoolToCharFunction::constant, () -> new LBoolToCharFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBoolToCharFunction::constant, () -> new LBoolToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBoolToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 	@Nonnull
 	public final LBoolToCharFunction build() {
 
-		final LBoolToCharFunction eventuallyFinal = this.eventually;
+		final LBoolToCharFunction otherwiseFinal = this.otherwise;
 
 		LBoolToCharFunction retval;
 
@@ -120,7 +120,7 @@ public final class LBoolToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(a);
+				return otherwiseFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

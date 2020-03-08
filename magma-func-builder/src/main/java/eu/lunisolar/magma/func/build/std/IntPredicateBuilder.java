@@ -57,12 +57,12 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final IntPredicate EVENTUALLY_THROW = Function4U.intPred(a -> {
+	public static final IntPredicate OTHERWISE_THROW = Function4U.intPred(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public IntPredicateBuilder(@Nullable Consumer<IntPredicate> consumer) {
-		super(EVENTUALLY_THROW, LIntPredicate::constant, () -> new IntPredicateBuilder(null));
+		super(OTHERWISE_THROW, LIntPredicate::constant, () -> new IntPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Bas
 	@Nonnull
 	public final IntPredicate build() {
 
-		final IntPredicate eventuallyFinal = this.eventually;
+		final IntPredicate otherwiseFinal = this.otherwise;
 
 		IntPredicate retval;
 
@@ -120,7 +120,7 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBoolProduct.Bas
 					}
 				}
 
-				return eventuallyFinal.test(a);
+				return otherwiseFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LBiCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiCharFunction EVENTUALLY_THROW = LBiCharFunction.biCharFunc((a1, a2) -> {
+	public static final LBiCharFunction OTHERWISE_THROW = LBiCharFunction.biCharFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBiCharFunctionBuilder(@Nullable Consumer<LBiCharFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LBiCharFunction::constant, () -> new LBiCharFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBiCharFunction::constant, () -> new LBiCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBiCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 	@Nonnull
 	public final LBiCharFunction<R> build() {
 
-		final LBiCharFunction<R> eventuallyFinal = this.eventually;
+		final LBiCharFunction<R> otherwiseFinal = this.otherwise;
 
 		LBiCharFunction<R> retval;
 
@@ -120,7 +120,7 @@ public final class LBiCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2);
+				return otherwiseFinal.apply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

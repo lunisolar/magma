@@ -57,12 +57,12 @@ public final class LTriDblConsumerBuilder extends PerCaseBuilder.Base<LTriDblCon
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriDblConsumer EVENTUALLY_THROW = LTriDblConsumer.triDblCons((a1, a2, a3) -> {
+	public static final LTriDblConsumer OTHERWISE_THROW = LTriDblConsumer.triDblCons((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTriDblConsumerBuilder(@Nullable Consumer<LTriDblConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LTriDblConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LTriDblConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LTriDblConsumerBuilder extends PerCaseBuilder.Base<LTriDblCon
 	@Nonnull
 	public final LTriDblConsumer build() {
 
-		final LTriDblConsumer eventuallyFinal = this.eventually;
+		final LTriDblConsumer otherwiseFinal = this.otherwise;
 
 		LTriDblConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LTriDblConsumerBuilder extends PerCaseBuilder.Base<LTriDblCon
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2, a3);
+				otherwiseFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

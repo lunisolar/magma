@@ -62,7 +62,7 @@ public class LBoolToCharFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolToCharFunction function = boolToCharFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolToCharFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolToCharFunction function = boolToCharFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LBoolToCharFunctionBuilderTest{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> '\u0000'))
             .inCase(a -> a == true ).evaluate(a -> '\u0001')
-            .eventually(a -> '\u0099')
+            .otherwise(a -> '\u0099')
             .build()
         );
 

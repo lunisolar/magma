@@ -57,12 +57,12 @@ public final class LFltPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFltPredicate EVENTUALLY_THROW = LFltPredicate.fltPred(a -> {
+	public static final LFltPredicate OTHERWISE_THROW = LFltPredicate.fltPred(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LFltPredicateBuilder(@Nullable Consumer<LFltPredicate> consumer) {
-		super(EVENTUALLY_THROW, LFltPredicate::constant, () -> new LFltPredicateBuilder(null));
+		super(OTHERWISE_THROW, LFltPredicate::constant, () -> new LFltPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LFltPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 	@Nonnull
 	public final LFltPredicate build() {
 
-		final LFltPredicate eventuallyFinal = this.eventually;
+		final LFltPredicate otherwiseFinal = this.otherwise;
 
 		LFltPredicate retval;
 
@@ -120,7 +120,7 @@ public final class LFltPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.test(a);
+				return otherwiseFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

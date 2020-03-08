@@ -57,12 +57,12 @@ public final class LDblToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblToCharFunction EVENTUALLY_THROW = LDblToCharFunction.dblToCharFunc(a -> {
+	public static final LDblToCharFunction OTHERWISE_THROW = LDblToCharFunction.dblToCharFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblToCharFunctionBuilder(@Nullable Consumer<LDblToCharFunction> consumer) {
-		super(EVENTUALLY_THROW, LDblToCharFunction::constant, () -> new LDblToCharFunctionBuilder(null));
+		super(OTHERWISE_THROW, LDblToCharFunction::constant, () -> new LDblToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 	@Nonnull
 	public final LDblToCharFunction build() {
 
-		final LDblToCharFunction eventuallyFinal = this.eventually;
+		final LDblToCharFunction otherwiseFinal = this.otherwise;
 
 		LDblToCharFunction retval;
 
@@ -120,7 +120,7 @@ public final class LDblToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(a);
+				return otherwiseFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

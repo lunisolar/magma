@@ -57,12 +57,12 @@ public final class LFltUnaryOperatorBuilder extends PerCaseBuilderWithFltProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFltUnaryOperator EVENTUALLY_THROW = LFltUnaryOperator.fltUnaryOp(a -> {
+	public static final LFltUnaryOperator OTHERWISE_THROW = LFltUnaryOperator.fltUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LFltUnaryOperatorBuilder(@Nullable Consumer<LFltUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LFltUnaryOperator::constant, () -> new LFltUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LFltUnaryOperator::constant, () -> new LFltUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LFltUnaryOperatorBuilder extends PerCaseBuilderWithFltProduct
 	@Nonnull
 	public final LFltUnaryOperator build() {
 
-		final LFltUnaryOperator eventuallyFinal = this.eventually;
+		final LFltUnaryOperator otherwiseFinal = this.otherwise;
 
 		LFltUnaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LFltUnaryOperatorBuilder extends PerCaseBuilderWithFltProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsFlt(a);
+				return otherwiseFinal.applyAsFlt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

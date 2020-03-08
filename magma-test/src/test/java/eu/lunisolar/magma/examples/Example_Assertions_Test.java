@@ -77,7 +77,7 @@ public class Example_Assertions_Test {
 
     private LAction action = LActionBuilder.action()  // a compilation test
                                            .inCase(() -> extInfluence.get() > 0).evaluate(() -> extEffect.set(extInfluence.get()))
-                                           .eventually(() -> extEffect.set(-1))
+                                           .otherwise(() -> extEffect.set(-1))
                                            .build();
 
     /**

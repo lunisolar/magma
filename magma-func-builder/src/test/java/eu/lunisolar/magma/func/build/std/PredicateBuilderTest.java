@@ -62,7 +62,7 @@ public class PredicateBuilderTest<T>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             Predicate<Integer> function = predicateFrom(b-> b
@@ -98,7 +98,7 @@ public class PredicateBuilderTest<T>{
 
         assertThatThrownBy(() -> {
             Predicate<Integer> function = predicateFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class PredicateBuilderTest<T>{
                              .evaluate(a -> false))
             .inCase(a -> a > 0 && a < 10).evaluate(a -> true)
             .inCase(a -> a > 10 && a < 20).evaluate(a -> true)
-            .eventually(a -> true)
+            .otherwise(a -> true)
             .build()
         );
 

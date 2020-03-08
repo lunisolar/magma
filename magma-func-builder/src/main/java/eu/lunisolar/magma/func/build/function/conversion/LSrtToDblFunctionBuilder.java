@@ -57,12 +57,12 @@ public final class LSrtToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSrtToDblFunction EVENTUALLY_THROW = LSrtToDblFunction.srtToDblFunc(a -> {
+	public static final LSrtToDblFunction OTHERWISE_THROW = LSrtToDblFunction.srtToDblFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LSrtToDblFunctionBuilder(@Nullable Consumer<LSrtToDblFunction> consumer) {
-		super(EVENTUALLY_THROW, LSrtToDblFunction::constant, () -> new LSrtToDblFunctionBuilder(null));
+		super(OTHERWISE_THROW, LSrtToDblFunction::constant, () -> new LSrtToDblFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LSrtToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 	@Nonnull
 	public final LSrtToDblFunction build() {
 
-		final LSrtToDblFunction eventuallyFinal = this.eventually;
+		final LSrtToDblFunction otherwiseFinal = this.otherwise;
 
 		LSrtToDblFunction retval;
 
@@ -120,7 +120,7 @@ public final class LSrtToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsDbl(a);
+				return otherwiseFinal.applyAsDbl(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

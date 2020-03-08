@@ -57,12 +57,12 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteToCharFunction EVENTUALLY_THROW = LByteToCharFunction.byteToCharFunc(a -> {
+	public static final LByteToCharFunction OTHERWISE_THROW = LByteToCharFunction.byteToCharFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LByteToCharFunctionBuilder(@Nullable Consumer<LByteToCharFunction> consumer) {
-		super(EVENTUALLY_THROW, LByteToCharFunction::constant, () -> new LByteToCharFunctionBuilder(null));
+		super(OTHERWISE_THROW, LByteToCharFunction::constant, () -> new LByteToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 	@Nonnull
 	public final LByteToCharFunction build() {
 
-		final LByteToCharFunction eventuallyFinal = this.eventually;
+		final LByteToCharFunction otherwiseFinal = this.otherwise;
 
 		LByteToCharFunction retval;
 
@@ -120,7 +120,7 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(a);
+				return otherwiseFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

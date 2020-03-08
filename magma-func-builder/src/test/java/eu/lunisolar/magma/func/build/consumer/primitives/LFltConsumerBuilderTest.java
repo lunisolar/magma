@@ -62,7 +62,7 @@ public class LFltConsumerBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LFltConsumer function = fltConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LFltConsumerBuilderTest{
 
         assertThatThrownBy(() -> {
             LFltConsumer function = fltConsumerFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LFltConsumerBuilderTest{
                              .evaluate(a -> externalEffect.set(0)))
             .inCase(a -> a > 0f && a < 10f).evaluate(a -> externalEffect.set(1))
             .inCase(a -> a > 10f && a < 20f).evaluate(a -> externalEffect.set(2))
-            .eventually(a -> externalEffect.set(99))
+            .otherwise(a -> externalEffect.set(99))
             .build()
         );
 

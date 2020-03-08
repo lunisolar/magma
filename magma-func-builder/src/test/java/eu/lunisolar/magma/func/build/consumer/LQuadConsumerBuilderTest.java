@@ -62,7 +62,7 @@ public class LQuadConsumerBuilderTest<T1,T2,T3,T4>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LQuadConsumer<Integer,Integer,Integer,Integer> function = quadConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LQuadConsumerBuilderTest<T1,T2,T3,T4>{
 
         assertThatThrownBy(() -> {
             LQuadConsumer<Integer,Integer,Integer,Integer> function = quadConsumerFrom(b -> b
-                .eventually((a1,a2,a3,a4) -> {
+                .otherwise((a1,a2,a3,a4) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LQuadConsumerBuilderTest<T1,T2,T3,T4>{
                              .evaluate((a1,a2,a3,a4) -> externalEffect.set(0)))
             .inCase((a1,a2,a3,a4) -> a1 > 0 && a1 < 10).evaluate((a1,a2,a3,a4) -> externalEffect.set(1))
             .inCase((a1,a2,a3,a4) -> a1 > 10 && a1 < 20).evaluate((a1,a2,a3,a4) -> externalEffect.set(2))
-            .eventually((a1,a2,a3,a4) -> externalEffect.set(99))
+            .otherwise((a1,a2,a3,a4) -> externalEffect.set(99))
             .build()
         );
 

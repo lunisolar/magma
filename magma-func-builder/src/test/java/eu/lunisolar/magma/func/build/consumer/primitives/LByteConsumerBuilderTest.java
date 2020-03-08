@@ -62,7 +62,7 @@ public class LByteConsumerBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LByteConsumer function = byteConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LByteConsumerBuilderTest{
 
         assertThatThrownBy(() -> {
             LByteConsumer function = byteConsumerFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LByteConsumerBuilderTest{
                              .evaluate(a -> externalEffect.set(0)))
             .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> externalEffect.set(1))
             .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> externalEffect.set(2))
-            .eventually(a -> externalEffect.set(99))
+            .otherwise(a -> externalEffect.set(99))
             .build()
         );
 

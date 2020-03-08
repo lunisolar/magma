@@ -62,7 +62,7 @@ public class LLongToFltFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLongToFltFunction function = longToFltFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LLongToFltFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LLongToFltFunction function = longToFltFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LLongToFltFunctionBuilderTest{
                              .evaluate(a -> 0f))
             .inCase(a -> a > 0L && a < 10L).evaluate(a -> 1f)
             .inCase(a -> a > 10L && a < 20L).evaluate(a -> 2f)
-            .eventually(a -> 99f)
+            .otherwise(a -> 99f)
             .build()
         );
 

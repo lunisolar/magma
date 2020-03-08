@@ -62,7 +62,7 @@ public class LQuadPredicateBuilderTest<T1,T2,T3,T4>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LQuadPredicate<Integer,Integer,Integer,Integer> function = quadPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LQuadPredicateBuilderTest<T1,T2,T3,T4>{
 
         assertThatThrownBy(() -> {
             LQuadPredicate<Integer,Integer,Integer,Integer> function = quadPredicateFrom(b -> b
-                .eventually((a1,a2,a3,a4) -> {
+                .otherwise((a1,a2,a3,a4) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LQuadPredicateBuilderTest<T1,T2,T3,T4>{
                              .evaluate((a1,a2,a3,a4) -> false))
             .inCase((a1,a2,a3,a4) -> a1 > 0 && a1 < 10).evaluate((a1,a2,a3,a4) -> true)
             .inCase((a1,a2,a3,a4) -> a1 > 10 && a1 < 20).evaluate((a1,a2,a3,a4) -> true)
-            .eventually((a1,a2,a3,a4) -> true)
+            .otherwise((a1,a2,a3,a4) -> true)
             .build()
         );
 

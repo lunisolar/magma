@@ -62,7 +62,7 @@ public class DoubleBinaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             DoubleBinaryOperator function = dblBinaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class DoubleBinaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             DoubleBinaryOperator function = dblBinaryOperatorFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class DoubleBinaryOperatorBuilderTest{
                              .evaluate((a1,a2) -> 0d))
             .inCase((a1,a2) -> a1 > 0d && a1 < 10d).evaluate((a1,a2) -> 1d)
             .inCase((a1,a2) -> a1 > 10d && a1 < 20d).evaluate((a1,a2) -> 2d)
-            .eventually((a1,a2) -> 99d)
+            .otherwise((a1,a2) -> 99d)
             .build()
         );
 

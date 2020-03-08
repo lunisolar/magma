@@ -52,24 +52,24 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * (same type as overall function) that will be called when condition expression evaluates to **true**.
  *
  * Cases are evaluated in a order one by one. First condition that returns **true** will decide what function will be called. Eventually if no condition is
- * evaluating to **true** a last resort function _eventually_ is called. By default _eventually_ will throw an exception that there is no case that will cover
- * the input data. This default _eventually_ behavior can be overridden.
+ * evaluating to **true** a last resort function _otherwise_ is called. By default _otherwise_ will throw an exception that there is no case that will cover
+ * the input data. This default _otherwise_ behavior can be overridden.
  */
 @SuppressWarnings("unchecked")
 public abstract class PerCaseBuilderWithSrtProduct<PCB extends PerCaseBuilderWithSrtProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithSrtProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
 
 	protected @Nonnull final LSrtFunction<F> directToFunction;
 
-	protected PerCaseBuilderWithSrtProduct(@Nonnull F eventually, @Nonnull LSrtFunction<F> directToFunction, @Nonnull Supplier<PCB> subCasesFactory) {
-		super(eventually, subCasesFactory);
+	protected PerCaseBuilderWithSrtProduct(@Nonnull F otherwise, @Nonnull LSrtFunction<F> directToFunction, @Nonnull Supplier<PCB> subCasesFactory) {
+		super(otherwise, subCasesFactory);
 		this.directToFunction = directToFunction;
 	}
 
 	// <editor-fold desc="case">
 
-	/** Sets the function to evaluate _eventually_ when input data do not match any case. */
-	public final PCB eventuallyProduce(short directValue) {
-		eventually = directToFunction.apply(directValue);
+	/** Sets the function to evaluate _otherwise_ when input data do not match any case. */
+	public final PCB otherwiseProduce(short directValue) {
+		otherwise = directToFunction.apply(directValue);
 		return self();
 	}
 
@@ -80,8 +80,8 @@ public abstract class PerCaseBuilderWithSrtProduct<PCB extends PerCaseBuilderWit
 	}
 
 	public static abstract class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithSrtProduct<SELF, P, F, PartialCaseWithSrtProduct.The<SELF, P, F>> {
-		protected Base(@Nonnull F eventually, @Nonnull LSrtFunction<F> directToFunction, @Nonnull Supplier<SELF> subCasesFactory) {
-			super(eventually, directToFunction, subCasesFactory);
+		protected Base(@Nonnull F otherwise, @Nonnull LSrtFunction<F> directToFunction, @Nonnull Supplier<SELF> subCasesFactory) {
+			super(otherwise, directToFunction, subCasesFactory);
 		}
 
 		@Override

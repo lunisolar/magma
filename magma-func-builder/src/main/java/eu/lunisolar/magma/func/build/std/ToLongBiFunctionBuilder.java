@@ -57,12 +57,12 @@ public final class ToLongBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithLon
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ToLongBiFunction EVENTUALLY_THROW = Function4U.toLongBiFunc((a1, a2) -> {
+	public static final ToLongBiFunction OTHERWISE_THROW = Function4U.toLongBiFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ToLongBiFunctionBuilder(@Nullable Consumer<ToLongBiFunction<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LToLongBiFunction::constant, () -> new ToLongBiFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToLongBiFunction::constant, () -> new ToLongBiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class ToLongBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithLon
 	@Nonnull
 	public final ToLongBiFunction<T1, T2> build() {
 
-		final ToLongBiFunction<T1, T2> eventuallyFinal = this.eventually;
+		final ToLongBiFunction<T1, T2> otherwiseFinal = this.otherwise;
 
 		ToLongBiFunction<T1, T2> retval;
 
@@ -138,7 +138,7 @@ public final class ToLongBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithLon
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a1, a2);
+				return otherwiseFinal.applyAsLong(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

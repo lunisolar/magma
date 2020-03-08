@@ -57,12 +57,12 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjCharConsumer EVENTUALLY_THROW = LObjCharConsumer.objCharCons((a1, a2) -> {
+	public static final LObjCharConsumer OTHERWISE_THROW = LObjCharConsumer.objCharCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LObjCharConsumerBuilder(@Nullable Consumer<LObjCharConsumer<T>> consumer) {
-		super(EVENTUALLY_THROW, () -> new LObjCharConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LObjCharConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 	@Nonnull
 	public final LObjCharConsumer<T> build() {
 
-		final LObjCharConsumer<T> eventuallyFinal = this.eventually;
+		final LObjCharConsumer<T> otherwiseFinal = this.otherwise;
 
 		LObjCharConsumer<T> retval;
 
@@ -139,7 +139,7 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2);
+				otherwiseFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

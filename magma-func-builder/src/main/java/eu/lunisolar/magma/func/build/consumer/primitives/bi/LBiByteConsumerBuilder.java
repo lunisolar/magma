@@ -57,12 +57,12 @@ public final class LBiByteConsumerBuilder extends PerCaseBuilder.Base<LBiByteCon
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiByteConsumer EVENTUALLY_THROW = LBiByteConsumer.biByteCons((a1, a2) -> {
+	public static final LBiByteConsumer OTHERWISE_THROW = LBiByteConsumer.biByteCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBiByteConsumerBuilder(@Nullable Consumer<LBiByteConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LBiByteConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LBiByteConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBiByteConsumerBuilder extends PerCaseBuilder.Base<LBiByteCon
 	@Nonnull
 	public final LBiByteConsumer build() {
 
-		final LBiByteConsumer eventuallyFinal = this.eventually;
+		final LBiByteConsumer otherwiseFinal = this.otherwise;
 
 		LBiByteConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LBiByteConsumerBuilder extends PerCaseBuilder.Base<LBiByteCon
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2);
+				otherwiseFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

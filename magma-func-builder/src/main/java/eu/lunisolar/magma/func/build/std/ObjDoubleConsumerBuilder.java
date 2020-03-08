@@ -57,12 +57,12 @@ public final class ObjDoubleConsumerBuilder<T> extends PerCaseBuilder.Base<ObjDo
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ObjDoubleConsumer EVENTUALLY_THROW = Function4U.objDblCons((a1, a2) -> {
+	public static final ObjDoubleConsumer OTHERWISE_THROW = Function4U.objDblCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ObjDoubleConsumerBuilder(@Nullable Consumer<ObjDoubleConsumer<T>> consumer) {
-		super(EVENTUALLY_THROW, () -> new ObjDoubleConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new ObjDoubleConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class ObjDoubleConsumerBuilder<T> extends PerCaseBuilder.Base<ObjDo
 	@Nonnull
 	public final ObjDoubleConsumer<T> build() {
 
-		final ObjDoubleConsumer<T> eventuallyFinal = this.eventually;
+		final ObjDoubleConsumer<T> otherwiseFinal = this.otherwise;
 
 		ObjDoubleConsumer<T> retval;
 
@@ -139,7 +139,7 @@ public final class ObjDoubleConsumerBuilder<T> extends PerCaseBuilder.Base<ObjDo
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2);
+				otherwiseFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

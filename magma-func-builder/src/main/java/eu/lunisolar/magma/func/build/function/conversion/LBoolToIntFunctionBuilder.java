@@ -57,12 +57,12 @@ public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToIntFunction EVENTUALLY_THROW = LBoolToIntFunction.boolToIntFunc(a -> {
+	public static final LBoolToIntFunction OTHERWISE_THROW = LBoolToIntFunction.boolToIntFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBoolToIntFunctionBuilder(@Nullable Consumer<LBoolToIntFunction> consumer) {
-		super(EVENTUALLY_THROW, LBoolToIntFunction::constant, () -> new LBoolToIntFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBoolToIntFunction::constant, () -> new LBoolToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 	@Nonnull
 	public final LBoolToIntFunction build() {
 
-		final LBoolToIntFunction eventuallyFinal = this.eventually;
+		final LBoolToIntFunction otherwiseFinal = this.otherwise;
 
 		LBoolToIntFunction retval;
 
@@ -120,7 +120,7 @@ public final class LBoolToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a);
+				return otherwiseFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

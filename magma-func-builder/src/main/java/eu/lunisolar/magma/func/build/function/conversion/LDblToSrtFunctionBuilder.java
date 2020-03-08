@@ -57,12 +57,12 @@ public final class LDblToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblToSrtFunction EVENTUALLY_THROW = LDblToSrtFunction.dblToSrtFunc(a -> {
+	public static final LDblToSrtFunction OTHERWISE_THROW = LDblToSrtFunction.dblToSrtFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblToSrtFunctionBuilder(@Nullable Consumer<LDblToSrtFunction> consumer) {
-		super(EVENTUALLY_THROW, LDblToSrtFunction::constant, () -> new LDblToSrtFunctionBuilder(null));
+		super(OTHERWISE_THROW, LDblToSrtFunction::constant, () -> new LDblToSrtFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduct
 	@Nonnull
 	public final LDblToSrtFunction build() {
 
-		final LDblToSrtFunction eventuallyFinal = this.eventually;
+		final LDblToSrtFunction otherwiseFinal = this.otherwise;
 
 		LDblToSrtFunction retval;
 
@@ -120,7 +120,7 @@ public final class LDblToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsSrt(a);
+				return otherwiseFinal.applyAsSrt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

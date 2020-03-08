@@ -57,12 +57,12 @@ public final class LBiObjBoolConsumerBuilder<T1, T2> extends PerCaseBuilder.Base
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiObjBoolConsumer EVENTUALLY_THROW = LBiObjBoolConsumer.biObjBoolCons((a1, a2, a3) -> {
+	public static final LBiObjBoolConsumer OTHERWISE_THROW = LBiObjBoolConsumer.biObjBoolCons((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBiObjBoolConsumerBuilder(@Nullable Consumer<LBiObjBoolConsumer<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, () -> new LBiObjBoolConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LBiObjBoolConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LBiObjBoolConsumerBuilder<T1, T2> extends PerCaseBuilder.Base
 	@Nonnull
 	public final LBiObjBoolConsumer<T1, T2> build() {
 
-		final LBiObjBoolConsumer<T1, T2> eventuallyFinal = this.eventually;
+		final LBiObjBoolConsumer<T1, T2> otherwiseFinal = this.otherwise;
 
 		LBiObjBoolConsumer<T1, T2> retval;
 
@@ -139,7 +139,7 @@ public final class LBiObjBoolConsumerBuilder<T1, T2> extends PerCaseBuilder.Base
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2, a3);
+				otherwiseFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

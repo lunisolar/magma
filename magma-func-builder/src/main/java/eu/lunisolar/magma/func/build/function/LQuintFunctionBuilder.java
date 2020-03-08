@@ -57,12 +57,12 @@ public final class LQuintFunctionBuilder<T1, T2, T3, T4, T5, R> extends PerCaseB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LQuintFunction EVENTUALLY_THROW = LQuintFunction.quintFunc((a1, a2, a3, a4, a5) -> {
+	public static final LQuintFunction OTHERWISE_THROW = LQuintFunction.quintFunc((a1, a2, a3, a4, a5) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LQuintFunctionBuilder(@Nullable Consumer<LQuintFunction<T1, T2, T3, T4, T5, R>> consumer) {
-		super(EVENTUALLY_THROW, LQuintFunction::constant, () -> new LQuintFunctionBuilder(null));
+		super(OTHERWISE_THROW, LQuintFunction::constant, () -> new LQuintFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -129,7 +129,7 @@ public final class LQuintFunctionBuilder<T1, T2, T3, T4, T5, R> extends PerCaseB
 	@Nonnull
 	public final LQuintFunction<T1, T2, T3, T4, T5, R> build() {
 
-		final LQuintFunction<T1, T2, T3, T4, T5, R> eventuallyFinal = this.eventually;
+		final LQuintFunction<T1, T2, T3, T4, T5, R> otherwiseFinal = this.otherwise;
 
 		LQuintFunction<T1, T2, T3, T4, T5, R> retval;
 
@@ -142,7 +142,7 @@ public final class LQuintFunctionBuilder<T1, T2, T3, T4, T5, R> extends PerCaseB
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2, a3, a4, a5);
+				return otherwiseFinal.apply(a1, a2, a3, a4, a5);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

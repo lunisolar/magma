@@ -57,12 +57,12 @@ public final class LSrtBinaryOperatorBuilder extends PerCaseBuilderWithSrtProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSrtBinaryOperator EVENTUALLY_THROW = LSrtBinaryOperator.srtBinaryOp((a1, a2) -> {
+	public static final LSrtBinaryOperator OTHERWISE_THROW = LSrtBinaryOperator.srtBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LSrtBinaryOperatorBuilder(@Nullable Consumer<LSrtBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LSrtBinaryOperator::constant, () -> new LSrtBinaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LSrtBinaryOperator::constant, () -> new LSrtBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LSrtBinaryOperatorBuilder extends PerCaseBuilderWithSrtProduc
 	@Nonnull
 	public final LSrtBinaryOperator build() {
 
-		final LSrtBinaryOperator eventuallyFinal = this.eventually;
+		final LSrtBinaryOperator otherwiseFinal = this.otherwise;
 
 		LSrtBinaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LSrtBinaryOperatorBuilder extends PerCaseBuilderWithSrtProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsSrt(a1, a2);
+				return otherwiseFinal.applyAsSrt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

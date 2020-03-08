@@ -57,12 +57,12 @@ public final class BiPredicateBuilder<T1, T2> extends PerCaseBuilderWithBoolProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final BiPredicate EVENTUALLY_THROW = Function4U.biPred((a1, a2) -> {
+	public static final BiPredicate OTHERWISE_THROW = Function4U.biPred((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public BiPredicateBuilder(@Nullable Consumer<BiPredicate<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LBiPredicate::constant, () -> new BiPredicateBuilder(null));
+		super(OTHERWISE_THROW, LBiPredicate::constant, () -> new BiPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class BiPredicateBuilder<T1, T2> extends PerCaseBuilderWithBoolProd
 	@Nonnull
 	public final BiPredicate<T1, T2> build() {
 
-		final BiPredicate<T1, T2> eventuallyFinal = this.eventually;
+		final BiPredicate<T1, T2> otherwiseFinal = this.otherwise;
 
 		BiPredicate<T1, T2> retval;
 
@@ -138,7 +138,7 @@ public final class BiPredicateBuilder<T1, T2> extends PerCaseBuilderWithBoolProd
 					}
 				}
 
-				return eventuallyFinal.test(a1, a2);
+				return otherwiseFinal.test(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

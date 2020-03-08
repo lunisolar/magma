@@ -57,12 +57,12 @@ public final class LSupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<LS
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSupplier EVENTUALLY_THROW = LSupplier.sup(() -> {
+	public static final LSupplier OTHERWISE_THROW = LSupplier.sup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LSupplierBuilder(@Nullable Consumer<LSupplier<T>> consumer) {
-		super(EVENTUALLY_THROW, LSupplier::of, () -> new LSupplierBuilder(null));
+		super(OTHERWISE_THROW, LSupplier::of, () -> new LSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LSupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<LS
 	@Nonnull
 	public final LSupplier<T> build() {
 
-		final LSupplier<T> eventuallyFinal = this.eventually;
+		final LSupplier<T> otherwiseFinal = this.otherwise;
 
 		LSupplier<T> retval;
 
@@ -120,7 +120,7 @@ public final class LSupplierBuilder<T> extends PerCaseBuilderWithProduct.Base<LS
 					}
 				}
 
-				return eventuallyFinal.get();
+				return otherwiseFinal.get();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

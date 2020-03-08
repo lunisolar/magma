@@ -62,7 +62,7 @@ public class LObjLongFunctionBuilderTest<T,R>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LObjLongFunction<Integer,Integer> function = objLongFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LObjLongFunctionBuilderTest<T,R>{
 
         assertThatThrownBy(() -> {
             LObjLongFunction<Integer,Integer> function = objLongFunctionFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LObjLongFunctionBuilderTest<T,R>{
                              .evaluate((a1,a2) -> 0))
             .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> 1)
             .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> 2)
-            .eventually((a1,a2) -> 99)
+            .otherwise((a1,a2) -> 99)
             .build()
         );
 

@@ -62,7 +62,7 @@ public class LFltSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LFltSupplier function = fltSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class LFltSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             LFltSupplier function = fltSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LFltSupplierBuilderTest{
                              .evaluate(() -> 0f))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> 1f)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> 2f)
-            .eventually(() -> 99f)
+            .otherwise(() -> 99f)
             .build()
         );
 

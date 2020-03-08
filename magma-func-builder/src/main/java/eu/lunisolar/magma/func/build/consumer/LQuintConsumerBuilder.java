@@ -57,12 +57,12 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LQuintConsumer EVENTUALLY_THROW = LQuintConsumer.quintCons((a1, a2, a3, a4, a5) -> {
+	public static final LQuintConsumer OTHERWISE_THROW = LQuintConsumer.quintCons((a1, a2, a3, a4, a5) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LQuintConsumerBuilder(@Nullable Consumer<LQuintConsumer<T1, T2, T3, T4, T5>> consumer) {
-		super(EVENTUALLY_THROW, () -> new LQuintConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LQuintConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -129,7 +129,7 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 	@Nonnull
 	public final LQuintConsumer<T1, T2, T3, T4, T5> build() {
 
-		final LQuintConsumer<T1, T2, T3, T4, T5> eventuallyFinal = this.eventually;
+		final LQuintConsumer<T1, T2, T3, T4, T5> otherwiseFinal = this.otherwise;
 
 		LQuintConsumer<T1, T2, T3, T4, T5> retval;
 
@@ -143,7 +143,7 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2, a3, a4, a5);
+				otherwiseFinal.accept(a1, a2, a3, a4, a5);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

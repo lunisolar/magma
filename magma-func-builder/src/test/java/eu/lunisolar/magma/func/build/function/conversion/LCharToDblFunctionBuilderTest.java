@@ -62,7 +62,7 @@ public class LCharToDblFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharToDblFunction function = charToDblFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharToDblFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharToDblFunction function = charToDblFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LCharToDblFunctionBuilderTest{
                              .evaluate(a -> 0d))
             .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> 1d)
             .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> 2d)
-            .eventually(a -> 99d)
+            .otherwise(a -> 99d)
             .build()
         );
 

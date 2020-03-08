@@ -57,12 +57,12 @@ public final class LTieCharConsumerBuilder<T> extends PerCaseBuilder.Base<LTieCh
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTieCharConsumer EVENTUALLY_THROW = LTieCharConsumer.tieCharCons((a1, a2, a3) -> {
+	public static final LTieCharConsumer OTHERWISE_THROW = LTieCharConsumer.tieCharCons((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTieCharConsumerBuilder(@Nullable Consumer<LTieCharConsumer<T>> consumer) {
-		super(EVENTUALLY_THROW, () -> new LTieCharConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LTieCharConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LTieCharConsumerBuilder<T> extends PerCaseBuilder.Base<LTieCh
 	@Nonnull
 	public final LTieCharConsumer<T> build() {
 
-		final LTieCharConsumer<T> eventuallyFinal = this.eventually;
+		final LTieCharConsumer<T> otherwiseFinal = this.otherwise;
 
 		LTieCharConsumer<T> retval;
 
@@ -139,7 +139,7 @@ public final class LTieCharConsumerBuilder<T> extends PerCaseBuilder.Base<LTieCh
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2, a3);
+				otherwiseFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

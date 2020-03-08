@@ -62,7 +62,7 @@ public class LTriCharPredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LTriCharPredicate function = triCharPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LTriCharPredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LTriCharPredicate function = triCharPredicateFrom(b -> b
-                .eventually((a1,a2,a3) -> {
+                .otherwise((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LTriCharPredicateBuilderTest{
                              .evaluate((a1,a2,a3) -> false))
             .inCase((a1,a2,a3) -> a1 > '\u0000' && a1 < '\u0010').evaluate((a1,a2,a3) -> true)
             .inCase((a1,a2,a3) -> a1 > '\u0010' && a1 < '\u0020').evaluate((a1,a2,a3) -> true)
-            .eventually((a1,a2,a3) -> true)
+            .otherwise((a1,a2,a3) -> true)
             .build()
         );
 

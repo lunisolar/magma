@@ -57,12 +57,12 @@ public final class LTieIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTieIntFunction EVENTUALLY_THROW = LTieIntFunction.tieIntFunc((a1, a2, a3) -> {
+	public static final LTieIntFunction OTHERWISE_THROW = LTieIntFunction.tieIntFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTieIntFunctionBuilder(@Nullable Consumer<LTieIntFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LTieIntFunction::constant, () -> new LTieIntFunctionBuilder(null));
+		super(OTHERWISE_THROW, LTieIntFunction::constant, () -> new LTieIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LTieIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduc
 	@Nonnull
 	public final LTieIntFunction<T> build() {
 
-		final LTieIntFunction<T> eventuallyFinal = this.eventually;
+		final LTieIntFunction<T> otherwiseFinal = this.otherwise;
 
 		LTieIntFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LTieIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a1, a2, a3);
+				return otherwiseFinal.applyAsInt(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

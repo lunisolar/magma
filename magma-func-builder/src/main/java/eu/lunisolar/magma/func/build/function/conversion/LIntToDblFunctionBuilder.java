@@ -57,12 +57,12 @@ public final class LIntToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToDblFunction EVENTUALLY_THROW = LIntToDblFunction.intToDblFunc(a -> {
+	public static final LIntToDblFunction OTHERWISE_THROW = LIntToDblFunction.intToDblFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LIntToDblFunctionBuilder(@Nullable Consumer<LIntToDblFunction> consumer) {
-		super(EVENTUALLY_THROW, LIntToDblFunction::constant, () -> new LIntToDblFunctionBuilder(null));
+		super(OTHERWISE_THROW, LIntToDblFunction::constant, () -> new LIntToDblFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LIntToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 	@Nonnull
 	public final LIntToDblFunction build() {
 
-		final LIntToDblFunction eventuallyFinal = this.eventually;
+		final LIntToDblFunction otherwiseFinal = this.otherwise;
 
 		LIntToDblFunction retval;
 
@@ -120,7 +120,7 @@ public final class LIntToDblFunctionBuilder extends PerCaseBuilderWithDblProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsDbl(a);
+				return otherwiseFinal.applyAsDbl(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

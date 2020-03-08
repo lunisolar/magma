@@ -57,12 +57,12 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDblProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleSupplier EVENTUALLY_THROW = Function4U.dblSup(() -> {
+	public static final DoubleSupplier OTHERWISE_THROW = Function4U.dblSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleSupplierBuilder(@Nullable Consumer<DoubleSupplier> consumer) {
-		super(EVENTUALLY_THROW, LDblSupplier::of, () -> new DoubleSupplierBuilder(null));
+		super(OTHERWISE_THROW, LDblSupplier::of, () -> new DoubleSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDblProduct.Ba
 	@Nonnull
 	public final DoubleSupplier build() {
 
-		final DoubleSupplier eventuallyFinal = this.eventually;
+		final DoubleSupplier otherwiseFinal = this.otherwise;
 
 		DoubleSupplier retval;
 
@@ -120,7 +120,7 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDblProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.getAsDouble();
+				return otherwiseFinal.getAsDouble();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

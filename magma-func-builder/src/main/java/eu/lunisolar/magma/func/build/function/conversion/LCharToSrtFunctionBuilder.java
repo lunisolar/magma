@@ -57,12 +57,12 @@ public final class LCharToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToSrtFunction EVENTUALLY_THROW = LCharToSrtFunction.charToSrtFunc(a -> {
+	public static final LCharToSrtFunction OTHERWISE_THROW = LCharToSrtFunction.charToSrtFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LCharToSrtFunctionBuilder(@Nullable Consumer<LCharToSrtFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToSrtFunction::constant, () -> new LCharToSrtFunctionBuilder(null));
+		super(OTHERWISE_THROW, LCharToSrtFunction::constant, () -> new LCharToSrtFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LCharToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 	@Nonnull
 	public final LCharToSrtFunction build() {
 
-		final LCharToSrtFunction eventuallyFinal = this.eventually;
+		final LCharToSrtFunction otherwiseFinal = this.otherwise;
 
 		LCharToSrtFunction retval;
 
@@ -120,7 +120,7 @@ public final class LCharToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsSrt(a);
+				return otherwiseFinal.applyAsSrt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

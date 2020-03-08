@@ -57,12 +57,12 @@ public final class LFltToIntFunctionBuilder extends PerCaseBuilderWithIntProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFltToIntFunction EVENTUALLY_THROW = LFltToIntFunction.fltToIntFunc(a -> {
+	public static final LFltToIntFunction OTHERWISE_THROW = LFltToIntFunction.fltToIntFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LFltToIntFunctionBuilder(@Nullable Consumer<LFltToIntFunction> consumer) {
-		super(EVENTUALLY_THROW, LFltToIntFunction::constant, () -> new LFltToIntFunctionBuilder(null));
+		super(OTHERWISE_THROW, LFltToIntFunction::constant, () -> new LFltToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LFltToIntFunctionBuilder extends PerCaseBuilderWithIntProduct
 	@Nonnull
 	public final LFltToIntFunction build() {
 
-		final LFltToIntFunction eventuallyFinal = this.eventually;
+		final LFltToIntFunction otherwiseFinal = this.otherwise;
 
 		LFltToIntFunction retval;
 
@@ -120,7 +120,7 @@ public final class LFltToIntFunctionBuilder extends PerCaseBuilderWithIntProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a);
+				return otherwiseFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

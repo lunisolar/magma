@@ -62,7 +62,7 @@ public class LFltToCharFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LFltToCharFunction function = fltToCharFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LFltToCharFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LFltToCharFunction function = fltToCharFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LFltToCharFunctionBuilderTest{
                              .evaluate(a -> '\u0000'))
             .inCase(a -> a > 0f && a < 10f).evaluate(a -> '\u0001')
             .inCase(a -> a > 10f && a < 20f).evaluate(a -> '\u0002')
-            .eventually(a -> '\u0099')
+            .otherwise(a -> '\u0099')
             .build()
         );
 

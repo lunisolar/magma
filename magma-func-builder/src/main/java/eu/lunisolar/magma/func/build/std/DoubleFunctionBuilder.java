@@ -57,12 +57,12 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleFunction EVENTUALLY_THROW = Function4U.dblFunc(a -> {
+	public static final DoubleFunction OTHERWISE_THROW = Function4U.dblFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleFunctionBuilder(@Nullable Consumer<DoubleFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LDblFunction::constant, () -> new DoubleFunctionBuilder(null));
+		super(OTHERWISE_THROW, LDblFunction::constant, () -> new DoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 	@Nonnull
 	public final DoubleFunction<R> build() {
 
-		final DoubleFunction<R> eventuallyFinal = this.eventually;
+		final DoubleFunction<R> otherwiseFinal = this.otherwise;
 
 		DoubleFunction<R> retval;
 
@@ -120,7 +120,7 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.apply(a);
+				return otherwiseFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

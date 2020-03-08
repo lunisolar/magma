@@ -57,12 +57,12 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongSupplier EVENTUALLY_THROW = LLongSupplier.longSup(() -> {
+	public static final LLongSupplier OTHERWISE_THROW = LLongSupplier.longSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLongSupplierBuilder(@Nullable Consumer<LLongSupplier> consumer) {
-		super(EVENTUALLY_THROW, LLongSupplier::of, () -> new LLongSupplierBuilder(null));
+		super(OTHERWISE_THROW, LLongSupplier::of, () -> new LLongSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 	@Nonnull
 	public final LLongSupplier build() {
 
-		final LLongSupplier eventuallyFinal = this.eventually;
+		final LLongSupplier otherwiseFinal = this.otherwise;
 
 		LLongSupplier retval;
 
@@ -120,7 +120,7 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.getAsLong();
+				return otherwiseFinal.getAsLong();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

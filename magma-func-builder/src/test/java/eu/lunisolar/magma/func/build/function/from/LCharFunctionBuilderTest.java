@@ -62,7 +62,7 @@ public class LCharFunctionBuilderTest<R>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharFunction<Integer> function = charFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharFunctionBuilderTest<R>{
 
         assertThatThrownBy(() -> {
             LCharFunction<Integer> function = charFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LCharFunctionBuilderTest<R>{
                              .evaluate(a -> 0))
             .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> 1)
             .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> 2)
-            .eventually(a -> 99)
+            .otherwise(a -> 99)
             .build()
         );
 

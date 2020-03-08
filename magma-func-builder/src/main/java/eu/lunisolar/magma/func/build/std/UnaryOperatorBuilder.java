@@ -57,12 +57,12 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final UnaryOperator EVENTUALLY_THROW = Function4U.unaryOp(a -> {
+	public static final UnaryOperator OTHERWISE_THROW = Function4U.unaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public UnaryOperatorBuilder(@Nullable Consumer<UnaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, LUnaryOperator::constant, () -> new UnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LUnaryOperator::constant, () -> new UnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 	@Nonnull
 	public final UnaryOperator<T> build() {
 
-		final UnaryOperator<T> eventuallyFinal = this.eventually;
+		final UnaryOperator<T> otherwiseFinal = this.otherwise;
 
 		UnaryOperator<T> retval;
 
@@ -138,7 +138,7 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 					}
 				}
 
-				return eventuallyFinal.apply(a);
+				return otherwiseFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

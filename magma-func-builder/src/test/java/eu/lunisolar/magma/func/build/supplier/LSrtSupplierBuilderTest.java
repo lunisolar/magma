@@ -62,7 +62,7 @@ public class LSrtSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LSrtSupplier function = srtSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class LSrtSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             LSrtSupplier function = srtSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LSrtSupplierBuilderTest{
                              .evaluate(() -> (short)0))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (short)1)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (short)2)
-            .eventually(() -> (short)99)
+            .otherwise(() -> (short)99)
             .build()
         );
 

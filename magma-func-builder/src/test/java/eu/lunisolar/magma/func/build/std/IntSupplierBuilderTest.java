@@ -62,7 +62,7 @@ public class IntSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             IntSupplier function = intSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class IntSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             IntSupplier function = intSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class IntSupplierBuilderTest{
                              .evaluate(() -> 0))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> 1)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> 2)
-            .eventually(() -> 99)
+            .otherwise(() -> 99)
             .build()
         );
 

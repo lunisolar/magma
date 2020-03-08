@@ -57,12 +57,12 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoublePredicate EVENTUALLY_THROW = Function4U.dblPred(a -> {
+	public static final DoublePredicate OTHERWISE_THROW = Function4U.dblPred(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoublePredicateBuilder(@Nullable Consumer<DoublePredicate> consumer) {
-		super(EVENTUALLY_THROW, LDblPredicate::constant, () -> new DoublePredicateBuilder(null));
+		super(OTHERWISE_THROW, LDblPredicate::constant, () -> new DoublePredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.
 	@Nonnull
 	public final DoublePredicate build() {
 
-		final DoublePredicate eventuallyFinal = this.eventually;
+		final DoublePredicate otherwiseFinal = this.otherwise;
 
 		DoublePredicate retval;
 
@@ -120,7 +120,7 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBoolProduct.
 					}
 				}
 
-				return eventuallyFinal.test(a);
+				return otherwiseFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

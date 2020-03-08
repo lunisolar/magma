@@ -57,12 +57,12 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final Predicate EVENTUALLY_THROW = Function4U.pred(a -> {
+	public static final Predicate OTHERWISE_THROW = Function4U.pred(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public PredicateBuilder(@Nullable Consumer<Predicate<T>> consumer) {
-		super(EVENTUALLY_THROW, LPredicate::constant, () -> new PredicateBuilder(null));
+		super(OTHERWISE_THROW, LPredicate::constant, () -> new PredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 	@Nonnull
 	public final Predicate<T> build() {
 
-		final Predicate<T> eventuallyFinal = this.eventually;
+		final Predicate<T> otherwiseFinal = this.otherwise;
 
 		Predicate<T> retval;
 
@@ -138,7 +138,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Bas
 					}
 				}
 
-				return eventuallyFinal.test(a);
+				return otherwiseFinal.test(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LDblConsumerBuilder extends PerCaseBuilder.Base<LDblConsumerB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblConsumer EVENTUALLY_THROW = LDblConsumer.dblCons(a -> {
+	public static final LDblConsumer OTHERWISE_THROW = LDblConsumer.dblCons(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblConsumerBuilder(@Nullable Consumer<LDblConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LDblConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LDblConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblConsumerBuilder extends PerCaseBuilder.Base<LDblConsumerB
 	@Nonnull
 	public final LDblConsumer build() {
 
-		final LDblConsumer eventuallyFinal = this.eventually;
+		final LDblConsumer otherwiseFinal = this.otherwise;
 
 		LDblConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LDblConsumerBuilder extends PerCaseBuilder.Base<LDblConsumerB
 					}
 				}
 
-				eventuallyFinal.accept(a);
+				otherwiseFinal.accept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -62,7 +62,7 @@ public class LLongSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLongSupplier function = longSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class LLongSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             LLongSupplier function = longSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LLongSupplierBuilderTest{
                              .evaluate(() -> 0L))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> 1L)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> 2L)
-            .eventually(() -> 99L)
+            .otherwise(() -> 99L)
             .build()
         );
 

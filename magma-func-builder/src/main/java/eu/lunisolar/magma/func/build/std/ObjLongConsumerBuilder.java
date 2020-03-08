@@ -57,12 +57,12 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ObjLongConsumer EVENTUALLY_THROW = Function4U.objLongCons((a1, a2) -> {
+	public static final ObjLongConsumer OTHERWISE_THROW = Function4U.objLongCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ObjLongConsumerBuilder(@Nullable Consumer<ObjLongConsumer<T>> consumer) {
-		super(EVENTUALLY_THROW, () -> new ObjLongConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new ObjLongConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 	@Nonnull
 	public final ObjLongConsumer<T> build() {
 
-		final ObjLongConsumer<T> eventuallyFinal = this.eventually;
+		final ObjLongConsumer<T> otherwiseFinal = this.otherwise;
 
 		ObjLongConsumer<T> retval;
 
@@ -139,7 +139,7 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2);
+				otherwiseFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

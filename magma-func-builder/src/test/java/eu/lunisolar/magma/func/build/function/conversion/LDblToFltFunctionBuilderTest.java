@@ -62,7 +62,7 @@ public class LDblToFltFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LDblToFltFunction function = dblToFltFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LDblToFltFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LDblToFltFunction function = dblToFltFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LDblToFltFunctionBuilderTest{
                              .evaluate(a -> 0f))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1f)
             .inCase(a -> a > 10d && a < 20d).evaluate(a -> 2f)
-            .eventually(a -> 99f)
+            .otherwise(a -> 99f)
             .build()
         );
 

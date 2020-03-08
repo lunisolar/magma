@@ -57,12 +57,12 @@ public final class LBoolSupplierBuilder extends PerCaseBuilderWithBoolProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolSupplier EVENTUALLY_THROW = LBoolSupplier.boolSup(() -> {
+	public static final LBoolSupplier OTHERWISE_THROW = LBoolSupplier.boolSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBoolSupplierBuilder(@Nullable Consumer<LBoolSupplier> consumer) {
-		super(EVENTUALLY_THROW, LBoolSupplier::of, () -> new LBoolSupplierBuilder(null));
+		super(OTHERWISE_THROW, LBoolSupplier::of, () -> new LBoolSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBoolSupplierBuilder extends PerCaseBuilderWithBoolProduct.Ba
 	@Nonnull
 	public final LBoolSupplier build() {
 
-		final LBoolSupplier eventuallyFinal = this.eventually;
+		final LBoolSupplier otherwiseFinal = this.otherwise;
 
 		LBoolSupplier retval;
 
@@ -120,7 +120,7 @@ public final class LBoolSupplierBuilder extends PerCaseBuilderWithBoolProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.getAsBool();
+				return otherwiseFinal.getAsBool();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

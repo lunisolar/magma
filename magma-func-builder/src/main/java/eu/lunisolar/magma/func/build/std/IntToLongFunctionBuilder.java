@@ -57,12 +57,12 @@ public final class IntToLongFunctionBuilder extends PerCaseBuilderWithLongProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final IntToLongFunction EVENTUALLY_THROW = Function4U.intToLongFunc(a -> {
+	public static final IntToLongFunction OTHERWISE_THROW = Function4U.intToLongFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public IntToLongFunctionBuilder(@Nullable Consumer<IntToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LIntToLongFunction::constant, () -> new IntToLongFunctionBuilder(null));
+		super(OTHERWISE_THROW, LIntToLongFunction::constant, () -> new IntToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class IntToLongFunctionBuilder extends PerCaseBuilderWithLongProduc
 	@Nonnull
 	public final IntToLongFunction build() {
 
-		final IntToLongFunction eventuallyFinal = this.eventually;
+		final IntToLongFunction otherwiseFinal = this.otherwise;
 
 		IntToLongFunction retval;
 
@@ -120,7 +120,7 @@ public final class IntToLongFunctionBuilder extends PerCaseBuilderWithLongProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a);
+				return otherwiseFinal.applyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

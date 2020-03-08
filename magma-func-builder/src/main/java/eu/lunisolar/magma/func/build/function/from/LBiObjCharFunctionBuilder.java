@@ -57,12 +57,12 @@ public final class LBiObjCharFunctionBuilder<T1, T2, R> extends PerCaseBuilderWi
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiObjCharFunction EVENTUALLY_THROW = LBiObjCharFunction.biObjCharFunc((a1, a2, a3) -> {
+	public static final LBiObjCharFunction OTHERWISE_THROW = LBiObjCharFunction.biObjCharFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBiObjCharFunctionBuilder(@Nullable Consumer<LBiObjCharFunction<T1, T2, R>> consumer) {
-		super(EVENTUALLY_THROW, LBiObjCharFunction::constant, () -> new LBiObjCharFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBiObjCharFunction::constant, () -> new LBiObjCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LBiObjCharFunctionBuilder<T1, T2, R> extends PerCaseBuilderWi
 	@Nonnull
 	public final LBiObjCharFunction<T1, T2, R> build() {
 
-		final LBiObjCharFunction<T1, T2, R> eventuallyFinal = this.eventually;
+		final LBiObjCharFunction<T1, T2, R> otherwiseFinal = this.otherwise;
 
 		LBiObjCharFunction<T1, T2, R> retval;
 
@@ -138,7 +138,7 @@ public final class LBiObjCharFunctionBuilder<T1, T2, R> extends PerCaseBuilderWi
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2, a3);
+				return otherwiseFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

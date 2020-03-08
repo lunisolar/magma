@@ -57,12 +57,12 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLogicalOperator EVENTUALLY_THROW = LLogicalOperator.logicalOp(a -> {
+	public static final LLogicalOperator OTHERWISE_THROW = LLogicalOperator.logicalOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLogicalOperatorBuilder(@Nullable Consumer<LLogicalOperator> consumer) {
-		super(EVENTUALLY_THROW, LLogicalOperator::constant, () -> new LLogicalOperatorBuilder(null));
+		super(OTHERWISE_THROW, LLogicalOperator::constant, () -> new LLogicalOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 	@Nonnull
 	public final LLogicalOperator build() {
 
-		final LLogicalOperator eventuallyFinal = this.eventually;
+		final LLogicalOperator otherwiseFinal = this.otherwise;
 
 		LLogicalOperator retval;
 
@@ -120,7 +120,7 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBoolProduct
 					}
 				}
 
-				return eventuallyFinal.apply(a);
+				return otherwiseFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

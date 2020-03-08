@@ -57,12 +57,12 @@ public final class LTriFunctionBuilder<T1, T2, T3, R> extends PerCaseBuilderWith
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriFunction EVENTUALLY_THROW = LTriFunction.triFunc((a1, a2, a3) -> {
+	public static final LTriFunction OTHERWISE_THROW = LTriFunction.triFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTriFunctionBuilder(@Nullable Consumer<LTriFunction<T1, T2, T3, R>> consumer) {
-		super(EVENTUALLY_THROW, LTriFunction::constant, () -> new LTriFunctionBuilder(null));
+		super(OTHERWISE_THROW, LTriFunction::constant, () -> new LTriFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LTriFunctionBuilder<T1, T2, T3, R> extends PerCaseBuilderWith
 	@Nonnull
 	public final LTriFunction<T1, T2, T3, R> build() {
 
-		final LTriFunction<T1, T2, T3, R> eventuallyFinal = this.eventually;
+		final LTriFunction<T1, T2, T3, R> otherwiseFinal = this.otherwise;
 
 		LTriFunction<T1, T2, T3, R> retval;
 
@@ -138,7 +138,7 @@ public final class LTriFunctionBuilder<T1, T2, T3, R> extends PerCaseBuilderWith
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2, a3);
+				return otherwiseFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

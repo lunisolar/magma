@@ -57,12 +57,12 @@ public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LQuadConsumer EVENTUALLY_THROW = LQuadConsumer.quadCons((a1, a2, a3, a4) -> {
+	public static final LQuadConsumer OTHERWISE_THROW = LQuadConsumer.quadCons((a1, a2, a3, a4) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LQuadConsumerBuilder(@Nullable Consumer<LQuadConsumer<T1, T2, T3, T4>> consumer) {
-		super(EVENTUALLY_THROW, () -> new LQuadConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LQuadConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.B
 	@Nonnull
 	public final LQuadConsumer<T1, T2, T3, T4> build() {
 
-		final LQuadConsumer<T1, T2, T3, T4> eventuallyFinal = this.eventually;
+		final LQuadConsumer<T1, T2, T3, T4> otherwiseFinal = this.otherwise;
 
 		LQuadConsumer<T1, T2, T3, T4> retval;
 
@@ -139,7 +139,7 @@ public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.B
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2, a3, a4);
+				otherwiseFinal.accept(a1, a2, a3, a4);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

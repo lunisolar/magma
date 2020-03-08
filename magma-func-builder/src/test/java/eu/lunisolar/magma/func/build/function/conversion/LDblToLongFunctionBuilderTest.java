@@ -62,7 +62,7 @@ public class LDblToLongFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LDblToLongFunction function = dblToLongFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LDblToLongFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LDblToLongFunction function = dblToLongFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LDblToLongFunctionBuilderTest{
                              .evaluate(a -> 0L))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1L)
             .inCase(a -> a > 10d && a < 20d).evaluate(a -> 2L)
-            .eventually(a -> 99L)
+            .otherwise(a -> 99L)
             .build()
         );
 

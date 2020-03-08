@@ -57,12 +57,12 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LConsumer EVENTUALLY_THROW = LConsumer.cons(a -> {
+	public static final LConsumer OTHERWISE_THROW = LConsumer.cons(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LConsumerBuilder(@Nullable Consumer<LConsumer<T>> consumer) {
-		super(EVENTUALLY_THROW, () -> new LConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 	@Nonnull
 	public final LConsumer<T> build() {
 
-		final LConsumer<T> eventuallyFinal = this.eventually;
+		final LConsumer<T> otherwiseFinal = this.otherwise;
 
 		LConsumer<T> retval;
 
@@ -139,7 +139,7 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 					}
 				}
 
-				eventuallyFinal.accept(a);
+				otherwiseFinal.accept(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

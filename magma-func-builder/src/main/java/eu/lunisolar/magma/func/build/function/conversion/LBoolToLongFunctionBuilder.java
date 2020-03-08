@@ -57,12 +57,12 @@ public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToLongFunction EVENTUALLY_THROW = LBoolToLongFunction.boolToLongFunc(a -> {
+	public static final LBoolToLongFunction OTHERWISE_THROW = LBoolToLongFunction.boolToLongFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBoolToLongFunctionBuilder(@Nullable Consumer<LBoolToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LBoolToLongFunction::constant, () -> new LBoolToLongFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBoolToLongFunction::constant, () -> new LBoolToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 	@Nonnull
 	public final LBoolToLongFunction build() {
 
-		final LBoolToLongFunction eventuallyFinal = this.eventually;
+		final LBoolToLongFunction otherwiseFinal = this.otherwise;
 
 		LBoolToLongFunction retval;
 
@@ -120,7 +120,7 @@ public final class LBoolToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a);
+				return otherwiseFinal.applyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

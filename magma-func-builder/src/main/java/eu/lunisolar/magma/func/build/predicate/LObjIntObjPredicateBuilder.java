@@ -57,12 +57,12 @@ public final class LObjIntObjPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjIntObjPredicate EVENTUALLY_THROW = LObjIntObjPredicate.objIntObjPred((a1, a2, a3) -> {
+	public static final LObjIntObjPredicate OTHERWISE_THROW = LObjIntObjPredicate.objIntObjPred((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LObjIntObjPredicateBuilder(@Nullable Consumer<LObjIntObjPredicate<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LObjIntObjPredicate::constant, () -> new LObjIntObjPredicateBuilder(null));
+		super(OTHERWISE_THROW, LObjIntObjPredicate::constant, () -> new LObjIntObjPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LObjIntObjPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 	@Nonnull
 	public final LObjIntObjPredicate<T1, T2> build() {
 
-		final LObjIntObjPredicate<T1, T2> eventuallyFinal = this.eventually;
+		final LObjIntObjPredicate<T1, T2> otherwiseFinal = this.otherwise;
 
 		LObjIntObjPredicate<T1, T2> retval;
 
@@ -138,7 +138,7 @@ public final class LObjIntObjPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 					}
 				}
 
-				return eventuallyFinal.test(a1, a2, a3);
+				return otherwiseFinal.test(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

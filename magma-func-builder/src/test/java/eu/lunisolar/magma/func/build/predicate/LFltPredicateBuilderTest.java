@@ -62,7 +62,7 @@ public class LFltPredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LFltPredicate function = fltPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LFltPredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LFltPredicate function = fltPredicateFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LFltPredicateBuilderTest{
                              .evaluate(a -> false))
             .inCase(a -> a > 0f && a < 10f).evaluate(a -> true)
             .inCase(a -> a > 10f && a < 20f).evaluate(a -> true)
-            .eventually(a -> true)
+            .otherwise(a -> true)
             .build()
         );
 

@@ -62,7 +62,7 @@ public class LCharUnaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharUnaryOperator function = charUnaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharUnaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharUnaryOperator function = charUnaryOperatorFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LCharUnaryOperatorBuilderTest{
                              .evaluate(a -> '\u0000'))
             .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> '\u0001')
             .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> '\u0002')
-            .eventually(a -> '\u0099')
+            .otherwise(a -> '\u0099')
             .build()
         );
 

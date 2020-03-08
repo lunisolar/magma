@@ -62,7 +62,7 @@ public class LCharBinaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharBinaryOperator function = charBinaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharBinaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharBinaryOperator function = charBinaryOperatorFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LCharBinaryOperatorBuilderTest{
                              .evaluate((a1,a2) -> '\u0000'))
             .inCase((a1,a2) -> a1 > '\u0000' && a1 < '\u0010').evaluate((a1,a2) -> '\u0001')
             .inCase((a1,a2) -> a1 > '\u0010' && a1 < '\u0020').evaluate((a1,a2) -> '\u0002')
-            .eventually((a1,a2) -> '\u0099')
+            .otherwise((a1,a2) -> '\u0099')
             .build()
         );
 

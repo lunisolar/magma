@@ -62,7 +62,7 @@ public class LBoolToLongFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolToLongFunction function = boolToLongFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolToLongFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolToLongFunction function = boolToLongFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LBoolToLongFunctionBuilderTest{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> 0L))
             .inCase(a -> a == true ).evaluate(a -> 1L)
-            .eventually(a -> 99L)
+            .otherwise(a -> 99L)
             .build()
         );
 

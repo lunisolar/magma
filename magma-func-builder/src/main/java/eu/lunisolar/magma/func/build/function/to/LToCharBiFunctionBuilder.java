@@ -57,12 +57,12 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToCharBiFunction EVENTUALLY_THROW = LToCharBiFunction.toCharBiFunc((a1, a2) -> {
+	public static final LToCharBiFunction OTHERWISE_THROW = LToCharBiFunction.toCharBiFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LToCharBiFunctionBuilder(@Nullable Consumer<LToCharBiFunction<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LToCharBiFunction::constant, () -> new LToCharBiFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToCharBiFunction::constant, () -> new LToCharBiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 	@Nonnull
 	public final LToCharBiFunction<T1, T2> build() {
 
-		final LToCharBiFunction<T1, T2> eventuallyFinal = this.eventually;
+		final LToCharBiFunction<T1, T2> otherwiseFinal = this.otherwise;
 
 		LToCharBiFunction<T1, T2> retval;
 
@@ -138,7 +138,7 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(a1, a2);
+				return otherwiseFinal.applyAsChar(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

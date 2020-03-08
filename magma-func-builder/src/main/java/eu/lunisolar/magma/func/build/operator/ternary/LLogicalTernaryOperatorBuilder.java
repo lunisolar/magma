@@ -57,12 +57,12 @@ public final class LLogicalTernaryOperatorBuilder extends PerCaseBuilderWithBool
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLogicalTernaryOperator EVENTUALLY_THROW = LLogicalTernaryOperator.logicalTernaryOp((a1, a2, a3) -> {
+	public static final LLogicalTernaryOperator OTHERWISE_THROW = LLogicalTernaryOperator.logicalTernaryOp((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLogicalTernaryOperatorBuilder(@Nullable Consumer<LLogicalTernaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LLogicalTernaryOperator::constant, () -> new LLogicalTernaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LLogicalTernaryOperator::constant, () -> new LLogicalTernaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLogicalTernaryOperatorBuilder extends PerCaseBuilderWithBool
 	@Nonnull
 	public final LLogicalTernaryOperator build() {
 
-		final LLogicalTernaryOperator eventuallyFinal = this.eventually;
+		final LLogicalTernaryOperator otherwiseFinal = this.otherwise;
 
 		LLogicalTernaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LLogicalTernaryOperatorBuilder extends PerCaseBuilderWithBool
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2, a3);
+				return otherwiseFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

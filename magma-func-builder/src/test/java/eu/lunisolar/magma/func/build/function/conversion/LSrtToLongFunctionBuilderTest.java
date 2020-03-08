@@ -62,7 +62,7 @@ public class LSrtToLongFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LSrtToLongFunction function = srtToLongFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LSrtToLongFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LSrtToLongFunction function = srtToLongFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LSrtToLongFunctionBuilderTest{
                              .evaluate(a -> 0L))
             .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> 1L)
             .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> 2L)
-            .eventually(a -> 99L)
+            .otherwise(a -> 99L)
             .build()
         );
 

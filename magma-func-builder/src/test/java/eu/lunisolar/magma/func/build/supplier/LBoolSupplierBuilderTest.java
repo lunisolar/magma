@@ -62,7 +62,7 @@ public class LBoolSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolSupplier function = boolSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolSupplier function = boolSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LBoolSupplierBuilderTest{
                              .evaluate(() -> false))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> true)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> true)
-            .eventually(() -> true)
+            .otherwise(() -> true)
             .build()
         );
 

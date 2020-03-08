@@ -57,12 +57,12 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToByteFunction EVENTUALLY_THROW = LToByteFunction.toByteFunc(a -> {
+	public static final LToByteFunction OTHERWISE_THROW = LToByteFunction.toByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LToByteFunctionBuilder(@Nullable Consumer<LToByteFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToByteFunction::constant, () -> new LToByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToByteFunction::constant, () -> new LToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 	@Nonnull
 	public final LToByteFunction<T> build() {
 
-		final LToByteFunction<T> eventuallyFinal = this.eventually;
+		final LToByteFunction<T> otherwiseFinal = this.otherwise;
 
 		LToByteFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a);
+				return otherwiseFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -62,7 +62,7 @@ public class LongPredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LongPredicate function = longPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LongPredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LongPredicate function = longPredicateFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LongPredicateBuilderTest{
                              .evaluate(a -> false))
             .inCase(a -> a > 0L && a < 10L).evaluate(a -> true)
             .inCase(a -> a > 10L && a < 20L).evaluate(a -> true)
-            .eventually(a -> true)
+            .otherwise(a -> true)
             .build()
         );
 

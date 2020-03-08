@@ -62,7 +62,7 @@ public class LByteToCharFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LByteToCharFunction function = byteToCharFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LByteToCharFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LByteToCharFunction function = byteToCharFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LByteToCharFunctionBuilderTest{
                              .evaluate(a -> '\u0000'))
             .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> '\u0001')
             .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> '\u0002')
-            .eventually(a -> '\u0099')
+            .otherwise(a -> '\u0099')
             .build()
         );
 

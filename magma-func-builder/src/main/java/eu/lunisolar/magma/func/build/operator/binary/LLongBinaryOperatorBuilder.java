@@ -57,12 +57,12 @@ public final class LLongBinaryOperatorBuilder extends PerCaseBuilderWithLongProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongBinaryOperator EVENTUALLY_THROW = LLongBinaryOperator.longBinaryOp((a1, a2) -> {
+	public static final LLongBinaryOperator OTHERWISE_THROW = LLongBinaryOperator.longBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLongBinaryOperatorBuilder(@Nullable Consumer<LLongBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LLongBinaryOperator::constant, () -> new LLongBinaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LLongBinaryOperator::constant, () -> new LLongBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLongBinaryOperatorBuilder extends PerCaseBuilderWithLongProd
 	@Nonnull
 	public final LLongBinaryOperator build() {
 
-		final LLongBinaryOperator eventuallyFinal = this.eventually;
+		final LLongBinaryOperator otherwiseFinal = this.otherwise;
 
 		LLongBinaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LLongBinaryOperatorBuilder extends PerCaseBuilderWithLongProd
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a1, a2);
+				return otherwiseFinal.applyAsLong(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

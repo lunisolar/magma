@@ -57,12 +57,12 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToByteFunction EVENTUALLY_THROW = LCharToByteFunction.charToByteFunc(a -> {
+	public static final LCharToByteFunction OTHERWISE_THROW = LCharToByteFunction.charToByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LCharToByteFunctionBuilder(@Nullable Consumer<LCharToByteFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToByteFunction::constant, () -> new LCharToByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LCharToByteFunction::constant, () -> new LCharToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 	@Nonnull
 	public final LCharToByteFunction build() {
 
-		final LCharToByteFunction eventuallyFinal = this.eventually;
+		final LCharToByteFunction otherwiseFinal = this.otherwise;
 
 		LCharToByteFunction retval;
 
@@ -120,7 +120,7 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a);
+				return otherwiseFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

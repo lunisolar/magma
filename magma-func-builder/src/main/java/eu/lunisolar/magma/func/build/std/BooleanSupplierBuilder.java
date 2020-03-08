@@ -57,12 +57,12 @@ public final class BooleanSupplierBuilder extends PerCaseBuilderWithBoolProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final BooleanSupplier EVENTUALLY_THROW = Function4U.boolSup(() -> {
+	public static final BooleanSupplier OTHERWISE_THROW = Function4U.boolSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public BooleanSupplierBuilder(@Nullable Consumer<BooleanSupplier> consumer) {
-		super(EVENTUALLY_THROW, LBoolSupplier::of, () -> new BooleanSupplierBuilder(null));
+		super(OTHERWISE_THROW, LBoolSupplier::of, () -> new BooleanSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class BooleanSupplierBuilder extends PerCaseBuilderWithBoolProduct.
 	@Nonnull
 	public final BooleanSupplier build() {
 
-		final BooleanSupplier eventuallyFinal = this.eventually;
+		final BooleanSupplier otherwiseFinal = this.otherwise;
 
 		BooleanSupplier retval;
 
@@ -120,7 +120,7 @@ public final class BooleanSupplierBuilder extends PerCaseBuilderWithBoolProduct.
 					}
 				}
 
-				return eventuallyFinal.getAsBoolean();
+				return otherwiseFinal.getAsBoolean();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

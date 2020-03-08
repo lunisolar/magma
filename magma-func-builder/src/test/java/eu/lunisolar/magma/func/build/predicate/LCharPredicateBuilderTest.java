@@ -62,7 +62,7 @@ public class LCharPredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharPredicate function = charPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharPredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharPredicate function = charPredicateFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LCharPredicateBuilderTest{
                              .evaluate(a -> false))
             .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> true)
             .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> true)
-            .eventually(a -> true)
+            .otherwise(a -> true)
             .build()
         );
 

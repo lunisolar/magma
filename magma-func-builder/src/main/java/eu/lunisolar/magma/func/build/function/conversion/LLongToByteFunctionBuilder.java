@@ -57,12 +57,12 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToByteFunction EVENTUALLY_THROW = LLongToByteFunction.longToByteFunc(a -> {
+	public static final LLongToByteFunction OTHERWISE_THROW = LLongToByteFunction.longToByteFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLongToByteFunctionBuilder(@Nullable Consumer<LLongToByteFunction> consumer) {
-		super(EVENTUALLY_THROW, LLongToByteFunction::constant, () -> new LLongToByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LLongToByteFunction::constant, () -> new LLongToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 	@Nonnull
 	public final LLongToByteFunction build() {
 
-		final LLongToByteFunction eventuallyFinal = this.eventually;
+		final LLongToByteFunction otherwiseFinal = this.otherwise;
 
 		LLongToByteFunction retval;
 
@@ -120,7 +120,7 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a);
+				return otherwiseFinal.applyAsByte(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

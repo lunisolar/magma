@@ -62,7 +62,7 @@ public class DoubleSupplierBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             DoubleSupplier function = dblSupplierFrom(b-> b
@@ -98,7 +98,7 @@ public class DoubleSupplierBuilderTest{
 
         assertThatThrownBy(() -> {
             DoubleSupplier function = dblSupplierFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class DoubleSupplierBuilderTest{
                              .evaluate(() -> 0d))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> 1d)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> 2d)
-            .eventually(() -> 99d)
+            .otherwise(() -> 99d)
             .build()
         );
 

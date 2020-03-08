@@ -57,12 +57,12 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharToIntFunction EVENTUALLY_THROW = LCharToIntFunction.charToIntFunc(a -> {
+	public static final LCharToIntFunction OTHERWISE_THROW = LCharToIntFunction.charToIntFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LCharToIntFunctionBuilder(@Nullable Consumer<LCharToIntFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToIntFunction::constant, () -> new LCharToIntFunctionBuilder(null));
+		super(OTHERWISE_THROW, LCharToIntFunction::constant, () -> new LCharToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 	@Nonnull
 	public final LCharToIntFunction build() {
 
-		final LCharToIntFunction eventuallyFinal = this.eventually;
+		final LCharToIntFunction otherwiseFinal = this.otherwise;
 
 		LCharToIntFunction retval;
 
@@ -120,7 +120,7 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a);
+				return otherwiseFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

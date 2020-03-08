@@ -62,7 +62,7 @@ public class LBiConsumerBuilderTest<T1,T2>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBiConsumer<Integer,Integer> function = biConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LBiConsumerBuilderTest<T1,T2>{
 
         assertThatThrownBy(() -> {
             LBiConsumer<Integer,Integer> function = biConsumerFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LBiConsumerBuilderTest<T1,T2>{
                              .evaluate((a1,a2) -> externalEffect.set(0)))
             .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> externalEffect.set(1))
             .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> externalEffect.set(2))
-            .eventually((a1,a2) -> externalEffect.set(99))
+            .otherwise((a1,a2) -> externalEffect.set(99))
             .build()
         );
 

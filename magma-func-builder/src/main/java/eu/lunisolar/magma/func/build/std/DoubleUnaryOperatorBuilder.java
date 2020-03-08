@@ -57,12 +57,12 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDblProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final DoubleUnaryOperator EVENTUALLY_THROW = Function4U.dblUnaryOp(a -> {
+	public static final DoubleUnaryOperator OTHERWISE_THROW = Function4U.dblUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public DoubleUnaryOperatorBuilder(@Nullable Consumer<DoubleUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDblUnaryOperator::constant, () -> new DoubleUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LDblUnaryOperator::constant, () -> new DoubleUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDblProdu
 	@Nonnull
 	public final DoubleUnaryOperator build() {
 
-		final DoubleUnaryOperator eventuallyFinal = this.eventually;
+		final DoubleUnaryOperator otherwiseFinal = this.otherwise;
 
 		DoubleUnaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDblProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(a);
+				return otherwiseFinal.applyAsDouble(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

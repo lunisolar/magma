@@ -57,12 +57,12 @@ public final class LIntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntSupplier EVENTUALLY_THROW = LIntSupplier.intSup(() -> {
+	public static final LIntSupplier OTHERWISE_THROW = LIntSupplier.intSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LIntSupplierBuilder(@Nullable Consumer<LIntSupplier> consumer) {
-		super(EVENTUALLY_THROW, LIntSupplier::of, () -> new LIntSupplierBuilder(null));
+		super(OTHERWISE_THROW, LIntSupplier::of, () -> new LIntSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LIntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base
 	@Nonnull
 	public final LIntSupplier build() {
 
-		final LIntSupplier eventuallyFinal = this.eventually;
+		final LIntSupplier otherwiseFinal = this.otherwise;
 
 		LIntSupplier retval;
 
@@ -120,7 +120,7 @@ public final class LIntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base
 					}
 				}
 
-				return eventuallyFinal.getAsInt();
+				return otherwiseFinal.getAsInt();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

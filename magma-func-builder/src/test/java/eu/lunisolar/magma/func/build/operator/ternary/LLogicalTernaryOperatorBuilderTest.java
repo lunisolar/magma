@@ -62,7 +62,7 @@ public class LLogicalTernaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLogicalTernaryOperator function = logicalTernaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LLogicalTernaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LLogicalTernaryOperator function = logicalTernaryOperatorFrom(b -> b
-                .eventually((a1,a2,a3) -> {
+                .otherwise((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LLogicalTernaryOperatorBuilderTest{
             .aCase(ce -> ce.of((a1,a2,a3) -> a1 == false)
                              .evaluate((a1,a2,a3) -> false))
             .inCase((a1,a2,a3) -> a1 == true ).evaluate((a1,a2,a3) -> true)
-            .eventually((a1,a2,a3) -> true)
+            .otherwise((a1,a2,a3) -> true)
             .build()
         );
 

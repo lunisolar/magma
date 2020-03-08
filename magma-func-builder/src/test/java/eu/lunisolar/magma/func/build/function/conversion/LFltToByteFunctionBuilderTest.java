@@ -62,7 +62,7 @@ public class LFltToByteFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LFltToByteFunction function = fltToByteFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LFltToByteFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LFltToByteFunction function = fltToByteFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LFltToByteFunctionBuilderTest{
                              .evaluate(a -> (byte)0))
             .inCase(a -> a > 0f && a < 10f).evaluate(a -> (byte)1)
             .inCase(a -> a > 10f && a < 20f).evaluate(a -> (byte)2)
-            .eventually(a -> (byte)99)
+            .otherwise(a -> (byte)99)
             .build()
         );
 

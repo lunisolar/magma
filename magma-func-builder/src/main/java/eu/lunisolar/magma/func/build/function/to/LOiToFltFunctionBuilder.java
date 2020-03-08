@@ -57,12 +57,12 @@ public final class LOiToFltFunctionBuilder<T> extends PerCaseBuilderWithFltProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LOiToFltFunction EVENTUALLY_THROW = LOiToFltFunction.oiToFltFunc((a1, a2) -> {
+	public static final LOiToFltFunction OTHERWISE_THROW = LOiToFltFunction.oiToFltFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LOiToFltFunctionBuilder(@Nullable Consumer<LOiToFltFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LOiToFltFunction::constant, () -> new LOiToFltFunctionBuilder(null));
+		super(OTHERWISE_THROW, LOiToFltFunction::constant, () -> new LOiToFltFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LOiToFltFunctionBuilder<T> extends PerCaseBuilderWithFltProdu
 	@Nonnull
 	public final LOiToFltFunction<T> build() {
 
-		final LOiToFltFunction<T> eventuallyFinal = this.eventually;
+		final LOiToFltFunction<T> otherwiseFinal = this.otherwise;
 
 		LOiToFltFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LOiToFltFunctionBuilder<T> extends PerCaseBuilderWithFltProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsFlt(a1, a2);
+				return otherwiseFinal.applyAsFlt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

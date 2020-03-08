@@ -62,7 +62,7 @@ public class RunnableBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             Runnable function = actionFrom(b-> b
@@ -98,7 +98,7 @@ public class RunnableBuilderTest{
 
         assertThatThrownBy(() -> {
             Runnable function = actionFrom(b -> b
-                .eventually(() -> {
+                .otherwise(() -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -124,7 +124,7 @@ public class RunnableBuilderTest{
                              .evaluate(() -> externalEffect.set(0)))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> externalEffect.set(1))
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> externalEffect.set(2))
-            .eventually(() -> externalEffect.set(99))
+            .otherwise(() -> externalEffect.set(99))
             .build()
         );
 

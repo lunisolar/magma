@@ -62,7 +62,7 @@ public class LSrtConsumerBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LSrtConsumer function = srtConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LSrtConsumerBuilderTest{
 
         assertThatThrownBy(() -> {
             LSrtConsumer function = srtConsumerFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LSrtConsumerBuilderTest{
                              .evaluate(a -> externalEffect.set(0)))
             .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> externalEffect.set(1))
             .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> externalEffect.set(2))
-            .eventually(a -> externalEffect.set(99))
+            .otherwise(a -> externalEffect.set(99))
             .build()
         );
 

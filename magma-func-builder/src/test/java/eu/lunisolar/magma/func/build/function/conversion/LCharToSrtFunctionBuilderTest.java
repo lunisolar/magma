@@ -62,7 +62,7 @@ public class LCharToSrtFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharToSrtFunction function = charToSrtFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharToSrtFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharToSrtFunction function = charToSrtFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LCharToSrtFunctionBuilderTest{
                              .evaluate(a -> (short)0))
             .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> (short)1)
             .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> (short)2)
-            .eventually(a -> (short)99)
+            .otherwise(a -> (short)99)
             .build()
         );
 

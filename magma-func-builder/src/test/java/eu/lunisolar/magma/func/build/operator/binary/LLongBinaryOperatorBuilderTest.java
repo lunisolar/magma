@@ -62,7 +62,7 @@ public class LLongBinaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLongBinaryOperator function = longBinaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LLongBinaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LLongBinaryOperator function = longBinaryOperatorFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LLongBinaryOperatorBuilderTest{
                              .evaluate((a1,a2) -> 0L))
             .inCase((a1,a2) -> a1 > 0L && a1 < 10L).evaluate((a1,a2) -> 1L)
             .inCase((a1,a2) -> a1 > 10L && a1 < 20L).evaluate((a1,a2) -> 2L)
-            .eventually((a1,a2) -> 99L)
+            .otherwise((a1,a2) -> 99L)
             .build()
         );
 

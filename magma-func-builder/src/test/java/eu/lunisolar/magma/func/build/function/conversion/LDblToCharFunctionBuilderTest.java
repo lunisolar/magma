@@ -62,7 +62,7 @@ public class LDblToCharFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LDblToCharFunction function = dblToCharFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LDblToCharFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LDblToCharFunction function = dblToCharFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LDblToCharFunctionBuilderTest{
                              .evaluate(a -> '\u0000'))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> '\u0001')
             .inCase(a -> a > 10d && a < 20d).evaluate(a -> '\u0002')
-            .eventually(a -> '\u0099')
+            .otherwise(a -> '\u0099')
             .build()
         );
 

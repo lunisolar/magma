@@ -57,12 +57,12 @@ public final class LByteToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteToFltFunction EVENTUALLY_THROW = LByteToFltFunction.byteToFltFunc(a -> {
+	public static final LByteToFltFunction OTHERWISE_THROW = LByteToFltFunction.byteToFltFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LByteToFltFunctionBuilder(@Nullable Consumer<LByteToFltFunction> consumer) {
-		super(EVENTUALLY_THROW, LByteToFltFunction::constant, () -> new LByteToFltFunctionBuilder(null));
+		super(OTHERWISE_THROW, LByteToFltFunction::constant, () -> new LByteToFltFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LByteToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 	@Nonnull
 	public final LByteToFltFunction build() {
 
-		final LByteToFltFunction eventuallyFinal = this.eventually;
+		final LByteToFltFunction otherwiseFinal = this.otherwise;
 
 		LByteToFltFunction retval;
 
@@ -120,7 +120,7 @@ public final class LByteToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsFlt(a);
+				return otherwiseFinal.applyAsFlt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

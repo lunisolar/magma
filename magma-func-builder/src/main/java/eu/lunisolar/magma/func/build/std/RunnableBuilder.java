@@ -57,12 +57,12 @@ public final class RunnableBuilder extends PerCaseBuilder.Base<RunnableBuilder, 
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final Runnable EVENTUALLY_THROW = Function4U.act(() -> {
+	public static final Runnable OTHERWISE_THROW = Function4U.act(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public RunnableBuilder(@Nullable Consumer<Runnable> consumer) {
-		super(EVENTUALLY_THROW, () -> new RunnableBuilder(null));
+		super(OTHERWISE_THROW, () -> new RunnableBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class RunnableBuilder extends PerCaseBuilder.Base<RunnableBuilder, 
 	@Nonnull
 	public final Runnable build() {
 
-		final Runnable eventuallyFinal = this.eventually;
+		final Runnable otherwiseFinal = this.otherwise;
 
 		Runnable retval;
 
@@ -121,7 +121,7 @@ public final class RunnableBuilder extends PerCaseBuilder.Base<RunnableBuilder, 
 					}
 				}
 
-				eventuallyFinal.run();
+				otherwiseFinal.run();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

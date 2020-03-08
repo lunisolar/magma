@@ -62,7 +62,7 @@ public class LBoolConsumerBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolConsumer function = boolConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolConsumerBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolConsumer function = boolConsumerFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LBoolConsumerBuilderTest{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> externalEffect.set(0)))
             .inCase(a -> a == true ).evaluate(a -> externalEffect.set(1))
-            .eventually(a -> externalEffect.set(99))
+            .otherwise(a -> externalEffect.set(99))
             .build()
         );
 

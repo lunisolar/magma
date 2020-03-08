@@ -57,12 +57,12 @@ public final class LObjIntDblFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjIntDblFunction EVENTUALLY_THROW = LObjIntDblFunction.objIntDblFunc((a1, a2, a3) -> {
+	public static final LObjIntDblFunction OTHERWISE_THROW = LObjIntDblFunction.objIntDblFunc((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LObjIntDblFunctionBuilder(@Nullable Consumer<LObjIntDblFunction<T, R>> consumer) {
-		super(EVENTUALLY_THROW, LObjIntDblFunction::constant, () -> new LObjIntDblFunctionBuilder(null));
+		super(OTHERWISE_THROW, LObjIntDblFunction::constant, () -> new LObjIntDblFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LObjIntDblFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 	@Nonnull
 	public final LObjIntDblFunction<T, R> build() {
 
-		final LObjIntDblFunction<T, R> eventuallyFinal = this.eventually;
+		final LObjIntDblFunction<T, R> otherwiseFinal = this.otherwise;
 
 		LObjIntDblFunction<T, R> retval;
 
@@ -138,7 +138,7 @@ public final class LObjIntDblFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2, a3);
+				return otherwiseFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

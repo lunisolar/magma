@@ -62,7 +62,7 @@ public class LToCharBiFunctionBuilderTest<T1,T2>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LToCharBiFunction<Integer,Integer> function = toCharBiFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LToCharBiFunctionBuilderTest<T1,T2>{
 
         assertThatThrownBy(() -> {
             LToCharBiFunction<Integer,Integer> function = toCharBiFunctionFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LToCharBiFunctionBuilderTest<T1,T2>{
                              .evaluate((a1,a2) -> '\u0000'))
             .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> '\u0001')
             .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> '\u0002')
-            .eventually((a1,a2) -> '\u0099')
+            .otherwise((a1,a2) -> '\u0099')
             .build()
         );
 

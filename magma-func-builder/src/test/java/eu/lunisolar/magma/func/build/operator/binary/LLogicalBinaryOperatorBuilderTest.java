@@ -62,7 +62,7 @@ public class LLogicalBinaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLogicalBinaryOperator function = logicalBinaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LLogicalBinaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LLogicalBinaryOperator function = logicalBinaryOperatorFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LLogicalBinaryOperatorBuilderTest{
             .aCase(ce -> ce.of((a1,a2) -> a1 == false)
                              .evaluate((a1,a2) -> false))
             .inCase((a1,a2) -> a1 == true ).evaluate((a1,a2) -> true)
-            .eventually((a1,a2) -> true)
+            .otherwise((a1,a2) -> true)
             .build()
         );
 

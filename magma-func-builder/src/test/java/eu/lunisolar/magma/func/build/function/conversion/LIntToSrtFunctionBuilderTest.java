@@ -62,7 +62,7 @@ public class LIntToSrtFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LIntToSrtFunction function = intToSrtFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LIntToSrtFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LIntToSrtFunction function = intToSrtFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LIntToSrtFunctionBuilderTest{
                              .evaluate(a -> (short)0))
             .inCase(a -> a > 0 && a < 10).evaluate(a -> (short)1)
             .inCase(a -> a > 10 && a < 20).evaluate(a -> (short)2)
-            .eventually(a -> (short)99)
+            .otherwise(a -> (short)99)
             .build()
         );
 

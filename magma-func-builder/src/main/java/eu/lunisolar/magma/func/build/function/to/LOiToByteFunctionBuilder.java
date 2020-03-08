@@ -57,12 +57,12 @@ public final class LOiToByteFunctionBuilder<T> extends PerCaseBuilderWithBytePro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LOiToByteFunction EVENTUALLY_THROW = LOiToByteFunction.oiToByteFunc((a1, a2) -> {
+	public static final LOiToByteFunction OTHERWISE_THROW = LOiToByteFunction.oiToByteFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LOiToByteFunctionBuilder(@Nullable Consumer<LOiToByteFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LOiToByteFunction::constant, () -> new LOiToByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LOiToByteFunction::constant, () -> new LOiToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LOiToByteFunctionBuilder<T> extends PerCaseBuilderWithBytePro
 	@Nonnull
 	public final LOiToByteFunction<T> build() {
 
-		final LOiToByteFunction<T> eventuallyFinal = this.eventually;
+		final LOiToByteFunction<T> otherwiseFinal = this.otherwise;
 
 		LOiToByteFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LOiToByteFunctionBuilder<T> extends PerCaseBuilderWithBytePro
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(a1, a2);
+				return otherwiseFinal.applyAsByte(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

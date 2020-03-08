@@ -57,12 +57,12 @@ public final class LBoolToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToSrtFunction EVENTUALLY_THROW = LBoolToSrtFunction.boolToSrtFunc(a -> {
+	public static final LBoolToSrtFunction OTHERWISE_THROW = LBoolToSrtFunction.boolToSrtFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBoolToSrtFunctionBuilder(@Nullable Consumer<LBoolToSrtFunction> consumer) {
-		super(EVENTUALLY_THROW, LBoolToSrtFunction::constant, () -> new LBoolToSrtFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBoolToSrtFunction::constant, () -> new LBoolToSrtFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBoolToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 	@Nonnull
 	public final LBoolToSrtFunction build() {
 
-		final LBoolToSrtFunction eventuallyFinal = this.eventually;
+		final LBoolToSrtFunction otherwiseFinal = this.otherwise;
 
 		LBoolToSrtFunction retval;
 
@@ -120,7 +120,7 @@ public final class LBoolToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsSrt(a);
+				return otherwiseFinal.applyAsSrt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LDblSupplierBuilder extends PerCaseBuilderWithDblProduct.Base
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblSupplier EVENTUALLY_THROW = LDblSupplier.dblSup(() -> {
+	public static final LDblSupplier OTHERWISE_THROW = LDblSupplier.dblSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblSupplierBuilder(@Nullable Consumer<LDblSupplier> consumer) {
-		super(EVENTUALLY_THROW, LDblSupplier::of, () -> new LDblSupplierBuilder(null));
+		super(OTHERWISE_THROW, LDblSupplier::of, () -> new LDblSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblSupplierBuilder extends PerCaseBuilderWithDblProduct.Base
 	@Nonnull
 	public final LDblSupplier build() {
 
-		final LDblSupplier eventuallyFinal = this.eventually;
+		final LDblSupplier otherwiseFinal = this.otherwise;
 
 		LDblSupplier retval;
 
@@ -120,7 +120,7 @@ public final class LDblSupplierBuilder extends PerCaseBuilderWithDblProduct.Base
 					}
 				}
 
-				return eventuallyFinal.getAsDbl();
+				return otherwiseFinal.getAsDbl();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

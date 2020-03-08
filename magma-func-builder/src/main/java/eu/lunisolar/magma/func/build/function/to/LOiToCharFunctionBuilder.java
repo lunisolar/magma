@@ -57,12 +57,12 @@ public final class LOiToCharFunctionBuilder<T> extends PerCaseBuilderWithCharPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LOiToCharFunction EVENTUALLY_THROW = LOiToCharFunction.oiToCharFunc((a1, a2) -> {
+	public static final LOiToCharFunction OTHERWISE_THROW = LOiToCharFunction.oiToCharFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LOiToCharFunctionBuilder(@Nullable Consumer<LOiToCharFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LOiToCharFunction::constant, () -> new LOiToCharFunctionBuilder(null));
+		super(OTHERWISE_THROW, LOiToCharFunction::constant, () -> new LOiToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LOiToCharFunctionBuilder<T> extends PerCaseBuilderWithCharPro
 	@Nonnull
 	public final LOiToCharFunction<T> build() {
 
-		final LOiToCharFunction<T> eventuallyFinal = this.eventually;
+		final LOiToCharFunction<T> otherwiseFinal = this.otherwise;
 
 		LOiToCharFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LOiToCharFunctionBuilder<T> extends PerCaseBuilderWithCharPro
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(a1, a2);
+				return otherwiseFinal.applyAsChar(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

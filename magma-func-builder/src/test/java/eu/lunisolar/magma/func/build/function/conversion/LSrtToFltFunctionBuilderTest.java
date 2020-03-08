@@ -62,7 +62,7 @@ public class LSrtToFltFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LSrtToFltFunction function = srtToFltFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LSrtToFltFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LSrtToFltFunction function = srtToFltFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LSrtToFltFunctionBuilderTest{
                              .evaluate(a -> 0f))
             .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> 1f)
             .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> 2f)
-            .eventually(a -> 99f)
+            .otherwise(a -> 99f)
             .build()
         );
 

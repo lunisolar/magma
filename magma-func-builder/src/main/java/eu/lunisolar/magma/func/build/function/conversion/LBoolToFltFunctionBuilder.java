@@ -57,12 +57,12 @@ public final class LBoolToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBoolToFltFunction EVENTUALLY_THROW = LBoolToFltFunction.boolToFltFunc(a -> {
+	public static final LBoolToFltFunction OTHERWISE_THROW = LBoolToFltFunction.boolToFltFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBoolToFltFunctionBuilder(@Nullable Consumer<LBoolToFltFunction> consumer) {
-		super(EVENTUALLY_THROW, LBoolToFltFunction::constant, () -> new LBoolToFltFunctionBuilder(null));
+		super(OTHERWISE_THROW, LBoolToFltFunction::constant, () -> new LBoolToFltFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBoolToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 	@Nonnull
 	public final LBoolToFltFunction build() {
 
-		final LBoolToFltFunction eventuallyFinal = this.eventually;
+		final LBoolToFltFunction otherwiseFinal = this.otherwise;
 
 		LBoolToFltFunction retval;
 
@@ -120,7 +120,7 @@ public final class LBoolToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsFlt(a);
+				return otherwiseFinal.applyAsFlt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

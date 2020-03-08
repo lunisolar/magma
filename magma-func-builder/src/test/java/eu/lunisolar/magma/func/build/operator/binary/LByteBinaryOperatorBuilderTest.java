@@ -62,7 +62,7 @@ public class LByteBinaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LByteBinaryOperator function = byteBinaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LByteBinaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LByteBinaryOperator function = byteBinaryOperatorFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LByteBinaryOperatorBuilderTest{
                              .evaluate((a1,a2) -> (byte)0))
             .inCase((a1,a2) -> a1 > (byte)0 && a1 < (byte)10).evaluate((a1,a2) -> (byte)1)
             .inCase((a1,a2) -> a1 > (byte)10 && a1 < (byte)20).evaluate((a1,a2) -> (byte)2)
-            .eventually((a1,a2) -> (byte)99)
+            .otherwise((a1,a2) -> (byte)99)
             .build()
         );
 

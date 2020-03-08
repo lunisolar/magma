@@ -57,12 +57,12 @@ public final class LBiFltConsumerBuilder extends PerCaseBuilder.Base<LBiFltConsu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBiFltConsumer EVENTUALLY_THROW = LBiFltConsumer.biFltCons((a1, a2) -> {
+	public static final LBiFltConsumer OTHERWISE_THROW = LBiFltConsumer.biFltCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBiFltConsumerBuilder(@Nullable Consumer<LBiFltConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LBiFltConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LBiFltConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LBiFltConsumerBuilder extends PerCaseBuilder.Base<LBiFltConsu
 	@Nonnull
 	public final LBiFltConsumer build() {
 
-		final LBiFltConsumer eventuallyFinal = this.eventually;
+		final LBiFltConsumer otherwiseFinal = this.otherwise;
 
 		LBiFltConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LBiFltConsumerBuilder extends PerCaseBuilder.Base<LBiFltConsu
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2);
+				otherwiseFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

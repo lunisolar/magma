@@ -62,7 +62,7 @@ public class LQuintFunctionBuilderTest<T1,T2,T3,T4,T5,R>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> function = quintFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LQuintFunctionBuilderTest<T1,T2,T3,T4,T5,R>{
 
         assertThatThrownBy(() -> {
             LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer> function = quintFunctionFrom(b -> b
-                .eventually((a1,a2,a3,a4,a5) -> {
+                .otherwise((a1,a2,a3,a4,a5) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LQuintFunctionBuilderTest<T1,T2,T3,T4,T5,R>{
                              .evaluate((a1,a2,a3,a4,a5) -> 0))
             .inCase((a1,a2,a3,a4,a5) -> a1 > 0 && a1 < 10).evaluate((a1,a2,a3,a4,a5) -> 1)
             .inCase((a1,a2,a3,a4,a5) -> a1 > 10 && a1 < 20).evaluate((a1,a2,a3,a4,a5) -> 2)
-            .eventually((a1,a2,a3,a4,a5) -> 99)
+            .otherwise((a1,a2,a3,a4,a5) -> 99)
             .build()
         );
 

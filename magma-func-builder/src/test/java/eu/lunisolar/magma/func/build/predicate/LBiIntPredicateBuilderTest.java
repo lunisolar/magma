@@ -62,7 +62,7 @@ public class LBiIntPredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBiIntPredicate function = biIntPredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LBiIntPredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LBiIntPredicate function = biIntPredicateFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LBiIntPredicateBuilderTest{
                              .evaluate((a1,a2) -> false))
             .inCase((a1,a2) -> a1 > 0 && a1 < 10).evaluate((a1,a2) -> true)
             .inCase((a1,a2) -> a1 > 10 && a1 < 20).evaluate((a1,a2) -> true)
-            .eventually((a1,a2) -> true)
+            .otherwise((a1,a2) -> true)
             .build()
         );
 

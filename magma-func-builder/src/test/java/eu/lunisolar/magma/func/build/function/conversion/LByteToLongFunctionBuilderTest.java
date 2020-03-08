@@ -62,7 +62,7 @@ public class LByteToLongFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LByteToLongFunction function = byteToLongFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LByteToLongFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LByteToLongFunction function = byteToLongFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LByteToLongFunctionBuilderTest{
                              .evaluate(a -> 0L))
             .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> 1L)
             .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> 2L)
-            .eventually(a -> 99L)
+            .otherwise(a -> 99L)
             .build()
         );
 

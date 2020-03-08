@@ -57,12 +57,12 @@ public final class LFltBinaryOperatorBuilder extends PerCaseBuilderWithFltProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LFltBinaryOperator EVENTUALLY_THROW = LFltBinaryOperator.fltBinaryOp((a1, a2) -> {
+	public static final LFltBinaryOperator OTHERWISE_THROW = LFltBinaryOperator.fltBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LFltBinaryOperatorBuilder(@Nullable Consumer<LFltBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LFltBinaryOperator::constant, () -> new LFltBinaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LFltBinaryOperator::constant, () -> new LFltBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LFltBinaryOperatorBuilder extends PerCaseBuilderWithFltProduc
 	@Nonnull
 	public final LFltBinaryOperator build() {
 
-		final LFltBinaryOperator eventuallyFinal = this.eventually;
+		final LFltBinaryOperator otherwiseFinal = this.otherwise;
 
 		LFltBinaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LFltBinaryOperatorBuilder extends PerCaseBuilderWithFltProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsFlt(a1, a2);
+				return otherwiseFinal.applyAsFlt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

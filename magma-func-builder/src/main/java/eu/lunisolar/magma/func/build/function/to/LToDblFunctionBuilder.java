@@ -57,12 +57,12 @@ public final class LToDblFunctionBuilder<T> extends PerCaseBuilderWithDblProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LToDblFunction EVENTUALLY_THROW = LToDblFunction.toDblFunc(a -> {
+	public static final LToDblFunction OTHERWISE_THROW = LToDblFunction.toDblFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LToDblFunctionBuilder(@Nullable Consumer<LToDblFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToDblFunction::constant, () -> new LToDblFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToDblFunction::constant, () -> new LToDblFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LToDblFunctionBuilder<T> extends PerCaseBuilderWithDblProduct
 	@Nonnull
 	public final LToDblFunction<T> build() {
 
-		final LToDblFunction<T> eventuallyFinal = this.eventually;
+		final LToDblFunction<T> otherwiseFinal = this.otherwise;
 
 		LToDblFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LToDblFunctionBuilder<T> extends PerCaseBuilderWithDblProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsDbl(a);
+				return otherwiseFinal.applyAsDbl(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

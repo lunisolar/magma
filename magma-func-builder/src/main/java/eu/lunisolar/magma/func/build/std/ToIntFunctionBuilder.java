@@ -57,12 +57,12 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ToIntFunction EVENTUALLY_THROW = Function4U.toIntFunc(a -> {
+	public static final ToIntFunction OTHERWISE_THROW = Function4U.toIntFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ToIntFunctionBuilder(@Nullable Consumer<ToIntFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToIntFunction::constant, () -> new ToIntFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToIntFunction::constant, () -> new ToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 	@Nonnull
 	public final ToIntFunction<T> build() {
 
-		final ToIntFunction<T> eventuallyFinal = this.eventually;
+		final ToIntFunction<T> otherwiseFinal = this.otherwise;
 
 		ToIntFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a);
+				return otherwiseFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

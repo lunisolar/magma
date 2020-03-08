@@ -57,12 +57,12 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTernaryOperator EVENTUALLY_THROW = LTernaryOperator.ternaryOp((a1, a2, a3) -> {
+	public static final LTernaryOperator OTHERWISE_THROW = LTernaryOperator.ternaryOp((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTernaryOperatorBuilder(@Nullable Consumer<LTernaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, LTernaryOperator::constant, () -> new LTernaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LTernaryOperator::constant, () -> new LTernaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 	@Nonnull
 	public final LTernaryOperator<T> build() {
 
-		final LTernaryOperator<T> eventuallyFinal = this.eventually;
+		final LTernaryOperator<T> otherwiseFinal = this.otherwise;
 
 		LTernaryOperator<T> retval;
 
@@ -138,7 +138,7 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2, a3);
+				return otherwiseFinal.apply(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

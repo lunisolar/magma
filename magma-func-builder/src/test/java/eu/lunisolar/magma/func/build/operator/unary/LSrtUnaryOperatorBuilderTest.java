@@ -62,7 +62,7 @@ public class LSrtUnaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LSrtUnaryOperator function = srtUnaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LSrtUnaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LSrtUnaryOperator function = srtUnaryOperatorFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LSrtUnaryOperatorBuilderTest{
                              .evaluate(a -> (short)0))
             .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> (short)1)
             .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> (short)2)
-            .eventually(a -> (short)99)
+            .otherwise(a -> (short)99)
             .build()
         );
 

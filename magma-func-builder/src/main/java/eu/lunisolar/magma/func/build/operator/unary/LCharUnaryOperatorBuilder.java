@@ -57,12 +57,12 @@ public final class LCharUnaryOperatorBuilder extends PerCaseBuilderWithCharProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharUnaryOperator EVENTUALLY_THROW = LCharUnaryOperator.charUnaryOp(a -> {
+	public static final LCharUnaryOperator OTHERWISE_THROW = LCharUnaryOperator.charUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LCharUnaryOperatorBuilder(@Nullable Consumer<LCharUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LCharUnaryOperator::constant, () -> new LCharUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LCharUnaryOperator::constant, () -> new LCharUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LCharUnaryOperatorBuilder extends PerCaseBuilderWithCharProdu
 	@Nonnull
 	public final LCharUnaryOperator build() {
 
-		final LCharUnaryOperator eventuallyFinal = this.eventually;
+		final LCharUnaryOperator otherwiseFinal = this.otherwise;
 
 		LCharUnaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LCharUnaryOperatorBuilder extends PerCaseBuilderWithCharProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(a);
+				return otherwiseFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

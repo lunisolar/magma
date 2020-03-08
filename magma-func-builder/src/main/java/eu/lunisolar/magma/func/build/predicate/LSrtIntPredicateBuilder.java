@@ -57,12 +57,12 @@ public final class LSrtIntPredicateBuilder extends PerCaseBuilderWithBoolProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSrtIntPredicate EVENTUALLY_THROW = LSrtIntPredicate.srtIntPred((a1, a2) -> {
+	public static final LSrtIntPredicate OTHERWISE_THROW = LSrtIntPredicate.srtIntPred((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LSrtIntPredicateBuilder(@Nullable Consumer<LSrtIntPredicate> consumer) {
-		super(EVENTUALLY_THROW, LSrtIntPredicate::constant, () -> new LSrtIntPredicateBuilder(null));
+		super(OTHERWISE_THROW, LSrtIntPredicate::constant, () -> new LSrtIntPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LSrtIntPredicateBuilder extends PerCaseBuilderWithBoolProduct
 	@Nonnull
 	public final LSrtIntPredicate build() {
 
-		final LSrtIntPredicate eventuallyFinal = this.eventually;
+		final LSrtIntPredicate otherwiseFinal = this.otherwise;
 
 		LSrtIntPredicate retval;
 
@@ -120,7 +120,7 @@ public final class LSrtIntPredicateBuilder extends PerCaseBuilderWithBoolProduct
 					}
 				}
 
-				return eventuallyFinal.test(a1, a2);
+				return otherwiseFinal.test(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LCharSupplierBuilder extends PerCaseBuilderWithCharProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LCharSupplier EVENTUALLY_THROW = LCharSupplier.charSup(() -> {
+	public static final LCharSupplier OTHERWISE_THROW = LCharSupplier.charSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LCharSupplierBuilder(@Nullable Consumer<LCharSupplier> consumer) {
-		super(EVENTUALLY_THROW, LCharSupplier::of, () -> new LCharSupplierBuilder(null));
+		super(OTHERWISE_THROW, LCharSupplier::of, () -> new LCharSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LCharSupplierBuilder extends PerCaseBuilderWithCharProduct.Ba
 	@Nonnull
 	public final LCharSupplier build() {
 
-		final LCharSupplier eventuallyFinal = this.eventually;
+		final LCharSupplier otherwiseFinal = this.otherwise;
 
 		LCharSupplier retval;
 
@@ -120,7 +120,7 @@ public final class LCharSupplierBuilder extends PerCaseBuilderWithCharProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.getAsChar();
+				return otherwiseFinal.getAsChar();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

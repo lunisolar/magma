@@ -57,12 +57,12 @@ public final class LOiFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LOiFunction EVENTUALLY_THROW = LOiFunction.oiFunc((a1, a2) -> {
+	public static final LOiFunction OTHERWISE_THROW = LOiFunction.oiFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LOiFunctionBuilder(@Nullable Consumer<LOiFunction<T, R>> consumer) {
-		super(EVENTUALLY_THROW, LOiFunction::constant, () -> new LOiFunctionBuilder(null));
+		super(OTHERWISE_THROW, LOiFunction::constant, () -> new LOiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LOiFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Ba
 	@Nonnull
 	public final LOiFunction<T, R> build() {
 
-		final LOiFunction<T, R> eventuallyFinal = this.eventually;
+		final LOiFunction<T, R> otherwiseFinal = this.otherwise;
 
 		LOiFunction<T, R> retval;
 
@@ -138,7 +138,7 @@ public final class LOiFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2);
+				return otherwiseFinal.apply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

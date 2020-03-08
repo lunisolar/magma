@@ -57,12 +57,12 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LBinaryOperator EVENTUALLY_THROW = LBinaryOperator.binaryOp((a1, a2) -> {
+	public static final LBinaryOperator OTHERWISE_THROW = LBinaryOperator.binaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LBinaryOperatorBuilder(@Nullable Consumer<LBinaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, LBinaryOperator::constant, () -> new LBinaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LBinaryOperator::constant, () -> new LBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 	@Nonnull
 	public final LBinaryOperator<T> build() {
 
-		final LBinaryOperator<T> eventuallyFinal = this.eventually;
+		final LBinaryOperator<T> otherwiseFinal = this.otherwise;
 
 		LBinaryOperator<T> retval;
 
@@ -138,7 +138,7 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2);
+				return otherwiseFinal.apply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LAction EVENTUALLY_THROW = LAction.act(() -> {
+	public static final LAction OTHERWISE_THROW = LAction.act(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LActionBuilder(@Nullable Consumer<LAction> consumer) {
-		super(EVENTUALLY_THROW, () -> new LActionBuilder(null));
+		super(OTHERWISE_THROW, () -> new LActionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 	@Nonnull
 	public final LAction build() {
 
-		final LAction eventuallyFinal = this.eventually;
+		final LAction otherwiseFinal = this.otherwise;
 
 		LAction retval;
 
@@ -121,7 +121,7 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 					}
 				}
 
-				eventuallyFinal.execute();
+				otherwiseFinal.execute();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

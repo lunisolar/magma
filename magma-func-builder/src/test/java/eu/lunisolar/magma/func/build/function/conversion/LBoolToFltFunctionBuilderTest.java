@@ -62,7 +62,7 @@ public class LBoolToFltFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolToFltFunction function = boolToFltFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolToFltFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolToFltFunction function = boolToFltFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LBoolToFltFunctionBuilderTest{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> 0f))
             .inCase(a -> a == true ).evaluate(a -> 1f)
-            .eventually(a -> 99f)
+            .otherwise(a -> 99f)
             .build()
         );
 

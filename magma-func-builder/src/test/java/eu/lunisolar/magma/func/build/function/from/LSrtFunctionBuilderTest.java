@@ -62,7 +62,7 @@ public class LSrtFunctionBuilderTest<R>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LSrtFunction<Integer> function = srtFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LSrtFunctionBuilderTest<R>{
 
         assertThatThrownBy(() -> {
             LSrtFunction<Integer> function = srtFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LSrtFunctionBuilderTest<R>{
                              .evaluate(a -> 0))
             .inCase(a -> a > (short)0 && a < (short)10).evaluate(a -> 1)
             .inCase(a -> a > (short)10 && a < (short)20).evaluate(a -> 2)
-            .eventually(a -> 99)
+            .otherwise(a -> 99)
             .build()
         );
 

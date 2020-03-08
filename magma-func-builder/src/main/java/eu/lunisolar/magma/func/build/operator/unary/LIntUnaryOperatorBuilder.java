@@ -57,12 +57,12 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntUnaryOperator EVENTUALLY_THROW = LIntUnaryOperator.intUnaryOp(a -> {
+	public static final LIntUnaryOperator OTHERWISE_THROW = LIntUnaryOperator.intUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LIntUnaryOperatorBuilder(@Nullable Consumer<LIntUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LIntUnaryOperator::constant, () -> new LIntUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LIntUnaryOperator::constant, () -> new LIntUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 	@Nonnull
 	public final LIntUnaryOperator build() {
 
-		final LIntUnaryOperator eventuallyFinal = this.eventually;
+		final LIntUnaryOperator otherwiseFinal = this.otherwise;
 
 		LIntUnaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a);
+				return otherwiseFinal.applyAsInt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

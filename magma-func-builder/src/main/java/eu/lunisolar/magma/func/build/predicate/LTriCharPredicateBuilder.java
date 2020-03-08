@@ -57,12 +57,12 @@ public final class LTriCharPredicateBuilder extends PerCaseBuilderWithBoolProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriCharPredicate EVENTUALLY_THROW = LTriCharPredicate.triCharPred((a1, a2, a3) -> {
+	public static final LTriCharPredicate OTHERWISE_THROW = LTriCharPredicate.triCharPred((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTriCharPredicateBuilder(@Nullable Consumer<LTriCharPredicate> consumer) {
-		super(EVENTUALLY_THROW, LTriCharPredicate::constant, () -> new LTriCharPredicateBuilder(null));
+		super(OTHERWISE_THROW, LTriCharPredicate::constant, () -> new LTriCharPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LTriCharPredicateBuilder extends PerCaseBuilderWithBoolProduc
 	@Nonnull
 	public final LTriCharPredicate build() {
 
-		final LTriCharPredicate eventuallyFinal = this.eventually;
+		final LTriCharPredicate otherwiseFinal = this.otherwise;
 
 		LTriCharPredicate retval;
 
@@ -120,7 +120,7 @@ public final class LTriCharPredicateBuilder extends PerCaseBuilderWithBoolProduc
 					}
 				}
 
-				return eventuallyFinal.test(a1, a2, a3);
+				return otherwiseFinal.test(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

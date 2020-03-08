@@ -57,12 +57,12 @@ public final class LDblUnaryOperatorBuilder extends PerCaseBuilderWithDblProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblUnaryOperator EVENTUALLY_THROW = LDblUnaryOperator.dblUnaryOp(a -> {
+	public static final LDblUnaryOperator OTHERWISE_THROW = LDblUnaryOperator.dblUnaryOp(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblUnaryOperatorBuilder(@Nullable Consumer<LDblUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDblUnaryOperator::constant, () -> new LDblUnaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LDblUnaryOperator::constant, () -> new LDblUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblUnaryOperatorBuilder extends PerCaseBuilderWithDblProduct
 	@Nonnull
 	public final LDblUnaryOperator build() {
 
-		final LDblUnaryOperator eventuallyFinal = this.eventually;
+		final LDblUnaryOperator otherwiseFinal = this.otherwise;
 
 		LDblUnaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LDblUnaryOperatorBuilder extends PerCaseBuilderWithDblProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsDbl(a);
+				return otherwiseFinal.applyAsDbl(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

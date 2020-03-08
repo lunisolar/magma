@@ -57,12 +57,12 @@ public final class BiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<BiConsu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final BiConsumer EVENTUALLY_THROW = Function4U.biCons((a1, a2) -> {
+	public static final BiConsumer OTHERWISE_THROW = Function4U.biCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public BiConsumerBuilder(@Nullable Consumer<BiConsumer<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, () -> new BiConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new BiConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class BiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<BiConsu
 	@Nonnull
 	public final BiConsumer<T1, T2> build() {
 
-		final BiConsumer<T1, T2> eventuallyFinal = this.eventually;
+		final BiConsumer<T1, T2> otherwiseFinal = this.otherwise;
 
 		BiConsumer<T1, T2> retval;
 
@@ -139,7 +139,7 @@ public final class BiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<BiConsu
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2);
+				otherwiseFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

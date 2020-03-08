@@ -62,7 +62,7 @@ public class LLongIntConsumerBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLongIntConsumer function = longIntConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LLongIntConsumerBuilderTest{
 
         assertThatThrownBy(() -> {
             LLongIntConsumer function = longIntConsumerFrom(b -> b
-                .eventually((a1,a2) -> {
+                .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LLongIntConsumerBuilderTest{
                              .evaluate((a1,a2) -> externalEffect.set(0)))
             .inCase((a1,a2) -> a1 > 0L && a1 < 10L).evaluate((a1,a2) -> externalEffect.set(1))
             .inCase((a1,a2) -> a1 > 10L && a1 < 20L).evaluate((a1,a2) -> externalEffect.set(2))
-            .eventually((a1,a2) -> externalEffect.set(99))
+            .otherwise((a1,a2) -> externalEffect.set(99))
             .build()
         );
 

@@ -62,7 +62,7 @@ public class LBoolToByteFunctionBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBoolToByteFunction function = boolToByteFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LBoolToByteFunctionBuilderTest{
 
         assertThatThrownBy(() -> {
             LBoolToByteFunction function = boolToByteFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LBoolToByteFunctionBuilderTest{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> (byte)0))
             .inCase(a -> a == true ).evaluate(a -> (byte)1)
-            .eventually(a -> (byte)99)
+            .otherwise(a -> (byte)99)
             .build()
         );
 

@@ -57,12 +57,12 @@ public final class LDblToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblToLongFunction EVENTUALLY_THROW = LDblToLongFunction.dblToLongFunc(a -> {
+	public static final LDblToLongFunction OTHERWISE_THROW = LDblToLongFunction.dblToLongFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblToLongFunctionBuilder(@Nullable Consumer<LDblToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LDblToLongFunction::constant, () -> new LDblToLongFunctionBuilder(null));
+		super(OTHERWISE_THROW, LDblToLongFunction::constant, () -> new LDblToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 	@Nonnull
 	public final LDblToLongFunction build() {
 
-		final LDblToLongFunction eventuallyFinal = this.eventually;
+		final LDblToLongFunction otherwiseFinal = this.otherwise;
 
 		LDblToLongFunction retval;
 
@@ -120,7 +120,7 @@ public final class LDblToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a);
+				return otherwiseFinal.applyAsLong(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

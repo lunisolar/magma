@@ -57,12 +57,12 @@ public final class ToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntP
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final ToIntBiFunction EVENTUALLY_THROW = Function4U.toIntBiFunc((a1, a2) -> {
+	public static final ToIntBiFunction OTHERWISE_THROW = Function4U.toIntBiFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public ToIntBiFunctionBuilder(@Nullable Consumer<ToIntBiFunction<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LToIntBiFunction::constant, () -> new ToIntBiFunctionBuilder(null));
+		super(OTHERWISE_THROW, LToIntBiFunction::constant, () -> new ToIntBiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class ToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntP
 	@Nonnull
 	public final ToIntBiFunction<T1, T2> build() {
 
-		final ToIntBiFunction<T1, T2> eventuallyFinal = this.eventually;
+		final ToIntBiFunction<T1, T2> otherwiseFinal = this.otherwise;
 
 		ToIntBiFunction<T1, T2> retval;
 
@@ -138,7 +138,7 @@ public final class ToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntP
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(a1, a2);
+				return otherwiseFinal.applyAsInt(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

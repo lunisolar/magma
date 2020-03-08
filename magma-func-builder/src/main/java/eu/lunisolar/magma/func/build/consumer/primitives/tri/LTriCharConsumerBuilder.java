@@ -57,12 +57,12 @@ public final class LTriCharConsumerBuilder extends PerCaseBuilder.Base<LTriCharC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LTriCharConsumer EVENTUALLY_THROW = LTriCharConsumer.triCharCons((a1, a2, a3) -> {
+	public static final LTriCharConsumer OTHERWISE_THROW = LTriCharConsumer.triCharCons((a1, a2, a3) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LTriCharConsumerBuilder(@Nullable Consumer<LTriCharConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LTriCharConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LTriCharConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LTriCharConsumerBuilder extends PerCaseBuilder.Base<LTriCharC
 	@Nonnull
 	public final LTriCharConsumer build() {
 
-		final LTriCharConsumer eventuallyFinal = this.eventually;
+		final LTriCharConsumer otherwiseFinal = this.otherwise;
 
 		LTriCharConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LTriCharConsumerBuilder extends PerCaseBuilder.Base<LTriCharC
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2, a3);
+				otherwiseFinal.accept(a1, a2, a3);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LSrtFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LSrtFunction EVENTUALLY_THROW = LSrtFunction.srtFunc(a -> {
+	public static final LSrtFunction OTHERWISE_THROW = LSrtFunction.srtFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LSrtFunctionBuilder(@Nullable Consumer<LSrtFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LSrtFunction::constant, () -> new LSrtFunctionBuilder(null));
+		super(OTHERWISE_THROW, LSrtFunction::constant, () -> new LSrtFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LSrtFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 	@Nonnull
 	public final LSrtFunction<R> build() {
 
-		final LSrtFunction<R> eventuallyFinal = this.eventually;
+		final LSrtFunction<R> otherwiseFinal = this.otherwise;
 
 		LSrtFunction<R> retval;
 
@@ -120,7 +120,7 @@ public final class LSrtFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 					}
 				}
 
-				return eventuallyFinal.apply(a);
+				return otherwiseFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

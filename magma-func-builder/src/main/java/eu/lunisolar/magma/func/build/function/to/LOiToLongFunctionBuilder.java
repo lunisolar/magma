@@ -57,12 +57,12 @@ public final class LOiToLongFunctionBuilder<T> extends PerCaseBuilderWithLongPro
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LOiToLongFunction EVENTUALLY_THROW = LOiToLongFunction.oiToLongFunc((a1, a2) -> {
+	public static final LOiToLongFunction OTHERWISE_THROW = LOiToLongFunction.oiToLongFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LOiToLongFunctionBuilder(@Nullable Consumer<LOiToLongFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LOiToLongFunction::constant, () -> new LOiToLongFunctionBuilder(null));
+		super(OTHERWISE_THROW, LOiToLongFunction::constant, () -> new LOiToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LOiToLongFunctionBuilder<T> extends PerCaseBuilderWithLongPro
 	@Nonnull
 	public final LOiToLongFunction<T> build() {
 
-		final LOiToLongFunction<T> eventuallyFinal = this.eventually;
+		final LOiToLongFunction<T> otherwiseFinal = this.otherwise;
 
 		LOiToLongFunction<T> retval;
 
@@ -138,7 +138,7 @@ public final class LOiToLongFunctionBuilder<T> extends PerCaseBuilderWithLongPro
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(a1, a2);
+				return otherwiseFinal.applyAsLong(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

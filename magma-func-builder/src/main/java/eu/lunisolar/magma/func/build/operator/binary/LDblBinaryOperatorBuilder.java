@@ -57,12 +57,12 @@ public final class LDblBinaryOperatorBuilder extends PerCaseBuilderWithDblProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LDblBinaryOperator EVENTUALLY_THROW = LDblBinaryOperator.dblBinaryOp((a1, a2) -> {
+	public static final LDblBinaryOperator OTHERWISE_THROW = LDblBinaryOperator.dblBinaryOp((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LDblBinaryOperatorBuilder(@Nullable Consumer<LDblBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDblBinaryOperator::constant, () -> new LDblBinaryOperatorBuilder(null));
+		super(OTHERWISE_THROW, LDblBinaryOperator::constant, () -> new LDblBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LDblBinaryOperatorBuilder extends PerCaseBuilderWithDblProduc
 	@Nonnull
 	public final LDblBinaryOperator build() {
 
-		final LDblBinaryOperator eventuallyFinal = this.eventually;
+		final LDblBinaryOperator otherwiseFinal = this.otherwise;
 
 		LDblBinaryOperator retval;
 
@@ -120,7 +120,7 @@ public final class LDblBinaryOperatorBuilder extends PerCaseBuilderWithDblProduc
 					}
 				}
 
-				return eventuallyFinal.applyAsDbl(a1, a2);
+				return otherwiseFinal.applyAsDbl(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -62,7 +62,7 @@ public class LTriBoolFunctionBuilderTest<R>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LTriBoolFunction<Integer> function = triBoolFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LTriBoolFunctionBuilderTest<R>{
 
         assertThatThrownBy(() -> {
             LTriBoolFunction<Integer> function = triBoolFunctionFrom(b -> b
-                .eventually((a1,a2,a3) -> {
+                .otherwise((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LTriBoolFunctionBuilderTest<R>{
             .aCase(ce -> ce.of((a1,a2,a3) -> a1 == false)
                              .evaluate((a1,a2,a3) -> 0))
             .inCase((a1,a2,a3) -> a1 == true ).evaluate((a1,a2,a3) -> 1)
-            .eventually((a1,a2,a3) -> 99)
+            .otherwise((a1,a2,a3) -> 99)
             .build()
         );
 

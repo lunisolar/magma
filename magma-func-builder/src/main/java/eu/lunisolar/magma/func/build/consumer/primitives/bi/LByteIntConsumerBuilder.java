@@ -57,12 +57,12 @@ public final class LByteIntConsumerBuilder extends PerCaseBuilder.Base<LByteIntC
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteIntConsumer EVENTUALLY_THROW = LByteIntConsumer.byteIntCons((a1, a2) -> {
+	public static final LByteIntConsumer OTHERWISE_THROW = LByteIntConsumer.byteIntCons((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LByteIntConsumerBuilder(@Nullable Consumer<LByteIntConsumer> consumer) {
-		super(EVENTUALLY_THROW, () -> new LByteIntConsumerBuilder(null));
+		super(OTHERWISE_THROW, () -> new LByteIntConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LByteIntConsumerBuilder extends PerCaseBuilder.Base<LByteIntC
 	@Nonnull
 	public final LByteIntConsumer build() {
 
-		final LByteIntConsumer eventuallyFinal = this.eventually;
+		final LByteIntConsumer otherwiseFinal = this.otherwise;
 
 		LByteIntConsumer retval;
 
@@ -121,7 +121,7 @@ public final class LByteIntConsumerBuilder extends PerCaseBuilder.Base<LByteIntC
 					}
 				}
 
-				eventuallyFinal.accept(a1, a2);
+				otherwiseFinal.accept(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

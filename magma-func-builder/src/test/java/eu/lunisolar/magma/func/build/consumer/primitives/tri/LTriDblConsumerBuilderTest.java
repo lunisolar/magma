@@ -62,7 +62,7 @@ public class LTriDblConsumerBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LTriDblConsumer function = triDblConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LTriDblConsumerBuilderTest{
 
         assertThatThrownBy(() -> {
             LTriDblConsumer function = triDblConsumerFrom(b -> b
-                .eventually((a1,a2,a3) -> {
+                .otherwise((a1,a2,a3) -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LTriDblConsumerBuilderTest{
                              .evaluate((a1,a2,a3) -> externalEffect.set(0)))
             .inCase((a1,a2,a3) -> a1 > 0d && a1 < 10d).evaluate((a1,a2,a3) -> externalEffect.set(1))
             .inCase((a1,a2,a3) -> a1 > 10d && a1 < 20d).evaluate((a1,a2,a3) -> externalEffect.set(2))
-            .eventually((a1,a2,a3) -> externalEffect.set(99))
+            .otherwise((a1,a2,a3) -> externalEffect.set(99))
             .build()
         );
 

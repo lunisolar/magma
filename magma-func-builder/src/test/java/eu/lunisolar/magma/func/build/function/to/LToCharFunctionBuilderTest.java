@@ -62,7 +62,7 @@ public class LToCharFunctionBuilderTest<T>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LToCharFunction<Integer> function = toCharFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LToCharFunctionBuilderTest<T>{
 
         assertThatThrownBy(() -> {
             LToCharFunction<Integer> function = toCharFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LToCharFunctionBuilderTest<T>{
                              .evaluate(a -> '\u0000'))
             .inCase(a -> a > 0 && a < 10).evaluate(a -> '\u0001')
             .inCase(a -> a > 10 && a < 20).evaluate(a -> '\u0002')
-            .eventually(a -> '\u0099')
+            .otherwise(a -> '\u0099')
             .build()
         );
 

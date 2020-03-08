@@ -62,7 +62,7 @@ public class LongFunctionBuilderTest<R>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LongFunction<Integer> function = longFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LongFunctionBuilderTest<R>{
 
         assertThatThrownBy(() -> {
             LongFunction<Integer> function = longFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LongFunctionBuilderTest<R>{
                              .evaluate(a -> 0))
             .inCase(a -> a > 0L && a < 10L).evaluate(a -> 1)
             .inCase(a -> a > 10L && a < 20L).evaluate(a -> 2)
-            .eventually(a -> 99)
+            .otherwise(a -> 99)
             .build()
         );
 

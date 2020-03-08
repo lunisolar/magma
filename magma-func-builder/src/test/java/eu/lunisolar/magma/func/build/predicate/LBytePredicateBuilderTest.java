@@ -62,7 +62,7 @@ public class LBytePredicateBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LBytePredicate function = bytePredicateFrom(b-> b
@@ -98,7 +98,7 @@ public class LBytePredicateBuilderTest{
 
         assertThatThrownBy(() -> {
             LBytePredicate function = bytePredicateFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LBytePredicateBuilderTest{
                              .evaluate(a -> false))
             .inCase(a -> a > (byte)0 && a < (byte)10).evaluate(a -> true)
             .inCase(a -> a > (byte)10 && a < (byte)20).evaluate(a -> true)
-            .eventually(a -> true)
+            .otherwise(a -> true)
             .build()
         );
 

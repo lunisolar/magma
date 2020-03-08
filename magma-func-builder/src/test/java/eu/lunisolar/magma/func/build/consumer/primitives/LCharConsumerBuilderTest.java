@@ -62,7 +62,7 @@ public class LCharConsumerBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LCharConsumer function = charConsumerFrom(b-> b
@@ -98,7 +98,7 @@ public class LCharConsumerBuilderTest{
 
         assertThatThrownBy(() -> {
             LCharConsumer function = charConsumerFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -123,7 +123,7 @@ public class LCharConsumerBuilderTest{
                              .evaluate(a -> externalEffect.set(0)))
             .inCase(a -> a > '\u0000' && a < '\u0010').evaluate(a -> externalEffect.set(1))
             .inCase(a -> a > '\u0010' && a < '\u0020').evaluate(a -> externalEffect.set(2))
-            .eventually(a -> externalEffect.set(99))
+            .otherwise(a -> externalEffect.set(99))
             .build()
         );
 

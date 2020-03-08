@@ -57,12 +57,12 @@ public final class LLongToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongToCharFunction EVENTUALLY_THROW = LLongToCharFunction.longToCharFunc(a -> {
+	public static final LLongToCharFunction OTHERWISE_THROW = LLongToCharFunction.longToCharFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLongToCharFunctionBuilder(@Nullable Consumer<LLongToCharFunction> consumer) {
-		super(EVENTUALLY_THROW, LLongToCharFunction::constant, () -> new LLongToCharFunctionBuilder(null));
+		super(OTHERWISE_THROW, LLongToCharFunction::constant, () -> new LLongToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLongToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 	@Nonnull
 	public final LLongToCharFunction build() {
 
-		final LLongToCharFunction eventuallyFinal = this.eventually;
+		final LLongToCharFunction otherwiseFinal = this.otherwise;
 
 		LLongToCharFunction retval;
 
@@ -120,7 +120,7 @@ public final class LLongToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(a);
+				return otherwiseFinal.applyAsChar(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

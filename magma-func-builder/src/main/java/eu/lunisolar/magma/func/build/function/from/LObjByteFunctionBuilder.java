@@ -57,12 +57,12 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LObjByteFunction EVENTUALLY_THROW = LObjByteFunction.objByteFunc((a1, a2) -> {
+	public static final LObjByteFunction OTHERWISE_THROW = LObjByteFunction.objByteFunc((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LObjByteFunctionBuilder(@Nullable Consumer<LObjByteFunction<T, R>> consumer) {
-		super(EVENTUALLY_THROW, LObjByteFunction::constant, () -> new LObjByteFunctionBuilder(null));
+		super(OTHERWISE_THROW, LObjByteFunction::constant, () -> new LObjByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -125,7 +125,7 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 	@Nonnull
 	public final LObjByteFunction<T, R> build() {
 
-		final LObjByteFunction<T, R> eventuallyFinal = this.eventually;
+		final LObjByteFunction<T, R> otherwiseFinal = this.otherwise;
 
 		LObjByteFunction<T, R> retval;
 
@@ -138,7 +138,7 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 					}
 				}
 
-				return eventuallyFinal.apply(a1, a2);
+				return otherwiseFinal.apply(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

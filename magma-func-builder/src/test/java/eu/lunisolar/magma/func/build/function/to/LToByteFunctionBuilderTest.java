@@ -62,7 +62,7 @@ public class LToByteFunctionBuilderTest<T>{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LToByteFunction<Integer> function = toByteFunctionFrom(b-> b
@@ -98,7 +98,7 @@ public class LToByteFunctionBuilderTest<T>{
 
         assertThatThrownBy(() -> {
             LToByteFunction<Integer> function = toByteFunctionFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class LToByteFunctionBuilderTest<T>{
                              .evaluate(a -> (byte)0))
             .inCase(a -> a > 0 && a < 10).evaluate(a -> (byte)1)
             .inCase(a -> a > 10 && a < 20).evaluate(a -> (byte)2)
-            .eventually(a -> (byte)99)
+            .otherwise(a -> (byte)99)
             .build()
         );
 

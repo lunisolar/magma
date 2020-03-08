@@ -62,7 +62,7 @@ public class LLogicalOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             LLogicalOperator function = logicalOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class LLogicalOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             LLogicalOperator function = logicalOperatorFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -121,7 +121,7 @@ public class LLogicalOperatorBuilderTest{
             .aCase(ce -> ce.of(a -> a == false)
                              .evaluate(a -> false))
             .inCase(a -> a == true ).evaluate(a -> true)
-            .eventually(a -> true)
+            .otherwise(a -> true)
             .build()
         );
 

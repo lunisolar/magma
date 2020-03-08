@@ -57,12 +57,12 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LByteSupplier EVENTUALLY_THROW = LByteSupplier.byteSup(() -> {
+	public static final LByteSupplier OTHERWISE_THROW = LByteSupplier.byteSup(() -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LByteSupplierBuilder(@Nullable Consumer<LByteSupplier> consumer) {
-		super(EVENTUALLY_THROW, LByteSupplier::of, () -> new LByteSupplierBuilder(null));
+		super(OTHERWISE_THROW, LByteSupplier::of, () -> new LByteSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 	@Nonnull
 	public final LByteSupplier build() {
 
-		final LByteSupplier eventuallyFinal = this.eventually;
+		final LByteSupplier otherwiseFinal = this.otherwise;
 
 		LByteSupplier retval;
 
@@ -120,7 +120,7 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 					}
 				}
 
-				return eventuallyFinal.getAsByte();
+				return otherwiseFinal.getAsByte();
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

@@ -57,12 +57,12 @@ public final class LLongIntPredicateBuilder extends PerCaseBuilderWithBoolProduc
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LLongIntPredicate EVENTUALLY_THROW = LLongIntPredicate.longIntPred((a1, a2) -> {
+	public static final LLongIntPredicate OTHERWISE_THROW = LLongIntPredicate.longIntPred((a1, a2) -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LLongIntPredicateBuilder(@Nullable Consumer<LLongIntPredicate> consumer) {
-		super(EVENTUALLY_THROW, LLongIntPredicate::constant, () -> new LLongIntPredicateBuilder(null));
+		super(OTHERWISE_THROW, LLongIntPredicate::constant, () -> new LLongIntPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LLongIntPredicateBuilder extends PerCaseBuilderWithBoolProduc
 	@Nonnull
 	public final LLongIntPredicate build() {
 
-		final LLongIntPredicate eventuallyFinal = this.eventually;
+		final LLongIntPredicate otherwiseFinal = this.otherwise;
 
 		LLongIntPredicate retval;
 
@@ -120,7 +120,7 @@ public final class LLongIntPredicateBuilder extends PerCaseBuilderWithBoolProduc
 					}
 				}
 
-				return eventuallyFinal.test(a1, a2);
+				return otherwiseFinal.test(a1, a2);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

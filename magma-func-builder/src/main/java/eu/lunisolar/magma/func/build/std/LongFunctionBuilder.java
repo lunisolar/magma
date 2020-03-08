@@ -57,12 +57,12 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LongFunction EVENTUALLY_THROW = Function4U.longFunc(a -> {
+	public static final LongFunction OTHERWISE_THROW = Function4U.longFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LongFunctionBuilder(@Nullable Consumer<LongFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LLongFunction::constant, () -> new LongFunctionBuilder(null));
+		super(OTHERWISE_THROW, LLongFunction::constant, () -> new LongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 	@Nonnull
 	public final LongFunction<R> build() {
 
-		final LongFunction<R> eventuallyFinal = this.eventually;
+		final LongFunction<R> otherwiseFinal = this.otherwise;
 
 		LongFunction<R> retval;
 
@@ -120,7 +120,7 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 					}
 				}
 
-				return eventuallyFinal.apply(a);
+				return otherwiseFinal.apply(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

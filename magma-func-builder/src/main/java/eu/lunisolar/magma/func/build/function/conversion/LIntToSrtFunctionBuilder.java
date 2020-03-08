@@ -57,12 +57,12 @@ public final class LIntToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduct
 
 	private @Nullable HandlingInstructions handling;
 
-	public static final LIntToSrtFunction EVENTUALLY_THROW = LIntToSrtFunction.intToSrtFunc(a -> {
+	public static final LIntToSrtFunction OTHERWISE_THROW = LIntToSrtFunction.intToSrtFunc(a -> {
 		throw new IllegalStateException("There is no case configured for the arguments (if any).");
 	});
 
 	public LIntToSrtFunctionBuilder(@Nullable Consumer<LIntToSrtFunction> consumer) {
-		super(EVENTUALLY_THROW, LIntToSrtFunction::constant, () -> new LIntToSrtFunctionBuilder(null));
+		super(OTHERWISE_THROW, LIntToSrtFunction::constant, () -> new LIntToSrtFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -107,7 +107,7 @@ public final class LIntToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduct
 	@Nonnull
 	public final LIntToSrtFunction build() {
 
-		final LIntToSrtFunction eventuallyFinal = this.eventually;
+		final LIntToSrtFunction otherwiseFinal = this.otherwise;
 
 		LIntToSrtFunction retval;
 
@@ -120,7 +120,7 @@ public final class LIntToSrtFunctionBuilder extends PerCaseBuilderWithSrtProduct
 					}
 				}
 
-				return eventuallyFinal.applyAsSrt(a);
+				return otherwiseFinal.applyAsSrt(a);
 			} catch (Error e) { // NOSONAR
 					throw e;
 				} catch (Throwable e) { // NOSONAR

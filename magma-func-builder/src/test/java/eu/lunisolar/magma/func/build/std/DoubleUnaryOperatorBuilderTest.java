@@ -62,7 +62,7 @@ public class DoubleUnaryOperatorBuilderTest{
     };
 
     @Test
-    public void testEventuallyThrow()  {
+    public void testOtherwiseThrow()  {
 
         assertThatThrownBy(() -> {
             DoubleUnaryOperator function = dblUnaryOperatorFrom(b-> b
@@ -98,7 +98,7 @@ public class DoubleUnaryOperatorBuilderTest{
 
         assertThatThrownBy(() -> {
             DoubleUnaryOperator function = dblUnaryOperatorFrom(b -> b
-                .eventually(a -> {
+                .otherwise(a -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance,  IllegalStateException::new, "NEW EXCEPTION"))
@@ -122,7 +122,7 @@ public class DoubleUnaryOperatorBuilderTest{
                              .evaluate(a -> 0d))
             .inCase(a -> a > 0d && a < 10d).evaluate(a -> 1d)
             .inCase(a -> a > 10d && a < 20d).evaluate(a -> 2d)
-            .eventually(a -> 99d)
+            .otherwise(a -> 99d)
             .build()
         );
 
