@@ -56,6 +56,8 @@ import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
+import eu.lunisolar.magma.asserts.opt.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
 //import eu.lunisolar.magma.asserts.std.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
@@ -3605,6 +3607,56 @@ public interface MagmaAssertions {
 	@Nonnull
 	public static <A extends Supplier<T>, RS extends Assert<RS, T>, T> JreSupplierAssert.The<A, RS, T> assertSup(Supplier<T> func) {
 		return new JreSupplierAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static OptBoolTraitAssert assertThat(OptBoolTrait<?> actual) {
+		return new OptBoolTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static <T> OptTraitAssert<T> assertThat(OptTrait<T, ?> actual) {
+		return new OptTraitAssert<T>(actual);
+	}
+
+	@Nonnull
+	public static OptByteTraitAssert assertThat(OptByteTrait<?> actual) {
+		return new OptByteTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static OptDblTraitAssert assertThat(OptDblTrait<?> actual) {
+		return new OptDblTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static OptCharTraitAssert assertThat(OptCharTrait<?> actual) {
+		return new OptCharTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static OptSrtTraitAssert assertThat(OptSrtTrait<?> actual) {
+		return new OptSrtTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static OptFltTraitAssert assertThat(OptFltTrait<?> actual) {
+		return new OptFltTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static OptIntTraitAssert assertThat(OptIntTrait<?> actual) {
+		return new OptIntTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static OptLongTraitAssert assertThat(OptLongTrait<?> actual) {
+		return new OptLongTraitAssert(actual);
+	}
+
+	@Nonnull
+	public static <A> MagmaAssert.ObjAssert<A> assertThat(A actual) {
+		return THEN.assertThat(actual);
 	}
 
 }

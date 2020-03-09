@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.opt;
+package eu.lunisolar.magma.asserts.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.ThreadSafe; // NOSONAR
 import java.util.*; // NOSONAR
+import eu.lunisolar.magma.asserts.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
@@ -32,9 +32,13 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
+import org.assertj.core.api.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -52,49 +56,55 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTrait<T, SELF> {
+import static eu.lunisolar.magma.func.supp.check.Checks.arg; // NOSONAR
+import static org.assertj.core.error.OptionalShouldContain.shouldContain; // NOSONAR
 
-	protected final @Nullable T value;
+public class OptDblTraitAssert extends AbstractObjectAssert<OptDblTraitAssert, OptDblTrait<?>> implements FluentTrait<OptDblTraitAssert>, MagmaAssert<OptDblTraitAssert, OptDblTrait<?>> {
 
-	protected OptBase() {
-		this.value = null;
+	@Override
+	public OptDblTrait<?> actual() {
+		return super.actual;
 	}
 
-	protected OptBase(@Nullable T value) {
-		this.value = value;
+	public OptDblTraitAssert(OptDblTrait<?> actual) {
+		super(actual, OptDblTraitAssert.class);
 	}
 
-	public final @Nullable T nullable() {
-		return value;
+	public OptDblTraitAssert isPresent() {
+		isNotNull();
+		must(OptDblTrait::isPresent, "<%s> is expected to have value but it does not.", actual());
+		return this;
 	}
 
-	public final boolean isVoid() {
-		return value == null;
+	public OptDblTraitAssert isNotVoid() {
+		return isPresent();
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(this.getClass().isInstance(obj))) {
-			return false;
-		}
-
-		Opt other = (Opt) obj;
-		return (isPresent() && other.isPresent()) ? value().equals(other.value()) : isPresent() == other.isPresent();
+	public OptDblTraitAssert isVoid() {
+		isNotNull();
+		must(OptDblTrait::isVoid, "<%s> is expected to not have value but it does.", actual());
+		return this;
 	}
 
-	public int hashCode() {
-		return Objects.hashCode(nullable());
+	public OptDblTraitAssert isNotPresent() {
+		return isVoid();
 	}
 
-	public String toString() {
-		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass().getSimpleName());
+	public OptDblTraitAssert contains(double expectedValue) {
+		isNotNull();
+
+		must(OptDblTrait::isPresent, "<%s> is expected to have value <%s> but it is void.", actual(), expectedValue);
+		must(P.haveDbl(OptDblTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s> but is not. <%s>", actual().nullable(), expectedValue, actual());
+		return this;
 	}
 
-	// </editor-fold>
+	public OptDblTraitAssert hasValue(double expectedValue) {
+		return contains(expectedValue);
+	}
+
+	public AbstractDoubleAssert<?> hasValueThat() {
+		isPresent();
+		return Assertions.assertThat(actual().value());
+	}
 
 }

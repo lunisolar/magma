@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.opt;
+package eu.lunisolar.magma.asserts.opt;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.ThreadSafe; // NOSONAR
 import java.util.*; // NOSONAR
+import eu.lunisolar.magma.asserts.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
@@ -32,9 +32,13 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
+import org.assertj.core.api.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -52,49 +56,55 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTrait<T, SELF> {
+import static eu.lunisolar.magma.func.supp.check.Checks.arg; // NOSONAR
+import static org.assertj.core.error.OptionalShouldContain.shouldContain; // NOSONAR
 
-	protected final @Nullable T value;
+public class OptLongTraitAssert extends AbstractObjectAssert<OptLongTraitAssert, OptLongTrait<?>> implements FluentTrait<OptLongTraitAssert>, MagmaAssert<OptLongTraitAssert, OptLongTrait<?>> {
 
-	protected OptBase() {
-		this.value = null;
+	@Override
+	public OptLongTrait<?> actual() {
+		return super.actual;
 	}
 
-	protected OptBase(@Nullable T value) {
-		this.value = value;
+	public OptLongTraitAssert(OptLongTrait<?> actual) {
+		super(actual, OptLongTraitAssert.class);
 	}
 
-	public final @Nullable T nullable() {
-		return value;
+	public OptLongTraitAssert isPresent() {
+		isNotNull();
+		must(OptLongTrait::isPresent, "<%s> is expected to have value but it does not.", actual());
+		return this;
 	}
 
-	public final boolean isVoid() {
-		return value == null;
+	public OptLongTraitAssert isNotVoid() {
+		return isPresent();
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(this.getClass().isInstance(obj))) {
-			return false;
-		}
-
-		Opt other = (Opt) obj;
-		return (isPresent() && other.isPresent()) ? value().equals(other.value()) : isPresent() == other.isPresent();
+	public OptLongTraitAssert isVoid() {
+		isNotNull();
+		must(OptLongTrait::isVoid, "<%s> is expected to not have value but it does.", actual());
+		return this;
 	}
 
-	public int hashCode() {
-		return Objects.hashCode(nullable());
+	public OptLongTraitAssert isNotPresent() {
+		return isVoid();
 	}
 
-	public String toString() {
-		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass().getSimpleName());
+	public OptLongTraitAssert contains(long expectedValue) {
+		isNotNull();
+
+		must(OptLongTrait::isPresent, "<%s> is expected to have value <%s> but it is void.", actual(), expectedValue);
+		must(P.haveLong(OptLongTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s> but is not. <%s>", actual().nullable(), expectedValue, actual());
+		return this;
 	}
 
-	// </editor-fold>
+	public OptLongTraitAssert hasValue(long expectedValue) {
+		return contains(expectedValue);
+	}
+
+	public AbstractLongAssert<?> hasValueThat() {
+		isPresent();
+		return Assertions.assertThat(actual().value());
+	}
 
 }

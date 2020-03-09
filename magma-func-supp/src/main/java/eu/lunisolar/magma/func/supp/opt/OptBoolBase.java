@@ -100,7 +100,7 @@ public abstract class OptBoolBase<SELF extends OptBoolBase<SELF>> implements Opt
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass());
+		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass().getSimpleName());
 	}
 
 	// </editor-fold>

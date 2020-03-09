@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.opt;
+package eu.lunisolar.magma.asserts;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.ThreadSafe; // NOSONAR
 import java.util.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -32,9 +31,12 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
+import org.assertj.core.api.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -52,49 +54,79 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTrait<T, SELF> {
+/**
+ * Extension over CheckTrait with specific purpose of unit test assertions. Advantage is that properly written assert class includes messages similar like AssertJ, otherwise
+ * adhoc usage of CHeckTrait methods is still possible.     
+ */
+public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Assert<SELF, A>, FluentTrait<SELF>, CheckTrait<A, SELF> {
 
-	protected final @Nullable T value;
+	@Nullable
+	A actual();
 
-	protected OptBase() {
-		this.value = null;
+	@Deprecated
+	@Nonnull
+	@Override
+	default SELF value(@Nullable A value) {
+		throw X.unsupported(); // otherwise it would make assertions very confusing.
 	}
 
-	protected OptBase(@Nullable T value) {
-		this.value = value;
+	@Nullable
+	@Override
+	default A get() {
+		return actual();
+	}
+	@Nonnull
+	default String checkTraitType() {
+		return "Actual";
+	}
+	@Nonnull
+	default String checkTraitName() {
+		return "?";
+	}
+	@Nonnull
+	default ExMF<RuntimeException> checkTraitFactory() {
+		return ExMF.shoving(X::assertion);
 	}
 
-	public final @Nullable T nullable() {
-		return value;
+	@Deprecated
+	default <R> SELF has(LFunction<A, R> predicate, R expected, String message, Object... args) {
+		isNotNull();
+		R derivedActual = predicate.apply(actual());
+		Assertions.assertThat(derivedActual).as(message, args).isEqualTo(expected);
+		return self();
 	}
 
-	public final boolean isVoid() {
-		return value == null;
+	@Deprecated
+	default SELF mustBe(LPredicate<A> predicate, boolean expected, String message, Object... args) {
+		isNotNull();
+		BooleanAssert as = (BooleanAssert) Assertions.assertThat(predicate.test(actual())).as(message, args);
+		as.isEqualTo(expected);
+		return self();
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
+	public static abstract class AbstractObjAssert<SELF extends AbstractObjAssert<SELF, A>, A> extends AbstractObjectAssert<SELF, A> implements MagmaAssert<SELF, A> {
 
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
+		public AbstractObjAssert(A a, Class<?> selfType) {
+			super(a, selfType);
 		}
 
-		if (!(this.getClass().isInstance(obj))) {
-			return false;
+		@Nullable
+		@Override
+		public A actual() {
+			return actual;
+		}
+	}
+
+	public static class ObjAssert<A> extends AbstractObjAssert<ObjAssert<A>, A> implements MagmaAssert<ObjAssert<A>, A> {
+
+		public ObjAssert(A a) {
+			super(a, ObjAssert.class);
 		}
 
-		Opt other = (Opt) obj;
-		return (isPresent() && other.isPresent()) ? value().equals(other.value()) : isPresent() == other.isPresent();
+		@Nullable
+		@Override
+		public A actual() {
+			return actual;
+		}
 	}
-
-	public int hashCode() {
-		return Objects.hashCode(nullable());
-	}
-
-	public String toString() {
-		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass().getSimpleName());
-	}
-
-	// </editor-fold>
-
 }
