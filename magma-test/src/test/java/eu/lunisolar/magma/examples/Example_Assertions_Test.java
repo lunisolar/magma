@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.*;
 
-import static eu.lunisolar.magma.func.asserts.FunctionalAssertions.THEN;
+import static eu.lunisolar.magma.asserts.MagmaAssertions.THEN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
@@ -56,9 +56,9 @@ public class Example_Assertions_Test {
 ///
 ///### Before we use assertions
 ///
-///<a href="https://github.com/lunisolar/magma/blob/master/magma-func-asserts/src/main/java/eu/lunisolar/magma/func/asserts/FunctionalAssertions.java" target="_blank">FunctionalAssertions</a>
+///<a href="https://github.com/lunisolar/magma/blob/master/magma-asserts/src/main/java/eu/lunisolar/magma/func/asserts/MagmaAssertions.java" target="_blank">MagmaAssertions</a>
 ///and
-///<a href="https://github.com/lunisolar/magma/blob/master/magma-func-asserts/src/main/java/eu/lunisolar/magma/func/asserts/DefaultFunctionalAssertions.java" target="_blank">DefaultFunctionalAssertions</a>
+///<a href="https://github.com/lunisolar/magma/blob/master/magma-asserts/src/main/java/eu/lunisolar/magma/func/asserts/DefaultMagmaAssertions.java" target="_blank">DefaultMagmaAssertions</a>
 ///are the classes that are aggregating all the methods you need. 
 ///
 

@@ -19,7 +19,7 @@
 package eu.lunisolar.magma.func.build.function;
 
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.*; // NOSONAR
+import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LQuintFunctionBuilderTest<T1,T2,T3,T4,T5,R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
+    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
     };
 
     @Test

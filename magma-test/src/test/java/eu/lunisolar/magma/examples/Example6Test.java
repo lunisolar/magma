@@ -19,7 +19,7 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.examples.support.CheckedException;
-import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
+import eu.lunisolar.magma.asserts.DefaultMagmaAssertions;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.to.LToByteFunction;
 import org.assertj.core.api.ObjectAssert;
@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 public class Example6Test {
 
-    public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
+    public static final DefaultMagmaAssertions<ObjectAssert> then = new DefaultMagmaAssertions() {
     };
 
     public static final LFunction<Integer, Integer> potentiallyThrowing = LFunction.func(Example6Test::potentiallyThrowing);

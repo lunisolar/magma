@@ -32,7 +32,7 @@ import org.testng.annotations.Test;
 import java.util.concurrent.atomic.*;
 
 import static eu.lunisolar.magma.basics.exceptions.Handling.throwThe;
-import static eu.lunisolar.magma.func.asserts.FunctionalAssertions.THEN;
+import static eu.lunisolar.magma.asserts.MagmaAssertions.THEN;
 import static eu.lunisolar.magma.func.function.to.LToIntBiFunction.apply1stAsInt;
 import static eu.lunisolar.magma.func.predicate.LBiPredicate.test1st;
 import static org.assertj.core.api.Assertions.assertThat;

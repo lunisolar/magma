@@ -19,7 +19,7 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.*; // NOSONAR
+import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LFltPredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
+    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
     };
 
     @Test

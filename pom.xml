@@ -64,12 +64,14 @@
         <module>magma-basics-assert</module>
 
         <module>magma-func</module>
-        <module>magma-func-asserts</module>
-        <module>magma-func-builder</module>
 
         <module>magma-func-supp</module>
+        <module>magma-asserts</module>
+
+        <module>magma-func-builder</module>
 
         <module>magma-test</module>
+
     </modules>
 
     <build>

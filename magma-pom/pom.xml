@@ -92,7 +92,7 @@
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
-                <artifactId>magma-func-asserts</artifactId>
+                <artifactId>magma-asserts</artifactId>
                 <version>3.0.0-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>

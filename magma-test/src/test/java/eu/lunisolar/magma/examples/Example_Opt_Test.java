@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
-import static eu.lunisolar.magma.func.asserts.FunctionalAssertions.assertSup;
+import static eu.lunisolar.magma.asserts.MagmaAssertions.assertSup;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
