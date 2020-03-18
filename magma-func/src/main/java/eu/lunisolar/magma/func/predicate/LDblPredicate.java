@@ -341,6 +341,31 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> double throwIf(double a, @Nonnull LDblPredicate pred, @Nonnull ExMF<X> factory, LDblFunction<? extends String> msgFunc) throws X {
+		if (pred.test(a)) {
+			throw Handling.create(factory, msgFunc.apply(a), a);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> double throwIfNot(double a, @Nonnull LDblPredicate pred, @Nonnull ExMF<X> factory, LDblFunction<? extends String> msgFunc) throws X {
+		if (!pred.test(a)) {
+			throw Handling.create(factory, msgFunc.apply(a), a);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
+	public static <X extends Throwable> double throwIfNot$(double a, LDblFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+		var msg = specialPredicate.apply(a);
+		if (msg != null) {
+			throw Handling.create(factory, msg);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> double throwIf(double a, @Nonnull LDblPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.test(a)) {
 			throw Handling.create(factory, newMessage, messageParams);

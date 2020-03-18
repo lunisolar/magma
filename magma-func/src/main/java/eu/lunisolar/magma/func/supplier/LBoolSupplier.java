@@ -275,6 +275,31 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, LSupplier<? extends String> msgFunc) throws X {
+		if (pred.getAsBool()) {
+			throw Handling.create(factory, msgFunc.get());
+		}
+		return pred;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, LSupplier<? extends String> msgFunc) throws X {
+		if (!pred.getAsBool()) {
+			throw Handling.create(factory, msgFunc.get());
+		}
+		return pred;
+	}
+
+	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
+	public static <X extends Throwable> LSupplier<? extends String> throwIfNot$(LSupplier<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+		var msg = specialPredicate.get();
+		if (msg != null) {
+			throw Handling.create(factory, msg);
+		}
+		return specialPredicate;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.getAsBool()) {
 			throw Handling.create(factory, newMessage, messageParams);

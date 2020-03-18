@@ -81,7 +81,7 @@ public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Asser
 	}
 	@Nonnull
 	default String checkTraitName() {
-		return "?";
+		return actual() == null ? "null" : actual().toString();
 	}
 	@Nonnull
 	default ExMF<RuntimeException> checkTraitFactory() {

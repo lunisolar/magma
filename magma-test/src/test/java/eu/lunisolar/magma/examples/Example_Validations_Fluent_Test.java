@@ -20,6 +20,7 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Have;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
@@ -185,6 +186,18 @@ public class Example_Validations_Fluent_Test {
         Map<String, String> map = new HashMap();
         map.put("A", "a");
         Checks.value("key22").mustWith$$(map, Map::containsKey, "There is no key in the map");
+    }
+
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "All references must be null.")
+    public void specialPredicates() {
+        Checks.value(new Object[]{1, 2}).must$(Be::allNull$);
+    }
+
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")
+    public void specialPredicates2() {
+        var e = new Exception("Message1!", new RuntimeException("Message2!"));
+
+        Checks.value(e).must$(P.have$(Exception::getCause, Have::msgContain$, "I'm Expecting this"));
     }
 
     /**

@@ -251,6 +251,42 @@ public class Validations4U_Perf {
         return a;
     }
 
+    @Benchmark @Threads(THREADS) public Object equal$(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+//                var s = state.values.v(i);
+//                if (s!= null ) {
+                    arg(state.values.v(i)).must$(Be::notEqual$, "");
+//                }
+
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+     @Benchmark @Threads(THREADS) public Object equal(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+//                var s = state.values.v(i);
+//                if (s!= null ) {
+                    arg(state.values.v(i)).must(Be::notEqual, "", "MUST");
+//                }
+
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
     @Benchmark @Threads(THREADS) public Object checkIf(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
@@ -284,7 +320,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).must(P.has(String::length, P::ltEq, 32*state.names.v(i).length()), "must have specific length");
+                arg(state.values.v(i)).must(P.have(String::length, P::ltEq, 32*state.names.v(i).length()), "must have specific length");
                 a++;
             } catch (RuntimeException e) {
                 a--;

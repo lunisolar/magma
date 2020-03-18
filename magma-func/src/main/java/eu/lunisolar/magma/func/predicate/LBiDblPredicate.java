@@ -358,6 +358,56 @@ public interface LBiDblPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> double throwIf(double a1, double a2, @Nonnull LBiDblPredicate pred, @Nonnull ExMF<X> factory, LBiDblFunction<? extends String> msgFunc) throws X {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> double throwIfNot(double a1, double a2, @Nonnull LBiDblPredicate pred, @Nonnull ExMF<X> factory, LBiDblFunction<? extends String> msgFunc) throws X {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> double throwIf(double a1, @Nonnull LBiDblPredicate pred, double a2, @Nonnull ExMF<X> factory, LBiDblFunction<? extends String> msgFunc) throws X {
+		if (pred.test(a1, a2)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> double throwIfNot(double a1, @Nonnull LBiDblPredicate pred, double a2, @Nonnull ExMF<X> factory, LBiDblFunction<? extends String> msgFunc) throws X {
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
+	public static <X extends Throwable> double throwIfNot$(double a1, double a2, LBiDblFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+		var msg = specialPredicate.apply(a1, a2);
+		if (msg != null) {
+			throw Handling.create(factory, msg);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
+	public static <X extends Throwable> double throwIfNot$(double a1, LBiDblFunction<? extends String> specialPredicate, double a2, @Nonnull ExMF<X> factory) throws X {
+		var msg = specialPredicate.apply(a1, a2);
+		if (msg != null) {
+			throw Handling.create(factory, msg);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> double throwIf(double a1, double a2, @Nonnull LBiDblPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
 		if (pred.test(a1, a2)) {
 			throw Handling.create(factory, newMessage, messageParams);

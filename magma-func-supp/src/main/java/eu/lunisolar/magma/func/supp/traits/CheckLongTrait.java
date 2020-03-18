@@ -90,6 +90,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF must(@Nonnull LLongPredicate predicate, LLongFunction<String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LLongPredicate.throwIfNot(get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(LLongFunction<String> specialPredicate) {
+		LLongPredicate.throwIfNot$(get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull SELF must$(@Nonnull LLongPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LLongPredicate.throwIfNot(get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -114,6 +125,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF mustNot(@Nonnull LLongPredicate predicate, LLongFunction<String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LLongPredicate.throwIf(get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot$(@Nonnull LLongPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LLongPredicate.throwIf(get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -135,6 +152,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull SELF must(@Nonnull LBiLongPredicate predicate, long a2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiLongPredicate.throwIfNot(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF must(@Nonnull LBiLongPredicate predicate, long a2, LBiLongFunction<String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiLongPredicate.throwIfNot(get(), a2, predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(LBiLongFunction<String> specialPredicate, long a2) {
+		LBiLongPredicate.throwIfNot$(get(), a2, specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -168,6 +196,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF must(long a2, @Nonnull LBiLongPredicate predicate, LBiLongFunction<String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiLongPredicate.throwIfNot(get(), a2, predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(long a2, LBiLongFunction<String> specialPredicate) {
+		LBiLongPredicate.throwIfNot$(get(), a2, specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull SELF must$(long a2, @Nonnull LBiLongPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiLongPredicate.throwIfNot(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -198,6 +237,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF mustNot(@Nonnull LBiLongPredicate predicate, long a2, LBiLongFunction<String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiLongPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot$(@Nonnull LBiLongPredicate predicate, long a2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiLongPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -225,6 +270,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull SELF mustNot(long a2, @Nonnull LBiLongPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiLongPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(long a2, @Nonnull LBiLongPredicate predicate, LBiLongFunction<String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiLongPredicate.throwIf(get(), a2, predicate, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
@@ -498,6 +549,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V> SELF must_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, LObjLongFunction.LLongObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIfNot(v, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V> SELF must_$(LObjLongFunction.LLongObjFunc<? super V, String> specialPredicate, V v) {
+		LObjLongPredicate.throwIfNot$(v, get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull <V> SELF must_$(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIfNot(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -525,6 +587,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull <V> SELF must_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIfNot(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V> SELF must_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, LObjLongFunction.LLongObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIfNot(v, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V> SELF must_$(V v, LObjLongFunction.LLongObjFunc<? super V, String> specialPredicate) {
+		LObjLongPredicate.throwIfNot$(v, get(), specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -558,6 +631,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V> SELF mustNot_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, LObjLongFunction.LLongObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIf(v, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -585,6 +664,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIf(v, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, LObjLongFunction.LLongObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIf(v, get(), predicate, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
@@ -618,6 +703,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1> SELF mustWithLong(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with1, LObjLongFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustWithLong$(LObjLongFunction<? super V1, String> specialPredicate, V1 with1) {
+		LObjLongPredicate.throwIfNot$(with1, get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull <V1> SELF mustWithLong$(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -645,6 +741,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull <V1> SELF mustWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate, LObjLongFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIfNot(with1, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustWithLong$(V1 with1, LObjLongFunction<? super V1, String> specialPredicate) {
+		LObjLongPredicate.throwIfNot$(with1, get(), specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -678,6 +785,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1> SELF mustNotWithLong(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with1, LObjLongFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull <V1> SELF mustNotWithLong$(@Nonnull LObjLongPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -705,6 +818,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull <V1> SELF mustNotWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LObjLongPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustNotWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate, LObjLongFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LObjLongPredicate.throwIf(with1, get(), predicate, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
@@ -738,6 +857,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, LBiObjLongFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjLongPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$(LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		LBiObjLongPredicate.throwIfNot$(with1, with2, get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiObjLongPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -765,6 +895,17 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiObjLongPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, LBiObjLongFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjLongPredicate.throwIfNot(with1, with2, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate) {
+		LBiObjLongPredicate.throwIfNot$(with1, with2, get(), specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -798,6 +939,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, LBiObjLongFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjLongPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiObjLongPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -825,6 +972,12 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends Fluen
 	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		LBiObjLongPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, LBiObjLongFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		LBiObjLongPredicate.throwIf(with1, with2, get(), predicate, checkTraitFactory(), msgFunc);
 		return self();
 	}
 

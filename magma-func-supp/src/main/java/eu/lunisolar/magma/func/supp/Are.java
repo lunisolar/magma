@@ -69,7 +69,7 @@ public final class Are implements FluentSyntax {
 
 	// <editor-fold desc="Object">
 
-	public static final boolean allNull(@Nullable Object... objects) {
+	public static boolean allNull(@Nullable Object... objects) {
 		if (objects == null) {
 			return true;
 		}
@@ -82,7 +82,11 @@ public final class Are implements FluentSyntax {
 		return true;
 	}
 
-	public static final boolean noneNull(@Nullable Object... objects) {
+	public static String allNull$(@Nullable Object... objects) {
+		return allNull(objects) ? null : String.format("All references must be null.");
+	}
+
+	public static boolean noneNull(@Nullable Object... objects) {
 		if (objects == null) {
 			return false;
 		}
@@ -95,7 +99,11 @@ public final class Are implements FluentSyntax {
 		return true;
 	}
 
-	public static final boolean anyNull(@Nullable Object... objects) {
+	public static String noneNull$(@Nullable Object... objects) {
+		return noneNull(objects) ? null : String.format("All references must be NOT null.");
+	}
+
+	public static boolean anyNull(@Nullable Object... objects) {
 		if (objects == null) {
 			return true;
 		}
@@ -108,6 +116,10 @@ public final class Are implements FluentSyntax {
 		return false;
 	}
 
+	public static String anyNull$(@Nullable Object... objects) {
+		return anyNull(objects) ? null : String.format("At least one references must be null.");
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="`String`">
@@ -115,6 +127,10 @@ public final class Are implements FluentSyntax {
 	// </editor-fold>
 
 	// <editor-fold desc="and/or/xor">
+
+	// </editor-fold>
+
+	// <editor-fold desc="== <= >= < >">
 
 	// </editor-fold>
 

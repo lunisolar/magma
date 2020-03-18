@@ -90,6 +90,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF must(@Nonnull LLogicalOperator operator, LBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalOperator.throwIfNot(get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(LBoolFunction<String> specialPredicate) {
+		LLogicalOperator.throwIfNot$(get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull SELF must$(@Nonnull LLogicalOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalOperator.throwIfNot(get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -114,6 +125,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator operator, LBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalOperator.throwIf(get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot$(@Nonnull LLogicalOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalOperator.throwIf(get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -135,6 +152,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull SELF must(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalBinaryOperator.throwIfNot(get(), a2, operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF must(@Nonnull LLogicalBinaryOperator operator, boolean a2, LBiBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalBinaryOperator.throwIfNot(get(), a2, operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(LBiBoolFunction<String> specialPredicate, boolean a2) {
+		LLogicalBinaryOperator.throwIfNot$(get(), a2, specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -168,6 +196,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF must(boolean a2, @Nonnull LLogicalBinaryOperator operator, LBiBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalBinaryOperator.throwIfNot(get(), a2, operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(boolean a2, LBiBoolFunction<String> specialPredicate) {
+		LLogicalBinaryOperator.throwIfNot$(get(), a2, specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull SELF must$(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalBinaryOperator.throwIfNot(get(), a2, operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -195,6 +234,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull SELF mustNot(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalBinaryOperator.throwIf(get(), a2, operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(@Nonnull LLogicalBinaryOperator operator, boolean a2, LBiBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalBinaryOperator.throwIf(get(), a2, operator, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
@@ -228,6 +273,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF mustNot(boolean a2, @Nonnull LLogicalBinaryOperator operator, LBiBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalBinaryOperator.throwIf(get(), a2, operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot$(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalBinaryOperator.throwIf(get(), a2, operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -255,6 +306,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull SELF must(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF must(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, LTriBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(LTriBoolFunction<String> specialPredicate, boolean a2, boolean a3) {
+		LLogicalTernaryOperator.throwIfNot$(get(), a2, a3, specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -288,6 +350,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF must(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, LTriBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull SELF must$(boolean a2, boolean a3, LTriBoolFunction<String> specialPredicate) {
+		LLogicalTernaryOperator.throwIfNot$(get(), a2, a3, specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull SELF must$(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalTernaryOperator.throwIfNot(get(), a2, a3, operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -318,6 +391,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull SELF mustNot(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, LTriBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalTernaryOperator.throwIf(get(), a2, a3, operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull SELF mustNot$(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalTernaryOperator.throwIf(get(), a2, a3, operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -345,6 +424,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull SELF mustNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LLogicalTernaryOperator.throwIf(get(), a2, a3, operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull SELF mustNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, LTriBoolFunction<String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LLogicalTernaryOperator.throwIf(get(), a2, a3, operator, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
@@ -498,6 +583,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V> SELF must_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIfNot(v, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V> SELF must_$(LObjBoolFunction.LBoolObjFunc<? super V, String> specialPredicate, V v) {
+		LObjBoolPredicate.throwIfNot$(v, get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull <V> SELF must_$(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIfNot(v, get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -525,6 +621,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull <V> SELF must_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIfNot(v, get(), operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V> SELF must_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIfNot(v, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V> SELF must_$(V v, LObjBoolFunction.LBoolObjFunc<? super V, String> specialPredicate) {
+		LObjBoolPredicate.throwIfNot$(v, get(), specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -558,6 +665,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V> SELF mustNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIf(v, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIf(v, get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -585,6 +698,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIf(v, get(), operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIf(v, get(), operator, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
@@ -618,6 +737,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1> SELF mustWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, LObjBoolFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIfNot(with1, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustWithBool$(LObjBoolFunction<? super V1, String> specialPredicate, V1 with1) {
+		LObjBoolPredicate.throwIfNot$(with1, get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull <V1> SELF mustWithBool$(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIfNot(with1, get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -645,6 +775,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull <V1> SELF mustWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIfNot(with1, get(), operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, LObjBoolFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIfNot(with1, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustWithBool$(V1 with1, LObjBoolFunction<? super V1, String> specialPredicate) {
+		LObjBoolPredicate.throwIfNot$(with1, get(), specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -678,6 +819,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1> SELF mustNotWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, LObjBoolFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIf(with1, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull <V1> SELF mustNotWithBool$(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIf(with1, get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -705,6 +852,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull <V1> SELF mustNotWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LObjBoolPredicate.throwIf(with1, get(), operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1> SELF mustNotWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, LObjBoolFunction<? super V1, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LObjBoolPredicate.throwIf(with1, get(), operator, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
@@ -738,6 +891,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LBiObjBoolPredicate.throwIfNot(with1, with2, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$(LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		LBiObjBoolPredicate.throwIfNot$(with1, with2, get(), specialPredicate, checkTraitFactory());
+		return self();
+	}
+
 	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LBiObjBoolPredicate.throwIfNot(with1, with2, get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -765,6 +929,17 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LBiObjBoolPredicate.throwIfNot(with1, with2, get(), operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LBiObjBoolPredicate.throwIfNot(with1, with2, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate) {
+		LBiObjBoolPredicate.throwIfNot$(with1, with2, get(), specialPredicate, checkTraitFactory());
 		return self();
 	}
 
@@ -798,6 +973,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		return self();
 	}
 
+	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LBiObjBoolPredicate.throwIf(with1, with2, get(), operator, checkTraitFactory(), msgFunc);
+		return self();
+	}
+
 	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LBiObjBoolPredicate.throwIf(with1, with2, get(), operator, checkTraitFactory(), MESSAGE_S_S_S_S, checkTraitType(), checkTraitName(), message, get());
@@ -825,6 +1006,12 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		LBiObjBoolPredicate.throwIf(with1, with2, get(), operator, checkTraitFactory(), MESSAGE_S_S_S, checkTraitType(), checkTraitName(), message);
+		return self();
+	}
+
+	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+		Null.nonNullArg(operator, "operator");
+		LBiObjBoolPredicate.throwIf(with1, with2, get(), operator, checkTraitFactory(), msgFunc);
 		return self();
 	}
 
