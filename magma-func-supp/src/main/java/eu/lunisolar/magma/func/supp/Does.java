@@ -87,18 +87,18 @@ public final class Does implements FluentSyntax {
 		return (n.startsWith(a1)) ? null : String.format("String <'%s'> must start with <'%s'>.", n, a1);
 	}
 
-	/** Predicate: String <'%s'> must NOTstart with <'%s'>. Available in {@link P}, {@link Does}.*/
+	/** Predicate: String <'%s'> must NOT start with <'%s'>. Available in {@link P}, {@link Does}.*/
 	public static boolean notStartWith(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return !(n.startsWith(a1));
 	}
 
-	/** "Special" predicate: String <'%s'> must NOTstart with <'%s'>. Available in {@link P}, {@link Does}.*/
+	/** "Special" predicate: String <'%s'> must NOT start with <'%s'>. Available in {@link P}, {@link Does}.*/
 	public static String notStartWith$(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return !(n.startsWith(a1)) ? null : String.format("String <'%s'> must NOTstart with <'%s'>.", n, a1);
+		return !(n.startsWith(a1)) ? null : String.format("String <'%s'> must NOT start with <'%s'>.", n, a1);
 	}
 
 	/** Predicate: String <'%s'> must end with <'%s'>. Available in {@link P}, {@link Does}.*/
@@ -115,18 +115,18 @@ public final class Does implements FluentSyntax {
 		return (n.endsWith(a1)) ? null : String.format("String <'%s'> must end with <'%s'>.", n, a1);
 	}
 
-	/** Predicate: String <'%s'> must NOTend with <'%s'>. Available in {@link P}, {@link Does}.*/
+	/** Predicate: String <'%s'> must NOT end with <'%s'>. Available in {@link P}, {@link Does}.*/
 	public static boolean notEndWith(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return !(n.endsWith(a1));
 	}
 
-	/** "Special" predicate: String <'%s'> must NOTend with <'%s'>. Available in {@link P}, {@link Does}.*/
+	/** "Special" predicate: String <'%s'> must NOT end with <'%s'>. Available in {@link P}, {@link Does}.*/
 	public static String notEndWith$(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return !(n.endsWith(a1)) ? null : String.format("String <'%s'> must NOTend with <'%s'>.", n, a1);
+		return !(n.endsWith(a1)) ? null : String.format("String <'%s'> must NOT end with <'%s'>.", n, a1);
 	}
 
 	/** Predicate: String <'%s'> must contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
@@ -143,18 +143,18 @@ public final class Does implements FluentSyntax {
 		return (n.contains(a1)) ? null : String.format("String <'%s'> must contain string <'%s'>. But does not.", n, a1);
 	}
 
-	/** Predicate: String <'%s'> must NOTcontain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
+	/** Predicate: String <'%s'> must NOT contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
 	public static boolean notContain(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return !(n.contains(a1));
 	}
 
-	/** "Special" predicate: String <'%s'> must NOTcontain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
+	/** "Special" predicate: String <'%s'> must NOT contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
 	public static String notContain$(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return !(n.contains(a1)) ? null : String.format("String <'%s'> must NOTcontain string <'%s'>. But does not.", n, a1);
+		return !(n.contains(a1)) ? null : String.format("String <'%s'> must NOT contain string <'%s'>. But does not.", n, a1);
 	}
 
 	// </editor-fold>
@@ -175,14 +175,14 @@ public final class Does implements FluentSyntax {
 		return (Objects.equals(o, a1)) ? null : String.format("<%s> must be equal to <%s>.", o, a1);
 	}
 
-	/** Predicate: <%s> must NOTbe equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
+	/** Predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(Object o, Object a1) {
 		return !(Objects.equals(o, a1));
 	}
 
-	/** "Special" predicate: <%s> must NOTbe equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static String notEqual$(Object o, Object a1) {
-		return !(Objects.equals(o, a1)) ? null : String.format("<%s> must NOTbe equal to <%s>.", o, a1);
+		return !(Objects.equals(o, a1)) ? null : String.format("<%s> must NOT be equal to <%s>.", o, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -345,16 +345,16 @@ public final class Does implements FluentSyntax {
 		return (collection.contains(element)) ? null : String.format("Collection <%s> must contain element <%s>.", collection, element);
 	}
 
-	/** Predicate: Collection <%s> must NOTcontain element <%s>. Available in {@link P}, {@link Does}.*/
+	/** Predicate: Collection <%s> must NOT contain element <%s>. Available in {@link P}, {@link Does}.*/
 	public static <T> boolean notContain(@Nonnull Collection<T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
 		return !(collection.contains(element));
 	}
 
-	/** "Special" predicate: Collection <%s> must NOTcontain element <%s>. Available in {@link P}, {@link Does}.*/
+	/** "Special" predicate: Collection <%s> must NOT contain element <%s>. Available in {@link P}, {@link Does}.*/
 	public static <T> String notContain$(@Nonnull Collection<T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
-		return !(collection.contains(element)) ? null : String.format("Collection <%s> must NOTcontain element <%s>.", collection, element);
+		return !(collection.contains(element)) ? null : String.format("Collection <%s> must NOT contain element <%s>.", collection, element);
 	}
 
 	/** Predicate: Map <%s> must contain key <%s>. Available in {@link P}, {@link Does}.*/
@@ -369,16 +369,16 @@ public final class Does implements FluentSyntax {
 		return (map.containsKey(key)) ? null : String.format("Map <%s> must contain key <%s>.", map, key);
 	}
 
-	/** Predicate: Map <%s> must NOTcontain key <%s>. Available in {@link P}, {@link Does}.*/
+	/** Predicate: Map <%s> must NOT contain key <%s>. Available in {@link P}, {@link Does}.*/
 	public static <K> boolean notContainKey(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
 		return !(map.containsKey(key));
 	}
 
-	/** "Special" predicate: Map <%s> must NOTcontain key <%s>. Available in {@link P}, {@link Does}.*/
+	/** "Special" predicate: Map <%s> must NOT contain key <%s>. Available in {@link P}, {@link Does}.*/
 	public static <K> String notContainKey$(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
-		return !(map.containsKey(key)) ? null : String.format("Map <%s> must NOTcontain key <%s>.", map, key);
+		return !(map.containsKey(key)) ? null : String.format("Map <%s> must NOT contain key <%s>.", map, key);
 	}
 
 	// </editor-fold>
