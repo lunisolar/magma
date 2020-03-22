@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolIntConsumerAssert<S extends LBoolIntConsumerAssert<S, A>, A extends LBoolIntConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LBoolIntConsumer, A> {
 
 	@Nonnull
-	public static <A extends LBoolIntConsumer> LBoolIntConsumerAssert.The<A> assertBoolIntCons(LBoolIntConsumer func) {
+	public static <A extends LBoolIntConsumer> LBoolIntConsumerAssert.The<A> attestBoolIntCons(LBoolIntConsumer func) {
 		return new LBoolIntConsumerAssert.The(func);
 	}
 

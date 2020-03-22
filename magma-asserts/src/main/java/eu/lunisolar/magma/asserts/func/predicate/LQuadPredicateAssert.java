@@ -57,7 +57,7 @@ public interface LQuadPredicateAssert<S extends LQuadPredicateAssert<S, A, RS, T
 			FullFunctionalAssert<S, LQuadConsumer<T1, T2, T3, T4>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LQuadPredicate<T1, T2, T3, T4>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, T4> LQuadPredicateAssert.The<A, RS, T1, T2, T3, T4> assertQuadPred(LQuadPredicate<T1, T2, T3, T4> func) {
+	public static <A extends LQuadPredicate<T1, T2, T3, T4>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, T4> LQuadPredicateAssert.The<A, RS, T1, T2, T3, T4> attestQuadPred(LQuadPredicate<T1, T2, T3, T4> func) {
 		return new LQuadPredicateAssert.The(func, Assertions::assertThat);
 	}
 

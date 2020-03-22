@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LQuintFunctionBuilderTest<T1,T2,T3,T4,T5,R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LQuintFunctionBuilderTest<T1,T2,T3,T4,T5,R>{
         );
 
 
-        A.assertQuintFunc(function)
+        A.attestQuintFunc(function)
             .doesApply(0,0,0,0,0).when(null).to(a -> a.isEqualTo(0))
             .doesApply(5,5,5,5,5).when(null).to(a -> a.isEqualTo(1))
             .doesApply(15,15,15,15,15).when(null).to(a -> a.isEqualTo(2))

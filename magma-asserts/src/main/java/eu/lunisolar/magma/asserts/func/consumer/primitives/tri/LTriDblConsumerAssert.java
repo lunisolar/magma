@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTriDblConsumerAssert<S extends LTriDblConsumerAssert<S, A>, A extends LTriDblConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LTriDblConsumer, A> {
 
 	@Nonnull
-	public static <A extends LTriDblConsumer> LTriDblConsumerAssert.The<A> assertTriDblCons(LTriDblConsumer func) {
+	public static <A extends LTriDblConsumer> LTriDblConsumerAssert.The<A> attestTriDblCons(LTriDblConsumer func) {
 		return new LTriDblConsumerAssert.The(func);
 	}
 

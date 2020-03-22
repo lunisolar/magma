@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolToCharFunctionAssert<S extends LBoolToCharFunctionAssert<S, A, RS>, A extends LBoolToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBoolConsumer, A, RS, Character> {
 
 	@Nonnull
-	public static <A extends LBoolToCharFunction, RS extends AbstractCharacterAssert<RS>> LBoolToCharFunctionAssert.The<A, RS> assertBoolToCharFunc(LBoolToCharFunction func) {
+	public static <A extends LBoolToCharFunction, RS extends AbstractCharacterAssert<RS>> LBoolToCharFunctionAssert.The<A, RS> attestBoolToCharFunc(LBoolToCharFunction func) {
 		return new LBoolToCharFunctionAssert.The(func, Assertions::assertThat);
 	}
 

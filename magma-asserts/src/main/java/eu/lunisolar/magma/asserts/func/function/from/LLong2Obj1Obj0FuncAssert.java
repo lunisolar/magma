@@ -59,7 +59,7 @@ public interface LLong2Obj1Obj0FuncAssert<S extends LLong2Obj1Obj0FuncAssert<S, 
 			FullFunctionalAssert<S, LBiObjLongConsumer.LLong2Obj0Obj1Cons<T2, T1>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LBiObjLongFunction.LLong2Obj1Obj0Func<T2, T1, R>, RS extends Assert<RS, R>, T2, T1, R> LLong2Obj1Obj0FuncAssert.The<A, RS, T2, T1, R> assertLong2Obj1Obj0Func(LBiObjLongFunction.LLong2Obj1Obj0Func<T2, T1, R> func) {
+	public static <A extends LBiObjLongFunction.LLong2Obj1Obj0Func<T2, T1, R>, RS extends Assert<RS, R>, T2, T1, R> LLong2Obj1Obj0FuncAssert.The<A, RS, T2, T1, R> attestLong2Obj1Obj0Func(LBiObjLongFunction.LLong2Obj1Obj0Func<T2, T1, R> func) {
 		return new LLong2Obj1Obj0FuncAssert.The(func, Assertions::assertThat);
 	}
 

@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LCharIntConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LCharIntConsumerBuilderTest{
         );
 
 
-        A.assertCharIntCons(function)
+        A.attestCharIntCons(function)
             .doesAccept('\u0000',0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept('\u0005',5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept('\u0015',15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

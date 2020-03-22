@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LByteSupplierBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LByteSupplierBuilderTest{
         );
 
 
-        A.assertByteSup(function)
+        A.attestByteSup(function)
             .doesGetAsByte().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((byte)0))
             .doesGetAsByte().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((byte)1))
             .doesGetAsByte().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((byte)2))

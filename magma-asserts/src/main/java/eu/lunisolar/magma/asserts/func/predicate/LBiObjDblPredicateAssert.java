@@ -57,7 +57,7 @@ public interface LBiObjDblPredicateAssert<S extends LBiObjDblPredicateAssert<S, 
 			FullFunctionalAssert<S, LBiObjDblConsumer<T1, T2>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LBiObjDblPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjDblPredicateAssert.The<A, RS, T1, T2> assertBiObjDblPred(LBiObjDblPredicate<T1, T2> func) {
+	public static <A extends LBiObjDblPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjDblPredicateAssert.The<A, RS, T1, T2> attestBiObjDblPred(LBiObjDblPredicate<T1, T2> func) {
 		return new LBiObjDblPredicateAssert.The(func, Assertions::assertThat);
 	}
 

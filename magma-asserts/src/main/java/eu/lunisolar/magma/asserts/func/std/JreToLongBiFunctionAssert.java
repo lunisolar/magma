@@ -55,7 +55,7 @@ public interface JreToLongBiFunctionAssert<S extends JreToLongBiFunctionAssert<S
 			FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Long> {
 
 	@Nonnull
-	public static <A extends ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> JreToLongBiFunctionAssert.The<A, RS, T1, T2> assertToLongBiFunc(ToLongBiFunction<T1, T2> func) {
+	public static <A extends ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> JreToLongBiFunctionAssert.The<A, RS, T1, T2> attestToLongBiFunc(ToLongBiFunction<T1, T2> func) {
 		return new JreToLongBiFunctionAssert.The(func, Assertions::assertThat);
 	}
 

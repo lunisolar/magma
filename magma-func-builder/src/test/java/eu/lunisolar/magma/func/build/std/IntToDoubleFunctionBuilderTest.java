@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class IntToDoubleFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class IntToDoubleFunctionBuilderTest{
         );
 
 
-        A.assertIntToDblFunc(function)
+        A.attestIntToDblFunc(function)
             .doesApplyAsDbl(0).when(null).to(a -> a.isEqualTo(0d))
             .doesApplyAsDbl(5).when(null).to(a -> a.isEqualTo(1d))
             .doesApplyAsDbl(15).when(null).to(a -> a.isEqualTo(2d))

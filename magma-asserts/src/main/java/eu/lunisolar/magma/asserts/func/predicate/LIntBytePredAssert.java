@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.bi.LByteIntConsumer.*;
 public interface LIntBytePredAssert<S extends LIntBytePredAssert<S, A, RS>, A extends LByteIntPredicate.LIntBytePred, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LByteIntConsumer.LIntByteCons, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LByteIntPredicate.LIntBytePred, RS extends AbstractBooleanAssert<RS>> LIntBytePredAssert.The<A, RS> assertIntBytePred(LByteIntPredicate.LIntBytePred func) {
+	public static <A extends LByteIntPredicate.LIntBytePred, RS extends AbstractBooleanAssert<RS>> LIntBytePredAssert.The<A, RS> attestIntBytePred(LByteIntPredicate.LIntBytePred func) {
 		return new LIntBytePredAssert.The(func, Assertions::assertThat);
 	}
 

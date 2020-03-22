@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LTriBoolFunctionBuilderTest<R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -126,7 +126,7 @@ public class LTriBoolFunctionBuilderTest<R>{
         );
 
 
-        A.assertTriBoolFunc(function)
+        A.attestTriBoolFunc(function)
             .doesApply(false,false,false).when(null).to(a -> a.isEqualTo(0))
             .doesApply(true,true,true).when(null).to(a -> a.isEqualTo(1))
         ;

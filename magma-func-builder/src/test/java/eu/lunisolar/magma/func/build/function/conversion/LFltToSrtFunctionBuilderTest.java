@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LFltToSrtFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LFltToSrtFunctionBuilderTest{
         );
 
 
-        A.assertFltToSrtFunc(function)
+        A.attestFltToSrtFunc(function)
             .doesApplyAsSrt(0f).when(null).to(a -> a.isEqualTo((short)0))
             .doesApplyAsSrt(5f).when(null).to(a -> a.isEqualTo((short)1))
             .doesApplyAsSrt(15f).when(null).to(a -> a.isEqualTo((short)2))

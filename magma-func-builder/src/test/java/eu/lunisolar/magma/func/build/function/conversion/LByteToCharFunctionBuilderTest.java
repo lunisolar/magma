@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LByteToCharFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LByteToCharFunctionBuilderTest{
         );
 
 
-        A.assertByteToCharFunc(function)
+        A.attestByteToCharFunc(function)
             .doesApplyAsChar((byte)0).when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar((byte)5).when(null).to(a -> a.isEqualTo('\u0001'))
             .doesApplyAsChar((byte)15).when(null).to(a -> a.isEqualTo('\u0002'))

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTriBoolFunctionAssert<S extends LTriBoolFunctionAssert<S, A, RS, R>, A extends LTriBoolFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LTriBoolConsumer, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LTriBoolFunction<R>, RS extends Assert<RS, R>, R> LTriBoolFunctionAssert.The<A, RS, R> assertTriBoolFunc(LTriBoolFunction<R> func) {
+	public static <A extends LTriBoolFunction<R>, RS extends Assert<RS, R>, R> LTriBoolFunctionAssert.The<A, RS, R> attestTriBoolFunc(LTriBoolFunction<R> func) {
 		return new LTriBoolFunctionAssert.The(func, Assertions::assertThat);
 	}
 

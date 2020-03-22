@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharToLongFunctionAssert<S extends LCharToLongFunctionAssert<S, A, RS>, A extends LCharToLongFunction, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumer, A, RS, Long> {
 
 	@Nonnull
-	public static <A extends LCharToLongFunction, RS extends AbstractLongAssert<RS>> LCharToLongFunctionAssert.The<A, RS> assertCharToLongFunc(LCharToLongFunction func) {
+	public static <A extends LCharToLongFunction, RS extends AbstractLongAssert<RS>> LCharToLongFunctionAssert.The<A, RS> attestCharToLongFunc(LCharToLongFunction func) {
 		return new LCharToLongFunctionAssert.The(func, Assertions::assertThat);
 	}
 

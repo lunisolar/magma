@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LLongToFltFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LLongToFltFunctionBuilderTest{
         );
 
 
-        A.assertLongToFltFunc(function)
+        A.attestLongToFltFunc(function)
             .doesApplyAsFlt(0L).when(null).to(a -> a.isEqualTo(0f))
             .doesApplyAsFlt(5L).when(null).to(a -> a.isEqualTo(1f))
             .doesApplyAsFlt(15L).when(null).to(a -> a.isEqualTo(2f))

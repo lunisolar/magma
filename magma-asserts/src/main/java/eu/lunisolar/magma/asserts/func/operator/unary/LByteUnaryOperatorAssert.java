@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteUnaryOperatorAssert<S extends LByteUnaryOperatorAssert<S, A, RS>, A extends LByteUnaryOperator, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LByteConsumer, A, RS, Byte> {
 
 	@Nonnull
-	public static <A extends LByteUnaryOperator, RS extends AbstractByteAssert<RS>> LByteUnaryOperatorAssert.The<A, RS> assertByteUnaryOp(LByteUnaryOperator func) {
+	public static <A extends LByteUnaryOperator, RS extends AbstractByteAssert<RS>> LByteUnaryOperatorAssert.The<A, RS> attestByteUnaryOp(LByteUnaryOperator func) {
 		return new LByteUnaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 

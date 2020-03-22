@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LObjBoolPredicateBuilderTest<T>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LObjBoolPredicateBuilderTest<T>{
         );
 
 
-        A.assertObjBoolPred(function)
+        A.attestObjBoolPred(function)
             .doesTest(0,false).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5,true).when(null).to(a -> a.isEqualTo(true))
         ;

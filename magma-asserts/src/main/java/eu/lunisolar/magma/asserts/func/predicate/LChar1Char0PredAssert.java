@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.predicate.LBiCharPredicate.*;
 public interface LChar1Char0PredAssert<S extends LChar1Char0PredAssert<S, A, RS>, A extends LBiCharPredicate.LChar1Char0Pred, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiCharConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LBiCharPredicate.LChar1Char0Pred, RS extends AbstractBooleanAssert<RS>> LChar1Char0PredAssert.The<A, RS> assertChar1Char0Pred(LBiCharPredicate.LChar1Char0Pred func) {
+	public static <A extends LBiCharPredicate.LChar1Char0Pred, RS extends AbstractBooleanAssert<RS>> LChar1Char0PredAssert.The<A, RS> attestChar1Char0Pred(LBiCharPredicate.LChar1Char0Pred func) {
 		return new LChar1Char0PredAssert.The(func, Assertions::assertThat);
 	}
 

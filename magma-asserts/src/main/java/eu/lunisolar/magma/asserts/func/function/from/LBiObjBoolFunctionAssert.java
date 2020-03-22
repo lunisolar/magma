@@ -57,7 +57,7 @@ public interface LBiObjBoolFunctionAssert<S extends LBiObjBoolFunctionAssert<S, 
 			FullFunctionalAssert<S, LBiObjBoolConsumer<T1, T2>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LBiObjBoolFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> LBiObjBoolFunctionAssert.The<A, RS, T1, T2, R> assertBiObjBoolFunc(LBiObjBoolFunction<T1, T2, R> func) {
+	public static <A extends LBiObjBoolFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> LBiObjBoolFunctionAssert.The<A, RS, T1, T2, R> attestBiObjBoolFunc(LBiObjBoolFunction<T1, T2, R> func) {
 		return new LBiObjBoolFunctionAssert.The(func, Assertions::assertThat);
 	}
 

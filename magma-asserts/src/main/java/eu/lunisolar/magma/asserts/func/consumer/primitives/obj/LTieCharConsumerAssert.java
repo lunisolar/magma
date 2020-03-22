@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTieCharConsumerAssert<S extends LTieCharConsumerAssert<S, A, T>, A extends LTieCharConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LTieCharConsumer<T>, A> {
 
 	@Nonnull
-	public static <A extends LTieCharConsumer<T>, T> LTieCharConsumerAssert.The<A, T> assertTieCharCons(LTieCharConsumer<T> func) {
+	public static <A extends LTieCharConsumer<T>, T> LTieCharConsumerAssert.The<A, T> attestTieCharCons(LTieCharConsumer<T> func) {
 		return new LTieCharConsumerAssert.The(func);
 	}
 

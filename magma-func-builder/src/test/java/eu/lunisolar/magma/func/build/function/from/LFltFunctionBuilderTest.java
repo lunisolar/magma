@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LFltFunctionBuilderTest<R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LFltFunctionBuilderTest<R>{
         );
 
 
-        A.assertFltFunc(function)
+        A.attestFltFunc(function)
             .doesApply(0f).when(null).to(a -> a.isEqualTo(0))
             .doesApply(5f).when(null).to(a -> a.isEqualTo(1))
             .doesApply(15f).when(null).to(a -> a.isEqualTo(2))

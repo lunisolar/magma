@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBoolToDblFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -126,7 +126,7 @@ public class LBoolToDblFunctionBuilderTest{
         );
 
 
-        A.assertBoolToDblFunc(function)
+        A.attestBoolToDblFunc(function)
             .doesApplyAsDbl(false).when(null).to(a -> a.isEqualTo(0d))
             .doesApplyAsDbl(true).when(null).to(a -> a.isEqualTo(1d))
         ;

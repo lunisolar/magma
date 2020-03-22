@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LObjCharConsumer.*;
 public interface LCharObjFuncAssert<S extends LCharObjFuncAssert<S, A, RS, T, R>, A extends LObjCharFunction.LCharObjFunc<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LObjCharConsumer.LCharObjCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjCharFunction.LCharObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LCharObjFuncAssert.The<A, RS, T, R> assertCharObjFunc(LObjCharFunction.LCharObjFunc<T, R> func) {
+	public static <A extends LObjCharFunction.LCharObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LCharObjFuncAssert.The<A, RS, T, R> attestCharObjFunc(LObjCharFunction.LCharObjFunc<T, R> func) {
 		return new LCharObjFuncAssert.The(func, Assertions::assertThat);
 	}
 

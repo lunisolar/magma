@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreRunnableAssert<S extends JreRunnableAssert<S, A>, A extends Runnable> extends Assert<S, A>, FunctionalAssert.Simple<S, LAction, A> {
 
 	@Nonnull
-	public static <A extends Runnable> JreRunnableAssert.The<A> assertAct(Runnable func) {
+	public static <A extends Runnable> JreRunnableAssert.The<A> attestAct(Runnable func) {
 		return new JreRunnableAssert.The(func);
 	}
 

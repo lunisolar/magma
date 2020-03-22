@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LLongToCharFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LLongToCharFunctionBuilderTest{
         );
 
 
-        A.assertLongToCharFunc(function)
+        A.attestLongToCharFunc(function)
             .doesApplyAsChar(0L).when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar(5L).when(null).to(a -> a.isEqualTo('\u0001'))
             .doesApplyAsChar(15L).when(null).to(a -> a.isEqualTo('\u0002'))

@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.predicate.LBiSrtPredicate.*;
 public interface LSrt1Srt0PredAssert<S extends LSrt1Srt0PredAssert<S, A, RS>, A extends LBiSrtPredicate.LSrt1Srt0Pred, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiSrtConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LBiSrtPredicate.LSrt1Srt0Pred, RS extends AbstractBooleanAssert<RS>> LSrt1Srt0PredAssert.The<A, RS> assertSrt1Srt0Pred(LBiSrtPredicate.LSrt1Srt0Pred func) {
+	public static <A extends LBiSrtPredicate.LSrt1Srt0Pred, RS extends AbstractBooleanAssert<RS>> LSrt1Srt0PredAssert.The<A, RS> attestSrt1Srt0Pred(LBiSrtPredicate.LSrt1Srt0Pred func) {
 		return new LSrt1Srt0PredAssert.The(func, Assertions::assertThat);
 	}
 

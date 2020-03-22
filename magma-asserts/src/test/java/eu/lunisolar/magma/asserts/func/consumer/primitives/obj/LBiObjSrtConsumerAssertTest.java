@@ -26,7 +26,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.asserts.DefaultMagmaAssertions;
+import eu.lunisolar.magma.asserts.DefaultAttests;
 import eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjSrtConsumer;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
@@ -44,7 +44,7 @@ public class LBiObjSrtConsumerAssertTest<T1,T2> {
     private Integer testValue = 100;
     private AtomicReference<Object> externalEffect = new AtomicReference(null);
 
-    @SuppressWarnings("unchecked") public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    @SuppressWarnings("unchecked") public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     private LBiObjSrtConsumer<Integer,Integer> function = (a1,a2,a3) ->
@@ -58,7 +58,7 @@ public class LBiObjSrtConsumerAssertTest<T1,T2> {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertBiObjSrtCons(function)
+        A.attestBiObjSrtCons(function)
          .doesAccept(100,100,(short)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
@@ -67,7 +67,7 @@ public class LBiObjSrtConsumerAssertTest<T1,T2> {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertBiObjSrtCons(function)
+        A.attestBiObjSrtCons(function)
          .doesAccept(100,100,(short)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
@@ -76,7 +76,7 @@ public class LBiObjSrtConsumerAssertTest<T1,T2> {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case .* should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertBiObjSrtCons(functionThrowing)
+        A.attestBiObjSrtCons(functionThrowing)
          .doesAccept(100,100,(short)100)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
@@ -84,7 +84,7 @@ public class LBiObjSrtConsumerAssertTest<T1,T2> {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertBiObjSrtCons(functionThrowing)
+        A.attestBiObjSrtCons(functionThrowing)
          .doesAccept(100,100,(short)100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -96,7 +96,7 @@ public class LBiObjSrtConsumerAssertTest<T1,T2> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertBiObjSrtCons(function)
+        A.attestBiObjSrtCons(function)
          .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
@@ -114,7 +114,7 @@ public class LBiObjSrtConsumerAssertTest<T1,T2> {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertBiObjSrtCons(function)
+        A.attestBiObjSrtCons(function)
          .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

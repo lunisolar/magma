@@ -59,7 +59,7 @@ public interface LInt1Obj0Int2FuncAssert<S extends LInt1Obj0Int2FuncAssert<S, A,
 			FullFunctionalAssert<S, LTieIntConsumer.LInt1Obj0Int2Cons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjBiIntFunction.LInt1Obj0Int2Func<T, R>, RS extends Assert<RS, R>, T, R> LInt1Obj0Int2FuncAssert.The<A, RS, T, R> assertInt1Obj0Int2Func(LObjBiIntFunction.LInt1Obj0Int2Func<T, R> func) {
+	public static <A extends LObjBiIntFunction.LInt1Obj0Int2Func<T, R>, RS extends Assert<RS, R>, T, R> LInt1Obj0Int2FuncAssert.The<A, RS, T, R> attestInt1Obj0Int2Func(LObjBiIntFunction.LInt1Obj0Int2Func<T, R> func) {
 		return new LInt1Obj0Int2FuncAssert.The(func, Assertions::assertThat);
 	}
 

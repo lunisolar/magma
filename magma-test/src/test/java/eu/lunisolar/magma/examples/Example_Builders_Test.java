@@ -32,7 +32,7 @@ import org.testng.annotations.Test;
 import java.util.concurrent.atomic.*;
 
 import static eu.lunisolar.magma.basics.exceptions.Handling.throwThe;
-import static eu.lunisolar.magma.asserts.MagmaAssertions.THEN;
+import static eu.lunisolar.magma.asserts.Attests.THEN;
 import static eu.lunisolar.magma.func.function.to.LToIntBiFunction.apply1stAsInt;
 import static eu.lunisolar.magma.func.predicate.LBiPredicate.test1st;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,7 +81,7 @@ public class Example_Builders_Test {
                 .otherwise(o -> throwThe(new IllegalArgumentException()))
                 .build();
 
-        THEN.assertToIntFunc(function)
+        THEN.attestToIntFunc(function)
             .doesApplyAsInt(0).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5).to(a -> a.isEqualTo(5))
             .doesApplyAsInt(44f).to(a -> a.isEqualTo(44))
@@ -125,7 +125,7 @@ public class Example_Builders_Test {
             }
         };
 
-        THEN.assertToIntBiFunc(function)
+        THEN.attestToIntBiFunc(function)
             .doesApplyAsInt(0, null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5, null).to(a -> a.isEqualTo(5))
             .doesApplyAsInt(44f, null).to(a -> a.isEqualTo(44))

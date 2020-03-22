@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.function.from.LBiByteFunction.*;
 public interface LByte1Byte0FuncAssert<S extends LByte1Byte0FuncAssert<S, A, RS, R>, A extends LBiByteFunction.LByte1Byte0Func<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiByteConsumer, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LBiByteFunction.LByte1Byte0Func<R>, RS extends Assert<RS, R>, R> LByte1Byte0FuncAssert.The<A, RS, R> assertByte1Byte0Func(LBiByteFunction.LByte1Byte0Func<R> func) {
+	public static <A extends LBiByteFunction.LByte1Byte0Func<R>, RS extends Assert<RS, R>, R> LByte1Byte0FuncAssert.The<A, RS, R> attestByte1Byte0Func(LBiByteFunction.LByte1Byte0Func<R> func) {
 		return new LByte1Byte0FuncAssert.The(func, Assertions::assertThat);
 	}
 

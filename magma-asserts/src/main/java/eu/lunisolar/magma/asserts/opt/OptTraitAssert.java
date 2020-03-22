@@ -119,7 +119,7 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 
 	public AbstractObjectAssert<?, T> hasValueThat() {
 		isPresent();
-		return Assertions.assertThat(actual().value());
+		return Attests.attestThat(actual().value());
 	}
 
 }

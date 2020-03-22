@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.*;
 
-import static eu.lunisolar.magma.asserts.MagmaAssertions.THEN;
+import static eu.lunisolar.magma.asserts.Attests.THEN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
@@ -87,7 +87,7 @@ public class Example_Assertions_Test {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case \\(0\\) should evaluate with exception.")
     public void example() {
 
-        THEN.assertFunc(function)
+        THEN.attestFunc(function)
             .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isEqualTo(80))
             .doesApply(81).toEqualTo(81)
@@ -117,7 +117,7 @@ public class Example_Assertions_Test {
     //>example<
     @Test(expectedExceptions = AssertionError.class)
     public void assertThatInt() {
-        THEN.withinCodomain(THEN::assertThatInt).assertFunc(function)
+        THEN.withinCodomain(THEN::attestThatInt).attestFunc(function)
             .doesApply(80).to(a -> a.isGreaterThan(0))    // <- NOW WE CAN DO THIS
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(e -> e.isExactlyInstanceOf(UnsupportedOperationException.class)
@@ -131,13 +131,13 @@ public class Example_Assertions_Test {
     //>example<
     @Test
     public void assertThatIntAlternatives() {
-        THEN.withinCodomain((LFunction<Integer, AbstractIntegerAssert>) Assertions::assertThat).assertFunc(function)
+        THEN.withinCodomain((LFunction<Integer, AbstractIntegerAssert>) Assertions::assertThat).attestFunc(function)
             .doesApply(80).to(a -> a.isGreaterThan(0));
 
-        THEN.withinCodomain(Assertions::assertThat, Integer.class, AbstractIntegerAssert.class).assertFunc(function)
+        THEN.withinCodomain(Assertions::assertThat, Integer.class, AbstractIntegerAssert.class).attestFunc(function)
             .doesApply(80).to(a -> a.isGreaterThan(0));
 
-        THEN.withinIntegerCodomain().assertFunc(function)
+        THEN.withinIntegerCodomain().attestFunc(function)
             .doesApply(80).to(a -> a.isGreaterThan(0));
     }
     //>example<
@@ -145,7 +145,7 @@ public class Example_Assertions_Test {
     @Test(expectedExceptions = AssertionError.class)
     public void compilationCheck() {
 
-        THEN.withinIntegerCodomain().assertSrtFunc(shortFunction)
+        THEN.withinIntegerCodomain().attestSrtFunc(shortFunction)
             .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply((short) 80).to(a -> a.isGreaterThan(0))
             .doesApply((short) 81).toEqualTo(81)
@@ -164,7 +164,7 @@ public class Example_Assertions_Test {
     @Test(expectedExceptions = AssertionError.class)
     public void testActionAssert() {
 
-        THEN.assertAct(action)
+        THEN.attestAct(action)
             .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
             .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
             .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> assertThat(extEffect.get()).isEqualTo(1))
@@ -183,7 +183,7 @@ public class Example_Assertions_Test {
     @Test(expectedExceptions = AssertionError.class)
     public void testRecurringAssertsNegative() {
 
-        THEN.assertAct((Runnable)action)
+        THEN.attestAct((Runnable)action)
             .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
             .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
             .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> assertThat(extEffect.get()).isEqualTo(1))

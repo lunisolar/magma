@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LObjLongConsumer.*;
 public interface LLongObjFuncAssert<S extends LLongObjFuncAssert<S, A, RS, T, R>, A extends LObjLongFunction.LLongObjFunc<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LObjLongConsumer.LLongObjCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjLongFunction.LLongObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LLongObjFuncAssert.The<A, RS, T, R> assertLongObjFunc(LObjLongFunction.LLongObjFunc<T, R> func) {
+	public static <A extends LObjLongFunction.LLongObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LLongObjFuncAssert.The<A, RS, T, R> attestLongObjFunc(LObjLongFunction.LLongObjFunc<T, R> func) {
 		return new LLongObjFuncAssert.The(func, Assertions::assertThat);
 	}
 

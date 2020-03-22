@@ -59,7 +59,7 @@ public interface LIntBoolObjFuncAssert<S extends LIntBoolObjFuncAssert<S, A, RS,
 			FullFunctionalAssert<S, LTieBoolConsumer.LIntBoolObjCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjIntBoolFunction.LIntBoolObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LIntBoolObjFuncAssert.The<A, RS, T, R> assertIntBoolObjFunc(LObjIntBoolFunction.LIntBoolObjFunc<T, R> func) {
+	public static <A extends LObjIntBoolFunction.LIntBoolObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LIntBoolObjFuncAssert.The<A, RS, T, R> attestIntBoolObjFunc(LObjIntBoolFunction.LIntBoolObjFunc<T, R> func) {
 		return new LIntBoolObjFuncAssert.The(func, Assertions::assertThat);
 	}
 

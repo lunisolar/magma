@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JrePredicateAssert<S extends JrePredicateAssert<S, A, RS, T>, A extends Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, LConsumer<T>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> JrePredicateAssert.The<A, RS, T> assertPred(Predicate<T> func) {
+	public static <A extends Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> JrePredicateAssert.The<A, RS, T> attestPred(Predicate<T> func) {
 		return new JrePredicateAssert.The(func, Assertions::assertThat);
 	}
 

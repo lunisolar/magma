@@ -57,7 +57,7 @@ public interface LToCharBiFunctionAssert<S extends LToCharBiFunctionAssert<S, A,
 			FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Character> {
 
 	@Nonnull
-	public static <A extends LToCharBiFunction<T1, T2>, RS extends AbstractCharacterAssert<RS>, T1, T2> LToCharBiFunctionAssert.The<A, RS, T1, T2> assertToCharBiFunc(LToCharBiFunction<T1, T2> func) {
+	public static <A extends LToCharBiFunction<T1, T2>, RS extends AbstractCharacterAssert<RS>, T1, T2> LToCharBiFunctionAssert.The<A, RS, T1, T2> attestToCharBiFunc(LToCharBiFunction<T1, T2> func) {
 		return new LToCharBiFunctionAssert.The(func, Assertions::assertThat);
 	}
 

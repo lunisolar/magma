@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LObjCharFunctionBuilderTest<T,R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LObjCharFunctionBuilderTest<T,R>{
         );
 
 
-        A.assertObjCharFunc(function)
+        A.attestObjCharFunc(function)
             .doesApply(0,'\u0000').when(null).to(a -> a.isEqualTo(0))
             .doesApply(5,'\u0005').when(null).to(a -> a.isEqualTo(1))
             .doesApply(15,'\u0015').when(null).to(a -> a.isEqualTo(2))

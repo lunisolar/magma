@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class ObjIntConsumerBuilderTest<T>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class ObjIntConsumerBuilderTest<T>{
         );
 
 
-        A.assertObjIntCons(function)
+        A.attestObjIntCons(function)
             .doesAccept(0,0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5,5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15,15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

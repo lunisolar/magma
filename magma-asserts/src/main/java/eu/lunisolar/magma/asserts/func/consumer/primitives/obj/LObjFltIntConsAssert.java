@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LTieFltConsumer.*;
 public interface LObjFltIntConsAssert<S extends LObjFltIntConsAssert<S, A, T>, A extends LTieFltConsumer.LObjFltIntCons<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LTieFltConsumer.LObjFltIntCons<T>, A> {
 
 	@Nonnull
-	public static <A extends LTieFltConsumer.LObjFltIntCons<T>, T> LObjFltIntConsAssert.The<A, T> assertObjFltIntCons(LTieFltConsumer.LObjFltIntCons<T> func) {
+	public static <A extends LTieFltConsumer.LObjFltIntCons<T>, T> LObjFltIntConsAssert.The<A, T> attestObjFltIntCons(LTieFltConsumer.LObjFltIntCons<T> func) {
 		return new LObjFltIntConsAssert.The(func);
 	}
 

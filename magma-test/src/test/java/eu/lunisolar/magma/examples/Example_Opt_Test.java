@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
-import static eu.lunisolar.magma.asserts.MagmaAssertions.assertSup;
+import static eu.lunisolar.magma.asserts.Attests.attestSup;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -166,13 +166,13 @@ public class Example_Opt_Test {
                 .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
 
         // that's part of Optional 'contract'
-        assertSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+         attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
 
         // that's part of Opt 'contract'
         assertThat(opt.nullable()).isNull();
 
         // that's part of Opt/Check 'contract'
-        assertSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+         attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
     }
 
     @Test
@@ -184,13 +184,13 @@ public class Example_Opt_Test {
                 .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
 
         // that's part of Optional 'contract'
-        assertSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+         attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
 
         // that's part of Opt 'contract'
         assertThat(opt.nullable()).isNull();
 
         // that's part of Opt/Check 'contract'
-        assertSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+         attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
     }
 
     @Test

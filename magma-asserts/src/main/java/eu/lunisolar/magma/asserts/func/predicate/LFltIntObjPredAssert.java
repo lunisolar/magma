@@ -59,7 +59,7 @@ public interface LFltIntObjPredAssert<S extends LFltIntObjPredAssert<S, A, RS, T
 			FullFunctionalAssert<S, LTieFltConsumer.LFltIntObjCons<T>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LObjIntFltPredicate.LFltIntObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LFltIntObjPredAssert.The<A, RS, T> assertFltIntObjPred(LObjIntFltPredicate.LFltIntObjPred<T> func) {
+	public static <A extends LObjIntFltPredicate.LFltIntObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LFltIntObjPredAssert.The<A, RS, T> attestFltIntObjPred(LObjIntFltPredicate.LFltIntObjPred<T> func) {
 		return new LFltIntObjPredAssert.The(func, Assertions::assertThat);
 	}
 

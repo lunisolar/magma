@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBoolToIntFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -126,7 +126,7 @@ public class LBoolToIntFunctionBuilderTest{
         );
 
 
-        A.assertBoolToIntFunc(function)
+        A.attestBoolToIntFunc(function)
             .doesApplyAsInt(false).when(null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(true).when(null).to(a -> a.isEqualTo(1))
         ;

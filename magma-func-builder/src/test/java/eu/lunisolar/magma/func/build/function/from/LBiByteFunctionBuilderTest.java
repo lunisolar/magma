@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiByteFunctionBuilderTest<R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LBiByteFunctionBuilderTest<R>{
         );
 
 
-        A.assertBiByteFunc(function)
+        A.attestBiByteFunc(function)
             .doesApply((byte)0,(byte)0).when(null).to(a -> a.isEqualTo(0))
             .doesApply((byte)5,(byte)5).when(null).to(a -> a.isEqualTo(1))
             .doesApply((byte)15,(byte)15).when(null).to(a -> a.isEqualTo(2))

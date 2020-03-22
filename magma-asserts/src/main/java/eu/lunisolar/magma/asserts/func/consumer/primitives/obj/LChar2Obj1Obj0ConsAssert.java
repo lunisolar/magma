@@ -59,7 +59,7 @@ public interface LChar2Obj1Obj0ConsAssert<S extends LChar2Obj1Obj0ConsAssert<S, 
 			FunctionalAssert.Simple<S, LBiObjCharConsumer.LChar2Obj0Obj1Cons<T2, T1>, A> {
 
 	@Nonnull
-	public static <A extends LBiObjCharConsumer.LChar2Obj1Obj0Cons<T2, T1>, T2, T1> LChar2Obj1Obj0ConsAssert.The<A, T2, T1> assertChar2Obj1Obj0Cons(LBiObjCharConsumer.LChar2Obj1Obj0Cons<T2, T1> func) {
+	public static <A extends LBiObjCharConsumer.LChar2Obj1Obj0Cons<T2, T1>, T2, T1> LChar2Obj1Obj0ConsAssert.The<A, T2, T1> attestChar2Obj1Obj0Cons(LBiObjCharConsumer.LChar2Obj1Obj0Cons<T2, T1> func) {
 		return new LChar2Obj1Obj0ConsAssert.The(func);
 	}
 

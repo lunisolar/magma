@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LTieByteConsumer.*;
 public interface LIntObjByteConsAssert<S extends LIntObjByteConsAssert<S, A, T>, A extends LTieByteConsumer.LIntObjByteCons<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LTieByteConsumer.LIntObjByteCons<T>, A> {
 
 	@Nonnull
-	public static <A extends LTieByteConsumer.LIntObjByteCons<T>, T> LIntObjByteConsAssert.The<A, T> assertIntObjByteCons(LTieByteConsumer.LIntObjByteCons<T> func) {
+	public static <A extends LTieByteConsumer.LIntObjByteCons<T>, T> LIntObjByteConsAssert.The<A, T> attestIntObjByteCons(LTieByteConsumer.LIntObjByteCons<T> func) {
 		return new LIntObjByteConsAssert.The(func);
 	}
 

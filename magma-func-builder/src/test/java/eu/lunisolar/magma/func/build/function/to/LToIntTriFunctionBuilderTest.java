@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LToIntTriFunctionBuilderTest<T1,T2,T3>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LToIntTriFunctionBuilderTest<T1,T2,T3>{
         );
 
 
-        A.assertToIntTriFunc(function)
+        A.attestToIntTriFunc(function)
             .doesApplyAsInt(0,0,0).when(null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5,5,5).when(null).to(a -> a.isEqualTo(1))
             .doesApplyAsInt(15,15,15).when(null).to(a -> a.isEqualTo(2))

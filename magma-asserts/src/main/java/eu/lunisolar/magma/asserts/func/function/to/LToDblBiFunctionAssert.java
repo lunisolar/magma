@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LToDblBiFunctionAssert<S extends LToDblBiFunctionAssert<S, A, RS, T1, T2>, A extends LToDblBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> extends Assert<S, A>, FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Double> {
 
 	@Nonnull
-	public static <A extends LToDblBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> LToDblBiFunctionAssert.The<A, RS, T1, T2> assertToDblBiFunc(LToDblBiFunction<T1, T2> func) {
+	public static <A extends LToDblBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> LToDblBiFunctionAssert.The<A, RS, T1, T2> attestToDblBiFunc(LToDblBiFunction<T1, T2> func) {
 		return new LToDblBiFunctionAssert.The(func, Assertions::assertThat);
 	}
 

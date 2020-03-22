@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.function.from.LBiDblFunction.*;
 public interface LDbl1Dbl0FuncAssert<S extends LDbl1Dbl0FuncAssert<S, A, RS, R>, A extends LBiDblFunction.LDbl1Dbl0Func<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiDblConsumer, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LBiDblFunction.LDbl1Dbl0Func<R>, RS extends Assert<RS, R>, R> LDbl1Dbl0FuncAssert.The<A, RS, R> assertDbl1Dbl0Func(LBiDblFunction.LDbl1Dbl0Func<R> func) {
+	public static <A extends LBiDblFunction.LDbl1Dbl0Func<R>, RS extends Assert<RS, R>, R> LDbl1Dbl0FuncAssert.The<A, RS, R> attestDbl1Dbl0Func(LBiDblFunction.LDbl1Dbl0Func<R> func) {
 		return new LDbl1Dbl0FuncAssert.The(func, Assertions::assertThat);
 	}
 

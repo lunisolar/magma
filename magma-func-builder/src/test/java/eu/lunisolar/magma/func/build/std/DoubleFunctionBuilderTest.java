@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class DoubleFunctionBuilderTest<R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class DoubleFunctionBuilderTest<R>{
         );
 
 
-        A.assertDblFunc(function)
+        A.attestDblFunc(function)
             .doesApply(0d).when(null).to(a -> a.isEqualTo(0))
             .doesApply(5d).when(null).to(a -> a.isEqualTo(1))
             .doesApply(15d).when(null).to(a -> a.isEqualTo(2))

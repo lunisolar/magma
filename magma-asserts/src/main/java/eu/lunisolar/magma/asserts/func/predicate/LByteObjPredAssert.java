@@ -59,7 +59,7 @@ public interface LByteObjPredAssert<S extends LByteObjPredAssert<S, A, RS, T>, A
 			FullFunctionalAssert<S, LObjByteConsumer.LByteObjCons<T>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LObjBytePredicate.LByteObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LByteObjPredAssert.The<A, RS, T> assertByteObjPred(LObjBytePredicate.LByteObjPred<T> func) {
+	public static <A extends LObjBytePredicate.LByteObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LByteObjPredAssert.The<A, RS, T> attestByteObjPred(LObjBytePredicate.LByteObjPred<T> func) {
 		return new LByteObjPredAssert.The(func, Assertions::assertThat);
 	}
 

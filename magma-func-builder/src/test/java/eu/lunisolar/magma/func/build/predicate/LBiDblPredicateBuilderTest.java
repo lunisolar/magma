@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiDblPredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LBiDblPredicateBuilderTest{
         );
 
 
-        A.assertBiDblPred(function)
+        A.attestBiDblPred(function)
             .doesTest(0d,0d).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5d,5d).when(null).to(a -> a.isEqualTo(true))
         ;

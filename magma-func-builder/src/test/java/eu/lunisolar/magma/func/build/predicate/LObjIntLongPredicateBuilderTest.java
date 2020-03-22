@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LObjIntLongPredicateBuilderTest<T>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LObjIntLongPredicateBuilderTest<T>{
         );
 
 
-        A.assertObjIntLongPred(function)
+        A.attestObjIntLongPred(function)
             .doesTest(0,0,0L).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5,5,5L).when(null).to(a -> a.isEqualTo(true))
         ;

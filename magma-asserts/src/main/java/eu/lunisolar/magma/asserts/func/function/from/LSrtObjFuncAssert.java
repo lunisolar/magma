@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LObjSrtConsumer.*;
 public interface LSrtObjFuncAssert<S extends LSrtObjFuncAssert<S, A, RS, T, R>, A extends LObjSrtFunction.LSrtObjFunc<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LObjSrtConsumer.LSrtObjCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjSrtFunction.LSrtObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LSrtObjFuncAssert.The<A, RS, T, R> assertSrtObjFunc(LObjSrtFunction.LSrtObjFunc<T, R> func) {
+	public static <A extends LObjSrtFunction.LSrtObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LSrtObjFuncAssert.The<A, RS, T, R> attestSrtObjFunc(LObjSrtFunction.LSrtObjFunc<T, R> func) {
 		return new LSrtObjFuncAssert.The(func, Assertions::assertThat);
 	}
 

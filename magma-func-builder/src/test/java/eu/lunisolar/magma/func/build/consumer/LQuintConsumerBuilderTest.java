@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LQuintConsumerBuilderTest<T1,T2,T3,T4,T5>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LQuintConsumerBuilderTest<T1,T2,T3,T4,T5>{
         );
 
 
-        A.assertQuintCons(function)
+        A.attestQuintCons(function)
             .doesAccept(0,0,0,0,0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5,5,5,5,5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15,15,15,15,15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

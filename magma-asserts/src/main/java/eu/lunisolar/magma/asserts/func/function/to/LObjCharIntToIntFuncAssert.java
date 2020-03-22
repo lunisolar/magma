@@ -59,7 +59,7 @@ public interface LObjCharIntToIntFuncAssert<S extends LObjCharIntToIntFuncAssert
 			FullFunctionalAssert<S, LTieCharConsumer.LObjCharIntCons<T>, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LTieCharFunction.LObjCharIntToIntFunc<T>, RS extends AbstractIntegerAssert<RS>, T> LObjCharIntToIntFuncAssert.The<A, RS, T> assertObjCharIntToIntFunc(LTieCharFunction.LObjCharIntToIntFunc<T> func) {
+	public static <A extends LTieCharFunction.LObjCharIntToIntFunc<T>, RS extends AbstractIntegerAssert<RS>, T> LObjCharIntToIntFuncAssert.The<A, RS, T> attestObjCharIntToIntFunc(LTieCharFunction.LObjCharIntToIntFunc<T> func) {
 		return new LObjCharIntToIntFuncAssert.The(func, Assertions::assertThat);
 	}
 

@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreDoubleToIntFunctionAssert<S extends JreDoubleToIntFunctionAssert<S, A, RS>, A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> JreDoubleToIntFunctionAssert.The<A, RS> assertDblToIntFunc(DoubleToIntFunction func) {
+	public static <A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> JreDoubleToIntFunctionAssert.The<A, RS> attestDblToIntFunc(DoubleToIntFunction func) {
 		return new JreDoubleToIntFunctionAssert.The(func, Assertions::assertThat);
 	}
 

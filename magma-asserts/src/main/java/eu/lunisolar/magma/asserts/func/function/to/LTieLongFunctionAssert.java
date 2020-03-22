@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTieLongFunctionAssert<S extends LTieLongFunctionAssert<S, A, RS, T>, A extends LTieLongFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, LTieLongConsumer<T>, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LTieLongFunction<T>, RS extends AbstractIntegerAssert<RS>, T> LTieLongFunctionAssert.The<A, RS, T> assertTieLongFunc(LTieLongFunction<T> func) {
+	public static <A extends LTieLongFunction<T>, RS extends AbstractIntegerAssert<RS>, T> LTieLongFunctionAssert.The<A, RS, T> attestTieLongFunc(LTieLongFunction<T> func) {
 		return new LTieLongFunctionAssert.The(func, Assertions::assertThat);
 	}
 

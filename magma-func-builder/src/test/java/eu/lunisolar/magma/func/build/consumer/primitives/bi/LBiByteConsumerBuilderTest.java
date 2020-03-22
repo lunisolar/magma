@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiByteConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LBiByteConsumerBuilderTest{
         );
 
 
-        A.assertBiByteCons(function)
+        A.attestBiByteCons(function)
             .doesAccept((byte)0,(byte)0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept((byte)5,(byte)5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept((byte)15,(byte)15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

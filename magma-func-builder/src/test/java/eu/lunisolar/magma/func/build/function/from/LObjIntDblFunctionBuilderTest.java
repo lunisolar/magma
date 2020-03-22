@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LObjIntDblFunctionBuilderTest<T,R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LObjIntDblFunctionBuilderTest<T,R>{
         );
 
 
-        A.assertObjIntDblFunc(function)
+        A.attestObjIntDblFunc(function)
             .doesApply(0,0,0d).when(null).to(a -> a.isEqualTo(0))
             .doesApply(5,5,5d).when(null).to(a -> a.isEqualTo(1))
             .doesApply(15,15,15d).when(null).to(a -> a.isEqualTo(2))

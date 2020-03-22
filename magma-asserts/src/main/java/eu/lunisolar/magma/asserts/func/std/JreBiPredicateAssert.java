@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreBiPredicateAssert<S extends JreBiPredicateAssert<S, A, RS, T1, T2>, A extends BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends Assert<S, A>, FullFunctionalAssert<S, LBiConsumer<T1, T2>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> JreBiPredicateAssert.The<A, RS, T1, T2> assertBiPred(BiPredicate<T1, T2> func) {
+	public static <A extends BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> JreBiPredicateAssert.The<A, RS, T1, T2> attestBiPred(BiPredicate<T1, T2> func) {
 		return new JreBiPredicateAssert.The(func, Assertions::assertThat);
 	}
 

@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LongSupplierBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LongSupplierBuilderTest{
         );
 
 
-        A.assertLongSup(function)
+        A.attestLongSup(function)
             .doesGetAsLong().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(0L))
             .doesGetAsLong().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(1L))
             .doesGetAsLong().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(2L))

@@ -57,7 +57,7 @@ public interface LQuintPredicateAssert<S extends LQuintPredicateAssert<S, A, RS,
 			FullFunctionalAssert<S, LQuintConsumer<T1, T2, T3, T4, T5>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LQuintPredicate<T1, T2, T3, T4, T5>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, T4, T5> LQuintPredicateAssert.The<A, RS, T1, T2, T3, T4, T5> assertQuintPred(LQuintPredicate<T1, T2, T3, T4, T5> func) {
+	public static <A extends LQuintPredicate<T1, T2, T3, T4, T5>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, T4, T5> LQuintPredicateAssert.The<A, RS, T1, T2, T3, T4, T5> attestQuintPred(LQuintPredicate<T1, T2, T3, T4, T5> func) {
 		return new LQuintPredicateAssert.The(func, Assertions::assertThat);
 	}
 

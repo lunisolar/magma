@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LByteToIntFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LByteToIntFunctionBuilderTest{
         );
 
 
-        A.assertByteToIntFunc(function)
+        A.attestByteToIntFunc(function)
             .doesApplyAsInt((byte)0).when(null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt((byte)5).when(null).to(a -> a.isEqualTo(1))
             .doesApplyAsInt((byte)15).when(null).to(a -> a.isEqualTo(2))

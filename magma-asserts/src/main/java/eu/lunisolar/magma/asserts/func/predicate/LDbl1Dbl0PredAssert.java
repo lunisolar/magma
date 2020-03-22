@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.predicate.LBiDblPredicate.*;
 public interface LDbl1Dbl0PredAssert<S extends LDbl1Dbl0PredAssert<S, A, RS>, A extends LBiDblPredicate.LDbl1Dbl0Pred, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiDblConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LBiDblPredicate.LDbl1Dbl0Pred, RS extends AbstractBooleanAssert<RS>> LDbl1Dbl0PredAssert.The<A, RS> assertDbl1Dbl0Pred(LBiDblPredicate.LDbl1Dbl0Pred func) {
+	public static <A extends LBiDblPredicate.LDbl1Dbl0Pred, RS extends AbstractBooleanAssert<RS>> LDbl1Dbl0PredAssert.The<A, RS> attestDbl1Dbl0Pred(LBiDblPredicate.LDbl1Dbl0Pred func) {
 		return new LDbl1Dbl0PredAssert.The(func, Assertions::assertThat);
 	}
 

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTieIntFunctionAssert<S extends LTieIntFunctionAssert<S, A, RS, T>, A extends LTieIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, LTieIntConsumer<T>, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LTieIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> LTieIntFunctionAssert.The<A, RS, T> assertTieIntFunc(LTieIntFunction<T> func) {
+	public static <A extends LTieIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> LTieIntFunctionAssert.The<A, RS, T> attestTieIntFunc(LTieIntFunction<T> func) {
 		return new LTieIntFunctionAssert.The(func, Assertions::assertThat);
 	}
 

@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiObjLongFunctionBuilderTest<T1,T2,R>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LBiObjLongFunctionBuilderTest<T1,T2,R>{
         );
 
 
-        A.assertBiObjLongFunc(function)
+        A.attestBiObjLongFunc(function)
             .doesApply(0,0,0L).when(null).to(a -> a.isEqualTo(0))
             .doesApply(5,5,5L).when(null).to(a -> a.isEqualTo(1))
             .doesApply(15,15,15L).when(null).to(a -> a.isEqualTo(2))

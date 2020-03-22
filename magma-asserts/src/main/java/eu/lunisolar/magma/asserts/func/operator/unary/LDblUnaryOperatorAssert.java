@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LDblUnaryOperatorAssert<S extends LDblUnaryOperatorAssert<S, A, RS>, A extends LDblUnaryOperator, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Double> {
 
 	@Nonnull
-	public static <A extends LDblUnaryOperator, RS extends AbstractDoubleAssert<RS>> LDblUnaryOperatorAssert.The<A, RS> assertDblUnaryOp(LDblUnaryOperator func) {
+	public static <A extends LDblUnaryOperator, RS extends AbstractDoubleAssert<RS>> LDblUnaryOperatorAssert.The<A, RS> attestDblUnaryOp(LDblUnaryOperator func) {
 		return new LDblUnaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 

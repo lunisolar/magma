@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreDoublePredicateAssert<S extends JreDoublePredicateAssert<S, A, RS>, A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> JreDoublePredicateAssert.The<A, RS> assertDblPred(DoublePredicate func) {
+	public static <A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> JreDoublePredicateAssert.The<A, RS> attestDblPred(DoublePredicate func) {
 		return new JreDoublePredicateAssert.The(func, Assertions::assertThat);
 	}
 

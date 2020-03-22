@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBoolToCharFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -126,7 +126,7 @@ public class LBoolToCharFunctionBuilderTest{
         );
 
 
-        A.assertBoolToCharFunc(function)
+        A.attestBoolToCharFunc(function)
             .doesApplyAsChar(false).when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar(true).when(null).to(a -> a.isEqualTo('\u0001'))
         ;

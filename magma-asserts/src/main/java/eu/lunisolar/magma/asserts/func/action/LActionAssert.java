@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LActionAssert<S extends LActionAssert<S, A>, A extends LAction> extends Assert<S, A>, FunctionalAssert.Simple<S, LAction, A> {
 
 	@Nonnull
-	public static <A extends LAction> LActionAssert.The<A> assertAct(LAction func) {
+	public static <A extends LAction> LActionAssert.The<A> attestAct(LAction func) {
 		return new LActionAssert.The(func);
 	}
 

@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.predicate.LBiBytePredicate.*;
 public interface LByte1Byte0PredAssert<S extends LByte1Byte0PredAssert<S, A, RS>, A extends LBiBytePredicate.LByte1Byte0Pred, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiByteConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LBiBytePredicate.LByte1Byte0Pred, RS extends AbstractBooleanAssert<RS>> LByte1Byte0PredAssert.The<A, RS> assertByte1Byte0Pred(LBiBytePredicate.LByte1Byte0Pred func) {
+	public static <A extends LBiBytePredicate.LByte1Byte0Pred, RS extends AbstractBooleanAssert<RS>> LByte1Byte0PredAssert.The<A, RS> attestByte1Byte0Pred(LBiBytePredicate.LByte1Byte0Pred func) {
 		return new LByte1Byte0PredAssert.The(func, Assertions::assertThat);
 	}
 

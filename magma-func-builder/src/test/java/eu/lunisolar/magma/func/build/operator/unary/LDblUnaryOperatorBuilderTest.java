@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LDblUnaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LDblUnaryOperatorBuilderTest{
         );
 
 
-        A.assertDblUnaryOp(function)
+        A.attestDblUnaryOp(function)
             .doesApplyAsDbl(0d).when(null).to(a -> a.isEqualTo(0d))
             .doesApplyAsDbl(5d).when(null).to(a -> a.isEqualTo(1d))
             .doesApplyAsDbl(15d).when(null).to(a -> a.isEqualTo(2d))

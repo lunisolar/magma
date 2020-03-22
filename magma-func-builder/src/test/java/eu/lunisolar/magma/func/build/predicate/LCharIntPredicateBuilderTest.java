@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LCharIntPredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LCharIntPredicateBuilderTest{
         );
 
 
-        A.assertCharIntPred(function)
+        A.attestCharIntPred(function)
             .doesTest('\u0000',0).when(null).to(a -> a.isEqualTo(false))
             .doesTest('\u0005',5).when(null).to(a -> a.isEqualTo(true))
         ;

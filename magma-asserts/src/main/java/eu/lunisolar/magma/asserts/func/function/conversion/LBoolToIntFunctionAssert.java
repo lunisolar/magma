@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBoolToIntFunctionAssert<S extends LBoolToIntFunctionAssert<S, A, RS>, A extends LBoolToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBoolConsumer, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LBoolToIntFunction, RS extends AbstractIntegerAssert<RS>> LBoolToIntFunctionAssert.The<A, RS> assertBoolToIntFunc(LBoolToIntFunction func) {
+	public static <A extends LBoolToIntFunction, RS extends AbstractIntegerAssert<RS>> LBoolToIntFunctionAssert.The<A, RS> attestBoolToIntFunc(LBoolToIntFunction func) {
 		return new LBoolToIntFunctionAssert.The(func, Assertions::assertThat);
 	}
 

@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LToByteFunctionBuilderTest<T>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LToByteFunctionBuilderTest<T>{
         );
 
 
-        A.assertToByteFunc(function)
+        A.attestToByteFunc(function)
             .doesApplyAsByte(0).when(null).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte(5).when(null).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte(15).when(null).to(a -> a.isEqualTo((byte)2))

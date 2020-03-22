@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LLongUnaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LLongUnaryOperatorBuilderTest{
         );
 
 
-        A.assertLongUnaryOp(function)
+        A.attestLongUnaryOp(function)
             .doesApplyAsLong(0L).when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong(5L).when(null).to(a -> a.isEqualTo(1L))
             .doesApplyAsLong(15L).when(null).to(a -> a.isEqualTo(2L))

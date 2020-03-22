@@ -59,7 +59,7 @@ public interface LByteIntObjToIntFuncAssert<S extends LByteIntObjToIntFuncAssert
 			FullFunctionalAssert<S, LTieByteConsumer.LByteIntObjCons<T>, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LTieByteFunction.LByteIntObjToIntFunc<T>, RS extends AbstractIntegerAssert<RS>, T> LByteIntObjToIntFuncAssert.The<A, RS, T> assertByteIntObjToIntFunc(LTieByteFunction.LByteIntObjToIntFunc<T> func) {
+	public static <A extends LTieByteFunction.LByteIntObjToIntFunc<T>, RS extends AbstractIntegerAssert<RS>, T> LByteIntObjToIntFuncAssert.The<A, RS, T> attestByteIntObjToIntFunc(LTieByteFunction.LByteIntObjToIntFunc<T> func) {
 		return new LByteIntObjToIntFuncAssert.The(func, Assertions::assertThat);
 	}
 

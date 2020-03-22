@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalTernaryOperatorAssert<S extends LLogicalTernaryOperatorAssert<S, A, RS>, A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LTriBoolConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> LLogicalTernaryOperatorAssert.The<A, RS> assertLogicalTernaryOp(LLogicalTernaryOperator func) {
+	public static <A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> LLogicalTernaryOperatorAssert.The<A, RS> attestLogicalTernaryOp(LLogicalTernaryOperator func) {
 		return new LLogicalTernaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 

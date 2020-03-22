@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LTriLongConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LTriLongConsumerBuilderTest{
         );
 
 
-        A.assertTriLongCons(function)
+        A.attestTriLongCons(function)
             .doesAccept(0L,0L,0L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5L,5L,5L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15L,15L,15L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

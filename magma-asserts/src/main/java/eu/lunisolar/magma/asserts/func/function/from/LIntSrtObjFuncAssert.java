@@ -59,7 +59,7 @@ public interface LIntSrtObjFuncAssert<S extends LIntSrtObjFuncAssert<S, A, RS, T
 			FullFunctionalAssert<S, LTieSrtConsumer.LIntSrtObjCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjIntSrtFunction.LIntSrtObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LIntSrtObjFuncAssert.The<A, RS, T, R> assertIntSrtObjFunc(LObjIntSrtFunction.LIntSrtObjFunc<T, R> func) {
+	public static <A extends LObjIntSrtFunction.LIntSrtObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LIntSrtObjFuncAssert.The<A, RS, T, R> attestIntSrtObjFunc(LObjIntSrtFunction.LIntSrtObjFunc<T, R> func) {
 		return new LIntSrtObjFuncAssert.The(func, Assertions::assertThat);
 	}
 

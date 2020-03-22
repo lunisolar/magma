@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBoolToLongFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -126,7 +126,7 @@ public class LBoolToLongFunctionBuilderTest{
         );
 
 
-        A.assertBoolToLongFunc(function)
+        A.attestBoolToLongFunc(function)
             .doesApplyAsLong(false).when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong(true).when(null).to(a -> a.isEqualTo(1L))
         ;

@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreBooleanSupplierAssert<S extends JreBooleanSupplierAssert<S, A, RS>, A extends BooleanSupplier, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LAction, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends BooleanSupplier, RS extends AbstractBooleanAssert<RS>> JreBooleanSupplierAssert.The<A, RS> assertBoolSup(BooleanSupplier func) {
+	public static <A extends BooleanSupplier, RS extends AbstractBooleanAssert<RS>> JreBooleanSupplierAssert.The<A, RS> attestBoolSup(BooleanSupplier func) {
 		return new JreBooleanSupplierAssert.The(func, Assertions::assertThat);
 	}
 

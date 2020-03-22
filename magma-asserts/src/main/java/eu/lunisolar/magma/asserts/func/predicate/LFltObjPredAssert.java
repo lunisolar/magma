@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LObjFltConsumer.*;
 public interface LFltObjPredAssert<S extends LFltObjPredAssert<S, A, RS, T>, A extends LObjFltPredicate.LFltObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, LObjFltConsumer.LFltObjCons<T>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LObjFltPredicate.LFltObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LFltObjPredAssert.The<A, RS, T> assertFltObjPred(LObjFltPredicate.LFltObjPred<T> func) {
+	public static <A extends LObjFltPredicate.LFltObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LFltObjPredAssert.The<A, RS, T> attestFltObjPred(LObjFltPredicate.LFltObjPred<T> func) {
 		return new LFltObjPredAssert.The(func, Assertions::assertThat);
 	}
 

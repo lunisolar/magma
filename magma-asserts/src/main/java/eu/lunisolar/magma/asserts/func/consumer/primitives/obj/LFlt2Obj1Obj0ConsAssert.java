@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjFltConsumer.*;
 public interface LFlt2Obj1Obj0ConsAssert<S extends LFlt2Obj1Obj0ConsAssert<S, A, T2, T1>, A extends LBiObjFltConsumer.LFlt2Obj1Obj0Cons<T2, T1>, T2, T1> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiObjFltConsumer.LFlt2Obj0Obj1Cons<T2, T1>, A> {
 
 	@Nonnull
-	public static <A extends LBiObjFltConsumer.LFlt2Obj1Obj0Cons<T2, T1>, T2, T1> LFlt2Obj1Obj0ConsAssert.The<A, T2, T1> assertFlt2Obj1Obj0Cons(LBiObjFltConsumer.LFlt2Obj1Obj0Cons<T2, T1> func) {
+	public static <A extends LBiObjFltConsumer.LFlt2Obj1Obj0Cons<T2, T1>, T2, T1> LFlt2Obj1Obj0ConsAssert.The<A, T2, T1> attestFlt2Obj1Obj0Cons(LBiObjFltConsumer.LFlt2Obj1Obj0Cons<T2, T1> func) {
 		return new LFlt2Obj1Obj0ConsAssert.The(func);
 	}
 

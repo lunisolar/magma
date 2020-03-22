@@ -59,7 +59,7 @@ public interface LObjCharIntPredAssert<S extends LObjCharIntPredAssert<S, A, RS,
 			FullFunctionalAssert<S, LTieCharConsumer.LObjCharIntCons<T>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LObjIntCharPredicate.LObjCharIntPred<T>, RS extends AbstractBooleanAssert<RS>, T> LObjCharIntPredAssert.The<A, RS, T> assertObjCharIntPred(LObjIntCharPredicate.LObjCharIntPred<T> func) {
+	public static <A extends LObjIntCharPredicate.LObjCharIntPred<T>, RS extends AbstractBooleanAssert<RS>, T> LObjCharIntPredAssert.The<A, RS, T> attestObjCharIntPred(LObjIntCharPredicate.LObjCharIntPred<T> func) {
 		return new LObjCharIntPredAssert.The(func, Assertions::assertThat);
 	}
 

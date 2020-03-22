@@ -57,7 +57,7 @@ public interface LQuadFunctionAssert<S extends LQuadFunctionAssert<S, A, RS, T1,
 			FullFunctionalAssert<S, LQuadConsumer<T1, T2, T3, T4>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LQuadFunction<T1, T2, T3, T4, R>, RS extends Assert<RS, R>, T1, T2, T3, T4, R> LQuadFunctionAssert.The<A, RS, T1, T2, T3, T4, R> assertQuadFunc(LQuadFunction<T1, T2, T3, T4, R> func) {
+	public static <A extends LQuadFunction<T1, T2, T3, T4, R>, RS extends Assert<RS, R>, T1, T2, T3, T4, R> LQuadFunctionAssert.The<A, RS, T1, T2, T3, T4, R> attestQuadFunc(LQuadFunction<T1, T2, T3, T4, R> func) {
 		return new LQuadFunctionAssert.The(func, Assertions::assertThat);
 	}
 

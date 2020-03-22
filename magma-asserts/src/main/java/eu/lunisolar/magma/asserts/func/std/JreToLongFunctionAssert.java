@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreToLongFunctionAssert<S extends JreToLongFunctionAssert<S, A, RS, T>, A extends ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, LConsumer<T>, A, RS, Long> {
 
 	@Nonnull
-	public static <A extends ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> JreToLongFunctionAssert.The<A, RS, T> assertToLongFunc(ToLongFunction<T> func) {
+	public static <A extends ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> JreToLongFunctionAssert.The<A, RS, T> attestToLongFunc(ToLongFunction<T> func) {
 		return new JreToLongFunctionAssert.The(func, Assertions::assertThat);
 	}
 

@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreObjDoubleConsumerAssert<S extends JreObjDoubleConsumerAssert<S, A, T>, A extends ObjDoubleConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjDblConsumer<T>, A> {
 
 	@Nonnull
-	public static <A extends ObjDoubleConsumer<T>, T> JreObjDoubleConsumerAssert.The<A, T> assertObjDblCons(ObjDoubleConsumer<T> func) {
+	public static <A extends ObjDoubleConsumer<T>, T> JreObjDoubleConsumerAssert.The<A, T> attestObjDblCons(ObjDoubleConsumer<T> func) {
 		return new JreObjDoubleConsumerAssert.The(func);
 	}
 

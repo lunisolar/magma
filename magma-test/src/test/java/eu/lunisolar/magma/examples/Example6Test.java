@@ -19,7 +19,7 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.examples.support.CheckedException;
-import eu.lunisolar.magma.asserts.DefaultMagmaAssertions;
+import eu.lunisolar.magma.asserts.DefaultAttests;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.to.LToByteFunction;
 import org.assertj.core.api.ObjectAssert;
@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 public class Example6Test {
 
-    public static final DefaultMagmaAssertions<ObjectAssert> then = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> then = new DefaultAttests() {
     };
 
     public static final LFunction<Integer, Integer> potentiallyThrowing = LFunction.func(Example6Test::potentiallyThrowing);
@@ -49,14 +49,14 @@ public class Example6Test {
                 .thenToSrt(i -> (short) (i + 1))
                 .thenToByte(s -> (byte) (s + 1));
 
-        then.assertToByteFunc(func)
+        then.attestToByteFunc(func)
             .doesApplyAsByte(1).toEqualTo((byte) 4)
             .doesApplyAsByte(10).toEqualTo((byte) -5)
             .doesApplyAsByte(3000).toEqualTo((byte) 77);
 
         LFunction<Integer, String> func2 = func.then(Byte::toString);
 
-        then.assertFunc(func2)
+        then.attestFunc(func2)
             .doesApply(1).toEqualTo("4")
             .doesApply(10).toEqualTo("-5")
             .doesApply(3000).toEqualTo("77");

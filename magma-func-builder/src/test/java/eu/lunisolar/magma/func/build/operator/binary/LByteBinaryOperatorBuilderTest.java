@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LByteBinaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LByteBinaryOperatorBuilderTest{
         );
 
 
-        A.assertByteBinaryOp(function)
+        A.attestByteBinaryOp(function)
             .doesApplyAsByte((byte)0,(byte)0).when(null).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((byte)5,(byte)5).when(null).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((byte)15,(byte)15).when(null).to(a -> a.isEqualTo((byte)2))

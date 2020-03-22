@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
 public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
 
     @Nonnull
-    default OS assertThatObj(Object actual) {
+    default OS attestThatObj(Object actual) {
         
         Class a = Assertions.class;
 
@@ -43,42 +43,42 @@ public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
     }
 
     @Nonnull
-    default AbstractBooleanAssert assertThatBool(Boolean actual) {
+    default AbstractBooleanAssert attestThatBool(Boolean actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractByteAssert assertThatByte(Byte actual) {
+    default AbstractByteAssert attestThatByte(Byte actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractDoubleAssert assertThatDbl(Double actual) {
+    default AbstractDoubleAssert attestThatDbl(Double actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractFloatAssert assertThatFlt(Float actual) {
+    default AbstractFloatAssert attestThatFlt(Float actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractIntegerAssert assertThatInt(Integer actual) {
+    default AbstractIntegerAssert attestThatInt(Integer actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractLongAssert assertThatLong(Long actual) {
+    default AbstractLongAssert attestThatLong(Long actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractShortAssert assertThatSrt(Short actual) {
+    default AbstractShortAssert attestThatSrt(Short actual) {
         return Assertions.assertThat(actual);
     }
 
     @Nonnull
-    default AbstractCharacterAssert assertThatChar(Character actual) {
+    default AbstractCharacterAssert attestThatChar(Character actual) {
         return Assertions.assertThat(actual);
     }
 

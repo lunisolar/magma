@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiObjLongConsumerBuilderTest<T1,T2>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LBiObjLongConsumerBuilderTest<T1,T2>{
         );
 
 
-        A.assertBiObjLongCons(function)
+        A.attestBiObjLongCons(function)
             .doesAccept(0,0,0L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(5,5,5L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept(15,15,15L).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

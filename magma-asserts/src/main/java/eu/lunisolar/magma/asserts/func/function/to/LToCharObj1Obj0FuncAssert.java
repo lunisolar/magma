@@ -58,7 +58,7 @@ public interface LToCharObj1Obj0FuncAssert<S extends LToCharObj1Obj0FuncAssert<S
 			FullFunctionalAssert<S, LBiConsumer<T2, T1>, A, RS, Character> {
 
 	@Nonnull
-	public static <A extends LToCharBiFunction.LToCharObj1Obj0Func<T2, T1>, RS extends AbstractCharacterAssert<RS>, T2, T1> LToCharObj1Obj0FuncAssert.The<A, RS, T2, T1> assertToCharObj1Obj0Func(LToCharBiFunction.LToCharObj1Obj0Func<T2, T1> func) {
+	public static <A extends LToCharBiFunction.LToCharObj1Obj0Func<T2, T1>, RS extends AbstractCharacterAssert<RS>, T2, T1> LToCharObj1Obj0FuncAssert.The<A, RS, T2, T1> attestToCharObj1Obj0Func(LToCharBiFunction.LToCharObj1Obj0Func<T2, T1> func) {
 		return new LToCharObj1Obj0FuncAssert.The(func, Assertions::assertThat);
 	}
 

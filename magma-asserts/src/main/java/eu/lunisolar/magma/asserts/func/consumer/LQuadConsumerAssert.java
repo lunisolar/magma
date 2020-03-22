@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LQuadConsumerAssert<S extends LQuadConsumerAssert<S, A, T1, T2, T3, T4>, A extends LQuadConsumer<T1, T2, T3, T4>, T1, T2, T3, T4> extends Assert<S, A>, FunctionalAssert.Simple<S, LQuadConsumer<T1, T2, T3, T4>, A> {
 
 	@Nonnull
-	public static <A extends LQuadConsumer<T1, T2, T3, T4>, T1, T2, T3, T4> LQuadConsumerAssert.The<A, T1, T2, T3, T4> assertQuadCons(LQuadConsumer<T1, T2, T3, T4> func) {
+	public static <A extends LQuadConsumer<T1, T2, T3, T4>, T1, T2, T3, T4> LQuadConsumerAssert.The<A, T1, T2, T3, T4> attestQuadCons(LQuadConsumer<T1, T2, T3, T4> func) {
 		return new LQuadConsumerAssert.The(func);
 	}
 

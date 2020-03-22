@@ -26,7 +26,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.asserts.DefaultMagmaAssertions;
+import eu.lunisolar.magma.asserts.DefaultAttests;
 import eu.lunisolar.magma.func.consumer.primitives.LLongConsumer;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
@@ -44,7 +44,7 @@ public class LLongConsumerAssertTest {
     private Integer testValue = 100;
     private AtomicReference<Object> externalEffect = new AtomicReference(null);
 
-    @SuppressWarnings("unchecked") public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    @SuppressWarnings("unchecked") public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     private LLongConsumer function = a ->
@@ -58,7 +58,7 @@ public class LLongConsumerAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertLongCons(function)
+        A.attestLongCons(function)
          .doesAccept(100L)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
@@ -67,7 +67,7 @@ public class LLongConsumerAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertLongCons(function)
+        A.attestLongCons(function)
          .doesAccept(100L)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
@@ -76,7 +76,7 @@ public class LLongConsumerAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case .* should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertLongCons(functionThrowing)
+        A.attestLongCons(functionThrowing)
          .doesAccept(100L)
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
@@ -84,7 +84,7 @@ public class LLongConsumerAssertTest {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertLongCons(functionThrowing)
+        A.attestLongCons(functionThrowing)
          .doesAccept(100L).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -96,7 +96,7 @@ public class LLongConsumerAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertLongCons(function)
+        A.attestLongCons(function)
          .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
@@ -114,7 +114,7 @@ public class LLongConsumerAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertLongCons(function)
+        A.attestLongCons(function)
          .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

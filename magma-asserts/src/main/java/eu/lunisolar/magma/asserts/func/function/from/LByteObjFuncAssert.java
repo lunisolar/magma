@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.LObjByteConsumer.*;
 public interface LByteObjFuncAssert<S extends LByteObjFuncAssert<S, A, RS, T, R>, A extends LObjByteFunction.LByteObjFunc<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LObjByteConsumer.LByteObjCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjByteFunction.LByteObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LByteObjFuncAssert.The<A, RS, T, R> assertByteObjFunc(LObjByteFunction.LByteObjFunc<T, R> func) {
+	public static <A extends LObjByteFunction.LByteObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LByteObjFuncAssert.The<A, RS, T, R> attestByteObjFunc(LObjByteFunction.LByteObjFunc<T, R> func) {
 		return new LByteObjFuncAssert.The(func, Assertions::assertThat);
 	}
 

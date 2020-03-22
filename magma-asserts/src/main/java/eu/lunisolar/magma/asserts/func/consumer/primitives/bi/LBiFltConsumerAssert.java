@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiFltConsumerAssert<S extends LBiFltConsumerAssert<S, A>, A extends LBiFltConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiFltConsumer, A> {
 
 	@Nonnull
-	public static <A extends LBiFltConsumer> LBiFltConsumerAssert.The<A> assertBiFltCons(LBiFltConsumer func) {
+	public static <A extends LBiFltConsumer> LBiFltConsumerAssert.The<A> attestBiFltCons(LBiFltConsumer func) {
 		return new LBiFltConsumerAssert.The(func);
 	}
 

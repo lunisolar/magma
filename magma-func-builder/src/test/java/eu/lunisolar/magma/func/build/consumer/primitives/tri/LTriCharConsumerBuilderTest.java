@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LTriCharConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LTriCharConsumerBuilderTest{
         );
 
 
-        A.assertTriCharCons(function)
+        A.attestTriCharCons(function)
             .doesAccept('\u0000','\u0000','\u0000').when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept('\u0005','\u0005','\u0005').when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesAccept('\u0015','\u0015','\u0015').when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

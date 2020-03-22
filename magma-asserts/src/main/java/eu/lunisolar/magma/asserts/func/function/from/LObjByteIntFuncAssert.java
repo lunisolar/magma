@@ -59,7 +59,7 @@ public interface LObjByteIntFuncAssert<S extends LObjByteIntFuncAssert<S, A, RS,
 			FullFunctionalAssert<S, LTieByteConsumer.LObjByteIntCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjIntByteFunction.LObjByteIntFunc<T, R>, RS extends Assert<RS, R>, T, R> LObjByteIntFuncAssert.The<A, RS, T, R> assertObjByteIntFunc(LObjIntByteFunction.LObjByteIntFunc<T, R> func) {
+	public static <A extends LObjIntByteFunction.LObjByteIntFunc<T, R>, RS extends Assert<RS, R>, T, R> LObjByteIntFuncAssert.The<A, RS, T, R> attestObjByteIntFunc(LObjIntByteFunction.LObjByteIntFunc<T, R> func) {
 		return new LObjByteIntFuncAssert.The(func, Assertions::assertThat);
 	}
 

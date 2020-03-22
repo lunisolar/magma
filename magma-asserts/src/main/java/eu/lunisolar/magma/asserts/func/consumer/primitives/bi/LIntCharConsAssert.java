@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.bi.LCharIntConsumer.*;
 public interface LIntCharConsAssert<S extends LIntCharConsAssert<S, A>, A extends LCharIntConsumer.LIntCharCons> extends Assert<S, A>, FunctionalAssert.Simple<S, LCharIntConsumer.LIntCharCons, A> {
 
 	@Nonnull
-	public static <A extends LCharIntConsumer.LIntCharCons> LIntCharConsAssert.The<A> assertIntCharCons(LCharIntConsumer.LIntCharCons func) {
+	public static <A extends LCharIntConsumer.LIntCharCons> LIntCharConsAssert.The<A> attestIntCharCons(LCharIntConsumer.LIntCharCons func) {
 		return new LIntCharConsAssert.The(func);
 	}
 

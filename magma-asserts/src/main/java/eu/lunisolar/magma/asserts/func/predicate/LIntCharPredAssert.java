@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.bi.LCharIntConsumer.*;
 public interface LIntCharPredAssert<S extends LIntCharPredAssert<S, A, RS>, A extends LCharIntPredicate.LIntCharPred, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LCharIntConsumer.LIntCharCons, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LCharIntPredicate.LIntCharPred, RS extends AbstractBooleanAssert<RS>> LIntCharPredAssert.The<A, RS> assertIntCharPred(LCharIntPredicate.LIntCharPred func) {
+	public static <A extends LCharIntPredicate.LIntCharPred, RS extends AbstractBooleanAssert<RS>> LIntCharPredAssert.The<A, RS> attestIntCharPred(LCharIntPredicate.LIntCharPred func) {
 		return new LIntCharPredAssert.The(func, Assertions::assertThat);
 	}
 

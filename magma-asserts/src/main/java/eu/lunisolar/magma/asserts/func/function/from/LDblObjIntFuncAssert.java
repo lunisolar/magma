@@ -59,7 +59,7 @@ public interface LDblObjIntFuncAssert<S extends LDblObjIntFuncAssert<S, A, RS, T
 			FullFunctionalAssert<S, LTieDblConsumer.LDblObjIntCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjIntDblFunction.LDblObjIntFunc<T, R>, RS extends Assert<RS, R>, T, R> LDblObjIntFuncAssert.The<A, RS, T, R> assertDblObjIntFunc(LObjIntDblFunction.LDblObjIntFunc<T, R> func) {
+	public static <A extends LObjIntDblFunction.LDblObjIntFunc<T, R>, RS extends Assert<RS, R>, T, R> LDblObjIntFuncAssert.The<A, RS, T, R> attestDblObjIntFunc(LObjIntDblFunction.LDblObjIntFunc<T, R> func) {
 		return new LDblObjIntFuncAssert.The(func, Assertions::assertThat);
 	}
 

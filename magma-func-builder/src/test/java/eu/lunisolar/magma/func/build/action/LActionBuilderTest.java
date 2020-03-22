@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LActionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -129,7 +129,7 @@ public class LActionBuilderTest{
         );
 
 
-        A.assertAct(function)
+        A.attestAct(function)
             .doesExecute().when(()->externalInfluence.set(0)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesExecute().when(()->externalInfluence.set(5)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
             .doesExecute().when(()->externalInfluence.set(15)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))

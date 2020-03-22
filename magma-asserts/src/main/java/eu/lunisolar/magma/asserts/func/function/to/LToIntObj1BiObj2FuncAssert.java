@@ -58,7 +58,7 @@ public interface LToIntObj1BiObj2FuncAssert<S extends LToIntObj1BiObj2FuncAssert
 			FullFunctionalAssert<S, LTriConsumer<T2, T1, T3>, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LToIntTriFunction.LToIntObj1BiObj2Func<T2, T1, T3>, RS extends AbstractIntegerAssert<RS>, T2, T1, T3> LToIntObj1BiObj2FuncAssert.The<A, RS, T2, T1, T3> assertToIntObj1BiObj2Func(
+	public static <A extends LToIntTriFunction.LToIntObj1BiObj2Func<T2, T1, T3>, RS extends AbstractIntegerAssert<RS>, T2, T1, T3> LToIntObj1BiObj2FuncAssert.The<A, RS, T2, T1, T3> attestToIntObj1BiObj2Func(
 			LToIntTriFunction.LToIntObj1BiObj2Func<T2, T1, T3> func) {
 		return new LToIntObj1BiObj2FuncAssert.The(func, Assertions::assertThat);
 	}

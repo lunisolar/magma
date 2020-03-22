@@ -58,7 +58,7 @@ public interface LToFltObj1Obj0FuncAssert<S extends LToFltObj1Obj0FuncAssert<S, 
 			FullFunctionalAssert<S, LBiConsumer<T2, T1>, A, RS, Float> {
 
 	@Nonnull
-	public static <A extends LToFltBiFunction.LToFltObj1Obj0Func<T2, T1>, RS extends AbstractFloatAssert<RS>, T2, T1> LToFltObj1Obj0FuncAssert.The<A, RS, T2, T1> assertToFltObj1Obj0Func(LToFltBiFunction.LToFltObj1Obj0Func<T2, T1> func) {
+	public static <A extends LToFltBiFunction.LToFltObj1Obj0Func<T2, T1>, RS extends AbstractFloatAssert<RS>, T2, T1> LToFltObj1Obj0FuncAssert.The<A, RS, T2, T1> attestToFltObj1Obj0Func(LToFltBiFunction.LToFltObj1Obj0Func<T2, T1> func) {
 		return new LToFltObj1Obj0FuncAssert.The(func, Assertions::assertThat);
 	}
 

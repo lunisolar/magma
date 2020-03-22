@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBytePredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LBytePredicateBuilderTest{
         );
 
 
-        A.assertBytePred(function)
+        A.attestBytePred(function)
             .doesTest((byte)0).when(null).to(a -> a.isEqualTo(false))
             .doesTest((byte)5).when(null).to(a -> a.isEqualTo(true))
         ;

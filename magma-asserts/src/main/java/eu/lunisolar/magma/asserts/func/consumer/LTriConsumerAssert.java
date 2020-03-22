@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTriConsumerAssert<S extends LTriConsumerAssert<S, A, T1, T2, T3>, A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> extends Assert<S, A>, FunctionalAssert.Simple<S, LTriConsumer<T1, T2, T3>, A> {
 
 	@Nonnull
-	public static <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.The<A, T1, T2, T3> assertTriCons(LTriConsumer<T1, T2, T3> func) {
+	public static <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.The<A, T1, T2, T3> attestTriCons(LTriConsumer<T1, T2, T3> func) {
 		return new LTriConsumerAssert.The(func);
 	}
 

@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LIntToCharFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LIntToCharFunctionBuilderTest{
         );
 
 
-        A.assertIntToCharFunc(function)
+        A.attestIntToCharFunc(function)
             .doesApplyAsChar(0).when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar(5).when(null).to(a -> a.isEqualTo('\u0001'))
             .doesApplyAsChar(15).when(null).to(a -> a.isEqualTo('\u0002'))

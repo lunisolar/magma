@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LLongToDblFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LLongToDblFunctionBuilderTest{
         );
 
 
-        A.assertLongToDblFunc(function)
+        A.attestLongToDblFunc(function)
             .doesApplyAsDbl(0L).when(null).to(a -> a.isEqualTo(0d))
             .doesApplyAsDbl(5L).when(null).to(a -> a.isEqualTo(1d))
             .doesApplyAsDbl(15L).when(null).to(a -> a.isEqualTo(2d))

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LObjFltFunctionAssert<S extends LObjFltFunctionAssert<S, A, RS, T, R>, A extends LObjFltFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LObjFltConsumer<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjFltFunction<T, R>, RS extends Assert<RS, R>, T, R> LObjFltFunctionAssert.The<A, RS, T, R> assertObjFltFunc(LObjFltFunction<T, R> func) {
+	public static <A extends LObjFltFunction<T, R>, RS extends Assert<RS, R>, T, R> LObjFltFunctionAssert.The<A, RS, T, R> attestObjFltFunc(LObjFltFunction<T, R> func) {
 		return new LObjFltFunctionAssert.The(func, Assertions::assertThat);
 	}
 

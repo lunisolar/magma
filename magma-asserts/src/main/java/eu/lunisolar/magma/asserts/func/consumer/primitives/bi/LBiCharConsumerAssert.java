@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiCharConsumerAssert<S extends LBiCharConsumerAssert<S, A>, A extends LBiCharConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiCharConsumer, A> {
 
 	@Nonnull
-	public static <A extends LBiCharConsumer> LBiCharConsumerAssert.The<A> assertBiCharCons(LBiCharConsumer func) {
+	public static <A extends LBiCharConsumer> LBiCharConsumerAssert.The<A> attestBiCharCons(LBiCharConsumer func) {
 		return new LBiCharConsumerAssert.The(func);
 	}
 

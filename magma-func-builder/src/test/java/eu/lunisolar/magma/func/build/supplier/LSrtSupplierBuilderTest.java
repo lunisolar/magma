@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LSrtSupplierBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -128,7 +128,7 @@ public class LSrtSupplierBuilderTest{
         );
 
 
-        A.assertSrtSup(function)
+        A.attestSrtSup(function)
             .doesGetAsSrt().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((short)0))
             .doesGetAsSrt().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((short)1))
             .doesGetAsSrt().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((short)2))

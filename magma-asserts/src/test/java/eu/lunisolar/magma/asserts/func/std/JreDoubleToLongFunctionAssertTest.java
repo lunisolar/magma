@@ -26,7 +26,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.asserts.DefaultMagmaAssertions;
+import eu.lunisolar.magma.asserts.DefaultAttests;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -42,7 +42,7 @@ public class JreDoubleToLongFunctionAssertTest {
 
     private long testValue = 100L;
 
-    @SuppressWarnings("unchecked") public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    @SuppressWarnings("unchecked") public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     private DoubleToLongFunction function = a ->
@@ -56,7 +56,7 @@ public class JreDoubleToLongFunctionAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertDblToLongFunc(function)
+        A.attestDblToLongFunc(function)
          .doesApplyAsLong(100d)
             .to(a -> a.isEqualTo(testValue));
 
@@ -65,7 +65,7 @@ public class JreDoubleToLongFunctionAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertDblToLongFunc(function)
+        A.attestDblToLongFunc(function)
          .doesApplyAsLong(100d)
             .to( a -> a.isEqualTo(2));
 
@@ -74,7 +74,7 @@ public class JreDoubleToLongFunctionAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case .* should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertDblToLongFunc(functionThrowing)
+        A.attestDblToLongFunc(functionThrowing)
          .doesApplyAsLong(100d)
             .to( a -> a.isEqualTo(1));
     }
@@ -82,7 +82,7 @@ public class JreDoubleToLongFunctionAssertTest {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertDblToLongFunc(functionThrowing)
+        A.attestDblToLongFunc(functionThrowing)
          .doesApplyAsLong(100d).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -94,7 +94,7 @@ public class JreDoubleToLongFunctionAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertDblToLongFunc(function)
+        A.attestDblToLongFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
@@ -112,7 +112,7 @@ public class JreDoubleToLongFunctionAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertDblToLongFunc(function)
+        A.attestDblToLongFunc(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

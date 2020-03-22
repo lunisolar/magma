@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBinaryOperatorAssert<S extends LBinaryOperatorAssert<S, A, RS, T>, A extends LBinaryOperator<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, LBiConsumer<T, T>, A, RS, T> {
 
 	@Nonnull
-	public static <A extends LBinaryOperator<T>, RS extends Assert<RS, T>, T> LBinaryOperatorAssert.The<A, RS, T> assertBinaryOp(LBinaryOperator<T> func) {
+	public static <A extends LBinaryOperator<T>, RS extends Assert<RS, T>, T> LBinaryOperatorAssert.The<A, RS, T> attestBinaryOp(LBinaryOperator<T> func) {
 		return new LBinaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 

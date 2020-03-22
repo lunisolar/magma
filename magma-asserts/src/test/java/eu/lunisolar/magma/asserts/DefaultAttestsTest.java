@@ -66,19 +66,19 @@ import static org.assertj.core.api.Fail.fail;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("ALL")
-public class DefaultMagmaAssertionsTest {
+public class DefaultAttestsTest {
 
 
 
     @Test
     public void withinOptionalCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractOptionalAssert> specialized = initial.withinOptionalCodomain();
+        DefaultAttests<AbstractOptionalAssert> specialized = initial.withinOptionalCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractOptionalAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -86,12 +86,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinBigDecimalCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractBigDecimalAssert> specialized = initial.withinBigDecimalCodomain();
+        DefaultAttests<AbstractBigDecimalAssert> specialized = initial.withinBigDecimalCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractBigDecimalAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -99,12 +99,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinBooleanCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractBooleanAssert> specialized = initial.withinBooleanCodomain();
+        DefaultAttests<AbstractBooleanAssert> specialized = initial.withinBooleanCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractBooleanAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -112,12 +112,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinBooleanArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractBooleanArrayAssert> specialized = initial.withinBooleanArrayCodomain();
+        DefaultAttests<AbstractBooleanArrayAssert> specialized = initial.withinBooleanArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractBooleanArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -125,12 +125,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinByteCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractByteAssert> specialized = initial.withinByteCodomain();
+        DefaultAttests<AbstractByteAssert> specialized = initial.withinByteCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractByteAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -138,12 +138,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinByteArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractByteArrayAssert> specialized = initial.withinByteArrayCodomain();
+        DefaultAttests<AbstractByteArrayAssert> specialized = initial.withinByteArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractByteArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -151,12 +151,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinCharacterCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractCharacterAssert> specialized = initial.withinCharacterCodomain();
+        DefaultAttests<AbstractCharacterAssert> specialized = initial.withinCharacterCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharacterAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -164,12 +164,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinCharArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractCharArrayAssert> specialized = initial.withinCharArrayCodomain();
+        DefaultAttests<AbstractCharArrayAssert> specialized = initial.withinCharArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -177,12 +177,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinClassCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractClassAssert> specialized = initial.withinClassCodomain();
+        DefaultAttests<AbstractClassAssert> specialized = initial.withinClassCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractClassAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -190,12 +190,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinComparableCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractComparableAssert> specialized = initial.withinComparableCodomain();
+        DefaultAttests<AbstractComparableAssert> specialized = initial.withinComparableCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractComparableAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -203,12 +203,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinIterableCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractIterableAssert> specialized = initial.withinIterableCodomain();
+        DefaultAttests<AbstractIterableAssert> specialized = initial.withinIterableCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIterableAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -216,12 +216,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinIteratorCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractIteratorAssert> specialized = initial.withinIteratorCodomain();
+        DefaultAttests<AbstractIteratorAssert> specialized = initial.withinIteratorCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIteratorAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -229,12 +229,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinDoubleCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractDoubleAssert> specialized = initial.withinDoubleCodomain();
+        DefaultAttests<AbstractDoubleAssert> specialized = initial.withinDoubleCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractDoubleAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -242,12 +242,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinDoubleArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractDoubleArrayAssert> specialized = initial.withinDoubleArrayCodomain();
+        DefaultAttests<AbstractDoubleArrayAssert> specialized = initial.withinDoubleArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractDoubleArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -255,12 +255,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinPathCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractPathAssert> specialized = initial.withinPathCodomain();
+        DefaultAttests<AbstractPathAssert> specialized = initial.withinPathCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractPathAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -268,12 +268,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinInputStreamCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractInputStreamAssert> specialized = initial.withinInputStreamCodomain();
+        DefaultAttests<AbstractInputStreamAssert> specialized = initial.withinInputStreamCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractInputStreamAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -281,12 +281,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinFloatCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractFloatAssert> specialized = initial.withinFloatCodomain();
+        DefaultAttests<AbstractFloatAssert> specialized = initial.withinFloatCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractFloatAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -294,12 +294,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinFloatArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractFloatArrayAssert> specialized = initial.withinFloatArrayCodomain();
+        DefaultAttests<AbstractFloatArrayAssert> specialized = initial.withinFloatArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractFloatArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -307,12 +307,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinIntegerCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractIntegerAssert> specialized = initial.withinIntegerCodomain();
+        DefaultAttests<AbstractIntegerAssert> specialized = initial.withinIntegerCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIntegerAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -320,12 +320,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinIntArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractIntArrayAssert> specialized = initial.withinIntArrayCodomain();
+        DefaultAttests<AbstractIntArrayAssert> specialized = initial.withinIntArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractIntArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -333,12 +333,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinListCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractListAssert> specialized = initial.withinListCodomain();
+        DefaultAttests<AbstractListAssert> specialized = initial.withinListCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractListAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -346,12 +346,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinLongCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractLongAssert> specialized = initial.withinLongCodomain();
+        DefaultAttests<AbstractLongAssert> specialized = initial.withinLongCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLongAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -359,12 +359,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinLongArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractLongArrayAssert> specialized = initial.withinLongArrayCodomain();
+        DefaultAttests<AbstractLongArrayAssert> specialized = initial.withinLongArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLongArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -372,12 +372,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinMapCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractMapAssert> specialized = initial.withinMapCodomain();
+        DefaultAttests<AbstractMapAssert> specialized = initial.withinMapCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractMapAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -385,12 +385,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinShortCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractShortAssert> specialized = initial.withinShortCodomain();
+        DefaultAttests<AbstractShortAssert> specialized = initial.withinShortCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractShortAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -398,12 +398,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinShortArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractShortArrayAssert> specialized = initial.withinShortArrayCodomain();
+        DefaultAttests<AbstractShortArrayAssert> specialized = initial.withinShortArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractShortArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -411,12 +411,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinCharSequenceCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractCharSequenceAssert> specialized = initial.withinCharSequenceCodomain();
+        DefaultAttests<AbstractCharSequenceAssert> specialized = initial.withinCharSequenceCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharSequenceAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -424,12 +424,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinStringCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractCharSequenceAssert> specialized = initial.withinStringCodomain();
+        DefaultAttests<AbstractCharSequenceAssert> specialized = initial.withinStringCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractCharSequenceAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -437,12 +437,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinDateCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractDateAssert> specialized = initial.withinDateCodomain();
+        DefaultAttests<AbstractDateAssert> specialized = initial.withinDateCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractDateAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -450,12 +450,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinZonedDateTimeCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractZonedDateTimeAssert> specialized = initial.withinZonedDateTimeCodomain();
+        DefaultAttests<AbstractZonedDateTimeAssert> specialized = initial.withinZonedDateTimeCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractZonedDateTimeAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -463,12 +463,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinLocalDateTimeCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractLocalDateTimeAssert> specialized = initial.withinLocalDateTimeCodomain();
+        DefaultAttests<AbstractLocalDateTimeAssert> specialized = initial.withinLocalDateTimeCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLocalDateTimeAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -476,12 +476,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinLocalTimeCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractLocalTimeAssert> specialized = initial.withinLocalTimeCodomain();
+        DefaultAttests<AbstractLocalTimeAssert> specialized = initial.withinLocalTimeCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLocalTimeAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -489,12 +489,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinLocalDateCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractLocalDateAssert> specialized = initial.withinLocalDateCodomain();
+        DefaultAttests<AbstractLocalDateAssert> specialized = initial.withinLocalDateCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractLocalDateAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -502,12 +502,12 @@ public class DefaultMagmaAssertionsTest {
     @Test
     public void withinThrowableCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractThrowableAssert> specialized = initial.withinThrowableCodomain();
+        DefaultAttests<AbstractThrowableAssert> specialized = initial.withinThrowableCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractThrowableAssert.class))
             .doesApply(null).toEqualTo(null);
     }
@@ -515,12 +515,12 @@ public class DefaultMagmaAssertionsTest {
 @Test
     public void withinTArrayCodomain() {
 
-        DefaultMagmaAssertions initial = new DefaultMagmaAssertions(){
+        DefaultAttests initial = new DefaultAttests(){
         };
 
-        DefaultMagmaAssertions<AbstractObjectArrayAssert> specialized = initial.withinTArrayCodomain();
+        DefaultAttests<AbstractObjectArrayAssert> specialized = initial.withinTArrayCodomain();
 
-        specialized.assertFunc(LFunction.func(i->i))
+        specialized.attestFunc(LFunction.func(i->i))
             .doesApply(null).to(a -> Assertions.assertThat(a).isInstanceOf(AbstractObjectArrayAssert.class))
             .doesApply(null).toEqualTo(null);
     }

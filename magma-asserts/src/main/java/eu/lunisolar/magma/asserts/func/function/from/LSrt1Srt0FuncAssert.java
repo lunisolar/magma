@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.function.from.LBiSrtFunction.*;
 public interface LSrt1Srt0FuncAssert<S extends LSrt1Srt0FuncAssert<S, A, RS, R>, A extends LBiSrtFunction.LSrt1Srt0Func<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LBiSrtConsumer, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LBiSrtFunction.LSrt1Srt0Func<R>, RS extends Assert<RS, R>, R> LSrt1Srt0FuncAssert.The<A, RS, R> assertSrt1Srt0Func(LBiSrtFunction.LSrt1Srt0Func<R> func) {
+	public static <A extends LBiSrtFunction.LSrt1Srt0Func<R>, RS extends Assert<RS, R>, R> LSrt1Srt0FuncAssert.The<A, RS, R> attestSrt1Srt0Func(LBiSrtFunction.LSrt1Srt0Func<R> func) {
 		return new LSrt1Srt0FuncAssert.The(func, Assertions::assertThat);
 	}
 

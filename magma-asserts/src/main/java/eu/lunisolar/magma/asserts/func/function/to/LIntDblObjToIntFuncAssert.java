@@ -59,7 +59,7 @@ public interface LIntDblObjToIntFuncAssert<S extends LIntDblObjToIntFuncAssert<S
 			FullFunctionalAssert<S, LTieDblConsumer.LIntDblObjCons<T>, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LTieDblFunction.LIntDblObjToIntFunc<T>, RS extends AbstractIntegerAssert<RS>, T> LIntDblObjToIntFuncAssert.The<A, RS, T> assertIntDblObjToIntFunc(LTieDblFunction.LIntDblObjToIntFunc<T> func) {
+	public static <A extends LTieDblFunction.LIntDblObjToIntFunc<T>, RS extends AbstractIntegerAssert<RS>, T> LIntDblObjToIntFuncAssert.The<A, RS, T> attestIntDblObjToIntFunc(LTieDblFunction.LIntDblObjToIntFunc<T> func) {
 		return new LIntDblObjToIntFuncAssert.The(func, Assertions::assertThat);
 	}
 

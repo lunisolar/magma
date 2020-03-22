@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LFltPredicateAssert<S extends LFltPredicateAssert<S, A, RS>, A extends LFltPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LFltConsumer, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LFltPredicate, RS extends AbstractBooleanAssert<RS>> LFltPredicateAssert.The<A, RS> assertFltPred(LFltPredicate func) {
+	public static <A extends LFltPredicate, RS extends AbstractBooleanAssert<RS>> LFltPredicateAssert.The<A, RS> attestFltPred(LFltPredicate func) {
 		return new LFltPredicateAssert.The(func, Assertions::assertThat);
 	}
 

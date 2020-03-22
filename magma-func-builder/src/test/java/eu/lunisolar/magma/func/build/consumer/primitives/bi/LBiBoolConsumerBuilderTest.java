@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiBoolConsumerBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LBiBoolConsumerBuilderTest{
         );
 
 
-        A.assertBiBoolCons(function)
+        A.attestBiBoolCons(function)
             .doesAccept(false,false).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
             .doesAccept(true,true).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
         ;

@@ -57,7 +57,7 @@ public interface LToIntTriFunctionAssert<S extends LToIntTriFunctionAssert<S, A,
 			FullFunctionalAssert<S, LTriConsumer<T1, T2, T3>, A, RS, Integer> {
 
 	@Nonnull
-	public static <A extends LToIntTriFunction<T1, T2, T3>, RS extends AbstractIntegerAssert<RS>, T1, T2, T3> LToIntTriFunctionAssert.The<A, RS, T1, T2, T3> assertToIntTriFunc(LToIntTriFunction<T1, T2, T3> func) {
+	public static <A extends LToIntTriFunction<T1, T2, T3>, RS extends AbstractIntegerAssert<RS>, T1, T2, T3> LToIntTriFunctionAssert.The<A, RS, T1, T2, T3> attestToIntTriFunc(LToIntTriFunction<T1, T2, T3> func) {
 		return new LToIntTriFunctionAssert.The(func, Assertions::assertThat);
 	}
 

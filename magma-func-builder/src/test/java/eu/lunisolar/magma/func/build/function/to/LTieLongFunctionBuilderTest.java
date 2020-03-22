@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LTieLongFunctionBuilderTest<T>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LTieLongFunctionBuilderTest<T>{
         );
 
 
-        A.assertTieLongFunc(function)
+        A.attestTieLongFunc(function)
             .doesApplyAsInt(0,0,0L).when(null).to(a -> a.isEqualTo(0))
             .doesApplyAsInt(5,5,5L).when(null).to(a -> a.isEqualTo(1))
             .doesApplyAsInt(15,15,15L).when(null).to(a -> a.isEqualTo(2))

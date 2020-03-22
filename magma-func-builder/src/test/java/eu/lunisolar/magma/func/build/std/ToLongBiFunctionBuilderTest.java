@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class ToLongBiFunctionBuilderTest<T1,T2>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class ToLongBiFunctionBuilderTest<T1,T2>{
         );
 
 
-        A.assertToLongBiFunc(function)
+        A.attestToLongBiFunc(function)
             .doesApplyAsLong(0,0).when(null).to(a -> a.isEqualTo(0L))
             .doesApplyAsLong(5,5).when(null).to(a -> a.isEqualTo(1L))
             .doesApplyAsLong(15,15).when(null).to(a -> a.isEqualTo(2L))

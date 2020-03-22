@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LDblToByteFunctionAssert<S extends LDblToByteFunctionAssert<S, A, RS>, A extends LDblToByteFunction, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Byte> {
 
 	@Nonnull
-	public static <A extends LDblToByteFunction, RS extends AbstractByteAssert<RS>> LDblToByteFunctionAssert.The<A, RS> assertDblToByteFunc(LDblToByteFunction func) {
+	public static <A extends LDblToByteFunction, RS extends AbstractByteAssert<RS>> LDblToByteFunctionAssert.The<A, RS> attestDblToByteFunc(LDblToByteFunction func) {
 		return new LDblToByteFunctionAssert.The(func, Assertions::assertThat);
 	}
 

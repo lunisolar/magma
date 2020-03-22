@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LFltBinaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LFltBinaryOperatorBuilderTest{
         );
 
 
-        A.assertFltBinaryOp(function)
+        A.attestFltBinaryOp(function)
             .doesApplyAsFlt(0f,0f).when(null).to(a -> a.isEqualTo(0f))
             .doesApplyAsFlt(5f,5f).when(null).to(a -> a.isEqualTo(1f))
             .doesApplyAsFlt(15f,15f).when(null).to(a -> a.isEqualTo(2f))

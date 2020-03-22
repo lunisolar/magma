@@ -57,7 +57,7 @@ public interface LQuintFunctionAssert<S extends LQuintFunctionAssert<S, A, RS, T
 			FullFunctionalAssert<S, LQuintConsumer<T1, T2, T3, T4, T5>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LQuintFunction<T1, T2, T3, T4, T5, R>, RS extends Assert<RS, R>, T1, T2, T3, T4, T5, R> LQuintFunctionAssert.The<A, RS, T1, T2, T3, T4, T5, R> assertQuintFunc(LQuintFunction<T1, T2, T3, T4, T5, R> func) {
+	public static <A extends LQuintFunction<T1, T2, T3, T4, T5, R>, RS extends Assert<RS, R>, T1, T2, T3, T4, T5, R> LQuintFunctionAssert.The<A, RS, T1, T2, T3, T4, T5, R> attestQuintFunc(LQuintFunction<T1, T2, T3, T4, T5, R> func) {
 		return new LQuintFunctionAssert.The(func, Assertions::assertThat);
 	}
 

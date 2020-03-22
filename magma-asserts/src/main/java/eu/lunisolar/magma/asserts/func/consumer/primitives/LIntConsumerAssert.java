@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LIntConsumerAssert<S extends LIntConsumerAssert<S, A>, A extends LIntConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LIntConsumer, A> {
 
 	@Nonnull
-	public static <A extends LIntConsumer> LIntConsumerAssert.The<A> assertIntCons(LIntConsumer func) {
+	public static <A extends LIntConsumer> LIntConsumerAssert.The<A> attestIntCons(LIntConsumer func) {
 		return new LIntConsumerAssert.The(func);
 	}
 

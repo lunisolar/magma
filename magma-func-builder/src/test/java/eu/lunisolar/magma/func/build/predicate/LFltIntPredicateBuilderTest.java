@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LFltIntPredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LFltIntPredicateBuilderTest{
         );
 
 
-        A.assertFltIntPred(function)
+        A.attestFltIntPred(function)
             .doesTest(0f,0).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5f,5).when(null).to(a -> a.isEqualTo(true))
         ;

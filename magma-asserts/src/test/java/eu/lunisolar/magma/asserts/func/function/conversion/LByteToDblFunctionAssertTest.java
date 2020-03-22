@@ -26,7 +26,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.asserts.DefaultMagmaAssertions;
+import eu.lunisolar.magma.asserts.DefaultAttests;
 import eu.lunisolar.magma.func.function.conversion.LByteToDblFunction;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
@@ -43,7 +43,7 @@ public class LByteToDblFunctionAssertTest {
 
     private double testValue = 100d;
 
-    @SuppressWarnings("unchecked") public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    @SuppressWarnings("unchecked") public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     private LByteToDblFunction function = a ->
@@ -57,7 +57,7 @@ public class LByteToDblFunctionAssertTest {
     @Test
     public void testAssertPositive() throws ParseException {
 
-        A.assertByteToDblFunc(function)
+        A.attestByteToDblFunc(function)
          .doesApplyAsDbl((byte)100)
             .to(a -> a.isEqualTo(testValue));
 
@@ -66,7 +66,7 @@ public class LByteToDblFunctionAssertTest {
     @Test(expectedExceptions = AssertionError.class)
     public void testAssertNegative() throws ParseException {
 
-        A.assertByteToDblFunc(function)
+        A.attestByteToDblFunc(function)
          .doesApplyAsDbl((byte)100)
             .to( a -> a.isEqualTo(2));
 
@@ -75,7 +75,7 @@ public class LByteToDblFunctionAssertTest {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case .* should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
-        A.assertByteToDblFunc(functionThrowing)
+        A.attestByteToDblFunc(functionThrowing)
          .doesApplyAsDbl((byte)100)
             .to( a -> a.isEqualTo(1));
     }
@@ -83,7 +83,7 @@ public class LByteToDblFunctionAssertTest {
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
-        A.assertByteToDblFunc(functionThrowing)
+        A.attestByteToDblFunc(functionThrowing)
          .doesApplyAsDbl((byte)100).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
@@ -95,7 +95,7 @@ public class LByteToDblFunctionAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertByteToDblFunc(function)
+        A.attestByteToDblFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
@@ -113,7 +113,7 @@ public class LByteToDblFunctionAssertTest {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
-        A.assertByteToDblFunc(function)
+        A.attestByteToDblFunc(function)
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {

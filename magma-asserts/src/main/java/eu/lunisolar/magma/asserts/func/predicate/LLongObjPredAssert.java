@@ -59,7 +59,7 @@ public interface LLongObjPredAssert<S extends LLongObjPredAssert<S, A, RS, T>, A
 			FullFunctionalAssert<S, LObjLongConsumer.LLongObjCons<T>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LObjLongPredicate.LLongObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LLongObjPredAssert.The<A, RS, T> assertLongObjPred(LObjLongPredicate.LLongObjPred<T> func) {
+	public static <A extends LObjLongPredicate.LLongObjPred<T>, RS extends AbstractBooleanAssert<RS>, T> LLongObjPredAssert.The<A, RS, T> attestLongObjPred(LObjLongPredicate.LLongObjPred<T> func) {
 		return new LLongObjPredAssert.The(func, Assertions::assertThat);
 	}
 

@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiObjIntConsumerAssert<S extends LBiObjIntConsumerAssert<S, A, T1, T2>, A extends LBiObjIntConsumer<T1, T2>, T1, T2> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiObjIntConsumer<T1, T2>, A> {
 
 	@Nonnull
-	public static <A extends LBiObjIntConsumer<T1, T2>, T1, T2> LBiObjIntConsumerAssert.The<A, T1, T2> assertBiObjIntCons(LBiObjIntConsumer<T1, T2> func) {
+	public static <A extends LBiObjIntConsumer<T1, T2>, T1, T2> LBiObjIntConsumerAssert.The<A, T1, T2> attestBiObjIntCons(LBiObjIntConsumer<T1, T2> func) {
 		return new LBiObjIntConsumerAssert.The(func);
 	}
 

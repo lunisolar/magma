@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LDblToCharFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LDblToCharFunctionBuilderTest{
         );
 
 
-        A.assertDblToCharFunc(function)
+        A.attestDblToCharFunc(function)
             .doesApplyAsChar(0d).when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar(5d).when(null).to(a -> a.isEqualTo('\u0001'))
             .doesApplyAsChar(15d).when(null).to(a -> a.isEqualTo('\u0002'))

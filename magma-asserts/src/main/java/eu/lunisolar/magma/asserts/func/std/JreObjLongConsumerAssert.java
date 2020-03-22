@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreObjLongConsumerAssert<S extends JreObjLongConsumerAssert<S, A, T>, A extends ObjLongConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjLongConsumer<T>, A> {
 
 	@Nonnull
-	public static <A extends ObjLongConsumer<T>, T> JreObjLongConsumerAssert.The<A, T> assertObjLongCons(ObjLongConsumer<T> func) {
+	public static <A extends ObjLongConsumer<T>, T> JreObjLongConsumerAssert.The<A, T> attestObjLongCons(ObjLongConsumer<T> func) {
 		return new JreObjLongConsumerAssert.The(func);
 	}
 

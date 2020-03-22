@@ -54,7 +54,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharToFltFunctionAssert<S extends LCharToFltFunctionAssert<S, A, RS>, A extends LCharToFltFunction, RS extends AbstractFloatAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumer, A, RS, Float> {
 
 	@Nonnull
-	public static <A extends LCharToFltFunction, RS extends AbstractFloatAssert<RS>> LCharToFltFunctionAssert.The<A, RS> assertCharToFltFunc(LCharToFltFunction func) {
+	public static <A extends LCharToFltFunction, RS extends AbstractFloatAssert<RS>> LCharToFltFunctionAssert.The<A, RS> attestCharToFltFunc(LCharToFltFunction func) {
 		return new LCharToFltFunctionAssert.The(func, Assertions::assertThat);
 	}
 

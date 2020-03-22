@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.bi.LDblIntConsumer.*;
 public interface LIntDblPredAssert<S extends LIntDblPredAssert<S, A, RS>, A extends LDblIntPredicate.LIntDblPred, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblIntConsumer.LIntDblCons, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LDblIntPredicate.LIntDblPred, RS extends AbstractBooleanAssert<RS>> LIntDblPredAssert.The<A, RS> assertIntDblPred(LDblIntPredicate.LIntDblPred func) {
+	public static <A extends LDblIntPredicate.LIntDblPred, RS extends AbstractBooleanAssert<RS>> LIntDblPredAssert.The<A, RS> attestIntDblPred(LDblIntPredicate.LIntDblPred func) {
 		return new LIntDblPredAssert.The(func, Assertions::assertThat);
 	}
 

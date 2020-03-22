@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LCharToDblFunctionBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LCharToDblFunctionBuilderTest{
         );
 
 
-        A.assertCharToDblFunc(function)
+        A.attestCharToDblFunc(function)
             .doesApplyAsDbl('\u0000').when(null).to(a -> a.isEqualTo(0d))
             .doesApplyAsDbl('\u0005').when(null).to(a -> a.isEqualTo(1d))
             .doesApplyAsDbl('\u0015').when(null).to(a -> a.isEqualTo(2d))

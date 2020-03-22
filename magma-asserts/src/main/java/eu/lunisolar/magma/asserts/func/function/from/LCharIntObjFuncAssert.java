@@ -59,7 +59,7 @@ public interface LCharIntObjFuncAssert<S extends LCharIntObjFuncAssert<S, A, RS,
 			FullFunctionalAssert<S, LTieCharConsumer.LCharIntObjCons<T>, A, RS, R> {
 
 	@Nonnull
-	public static <A extends LObjIntCharFunction.LCharIntObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LCharIntObjFuncAssert.The<A, RS, T, R> assertCharIntObjFunc(LObjIntCharFunction.LCharIntObjFunc<T, R> func) {
+	public static <A extends LObjIntCharFunction.LCharIntObjFunc<T, R>, RS extends Assert<RS, R>, T, R> LCharIntObjFuncAssert.The<A, RS, T, R> attestCharIntObjFunc(LObjIntCharFunction.LCharIntObjFunc<T, R> func) {
 		return new LCharIntObjFuncAssert.The(func, Assertions::assertThat);
 	}
 

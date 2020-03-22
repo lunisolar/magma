@@ -52,7 +52,7 @@ import static org.assertj.core.api.Fail.fail;
 public interface JreDoubleUnaryOperatorAssert<S extends JreDoubleUnaryOperatorAssert<S, A, RS>, A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LDblConsumer, A, RS, Double> {
 
 	@Nonnull
-	public static <A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> JreDoubleUnaryOperatorAssert.The<A, RS> assertDblUnaryOp(DoubleUnaryOperator func) {
+	public static <A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> JreDoubleUnaryOperatorAssert.The<A, RS> attestDblUnaryOp(DoubleUnaryOperator func) {
 		return new JreDoubleUnaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 

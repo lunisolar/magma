@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.consumer.primitives.bi.LDblIntConsumer.*;
 public interface LIntDblConsAssert<S extends LIntDblConsAssert<S, A>, A extends LDblIntConsumer.LIntDblCons> extends Assert<S, A>, FunctionalAssert.Simple<S, LDblIntConsumer.LIntDblCons, A> {
 
 	@Nonnull
-	public static <A extends LDblIntConsumer.LIntDblCons> LIntDblConsAssert.The<A> assertIntDblCons(LDblIntConsumer.LIntDblCons func) {
+	public static <A extends LDblIntConsumer.LIntDblCons> LIntDblConsAssert.The<A> attestIntDblCons(LDblIntConsumer.LIntDblCons func) {
 		return new LIntDblConsAssert.The(func);
 	}
 

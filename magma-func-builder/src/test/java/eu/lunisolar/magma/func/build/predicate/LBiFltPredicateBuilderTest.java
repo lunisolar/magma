@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiFltPredicateBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LBiFltPredicateBuilderTest{
         );
 
 
-        A.assertBiFltPred(function)
+        A.attestBiFltPred(function)
             .doesTest(0f,0f).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5f,5f).when(null).to(a -> a.isEqualTo(true))
         ;

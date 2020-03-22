@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LLogicalTernaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -126,7 +126,7 @@ public class LLogicalTernaryOperatorBuilderTest{
         );
 
 
-        A.assertLogicalTernaryOp(function)
+        A.attestLogicalTernaryOp(function)
             .doesApply(false,false,false).when(null).to(a -> a.isEqualTo(false))
             .doesApply(true,true,true).when(null).to(a -> a.isEqualTo(true))
         ;

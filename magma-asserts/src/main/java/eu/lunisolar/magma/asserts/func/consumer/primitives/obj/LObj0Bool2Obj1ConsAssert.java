@@ -59,7 +59,7 @@ public interface LObj0Bool2Obj1ConsAssert<S extends LObj0Bool2Obj1ConsAssert<S, 
 			FunctionalAssert.Simple<S, LBiObjBoolConsumer.LObj0Bool2Obj1Cons<T1, T2>, A> {
 
 	@Nonnull
-	public static <A extends LBiObjBoolConsumer.LObj0Bool2Obj1Cons<T1, T2>, T1, T2> LObj0Bool2Obj1ConsAssert.The<A, T1, T2> assertObj0Bool2Obj1Cons(LBiObjBoolConsumer.LObj0Bool2Obj1Cons<T1, T2> func) {
+	public static <A extends LBiObjBoolConsumer.LObj0Bool2Obj1Cons<T1, T2>, T1, T2> LObj0Bool2Obj1ConsAssert.The<A, T1, T2> attestObj0Bool2Obj1Cons(LBiObjBoolConsumer.LObj0Bool2Obj1Cons<T1, T2> func) {
 		return new LObj0Bool2Obj1ConsAssert.The(func);
 	}
 

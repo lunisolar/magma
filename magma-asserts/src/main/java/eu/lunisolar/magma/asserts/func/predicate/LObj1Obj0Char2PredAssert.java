@@ -58,7 +58,7 @@ public interface LObj1Obj0Char2PredAssert<S extends LObj1Obj0Char2PredAssert<S, 
 			FullFunctionalAssert<S, LBiObjCharConsumer<T2, T1>, A, RS, Boolean> {
 
 	@Nonnull
-	public static <A extends LBiObjCharPredicate.LObj1Obj0Char2Pred<T2, T1>, RS extends AbstractBooleanAssert<RS>, T2, T1> LObj1Obj0Char2PredAssert.The<A, RS, T2, T1> assertObj1Obj0Char2Pred(LBiObjCharPredicate.LObj1Obj0Char2Pred<T2, T1> func) {
+	public static <A extends LBiObjCharPredicate.LObj1Obj0Char2Pred<T2, T1>, RS extends AbstractBooleanAssert<RS>, T2, T1> LObj1Obj0Char2PredAssert.The<A, RS, T2, T1> attestObj1Obj0Char2Pred(LBiObjCharPredicate.LObj1Obj0Char2Pred<T2, T1> func) {
 		return new LObj1Obj0Char2PredAssert.The(func, Assertions::assertThat);
 	}
 

@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LCharBinaryOperatorBuilderTest{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LCharBinaryOperatorBuilderTest{
         );
 
 
-        A.assertCharBinaryOp(function)
+        A.attestCharBinaryOp(function)
             .doesApplyAsChar('\u0000','\u0000').when(null).to(a -> a.isEqualTo('\u0000'))
             .doesApplyAsChar('\u0005','\u0005').when(null).to(a -> a.isEqualTo('\u0001'))
             .doesApplyAsChar('\u0015','\u0015').when(null).to(a -> a.isEqualTo('\u0002'))

@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LToSrtBiFunctionBuilderTest<T1,T2>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LToSrtBiFunctionBuilderTest<T1,T2>{
         );
 
 
-        A.assertToSrtBiFunc(function)
+        A.attestToSrtBiFunc(function)
             .doesApplyAsSrt(0,0).when(null).to(a -> a.isEqualTo((short)0))
             .doesApplyAsSrt(5,5).when(null).to(a -> a.isEqualTo((short)1))
             .doesApplyAsSrt(15,15).when(null).to(a -> a.isEqualTo((short)2))

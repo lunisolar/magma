@@ -58,7 +58,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class LBiObjSrtPredicateBuilderTest<T1,T2>{
 
     @SuppressWarnings("unchecked")
-    public static final DefaultMagmaAssertions<ObjectAssert> A = new DefaultMagmaAssertions() {
+    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
     };
 
     @Test
@@ -127,7 +127,7 @@ public class LBiObjSrtPredicateBuilderTest<T1,T2>{
         );
 
 
-        A.assertBiObjSrtPred(function)
+        A.attestBiObjSrtPred(function)
             .doesTest(0,0,(short)0).when(null).to(a -> a.isEqualTo(false))
             .doesTest(5,5,(short)5).when(null).to(a -> a.isEqualTo(true))
         ;
