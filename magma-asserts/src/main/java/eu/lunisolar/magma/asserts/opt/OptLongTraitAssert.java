@@ -72,7 +72,7 @@ public class OptLongTraitAssert extends AbstractObjectAssert<OptLongTraitAssert,
 
 	public OptLongTraitAssert isPresent() {
 		isNotNull();
-		must(OptLongTrait::isPresent, "<%s> is expected to have value but it does not.", actual());
+		must(OptLongTrait::isPresent, "<%s> is expected to have value, but is void.");
 		return this;
 	}
 
@@ -82,7 +82,7 @@ public class OptLongTraitAssert extends AbstractObjectAssert<OptLongTraitAssert,
 
 	public OptLongTraitAssert isVoid() {
 		isNotNull();
-		must(OptLongTrait::isVoid, "<%s> is expected to not have value but it does.", actual());
+		must(OptLongTrait::isVoid, "<%s> is expected to NOT have value, but it does.");
 		return this;
 	}
 
@@ -93,8 +93,8 @@ public class OptLongTraitAssert extends AbstractObjectAssert<OptLongTraitAssert,
 	public OptLongTraitAssert contains(long expectedValue) {
 		isNotNull();
 
-		must(OptLongTrait::isPresent, "<%s> is expected to have value <%s> but it is void.", actual(), expectedValue);
-		must(P.haveLong(OptLongTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s> but is not. <%s>", actual().nullable(), expectedValue, actual());
+		must(OptLongTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
+		must(P.haveLong(OptLongTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

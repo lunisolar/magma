@@ -19,15 +19,18 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.X;
+import eu.lunisolar.magma.func.predicate.LBiPredicate;
+import eu.lunisolar.magma.func.predicate.LPredicate;
+import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Is;
 import org.testng.annotations.Test;
 
-import static eu.lunisolar.magma.func.predicate.LBiIntPredicate.throwIf$;
+import static eu.lunisolar.magma.func.predicate.LBiIntPredicate.throwIf;
 import static eu.lunisolar.magma.func.predicate.LIntPredicate.throwIf;
-import static eu.lunisolar.magma.func.predicate.LIntPredicate.throwIf$;
+import static eu.lunisolar.magma.func.predicate.LIntPredicate.throwIf;
 import static eu.lunisolar.magma.func.predicate.LIntPredicate.throwIfNot;
 import static eu.lunisolar.magma.func.predicate.LTriIntPredicate.throwIfNot;
-import static eu.lunisolar.magma.func.predicate.LTriIntPredicate.throwIfNot$;
+import static eu.lunisolar.magma.func.predicate.LTriIntPredicate.throwIfNot;
 
 //>transform-to-MD<
 /**
@@ -80,7 +83,7 @@ public class Example_Validations_Simple_Test {
     public void test2() throws Exception {
 
         //fails
-        throwIf(arg45, arg -> arg >= 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40", arg45);
+        throwIf(arg45, arg -> arg >= 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
     }
     //>example<
 
@@ -92,7 +95,7 @@ public class Example_Validations_Simple_Test {
     public void test3() {
 
         //fails
-        throwIf$(arg45, arg -> arg >= 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
+        throwIf(arg45, arg -> arg >= 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
     }
     //>example<
 
@@ -108,10 +111,10 @@ public class Example_Validations_Simple_Test {
     public void test4() {
 
         //fails
-        throwIf$(arg45, Is::gtEq, 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
+        throwIf(arg45, Is::gtEq, 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
 
         //would do exactly the same, but is less self explanatory
-        throwIf$(arg45, 40, Is::gtEq, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
+        throwIf(arg45, 40, Is::gtEq, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
 
     }
     //>example<
@@ -126,10 +129,10 @@ public class Example_Validations_Simple_Test {
     public void test5() {
 
         //fails
-        throwIfNot$(arg45, Is::between, 5, 40, X::arg, "'arg'=%s  must be between 5 and 40.");
+        throwIfNot(arg45, Is::between, 5, 40, X::arg, "'arg'=%s  must be between 5 and 40.");
 
         //would do exactly the same, but you have full control over message.
-        throwIfNot(arg45, Is::between, 5, 40, X::arg, "'arg'=%d  must be between %d and %d.", arg45, 5, 40);
+        throwIfNot(arg45, Is::between, 5, 40, X::arg, "'arg'=%d  must be between %d and %d.");
 
     }
     //>example<
@@ -140,9 +143,11 @@ public class Example_Validations_Simple_Test {
     //>example<
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "'arg'=45  must be between 5 and 40.")
     public void test6() {
-        throwIfNot$(arg45, Is::between, 5, 40, X::assertion, "'arg'=%s  must be between 5 and 40.");
+        throwIfNot(arg45, Is::between, 5, 40, X::assertion, "'arg'=%s  must be between 5 and 40.");
     }
     //>example<
+
+
 
     //>inject<:generated
 

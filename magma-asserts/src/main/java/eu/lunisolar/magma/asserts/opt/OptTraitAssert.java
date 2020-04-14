@@ -72,7 +72,7 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 
 	public OptTraitAssert<T> isPresent() {
 		isNotNull();
-		must(OptTrait::isPresent, "<%s> is expected to have value but it does not.", actual());
+		must(OptTrait::isPresent, "<%s> is expected to have value, but is void.");
 		return this;
 	}
 
@@ -82,7 +82,7 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 
 	public OptTraitAssert<T> isVoid() {
 		isNotNull();
-		must(OptTrait::isVoid, "<%s> is expected to not have value but it does.", actual());
+		must(OptTrait::isVoid, "<%s> is expected to NOT have value, but it does.");
 		return this;
 	}
 
@@ -94,8 +94,8 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 		isNotNull();
 		arg(expectedValue, "expectedValue").must(Be::notNull, "The expected value should not be null.");
 
-		must(OptTrait::isPresent, "<%s> is expected to have value <%s> but it is void.", actual(), expectedValue);
-		must(P.have(OptTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s> but is not. <%s>", actual().nullable(), expectedValue, actual());
+		must(OptTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
+		must(P.have(OptTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 
@@ -107,8 +107,8 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 		isNotNull();
 		arg(expectedValue, "expectedValue").must(Be::notNull, "The expected value should not be null.");
 
-		must(OptTrait::isPresent, "<%s> is expected to have the same value <%s> but it is void.", actual(), expectedValue);
-		must(P.have(OptTrait::value, P::same, expectedValue), "Optional value <%s> should be the same as <%s> but is not. <%s>", actual().nullable(), expectedValue, actual());
+		must(OptTrait::isPresent, "<%s> is expected to have value refer to the object <%s>, but is void.", actual(), expectedValue);
+		must(P.have(OptTrait::value, P::same, expectedValue), "Optional value <%s> should refer to the same object as <%s>, but is not.", actual().nullable(), expectedValue);
 
 		return self();
 	}

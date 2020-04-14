@@ -102,16 +102,52 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsSrt(a, handling);
 	}
 
-	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LBoolToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsSrt(a, exF, newMessage, messageParams);
+	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsSrtX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsSrtX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsSrtX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LBoolToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsSrt(a, exF, newMessage);
+	}
+
+	default LBoolToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsSrt(a, exF, newMessage, param1);
+	}
+
+	default LBoolToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsSrt(a, exF, newMessage, param1, param1);
+	}
+
+	default LBoolToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsSrt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default short applyAsSrt(boolean a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsSrt(a);
 	}
 
-	static short tryApplyAsSrt(boolean a, LBoolToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static short tryApplyAsSrt(boolean a, LBoolToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a, exF, newMessage, messageParams);
+		return func.applyAsSrt(a, exF, newMessage);
+	}
+
+	static short tryApplyAsSrt(boolean a, LBoolToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrt(a, exF, newMessage, param1);
+	}
+
+	static short tryApplyAsSrt(boolean a, LBoolToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrt(a, exF, newMessage, param1, param2);
+	}
+
+	static short tryApplyAsSrt(boolean a, LBoolToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static short tryApplyAsSrt(boolean a, LBoolToSrtFunction func, @Nonnull ExWF<RuntimeException> exF) {

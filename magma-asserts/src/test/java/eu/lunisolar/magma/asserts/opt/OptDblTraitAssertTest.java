@@ -73,8 +73,8 @@ public class OptDblTraitAssertTest {
     public static final OptDblTrait VOID        = OptDbl.empty();
     public static final OptDblTrait NULL        = null;
 
-    public static final String                      VALUE_STR       = "0.0";
-    public static final String                      OTHER_VALUE_STR = "1.0";
+    public static final String                      VALUE_STR       = "'0.0'^^double";
+    public static final String                      OTHER_VALUE_STR = "'1.0'^^double";
 
     @Test
     public void testActual() {
@@ -92,9 +92,10 @@ public class OptDblTraitAssertTest {
         var sut = new OptDblTraitAssert(OPT).isPresent();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*<OptDbl.empty> is expected to have value but it does not.*")
+    @Test
     public void testIsPresent_VOID() {
-        var sut = new OptDblTraitAssert(VOID).isPresent();
+        var sut = new OptDblTraitAssert(VOID);
+        assertThatThrownBy(() -> sut.isPresent()).isInstanceOf(AssertionError.class).hasMessage("Actual [OptDbl.empty]: <OptDbl.empty> is expected to have value, but is void.");
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*Expecting actual not to be null.*")
@@ -107,9 +108,10 @@ public class OptDblTraitAssertTest {
         var sut = new OptDblTraitAssert(OPT).isNotVoid();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*<OptDbl.empty> is expected to have value but it does not.*")
+    @Test
     public void testIsNotVoid_VOID() {
-        var sut = new OptDblTraitAssert(VOID).isNotVoid();
+        var sut = new OptDblTraitAssert(VOID);
+        assertThatThrownBy(() -> sut.isNotVoid()).isInstanceOf(AssertionError.class).hasMessage("Actual [OptDbl.empty]: <OptDbl.empty> is expected to have value, but is void.");
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*Expecting actual not to be null.*")
@@ -117,9 +119,10 @@ public class OptDblTraitAssertTest {
         var sut = new OptDblTraitAssert(NULL).isNotVoid();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "<OptDbl\\[" + VALUE_STR + "\\]> is expected to not have value but it does.")
+    @Test
     public void testIsVoid_OPT() {
-        var sut = new OptDblTraitAssert(OPT).isVoid();
+        var sut = new OptDblTraitAssert(OPT);
+        assertThatThrownBy(() -> sut.isVoid()).isInstanceOf(AssertionError.class).hasMessage("Actual [OptDbl[" + VALUE_STR + "]]: <OptDbl[" + VALUE_STR + "]> is expected to NOT have value, but it does.");
     }
 
     @Test
@@ -132,9 +135,10 @@ public class OptDblTraitAssertTest {
         var sut = new OptDblTraitAssert(NULL).isVoid();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "<OptDbl\\[" + VALUE_STR + "\\]> is expected to not have value but it does.")
+    @Test
     public void testIsNotPresent_OPT() {
-        var sut = new OptDblTraitAssert(OPT).isNotPresent();
+        var sut = new OptDblTraitAssert(OPT);
+        assertThatThrownBy(() -> sut.isNotPresent()).isInstanceOf(AssertionError.class).hasMessage("Actual [OptDbl[" + VALUE_STR + "]]: <OptDbl[" + VALUE_STR + "]> is expected to NOT have value, but it does.");
     }
 
     @Test
@@ -150,15 +154,15 @@ public class OptDblTraitAssertTest {
     @Test
     public void testContains_OPT() {
         var sut = new OptDblTraitAssert(OPT);
-        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Optional value <" + VALUE_STR + "> should be equal to <" + OTHER_VALUE_STR + "> but is not. <OptDbl[" + VALUE_STR + "]>");
+        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [OptDbl[" + VALUE_STR + "]]: Optional value <" + VALUE + "> should be equal to <" + OTHER_VALUE + ">.");
         sut.contains(VALUE);
     }
 
     @Test
     public void testContains_VOID() {
         var sut = new OptDblTraitAssert(VOID);
-        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("<OptDbl.empty> is expected to have value <" + OTHER_VALUE_STR + "> but it is void.");
-        assertThatThrownBy(() -> sut.contains(VALUE)).isInstanceOf(AssertionError.class).hasMessage("<OptDbl.empty> is expected to have value <" + VALUE_STR + "> but it is void.");
+        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [OptDbl.empty]: <OptDbl.empty> is expected to have value <" + OTHER_VALUE + ">, but is void.");
+        assertThatThrownBy(() -> sut.contains(VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [OptDbl.empty]: <OptDbl.empty> is expected to have value <" + VALUE + ">, but is void.");
     }
 
     @Test
@@ -180,9 +184,9 @@ public class OptDblTraitAssertTest {
     public void testHasValue_VOID() {
         var sut = new OptDblTraitAssert(VOID);
         assertThatThrownBy(() -> sut.hasValueThat())
-            .isInstanceOf(AssertionError.class).hasMessageContaining("<OptDbl.empty> is expected to have value but it does not.");
+            .isInstanceOf(AssertionError.class).hasMessageContaining("Actual [OptDbl.empty]: <OptDbl.empty> is expected to have value, but is void.");
         assertThatThrownBy(() -> sut.hasValueThat())
-            .isInstanceOf(AssertionError.class).hasMessageContaining("<OptDbl.empty> is expected to have value but it does not.");
+            .isInstanceOf(AssertionError.class).hasMessageContaining("Actual [OptDbl.empty]: <OptDbl.empty> is expected to have value, but is void.");
     }
 
 }

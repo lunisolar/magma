@@ -102,16 +102,52 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return a -> handlingApplyAsByte(a, handling);
 	}
 
-	default byte applyAsByte(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default byte applyAsByte(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LCharToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsByte(a, exF, newMessage, messageParams);
+	default byte applyAsByte(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default byte applyAsByte(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default byte applyAsByte(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LCharToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsByte(a, exF, newMessage);
+	}
+
+	default LCharToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsByte(a, exF, newMessage, param1);
+	}
+
+	default LCharToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsByte(a, exF, newMessage, param1, param1);
+	}
+
+	default LCharToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsByte(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default byte applyAsByte(char a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return func.nestingApplyAsByte(a);
 	}
 
-	static byte tryApplyAsByte(char a, LCharToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static byte tryApplyAsByte(char a, LCharToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a, exF, newMessage, messageParams);
+		return func.applyAsByte(a, exF, newMessage);
+	}
+
+	static byte tryApplyAsByte(char a, LCharToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a, exF, newMessage, param1);
+	}
+
+	static byte tryApplyAsByte(char a, LCharToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a, exF, newMessage, param1, param2);
+	}
+
+	static byte tryApplyAsByte(char a, LCharToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static byte tryApplyAsByte(char a, LCharToByteFunction func, @Nonnull ExWF<RuntimeException> exF) {

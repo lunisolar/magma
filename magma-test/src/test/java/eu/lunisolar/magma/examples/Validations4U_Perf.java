@@ -18,21 +18,26 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.basics.ToStr;
 import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.func.predicate.LBiPredicate;
 import eu.lunisolar.magma.func.predicate.LPredicate;
 import eu.lunisolar.magma.func.supp.Be;
-import eu.lunisolar.magma.func.supp.Has;
 import eu.lunisolar.magma.func.supp.Is;
+import eu.lunisolar.magma.func.supp.MsgVerbosity;
 import eu.lunisolar.magma.func.supp.P;
+import eu.lunisolar.magma.func.supp.opt.Opt;
 import eu.lunisolar.magma.func.supplier.LSupplier;
 import eu.lunisolar.magma.test.JMH;
 import eu.lunisolar.magma.test.random.Series;
 import eu.lunisolar.magma.test.random.SeriesParams;
 import org.openjdk.jmh.annotations.*;
 
+import javax.annotation.Nullable;
 import java.util.concurrent.*;
 
+import static eu.lunisolar.magma.func.supp.MsgVerbosity.*;
 import static eu.lunisolar.magma.func.supp.check.Checks.arg;
 import static eu.lunisolar.magma.test.random.Series.series;
 import static eu.lunisolar.magma.test.random.SimpleRandoms.aString;
@@ -51,6 +56,8 @@ public class Validations4U_Perf {
     public static final  int                        TIMES            = 1;
     public static final  int                        SERIES_SIZE      = 10000;
     public static final  int                        COUNT_ITERATIONS = 10000;
+
+    public static String SAME = "";
 
     private static final LSupplier<String> str     = () -> aString(20);
     private static final LSupplier<String> nullStr = () -> null;
@@ -71,8 +78,8 @@ public class Validations4U_Perf {
     @State(Scope.Thread)
     public static class TheState {
 
-        static Series<String> names  = series(params().name("names"));
-        static Series<String> values = series(params().name("values"));
+        static Series<String> names  = series(params().name("names"), SAME);
+        static Series<String> values = series(params().name("values"), SAME);
 
         @Setup
         public void setup() {
@@ -106,12 +113,12 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object lpredicate_throwIf_varargs(TheState state) {
+    @Benchmark @Threads(THREADS) public Object lpredicate_throwIf_msg_from_params(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                LPredicate.throwIf(state.values.v(i), Is::nullOrEmpty, X::arg, "Cannot be empty: %s.", state.values.v(i));
+                LPredicate.throwIf(state.values.v(i), Is::nullOrEmpty, X::arg, "Cannot be empty: %s.");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -190,6 +197,34 @@ public class Validations4U_Perf {
         return a;
     }
 
+    @Benchmark @Threads(THREADS) public Object throwIf_customMsg_bad(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                LPredicate.throwIf(state.values.v(i),  Be::nullOrEmpty, X::arg, (o1)-> { return ""+ state.values.v(i).getClass();});
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object arg2_customMsg(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).mustNot(Be::nullOrEmpty, "Cannot be empty index: %s", i);
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
     @Benchmark @Threads(THREADS) public Object derived(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
@@ -205,12 +240,163 @@ public class Validations4U_Perf {
         return a;
     }
 
-     @Benchmark @Threads(THREADS) public Object mustNot$(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNot$_REF0(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).mustNot$(Be::equal, "", "Cannot be empty.");
+                if (state.values.v(i).equals("")) {
+                    throw new RuntimeException("Cannot be empty.");
+                }
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object mustNot$_REF_______0(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i)).mustNot(P::equal, "", "No no!");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object mustNot$_REF_______01(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i)).fluentUse(__ -> __.mustNot(P::equal, "", "No no!"));
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object mustNot$_REF_______1(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i)).verbosity(ALL).mustNot(P::equal, "","No no!");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object mustNot$_REF1(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                String v = state.values.v(i);
+                if (v.equals("")) {
+                    throw new RuntimeException("Cannot be empty: '" + v + "'");
+                }
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                String v = state.values.v(i);
+                LBiPredicate.throwIf(v, P::equal, "", X::arg, "Cannot be empty");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF1(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                String v = state.values.v(i);
+                LBiPredicate.throwIf(v, P::equal, "", X::arg,"Cannot be empty: %s");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+//    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF_MsgFunc(TheState state) {
+//        int a = 0;
+//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+//            int i = state.i();
+//            try {
+//                String v = state.values.v(i);
+//                LBiPredicate.throwIf(v, P::equal, "", X::arg,(__, p)-> String.format("Cannot be empty: %s", __));
+//                a++;
+//            } catch (RuntimeException e) {
+//                a--;
+//            }
+//        }
+//        return a;
+//    }
+
+//    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF_MsgFunc_Better(TheState state) {
+//        int a = 0;
+//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+//            int i = state.i();
+//            try {
+//                String v = state.values.v(i);
+//                LBiPredicate.throwIf(v, P::equal, "", X::arg,(__, p)-> new StringBuilder().append("Cannot be empty: ").append(__).toString());
+//                a++;
+//            } catch (RuntimeException e) {
+//                a--;
+//            }
+//        }
+//        return a;
+//    }
+
+//    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF_MsgFunc_BAD(TheState state) {
+//        int a = 0;
+//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+//            int i = state.i();
+//            try {
+//                String v = state.values.v(i);
+//                LBiPredicate.throwIf(v, P::equal, "", X::arg,(__, p)-> String.format("Cannot be empty: %s", v));
+//                a++;
+//            } catch (RuntimeException e) {
+//                a--;
+//            }
+//        }
+//        return a;
+//    }
+
+    //
+    @Benchmark @Threads(THREADS) public Object mustNot(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i)).mustNot(Be::equal, "", "Cannot be empty.");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -224,7 +410,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).mustNot$$(Be::equal, "", "Cannot be empty.");
+                arg(state.values.v(i)).verbosity(ALL).mustNot(Be::equal, "", "Cannot be empty.");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -240,7 +426,7 @@ public class Validations4U_Perf {
             try {
                 var s = state.values.v(i);
                 if (s!= null ) {
-                    arg(state.values.v(i)).mustNot$$(Be::equal, "", "Cannot be empty.");
+                    arg(state.values.v(i)).verbosity(ALL).mustNot(Be::equal, "", "Cannot be empty.");
                 }
 
                 a++;
@@ -251,7 +437,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object equal$(TheState state) {
+    @Benchmark @Threads(THREADS) public Object notEqual$_arg(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -260,6 +446,98 @@ public class Validations4U_Perf {
 //                if (s!= null ) {
                     arg(state.values.v(i)).must$(Be::notEqual$, "");
 //                }
+
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+//     @Benchmark @Threads(THREADS) public Object notEqual$_arg_customMsg(TheState state) {
+//        int a = 0;
+//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+//            int i = state.i();
+//            try {
+////                var s = state.values.v(i);
+////                if (s!= null ) {
+//                String v = state.values.v(i);
+//                arg(v).must_(Be::notEqual$, "", "Special comment: %s", v);
+////                }
+//
+//                a++;
+//            } catch (RuntimeException e) {
+//                a--;
+//            }
+//        }
+//        return a;
+//    }
+
+    @Benchmark @Threads(THREADS) public Object notEqual$_arg_customMsg_verbosity2(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+//                var s = state.values.v(i);
+//                if (s!= null ) {
+                String v = state.values.v(i);
+                arg(v).must$(Be::notEqual$, "", "Special comment: %s");
+//                }
+
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+     @Benchmark @Threads(THREADS) public Object notEqual$_throwIfNot(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+//                var s = state.values.v(i);
+//                if (s!= null ) {
+                    LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg);
+//                }throwIfNot
+
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object notEqual$_throwIfNot$$(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+//                var s = state.values.v(i);
+//                if (s!= null ) {
+                    LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg, "Message: %s");
+//                }throwIfNot
+
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object notEqual$_must$$(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+//                var s = state.values.v(i);
+//                if (s!= null ) {
+                arg(state.values.v(i)).must$(Be::notEqual$, ALL,"");
+//                }throwIfNot
 
                 a++;
             } catch (RuntimeException e) {
@@ -292,7 +570,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).checkWhen(Is::notNull, __ -> __.mustNot$$(Be::equal, "", "Cannot be empty."));
+                arg(state.values.v(i)).checkWhen(Is::notNull, __ -> __.mustNot(Be::equal, "", "Cannot be empty."));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -306,7 +584,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), "data").checkWhen(Is::notNull, __ -> __.mustNot$$(Be::equal, "conditional check", "Cannot be empty."));
+                arg(state.values.v(i), "data").checkWhen(Is::notNull, __ -> __.mustNot(Be::equal, "conditional check", "Cannot be empty."));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -320,7 +598,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).must(P.have(String::length, P::ltEq, 32*state.names.v(i).length()), "must have specific length");
+                arg(state.values.v(i)).mustNot(P.have(Object::toString, P::same, SAME), "must have specific length");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -328,6 +606,203 @@ public class Validations4U_Perf {
         }
         return a;
     }
+
+
+    @Benchmark @Threads(THREADS) public Object verbosity_0(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).must(PP::notSame3, SAME, "a", "b","Cannot be empty index");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object verbosity_1(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).must(PP::notSame3, SAME, "a", "b","Cannot be empty index");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object verbosity_2(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).must(PP::notSame3, SAME, "a", "b", "Cannot be empty index");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object verbosity_d0(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).verbosity(MIN).must(PP::notSame3, SAME, "a", "b", "Cannot be empty index");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object verbosity_d1(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).verbosity(VAL).must(PP::notSame3, SAME, "a", "b","Cannot be empty index");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object verbosity_d2(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).verbosity(ALL).must(PP::notSame3, SAME, "a", "b", "Cannot be empty index");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object verbosity_MAX_MAX(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL).must$(PP::notSame3$, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+     @Benchmark @Threads(THREADS) public Object verbosity_d2_customMsg(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                arg(state.values.v(i), state.names.v(i)).verbose().must(PP::notSame3, SAME, "a", "b", "Cannot be empty index %s", "3465");
+                a++;
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+//    @Benchmark @Threads(THREADS) public Object ToStr_toStr(TheState state) {
+//        int a = 0;
+//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+//            int i = state.i();
+//            try {
+//                a += ToStr.toStr(state.values.v(i)).length();
+//            } catch (RuntimeException e) {
+//                a--;
+//            }
+//        }
+//        return a;
+//    }
+//
+//    @Benchmark @Threads(THREADS) public Object ToStr_toStr_ref0(TheState state) {
+//        int a = 0;
+//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+//            int i = state.i();
+//            try {
+//                String result;
+//                Object o = state.values.v(i);
+//                if (o == null) {
+//                    result = ToStr.NULL_REPRESENTATION;
+//                } else {
+//                    StringBuilder result1;
+//                    StringBuilder sb = new StringBuilder();
+//                    if (o == null) {
+//                        result1 = sb.append(ToStr.NULL_REPRESENTATION);
+//                    } else {result1 = sb.append('\'').append(o).append('\'').append("^^").append(o.getClass().getSimpleName());}
+//                    result = result1.toString();
+//                }
+//
+//                a += result.length();
+//            } catch (RuntimeException e) {
+//                a--;
+//            }
+//        }
+//        return a;
+//    }
+//
+//    @Benchmark @Threads(THREADS) public Object ToStr_toStr_ref1(TheState state) {
+//        int a = 0;
+//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+//            int i = state.i();
+//            try {
+//                Object o = state.values.v(i);
+//                String result = String.format("'%s'^^", o, o==null? "?" : o.getClass());
+//                a += result.length();
+//            } catch (RuntimeException e) {
+//                a--;
+//            }
+//        }
+//        return a;
+//    }
+
+     @Benchmark @Threads(THREADS) public Object ToStr_toStr_ref1(TheState state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            try {
+                String v = state.values.v(i);
+                a += Opt.of(v).orThrow(X::arg, "%s", v.length()).get().length();
+            } catch (RuntimeException e) {
+                a--;
+            }
+        }
+        return a;
+    }
+
+    public static class PP {
+
+        public static boolean notSame3(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
+            return !(n == other1) && !(n == other2) && !(n == other3);
+        }
+
+        public static String notSame3$(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
+            if (!notSame3(n, other1, other2, other3 )) {
+                return String.format("<%s> must be different from <%s>, <%s> and <%s>", other1, other2, other3);
+            };
+            return null;
+        }
+
+    }
+
 
     public static void main(String... args) {
         JMH.jmh()

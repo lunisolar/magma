@@ -103,16 +103,52 @@ public interface LBiDblConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		return (a1, a2) -> handlingAccept(a1, a2, handling);
 	}
 
-	default void accept(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default void accept(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LBiDblConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, messageParams);
+	default void accept(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			this.acceptX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default void accept(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			this.acceptX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default void accept(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			this.acceptX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LBiDblConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage);
+	}
+
+	default LBiDblConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1);
+	}
+
+	default LBiDblConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LBiDblConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default void accept(double a1, double a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -168,9 +204,24 @@ public interface LBiDblConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		func.nestingAccept(a1, a2);
 	}
 
-	static void tryAccept(double a1, double a2, LBiDblConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static void tryAccept(double a1, double a2, LBiDblConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, messageParams);
+		func.accept(a1, a2, exF, newMessage);
+	}
+
+	static void tryAccept(double a1, double a2, LBiDblConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, exF, newMessage, param1);
+	}
+
+	static void tryAccept(double a1, double a2, LBiDblConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static void tryAccept(double a1, double a2, LBiDblConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static void tryAccept(double a1, double a2, LBiDblConsumer func, @Nonnull ExWF<RuntimeException> exF) {

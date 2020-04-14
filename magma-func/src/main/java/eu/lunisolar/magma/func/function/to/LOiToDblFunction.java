@@ -104,16 +104,52 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (a1, a2) -> handlingApplyAsDbl(a1, a2, handling);
 	}
 
-	default double applyAsDbl(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default double applyAsDbl(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LOiToDblFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, messageParams);
+	default double applyAsDbl(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsDblX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default double applyAsDbl(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsDblX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default double applyAsDbl(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsDblX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LOiToDblFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage);
+	}
+
+	default LOiToDblFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1);
+	}
+
+	default LOiToDblFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LOiToDblFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default double applyAsDbl(T a1, int a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -169,9 +205,24 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.nestingApplyAsDbl(a1, a2);
 	}
 
-	static <T> double tryApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> double tryApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a1, a2, exF, newMessage, messageParams);
+		return func.applyAsDbl(a1, a2, exF, newMessage);
+	}
+
+	static <T> double tryApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a1, a2, exF, newMessage, param1);
+	}
+
+	static <T> double tryApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static <T> double tryApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T> double tryApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {

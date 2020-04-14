@@ -103,16 +103,52 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return (a1, a2, a3, a4, a5) -> handlingApply(a1, a2, a3, a4, a5, handling);
 	}
 
-	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LQuintFunction<T1, T2, T3, T4, T5, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5, exF, newMessage, messageParams);
+	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyX(a1, a2, a3, a4, a5);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyX(a1, a2, a3, a4, a5);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyX(a1, a2, a3, a4, a5);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LQuintFunction<T1, T2, T3, T4, T5, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5, exF, newMessage);
+	}
+
+	default LQuintFunction<T1, T2, T3, T4, T5, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5, exF, newMessage, param1);
+	}
+
+	default LQuintFunction<T1, T2, T3, T4, T5, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5, exF, newMessage, param1, param1);
+	}
+
+	default LQuintFunction<T1, T2, T3, T4, T5, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
 	}
 
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> exF) {
@@ -168,9 +204,25 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return func.nestingApply(a1, a2, a3, a4, a5);
 	}
 
-	static <T1, T2, T3, T4, T5, R> R tryApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T1, T2, T3, T4, T5, R> R tryApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, a3, a4, a5, exF, newMessage, messageParams);
+		return func.apply(a1, a2, a3, a4, a5, exF, newMessage);
+	}
+
+	static <T1, T2, T3, T4, T5, R> R tryApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, a3, a4, a5, exF, newMessage, param1);
+	}
+
+	static <T1, T2, T3, T4, T5, R> R tryApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, a3, a4, a5, exF, newMessage, param1, param2);
+	}
+
+	static <T1, T2, T3, T4, T5, R> R tryApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T1, T2, T3, T4, T5, R> R tryApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull ExWF<RuntimeException> exF) {

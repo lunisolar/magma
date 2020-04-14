@@ -467,12 +467,57 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 
 	// <editor-fold desc="orElse">
 
-	default SELF orThrow() {
+	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
 			return self();
 		}
 
 		throw Handling.create(X::noSuchElement);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2, param3);
 	}
 
 	default byte orElseThrow() {
@@ -481,15 +526,6 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		}
 
 		throw Handling.create(X::noSuchElement);
-	}
-
-	default SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
-		if (isPresent()) {
-			return self();
-		}
-
-		Null.nonNullArg(fx, "fx");
-		throw Handling.create(fx);
 	}
 
 	default byte orElseThrow(@Nonnull ExF<RuntimeException> fx) {
@@ -501,15 +537,6 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		throw Handling.create(fx);
 	}
 
-	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
-		if (isPresent()) {
-			return self();
-		}
-
-		Null.nonNullArg(fx, "fx");
-		throw Handling.create(fx, msg);
-	}
-
 	default byte orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
 		if (isPresent()) {
 			return get();
@@ -519,22 +546,31 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		throw Handling.create(fx, msg);
 	}
 
-	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
-		if (isPresent()) {
-			return self();
-		}
-
-		Null.nonNullArg(fx, "fx");
-		throw Handling.create(fx, msg, args);
-	}
-
-	default byte orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+	default byte orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1) {
 		if (isPresent()) {
 			return get();
 		}
 
 		Null.nonNullArg(fx, "fx");
-		throw Handling.create(fx, msg, args);
+		throw Handling.create(fx, msg, param1);
+	}
+
+	default byte orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2);
+	}
+
+	default byte orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2, param3);
 	}
 
 	default byte orElse(@Nullable byte value) {

@@ -72,7 +72,7 @@ public class OptByteTraitAssert extends AbstractObjectAssert<OptByteTraitAssert,
 
 	public OptByteTraitAssert isPresent() {
 		isNotNull();
-		must(OptByteTrait::isPresent, "<%s> is expected to have value but it does not.", actual());
+		must(OptByteTrait::isPresent, "<%s> is expected to have value, but is void.");
 		return this;
 	}
 
@@ -82,7 +82,7 @@ public class OptByteTraitAssert extends AbstractObjectAssert<OptByteTraitAssert,
 
 	public OptByteTraitAssert isVoid() {
 		isNotNull();
-		must(OptByteTrait::isVoid, "<%s> is expected to not have value but it does.", actual());
+		must(OptByteTrait::isVoid, "<%s> is expected to NOT have value, but it does.");
 		return this;
 	}
 
@@ -93,8 +93,8 @@ public class OptByteTraitAssert extends AbstractObjectAssert<OptByteTraitAssert,
 	public OptByteTraitAssert contains(byte expectedValue) {
 		isNotNull();
 
-		must(OptByteTrait::isPresent, "<%s> is expected to have value <%s> but it is void.", actual(), expectedValue);
-		must(P.haveByte(OptByteTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s> but is not. <%s>", actual().nullable(), expectedValue, actual());
+		must(OptByteTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
+		must(P.haveByte(OptByteTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

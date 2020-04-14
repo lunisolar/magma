@@ -102,16 +102,52 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (a1, a2, a3, a4, a5) -> handlingTest(a1, a2, a3, a4, a5, handling);
 	}
 
-	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage, messageParams);
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.testX(a1, a2, a3, a4, a5);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.testX(a1, a2, a3, a4, a5);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.testX(a1, a2, a3, a4, a5);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage);
+	}
+
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage, param1);
+	}
+
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage, param1, param1);
+	}
+
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
 	}
 
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,25 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return func.nestingTest(a1, a2, a3, a4, a5);
 	}
 
-	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, a4, a5, exF, newMessage, messageParams);
+		return func.test(a1, a2, a3, a4, a5, exF, newMessage);
+	}
+
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.test(a1, a2, a3, a4, a5, exF, newMessage, param1);
+	}
+
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.test(a1, a2, a3, a4, a5, exF, newMessage, param1, param2);
+	}
+
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.test(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWF<RuntimeException> exF) {
@@ -387,176 +439,366 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 
 	/** Throws new exception if condition is met. */
 	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory,
-			LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+			@Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5), a1, a2, a3, a4, a5);
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(msg, a1, a2, a3, a4, a5));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1, param2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
 	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory,
-			LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+			@Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5), a1, a2, a3, a4, a5);
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String msg)
+			throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		if (!pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(msg, a1, a2, a3, a4, a5));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1, param2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
 	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory,
-			LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+			@Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5), a1, a2, a3, a4, a5);
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(msg, a1, a2, a3, a4, a5));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1, param2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
 	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory,
-			LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+			@Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5), a1, a2, a3, a4, a5);
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3, a4, a5));
 		}
 		return a1;
 	}
 
-	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, @Nonnull ExMF<X> factory)
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String msg)
 			throws X {
-		var msg = specialPredicate.apply(a1, a2, a3, a4, a5);
-		if (msg != null) {
-			throw Handling.create(factory, msg);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory)
-			throws X {
-		var msg = specialPredicate.apply(a1, a2, a3, a4, a5);
-		if (msg != null) {
-			throw Handling.create(factory, msg);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage,
-			@Nonnull Object... messageParams) throws X {
-		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String newMessage,
-			@Nonnull Object... messageParams) throws X {
-		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage,
-			@Nonnull Object... messageParams) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
 		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, messageParams);
+			throw Handling.create(factory, String.format(msg, a1, a2, a3, a4, a5));
 		}
 		return a1;
 	}
 
-	/** Throws new exception if condition is not met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String newMessage,
-			@Nonnull Object... messageParams) throws X {
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, messageParams);
+			throw Handling.create(factory, String.format(message, param1));
 		}
 		return a1;
 	}
 
-	/** Throws new exception if condition is met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
-			throws X {
-		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
-			throws X {
-		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
-			throws X {
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage);
+			throw Handling.create(factory, String.format(message, param1, param2));
 		}
 		return a1;
 	}
 
-	/** Throws new exception if condition is not met. */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
-			throws X {
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String message,
+			@Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage);
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
 		}
 		return a1;
 	}
 
-	/**
-	* Throws new exception if condition is met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, @Nonnull ExMF<X> factory)
 			throws X {
-		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, a1, a2, a3, a4, a5);
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, m);
 		}
 		return a1;
 	}
 
-	/**
-	* Throws new exception if condition is met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf$(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
-			throws X {
-		if (pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, a1, a2, a3, a4, a5);
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate,
+			@Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(msg, a1, a2, a3, a4, a5) + ' ' + m);
 		}
 		return a1;
 	}
 
-	/**
-	* Throws new exception if condition is not met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
-			throws X {
-		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, a1, a2, a3, a4, a5);
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate,
+			@Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1) + ' ' + m);
 		}
 		return a1;
 	}
 
-	/**
-	* Throws new exception if condition is not met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory, @Nonnull String newMessage)
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate,
+			@Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate,
+			@Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory)
 			throws X {
-		if (!pred.test(a1, a2, a3, a4, a5)) {
-			throw Handling.create(factory, newMessage, a1, a2, a3, a4, a5);
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5,
+			@Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(msg, a1, a2, a3, a4, a5) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5,
+			@Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5,
+			@Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot$(T1 a1, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5,
+			@Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3) + ' ' + m);
 		}
 		return a1;
 	}

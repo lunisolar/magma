@@ -102,16 +102,52 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsLong(a, handling);
 	}
 
-	default long applyAsLong(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default long applyAsLong(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LSrtToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsLong(a, exF, newMessage, messageParams);
+	default long applyAsLong(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsLongX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default long applyAsLong(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsLongX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default long applyAsLong(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsLongX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LSrtToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsLong(a, exF, newMessage);
+	}
+
+	default LSrtToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsLong(a, exF, newMessage, param1);
+	}
+
+	default LSrtToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsLong(a, exF, newMessage, param1, param1);
+	}
+
+	default LSrtToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsLong(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default long applyAsLong(short a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsLong(a);
 	}
 
-	static long tryApplyAsLong(short a, LSrtToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static long tryApplyAsLong(short a, LSrtToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a, exF, newMessage, messageParams);
+		return func.applyAsLong(a, exF, newMessage);
+	}
+
+	static long tryApplyAsLong(short a, LSrtToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a, exF, newMessage, param1);
+	}
+
+	static long tryApplyAsLong(short a, LSrtToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a, exF, newMessage, param1, param2);
+	}
+
+	static long tryApplyAsLong(short a, LSrtToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static long tryApplyAsLong(short a, LSrtToLongFunction func, @Nonnull ExWF<RuntimeException> exF) {

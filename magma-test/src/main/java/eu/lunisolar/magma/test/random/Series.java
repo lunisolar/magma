@@ -5,6 +5,7 @@
 
 package eu.lunisolar.magma.test.random;
 
+import javax.annotation.Nullable;
 import java.util.concurrent.*;
 import java.util.logging.*;
 import java.util.stream.*;
@@ -24,7 +25,7 @@ public class Series<T> {
 
     private SeriesParams<T> params;
 
-    private Series(SeriesParams<T> params) {
+    private Series(SeriesParams<T> params, boolean useAltPathEnforcer, @Nullable T altPathEnforcer) {
 
         this.params = params.validate();
 
@@ -37,13 +38,22 @@ public class Series<T> {
 
 //        fromTill(0, series.length, i -> series[i] = createSampleValue());
 
-        rangeClosed(0, series.length - 1).parallel().mapToObj(i -> createSampleValue()).collect(toList()).toArray(series);
+        if (useAltPathEnforcer) {
+            rangeClosed(0, series.length - 1).parallel()
+                                             .mapToObj(i -> i == 0 ? altPathEnforcer : createSampleValue()).collect(toList()).toArray(series);
+        } else {
+            rangeClosed(0, series.length - 1).parallel().mapToObj(i -> createSampleValue()).collect(toList()).toArray(series);
+        }
 
         LOGGER.log(Level.INFO, String.format("Series '%s' prepared: %s", params.name(), params));
     }
 
     public static <T> Series<T> series(SeriesParams<T> params) {
-        return new Series<>(params);
+        return new Series<>(params, false, null);
+    }
+
+    public static <T> Series<T> series(SeriesParams<T> params, @Nullable T altPathEnforcer) {
+        return new Series<>(params, true, altPathEnforcer);
     }
 
     private Object createSampleValue() {

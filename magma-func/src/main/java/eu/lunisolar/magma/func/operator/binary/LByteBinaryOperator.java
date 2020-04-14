@@ -102,16 +102,52 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (a1, a2) -> handlingApplyAsByte(a1, a2, handling);
 	}
 
-	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LByteBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage, messageParams);
+	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsByteX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsByteX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsByteX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LByteBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage);
+	}
+
+	default LByteBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage, param1);
+	}
+
+	default LByteBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LByteBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.nestingApplyAsByte(a1, a2);
 	}
 
-	static byte tryApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static byte tryApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, exF, newMessage, messageParams);
+		return func.applyAsByte(a1, a2, exF, newMessage);
+	}
+
+	static byte tryApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a1, a2, exF, newMessage, param1);
+	}
+
+	static byte tryApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static byte tryApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static byte tryApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {

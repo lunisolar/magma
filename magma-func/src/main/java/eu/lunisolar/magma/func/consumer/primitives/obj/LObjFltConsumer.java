@@ -105,16 +105,52 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return (a1, a2) -> handlingAccept(a1, a2, handling);
 	}
 
-	default void accept(T a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default void accept(T a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LObjFltConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, messageParams);
+	default void accept(T a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			this.acceptX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default void accept(T a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			this.acceptX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default void accept(T a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			this.acceptX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LObjFltConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage);
+	}
+
+	default LObjFltConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1);
+	}
+
+	default LObjFltConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LObjFltConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default void accept(T a1, float a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -170,9 +206,24 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		func.nestingAccept(a1, a2);
 	}
 
-	static <T> void tryAccept(T a1, float a2, LObjFltConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> void tryAccept(T a1, float a2, LObjFltConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, messageParams);
+		func.accept(a1, a2, exF, newMessage);
+	}
+
+	static <T> void tryAccept(T a1, float a2, LObjFltConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, exF, newMessage, param1);
+	}
+
+	static <T> void tryAccept(T a1, float a2, LObjFltConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static <T> void tryAccept(T a1, float a2, LObjFltConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T> void tryAccept(T a1, float a2, LObjFltConsumer<T> func, @Nonnull ExWF<RuntimeException> exF) {

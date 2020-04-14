@@ -104,16 +104,52 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsByte(a, handling);
 	}
 
-	default byte applyAsByte(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default byte applyAsByte(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LToByteFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsByte(a, exF, newMessage, messageParams);
+	default byte applyAsByte(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default byte applyAsByte(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default byte applyAsByte(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsByteX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LToByteFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsByte(a, exF, newMessage);
+	}
+
+	default LToByteFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsByte(a, exF, newMessage, param1);
+	}
+
+	default LToByteFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsByte(a, exF, newMessage, param1, param1);
+	}
+
+	default LToByteFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsByte(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default byte applyAsByte(T a, @Nonnull ExWF<RuntimeException> exF) {
@@ -169,9 +205,24 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsByte(a);
 	}
 
-	static <T> byte tryApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> byte tryApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a, exF, newMessage, messageParams);
+		return func.applyAsByte(a, exF, newMessage);
+	}
+
+	static <T> byte tryApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a, exF, newMessage, param1);
+	}
+
+	static <T> byte tryApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a, exF, newMessage, param1, param2);
+	}
+
+	static <T> byte tryApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsByte(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T> byte tryApplyAsByte(T a, LToByteFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {

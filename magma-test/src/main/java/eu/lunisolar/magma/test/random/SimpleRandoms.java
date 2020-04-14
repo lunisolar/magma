@@ -14,7 +14,7 @@ import java.math.*;
 import java.util.function.*;
 
 import static eu.lunisolar.magma.func.action.LAction.times;
-import static eu.lunisolar.magma.func.predicate.LBiIntPredicate.throwIf$;
+import static eu.lunisolar.magma.func.predicate.LBiIntPredicate.throwIf;
 import static java.lang.Math.*;
 import static java.math.BigInteger.*;
 import static java.util.concurrent.ThreadLocalRandom.*;
@@ -54,9 +54,9 @@ public final class SimpleRandoms {
 
     public static String aString(int minLength, int maxLength) {
 
-        throwIf$(minLength, P::gt, maxLength, X::arg, "Min length (%d) must be lower or equal to max length (%d).");
-        throwIf$(minLength, P::lt, 0, X::arg, "Min length must be higher than zero, current value: %d");
-        throwIf$(maxLength, P::lt, 0, X::arg, "Max length must be higher than zero, current value: %d");
+        throwIf(minLength, P::gt, maxLength, X::arg, "Min length (%d) must be lower or equal to max length (%d).");
+        throwIf(minLength, P::lt, 0, X::arg, "Min length must be higher than zero, current value: %d");
+        throwIf(maxLength, P::lt, 0, X::arg, "Max length must be higher than zero, current value: %d");
 
         var length = anInt(minLength, maxLength);
 

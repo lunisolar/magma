@@ -102,16 +102,52 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsInt(a, handling);
 	}
 
-	default int applyAsInt(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default int applyAsInt(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LCharToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsInt(a, exF, newMessage, messageParams);
+	default int applyAsInt(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default int applyAsInt(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default int applyAsInt(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsIntX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LCharToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsInt(a, exF, newMessage);
+	}
+
+	default LCharToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsInt(a, exF, newMessage, param1);
+	}
+
+	default LCharToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsInt(a, exF, newMessage, param1, param1);
+	}
+
+	default LCharToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsInt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default int applyAsInt(char a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryApplyAsInt(char a, LCharToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static int tryApplyAsInt(char a, LCharToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage, messageParams);
+		return func.applyAsInt(a, exF, newMessage);
+	}
+
+	static int tryApplyAsInt(char a, LCharToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsInt(a, exF, newMessage, param1);
+	}
+
+	static int tryApplyAsInt(char a, LCharToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsInt(a, exF, newMessage, param1, param2);
+	}
+
+	static int tryApplyAsInt(char a, LCharToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsInt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static int tryApplyAsInt(char a, LCharToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {

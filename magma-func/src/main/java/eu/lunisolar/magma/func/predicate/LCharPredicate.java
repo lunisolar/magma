@@ -102,16 +102,52 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return a -> handlingTest(a, handling);
 	}
 
-	default boolean test(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default boolean test(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LCharPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> test(a, exF, newMessage, messageParams);
+	default boolean test(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.testX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default boolean test(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.testX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default boolean test(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.testX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LCharPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> test(a, exF, newMessage);
+	}
+
+	default LCharPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> test(a, exF, newMessage, param1);
+	}
+
+	default LCharPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> test(a, exF, newMessage, param1, param1);
+	}
+
+	default LCharPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> test(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default boolean test(char a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return func.nestingTest(a);
 	}
 
-	static boolean tryTest(char a, LCharPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryTest(char a, LCharPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.test(a, exF, newMessage, messageParams);
+		return func.test(a, exF, newMessage);
+	}
+
+	static boolean tryTest(char a, LCharPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.test(a, exF, newMessage, param1);
+	}
+
+	static boolean tryTest(char a, LCharPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.test(a, exF, newMessage, param1, param2);
+	}
+
+	static boolean tryTest(char a, LCharPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.test(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static boolean tryTest(char a, LCharPredicate func, @Nonnull ExWF<RuntimeException> exF) {
@@ -341,80 +392,171 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, LCharFunction<? extends String> msgFunc) throws X {
+	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull LCharFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (pred.test(a)) {
-			throw Handling.create(factory, msgFunc.apply(a), a);
+			throw Handling.create(factory, msgFunc.apply(a));
 		}
 		return a;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, LCharFunction<? extends String> msgFunc) throws X {
-		if (!pred.test(a)) {
-			throw Handling.create(factory, msgFunc.apply(a), a);
-		}
-		return a;
-	}
-
-	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
-	public static <X extends Throwable> char throwIfNot$(char a, LCharFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
-		var msg = specialPredicate.apply(a);
-		if (msg != null) {
-			throw Handling.create(factory, msg);
+	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		if (pred.test(a)) {
+			throw Handling.create(factory, String.format(msg, a));
 		}
 		return a;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
+	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-		return a;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
-		if (!pred.test(a)) {
-			throw Handling.create(factory, newMessage, messageParams);
+			throw Handling.create(factory, String.format(message, param1));
 		}
 		return a;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.test(a)) {
-			throw Handling.create(factory, newMessage);
+			throw Handling.create(factory, String.format(message, param1, param2));
 		}
 		return a;
 	}
 
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
-		if (!pred.test(a)) {
-			throw Handling.create(factory, newMessage);
-		}
-		return a;
-	}
-
-	/**
-	* Throws new exception if condition is met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <X extends Throwable> char throwIf$(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> char throwIf(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.test(a)) {
-			throw Handling.create(factory, newMessage, a);
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
 		}
 		return a;
 	}
 
-	/**
-	* Throws new exception if condition is not met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <X extends Throwable> char throwIfNot$(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull LCharFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!pred.test(a)) {
-			throw Handling.create(factory, newMessage, a);
+			throw Handling.create(factory, msgFunc.apply(a));
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		if (!pred.test(a)) {
+			throw Handling.create(factory, String.format(msg, a));
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.test(a)) {
+			throw Handling.create(factory, String.format(message, param1));
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.test(a)) {
+			throw Handling.create(factory, String.format(message, param1, param2));
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> char throwIfNot(char a, @Nonnull LCharPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.test(a)) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> char throwIfNot$(char a, @Nonnull LCharFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		var m = specialPredicate.apply(a);
+		if (m != null) {
+			throw Handling.create(factory, m);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> char throwIfNot$(char a, @Nonnull LCharFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		var m = specialPredicate.apply(a);
+		if (m != null) {
+			throw Handling.create(factory, String.format(msg, a) + ' ' + m);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> char throwIfNot$(char a, @Nonnull LCharFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1) + ' ' + m);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> char throwIfNot$(char a, @Nonnull LCharFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2) + ' ' + m);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> char throwIfNot$(char a, @Nonnull LCharFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
+			throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3) + ' ' + m);
 		}
 		return a;
 	}

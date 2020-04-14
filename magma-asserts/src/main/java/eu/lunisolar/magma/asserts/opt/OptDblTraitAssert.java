@@ -72,7 +72,7 @@ public class OptDblTraitAssert extends AbstractObjectAssert<OptDblTraitAssert, O
 
 	public OptDblTraitAssert isPresent() {
 		isNotNull();
-		must(OptDblTrait::isPresent, "<%s> is expected to have value but it does not.", actual());
+		must(OptDblTrait::isPresent, "<%s> is expected to have value, but is void.");
 		return this;
 	}
 
@@ -82,7 +82,7 @@ public class OptDblTraitAssert extends AbstractObjectAssert<OptDblTraitAssert, O
 
 	public OptDblTraitAssert isVoid() {
 		isNotNull();
-		must(OptDblTrait::isVoid, "<%s> is expected to not have value but it does.", actual());
+		must(OptDblTrait::isVoid, "<%s> is expected to NOT have value, but it does.");
 		return this;
 	}
 
@@ -93,8 +93,8 @@ public class OptDblTraitAssert extends AbstractObjectAssert<OptDblTraitAssert, O
 	public OptDblTraitAssert contains(double expectedValue) {
 		isNotNull();
 
-		must(OptDblTrait::isPresent, "<%s> is expected to have value <%s> but it is void.", actual(), expectedValue);
-		must(P.haveDbl(OptDblTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s> but is not. <%s>", actual().nullable(), expectedValue, actual());
+		must(OptDblTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
+		must(P.haveDbl(OptDblTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

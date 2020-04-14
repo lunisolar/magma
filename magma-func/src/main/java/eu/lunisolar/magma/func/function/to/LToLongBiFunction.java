@@ -102,16 +102,52 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return (a1, a2) -> handlingApplyAsLong(a1, a2, handling);
 	}
 
-	default long applyAsLong(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default long applyAsLong(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LToLongBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage, messageParams);
+	default long applyAsLong(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsLongX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default long applyAsLong(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsLongX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default long applyAsLong(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsLongX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LToLongBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage);
+	}
+
+	default LToLongBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage, param1);
+	}
+
+	default LToLongBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LToLongBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default long applyAsLong(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return func.nestingApplyAsLong(a1, a2);
 	}
 
-	static <T1, T2> long tryApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T1, T2> long tryApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, exF, newMessage, messageParams);
+		return func.applyAsLong(a1, a2, exF, newMessage);
+	}
+
+	static <T1, T2> long tryApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a1, a2, exF, newMessage, param1);
+	}
+
+	static <T1, T2> long tryApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static <T1, T2> long tryApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T1, T2> long tryApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {

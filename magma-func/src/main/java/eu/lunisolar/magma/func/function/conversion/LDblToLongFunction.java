@@ -102,16 +102,52 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		return a -> handlingApplyAsLong(a, handling);
 	}
 
-	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LDblToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsLong(a, exF, newMessage, messageParams);
+	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsLongX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsLongX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsLongX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LDblToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsLong(a, exF, newMessage);
+	}
+
+	default LDblToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsLong(a, exF, newMessage, param1);
+	}
+
+	default LDblToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsLong(a, exF, newMessage, param1, param1);
+	}
+
+	default LDblToLongFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsLong(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default long applyAsLong(double a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		return func.nestingApplyAsLong(a);
 	}
 
-	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a, exF, newMessage, messageParams);
+		return func.applyAsLong(a, exF, newMessage);
+	}
+
+	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a, exF, newMessage, param1);
+	}
+
+	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a, exF, newMessage, param1, param2);
+	}
+
+	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsLong(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static long tryApplyAsLong(double a, LDblToLongFunction func, @Nonnull ExWF<RuntimeException> exF) {

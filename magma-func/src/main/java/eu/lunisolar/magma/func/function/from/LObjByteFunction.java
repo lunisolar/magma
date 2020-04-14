@@ -103,16 +103,52 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return (a1, a2) -> handlingApply(a1, a2, handling);
 	}
 
-	default R apply(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default R apply(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LObjByteFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, messageParams);
+	default R apply(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default R apply(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default R apply(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LObjByteFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage);
+	}
+
+	default LObjByteFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1);
+	}
+
+	default LObjByteFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LObjByteFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default R apply(T a1, byte a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -168,9 +204,24 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return func.nestingApply(a1, a2);
 	}
 
-	static <T, R> R tryApply(T a1, byte a2, LObjByteFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T, R> R tryApply(T a1, byte a2, LObjByteFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, messageParams);
+		return func.apply(a1, a2, exF, newMessage);
+	}
+
+	static <T, R> R tryApply(T a1, byte a2, LObjByteFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, exF, newMessage, param1);
+	}
+
+	static <T, R> R tryApply(T a1, byte a2, LObjByteFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static <T, R> R tryApply(T a1, byte a2, LObjByteFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T, R> R tryApply(T a1, byte a2, LObjByteFunction<T, R> func, @Nonnull ExWF<RuntimeException> exF) {

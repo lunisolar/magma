@@ -91,7 +91,7 @@ public abstract class OptIntBase<SELF extends OptIntBase<SELF>> implements OptIn
 			return false;
 		}
 
-		OptInt other = (OptInt) obj;
+		OptIntBase other = (OptIntBase) obj;
 		return (isPresent() && other.isPresent()) ? value() == other.value() : isPresent() == other.isPresent();
 	}
 
@@ -100,7 +100,13 @@ public abstract class OptIntBase<SELF extends OptIntBase<SELF>> implements OptIn
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass().getSimpleName());
+		if (!isPresent()) {
+			return new StringBuilder().append(getClass().getSimpleName()).append(".empty").toString();
+		}
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
 	}
 
 	// </editor-fold>

@@ -100,16 +100,52 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		return () -> handlingGetAsInt(handling);
 	}
 
-	default int getAsInt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default int getAsInt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsIntX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LIntSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsInt(exF, newMessage, messageParams);
+	default int getAsInt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default int getAsInt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default int getAsInt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsIntX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LIntSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsInt(exF, newMessage);
+	}
+
+	default LIntSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsInt(exF, newMessage, param1);
+	}
+
+	default LIntSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsInt(exF, newMessage, param1, param1);
+	}
+
+	default LIntSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsInt(exF, newMessage, param1, param2, param3);
 	}
 
 	default int getAsInt(@Nonnull ExWF<RuntimeException> exF) {
@@ -165,9 +201,24 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		return func.nestingGetAsInt();
 	}
 
-	static int tryGetAsInt(LIntSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static int tryGetAsInt(LIntSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsInt(exF, newMessage, messageParams);
+		return func.getAsInt(exF, newMessage);
+	}
+
+	static int tryGetAsInt(LIntSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsInt(exF, newMessage, param1);
+	}
+
+	static int tryGetAsInt(LIntSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsInt(exF, newMessage, param1, param2);
+	}
+
+	static int tryGetAsInt(LIntSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsInt(exF, newMessage, param1, param2, param3);
 	}
 
 	static int tryGetAsInt(LIntSupplier func, @Nonnull ExWF<RuntimeException> exF) {

@@ -102,16 +102,52 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return (a1, a2) -> handlingApply(a1, a2, handling);
 	}
 
-	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, messageParams);
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage);
+	}
+
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1);
+	}
+
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default boolean apply(boolean a1, boolean a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return func.nestingApply(a1, a2);
 	}
 
-	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, messageParams);
+		return func.apply(a1, a2, exF, newMessage);
+	}
+
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, exF, newMessage, param1);
+	}
+
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
@@ -357,159 +408,343 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, LBiBoolFunction<? extends String> msgFunc) throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull LBiBoolFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
+			throw Handling.create(factory, msgFunc.apply(a1, a2));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, LBiBoolFunction<? extends String> msgFunc) throws X {
-		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		if (pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(msg, a1, a2));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, LBiBoolFunction<? extends String> msgFunc) throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
+			throw Handling.create(factory, String.format(message, param1));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, LBiBoolFunction<? extends String> msgFunc) throws X {
-		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, msgFunc.apply(a1, a2), a1, a2);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
-	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, LBiBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
-		var msg = specialPredicate.apply(a1, a2);
-		if (msg != null) {
-			throw Handling.create(factory, msg);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
-	public static <X extends Throwable> boolean throwIfNot$(boolean a1, LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull ExMF<X> factory) throws X {
-		var msg = specialPredicate.apply(a1, a2);
-		if (msg != null) {
-			throw Handling.create(factory, msg);
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(message, param1, param2));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull LBiBoolFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(msg, a1, a2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(message, param1));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(message, param1, param2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
+			throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull LBiBoolFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
-		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
-		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, messageParams);
+			throw Handling.create(factory, msgFunc.apply(a1, a2));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage);
+			throw Handling.create(factory, String.format(msg, a1, a2));
 		}
 		return a1;
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage);
+			throw Handling.create(factory, String.format(message, param1));
 		}
 		return a1;
 	}
 
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
-		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage);
-		}
-		return a1;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
-		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage);
-		}
-		return a1;
-	}
-
-	/**
-	* Throws new exception if condition is met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <X extends Throwable> boolean throwIf$(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, a1, a2);
+			throw Handling.create(factory, String.format(message, param1, param2));
 		}
 		return a1;
 	}
 
-	/**
-	* Throws new exception if condition is met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <X extends Throwable> boolean throwIf$(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
 		if (pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, a1, a2);
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
 		}
 		return a1;
 	}
 
-	/**
-	* Throws new exception if condition is not met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull LBiBoolFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, a1, a2);
+			throw Handling.create(factory, msgFunc.apply(a1, a2));
 		}
 		return a1;
 	}
 
-	/**
-	* Throws new exception if condition is not met.
-	* Message will be formatted with predicate arguments.
-	*/
-	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
 		if (!pred.apply(a1, a2)) {
-			throw Handling.create(factory, newMessage, a1, a2);
+			throw Handling.create(factory, String.format(msg, a1, a2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(message, param1));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(message, param1, param2));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
+			throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(msg, a1, a2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull ExMF<X> factory) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(msg, a1, a2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3) + ' ' + m);
 		}
 		return a1;
 	}

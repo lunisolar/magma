@@ -112,16 +112,52 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return (a1, a2) -> handlingApplyAsDbl(a1, a2, handling);
 	}
 
-	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, messageParams);
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsDblX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsDblX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsDblX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage);
+	}
+
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1);
+	}
+
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default double applyAsDbl(double a1, double a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -177,9 +213,24 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return func.nestingApplyAsDbl(a1, a2);
 	}
 
-	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a1, a2, exF, newMessage, messageParams);
+		return func.applyAsDbl(a1, a2, exF, newMessage);
+	}
+
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a1, a2, exF, newMessage, param1);
+	}
+
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {

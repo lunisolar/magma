@@ -103,16 +103,52 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return (a1, a2, a3) -> handlingApply(a1, a2, a3, handling);
 	}
 
-	default R apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default R apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LTriBoolFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, messageParams);
+	default R apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default R apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default R apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LTriBoolFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage);
+	}
+
+	default LTriBoolFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, param1);
+	}
+
+	default LTriBoolFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, param1, param1);
+	}
+
+	default LTriBoolFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, param1, param2, param3);
 	}
 
 	default R apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWF<RuntimeException> exF) {
@@ -168,9 +204,24 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return func.nestingApply(a1, a2, a3);
 	}
 
-	static <R> R tryApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <R> R tryApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, a3, exF, newMessage, messageParams);
+		return func.apply(a1, a2, a3, exF, newMessage);
+	}
+
+	static <R> R tryApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, a3, exF, newMessage, param1);
+	}
+
+	static <R> R tryApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, a3, exF, newMessage, param1, param2);
+	}
+
+	static <R> R tryApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.apply(a1, a2, a3, exF, newMessage, param1, param2, param3);
 	}
 
 	static <R> R tryApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {

@@ -104,16 +104,52 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 		return (a1, a2, a3) -> handlingApplyAsInt(a1, a2, a3, handling);
 	}
 
-	default int applyAsInt(T1 a1, int a2, T2 a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default int applyAsInt(T1 a1, int a2, T2 a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LTieFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2, a3) -> applyAsInt(a1, a2, a3, exF, newMessage, messageParams);
+	default int applyAsInt(T1 a1, int a2, T2 a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsIntX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default int applyAsInt(T1 a1, int a2, T2 a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsIntX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default int applyAsInt(T1 a1, int a2, T2 a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsIntX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LTieFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> applyAsInt(a1, a2, a3, exF, newMessage);
+	}
+
+	default LTieFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> applyAsInt(a1, a2, a3, exF, newMessage, param1);
+	}
+
+	default LTieFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> applyAsInt(a1, a2, a3, exF, newMessage, param1, param1);
+	}
+
+	default LTieFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> applyAsInt(a1, a2, a3, exF, newMessage, param1, param2, param3);
 	}
 
 	default int applyAsInt(T1 a1, int a2, T2 a3, @Nonnull ExWF<RuntimeException> exF) {
@@ -169,9 +205,24 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 		return func.nestingApplyAsInt(a1, a2, a3);
 	}
 
-	static <T1, T2> int tryApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T1, T2> int tryApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a1, a2, a3, exF, newMessage, messageParams);
+		return func.applyAsInt(a1, a2, a3, exF, newMessage);
+	}
+
+	static <T1, T2> int tryApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsInt(a1, a2, a3, exF, newMessage, param1);
+	}
+
+	static <T1, T2> int tryApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsInt(a1, a2, a3, exF, newMessage, param1, param2);
+	}
+
+	static <T1, T2> int tryApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsInt(a1, a2, a3, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T1, T2> int tryApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {

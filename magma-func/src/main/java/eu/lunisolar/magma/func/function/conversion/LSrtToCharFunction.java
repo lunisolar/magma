@@ -102,16 +102,52 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsChar(a, handling);
 	}
 
-	default char applyAsChar(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default char applyAsChar(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LSrtToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsChar(a, exF, newMessage, messageParams);
+	default char applyAsChar(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default char applyAsChar(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default char applyAsChar(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsCharX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LSrtToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsChar(a, exF, newMessage);
+	}
+
+	default LSrtToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsChar(a, exF, newMessage, param1);
+	}
+
+	default LSrtToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsChar(a, exF, newMessage, param1, param1);
+	}
+
+	default LSrtToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsChar(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default char applyAsChar(short a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsChar(a);
 	}
 
-	static char tryApplyAsChar(short a, LSrtToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static char tryApplyAsChar(short a, LSrtToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a, exF, newMessage, messageParams);
+		return func.applyAsChar(a, exF, newMessage);
+	}
+
+	static char tryApplyAsChar(short a, LSrtToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsChar(a, exF, newMessage, param1);
+	}
+
+	static char tryApplyAsChar(short a, LSrtToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsChar(a, exF, newMessage, param1, param2);
+	}
+
+	static char tryApplyAsChar(short a, LSrtToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsChar(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static char tryApplyAsChar(short a, LSrtToCharFunction func, @Nonnull ExWF<RuntimeException> exF) {

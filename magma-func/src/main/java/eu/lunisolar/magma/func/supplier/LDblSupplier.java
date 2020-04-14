@@ -110,16 +110,52 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		return () -> handlingGetAsDbl(handling);
 	}
 
-	default double getAsDbl(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default double getAsDbl(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsDblX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LDblSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsDbl(exF, newMessage, messageParams);
+	default double getAsDbl(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsDblX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default double getAsDbl(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsDblX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default double getAsDbl(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsDblX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LDblSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsDbl(exF, newMessage);
+	}
+
+	default LDblSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsDbl(exF, newMessage, param1);
+	}
+
+	default LDblSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsDbl(exF, newMessage, param1, param1);
+	}
+
+	default LDblSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsDbl(exF, newMessage, param1, param2, param3);
 	}
 
 	default double getAsDbl(@Nonnull ExWF<RuntimeException> exF) {
@@ -175,9 +211,24 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		return func.nestingGetAsDbl();
 	}
 
-	static double tryGetAsDbl(LDblSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static double tryGetAsDbl(LDblSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsDbl(exF, newMessage, messageParams);
+		return func.getAsDbl(exF, newMessage);
+	}
+
+	static double tryGetAsDbl(LDblSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsDbl(exF, newMessage, param1);
+	}
+
+	static double tryGetAsDbl(LDblSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsDbl(exF, newMessage, param1, param2);
+	}
+
+	static double tryGetAsDbl(LDblSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsDbl(exF, newMessage, param1, param2, param3);
 	}
 
 	static double tryGetAsDbl(LDblSupplier func, @Nonnull ExWF<RuntimeException> exF) {

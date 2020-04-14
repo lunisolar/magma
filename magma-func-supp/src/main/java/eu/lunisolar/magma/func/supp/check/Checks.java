@@ -37,6 +37,8 @@ import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
+import static eu.lunisolar.magma.func.supp.MsgVerbosity.*; // NOSONAR
+
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
@@ -70,12 +72,14 @@ public final class Checks implements FluentSyntax {
 		private final boolean value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckBool(boolean value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckBool(boolean value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -96,63 +100,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final boolean get() {
 			return value;
 		}
 
 		public @Nonnull CheckBool value(boolean value) {
-			return new CheckBool(value, name, factory, type);
+			return new CheckBool(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckBool verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckBool(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckBool verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckBool arg(boolean value) {
-		return new CheckBool(value, "?", X::arg, "Argument");
+		return new CheckBool(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckBool arg(boolean value, @Nullable String name) {
-		return new CheckBool(value, name, X::arg, "Argument");
+		return new CheckBool(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckBool arg(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckBool arg(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckBool value(boolean value) {
-		return new CheckBool(value, "?", X::value, "Value");
+		return new CheckBool(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckBool value(boolean value, @Nullable String name) {
-		return new CheckBool(value, name, X::value, "Value");
+		return new CheckBool(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckBool value(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckBool value(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckBool state(boolean value) {
-		return new CheckBool(value, "?", X::state, "State");
+		return new CheckBool(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckBool state(boolean value, @Nullable String name) {
-		return new CheckBool(value, name, X::state, "State");
+		return new CheckBool(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckBool check(boolean value, ExMF<RuntimeException> factory) {
-		return new CheckBool(value, "?", factory, "Check");
+	public static CheckBool state(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckBool check(boolean value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckBool(value, name, factory, "Check");
+	public static CheckBool state(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckBool attest(boolean value, ExMF<Error> factory) {
-		return new CheckBool(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckBool check(boolean value) {
+		return new CheckBool(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckBool attest(boolean value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckBool(value, name, ExMF.shoving(factory), "Check");
+	public static CheckBool check(boolean value, @Nullable String name) {
+		return new CheckBool(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckBool check(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckBool check(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckBool(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckBool attest(boolean value) {
-		return new CheckBool(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckBool(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckBool attest(boolean value, @Nullable String name) {
-		return new CheckBool(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckBool(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckBool attest(boolean value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckBool(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckBool attest(boolean value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckBool(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -162,12 +220,14 @@ public final class Checks implements FluentSyntax {
 		private final @Nullable T value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private Check(@Nullable T value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private Check(@Nullable T value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -188,13 +248,28 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final T get() {
 			return value;
 		}
 
 		public @Nonnull Check<T> value(@Nullable T value) {
-			return new Check(value, name, factory, type);
+			return new Check(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull Check<T> verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new Check(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull Check<T> verbose() {
+			return verbosity(ALL);
 		}
 
 		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
@@ -205,57 +280,96 @@ public final class Checks implements FluentSyntax {
 		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 			Null.nonNullArg(clazz, "clazz");
 			var nullable = nullable();
-			return (Check) must(Be::instanceOf, clazz, "Must be instance of %s but is %s.", clazz, nullable == null ? null : nullable.getClass());
+			return (Check) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static <T> Check<T> arg(@Nullable T value) {
-		return new Check<T>(value, "?", X::arg, "Argument");
+		return new Check<T>(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static <T> Check<T> arg(@Nullable T value, @Nullable String name) {
-		return new Check<T>(value, name, X::arg, "Argument");
+		return new Check<T>(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static <T> Check<T> arg(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static <T> Check<T> arg(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static <T> Check<T> value(@Nullable T value) {
-		return new Check<T>(value, "?", X::value, "Value");
+		return new Check<T>(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static <T> Check<T> value(@Nullable T value, @Nullable String name) {
-		return new Check<T>(value, name, X::value, "Value");
+		return new Check<T>(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static <T> Check<T> value(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static <T> Check<T> value(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static <T> Check<T> state(@Nullable T value) {
-		return new Check<T>(value, "?", X::state, "State");
+		return new Check<T>(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static <T> Check<T> state(@Nullable T value, @Nullable String name) {
-		return new Check<T>(value, name, X::state, "State");
+		return new Check<T>(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static <T> Check<T> check(@Nullable T value, ExMF<RuntimeException> factory) {
-		return new Check<T>(value, "?", factory, "Check");
+	public static <T> Check<T> state(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static <T> Check<T> check(@Nullable T value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new Check<T>(value, name, factory, "Check");
+	public static <T> Check<T> state(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static <T> Check<T> attest(@Nullable T value, ExMF<Error> factory) {
-		return new Check<T>(value, "?", ExMF.shoving(factory), "Check");
+	public static <T> Check<T> check(@Nullable T value) {
+		return new Check<T>(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static <T> Check<T> attest(@Nullable T value, @Nullable String name, ExMF<Error> factory) {
-		return new Check<T>(value, name, ExMF.shoving(factory), "Check");
+	public static <T> Check<T> check(@Nullable T value, @Nullable String name) {
+		return new Check<T>(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static <T> Check<T> check(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static <T> Check<T> check(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new Check<T>(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static <T> Check<T> attest(@Nullable T value) {
-		return new Check<T>(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new Check<T>(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static <T> Check<T> attest(@Nullable T value, @Nullable String name) {
-		return new Check<T>(value, name, ExMF.shoving(X::assertion), "Check");
+		return new Check<T>(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static <T> Check<T> attest(@Nullable T value, @Nonnull ExMF<? extends Error> factory) {
+		return new Check<T>(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static <T> Check<T> attest(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new Check<T>(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -265,12 +379,14 @@ public final class Checks implements FluentSyntax {
 		private final byte value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckByte(byte value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckByte(byte value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -291,63 +407,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final byte get() {
 			return value;
 		}
 
 		public @Nonnull CheckByte value(byte value) {
-			return new CheckByte(value, name, factory, type);
+			return new CheckByte(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckByte verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckByte(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckByte verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckByte arg(byte value) {
-		return new CheckByte(value, "?", X::arg, "Argument");
+		return new CheckByte(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckByte arg(byte value, @Nullable String name) {
-		return new CheckByte(value, name, X::arg, "Argument");
+		return new CheckByte(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckByte arg(byte value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckByte arg(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckByte value(byte value) {
-		return new CheckByte(value, "?", X::value, "Value");
+		return new CheckByte(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckByte value(byte value, @Nullable String name) {
-		return new CheckByte(value, name, X::value, "Value");
+		return new CheckByte(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckByte value(byte value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckByte value(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckByte state(byte value) {
-		return new CheckByte(value, "?", X::state, "State");
+		return new CheckByte(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckByte state(byte value, @Nullable String name) {
-		return new CheckByte(value, name, X::state, "State");
+		return new CheckByte(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckByte check(byte value, ExMF<RuntimeException> factory) {
-		return new CheckByte(value, "?", factory, "Check");
+	public static CheckByte state(byte value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckByte check(byte value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckByte(value, name, factory, "Check");
+	public static CheckByte state(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckByte attest(byte value, ExMF<Error> factory) {
-		return new CheckByte(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckByte check(byte value) {
+		return new CheckByte(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckByte attest(byte value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckByte(value, name, ExMF.shoving(factory), "Check");
+	public static CheckByte check(byte value, @Nullable String name) {
+		return new CheckByte(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckByte check(byte value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckByte check(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckByte(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckByte attest(byte value) {
-		return new CheckByte(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckByte(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckByte attest(byte value, @Nullable String name) {
-		return new CheckByte(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckByte(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckByte attest(byte value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckByte(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckByte attest(byte value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckByte(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -357,12 +527,14 @@ public final class Checks implements FluentSyntax {
 		private final double value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckDbl(double value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckDbl(double value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -383,63 +555,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final double get() {
 			return value;
 		}
 
 		public @Nonnull CheckDbl value(double value) {
-			return new CheckDbl(value, name, factory, type);
+			return new CheckDbl(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckDbl verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckDbl(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckDbl verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckDbl arg(double value) {
-		return new CheckDbl(value, "?", X::arg, "Argument");
+		return new CheckDbl(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckDbl arg(double value, @Nullable String name) {
-		return new CheckDbl(value, name, X::arg, "Argument");
+		return new CheckDbl(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckDbl arg(double value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckDbl arg(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckDbl value(double value) {
-		return new CheckDbl(value, "?", X::value, "Value");
+		return new CheckDbl(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckDbl value(double value, @Nullable String name) {
-		return new CheckDbl(value, name, X::value, "Value");
+		return new CheckDbl(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckDbl value(double value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckDbl value(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckDbl state(double value) {
-		return new CheckDbl(value, "?", X::state, "State");
+		return new CheckDbl(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckDbl state(double value, @Nullable String name) {
-		return new CheckDbl(value, name, X::state, "State");
+		return new CheckDbl(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckDbl check(double value, ExMF<RuntimeException> factory) {
-		return new CheckDbl(value, "?", factory, "Check");
+	public static CheckDbl state(double value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckDbl check(double value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckDbl(value, name, factory, "Check");
+	public static CheckDbl state(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckDbl attest(double value, ExMF<Error> factory) {
-		return new CheckDbl(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckDbl check(double value) {
+		return new CheckDbl(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckDbl attest(double value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckDbl(value, name, ExMF.shoving(factory), "Check");
+	public static CheckDbl check(double value, @Nullable String name) {
+		return new CheckDbl(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckDbl check(double value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckDbl check(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckDbl(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckDbl attest(double value) {
-		return new CheckDbl(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckDbl(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckDbl attest(double value, @Nullable String name) {
-		return new CheckDbl(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckDbl(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckDbl attest(double value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckDbl(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckDbl attest(double value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckDbl(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -449,12 +675,14 @@ public final class Checks implements FluentSyntax {
 		private final char value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckChar(char value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckChar(char value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -475,63 +703,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final char get() {
 			return value;
 		}
 
 		public @Nonnull CheckChar value(char value) {
-			return new CheckChar(value, name, factory, type);
+			return new CheckChar(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckChar verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckChar(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckChar verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckChar arg(char value) {
-		return new CheckChar(value, "?", X::arg, "Argument");
+		return new CheckChar(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckChar arg(char value, @Nullable String name) {
-		return new CheckChar(value, name, X::arg, "Argument");
+		return new CheckChar(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckChar arg(char value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckChar arg(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckChar value(char value) {
-		return new CheckChar(value, "?", X::value, "Value");
+		return new CheckChar(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckChar value(char value, @Nullable String name) {
-		return new CheckChar(value, name, X::value, "Value");
+		return new CheckChar(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckChar value(char value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckChar value(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckChar state(char value) {
-		return new CheckChar(value, "?", X::state, "State");
+		return new CheckChar(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckChar state(char value, @Nullable String name) {
-		return new CheckChar(value, name, X::state, "State");
+		return new CheckChar(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckChar check(char value, ExMF<RuntimeException> factory) {
-		return new CheckChar(value, "?", factory, "Check");
+	public static CheckChar state(char value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckChar check(char value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckChar(value, name, factory, "Check");
+	public static CheckChar state(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckChar attest(char value, ExMF<Error> factory) {
-		return new CheckChar(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckChar check(char value) {
+		return new CheckChar(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckChar attest(char value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckChar(value, name, ExMF.shoving(factory), "Check");
+	public static CheckChar check(char value, @Nullable String name) {
+		return new CheckChar(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckChar check(char value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckChar check(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckChar(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckChar attest(char value) {
-		return new CheckChar(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckChar(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckChar attest(char value, @Nullable String name) {
-		return new CheckChar(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckChar(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckChar attest(char value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckChar(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckChar attest(char value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckChar(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -541,12 +823,14 @@ public final class Checks implements FluentSyntax {
 		private final short value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckSrt(short value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckSrt(short value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -567,63 +851,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final short get() {
 			return value;
 		}
 
 		public @Nonnull CheckSrt value(short value) {
-			return new CheckSrt(value, name, factory, type);
+			return new CheckSrt(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckSrt verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckSrt(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckSrt verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckSrt arg(short value) {
-		return new CheckSrt(value, "?", X::arg, "Argument");
+		return new CheckSrt(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckSrt arg(short value, @Nullable String name) {
-		return new CheckSrt(value, name, X::arg, "Argument");
+		return new CheckSrt(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckSrt arg(short value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckSrt arg(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckSrt value(short value) {
-		return new CheckSrt(value, "?", X::value, "Value");
+		return new CheckSrt(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckSrt value(short value, @Nullable String name) {
-		return new CheckSrt(value, name, X::value, "Value");
+		return new CheckSrt(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckSrt value(short value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckSrt value(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckSrt state(short value) {
-		return new CheckSrt(value, "?", X::state, "State");
+		return new CheckSrt(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckSrt state(short value, @Nullable String name) {
-		return new CheckSrt(value, name, X::state, "State");
+		return new CheckSrt(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckSrt check(short value, ExMF<RuntimeException> factory) {
-		return new CheckSrt(value, "?", factory, "Check");
+	public static CheckSrt state(short value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckSrt check(short value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckSrt(value, name, factory, "Check");
+	public static CheckSrt state(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckSrt attest(short value, ExMF<Error> factory) {
-		return new CheckSrt(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckSrt check(short value) {
+		return new CheckSrt(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckSrt attest(short value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckSrt(value, name, ExMF.shoving(factory), "Check");
+	public static CheckSrt check(short value, @Nullable String name) {
+		return new CheckSrt(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckSrt check(short value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckSrt check(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckSrt(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckSrt attest(short value) {
-		return new CheckSrt(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckSrt(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckSrt attest(short value, @Nullable String name) {
-		return new CheckSrt(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckSrt(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckSrt attest(short value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckSrt(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckSrt attest(short value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckSrt(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -633,12 +971,14 @@ public final class Checks implements FluentSyntax {
 		private final float value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckFlt(float value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckFlt(float value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -659,63 +999,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final float get() {
 			return value;
 		}
 
 		public @Nonnull CheckFlt value(float value) {
-			return new CheckFlt(value, name, factory, type);
+			return new CheckFlt(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckFlt verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckFlt(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckFlt verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckFlt arg(float value) {
-		return new CheckFlt(value, "?", X::arg, "Argument");
+		return new CheckFlt(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckFlt arg(float value, @Nullable String name) {
-		return new CheckFlt(value, name, X::arg, "Argument");
+		return new CheckFlt(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckFlt arg(float value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckFlt arg(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckFlt value(float value) {
-		return new CheckFlt(value, "?", X::value, "Value");
+		return new CheckFlt(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckFlt value(float value, @Nullable String name) {
-		return new CheckFlt(value, name, X::value, "Value");
+		return new CheckFlt(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckFlt value(float value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckFlt value(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckFlt state(float value) {
-		return new CheckFlt(value, "?", X::state, "State");
+		return new CheckFlt(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckFlt state(float value, @Nullable String name) {
-		return new CheckFlt(value, name, X::state, "State");
+		return new CheckFlt(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckFlt check(float value, ExMF<RuntimeException> factory) {
-		return new CheckFlt(value, "?", factory, "Check");
+	public static CheckFlt state(float value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckFlt check(float value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckFlt(value, name, factory, "Check");
+	public static CheckFlt state(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckFlt attest(float value, ExMF<Error> factory) {
-		return new CheckFlt(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckFlt check(float value) {
+		return new CheckFlt(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckFlt attest(float value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckFlt(value, name, ExMF.shoving(factory), "Check");
+	public static CheckFlt check(float value, @Nullable String name) {
+		return new CheckFlt(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckFlt check(float value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckFlt check(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckFlt(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckFlt attest(float value) {
-		return new CheckFlt(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckFlt(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckFlt attest(float value, @Nullable String name) {
-		return new CheckFlt(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckFlt(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckFlt attest(float value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckFlt(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckFlt attest(float value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckFlt(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -725,12 +1119,14 @@ public final class Checks implements FluentSyntax {
 		private final int value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckInt(int value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckInt(int value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -751,63 +1147,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final int get() {
 			return value;
 		}
 
 		public @Nonnull CheckInt value(int value) {
-			return new CheckInt(value, name, factory, type);
+			return new CheckInt(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckInt verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckInt(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckInt verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckInt arg(int value) {
-		return new CheckInt(value, "?", X::arg, "Argument");
+		return new CheckInt(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckInt arg(int value, @Nullable String name) {
-		return new CheckInt(value, name, X::arg, "Argument");
+		return new CheckInt(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckInt arg(int value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckInt arg(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckInt value(int value) {
-		return new CheckInt(value, "?", X::value, "Value");
+		return new CheckInt(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckInt value(int value, @Nullable String name) {
-		return new CheckInt(value, name, X::value, "Value");
+		return new CheckInt(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckInt value(int value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckInt value(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckInt state(int value) {
-		return new CheckInt(value, "?", X::state, "State");
+		return new CheckInt(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckInt state(int value, @Nullable String name) {
-		return new CheckInt(value, name, X::state, "State");
+		return new CheckInt(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckInt check(int value, ExMF<RuntimeException> factory) {
-		return new CheckInt(value, "?", factory, "Check");
+	public static CheckInt state(int value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckInt check(int value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckInt(value, name, factory, "Check");
+	public static CheckInt state(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckInt attest(int value, ExMF<Error> factory) {
-		return new CheckInt(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckInt check(int value) {
+		return new CheckInt(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckInt attest(int value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckInt(value, name, ExMF.shoving(factory), "Check");
+	public static CheckInt check(int value, @Nullable String name) {
+		return new CheckInt(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckInt check(int value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckInt check(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckInt(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckInt attest(int value) {
-		return new CheckInt(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckInt(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckInt attest(int value, @Nullable String name) {
-		return new CheckInt(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckInt(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckInt attest(int value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckInt(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckInt attest(int value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckInt(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	@ThreadSafe
@@ -817,12 +1267,14 @@ public final class Checks implements FluentSyntax {
 		private final long value;
 		private final String name;
 		private final ExMF<RuntimeException> factory;
+		private final MsgVerbosity verbosity;
 
-		private CheckLong(long value, @Nullable String name, ExMF<RuntimeException> factory, String type) {
+		private CheckLong(long value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
 			this.type = type;
+			this.verbosity = verbosity;
 		}
 
 		@Nonnull
@@ -843,63 +1295,117 @@ public final class Checks implements FluentSyntax {
 			return factory;
 		}
 
+		@Nonnull
+		@Override
+		public MsgVerbosity verbosity() {
+			return verbosity;
+		}
+
 		/** Returns the arg/state/value. */
 		public final long get() {
 			return value;
 		}
 
 		public @Nonnull CheckLong value(long value) {
-			return new CheckLong(value, name, factory, type);
+			return new CheckLong(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckLong verbosity(@Nonnull MsgVerbosity verbosity) {
+			Null.nonNullArg(verbosity, "verbosity");
+			return new CheckLong(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckLong verbose() {
+			return verbosity(ALL);
+		}
+
+		public String toString() {
+			var v = value();
+			var sb = new StringBuilder().append(checkTraitType()).append(" [").append(checkTraitName()).append("==");
+			ToStr.toSb(sb, v);
+			return sb.append("]").toString();
 		}
 
 	}
 
 	public static CheckLong arg(long value) {
-		return new CheckLong(value, "?", X::arg, "Argument");
+		return new CheckLong(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckLong arg(long value, @Nullable String name) {
-		return new CheckLong(value, name, X::arg, "Argument");
+		return new CheckLong(value, name, ExMF.shoving(X::arg), "Argument", MIN);
+	}
+
+	public static CheckLong arg(long value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, "?", ExMF.shoving(factory), "Argument", MIN);
+	}
+
+	public static CheckLong arg(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, name, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckLong value(long value) {
-		return new CheckLong(value, "?", X::value, "Value");
+		return new CheckLong(value, "?", ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckLong value(long value, @Nullable String name) {
-		return new CheckLong(value, name, X::value, "Value");
+		return new CheckLong(value, name, ExMF.shoving(X::value), "Value", MIN);
+	}
+
+	public static CheckLong value(long value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, "?", ExMF.shoving(factory), "Value", MIN);
+	}
+
+	public static CheckLong value(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, name, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckLong state(long value) {
-		return new CheckLong(value, "?", X::state, "State");
+		return new CheckLong(value, "?", ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckLong state(long value, @Nullable String name) {
-		return new CheckLong(value, name, X::state, "State");
+		return new CheckLong(value, name, ExMF.shoving(X::state), "State", MIN);
 	}
 
-	public static CheckLong check(long value, ExMF<RuntimeException> factory) {
-		return new CheckLong(value, "?", factory, "Check");
+	public static CheckLong state(long value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, "?", ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckLong check(long value, @Nullable String name, ExMF<RuntimeException> factory) {
-		return new CheckLong(value, name, factory, "Check");
+	public static CheckLong state(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, name, ExMF.shoving(factory), "State", MIN);
 	}
 
-	public static CheckLong attest(long value, ExMF<Error> factory) {
-		return new CheckLong(value, "?", ExMF.shoving(factory), "Check");
+	public static CheckLong check(long value) {
+		return new CheckLong(value, "?", ExMF.shoving(X::state), "Check", MIN);
 	}
 
-	public static CheckLong attest(long value, @Nullable String name, ExMF<Error> factory) {
-		return new CheckLong(value, name, ExMF.shoving(factory), "Check");
+	public static CheckLong check(long value, @Nullable String name) {
+		return new CheckLong(value, name, ExMF.shoving(X::state), "Check", MIN);
+	}
+
+	public static CheckLong check(long value, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, "?", ExMF.shoving(factory), "Check", MIN);
+	}
+
+	public static CheckLong check(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
+		return new CheckLong(value, name, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckLong attest(long value) {
-		return new CheckLong(value, "?", ExMF.shoving(X::assertion), "Check");
+		return new CheckLong(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckLong attest(long value, @Nullable String name) {
-		return new CheckLong(value, name, ExMF.shoving(X::assertion), "Check");
+		return new CheckLong(value, name, ExMF.shoving(X::assertion), "Check/attest", ALL);
+	}
+
+	public static CheckLong attest(long value, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckLong(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+	}
+
+	public static CheckLong attest(long value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
+		return new CheckLong(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 }

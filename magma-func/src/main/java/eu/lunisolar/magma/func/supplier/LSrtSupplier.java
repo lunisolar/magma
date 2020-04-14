@@ -100,16 +100,52 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return () -> handlingGetAsSrt(handling);
 	}
 
-	default short getAsSrt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default short getAsSrt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LSrtSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsSrt(exF, newMessage, messageParams);
+	default short getAsSrt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsSrtX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default short getAsSrt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsSrtX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default short getAsSrt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsSrtX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LSrtSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsSrt(exF, newMessage);
+	}
+
+	default LSrtSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsSrt(exF, newMessage, param1);
+	}
+
+	default LSrtSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsSrt(exF, newMessage, param1, param1);
+	}
+
+	default LSrtSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsSrt(exF, newMessage, param1, param2, param3);
 	}
 
 	default short getAsSrt(@Nonnull ExWF<RuntimeException> exF) {
@@ -165,9 +201,24 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func.nestingGetAsSrt();
 	}
 
-	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsSrt(exF, newMessage, messageParams);
+		return func.getAsSrt(exF, newMessage);
+	}
+
+	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsSrt(exF, newMessage, param1);
+	}
+
+	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsSrt(exF, newMessage, param1, param2);
+	}
+
+	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsSrt(exF, newMessage, param1, param2, param3);
 	}
 
 	static short tryGetAsSrt(LSrtSupplier func, @Nonnull ExWF<RuntimeException> exF) {

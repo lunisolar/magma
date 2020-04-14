@@ -100,16 +100,52 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return () -> handlingGetAsLong(handling);
 	}
 
-	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsLong(exF, newMessage, messageParams);
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsLongX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsLongX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsLongX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsLong(exF, newMessage);
+	}
+
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsLong(exF, newMessage, param1);
+	}
+
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsLong(exF, newMessage, param1, param1);
+	}
+
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsLong(exF, newMessage, param1, param2, param3);
 	}
 
 	default long getAsLong(@Nonnull ExWF<RuntimeException> exF) {
@@ -165,9 +201,24 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return func.nestingGetAsLong();
 	}
 
-	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsLong(exF, newMessage, messageParams);
+		return func.getAsLong(exF, newMessage);
+	}
+
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsLong(exF, newMessage, param1);
+	}
+
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsLong(exF, newMessage, param1, param2);
+	}
+
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsLong(exF, newMessage, param1, param2, param3);
 	}
 
 	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWF<RuntimeException> exF) {

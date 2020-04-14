@@ -104,16 +104,52 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return a -> handlingApplyAsSrt(a, handling);
 	}
 
-	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LToSrtFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsSrt(a, exF, newMessage, messageParams);
+	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsSrtX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsSrtX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsSrtX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LToSrtFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsSrt(a, exF, newMessage);
+	}
+
+	default LToSrtFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsSrt(a, exF, newMessage, param1);
+	}
+
+	default LToSrtFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsSrt(a, exF, newMessage, param1, param1);
+	}
+
+	default LToSrtFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsSrt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default short applyAsSrt(T a, @Nonnull ExWF<RuntimeException> exF) {
@@ -169,9 +205,24 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return func.nestingApplyAsSrt(a);
 	}
 
-	static <T> short tryApplyAsSrt(T a, LToSrtFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static <T> short tryApplyAsSrt(T a, LToSrtFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a, exF, newMessage, messageParams);
+		return func.applyAsSrt(a, exF, newMessage);
+	}
+
+	static <T> short tryApplyAsSrt(T a, LToSrtFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrt(a, exF, newMessage, param1);
+	}
+
+	static <T> short tryApplyAsSrt(T a, LToSrtFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrt(a, exF, newMessage, param1, param2);
+	}
+
+	static <T> short tryApplyAsSrt(T a, LToSrtFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsSrt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static <T> short tryApplyAsSrt(T a, LToSrtFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {

@@ -145,21 +145,21 @@ public final class SeriesParams<T> {
 
         poolSize(poolASize + poolBSize, size, "Pool A+B");
 
-        doIf(poolASize, v -> v != 0, () -> throwIf(poolAProducer, Objects::isNull, X::arg, "Producer %s cannot be null", "A"));
-        doIf(poolBSize, v -> v != 0, () -> throwIf(poolBProducer, Objects::isNull, X::arg, "Producer %s cannot be null", "B"));
-        doIf(poolASize + poolBSize, v -> v < 100, () -> throwIf(poolCProducer, Objects::isNull, X::arg, "Producer %s cannot be null", "C"));
+//        doIf(poolASize, v -> v != 0, () -> throwIf(poolAProducer, Objects::isNull, X::arg, "Producer %s cannot be null", "A"));
+//        doIf(poolBSize, v -> v != 0, () -> throwIf(poolBProducer, Objects::isNull, X::arg, "Producer %s cannot be null", "B"));
+//        doIf(poolASize + poolBSize, v -> v < 100, () -> throwIf(poolCProducer, Objects::isNull, X::arg, "Producer %s cannot be null", "C"));
 
         return this;
     }
 
     static void poolSize(int poolSize, int size, String poolName) {
-        LBiIntPredicate.throwIf(poolSize, P::lt, 0, X::arg, "%s size cannot be lower than 0, current is: %s", poolName, poolSize);
-        LBiIntPredicate.throwIf(poolSize, P::gt, size, X::arg, "%s size cannot be larger than %s, current is: %s", poolName, size, poolSize);
+//        LBiIntPredicate.throwIf(poolSize, P::lt, 0, X::arg, "%s size cannot be lower than 0, current is: %s", poolName, poolSize);
+//        LBiIntPredicate.throwIf(poolSize, P::gt, size, X::arg, "%s size cannot be larger than %s, current is: %s", poolName, size, poolSize);
     }
 
     static void validatePercentageValue(int value, final String name) {
-        throwIf(value, v -> v < 0, X::arg, "%s cannot be lower than 0, current is: %s", name, value);
-        throwIf(value, v -> v > 100, X::arg, "%s cannot be higher than 100, current is: %s", name, value);
+//        throwIf(value, v -> v < 0, X::arg, "%s cannot be lower than 0, current is: %s", name, value);
+//        throwIf(value, v -> v > 100, X::arg, "%s cannot be higher than 100, current is: %s", name, value);
     }
 
     public static <T> SeriesParams<T> allRandom(LSupplier<T> supplierC) {

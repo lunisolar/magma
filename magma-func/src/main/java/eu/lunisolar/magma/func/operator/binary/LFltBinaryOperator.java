@@ -102,16 +102,52 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return (a1, a2) -> handlingApplyAsFlt(a1, a2, handling);
 	}
 
-	default float applyAsFlt(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default float applyAsFlt(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LFltBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage, messageParams);
+	default float applyAsFlt(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsFltX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default float applyAsFlt(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsFltX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default float applyAsFlt(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsFltX(a1, a2);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LFltBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage);
+	}
+
+	default LFltBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage, param1);
+	}
+
+	default LFltBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage, param1, param1);
+	}
+
+	default LFltBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	default float applyAsFlt(float a1, float a2, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func.nestingApplyAsFlt(a1, a2);
 	}
 
-	static float tryApplyAsFlt(float a1, float a2, LFltBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static float tryApplyAsFlt(float a1, float a2, LFltBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsFlt(a1, a2, exF, newMessage, messageParams);
+		return func.applyAsFlt(a1, a2, exF, newMessage);
+	}
+
+	static float tryApplyAsFlt(float a1, float a2, LFltBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsFlt(a1, a2, exF, newMessage, param1);
+	}
+
+	static float tryApplyAsFlt(float a1, float a2, LFltBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsFlt(a1, a2, exF, newMessage, param1, param2);
+	}
+
+	static float tryApplyAsFlt(float a1, float a2, LFltBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsFlt(a1, a2, exF, newMessage, param1, param2, param3);
 	}
 
 	static float tryApplyAsFlt(float a1, float a2, LFltBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {

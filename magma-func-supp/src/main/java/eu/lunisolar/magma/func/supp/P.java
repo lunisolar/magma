@@ -57,8 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - filter({@link P}::equal, 4)
  * - when({@link Does}::contain, 4)
  * - must({@link Be}::equal, 4)
- * - when({@link Is}::equal, 4)
- *
+ * - when({@link Is}::equal, 4) *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
 public final class P implements FluentSyntax {
@@ -69,42 +68,42 @@ public final class P implements FluentSyntax {
 
 	// <editor-fold desc="Object">
 
-	/** Predicate: Object <%s> must be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Object <%s> must be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean same(@Nullable Object n, @Nullable Object other) {
 		return n == other;
 	}
 
-	/** "Special" predicate: Object <%s> must be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Object <%s> must be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String same$(@Nullable Object n, @Nullable Object other) {
 		return (n == other) ? null : String.format("Object <%s> must be the same as <%s>.", n, other);
 	}
 
-	/** Predicate: Object <%s> must NOT be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Object <%s> must NOT be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notSame(@Nullable Object n, @Nullable Object other) {
 		return !(n == other);
 	}
 
-	/** "Special" predicate: Object <%s> must NOT be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Object <%s> must NOT be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notSame$(@Nullable Object n, @Nullable Object other) {
 		return !(n == other) ? null : String.format("Object <%s> must NOT be the same as <%s>.", n, other);
 	}
 
-	/** Predicate: Reference must be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Reference must be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean Null(@Nullable Object n) {
 		return n == null;
 	}
 
-	/** "Special" predicate: Reference must be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Reference must be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String Null$(@Nullable Object n) {
 		return (n == null) ? null : String.format("Reference must be null, currently is pointing to <%s>.", n);
 	}
 
-	/** Predicate: Reference must NOT be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Reference must NOT be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notNull(@Nullable Object n) {
 		return !(n == null);
 	}
 
-	/** "Special" predicate: Reference must NOT be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Reference must NOT be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notNull$(@Nullable Object n) {
 		return !(n == null) ? null : String.format("Reference must NOT be null, currently is pointing to <%s>.", n);
 	}
@@ -272,90 +271,90 @@ public final class P implements FluentSyntax {
 		return !(n.contains(a1)) ? null : String.format("String <'%s'> must NOT contain string <'%s'>. But does not.", n, a1);
 	}
 
-	/** Predicate: String <'%s'> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean empty(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return n.isEmpty();
 	}
 
-	/** "Special" predicate: String <'%s'> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String empty$(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return (n.isEmpty()) ? null : String.format("String <'%s'> must be empty.", n);
 	}
 
-	/** Predicate: String <'%s'> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notEmpty(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return !(n.isEmpty());
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notEmpty$(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return !(n.isEmpty()) ? null : String.format("String <'%s'> must NOT be empty.", n);
 	}
 
-	/** Predicate: String <'%s'> must be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean blank(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return n.isBlank();
 	}
 
-	/** "Special" predicate: String <'%s'> must be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String blank$(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return (n.isBlank()) ? null : String.format("String <'%s'> must be blank (empty or consisting of only white characters).", n);
 	}
 
-	/** Predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notBlank(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return !(n.isBlank());
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notBlank$(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return !(n.isBlank()) ? null : String.format("String <'%s'> must NOT be blank (empty or consisting of only white characters).", n);
 	}
 
-	/** Predicate: String <'%s'> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean nullOrEmpty(@Nonnull String n) {
 		return n == null || n.isEmpty();
 	}
 
-	/** "Special" predicate: String <'%s'> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String nullOrEmpty$(@Nonnull String n) {
 		return (n == null || n.isEmpty()) ? null : String.format("String <'%s'> must be null or empty.", n);
 	}
 
-	/** Predicate: String <'%s'> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notNullNorEmpty(@Nonnull String n) {
 		return !(n == null || n.isEmpty());
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notNullNorEmpty$(@Nonnull String n) {
 		return !(n == null || n.isEmpty()) ? null : String.format("String <'%s'> must NOT be null or empty.", n);
 	}
 
-	/** Predicate: String <'%s'> must be null or blank. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean nullOrBlank(@Nonnull String n) {
 		return n == null || n.isBlank();
 	}
 
-	/** "Special" predicate: String <'%s'> must be null or blank. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String nullOrBlank$(@Nonnull String n) {
 		return (n == null || n.isBlank()) ? null : String.format("String <'%s'> must be null or blank.", n);
 	}
 
-	/** Predicate: String <'%s'> must NOT be null or blank. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must NOT be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notNullNorBlank(@Nonnull String n) {
 		return !(n == null || n.isBlank());
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be null or blank. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must NOT be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notNullNorBlank$(@Nonnull String n) {
 		return !(n == null || n.isBlank()) ? null : String.format("String <'%s'> must NOT be null or blank.", n);
 	}
@@ -2504,49 +2503,49 @@ public final class P implements FluentSyntax {
 
 	// <editor-fold desc="object derivatives">
 
-	/** Predicate: Object <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Object <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean instanceOf(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return clazz.isInstance(object);
 	}
 
-	/** "Special" predicate: Object <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Object <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String instanceOf$(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return (clazz.isInstance(object)) ? null : String.format("Object <%s> must be instance of <%s>.", object, clazz);
 	}
 
-	/** Predicate: Object <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Object <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notInstanceOf(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isInstance(object));
 	}
 
-	/** "Special" predicate: Object <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Object <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notInstanceOf$(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isInstance(object)) ? null : String.format("Object <%s> must NOT be instance of <%s>.", object, clazz);
 	}
 
-	/** Predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean assignableFrom(Class<?> specialization, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return clazz.isAssignableFrom(specialization);
 	}
 
-	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String assignableFrom$(Class<?> specialization, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return (clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> must ---NOT-- be specialization of <%s>.", specialization, clazz);
 	}
 
-	/** Predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static boolean notAssignableFrom(Class<?> specialization, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isAssignableFrom(specialization));
 	}
 
-	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static String notAssignableFrom$(Class<?> specialization, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> must ---NOT-- be specialization of <%s>.", specialization, clazz);

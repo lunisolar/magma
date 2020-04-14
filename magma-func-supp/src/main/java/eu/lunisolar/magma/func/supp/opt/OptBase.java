@@ -83,7 +83,7 @@ public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTr
 			return false;
 		}
 
-		Opt other = (Opt) obj;
+		OptBase other = (OptBase) obj;
 		return (isPresent() && other.isPresent()) ? value().equals(other.value()) : isPresent() == other.isPresent();
 	}
 
@@ -92,7 +92,13 @@ public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTr
 	}
 
 	public String toString() {
-		return isPresent() ? String.format("%s[%s]", getClass().getSimpleName(), value()) : String.format("%s.empty", getClass().getSimpleName());
+		if (!isPresent()) {
+			return new StringBuilder().append(getClass().getSimpleName()).append(".empty").toString();
+		}
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
 	}
 
 	// </editor-fold>

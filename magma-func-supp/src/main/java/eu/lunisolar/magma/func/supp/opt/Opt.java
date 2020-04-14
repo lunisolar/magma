@@ -36,6 +36,8 @@ import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
+import static eu.lunisolar.magma.func.supp.MsgVerbosity.*; // NOSONAR
+
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
@@ -269,7 +271,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		var nullable = nullable();
-		return (Opt) must(Be::instanceOf, clazz, "Must be instance of %s but is %s.", clazz, nullable == null ? null : nullable.getClass());
+		return (Opt) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
 	}
 
 }

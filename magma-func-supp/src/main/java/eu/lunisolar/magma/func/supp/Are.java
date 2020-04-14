@@ -57,8 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - filter({@link P}::equal, 4)
  * - when({@link Does}::contain, 4)
  * - must({@link Be}::equal, 4)
- * - when({@link Is}::equal, 4)
- *
+ * - when({@link Is}::equal, 4) *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
 public final class Are implements FluentSyntax {

@@ -100,16 +100,52 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return () -> handlingGetAsByte(handling);
 	}
 
-	default byte getAsByte(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default byte getAsByte(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsByteX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LByteSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsByte(exF, newMessage, messageParams);
+	default byte getAsByte(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default byte getAsByte(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default byte getAsByte(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsByteX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LByteSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsByte(exF, newMessage);
+	}
+
+	default LByteSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsByte(exF, newMessage, param1);
+	}
+
+	default LByteSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsByte(exF, newMessage, param1, param1);
+	}
+
+	default LByteSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsByte(exF, newMessage, param1, param2, param3);
 	}
 
 	default byte getAsByte(@Nonnull ExWF<RuntimeException> exF) {
@@ -165,9 +201,24 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return func.nestingGetAsByte();
 	}
 
-	static byte tryGetAsByte(LByteSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static byte tryGetAsByte(LByteSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsByte(exF, newMessage, messageParams);
+		return func.getAsByte(exF, newMessage);
+	}
+
+	static byte tryGetAsByte(LByteSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsByte(exF, newMessage, param1);
+	}
+
+	static byte tryGetAsByte(LByteSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsByte(exF, newMessage, param1, param2);
+	}
+
+	static byte tryGetAsByte(LByteSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsByte(exF, newMessage, param1, param2, param3);
 	}
 
 	static byte tryGetAsByte(LByteSupplier func, @Nonnull ExWF<RuntimeException> exF) {

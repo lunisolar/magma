@@ -73,8 +73,8 @@ public class OptTraitAssertTest {
     public static final OptTrait VOID        = Opt.empty();
     public static final OptTrait NULL        = null;
 
-    public static final String                      VALUE_STR       = "0";
-    public static final String                      OTHER_VALUE_STR = "1";
+    public static final String                      VALUE_STR       = "'0'^^Integer";
+    public static final String                      OTHER_VALUE_STR = "'1'^^Integer";
 
     @Test
     public void testActual() {
@@ -92,9 +92,10 @@ public class OptTraitAssertTest {
         var sut = new OptTraitAssert(OPT).isPresent();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*<Opt.empty> is expected to have value but it does not.*")
+    @Test
     public void testIsPresent_VOID() {
-        var sut = new OptTraitAssert(VOID).isPresent();
+        var sut = new OptTraitAssert(VOID);
+        assertThatThrownBy(() -> sut.isPresent()).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt.empty]: <Opt.empty> is expected to have value, but is void.");
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*Expecting actual not to be null.*")
@@ -107,9 +108,10 @@ public class OptTraitAssertTest {
         var sut = new OptTraitAssert(OPT).isNotVoid();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*<Opt.empty> is expected to have value but it does not.*")
+    @Test
     public void testIsNotVoid_VOID() {
-        var sut = new OptTraitAssert(VOID).isNotVoid();
+        var sut = new OptTraitAssert(VOID);
+        assertThatThrownBy(() -> sut.isNotVoid()).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt.empty]: <Opt.empty> is expected to have value, but is void.");
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*Expecting actual not to be null.*")
@@ -117,9 +119,10 @@ public class OptTraitAssertTest {
         var sut = new OptTraitAssert(NULL).isNotVoid();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "<Opt\\[" + VALUE_STR + "\\]> is expected to not have value but it does.")
+    @Test
     public void testIsVoid_OPT() {
-        var sut = new OptTraitAssert(OPT).isVoid();
+        var sut = new OptTraitAssert(OPT);
+        assertThatThrownBy(() -> sut.isVoid()).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt[" + VALUE_STR + "]]: <Opt[" + VALUE_STR + "]> is expected to NOT have value, but it does.");
     }
 
     @Test
@@ -132,9 +135,10 @@ public class OptTraitAssertTest {
         var sut = new OptTraitAssert(NULL).isVoid();
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "<Opt\\[" + VALUE_STR + "\\]> is expected to not have value but it does.")
+    @Test
     public void testIsNotPresent_OPT() {
-        var sut = new OptTraitAssert(OPT).isNotPresent();
+        var sut = new OptTraitAssert(OPT);
+        assertThatThrownBy(() -> sut.isNotPresent()).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt[" + VALUE_STR + "]]: <Opt[" + VALUE_STR + "]> is expected to NOT have value, but it does.");
     }
 
     @Test
@@ -151,7 +155,7 @@ public class OptTraitAssertTest {
     public void testContains_OPT() {
         var sut = new OptTraitAssert(OPT);
         assertThatThrownBy(() -> sut.contains(null)).isInstanceOf(IllegalArgumentException.class).hasMessage("Argument [expectedValue]: The expected value should not be null.");
-        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Optional value <" + VALUE_STR + "> should be equal to <" + OTHER_VALUE_STR + "> but is not. <Opt[" + VALUE_STR + "]>");
+        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt[" + VALUE_STR + "]]: Optional value <" + VALUE + "> should be equal to <" + OTHER_VALUE + ">.");
         sut.contains(VALUE);
     }
 
@@ -159,8 +163,8 @@ public class OptTraitAssertTest {
     public void testContains_VOID() {
         var sut = new OptTraitAssert(VOID);
         assertThatThrownBy(() -> sut.contains(null)).isInstanceOf(IllegalArgumentException.class).hasMessage("Argument [expectedValue]: The expected value should not be null.");
-        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("<Opt.empty> is expected to have value <" + OTHER_VALUE_STR + "> but it is void.");
-        assertThatThrownBy(() -> sut.contains(VALUE)).isInstanceOf(AssertionError.class).hasMessage("<Opt.empty> is expected to have value <" + VALUE_STR + "> but it is void.");
+        assertThatThrownBy(() -> sut.contains(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt.empty]: <Opt.empty> is expected to have value <" + OTHER_VALUE + ">, but is void.");
+        assertThatThrownBy(() -> sut.contains(VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt.empty]: <Opt.empty> is expected to have value <" + VALUE + ">, but is void.");
     }
 
     @Test
@@ -176,7 +180,7 @@ public class OptTraitAssertTest {
     public void testContainsSame_OPT() {
         var sut = new OptTraitAssert(OPT);
         assertThatThrownBy(() -> sut.containsSame(null)).isInstanceOf(IllegalArgumentException.class).hasMessage("Argument [expectedValue]: The expected value should not be null.");
-        assertThatThrownBy(() -> sut.containsSame(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Optional value <" + VALUE_STR + "> should be the same as <" + OTHER_VALUE_STR + "> but is not. <Opt[" + VALUE_STR + "]>");
+        assertThatThrownBy(() -> sut.containsSame(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt[" + VALUE_STR + "]]: Optional value <" + VALUE + "> should refer to the same object as <" + OTHER_VALUE + ">, but is not.");
         sut.containsSame(VALUE);
     }
 
@@ -184,8 +188,8 @@ public class OptTraitAssertTest {
     public void testContainsSame_VOID() {
         var sut = new OptTraitAssert(VOID);
         assertThatThrownBy(() -> sut.containsSame(null)).isInstanceOf(IllegalArgumentException.class).hasMessage("Argument [expectedValue]: The expected value should not be null.");
-        assertThatThrownBy(() -> sut.containsSame(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("<Opt.empty> is expected to have the same value <" + OTHER_VALUE_STR + "> but it is void.");
-        assertThatThrownBy(() -> sut.containsSame(VALUE)).isInstanceOf(AssertionError.class).hasMessage("<Opt.empty> is expected to have the same value <" + VALUE_STR + "> but it is void.");
+        assertThatThrownBy(() -> sut.containsSame(OTHER_VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt.empty]: <Opt.empty> is expected to have value refer to the object <" + OTHER_VALUE + ">, but is void.");
+        assertThatThrownBy(() -> sut.containsSame(VALUE)).isInstanceOf(AssertionError.class).hasMessage("Actual [Opt.empty]: <Opt.empty> is expected to have value refer to the object <" + VALUE + ">, but is void.");
     }
 
     @Test
@@ -208,9 +212,9 @@ public class OptTraitAssertTest {
     public void testHasValue_VOID() {
         var sut = new OptTraitAssert(VOID);
         assertThatThrownBy(() -> sut.hasValueThat())
-            .isInstanceOf(AssertionError.class).hasMessageContaining("<Opt.empty> is expected to have value but it does not.");
+            .isInstanceOf(AssertionError.class).hasMessageContaining("Actual [Opt.empty]: <Opt.empty> is expected to have value, but is void.");
         assertThatThrownBy(() -> sut.hasValueThat())
-            .isInstanceOf(AssertionError.class).hasMessageContaining("<Opt.empty> is expected to have value but it does not.");
+            .isInstanceOf(AssertionError.class).hasMessageContaining("Actual [Opt.empty]: <Opt.empty> is expected to have value, but is void.");
     }
 
 }

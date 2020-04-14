@@ -746,7 +746,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	// <editor-fold desc="orElse">
 
-	default SELF orThrow() {
+	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
 			return self();
 		}
@@ -754,15 +754,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		throw Handling.create(X::noSuchElement);
 	}
 
-	default T orElseThrow() {
-		if (isPresent()) {
-			return get();
-		}
-
-		throw Handling.create(X::noSuchElement);
-	}
-
-	default SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
+	default @Nonnull SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
 		if (isPresent()) {
 			return self();
 		}
@@ -771,7 +763,51 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		throw Handling.create(fx);
 	}
 
-	default T orElseThrow(@Nonnull ExF<RuntimeException> fx) {
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2);
+	}
+
+	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		if (isPresent()) {
+			return self();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2, param3);
+	}
+
+	default @Nonnull T orElseThrow() {
+		if (isPresent()) {
+			return get();
+		}
+
+		throw Handling.create(X::noSuchElement);
+	}
+
+	default @Nonnull T orElseThrow(@Nonnull ExF<RuntimeException> fx) {
 		if (isPresent()) {
 			return get();
 		}
@@ -780,16 +816,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		throw Handling.create(fx);
 	}
 
-	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
-		if (isPresent()) {
-			return self();
-		}
-
-		Null.nonNullArg(fx, "fx");
-		throw Handling.create(fx, msg);
-	}
-
-	default T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
+	default @Nonnull T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
 		if (isPresent()) {
 			return get();
 		}
@@ -798,22 +825,31 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		throw Handling.create(fx, msg);
 	}
 
-	default SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
-		if (isPresent()) {
-			return self();
-		}
-
-		Null.nonNullArg(fx, "fx");
-		throw Handling.create(fx, msg, args);
-	}
-
-	default T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, Object... args) {
+	default @Nonnull T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1) {
 		if (isPresent()) {
 			return get();
 		}
 
 		Null.nonNullArg(fx, "fx");
-		throw Handling.create(fx, msg, args);
+		throw Handling.create(fx, msg, param1);
+	}
+
+	default @Nonnull T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2);
+	}
+
+	default @Nonnull T orElseThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		if (isPresent()) {
+			return get();
+		}
+
+		Null.nonNullArg(fx, "fx");
+		throw Handling.create(fx, msg, param1, param2, param3);
 	}
 
 	default T orElse(@Nullable T value) {

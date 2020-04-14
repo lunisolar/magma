@@ -102,16 +102,52 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsFlt(a, handling);
 	}
 
-	default float applyAsFlt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default float applyAsFlt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LBoolToFltFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsFlt(a, exF, newMessage, messageParams);
+	default float applyAsFlt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsFltX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default float applyAsFlt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsFltX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default float applyAsFlt(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsFltX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LBoolToFltFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsFlt(a, exF, newMessage);
+	}
+
+	default LBoolToFltFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsFlt(a, exF, newMessage, param1);
+	}
+
+	default LBoolToFltFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsFlt(a, exF, newMessage, param1, param1);
+	}
+
+	default LBoolToFltFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsFlt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default float applyAsFlt(boolean a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsFlt(a);
 	}
 
-	static float tryApplyAsFlt(boolean a, LBoolToFltFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static float tryApplyAsFlt(boolean a, LBoolToFltFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsFlt(a, exF, newMessage, messageParams);
+		return func.applyAsFlt(a, exF, newMessage);
+	}
+
+	static float tryApplyAsFlt(boolean a, LBoolToFltFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsFlt(a, exF, newMessage, param1);
+	}
+
+	static float tryApplyAsFlt(boolean a, LBoolToFltFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsFlt(a, exF, newMessage, param1, param2);
+	}
+
+	static float tryApplyAsFlt(boolean a, LBoolToFltFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsFlt(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static float tryApplyAsFlt(boolean a, LBoolToFltFunction func, @Nonnull ExWF<RuntimeException> exF) {

@@ -100,16 +100,52 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return () -> handlingGetAsChar(handling);
 	}
 
-	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsCharX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsChar(exF, newMessage, messageParams);
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsCharX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsChar(exF, newMessage);
+	}
+
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsChar(exF, newMessage, param1);
+	}
+
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsChar(exF, newMessage, param1, param1);
+	}
+
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsChar(exF, newMessage, param1, param2, param3);
 	}
 
 	default char getAsChar(@Nonnull ExWF<RuntimeException> exF) {
@@ -165,9 +201,24 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return func.nestingGetAsChar();
 	}
 
-	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsChar(exF, newMessage, messageParams);
+		return func.getAsChar(exF, newMessage);
+	}
+
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsChar(exF, newMessage, param1);
+	}
+
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsChar(exF, newMessage, param1, param2);
+	}
+
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsChar(exF, newMessage, param1, param2, param3);
 	}
 
 	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWF<RuntimeException> exF) {

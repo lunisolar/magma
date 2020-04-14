@@ -110,16 +110,52 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return () -> handlingGetAsBool(handling);
 	}
 
-	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsBool(exF, newMessage, messageParams);
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsBoolX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsBoolX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsBoolX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsBool(exF, newMessage);
+	}
+
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsBool(exF, newMessage, param1);
+	}
+
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsBool(exF, newMessage, param1, param1);
+	}
+
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsBool(exF, newMessage, param1, param2, param3);
 	}
 
 	default boolean getAsBool(@Nonnull ExWF<RuntimeException> exF) {
@@ -175,9 +211,24 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return func.nestingGetAsBool();
 	}
 
-	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsBool(exF, newMessage, messageParams);
+		return func.getAsBool(exF, newMessage);
+	}
+
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsBool(exF, newMessage, param1);
+	}
+
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsBool(exF, newMessage, param1, param2);
+	}
+
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsBool(exF, newMessage, param1, param2, param3);
 	}
 
 	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWF<RuntimeException> exF) {
@@ -272,63 +323,6 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 			after.accept(retval);
 			return retval;
 		};
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, LSupplier<? extends String> msgFunc) throws X {
-		if (pred.getAsBool()) {
-			throw Handling.create(factory, msgFunc.get());
-		}
-		return pred;
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, LSupplier<? extends String> msgFunc) throws X {
-		if (!pred.getAsBool()) {
-			throw Handling.create(factory, msgFunc.get());
-		}
-		return pred;
-	}
-
-	/** Throws new exception if condition is met. String is used as a result of test. Non NULL String means condition is not met and Strings content is used for exception message. */
-	public static <X extends Throwable> LSupplier<? extends String> throwIfNot$(LSupplier<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
-		var msg = specialPredicate.get();
-		if (msg != null) {
-			throw Handling.create(factory, msg);
-		}
-		return specialPredicate;
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
-		if (pred.getAsBool()) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-		return pred;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage, @Nonnull Object... messageParams) throws X {
-		if (!pred.getAsBool()) {
-			throw Handling.create(factory, newMessage, messageParams);
-		}
-		return pred;
-	}
-
-	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> LBoolSupplier throwIf(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
-		if (pred.getAsBool()) {
-			throw Handling.create(factory, newMessage);
-		}
-		return pred;
-	}
-
-	/** Throws new exception if condition is not met. */
-	public static <X extends Throwable> LBoolSupplier throwIfNot(@Nonnull LBoolSupplier pred, @Nonnull ExMF<X> factory, @Nonnull String newMessage) throws X {
-		if (!pred.getAsBool()) {
-			throw Handling.create(factory, newMessage);
-		}
-		return pred;
 	}
 
 	/** Creates function that always returns the same value. */

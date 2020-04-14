@@ -102,16 +102,52 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsDbl(a, handling);
 	}
 
-	default double applyAsDbl(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default double applyAsDbl(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LCharToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> applyAsDbl(a, exF, newMessage, messageParams);
+	default double applyAsDbl(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.applyAsDblX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default double applyAsDbl(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.applyAsDblX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default double applyAsDbl(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.applyAsDblX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LCharToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> applyAsDbl(a, exF, newMessage);
+	}
+
+	default LCharToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsDbl(a, exF, newMessage, param1);
+	}
+
+	default LCharToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsDbl(a, exF, newMessage, param1, param1);
+	}
+
+	default LCharToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsDbl(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default double applyAsDbl(char a, @Nonnull ExWF<RuntimeException> exF) {
@@ -167,9 +203,24 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsDbl(a);
 	}
 
-	static double tryApplyAsDbl(char a, LCharToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static double tryApplyAsDbl(char a, LCharToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a, exF, newMessage, messageParams);
+		return func.applyAsDbl(a, exF, newMessage);
+	}
+
+	static double tryApplyAsDbl(char a, LCharToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a, exF, newMessage, param1);
+	}
+
+	static double tryApplyAsDbl(char a, LCharToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a, exF, newMessage, param1, param2);
+	}
+
+	static double tryApplyAsDbl(char a, LCharToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.applyAsDbl(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static double tryApplyAsDbl(char a, LCharToDblFunction func, @Nonnull ExWF<RuntimeException> exF) {

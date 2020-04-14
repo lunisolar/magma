@@ -132,6 +132,10 @@ public final class Handling implements Serializable {
         return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg, args));
     }
 
+    public static <X extends Throwable> X create(@Nonnull ExMF<X> fx, @Nullable String msg1, @Nullable Object[] args1, @Nullable String msg2, @Nullable Object... args2) {
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg1, args1) +' ' + constructMessage(null, msg2, args2));
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="ExWF">

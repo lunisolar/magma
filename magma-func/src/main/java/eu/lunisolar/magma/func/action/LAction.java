@@ -103,16 +103,52 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return () -> handlingExecute(handling);
 	}
 
-	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			this.executeX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> execute(exF, newMessage, messageParams);
+	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			this.executeX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			this.executeX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			this.executeX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> execute(exF, newMessage);
+	}
+
+	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> execute(exF, newMessage, param1);
+	}
+
+	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> execute(exF, newMessage, param1, param1);
+	}
+
+	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> execute(exF, newMessage, param1, param2, param3);
 	}
 
 	default void execute(@Nonnull ExWF<RuntimeException> exF) {
@@ -168,9 +204,24 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		func.nestingExecute();
 	}
 
-	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.execute(exF, newMessage, messageParams);
+		func.execute(exF, newMessage);
+	}
+
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		func.execute(exF, newMessage, param1);
+	}
+
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		func.execute(exF, newMessage, param1, param2);
+	}
+
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		func.execute(exF, newMessage, param1, param2, param3);
 	}
 
 	static void tryExecute(LAction func, @Nonnull ExWF<RuntimeException> exF) {

@@ -103,16 +103,52 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return a -> handlingAccept(a, handling);
 	}
 
-	default void accept(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default void accept(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LSrtConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return a -> accept(a, exF, newMessage, messageParams);
+	default void accept(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			this.acceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default void accept(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			this.acceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default void accept(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			this.acceptX(a);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LSrtConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return a -> accept(a, exF, newMessage);
+	}
+
+	default LSrtConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> accept(a, exF, newMessage, param1);
+	}
+
+	default LSrtConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> accept(a, exF, newMessage, param1, param1);
+	}
+
+	default LSrtConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> accept(a, exF, newMessage, param1, param2, param3);
 	}
 
 	default void accept(short a, @Nonnull ExWF<RuntimeException> exF) {
@@ -168,9 +204,24 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		func.nestingAccept(a);
 	}
 
-	static void tryAccept(short a, LSrtConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static void tryAccept(short a, LSrtConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a, exF, newMessage, messageParams);
+		func.accept(a, exF, newMessage);
+	}
+
+	static void tryAccept(short a, LSrtConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		func.accept(a, exF, newMessage, param1);
+	}
+
+	static void tryAccept(short a, LSrtConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		func.accept(a, exF, newMessage, param1, param2);
+	}
+
+	static void tryAccept(short a, LSrtConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		func.accept(a, exF, newMessage, param1, param2, param3);
 	}
 
 	static void tryAccept(short a, LSrtConsumer func, @Nonnull ExWF<RuntimeException> exF) {

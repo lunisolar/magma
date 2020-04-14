@@ -103,16 +103,52 @@ public interface LTriIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (a1, a2, a3) -> handlingAccept(a1, a2, a3, handling);
 	}
 
-	default void accept(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default void accept(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LTriIntConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return (a1, a2, a3) -> accept(a1, a2, a3, exF, newMessage, messageParams);
+	default void accept(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			this.acceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default void accept(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			this.acceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default void accept(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			this.acceptX(a1, a2, a3);
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LTriIntConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, exF, newMessage);
+	}
+
+	default LTriIntConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, exF, newMessage, param1);
+	}
+
+	default LTriIntConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, exF, newMessage, param1, param1);
+	}
+
+	default LTriIntConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, exF, newMessage, param1, param2, param3);
 	}
 
 	default void accept(int a1, int a2, int a3, @Nonnull ExWF<RuntimeException> exF) {
@@ -168,9 +204,24 @@ public interface LTriIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		func.nestingAccept(a1, a2, a3);
 	}
 
-	static void tryAccept(int a1, int a2, int a3, LTriIntConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static void tryAccept(int a1, int a2, int a3, LTriIntConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, a3, exF, newMessage, messageParams);
+		func.accept(a1, a2, a3, exF, newMessage);
+	}
+
+	static void tryAccept(int a1, int a2, int a3, LTriIntConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, a3, exF, newMessage, param1);
+	}
+
+	static void tryAccept(int a1, int a2, int a3, LTriIntConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, a3, exF, newMessage, param1, param2);
+	}
+
+	static void tryAccept(int a1, int a2, int a3, LTriIntConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		func.accept(a1, a2, a3, exF, newMessage, param1, param2, param3);
 	}
 
 	static void tryAccept(int a1, int a2, int a3, LTriIntConsumer func, @Nonnull ExWF<RuntimeException> exF) {

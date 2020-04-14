@@ -100,16 +100,52 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return () -> handlingGetAsFlt(handling);
 	}
 
-	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		try {
 			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, messageParams);
+			throw Handling.wrap(e, exF, newMessage);
 		}
 	}
 
-	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
-		return () -> getAsFlt(exF, newMessage, messageParams);
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		try {
+			return this.getAsFltX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1);
+		}
+	}
+
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		try {
+			return this.getAsFltX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2);
+		}
+	}
+
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		try {
+			return this.getAsFltX();
+		} catch (Throwable e) { // NOSONAR
+			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+		}
+	}
+
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+		return () -> getAsFlt(exF, newMessage);
+	}
+
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsFlt(exF, newMessage, param1);
+	}
+
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsFlt(exF, newMessage, param1, param1);
+	}
+
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsFlt(exF, newMessage, param1, param2, param3);
 	}
 
 	default float getAsFlt(@Nonnull ExWF<RuntimeException> exF) {
@@ -165,9 +201,24 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func.nestingGetAsFlt();
 	}
 
-	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object... messageParams) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsFlt(exF, newMessage, messageParams);
+		return func.getAsFlt(exF, newMessage);
+	}
+
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+		Null.nonNullArg(func, "func");
+		return func.getAsFlt(exF, newMessage, param1);
+	}
+
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(func, "func");
+		return func.getAsFlt(exF, newMessage, param1, param2);
+	}
+
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(func, "func");
+		return func.getAsFlt(exF, newMessage, param1, param2, param3);
 	}
 
 	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWF<RuntimeException> exF) {
