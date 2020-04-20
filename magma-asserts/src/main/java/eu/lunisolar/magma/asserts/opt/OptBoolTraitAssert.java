@@ -94,7 +94,7 @@ public class OptBoolTraitAssert extends AbstractObjectAssert<OptBoolTraitAssert,
 		isNotNull();
 
 		must(OptBoolTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
-		must(P.haveBool(OptBoolTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
+		must(P.haveToBool(OptBoolTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

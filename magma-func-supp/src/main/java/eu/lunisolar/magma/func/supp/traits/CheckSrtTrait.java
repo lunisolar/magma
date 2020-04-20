@@ -210,7 +210,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LSrtFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustEx(@Nonnull LSrtFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get());
@@ -222,7 +222,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -236,7 +236,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -250,7 +250,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -264,7 +264,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -278,7 +278,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LSrtFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustNotEx(@Nonnull LSrtFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get());
@@ -290,7 +290,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -304,7 +304,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -318,7 +318,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -332,7 +332,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotEx(@Nonnull LSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -578,7 +578,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2) {
+	default @Nonnull SELF mustEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -590,7 +590,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message) {
+	default @Nonnull SELF mustEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -604,7 +604,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -618,7 +618,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -632,7 +632,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -646,7 +646,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -658,7 +658,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -672,7 +672,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -686,7 +686,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -700,7 +700,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -714,7 +714,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2) {
+	default @Nonnull SELF mustNotEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -726,7 +726,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message) {
+	default @Nonnull SELF mustNotEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -740,7 +740,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -754,7 +754,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -768,7 +768,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotEx(@Nonnull LBiSrtFunction<? extends String> specialPredicate, short a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -782,7 +782,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustNotEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -794,7 +794,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -808,7 +808,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -822,7 +822,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -836,7 +836,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot$(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotEx(short a2, @Nonnull LBiSrtFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1466,7 +1466,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v) {
+	default @Nonnull <V> SELF must_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applySrtObj(get(), v);
@@ -1478,7 +1478,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF must_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1492,7 +1492,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1506,7 +1506,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1520,7 +1520,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1534,7 +1534,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate) {
+	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applySrtObj(get(), v);
@@ -1546,7 +1546,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1560,7 +1560,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1574,7 +1574,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1588,7 +1588,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1602,7 +1602,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v) {
+	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applySrtObj(get(), v);
@@ -1614,7 +1614,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1628,7 +1628,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1642,7 +1642,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1656,7 +1656,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1670,7 +1670,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate) {
+	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applySrtObj(get(), v);
@@ -1682,7 +1682,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1696,7 +1696,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1710,7 +1710,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1724,7 +1724,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_$(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1970,7 +1970,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
+	default @Nonnull <V1> SELF mustWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -1982,7 +1982,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1996,7 +1996,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2010,7 +2010,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2024,7 +2024,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2038,7 +2038,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate) {
+	default @Nonnull <V1> SELF mustWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -2050,7 +2050,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2064,7 +2064,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2078,7 +2078,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2092,7 +2092,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2106,7 +2106,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -2118,7 +2118,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2132,7 +2132,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2146,7 +2146,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2160,7 +2160,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(@Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2174,7 +2174,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -2186,7 +2186,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2200,7 +2200,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2214,7 +2214,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2228,7 +2228,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithSrt$(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithSrtEx(V1 with1, @Nonnull LObjSrtFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2474,7 +2474,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
+	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2486,7 +2486,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2500,7 +2500,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2514,7 +2514,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2528,7 +2528,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2542,7 +2542,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
+	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2554,7 +2554,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2568,7 +2568,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2582,7 +2582,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2596,7 +2596,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2610,7 +2610,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2622,7 +2622,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2636,7 +2636,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2650,7 +2650,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2664,7 +2664,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2678,7 +2678,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2690,7 +2690,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2704,7 +2704,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2718,7 +2718,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2732,7 +2732,7 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith$(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull

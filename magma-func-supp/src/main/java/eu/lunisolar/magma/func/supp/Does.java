@@ -80,7 +80,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must start with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String startWith$(@Nonnull String n, @Nonnull String a1) {
+	public static String startWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return (n.startsWith(a1)) ? null : String.format("String <'%s'> must start with <'%s'>.", n, a1);
@@ -94,7 +94,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT start with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String notStartWith$(@Nonnull String n, @Nonnull String a1) {
+	public static String notStartWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return !(n.startsWith(a1)) ? null : String.format("String <'%s'> must NOT start with <'%s'>.", n, a1);
@@ -108,7 +108,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must end with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String endWith$(@Nonnull String n, @Nonnull String a1) {
+	public static String endWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return (n.endsWith(a1)) ? null : String.format("String <'%s'> must end with <'%s'>.", n, a1);
@@ -122,7 +122,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT end with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String notEndWith$(@Nonnull String n, @Nonnull String a1) {
+	public static String notEndWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return !(n.endsWith(a1)) ? null : String.format("String <'%s'> must NOT end with <'%s'>.", n, a1);
@@ -136,7 +136,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
-	public static String contain$(@Nonnull String n, @Nonnull String a1) {
+	public static String containEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return (n.contains(a1)) ? null : String.format("String <'%s'> must contain string <'%s'>. But does not.", n, a1);
@@ -150,7 +150,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
-	public static String notContain$(@Nonnull String n, @Nonnull String a1) {
+	public static String notContainEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return !(n.contains(a1)) ? null : String.format("String <'%s'> must NOT contain string <'%s'>. But does not.", n, a1);
@@ -165,23 +165,23 @@ public final class Does implements FluentSyntax {
 	// <editor-fold desc="== <= >= < >">
 
 	/** Predicate: <%s> must be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static boolean equal(Object o, Object a1) {
-		return Objects.equals(o, a1);
+	public static boolean equal(Object o1, Object o2) {
+		return Objects.equals(o1, o2);
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(Object o, Object a1) {
-		return (Objects.equals(o, a1)) ? null : String.format("<%s> must be equal to <%s>.", o, a1);
+	public static String equalEx(Object o1, Object o2) {
+		return (Objects.equals(o1, o2)) ? null : String.format("<%s> must be equal to <%s>.", o1, o2);
 	}
 
 	/** Predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static boolean notEqual(Object o, Object a1) {
-		return !(Objects.equals(o, a1));
+	public static boolean notEqual(Object o1, Object o2) {
+		return !(Objects.equals(o1, o2));
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(Object o, Object a1) {
-		return !(Objects.equals(o, a1)) ? null : String.format("<%s> must NOT be equal to <%s>.", o, a1);
+	public static String notEqualEx(Object o1, Object o2) {
+		return !(Objects.equals(o1, o2)) ? null : String.format("<%s> must NOT be equal to <%s>.", o1, o2);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -190,7 +190,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(byte n, byte a1) {
+	public static String equalEx(byte n, byte a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -200,7 +200,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(byte n, byte a1) {
+	public static String notEqualEx(byte n, byte a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -210,7 +210,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(short n, short a1) {
+	public static String equalEx(short n, short a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -220,7 +220,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(short n, short a1) {
+	public static String notEqualEx(short n, short a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -230,7 +230,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(int n, int a1) {
+	public static String equalEx(int n, int a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -240,7 +240,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(int n, int a1) {
+	public static String notEqualEx(int n, int a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -250,7 +250,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(long n, long a1) {
+	public static String equalEx(long n, long a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -260,7 +260,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(long n, long a1) {
+	public static String notEqualEx(long n, long a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -270,7 +270,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(float n, float a1) {
+	public static String equalEx(float n, float a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -280,7 +280,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(float n, float a1) {
+	public static String notEqualEx(float n, float a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -290,7 +290,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(double n, double a1) {
+	public static String equalEx(double n, double a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -300,7 +300,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(double n, double a1) {
+	public static String notEqualEx(double n, double a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -310,7 +310,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(char n, char a1) {
+	public static String equalEx(char n, char a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -320,7 +320,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(char n, char a1) {
+	public static String notEqualEx(char n, char a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -339,7 +339,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must contain element <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String contain$(@Nonnull Collection<T> collection, T element) {
+	public static <T> String containEx(@Nonnull Collection<T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
 		return (collection.contains(element)) ? null : String.format("Collection <%s> must contain element <%s>.", collection, element);
 	}
@@ -351,7 +351,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain element <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String notContain$(@Nonnull Collection<T> collection, T element) {
+	public static <T> String notContainEx(@Nonnull Collection<T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
 		return !(collection.contains(element)) ? null : String.format("Collection <%s> must NOT contain element <%s>.", collection, element);
 	}
@@ -363,7 +363,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain key <%s>. Available in {@link P}, {@link Does}.*/
-	public static <K> String containKey$(@Nonnull Map<K, ?> map, K key) {
+	public static <K> String containKeyEx(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
 		return (map.containsKey(key)) ? null : String.format("Map <%s> must contain key <%s>.", map, key);
 	}
@@ -375,7 +375,7 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain key <%s>. Available in {@link P}, {@link Does}.*/
-	public static <K> String notContainKey$(@Nonnull Map<K, ?> map, K key) {
+	public static <K> String notContainKeyEx(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
 		return !(map.containsKey(key)) ? null : String.format("Map <%s> must NOT contain key <%s>.", map, key);
 	}
@@ -392,1582 +392,2027 @@ public final class Does implements FluentSyntax {
 
 	// <editor-fold desc="have">
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveBool(@Nonnull LPredicate<K> extractor, @Nonnull LLogicalOperator operator) {
+	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToBool(@Nonnull LPredicate<K> extractor, @Nonnull LLogicalOperator operator) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(operator, "operator");
 		return k -> operator.apply(extractor.test(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveBool$(@Nonnull LPredicate<K> extractor, @Nonnull LBoolFunction<String> specialPredicate) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveBool(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LLogicalBinaryOperator operator) {
+	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToBool(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LLogicalBinaryOperator operator) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(operator, "operator");
 		return k -> operator.apply(extractor.test(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveBool$(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LBiBoolFunction<String> specialPredicate) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LBiBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveBool(@Nonnull LPredicate<K> extractor, @Nonnull LLogicalBinaryOperator operator, boolean a2) {
-		return haveBool(extractor, a2, operator);
+	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToBool(@Nonnull LPredicate<K> extractor, @Nonnull LLogicalBinaryOperator operator, boolean a2) {
+		return haveToBool(extractor, a2, operator);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveBool$(@Nonnull LPredicate<K> extractor, @Nonnull LBiBoolFunction<String> specialPredicate, boolean a2) {
-		return haveBool$(extractor, a2, specialPredicate);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LBiBoolFunction<String> specialPredicate, boolean a2) {
+		return haveToBoolEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveBool(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
+	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToBool(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(operator, "operator");
 		return k -> operator.apply(extractor.test(k), a2, a3);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveBool$(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> specialPredicate) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveBool(@Nonnull LPredicate<K> extractor, @Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3) {
-		return haveBool(extractor, a2, a3, operator);
+	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToBool(@Nonnull LPredicate<K> extractor, @Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3) {
+		return haveToBool(extractor, a2, a3, operator);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveBool$(@Nonnull LPredicate<K> extractor, @Nonnull LTriBoolFunction<String> specialPredicate, boolean a2, boolean a3) {
-		return haveBool$(extractor, a2, a3, specialPredicate);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LTriBoolFunction<String> specialPredicate, boolean a2, boolean a3) {
+		return haveToBoolEx(extractor, a2, a3, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveBool$Int(@Nonnull LPredicate<K> extractor, int v, @Nonnull LBoolIntPredicate operator) {
+	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToBoolInt(@Nonnull LPredicate<K> extractor, int v, @Nonnull LBoolIntPredicate operator) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(operator, "operator");
 		return k -> operator.test(extractor.test(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveBool$Int(@Nonnull LPredicate<K> extractor, @Nonnull LBoolIntPredicate operator, int v) {
-		return haveBool$Int(extractor, v, operator);
+	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToBoolInt(@Nonnull LPredicate<K> extractor, @Nonnull LBoolIntPredicate operator, int v) {
+		return haveToBoolInt(extractor, v, operator);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveBool(@Nonnull LPredicate<K> extractor, V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToBool_(@Nonnull LPredicate<K> extractor, V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(operator, "operator");
 		return k -> operator.testBoolObj(extractor.test(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveBool$(@Nonnull LPredicate<K> extractor, V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToBoolEx_(@Nonnull LPredicate<K> extractor, V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applyBoolObj(extractor.test(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveBool(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
-		return haveBool(extractor, v, operator);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToBool_(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
+		return haveToBool_(extractor, v, operator);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveBool$(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> specialPredicate, V v) {
-		return haveBool$(extractor, v, specialPredicate);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToBoolEx_(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToBoolEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveBool$WithBool(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToBoolWith(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(operator, "operator");
 		return k -> operator.test(with1, extractor.test(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveBool$WithBool$(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.test(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveBool$WithBool(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolPredicate<? super V1> operator, V1 with1) {
-		return haveBool$WithBool(extractor, with1, operator);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToBoolWith(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolPredicate<? super V1> operator, V1 with1) {
+		return haveToBoolWith(extractor, with1, operator);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveBool$WithBool$(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveBool$WithBool$(extractor, with1, specialPredicate);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToBoolWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveBool$With(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToBoolWith(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(operator, "operator");
 		return k -> operator.test(with1, with2, extractor.test(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveBool$With$(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.test(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveBool$With(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2) {
-		return haveBool$With(extractor, with1, with2, operator);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToBoolWith(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2) {
+		return haveToBoolWith(extractor, with1, with2, operator);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveBool$With$(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveBool$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToBoolWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	public static @Nonnull <K, T> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, @Nonnull LPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, @Nonnull LBiPredicate<? super T, ? super T> predicate, T a2) {
 		return uniHave(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T a2) {
-		return uniHave$(extractor, a2, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T a2) {
+		return uniHaveEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), a2, a3);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, T a2, T a3) {
 		return uniHave(extractor, a2, a3, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3) {
-		return uniHave$(extractor, a2, a3, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3) {
+		return uniHaveEx(extractor, a2, a3, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate, T a2, T a3, T a4) {
 		return uniHave(extractor, a2, a3, a4, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3, T a4) {
-		return uniHave$(extractor, a2, a3, a4, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3, T a4) {
+		return uniHaveEx(extractor, a2, a3, a4, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Bool(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveBool(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Bool$(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveBoolEx(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Bool(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
-		return have$Bool(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveBool(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolPredicate<? super T> predicate, boolean v) {
+		return haveBool(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Bool$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolFunction<? super T, String> specialPredicate, boolean v) {
-		return have$Bool$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveBoolEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolFunction<? super T, String> specialPredicate, boolean v) {
+		return haveBoolEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Byte(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveByte(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Byte$(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjByteFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveByteEx(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjByteFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Byte(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBytePredicate<? super T> predicate, byte v) {
-		return have$Byte(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveByte(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBytePredicate<? super T> predicate, byte v) {
+		return haveByte(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Byte$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjByteFunction<? super T, String> specialPredicate, byte v) {
-		return have$Byte$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveByteEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjByteFunction<? super T, String> specialPredicate, byte v) {
+		return haveByteEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Dbl(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblPredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveDbl(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Dbl$(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveDblEx(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Dbl(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblPredicate<? super T> predicate, double v) {
-		return have$Dbl(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveDbl(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblPredicate<? super T> predicate, double v) {
+		return haveDbl(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Dbl$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblFunction<? super T, String> specialPredicate, double v) {
-		return have$Dbl$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveDblEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblFunction<? super T, String> specialPredicate, double v) {
+		return haveDblEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Char(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharPredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveChar(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Char$(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveCharEx(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Char(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharPredicate<? super T> predicate, char v) {
-		return have$Char(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveChar(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharPredicate<? super T> predicate, char v) {
+		return haveChar(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Char$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharFunction<? super T, String> specialPredicate, char v) {
-		return have$Char$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveCharEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharFunction<? super T, String> specialPredicate, char v) {
+		return haveCharEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Srt(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveSrt(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Srt$(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveSrtEx(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Srt(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtPredicate<? super T> predicate, short v) {
-		return have$Srt(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveSrt(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtPredicate<? super T> predicate, short v) {
+		return haveSrt(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Srt$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtFunction<? super T, String> specialPredicate, short v) {
-		return have$Srt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveSrtEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtFunction<? super T, String> specialPredicate, short v) {
+		return haveSrtEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Flt(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltPredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveFlt(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Flt$(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveFltEx(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Flt(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltPredicate<? super T> predicate, float v) {
-		return have$Flt(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveFlt(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltPredicate<? super T> predicate, float v) {
+		return haveFlt(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Flt$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltFunction<? super T, String> specialPredicate, float v) {
-		return have$Flt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveFltEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltFunction<? super T, String> specialPredicate, float v) {
+		return haveFltEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Int(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LObjIntPredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveInt(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LObjIntPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Int$(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LOiFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveIntEx(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LOiFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Int(@Nonnull LFunction<K, T> extractor, @Nonnull LObjIntPredicate<? super T> predicate, int v) {
-		return have$Int(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveInt(@Nonnull LFunction<K, T> extractor, @Nonnull LObjIntPredicate<? super T> predicate, int v) {
+		return haveInt(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Int$(@Nonnull LFunction<K, T> extractor, @Nonnull LOiFunction<? super T, String> specialPredicate, int v) {
-		return have$Int$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveIntEx(@Nonnull LFunction<K, T> extractor, @Nonnull LOiFunction<? super T, String> specialPredicate, int v) {
+		return haveIntEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> have$Long(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongPredicate<? super T> predicate) {
+	public static @Nonnull <K, T> LPredicate<K> haveLong(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongPredicate<? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> have$Long$(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveLongEx(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> have$Long(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongPredicate<? super T> predicate, long v) {
-		return have$Long(extractor, v, predicate);
+	public static @Nonnull <K, T> LPredicate<K> haveLong(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongPredicate<? super T> predicate, long v) {
+		return haveLong(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> have$Long$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongFunction<? super T, String> specialPredicate, long v) {
-		return have$Long$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveLongEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongFunction<? super T, String> specialPredicate, long v) {
+		return haveLongEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	public static @Nonnull <K, T, V> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T, V> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	public static @Nonnull <K, T, V> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, @Nonnull LBiPredicate<? super T, ? super V> predicate, V v) {
 		return have(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T, V> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate, V v) {
-		return have$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate, V v) {
+		return haveEx(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	public static @Nonnull <K, T, V2, V3> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), a2, a3);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T, V2, V3> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	public static @Nonnull <K, T, V2, V3> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate, V2 a2, V3 a3) {
 		return have(extractor, a2, a3, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T, V2, V3> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate, V2 a2, V3 a3) {
-		return have$(extractor, a2, a3, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate, V2 a2, V3 a3) {
+		return haveEx(extractor, a2, a3, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	public static @Nonnull <K, T, V2, V3, V4> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
 	public static @Nonnull <K, T, V2, V3, V4> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, V2 a2, V3 a3, V4 a4) {
 		return have(extractor, a2, a3, a4, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate, V2 a2, V3 a3, V4 a4) {
-		return have$(extractor, a2, a3, a4, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate, V2 a2, V3 a3, V4 a4) {
+		return haveEx(extractor, a2, a3, a4, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T, V1> LPredicate<K> have$With(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
+	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
+	public static @Nonnull <K, T, V1> LPredicate<K> haveWith(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.apply(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T, V1> LFunction<K, String> have$With$(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate) {
+	/**
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, T, V1> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.apply(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T, V1> LPredicate<K> have$With(@Nonnull LFunction<K, T> extractor, @Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with1) {
-		return have$With(extractor, with1, predicate);
+	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
+	public static @Nonnull <K, T, V1> LPredicate<K> haveWith(@Nonnull LFunction<K, T> extractor, @Nonnull LBiPredicate<? super V1, ? super T> predicate, V1 with1) {
+		return haveWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T, V1> LFunction<K, String> have$With$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate, V1 with1) {
-		return have$With$(extractor, with1, specialPredicate);
+	/**
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, T, V1> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate, V1 with1) {
+		return haveWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T, V1, V2> LPredicate<K> have$With(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
+	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
+	public static @Nonnull <K, T, V1, V2> LPredicate<K> haveWith(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.apply(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T, V1, V2> LFunction<K, String> have$With$(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate) {
+	/**
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, T, V1, V2> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.apply(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T, V1, V2> LPredicate<K> have$With(@Nonnull LFunction<K, T> extractor, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate, V1 with1, V2 with2) {
-		return have$With(extractor, with1, with2, predicate);
+	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
+	public static @Nonnull <K, T, V1, V2> LPredicate<K> haveWith(@Nonnull LFunction<K, T> extractor, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate, V1 with1, V2 with2) {
+		return haveWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T, V1, V2> LFunction<K, String> have$With$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate, V1 with1, V2 with2) {
-		return have$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, T, V1, V2> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate, V1 with1, V2 with2) {
+		return haveWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LPredicate<K> uniHave$With(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
+	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
+	public static @Nonnull <K, T> LPredicate<K> uniHaveWith(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with, extractor.apply(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$With$(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
+	/**
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveWithEx(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with, extractor.apply(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LPredicate<K> uniHave$With(@Nonnull LFunction<K, T> extractor, @Nonnull LBiPredicate<? super T, ? super T> predicate, T with) {
-		return uniHave$With(extractor, with, predicate);
+	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
+	public static @Nonnull <K, T> LPredicate<K> uniHaveWith(@Nonnull LFunction<K, T> extractor, @Nonnull LBiPredicate<? super T, ? super T> predicate, T with) {
+		return uniHaveWith(extractor, with, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$With$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T with) {
-		return uniHave$With$(extractor, with, specialPredicate);
+	/**
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T with) {
+		return uniHaveWithEx(extractor, with, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LBytePredicate predicate) {
+	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LBytePredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsByte(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteFunction<String> specialPredicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveByte(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiBytePredicate predicate) {
+	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToByte(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiBytePredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsByte(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveByte$(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiByteFunction<String> specialPredicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiBytePredicate predicate, byte a2) {
-		return haveByte(extractor, a2, predicate);
+	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiBytePredicate predicate, byte a2) {
+		return haveToByte(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiByteFunction<String> specialPredicate, byte a2) {
-		return haveByte$(extractor, a2, specialPredicate);
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiByteFunction<String> specialPredicate, byte a2) {
+		return haveToByteEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveByte(@Nonnull LToByteFunction<K> extractor, byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
+	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToByte(@Nonnull LToByteFunction<K> extractor, byte a2, byte a3, @Nonnull LTriBytePredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsByte(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
-		return haveByte(extractor, a2, a3, predicate);
+	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
+		return haveToByte(extractor, a2, a3, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveByte$Int(@Nonnull LToByteFunction<K> extractor, int v, @Nonnull LByteIntPredicate predicate) {
+	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToByteInt(@Nonnull LToByteFunction<K> extractor, int v, @Nonnull LByteIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsByte(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveByte$Int(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteIntPredicate predicate, int v) {
-		return haveByte$Int(extractor, v, predicate);
+	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToByteInt(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteIntPredicate predicate, int v) {
+		return haveToByteInt(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveByte(@Nonnull LToByteFunction<K> extractor, V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToByte_(@Nonnull LToByteFunction<K> extractor, V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testByteObj(extractor.applyAsByte(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveByte$(@Nonnull LToByteFunction<K> extractor, V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToByteEx_(@Nonnull LToByteFunction<K> extractor, V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applyByteObj(extractor.applyAsByte(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
-		return haveByte(extractor, v, predicate);
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToByte_(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
+		return haveToByte_(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> specialPredicate, V v) {
-		return haveByte$(extractor, v, specialPredicate);
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToByteEx_(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToByteEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveByte$WithByte(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToByteWith(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.applyAsByte(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveByte$WithByte$(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjByteFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjByteFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsByte(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveByte$WithByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjBytePredicate<? super V1> predicate, V1 with1) {
-		return haveByte$WithByte(extractor, with1, predicate);
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToByteWith(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjBytePredicate<? super V1> predicate, V1 with1) {
+		return haveToByteWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveByte$WithByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveByte$WithByte$(extractor, with1, specialPredicate);
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToByteWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveByte$With(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToByteWith(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.applyAsByte(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveByte$With$(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsByte(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveByte$With(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
-		return haveByte$With(extractor, with1, with2, predicate);
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToByteWith(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return haveToByteWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveByte$With$(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveByte$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToByteWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblPredicate predicate) {
+	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsDbl(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblFunction<String> specialPredicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveDbl(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblPredicate predicate) {
+	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToDbl(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsDbl(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveDbl$(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblFunction<String> specialPredicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblPredicate predicate, double a2) {
-		return haveDbl(extractor, a2, predicate);
+	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblPredicate predicate, double a2) {
+		return haveToDbl(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblFunction<String> specialPredicate, double a2) {
-		return haveDbl$(extractor, a2, specialPredicate);
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblFunction<String> specialPredicate, double a2) {
+		return haveToDblEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveDbl(@Nonnull LToDblFunction<K> extractor, double a2, double a3, @Nonnull LTriDblPredicate predicate) {
+	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToDbl(@Nonnull LToDblFunction<K> extractor, double a2, double a3, @Nonnull LTriDblPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsDbl(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblPredicate predicate, double a2, double a3) {
-		return haveDbl(extractor, a2, a3, predicate);
+	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblPredicate predicate, double a2, double a3) {
+		return haveToDbl(extractor, a2, a3, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveDbl$Int(@Nonnull LToDblFunction<K> extractor, int v, @Nonnull LDblIntPredicate predicate) {
+	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToDblInt(@Nonnull LToDblFunction<K> extractor, int v, @Nonnull LDblIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsDbl(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveDbl$Int(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblIntPredicate predicate, int v) {
-		return haveDbl$Int(extractor, v, predicate);
+	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToDblInt(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblIntPredicate predicate, int v) {
+		return haveToDblInt(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveDbl(@Nonnull LToDblFunction<K> extractor, V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToDbl_(@Nonnull LToDblFunction<K> extractor, V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testDblObj(extractor.applyAsDbl(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveDbl$(@Nonnull LToDblFunction<K> extractor, V v, @Nonnull LObjDblFunction.LDblObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToDblEx_(@Nonnull LToDblFunction<K> extractor, V v, @Nonnull LObjDblFunction.LDblObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applyDblObj(extractor.applyAsDbl(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
-		return haveDbl(extractor, v, predicate);
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToDbl_(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
+		return haveToDbl_(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction.LDblObjFunc<? super V, String> specialPredicate, V v) {
-		return haveDbl$(extractor, v, specialPredicate);
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToDblEx_(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction.LDblObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToDblEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveDbl$WithDbl(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToDblWith(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.applyAsDbl(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveDbl$WithDbl$(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsDbl(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveDbl$WithDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblPredicate<? super V1> predicate, V1 with1) {
-		return haveDbl$WithDbl(extractor, with1, predicate);
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToDblWith(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblPredicate<? super V1> predicate, V1 with1) {
+		return haveToDblWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveDbl$WithDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveDbl$WithDbl$(extractor, with1, specialPredicate);
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToDblWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveDbl$With(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToDblWith(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.applyAsDbl(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveDbl$With$(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsDbl(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveDbl$With(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
-		return haveDbl$With(extractor, with1, with2, predicate);
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToDblWith(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return haveToDblWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveDbl$With$(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveDbl$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToDblWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharPredicate predicate) {
+	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsChar(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharFunction<String> specialPredicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveChar(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharPredicate predicate) {
+	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToChar(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsChar(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveChar$(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharFunction<String> specialPredicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharPredicate predicate, char a2) {
-		return haveChar(extractor, a2, predicate);
+	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharPredicate predicate, char a2) {
+		return haveToChar(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharFunction<String> specialPredicate, char a2) {
-		return haveChar$(extractor, a2, specialPredicate);
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharFunction<String> specialPredicate, char a2) {
+		return haveToCharEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveChar(@Nonnull LToCharFunction<K> extractor, char a2, char a3, @Nonnull LTriCharPredicate predicate) {
+	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToChar(@Nonnull LToCharFunction<K> extractor, char a2, char a3, @Nonnull LTriCharPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsChar(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharPredicate predicate, char a2, char a3) {
-		return haveChar(extractor, a2, a3, predicate);
+	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharPredicate predicate, char a2, char a3) {
+		return haveToChar(extractor, a2, a3, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveChar$Int(@Nonnull LToCharFunction<K> extractor, int v, @Nonnull LCharIntPredicate predicate) {
+	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToCharInt(@Nonnull LToCharFunction<K> extractor, int v, @Nonnull LCharIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsChar(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveChar$Int(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharIntPredicate predicate, int v) {
-		return haveChar$Int(extractor, v, predicate);
+	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToCharInt(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharIntPredicate predicate, int v) {
+		return haveToCharInt(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveChar(@Nonnull LToCharFunction<K> extractor, V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToChar_(@Nonnull LToCharFunction<K> extractor, V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testCharObj(extractor.applyAsChar(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveChar$(@Nonnull LToCharFunction<K> extractor, V v, @Nonnull LObjCharFunction.LCharObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToCharEx_(@Nonnull LToCharFunction<K> extractor, V v, @Nonnull LObjCharFunction.LCharObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applyCharObj(extractor.applyAsChar(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
-		return haveChar(extractor, v, predicate);
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToChar_(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v) {
+		return haveToChar_(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction.LCharObjFunc<? super V, String> specialPredicate, V v) {
-		return haveChar$(extractor, v, specialPredicate);
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToCharEx_(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction.LCharObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToCharEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveChar$WithChar(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToCharWith(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.applyAsChar(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveChar$WithChar$(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsChar(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveChar$WithChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharPredicate<? super V1> predicate, V1 with1) {
-		return haveChar$WithChar(extractor, with1, predicate);
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToCharWith(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharPredicate<? super V1> predicate, V1 with1) {
+		return haveToCharWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveChar$WithChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveChar$WithChar$(extractor, with1, specialPredicate);
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToCharWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveChar$With(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToCharWith(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.applyAsChar(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveChar$With$(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsChar(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveChar$With(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
-		return haveChar$With(extractor, with1, with2, predicate);
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToCharWith(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return haveToCharWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveChar$With$(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveChar$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToCharWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtPredicate predicate) {
+	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsSrt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtFunction<String> specialPredicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveSrt(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtPredicate predicate) {
+	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToSrt(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsSrt(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveSrt$(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtFunction<String> specialPredicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtPredicate predicate, short a2) {
-		return haveSrt(extractor, a2, predicate);
+	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtPredicate predicate, short a2) {
+		return haveToSrt(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtFunction<String> specialPredicate, short a2) {
-		return haveSrt$(extractor, a2, specialPredicate);
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtFunction<String> specialPredicate, short a2) {
+		return haveToSrtEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveSrt(@Nonnull LToSrtFunction<K> extractor, short a2, short a3, @Nonnull LTriSrtPredicate predicate) {
+	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToSrt(@Nonnull LToSrtFunction<K> extractor, short a2, short a3, @Nonnull LTriSrtPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsSrt(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtPredicate predicate, short a2, short a3) {
-		return haveSrt(extractor, a2, a3, predicate);
+	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtPredicate predicate, short a2, short a3) {
+		return haveToSrt(extractor, a2, a3, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveSrt$Int(@Nonnull LToSrtFunction<K> extractor, int v, @Nonnull LSrtIntPredicate predicate) {
+	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToSrtInt(@Nonnull LToSrtFunction<K> extractor, int v, @Nonnull LSrtIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsSrt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveSrt$Int(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtIntPredicate predicate, int v) {
-		return haveSrt$Int(extractor, v, predicate);
+	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToSrtInt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtIntPredicate predicate, int v) {
+		return haveToSrtInt(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveSrt(@Nonnull LToSrtFunction<K> extractor, V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToSrt_(@Nonnull LToSrtFunction<K> extractor, V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testSrtObj(extractor.applyAsSrt(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveSrt$(@Nonnull LToSrtFunction<K> extractor, V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToSrtEx_(@Nonnull LToSrtFunction<K> extractor, V v, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applySrtObj(extractor.applyAsSrt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
-		return haveSrt(extractor, v, predicate);
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToSrt_(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
+		return haveToSrt_(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, String> specialPredicate, V v) {
-		return haveSrt$(extractor, v, specialPredicate);
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToSrtEx_(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction.LSrtObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToSrtEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveSrt$WithSrt(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToSrtWith(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.applyAsSrt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveSrt$WithSrt$(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsSrt(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveSrt$WithSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtPredicate<? super V1> predicate, V1 with1) {
-		return haveSrt$WithSrt(extractor, with1, predicate);
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToSrtWith(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtPredicate<? super V1> predicate, V1 with1) {
+		return haveToSrtWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveSrt$WithSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveSrt$WithSrt$(extractor, with1, specialPredicate);
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToSrtWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveSrt$With(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToSrtWith(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.applyAsSrt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveSrt$With$(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsSrt(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveSrt$With(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
-		return haveSrt$With(extractor, with1, with2, predicate);
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToSrtWith(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return haveToSrtWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveSrt$With$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveSrt$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToSrtWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltPredicate predicate) {
+	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsFlt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltFunction<String> specialPredicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveFlt(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltPredicate predicate) {
+	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToFlt(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsFlt(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveFlt$(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltFunction<String> specialPredicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltPredicate predicate, float a2) {
-		return haveFlt(extractor, a2, predicate);
+	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltPredicate predicate, float a2) {
+		return haveToFlt(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltFunction<String> specialPredicate, float a2) {
-		return haveFlt$(extractor, a2, specialPredicate);
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltFunction<String> specialPredicate, float a2) {
+		return haveToFltEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveFlt(@Nonnull LToFltFunction<K> extractor, float a2, float a3, @Nonnull LTriFltPredicate predicate) {
+	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToFlt(@Nonnull LToFltFunction<K> extractor, float a2, float a3, @Nonnull LTriFltPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsFlt(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltPredicate predicate, float a2, float a3) {
-		return haveFlt(extractor, a2, a3, predicate);
+	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltPredicate predicate, float a2, float a3) {
+		return haveToFlt(extractor, a2, a3, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveFlt$Int(@Nonnull LToFltFunction<K> extractor, int v, @Nonnull LFltIntPredicate predicate) {
+	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToFltInt(@Nonnull LToFltFunction<K> extractor, int v, @Nonnull LFltIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsFlt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveFlt$Int(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltIntPredicate predicate, int v) {
-		return haveFlt$Int(extractor, v, predicate);
+	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToFltInt(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltIntPredicate predicate, int v) {
+		return haveToFltInt(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveFlt(@Nonnull LToFltFunction<K> extractor, V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToFlt_(@Nonnull LToFltFunction<K> extractor, V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testFltObj(extractor.applyAsFlt(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveFlt$(@Nonnull LToFltFunction<K> extractor, V v, @Nonnull LObjFltFunction.LFltObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToFltEx_(@Nonnull LToFltFunction<K> extractor, V v, @Nonnull LObjFltFunction.LFltObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applyFltObj(extractor.applyAsFlt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
-		return haveFlt(extractor, v, predicate);
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToFlt_(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
+		return haveToFlt_(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction.LFltObjFunc<? super V, String> specialPredicate, V v) {
-		return haveFlt$(extractor, v, specialPredicate);
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToFltEx_(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction.LFltObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToFltEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveFlt$WithFlt(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltPredicate<? super V1> predicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToFltWith(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltPredicate<? super V1> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.applyAsFlt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveFlt$WithFlt$(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsFlt(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveFlt$WithFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltPredicate<? super V1> predicate, V1 with1) {
-		return haveFlt$WithFlt(extractor, with1, predicate);
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToFltWith(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltPredicate<? super V1> predicate, V1 with1) {
+		return haveToFltWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveFlt$WithFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveFlt$WithFlt$(extractor, with1, specialPredicate);
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToFltWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveFlt$With(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltPredicate<? super V1, ? super V2> predicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToFltWith(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltPredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.applyAsFlt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveFlt$With$(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsFlt(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveFlt$With(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
-		return haveFlt$With(extractor, with1, with2, predicate);
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToFltWith(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return haveToFltWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveFlt$With$(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveFlt$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToFltWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntPredicate predicate) {
+	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsInt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntFunction<String> specialPredicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntPredicate predicate) {
+	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToInt(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsInt(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveInt$(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntFunction<String> specialPredicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntPredicate predicate, int a2) {
-		return haveInt(extractor, a2, predicate);
+	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntPredicate predicate, int a2) {
+		return haveToInt(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntFunction<String> specialPredicate, int a2) {
-		return haveInt$(extractor, a2, specialPredicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntFunction<String> specialPredicate, int a2) {
+		return haveToIntEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt(@Nonnull LToIntFunction<K> extractor, int a2, int a3, @Nonnull LTriIntPredicate predicate) {
+	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToInt(@Nonnull LToIntFunction<K> extractor, int a2, int a3, @Nonnull LTriIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsInt(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntPredicate predicate, int a2, int a3) {
-		return haveInt(extractor, a2, a3, predicate);
+	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntPredicate predicate, int a2, int a3) {
+		return haveToInt(extractor, a2, a3, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt$Bool_(@Nonnull LToIntFunction<K> extractor, boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntBool_(@Nonnull LToIntFunction<K> extractor, boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntBool(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt$Bool_(@Nonnull LToIntFunction<K> extractor, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v) {
-		return haveInt$Bool_(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntBool_(@Nonnull LToIntFunction<K> extractor, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v) {
+		return haveToIntBool_(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt$Byte_(@Nonnull LToIntFunction<K> extractor, byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntByte_(@Nonnull LToIntFunction<K> extractor, byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntByte(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt$Byte_(@Nonnull LToIntFunction<K> extractor, @Nonnull LByteIntPredicate.LIntBytePred predicate, byte v) {
-		return haveInt$Byte_(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntByte_(@Nonnull LToIntFunction<K> extractor, @Nonnull LByteIntPredicate.LIntBytePred predicate, byte v) {
+		return haveToIntByte_(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt$Dbl_(@Nonnull LToIntFunction<K> extractor, double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntDbl_(@Nonnull LToIntFunction<K> extractor, double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntDbl(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt$Dbl_(@Nonnull LToIntFunction<K> extractor, @Nonnull LDblIntPredicate.LIntDblPred predicate, double v) {
-		return haveInt$Dbl_(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntDbl_(@Nonnull LToIntFunction<K> extractor, @Nonnull LDblIntPredicate.LIntDblPred predicate, double v) {
+		return haveToIntDbl_(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt$Char_(@Nonnull LToIntFunction<K> extractor, char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntChar_(@Nonnull LToIntFunction<K> extractor, char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntChar(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt$Char_(@Nonnull LToIntFunction<K> extractor, @Nonnull LCharIntPredicate.LIntCharPred predicate, char v) {
-		return haveInt$Char_(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntChar_(@Nonnull LToIntFunction<K> extractor, @Nonnull LCharIntPredicate.LIntCharPred predicate, char v) {
+		return haveToIntChar_(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt$Srt_(@Nonnull LToIntFunction<K> extractor, short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntSrt_(@Nonnull LToIntFunction<K> extractor, short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntSrt(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt$Srt_(@Nonnull LToIntFunction<K> extractor, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v) {
-		return haveInt$Srt_(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntSrt_(@Nonnull LToIntFunction<K> extractor, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v) {
+		return haveToIntSrt_(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt$Flt_(@Nonnull LToIntFunction<K> extractor, float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntFlt_(@Nonnull LToIntFunction<K> extractor, float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntFlt(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt$Flt_(@Nonnull LToIntFunction<K> extractor, @Nonnull LFltIntPredicate.LIntFltPred predicate, float v) {
-		return haveInt$Flt_(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntFlt_(@Nonnull LToIntFunction<K> extractor, @Nonnull LFltIntPredicate.LIntFltPred predicate, float v) {
+		return haveToIntFlt_(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveInt$Long_(@Nonnull LToIntFunction<K> extractor, long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntLong_(@Nonnull LToIntFunction<K> extractor, long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntLong(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveInt$Long_(@Nonnull LToIntFunction<K> extractor, @Nonnull LLongIntPredicate.LIntLongPred predicate, long v) {
-		return haveInt$Long_(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K> LPredicate<K> haveToIntLong_(@Nonnull LToIntFunction<K> extractor, @Nonnull LLongIntPredicate.LIntLongPred predicate, long v) {
+		return haveToIntLong_(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveInt(@Nonnull LToIntFunction<K> extractor, V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToInt_(@Nonnull LToIntFunction<K> extractor, V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testIntObj(extractor.applyAsInt(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveInt$(@Nonnull LToIntFunction<K> extractor, V v, @Nonnull LOiFunction.LIntObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToIntEx_(@Nonnull LToIntFunction<K> extractor, V v, @Nonnull LOiFunction.LIntObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applyIntObj(extractor.applyAsInt(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v) {
-		return haveInt(extractor, v, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToInt_(@Nonnull LToIntFunction<K> extractor, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v) {
+		return haveToInt_(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction.LIntObjFunc<? super V, String> specialPredicate, V v) {
-		return haveInt$(extractor, v, specialPredicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToIntEx_(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction.LIntObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToIntEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveInt$WithInt(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToIntWith(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.applyAsInt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveInt$WithInt$(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LOiFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LOiFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsInt(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveInt$WithInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LObjIntPredicate<? super V1> predicate, V1 with1) {
-		return haveInt$WithInt(extractor, with1, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToIntWith(@Nonnull LToIntFunction<K> extractor, @Nonnull LObjIntPredicate<? super V1> predicate, V1 with1) {
+		return haveToIntWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveInt$WithInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveInt$WithInt$(extractor, with1, specialPredicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToIntWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveInt$With(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToIntWith(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.applyAsInt(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveInt$With$(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsInt(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveInt$With(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
-		return haveInt$With(extractor, with1, with2, predicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToIntWith(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return haveToIntWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveInt$With$(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveInt$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToIntWithEx(extractor, with1, with2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongPredicate predicate) {
+	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsLong(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongFunction<String> specialPredicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k));
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveLong(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongPredicate predicate) {
+	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToLong(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsLong(k), a2);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LFunction<K, String> haveLong$(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongFunction<String> specialPredicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k), a2);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongPredicate predicate, long a2) {
-		return haveLong(extractor, a2, predicate);
+	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongPredicate predicate, long a2) {
+		return haveToLong(extractor, a2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LFunction<K, String> haveLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongFunction<String> specialPredicate, long a2) {
-		return haveLong$(extractor, a2, specialPredicate);
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongFunction<String> specialPredicate, long a2) {
+		return haveToLongEx(extractor, a2, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveLong(@Nonnull LToLongFunction<K> extractor, long a2, long a3, @Nonnull LTriLongPredicate predicate) {
+	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToLong(@Nonnull LToLongFunction<K> extractor, long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsLong(k), a2, a3);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongPredicate predicate, long a2, long a3) {
-		return haveLong(extractor, a2, a3, predicate);
+	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongPredicate predicate, long a2, long a3) {
+		return haveToLong(extractor, a2, a3, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K> LPredicate<K> haveLong$Int(@Nonnull LToLongFunction<K> extractor, int v, @Nonnull LLongIntPredicate predicate) {
+	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToLongInt(@Nonnull LToLongFunction<K> extractor, int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(extractor.applyAsLong(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K> LPredicate<K> haveLong$Int(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongIntPredicate predicate, int v) {
-		return haveLong$Int(extractor, v, predicate);
+	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
+	public static @Nonnull <K> LPredicate<K> haveToLongInt(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongIntPredicate predicate, int v) {
+		return haveToLongInt(extractor, v, predicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LPredicate<K> haveLong(@Nonnull LToLongFunction<K> extractor, V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToLong_(@Nonnull LToLongFunction<K> extractor, V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.testLongObj(extractor.applyAsLong(k), v);
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V> LFunction<K, String> haveLong$(@Nonnull LToLongFunction<K> extractor, V v, @Nonnull LObjLongFunction.LLongObjFunc<? super V, String> specialPredicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToLongEx_(@Nonnull LToLongFunction<K> extractor, V v, @Nonnull LObjLongFunction.LLongObjFunc<? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.applyLongObj(extractor.applyAsLong(k), v);
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LPredicate<K> haveLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		return haveLong(extractor, v, predicate);
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LPredicate<K> haveToLong_(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
+		return haveToLong_(extractor, v, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V> LFunction<K, String> haveLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction.LLongObjFunc<? super V, String> specialPredicate, V v) {
-		return haveLong$(extractor, v, specialPredicate);
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* '_' - the predicate function is a variant or arguments represented by other function.
+	*/
+	public static @Nonnull <K, V> LFunction<K, String> haveToLongEx_(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction.LLongObjFunc<? super V, String> specialPredicate, V v) {
+		return haveToLongEx_(extractor, v, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LPredicate<K> haveLong$WithLong(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToLongWith(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, extractor.applyAsLong(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1> LFunction<K, String> haveLong$WithLong$(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongFunction<? super V1, String> specialPredicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsLong(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LPredicate<K> haveLong$WithLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongPredicate<? super V1> predicate, V1 with1) {
-		return haveLong$WithLong(extractor, with1, predicate);
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1> LPredicate<K> haveToLongWith(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongPredicate<? super V1> predicate, V1 with1) {
+		return haveToLongWith(extractor, with1, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1> LFunction<K, String> haveLong$WithLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveLong$WithLong$(extractor, with1, specialPredicate);
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToLongWithEx(extractor, with1, specialPredicate);
 	}
 
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveLong$With(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToLongWith(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(predicate, "predicate");
 		return k -> predicate.test(with1, with2, extractor.applyAsLong(k));
 	}
 
-	/** "Special" variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveLong$With$(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate) {
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsLong(k));
 	}
 
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LPredicate<K> haveLong$With(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
-		return haveLong$With(extractor, with1, with2, predicate);
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	*/
+	public static @Nonnull <K, V1, V2> LPredicate<K> haveToLongWith(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2) {
+		return haveToLongWith(extractor, with1, with2, predicate);
 	}
 
-	/** "Special" variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveLong$With$(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveLong$With$(extractor, with1, with2, specialPredicate);
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToLongWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	// </editor-fold>

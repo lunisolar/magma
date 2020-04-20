@@ -210,14 +210,14 @@ public class Example_Validations_Fluent_Test {
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null.")
     public void specialPredicates() {
-        Checks.value(new Object[]{1, 2}).must$(Be::allNull$);
+        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx);
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")
     public void specialPredicates2() {
         var e = new Exception("Message1!", new RuntimeException("Message2!"));
 
-        Checks.value(e).must$(P.have$(Exception::getCause, Have::msgContain$, "I'm Expecting this"));
+        Checks.value(e).mustEx(P.haveEx(Exception::getCause, Have::msgContainEx, "I'm Expecting this"));
     }
 
 
@@ -230,7 +230,7 @@ public class Example_Validations_Fluent_Test {
         attest(new Integer(1))
                 .must(P.have(Object::toString, P::notNull), "serialise to non-null string")
                 .must(P.have(Object::toString, P::equal, "1"), "serialize to '1'")
-                .must(P.haveInt(Integer::intValue, P::equal, 1), "not between");
+                .must(P.haveToInt(Integer::intValue, P::equal, 1), "not between");
     }
     //>example<
 

@@ -94,7 +94,7 @@ public class OptFltTraitAssert extends AbstractObjectAssert<OptFltTraitAssert, O
 		isNotNull();
 
 		must(OptFltTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
-		must(P.haveFlt(OptFltTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
+		must(P.haveToFlt(OptFltTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

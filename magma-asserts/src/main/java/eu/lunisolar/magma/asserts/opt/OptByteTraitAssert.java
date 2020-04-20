@@ -94,7 +94,7 @@ public class OptByteTraitAssert extends AbstractObjectAssert<OptByteTraitAssert,
 		isNotNull();
 
 		must(OptByteTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
-		must(P.haveByte(OptByteTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
+		must(P.haveToByte(OptByteTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

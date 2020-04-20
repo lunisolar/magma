@@ -81,7 +81,7 @@ public final class Are implements FluentSyntax {
 		return true;
 	}
 
-	public static String allNull$(@Nullable Object... objects) {
+	public static String allNullEx(@Nullable Object... objects) {
 		return allNull(objects) ? null : String.format("All references must be null.");
 	}
 
@@ -98,7 +98,7 @@ public final class Are implements FluentSyntax {
 		return true;
 	}
 
-	public static String noneNull$(@Nullable Object... objects) {
+	public static String noneNullEx(@Nullable Object... objects) {
 		return noneNull(objects) ? null : String.format("All references must be NOT null.");
 	}
 
@@ -115,7 +115,7 @@ public final class Are implements FluentSyntax {
 		return false;
 	}
 
-	public static String anyNull$(@Nullable Object... objects) {
+	public static String anyNullEx(@Nullable Object... objects) {
 		return anyNull(objects) ? null : String.format("At least one references must be null.");
 	}
 

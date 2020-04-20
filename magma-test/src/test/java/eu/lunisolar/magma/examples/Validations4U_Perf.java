@@ -240,7 +240,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$_REF0(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotEx_REF0(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -256,7 +256,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$_REF_______0(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotEx_REF_______0(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -270,7 +270,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$_REF_______01(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotEx_REF_______01(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -284,7 +284,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$_REF_______1(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotEx_REF_______1(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -298,7 +298,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$_REF1(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotEx_REF1(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -315,7 +315,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotEx_throwIf_REF(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -330,7 +330,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF1(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotEx_throwIf_REF1(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -345,7 +345,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-//    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF_MsgFunc(TheState state) {
+//    @Benchmark @Threads(THREADS) public Object mustNotEx_throwIf_REF_MsgFunc(TheState state) {
 //        int a = 0;
 //        for (int c = 0; c < COUNT_ITERATIONS; c++) {
 //            int i = state.i();
@@ -360,7 +360,7 @@ public class Validations4U_Perf {
 //        return a;
 //    }
 
-//    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF_MsgFunc_Better(TheState state) {
+//    @Benchmark @Threads(THREADS) public Object mustNotEx_throwIf_REF_MsgFunc_Better(TheState state) {
 //        int a = 0;
 //        for (int c = 0; c < COUNT_ITERATIONS; c++) {
 //            int i = state.i();
@@ -375,7 +375,7 @@ public class Validations4U_Perf {
 //        return a;
 //    }
 
-//    @Benchmark @Threads(THREADS) public Object mustNot$_throwIf_REF_MsgFunc_BAD(TheState state) {
+//    @Benchmark @Threads(THREADS) public Object mustNotEx_throwIf_REF_MsgFunc_BAD(TheState state) {
 //        int a = 0;
 //        for (int c = 0; c < COUNT_ITERATIONS; c++) {
 //            int i = state.i();
@@ -405,7 +405,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object mustNot$$(TheState state) {
+    @Benchmark @Threads(THREADS) public Object mustNotExEx(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -437,14 +437,14 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object notEqual$_arg(TheState state) {
+    @Benchmark @Threads(THREADS) public Object notEqualEx_arg(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    arg(state.values.v(i)).must$(Be::notEqual$, "");
+                    arg(state.values.v(i)).mustEx(Be::notEqualEx, "");
 //                }
 
                 a++;
@@ -455,7 +455,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-//     @Benchmark @Threads(THREADS) public Object notEqual$_arg_customMsg(TheState state) {
+//     @Benchmark @Threads(THREADS) public Object notEqualEx_arg_customMsg(TheState state) {
 //        int a = 0;
 //        for (int c = 0; c < COUNT_ITERATIONS; c++) {
 //            int i = state.i();
@@ -463,7 +463,7 @@ public class Validations4U_Perf {
 ////                var s = state.values.v(i);
 ////                if (s!= null ) {
 //                String v = state.values.v(i);
-//                arg(v).must_(Be::notEqual$, "", "Special comment: %s", v);
+//                arg(v).must_(Be::notEqualEx, "", "Special comment: %s", v);
 ////                }
 //
 //                a++;
@@ -474,7 +474,7 @@ public class Validations4U_Perf {
 //        return a;
 //    }
 
-    @Benchmark @Threads(THREADS) public Object notEqual$_arg_customMsg_verbosity2(TheState state) {
+    @Benchmark @Threads(THREADS) public Object notEqualEx_arg_customMsg_verbosity2(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -482,7 +482,7 @@ public class Validations4U_Perf {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
                 String v = state.values.v(i);
-                arg(v).must$(Be::notEqual$, "", "Special comment: %s");
+                arg(v).mustEx(Be::notEqualEx, "", "Special comment: %s");
 //                }
 
                 a++;
@@ -493,14 +493,14 @@ public class Validations4U_Perf {
         return a;
     }
 
-     @Benchmark @Threads(THREADS) public Object notEqual$_throwIfNot(TheState state) {
+     @Benchmark @Threads(THREADS) public Object notEqualEx_throwIfNot(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg);
+                    LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg);
 //                }throwIfNot
 
                 a++;
@@ -511,14 +511,14 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object notEqual$_throwIfNot$$(TheState state) {
+    @Benchmark @Threads(THREADS) public Object notEqualEx_throwIfNotExEx(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg, "Message: %s");
+                    LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg, "Message: %s");
 //                }throwIfNot
 
                 a++;
@@ -529,14 +529,14 @@ public class Validations4U_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object notEqual$_must$$(TheState state) {
+    @Benchmark @Threads(THREADS) public Object notEqualEx_mustExEx(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                arg(state.values.v(i)).must$(Be::notEqual$, ALL,"");
+                arg(state.values.v(i)).mustEx(Be::notEqualEx, ALL,"");
 //                }throwIfNot
 
                 a++;
@@ -697,7 +697,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL).must$(PP::notSame3$, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
+                arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL).mustEx(PP::notSame3Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -794,7 +794,7 @@ public class Validations4U_Perf {
             return !(n == other1) && !(n == other2) && !(n == other3);
         }
 
-        public static String notSame3$(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
+        public static String notSame3Ex(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
             if (!notSame3(n, other1, other2, other3 )) {
                 return String.format("<%s> must be different from <%s>, <%s> and <%s>", other1, other2, other3);
             };

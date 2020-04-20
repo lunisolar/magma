@@ -94,7 +94,7 @@ public class OptCharTraitAssert extends AbstractObjectAssert<OptCharTraitAssert,
 		isNotNull();
 
 		must(OptCharTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
-		must(P.haveChar(OptCharTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
+		must(P.haveToChar(OptCharTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

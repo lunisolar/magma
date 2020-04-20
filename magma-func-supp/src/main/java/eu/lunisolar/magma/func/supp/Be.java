@@ -74,7 +74,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> must be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String same$(@Nullable Object n, @Nullable Object other) {
+	public static String sameEx(@Nullable Object n, @Nullable Object other) {
 		return (n == other) ? null : String.format("Object <%s> must be the same as <%s>.", n, other);
 	}
 
@@ -84,7 +84,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> must NOT be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notSame$(@Nullable Object n, @Nullable Object other) {
+	public static String notSameEx(@Nullable Object n, @Nullable Object other) {
 		return !(n == other) ? null : String.format("Object <%s> must NOT be the same as <%s>.", n, other);
 	}
 
@@ -94,7 +94,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Reference must be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String Null$(@Nullable Object n) {
+	public static String NullEx(@Nullable Object n) {
 		return (n == null) ? null : String.format("Reference must be null, currently is pointing to <%s>.", n);
 	}
 
@@ -104,7 +104,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Reference must NOT be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notNull$(@Nullable Object n) {
+	public static String notNullEx(@Nullable Object n) {
 		return !(n == null) ? null : String.format("Reference must NOT be null, currently is pointing to <%s>.", n);
 	}
 
@@ -121,7 +121,7 @@ public final class Be implements FluentSyntax {
 		return true;
 	}
 
-	public static String allNull$(@Nullable Object... objects) {
+	public static String allNullEx(@Nullable Object... objects) {
 		return allNull(objects) ? null : String.format("All references must be null.");
 	}
 
@@ -138,7 +138,7 @@ public final class Be implements FluentSyntax {
 		return true;
 	}
 
-	public static String noneNull$(@Nullable Object... objects) {
+	public static String noneNullEx(@Nullable Object... objects) {
 		return noneNull(objects) ? null : String.format("All references must be NOT null.");
 	}
 
@@ -155,7 +155,7 @@ public final class Be implements FluentSyntax {
 		return false;
 	}
 
-	public static String anyNull$(@Nullable Object... objects) {
+	public static String anyNullEx(@Nullable Object... objects) {
 		return anyNull(objects) ? null : String.format("At least one references must be null.");
 	}
 
@@ -170,7 +170,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull CharSequence s, int size) {
+	public static String ofLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return (size == s.length()) ? null : String.format("String <'%s'> must be <%d> characters long.", s, size);
 	}
@@ -182,7 +182,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull CharSequence s, int size) {
+	public static String notOfLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return !(size == s.length()) ? null : String.format("String <'%s'> must NOT be <%d> characters long.", s, size);
 	}
@@ -194,7 +194,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String empty$(@Nonnull String n) {
+	public static String emptyEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return (n.isEmpty()) ? null : String.format("String <'%s'> must be empty.", n);
 	}
@@ -206,7 +206,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notEmpty$(@Nonnull String n) {
+	public static String notEmptyEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return !(n.isEmpty()) ? null : String.format("String <'%s'> must NOT be empty.", n);
 	}
@@ -218,7 +218,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String blank$(@Nonnull String n) {
+	public static String blankEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return (n.isBlank()) ? null : String.format("String <'%s'> must be blank (empty or consisting of only white characters).", n);
 	}
@@ -230,7 +230,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notBlank$(@Nonnull String n) {
+	public static String notBlankEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return !(n.isBlank()) ? null : String.format("String <'%s'> must NOT be blank (empty or consisting of only white characters).", n);
 	}
@@ -241,7 +241,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String nullOrEmpty$(@Nonnull String n) {
+	public static String nullOrEmptyEx(@Nonnull String n) {
 		return (n == null || n.isEmpty()) ? null : String.format("String <'%s'> must be null or empty.", n);
 	}
 
@@ -251,7 +251,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notNullNorEmpty$(@Nonnull String n) {
+	public static String notNullNorEmptyEx(@Nonnull String n) {
 		return !(n == null || n.isEmpty()) ? null : String.format("String <'%s'> must NOT be null or empty.", n);
 	}
 
@@ -261,7 +261,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String nullOrBlank$(@Nonnull String n) {
+	public static String nullOrBlankEx(@Nonnull String n) {
 		return (n == null || n.isBlank()) ? null : String.format("String <'%s'> must be null or blank.", n);
 	}
 
@@ -271,7 +271,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notNullNorBlank$(@Nonnull String n) {
+	public static String notNullNorBlankEx(@Nonnull String n) {
 		return !(n == null || n.isBlank()) ? null : String.format("String <'%s'> must NOT be null or blank.", n);
 	}
 
@@ -284,23 +284,23 @@ public final class Be implements FluentSyntax {
 	// <editor-fold desc="== <= >= < >">
 
 	/** Predicate: <%s> must be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static boolean equal(Object o, Object a1) {
-		return Objects.equals(o, a1);
+	public static boolean equal(Object o1, Object o2) {
+		return Objects.equals(o1, o2);
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(Object o, Object a1) {
-		return (Objects.equals(o, a1)) ? null : String.format("<%s> must be equal to <%s>.", o, a1);
+	public static String equalEx(Object o1, Object o2) {
+		return (Objects.equals(o1, o2)) ? null : String.format("<%s> must be equal to <%s>.", o1, o2);
 	}
 
 	/** Predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static boolean notEqual(Object o, Object a1) {
-		return !(Objects.equals(o, a1));
+	public static boolean notEqual(Object o1, Object o2) {
+		return !(Objects.equals(o1, o2));
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(Object o, Object a1) {
-		return !(Objects.equals(o, a1)) ? null : String.format("<%s> must NOT be equal to <%s>.", o, a1);
+	public static String notEqualEx(Object o1, Object o2) {
+		return !(Objects.equals(o1, o2)) ? null : String.format("<%s> must NOT be equal to <%s>.", o1, o2);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -309,7 +309,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(byte n, byte a1) {
+	public static String equalEx(byte n, byte a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -319,7 +319,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(byte n, byte a1) {
+	public static String notEqualEx(byte n, byte a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -329,7 +329,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gt$(byte n, byte a1) {
+	public static String gtEx(byte n, byte a1) {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
@@ -339,7 +339,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String lt$(byte n, byte a1) {
+	public static String ltEx(byte n, byte a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 
@@ -349,7 +349,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gtEq$(byte n, byte a1) {
+	public static String gtEqEx(byte n, byte a1) {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
@@ -359,7 +359,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ltEq$(byte n, byte a1) {
+	public static String ltEqEx(byte n, byte a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 
@@ -369,7 +369,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(short n, short a1) {
+	public static String equalEx(short n, short a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -379,7 +379,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(short n, short a1) {
+	public static String notEqualEx(short n, short a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -389,7 +389,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gt$(short n, short a1) {
+	public static String gtEx(short n, short a1) {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
@@ -399,7 +399,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String lt$(short n, short a1) {
+	public static String ltEx(short n, short a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 
@@ -409,7 +409,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gtEq$(short n, short a1) {
+	public static String gtEqEx(short n, short a1) {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
@@ -419,7 +419,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ltEq$(short n, short a1) {
+	public static String ltEqEx(short n, short a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 
@@ -429,7 +429,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(int n, int a1) {
+	public static String equalEx(int n, int a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -439,7 +439,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(int n, int a1) {
+	public static String notEqualEx(int n, int a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -449,7 +449,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gt$(int n, int a1) {
+	public static String gtEx(int n, int a1) {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
@@ -459,7 +459,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String lt$(int n, int a1) {
+	public static String ltEx(int n, int a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 
@@ -469,7 +469,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gtEq$(int n, int a1) {
+	public static String gtEqEx(int n, int a1) {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
@@ -479,7 +479,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ltEq$(int n, int a1) {
+	public static String ltEqEx(int n, int a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 
@@ -489,7 +489,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(long n, long a1) {
+	public static String equalEx(long n, long a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -499,7 +499,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(long n, long a1) {
+	public static String notEqualEx(long n, long a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -509,7 +509,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gt$(long n, long a1) {
+	public static String gtEx(long n, long a1) {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
@@ -519,7 +519,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String lt$(long n, long a1) {
+	public static String ltEx(long n, long a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 
@@ -529,7 +529,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gtEq$(long n, long a1) {
+	public static String gtEqEx(long n, long a1) {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
@@ -539,7 +539,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ltEq$(long n, long a1) {
+	public static String ltEqEx(long n, long a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 
@@ -549,7 +549,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(float n, float a1) {
+	public static String equalEx(float n, float a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -559,7 +559,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(float n, float a1) {
+	public static String notEqualEx(float n, float a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -569,7 +569,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gt$(float n, float a1) {
+	public static String gtEx(float n, float a1) {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
@@ -579,7 +579,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String lt$(float n, float a1) {
+	public static String ltEx(float n, float a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 
@@ -589,7 +589,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gtEq$(float n, float a1) {
+	public static String gtEqEx(float n, float a1) {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
@@ -599,7 +599,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ltEq$(float n, float a1) {
+	public static String ltEqEx(float n, float a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 
@@ -609,7 +609,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(double n, double a1) {
+	public static String equalEx(double n, double a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -619,7 +619,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(double n, double a1) {
+	public static String notEqualEx(double n, double a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -629,7 +629,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gt$(double n, double a1) {
+	public static String gtEx(double n, double a1) {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
@@ -639,7 +639,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String lt$(double n, double a1) {
+	public static String ltEx(double n, double a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 
@@ -649,7 +649,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gtEq$(double n, double a1) {
+	public static String gtEqEx(double n, double a1) {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
@@ -659,7 +659,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ltEq$(double n, double a1) {
+	public static String ltEqEx(double n, double a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 
@@ -669,7 +669,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equal$(char n, char a1) {
+	public static String equalEx(char n, char a1) {
 		return (n == a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 
@@ -679,7 +679,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqual$(char n, char a1) {
+	public static String notEqualEx(char n, char a1) {
 		return (n != a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -689,7 +689,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gt$(char n, char a1) {
+	public static String gtEx(char n, char a1) {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
@@ -699,7 +699,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String lt$(char n, char a1) {
+	public static String ltEx(char n, char a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 
@@ -709,7 +709,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String gtEq$(char n, char a1) {
+	public static String gtEqEx(char n, char a1) {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
@@ -719,7 +719,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ltEq$(char n, char a1) {
+	public static String ltEqEx(char n, char a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 
@@ -729,7 +729,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String between$(byte n, byte a1, byte a2) {
+	public static String betweenEx(byte n, byte a1, byte a2) {
 		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -739,7 +739,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notBetween$(byte n, byte a1, byte a2) {
+	public static String notBetweenEx(byte n, byte a1, byte a2) {
 		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -749,7 +749,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String inRange$(byte n, byte a1, byte a2) {
+	public static String inRangeEx(byte n, byte a1, byte a2) {
 		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -759,7 +759,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notInRange$(byte n, byte a1, byte a2) {
+	public static String notInRangeEx(byte n, byte a1, byte a2) {
 		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -769,7 +769,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String between$(short n, short a1, short a2) {
+	public static String betweenEx(short n, short a1, short a2) {
 		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -779,7 +779,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notBetween$(short n, short a1, short a2) {
+	public static String notBetweenEx(short n, short a1, short a2) {
 		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -789,7 +789,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String inRange$(short n, short a1, short a2) {
+	public static String inRangeEx(short n, short a1, short a2) {
 		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -799,7 +799,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notInRange$(short n, short a1, short a2) {
+	public static String notInRangeEx(short n, short a1, short a2) {
 		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -809,7 +809,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String between$(int n, int a1, int a2) {
+	public static String betweenEx(int n, int a1, int a2) {
 		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -819,7 +819,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notBetween$(int n, int a1, int a2) {
+	public static String notBetweenEx(int n, int a1, int a2) {
 		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -829,7 +829,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String inRange$(int n, int a1, int a2) {
+	public static String inRangeEx(int n, int a1, int a2) {
 		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -839,7 +839,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notInRange$(int n, int a1, int a2) {
+	public static String notInRangeEx(int n, int a1, int a2) {
 		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -849,7 +849,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String between$(long n, long a1, long a2) {
+	public static String betweenEx(long n, long a1, long a2) {
 		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -859,7 +859,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notBetween$(long n, long a1, long a2) {
+	public static String notBetweenEx(long n, long a1, long a2) {
 		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -869,7 +869,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String inRange$(long n, long a1, long a2) {
+	public static String inRangeEx(long n, long a1, long a2) {
 		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -879,7 +879,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notInRange$(long n, long a1, long a2) {
+	public static String notInRangeEx(long n, long a1, long a2) {
 		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -889,7 +889,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String between$(float n, float a1, float a2) {
+	public static String betweenEx(float n, float a1, float a2) {
 		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -899,7 +899,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notBetween$(float n, float a1, float a2) {
+	public static String notBetweenEx(float n, float a1, float a2) {
 		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -909,7 +909,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String inRange$(float n, float a1, float a2) {
+	public static String inRangeEx(float n, float a1, float a2) {
 		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -919,7 +919,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notInRange$(float n, float a1, float a2) {
+	public static String notInRangeEx(float n, float a1, float a2) {
 		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -929,7 +929,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String between$(double n, double a1, double a2) {
+	public static String betweenEx(double n, double a1, double a2) {
 		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -939,7 +939,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notBetween$(double n, double a1, double a2) {
+	public static String notBetweenEx(double n, double a1, double a2) {
 		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -949,7 +949,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String inRange$(double n, double a1, double a2) {
+	public static String inRangeEx(double n, double a1, double a2) {
 		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -959,7 +959,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notInRange$(double n, double a1, double a2) {
+	public static String notInRangeEx(double n, double a1, double a2) {
 		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -969,7 +969,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String between$(char n, char a1, char a2) {
+	public static String betweenEx(char n, char a1, char a2) {
 		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -979,7 +979,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notBetween$(char n, char a1, char a2) {
+	public static String notBetweenEx(char n, char a1, char a2) {
 		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
 	}
 
@@ -989,7 +989,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String inRange$(char n, char a1, char a2) {
+	public static String inRangeEx(char n, char a1, char a2) {
 		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -999,7 +999,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notInRange$(char n, char a1, char a2) {
+	public static String notInRangeEx(char n, char a1, char a2) {
 		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
 	}
 
@@ -1009,7 +1009,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be true. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String True$(boolean v) {
+	public static String TrueEx(boolean v) {
 		return (v) ? null : String.format("<%s> must be true.", v);
 	}
 
@@ -1019,7 +1019,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be false. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String False$(boolean v) {
+	public static String FalseEx(boolean v) {
 		return (!v) ? null : String.format("<%s> must be false.", v);
 	}
 
@@ -1034,7 +1034,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull boolean[] array, int i) {
+	public static String ofLengthEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1046,7 +1046,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull boolean[] array, int i) {
+	public static String notOfLengthEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1058,7 +1058,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull boolean[] array) {
+	public static String emptyEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1070,7 +1070,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull boolean[] array) {
+	public static String notEmptyEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1081,7 +1081,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable boolean[] array) {
+	public static String nullOrEmptyEx(@Nullable boolean[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1091,7 +1091,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable boolean[] array) {
+	public static String notNullNotEmptyEx(@Nullable boolean[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1102,7 +1102,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull boolean[] array) {
+	public static String singletonEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1114,7 +1114,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull boolean[] array) {
+	public static String notSingletonEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1126,7 +1126,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull byte[] array, int i) {
+	public static String ofLengthEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1138,7 +1138,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull byte[] array, int i) {
+	public static String notOfLengthEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1150,7 +1150,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull byte[] array) {
+	public static String emptyEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1162,7 +1162,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull byte[] array) {
+	public static String notEmptyEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1173,7 +1173,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable byte[] array) {
+	public static String nullOrEmptyEx(@Nullable byte[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1183,7 +1183,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable byte[] array) {
+	public static String notNullNotEmptyEx(@Nullable byte[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1194,7 +1194,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull byte[] array) {
+	public static String singletonEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1206,7 +1206,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull byte[] array) {
+	public static String notSingletonEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1218,7 +1218,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull double[] array, int i) {
+	public static String ofLengthEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1230,7 +1230,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull double[] array, int i) {
+	public static String notOfLengthEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1242,7 +1242,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull double[] array) {
+	public static String emptyEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1254,7 +1254,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull double[] array) {
+	public static String notEmptyEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1265,7 +1265,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable double[] array) {
+	public static String nullOrEmptyEx(@Nullable double[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1275,7 +1275,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable double[] array) {
+	public static String notNullNotEmptyEx(@Nullable double[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1286,7 +1286,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull double[] array) {
+	public static String singletonEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1298,7 +1298,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull double[] array) {
+	public static String notSingletonEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1310,7 +1310,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull char[] array, int i) {
+	public static String ofLengthEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1322,7 +1322,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull char[] array, int i) {
+	public static String notOfLengthEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1334,7 +1334,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull char[] array) {
+	public static String emptyEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1346,7 +1346,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull char[] array) {
+	public static String notEmptyEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1357,7 +1357,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable char[] array) {
+	public static String nullOrEmptyEx(@Nullable char[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1367,7 +1367,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable char[] array) {
+	public static String notNullNotEmptyEx(@Nullable char[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1378,7 +1378,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull char[] array) {
+	public static String singletonEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1390,7 +1390,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull char[] array) {
+	public static String notSingletonEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1402,7 +1402,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull short[] array, int i) {
+	public static String ofLengthEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1414,7 +1414,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull short[] array, int i) {
+	public static String notOfLengthEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1426,7 +1426,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull short[] array) {
+	public static String emptyEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1438,7 +1438,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull short[] array) {
+	public static String notEmptyEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1449,7 +1449,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable short[] array) {
+	public static String nullOrEmptyEx(@Nullable short[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1459,7 +1459,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable short[] array) {
+	public static String notNullNotEmptyEx(@Nullable short[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1470,7 +1470,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull short[] array) {
+	public static String singletonEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1482,7 +1482,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull short[] array) {
+	public static String notSingletonEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1494,7 +1494,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull float[] array, int i) {
+	public static String ofLengthEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1506,7 +1506,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull float[] array, int i) {
+	public static String notOfLengthEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1518,7 +1518,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull float[] array) {
+	public static String emptyEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1530,7 +1530,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull float[] array) {
+	public static String notEmptyEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1541,7 +1541,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable float[] array) {
+	public static String nullOrEmptyEx(@Nullable float[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1551,7 +1551,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable float[] array) {
+	public static String notNullNotEmptyEx(@Nullable float[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1562,7 +1562,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull float[] array) {
+	public static String singletonEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1574,7 +1574,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull float[] array) {
+	public static String notSingletonEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1586,7 +1586,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull int[] array, int i) {
+	public static String ofLengthEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1598,7 +1598,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull int[] array, int i) {
+	public static String notOfLengthEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1610,7 +1610,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull int[] array) {
+	public static String emptyEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1622,7 +1622,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull int[] array) {
+	public static String notEmptyEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1633,7 +1633,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable int[] array) {
+	public static String nullOrEmptyEx(@Nullable int[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1643,7 +1643,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable int[] array) {
+	public static String notNullNotEmptyEx(@Nullable int[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1654,7 +1654,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull int[] array) {
+	public static String singletonEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1666,7 +1666,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull int[] array) {
+	public static String notSingletonEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1678,7 +1678,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String ofLength$(@Nonnull long[] array, int i) {
+	public static String ofLengthEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1690,7 +1690,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notOfLength$(@Nonnull long[] array, int i) {
+	public static String notOfLengthEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1702,7 +1702,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull long[] array) {
+	public static String emptyEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1714,7 +1714,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull long[] array) {
+	public static String notEmptyEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1725,7 +1725,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable long[] array) {
+	public static String nullOrEmptyEx(@Nullable long[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1735,7 +1735,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNotEmpty$(@Nullable long[] array) {
+	public static String notNullNotEmptyEx(@Nullable long[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1746,7 +1746,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull long[] array) {
+	public static String singletonEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1758,7 +1758,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull long[] array) {
+	public static String notSingletonEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1770,7 +1770,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String ofLength$(@Nonnull T[] array, int i) {
+	public static <T> String ofLengthEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
 	}
@@ -1782,7 +1782,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notOfLength$(@Nonnull T[] array, int i) {
+	public static <T> String notOfLengthEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
 	}
@@ -1794,7 +1794,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String empty$(@Nonnull T[] array) {
+	public static <T> String emptyEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 0) ? null : String.format("Array <%s> must be empty.", array);
 	}
@@ -1806,7 +1806,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notEmpty$(@Nonnull T[] array) {
+	public static <T> String notEmptyEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be empty.", array);
 	}
@@ -1817,7 +1817,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String nullOrEmpty$(@Nullable T[] array) {
+	public static <T> String nullOrEmptyEx(@Nullable T[] array) {
 		return (array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must be null or empty.", array);
 	}
 
@@ -1827,7 +1827,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notNullNotEmpty$(@Nullable T[] array) {
+	public static <T> String notNullNotEmptyEx(@Nullable T[] array) {
 		return !(array == null || Array.getLength(array) == 0) ? null : String.format("Array <%s> must NOT be null or empty.", array);
 	}
 
@@ -1838,7 +1838,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String singleton$(@Nonnull T[] array) {
+	public static <T> String singletonEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return (Array.getLength(array) == 1) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", array);
 	}
@@ -1850,7 +1850,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notSingleton$(@Nonnull T[] array) {
+	public static <T> String notSingletonEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", array);
 	}
@@ -1866,7 +1866,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String ofSize$(@Nonnull Collection<T> collection, int i) {
+	public static <T> String ofSizeEx(@Nonnull Collection<T> collection, int i) {
 		Null.nonNullArg(collection, "collection");
 		return (collection.size() == i) ? null : String.format("Collection <%s> must be of size %s.", collection, i);
 	}
@@ -1878,7 +1878,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notOfSize$(@Nonnull Collection<T> collection, int i) {
+	public static <T> String notOfSizeEx(@Nonnull Collection<T> collection, int i) {
 		Null.nonNullArg(collection, "collection");
 		return !(collection.size() == i) ? null : String.format("Collection <%s> must NOT be of size %s.", collection, i);
 	}
@@ -1890,7 +1890,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <K, V> String ofSize$(@Nonnull Map<K, V> map, int i) {
+	public static <K, V> String ofSizeEx(@Nonnull Map<K, V> map, int i) {
 		Null.nonNullArg(map, "map");
 		return (map.size() == i) ? null : String.format("Map <%s> must be of size %s.", map, i);
 	}
@@ -1902,7 +1902,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT be of size %s. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <K, V> String notOfSize$(@Nonnull Map<K, V> map, int i) {
+	public static <K, V> String notOfSizeEx(@Nonnull Map<K, V> map, int i) {
 		Null.nonNullArg(map, "map");
 		return !(map.size() == i) ? null : String.format("Map <%s> must NOT be of size %s.", map, i);
 	}
@@ -1914,7 +1914,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be part of <%s> collection. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String partOf$(T element, @Nonnull Collection<T> collection) {
+	public static <T> String partOfEx(T element, @Nonnull Collection<T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return (collection.contains(element)) ? null : String.format("<%s> must be part of <%s> collection.", element, collection);
 	}
@@ -1926,7 +1926,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be part of <%s> collection. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notPartOf$(T element, @Nonnull Collection<T> collection) {
+	public static <T> String notPartOfEx(T element, @Nonnull Collection<T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return !(collection.contains(element)) ? null : String.format("<%s> must NOT be part of <%s> collection.", element, collection);
 	}
@@ -1938,7 +1938,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be key in <%s> map. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <K> String aKeyIn$(K key, @Nonnull Map<K, ?> map) {
+	public static <K> String aKeyInEx(K key, @Nonnull Map<K, ?> map) {
 		Null.nonNullArg(map, "map");
 		return (map.containsKey(key)) ? null : String.format("<%s> must be key in <%s> map.", key, map);
 	}
@@ -1950,7 +1950,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be key in <%s> map. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <K> String notAKeyIn$(K key, @Nonnull Map<K, ?> map) {
+	public static <K> String notAKeyInEx(K key, @Nonnull Map<K, ?> map) {
 		Null.nonNullArg(map, "map");
 		return !(map.containsKey(key)) ? null : String.format("<%s> must NOT be key in <%s> map.", key, map);
 	}
@@ -1962,7 +1962,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String empty$(@Nonnull Collection<T> collection) {
+	public static <T> String emptyEx(@Nonnull Collection<T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return (collection.isEmpty()) ? null : String.format("Collection <%s> must be empty.", collection);
 	}
@@ -1974,7 +1974,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notEmpty$(@Nonnull Collection<T> collection) {
+	public static <T> String notEmptyEx(@Nonnull Collection<T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return !(collection.isEmpty()) ? null : String.format("Collection <%s> must NOT be empty.", collection);
 	}
@@ -1985,7 +1985,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String nullOrEmpty$(@Nullable Collection<T> collection) {
+	public static <T> String nullOrEmptyEx(@Nullable Collection<T> collection) {
 		return (collection == null || collection.isEmpty()) ? null : String.format("Collection <%s> must be empty.", collection);
 	}
 
@@ -1995,7 +1995,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notNullNorEmpty$(@Nullable Collection<T> collection) {
+	public static <T> String notNullNorEmptyEx(@Nullable Collection<T> collection) {
 		return !(collection == null || collection.isEmpty()) ? null : String.format("Collection <%s> must NOT be empty.", collection);
 	}
 
@@ -2006,7 +2006,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton).. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String singleton$(@Nonnull Collection<T> collection) {
+	public static <T> String singletonEx(@Nonnull Collection<T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return (collection.size() == 1) ? null : String.format("Collection <%s> must be exactly of size 1 (singleton)..", collection);
 	}
@@ -2018,7 +2018,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton).. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static <T> String notSingleton$(@Nonnull Collection<T> collection) {
+	public static <T> String notSingletonEx(@Nonnull Collection<T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return !(collection.size() == 1) ? null : String.format("Collection <%s> must NOT be exactly of size 1 (singleton)..", collection);
 	}
@@ -2030,7 +2030,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String empty$(@Nonnull Map<?, ?> map) {
+	public static String emptyEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return (map.isEmpty()) ? null : String.format("Map <%s> must be empty.", map);
 	}
@@ -2042,7 +2042,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notEmpty$(@Nonnull Map<?, ?> map) {
+	public static String notEmptyEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return !(map.isEmpty()) ? null : String.format("Map <%s> must NOT be empty.", map);
 	}
@@ -2053,7 +2053,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String nullOrEmpty$(@Nullable Map<?, ?> map) {
+	public static String nullOrEmptyEx(@Nullable Map<?, ?> map) {
 		return (map == null || map.isEmpty()) ? null : String.format("Collection <%s> must be empty.", map);
 	}
 
@@ -2063,7 +2063,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notNullNorEmpty$(@Nullable Map<?, ?> map) {
+	public static String notNullNorEmptyEx(@Nullable Map<?, ?> map) {
 		return !(map == null || map.isEmpty()) ? null : String.format("Collection <%s> must NOT be empty.", map);
 	}
 
@@ -2074,7 +2074,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton).. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String singleton$(@Nonnull Map<?, ?> map) {
+	public static String singletonEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return (map.size() == 1) ? null : String.format("Collection <%s> must be exactly of size 1 (singleton)..", map);
 	}
@@ -2086,7 +2086,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton).. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notSingleton$(@Nonnull Map<?, ?> map) {
+	public static String notSingletonEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return !(map.size() == 1) ? null : String.format("Collection <%s> must NOT be exactly of size 1 (singleton)..", map);
 	}
@@ -2102,7 +2102,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String instanceOf$(Object object, Class<?> clazz) {
+	public static String instanceOfEx(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return (clazz.isInstance(object)) ? null : String.format("Object <%s> must be instance of <%s>.", object, clazz);
 	}
@@ -2114,7 +2114,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notInstanceOf$(Object object, Class<?> clazz) {
+	public static String notInstanceOfEx(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isInstance(object)) ? null : String.format("Object <%s> must NOT be instance of <%s>.", object, clazz);
 	}
@@ -2126,7 +2126,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String assignableFrom$(Class<?> specialization, Class<?> clazz) {
+	public static String assignableFromEx(Class<?> specialization, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return (clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> must ---NOT-- be specialization of <%s>.", specialization, clazz);
 	}
@@ -2138,7 +2138,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static String notAssignableFrom$(Class<?> specialization, Class<?> clazz) {
+	public static String notAssignableFromEx(Class<?> specialization, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> must ---NOT-- be specialization of <%s>.", specialization, clazz);
 	}
@@ -2154,7 +2154,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must be instance of a RuntimeException. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String runtime$(@Nonnull Throwable e) {
+	public static String runtimeEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return (e instanceof RuntimeException) ? null : String.format("Exception <%s> must be instance of a RuntimeException.", e);
 	}
@@ -2166,7 +2166,7 @@ public final class Be implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT be instance of a RuntimeException. Available in {@link P}, {@link Is}, {@link Be}.*/
-	public static String notRuntime$(@Nonnull Throwable e) {
+	public static String notRuntimeEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return !(e instanceof RuntimeException) ? null : String.format("Exception <%s> must NOT be instance of a RuntimeException.", e);
 	}
