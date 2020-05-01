@@ -56,6 +56,17 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 		return new TestFlow<>(sut, logger());
 	}
 
+	public TestFlow<SUT> precondition(LConsumer<SUT> preBlock) {
+		return precondition(DEFAULT_DESCRIPTION, preBlock);
+	}
+
+	public TestFlow<SUT> precondition(@Nullable String description, LConsumer<SUT> preBlock) {
+		log("Precondition: " + description);
+		check(preBlock).mustEx(Be::notNullEx);
+		preBlock.shovingAccept(sut());
+		return new TestFlow<>(sut(), logger());
+	}
+
 	public TestFlow<SUT> when(LConsumer<SUT> whenBlock) {
 		return when(DEFAULT_DESCRIPTION, whenBlock);
 	}
@@ -95,6 +106,17 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 		log("STEP: " + description);
 		consumer.shovingAccept(this);
 		return this;
+	}
+
+	public TestFlow<SUT> aftermath(LConsumer<SUT> postBlock) {
+		return precondition(DEFAULT_DESCRIPTION, postBlock);
+	}
+
+	public TestFlow<SUT> aftermath(@Nullable String description, LConsumer<SUT> postBlock) {
+		log("Aftermath: " + description);
+		check(postBlock).mustEx(Be::notNullEx);
+		postBlock.shovingAccept(sut());
+		return new TestFlow<>(sut(), logger());
 	}
 
 }

@@ -64,6 +64,8 @@ public class TestFlowTest {
 
         test().log(m -> sb.append(m).append("\n")).given(() -> {
             return 1;
+        }).precondition("initial state is", sut -> {
+
         }).step("Step1", t -> {
             t.when("when1", sut -> {
                 //...
@@ -76,15 +78,19 @@ public class TestFlowTest {
             }).then(sut -> {
                 assertThat(sut.toString()).isEqualTo("1");
             });
+        }).aftermath("in the end", sut -> {
+
         });
 
         assertThat(sb.toString()).isEqualTo("Given: ...\n" +
+                                                    "Precondition: initial state is\n" +
                                                     "STEP: Step1\n" +
                                                     "When: when1\n" +
                                                     "Then: then1\n" +
                                                     "STEP: Step2\n" +
                                                     "When: when2\n" +
-                                                    "Then: ...\n");
+                                                    "Then: ...\n" +
+                                                    "Aftermath: in the end\n");
     }
 
     @Test public void negativeCase_AssertionError() {
