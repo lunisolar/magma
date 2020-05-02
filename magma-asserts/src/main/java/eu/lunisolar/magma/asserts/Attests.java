@@ -3659,4 +3659,14 @@ public interface Attests {
 		return THEN.attestThat(actual);
 	}
 
+	@Nonnull
+	public static <A extends Throwable> MagmaAssert.ThrowableAssert<A> attestThat(A actual) {
+		return new MagmaAssert.ThrowableAssert(actual);
+	}
+
+	@Nonnull
+	public static MagmaAssert.ThrowableAssert<? extends Throwable> attestThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+		return attestThat(Assertions.catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+	}
+
 }

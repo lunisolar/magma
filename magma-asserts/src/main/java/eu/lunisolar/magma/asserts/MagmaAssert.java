@@ -134,4 +134,22 @@ public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Asser
 			return actual;
 		}
 	}
+
+	public static class ThrowableAssert<A extends Throwable> extends AbstractThrowableAssert<ThrowableAssert<A>, A> implements MagmaAssert<ThrowableAssert<A>, A> {
+
+		public ThrowableAssert(A a) {
+			super(a, ThrowableAssert.class);
+		}
+
+		@Nullable
+		@Override
+		public A actual() {
+			return actual;
+		}
+
+		@Override
+		protected ThrowableAssert<A> hasBeenThrown() {
+			return super.hasBeenThrown();
+		}
+	}
 }
