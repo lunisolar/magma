@@ -130,4 +130,15 @@ public class LOiToDblFuncDelta<T> extends LOiToDblFuncMemento<T> {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public double delta(T a1, int a2) {
+		return applyAsDbl(a1, a2);
+	}
+
+	@Override
+	public double delta(T a1, int a2, LDblBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

@@ -112,4 +112,9 @@ public class LSrtFuncDelta<R> extends LSrtFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(short a, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

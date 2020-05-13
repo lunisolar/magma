@@ -130,4 +130,15 @@ public class LByteBinaryOpDelta extends LByteBinaryOpMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public byte delta(byte a1, byte a2) {
+		return applyAsByte(a1, a2);
+	}
+
+	@Override
+	public byte delta(byte a1, byte a2, LByteBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

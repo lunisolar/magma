@@ -130,4 +130,15 @@ public class LCharToSrtFuncDelta extends LCharToSrtFuncMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public short delta(char a) {
+		return applyAsSrt(a);
+	}
+
+	@Override
+	public short delta(char a, LSrtBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

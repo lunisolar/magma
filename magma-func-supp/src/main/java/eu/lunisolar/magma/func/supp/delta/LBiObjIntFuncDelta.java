@@ -112,4 +112,9 @@ public class LBiObjIntFuncDelta<T1, T2, R> extends LBiObjIntFuncMemento<T1, T2, 
 
 	// </editor-fold>
 
+	@Override
+	public R delta(T1 a1, T2 a2, int a3, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

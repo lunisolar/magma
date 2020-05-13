@@ -130,4 +130,15 @@ public class LOiToCharFuncDelta<T> extends LOiToCharFuncMemento<T> {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public char delta(T a1, int a2) {
+		return applyAsChar(a1, a2);
+	}
+
+	@Override
+	public char delta(T a1, int a2, LCharBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

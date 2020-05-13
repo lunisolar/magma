@@ -130,4 +130,15 @@ public class LCharSupDelta extends LCharSupMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public char delta() {
+		return getAsChar();
+	}
+
+	@Override
+	public char delta(LCharBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

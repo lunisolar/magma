@@ -126,4 +126,9 @@ public class LBoolSupDelta extends LBoolSupMemento {
 
 	// </editor-fold>
 
+	@Override
+	public boolean delta(LLogicalBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

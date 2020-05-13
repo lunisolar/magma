@@ -130,4 +130,15 @@ public class LLongBinaryOpDelta extends LLongBinaryOpMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public long delta(long a1, long a2) {
+		return applyAsLong(a1, a2);
+	}
+
+	@Override
+	public long delta(long a1, long a2, LLongBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

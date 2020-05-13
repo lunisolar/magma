@@ -130,4 +130,15 @@ public class LFltToIntFuncDelta extends LFltToIntFuncMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public int delta(float a) {
+		return applyAsInt(a);
+	}
+
+	@Override
+	public int delta(float a, LIntBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

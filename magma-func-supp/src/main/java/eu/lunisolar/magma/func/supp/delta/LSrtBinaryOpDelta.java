@@ -130,4 +130,15 @@ public class LSrtBinaryOpDelta extends LSrtBinaryOpMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public short delta(short a1, short a2) {
+		return applyAsSrt(a1, a2);
+	}
+
+	@Override
+	public short delta(short a1, short a2, LSrtBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

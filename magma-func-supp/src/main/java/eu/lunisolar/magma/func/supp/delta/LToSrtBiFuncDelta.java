@@ -130,4 +130,15 @@ public class LToSrtBiFuncDelta<T1, T2> extends LToSrtBiFuncMemento<T1, T2> {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public short delta(T1 a1, T2 a2) {
+		return applyAsSrt(a1, a2);
+	}
+
+	@Override
+	public short delta(T1 a1, T2 a2, LSrtBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

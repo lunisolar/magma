@@ -112,4 +112,9 @@ public class LQuadFuncDelta<T1, T2, T3, T4, R> extends LQuadFuncMemento<T1, T2, 
 
 	// </editor-fold>
 
+	@Override
+	public R delta(T1 a1, T2 a2, T3 a3, T4 a4, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

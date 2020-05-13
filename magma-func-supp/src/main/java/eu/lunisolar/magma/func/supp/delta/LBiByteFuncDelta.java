@@ -112,4 +112,9 @@ public class LBiByteFuncDelta<R> extends LBiByteFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(byte a1, byte a2, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

@@ -112,4 +112,9 @@ public class LTriFuncDelta<T1, T2, T3, R> extends LTriFuncMemento<T1, T2, T3, R>
 
 	// </editor-fold>
 
+	@Override
+	public R delta(T1 a1, T2 a2, T3 a3, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

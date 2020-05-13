@@ -130,4 +130,15 @@ public class LFltUnaryOpDelta extends LFltUnaryOpMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public float delta(float a) {
+		return applyAsFlt(a);
+	}
+
+	@Override
+	public float delta(float a, LFltBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

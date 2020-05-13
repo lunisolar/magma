@@ -130,4 +130,15 @@ public class LSrtToByteFuncDelta extends LSrtToByteFuncMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public byte delta(short a) {
+		return applyAsByte(a);
+	}
+
+	@Override
+	public byte delta(short a, LByteBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

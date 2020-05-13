@@ -112,4 +112,9 @@ public class LSupDelta<T> extends LSupMemento<T> {
 
 	// </editor-fold>
 
+	@Override
+	public T delta(LBinaryOperator<T> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

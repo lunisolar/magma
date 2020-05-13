@@ -130,4 +130,15 @@ public class LCharBinaryOpDelta extends LCharBinaryOpMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public char delta(char a1, char a2) {
+		return applyAsChar(a1, a2);
+	}
+
+	@Override
+	public char delta(char a1, char a2, LCharBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

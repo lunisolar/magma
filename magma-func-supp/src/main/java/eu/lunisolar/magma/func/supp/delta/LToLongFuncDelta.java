@@ -130,4 +130,15 @@ public class LToLongFuncDelta<T> extends LToLongFuncMemento<T> {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public long delta(T a) {
+		return applyAsLong(a);
+	}
+
+	@Override
+	public long delta(T a, LLongBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

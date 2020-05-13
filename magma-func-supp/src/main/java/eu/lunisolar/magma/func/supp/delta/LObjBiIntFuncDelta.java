@@ -112,4 +112,9 @@ public class LObjBiIntFuncDelta<T, R> extends LObjBiIntFuncMemento<T, R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(T a1, int a2, int a3, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

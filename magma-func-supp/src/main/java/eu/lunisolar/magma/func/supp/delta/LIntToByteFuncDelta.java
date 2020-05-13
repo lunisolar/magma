@@ -130,4 +130,15 @@ public class LIntToByteFuncDelta extends LIntToByteFuncMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public byte delta(int a) {
+		return applyAsByte(a);
+	}
+
+	@Override
+	public byte delta(int a, LByteBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

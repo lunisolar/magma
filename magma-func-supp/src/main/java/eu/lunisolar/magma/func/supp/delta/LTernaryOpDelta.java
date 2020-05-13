@@ -112,4 +112,9 @@ public class LTernaryOpDelta<T> extends LTernaryOpMemento<T> {
 
 	// </editor-fold>
 
+	@Override
+	public T delta(T a1, T a2, T a3, LBinaryOperator<T> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

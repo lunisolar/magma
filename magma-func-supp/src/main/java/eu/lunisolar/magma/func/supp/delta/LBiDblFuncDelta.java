@@ -112,4 +112,9 @@ public class LBiDblFuncDelta<R> extends LBiDblFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(double a1, double a2, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

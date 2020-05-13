@@ -112,4 +112,9 @@ public class LTriBoolFuncDelta<R> extends LTriBoolFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(boolean a1, boolean a2, boolean a3, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

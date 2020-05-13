@@ -130,4 +130,15 @@ public class LDblSupDelta extends LDblSupMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public double delta() {
+		return getAsDbl();
+	}
+
+	@Override
+	public double delta(LDblBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

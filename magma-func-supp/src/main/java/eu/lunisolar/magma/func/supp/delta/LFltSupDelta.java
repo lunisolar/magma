@@ -130,4 +130,15 @@ public class LFltSupDelta extends LFltSupMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public float delta() {
+		return getAsFlt();
+	}
+
+	@Override
+	public float delta(LFltBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

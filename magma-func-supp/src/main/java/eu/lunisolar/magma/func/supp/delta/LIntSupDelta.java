@@ -130,4 +130,15 @@ public class LIntSupDelta extends LIntSupMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public int delta() {
+		return getAsInt();
+	}
+
+	@Override
+	public int delta(LIntBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

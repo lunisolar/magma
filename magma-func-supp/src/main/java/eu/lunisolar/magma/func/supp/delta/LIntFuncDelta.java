@@ -112,4 +112,9 @@ public class LIntFuncDelta<R> extends LIntFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(int a, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

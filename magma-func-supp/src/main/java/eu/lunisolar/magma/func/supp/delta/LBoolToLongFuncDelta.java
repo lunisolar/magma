@@ -130,4 +130,15 @@ public class LBoolToLongFuncDelta extends LBoolToLongFuncMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public long delta(boolean a) {
+		return applyAsLong(a);
+	}
+
+	@Override
+	public long delta(boolean a, LLongBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

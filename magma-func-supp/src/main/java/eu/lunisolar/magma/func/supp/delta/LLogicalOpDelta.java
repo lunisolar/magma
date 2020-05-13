@@ -126,4 +126,9 @@ public class LLogicalOpDelta extends LLogicalOpMemento {
 
 	// </editor-fold>
 
+	@Override
+	public boolean delta(boolean a, LLogicalBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

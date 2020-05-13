@@ -112,4 +112,9 @@ public class LObjLongFuncDelta<T, R> extends LObjLongFuncMemento<T, R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(T a1, long a2, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

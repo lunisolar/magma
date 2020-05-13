@@ -112,4 +112,9 @@ public class LUnaryOpDelta<T> extends LUnaryOpMemento<T> {
 
 	// </editor-fold>
 
+	@Override
+	public T delta(T a, LBinaryOperator<T> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

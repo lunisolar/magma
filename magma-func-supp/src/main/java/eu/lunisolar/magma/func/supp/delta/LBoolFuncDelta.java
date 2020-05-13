@@ -112,4 +112,9 @@ public class LBoolFuncDelta<R> extends LBoolFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(boolean a, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

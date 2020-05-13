@@ -130,4 +130,15 @@ public class LToIntTriFuncDelta<T1, T2, T3> extends LToIntTriFuncMemento<T1, T2,
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public int delta(T1 a1, T2 a2, T3 a3) {
+		return applyAsInt(a1, a2, a3);
+	}
+
+	@Override
+	public int delta(T1 a1, T2 a2, T3 a3, LIntBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

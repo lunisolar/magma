@@ -112,4 +112,9 @@ public class LObjSrtFuncDelta<T, R> extends LObjSrtFuncMemento<T, R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(T a1, short a2, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

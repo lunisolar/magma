@@ -112,4 +112,9 @@ public class LCharFuncDelta<R> extends LCharFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(char a, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

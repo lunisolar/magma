@@ -112,4 +112,9 @@ public class LBiCharFuncDelta<R> extends LBiCharFuncMemento<R> {
 
 	// </editor-fold>
 
+	@Override
+	public R delta(char a1, char a2, LBinaryOperator<R> deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

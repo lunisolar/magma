@@ -130,4 +130,15 @@ public class LFltBinaryOpDelta extends LFltBinaryOpMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public float delta(float a1, float a2) {
+		return applyAsFlt(a1, a2);
+	}
+
+	@Override
+	public float delta(float a1, float a2, LFltBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

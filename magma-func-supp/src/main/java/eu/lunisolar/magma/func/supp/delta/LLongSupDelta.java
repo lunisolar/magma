@@ -130,4 +130,15 @@ public class LLongSupDelta extends LLongSupMemento {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public long delta() {
+		return getAsLong();
+	}
+
+	@Override
+	public long delta(LLongBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }

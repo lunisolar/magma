@@ -130,4 +130,15 @@ public class LToByteFuncDelta<T> extends LToByteFuncMemento<T> {
 
 	// </editor-fold>
 
+	/** Overrides delta() method from memento generalization to make result consistent with provided delta function. */
+	@Override
+	public byte delta(T a) {
+		return applyAsByte(a);
+	}
+
+	@Override
+	public byte delta(T a, LByteBinaryOperator deltaFunction) {
+		throw new IllegalStateException("Application of another delta function is impossible.");
+	}
+
 }
