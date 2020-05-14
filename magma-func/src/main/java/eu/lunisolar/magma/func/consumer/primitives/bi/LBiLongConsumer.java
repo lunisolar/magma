@@ -377,22 +377,20 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return lambda;
 	}
 
-	@Nonnull
-	static LBiLongConsumer recursive(final @Nonnull LFunction<LBiLongConsumer, LBiLongConsumer> selfLambda) {
-		final LBiLongConsumerSingle single = new LBiLongConsumerSingle();
-		LBiLongConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LBiLongConsumerSingle implements LBiLongConsumer {
+	final class S implements LBiLongConsumer {
 		private LBiLongConsumer target = null;
-
 		@Override
 		public void acceptX(long a1, long a2) throws Throwable {
 			target.acceptX(a1, a2);
 		}
+	}
 
+	@Nonnull
+	static LBiLongConsumer recursive(final @Nonnull LFunction<LBiLongConsumer, LBiLongConsumer> selfLambda) {
+		final S single = new S();
+		LBiLongConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

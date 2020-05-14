@@ -442,22 +442,87 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return lambda;
 	}
 
+	final class S<T1, T2, T3> implements LToIntTriFunction<T1, T2, T3> {
+		private LToIntTriFunction<T1, T2, T3> target = null;
+		@Override
+		public int applyAsIntX(T1 a1, T2 a2, T3 a3) throws Throwable {
+			return target.applyAsIntX(a1, a2, a3);
+		}
+	}
+
 	@Nonnull
 	static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> recursive(final @Nonnull LFunction<LToIntTriFunction<T1, T2, T3>, LToIntTriFunction<T1, T2, T3>> selfLambda) {
-		final LToIntTriFunctionSingle<T1, T2, T3> single = new LToIntTriFunctionSingle();
+		final S<T1, T2, T3> single = new S();
 		LToIntTriFunction<T1, T2, T3> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LToIntTriFunctionSingle<T1, T2, T3> implements LToIntTriFunction<T1, T2, T3> {
-		private LToIntTriFunction<T1, T2, T3> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T1, T2, T3> M<T1, T2, T3> mementoOf(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> function) {
+		var initialValue = function.applyAsInt(a1, a2, a3);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T1, T2, T3> M<T1, T2, T3> initializedMementoOf(int initialValue, LToIntTriFunction<T1, T2, T3> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T1, T2, T3> M<T1, T2, T3> deltaOf(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> function, LIntBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsInt(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T1, T2, T3> M<T1, T2, T3> deltaOf(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> function) {
+		var initialValue = function.applyAsInt(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T1, T2, T3> M<T1, T2, T3> initializedDeltaOf(int initialValue, LToIntTriFunction<T1, T2, T3> function, LIntBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T1, T2, T3> M<T1, T2, T3> memento(int initialValue, LToIntTriFunction<T1, T2, T3> baseFunction, LIntBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LToIntTriFunction.D)
+	 */
+	final class M<T1, T2, T3> implements LToIntTriFunction<T1, T2, T3> {
+
+		private int lastValue;
+		private final LIntBinaryOperator mementoFunction;
+		private final LToIntTriFunction<T1, T2, T3> baseFunction;
+
+		private M(int lastValue, LToIntTriFunction<T1, T2, T3> baseFunction, LIntBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public int applyAsIntX(T1 a1, T2 a2, T3 a3) throws Throwable {
-			return target.applyAsIntX(a1, a2, a3);
+			int x2 = baseFunction.applyAsIntX(a1, a2, a3);
+			int x1 = lastValue;
+			return lastValue = mementoFunction.applyAsInt(x1, x2);
 		}
 
+		public int lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

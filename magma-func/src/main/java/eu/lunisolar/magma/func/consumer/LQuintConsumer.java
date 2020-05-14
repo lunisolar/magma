@@ -418,22 +418,20 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return lambda;
 	}
 
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> recursive(final @Nonnull LFunction<LQuintConsumer<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> selfLambda) {
-		final LQuintConsumerSingle<T1, T2, T3, T4, T5> single = new LQuintConsumerSingle();
-		LQuintConsumer<T1, T2, T3, T4, T5> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LQuintConsumerSingle<T1, T2, T3, T4, T5> implements LQuintConsumer<T1, T2, T3, T4, T5> {
+	final class S<T1, T2, T3, T4, T5> implements LQuintConsumer<T1, T2, T3, T4, T5> {
 		private LQuintConsumer<T1, T2, T3, T4, T5> target = null;
-
 		@Override
 		public void acceptX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) throws Throwable {
 			target.acceptX(a1, a2, a3, a4, a5);
 		}
+	}
 
+	@Nonnull
+	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> recursive(final @Nonnull LFunction<LQuintConsumer<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> selfLambda) {
+		final S<T1, T2, T3, T4, T5> single = new S();
+		LQuintConsumer<T1, T2, T3, T4, T5> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

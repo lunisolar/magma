@@ -383,22 +383,20 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return lambda;
 	}
 
-	@Nonnull
-	static LTriBoolConsumer recursive(final @Nonnull LFunction<LTriBoolConsumer, LTriBoolConsumer> selfLambda) {
-		final LTriBoolConsumerSingle single = new LTriBoolConsumerSingle();
-		LTriBoolConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LTriBoolConsumerSingle implements LTriBoolConsumer {
+	final class S implements LTriBoolConsumer {
 		private LTriBoolConsumer target = null;
-
 		@Override
 		public void acceptX(boolean a1, boolean a2, boolean a3) throws Throwable {
 			target.acceptX(a1, a2, a3);
 		}
+	}
 
+	@Nonnull
+	static LTriBoolConsumer recursive(final @Nonnull LFunction<LTriBoolConsumer, LTriBoolConsumer> selfLambda) {
+		final S single = new S();
+		LTriBoolConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

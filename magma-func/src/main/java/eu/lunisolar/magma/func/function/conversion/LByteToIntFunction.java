@@ -343,22 +343,87 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	final class S implements LByteToIntFunction {
+		private LByteToIntFunction target = null;
+		@Override
+		public int applyAsIntX(byte a) throws Throwable {
+			return target.applyAsIntX(a);
+		}
+	}
+
 	@Nonnull
 	static LByteToIntFunction recursive(final @Nonnull LFunction<LByteToIntFunction, LByteToIntFunction> selfLambda) {
-		final LByteToIntFunctionSingle single = new LByteToIntFunctionSingle();
+		final S single = new S();
 		LByteToIntFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LByteToIntFunctionSingle implements LByteToIntFunction {
-		private LByteToIntFunction target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(byte a, LByteToIntFunction function) {
+		var initialValue = function.applyAsInt(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(int initialValue, LByteToIntFunction function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(byte a, LByteToIntFunction function, LIntBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsInt(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(byte a, LByteToIntFunction function) {
+		var initialValue = function.applyAsInt(a);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(int initialValue, LByteToIntFunction function, LIntBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(int initialValue, LByteToIntFunction baseFunction, LIntBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LByteToIntFunction.D)
+	 */
+	final class M implements LByteToIntFunction {
+
+		private int lastValue;
+		private final LIntBinaryOperator mementoFunction;
+		private final LByteToIntFunction baseFunction;
+
+		private M(int lastValue, LByteToIntFunction baseFunction, LIntBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public int applyAsIntX(byte a) throws Throwable {
-			return target.applyAsIntX(a);
+			int x2 = baseFunction.applyAsIntX(a);
+			int x1 = lastValue;
+			return lastValue = mementoFunction.applyAsInt(x1, x2);
 		}
 
+		public int lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

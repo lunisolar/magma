@@ -427,22 +427,82 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	final class S<R> implements LBiSrtFunction<R> {
+		private LBiSrtFunction<R> target = null;
+		@Override
+		public R applyX(short a1, short a2) throws Throwable {
+			return target.applyX(a1, a2);
+		}
+	}
+
 	@Nonnull
 	static <R> LBiSrtFunction<R> recursive(final @Nonnull LFunction<LBiSrtFunction<R>, LBiSrtFunction<R>> selfLambda) {
-		final LBiSrtFunctionSingle<R> single = new LBiSrtFunctionSingle();
+		final S<R> single = new S();
 		LBiSrtFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LBiSrtFunctionSingle<R> implements LBiSrtFunction<R> {
-		private LBiSrtFunction<R> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <R> M<R> mementoOf(short a1, short a2, LBiSrtFunction<R> function) {
+		var initialValue = function.apply(a1, a2);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <R> M<R> initializedMementoOf(R initialValue, LBiSrtFunction<R> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <R> M<R> deltaOf(short a1, short a2, LBiSrtFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var initialValue = function.apply(a1, a2);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <R> M<R> initializedDeltaOf(R initialValue, LBiSrtFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <R> M<R> memento(R initialValue, LBiSrtFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LBiSrtFunction.D)
+	 */
+	final class M<R> implements LBiSrtFunction<R> {
+
+		private R lastValue;
+		private final LBinaryOperator<R> mementoFunction;
+		private final LBiSrtFunction<R> baseFunction;
+
+		private M(R lastValue, LBiSrtFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public R applyX(short a1, short a2) throws Throwable {
-			return target.applyX(a1, a2);
+			R x2 = baseFunction.applyX(a1, a2);
+			R x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public R lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

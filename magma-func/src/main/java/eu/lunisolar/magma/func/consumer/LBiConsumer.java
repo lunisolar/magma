@@ -401,22 +401,20 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return lambda;
 	}
 
-	@Nonnull
-	static <T1, T2> LBiConsumer<T1, T2> recursive(final @Nonnull LFunction<LBiConsumer<T1, T2>, LBiConsumer<T1, T2>> selfLambda) {
-		final LBiConsumerSingle<T1, T2> single = new LBiConsumerSingle();
-		LBiConsumer<T1, T2> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LBiConsumerSingle<T1, T2> implements LBiConsumer<T1, T2> {
+	final class S<T1, T2> implements LBiConsumer<T1, T2> {
 		private LBiConsumer<T1, T2> target = null;
-
 		@Override
 		public void acceptX(T1 a1, T2 a2) throws Throwable {
 			target.acceptX(a1, a2);
 		}
+	}
 
+	@Nonnull
+	static <T1, T2> LBiConsumer<T1, T2> recursive(final @Nonnull LFunction<LBiConsumer<T1, T2>, LBiConsumer<T1, T2>> selfLambda) {
+		final S<T1, T2> single = new S();
+		LBiConsumer<T1, T2> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

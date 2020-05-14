@@ -380,22 +380,87 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	final class S<T> implements LToFltFunction<T> {
+		private LToFltFunction<T> target = null;
+		@Override
+		public float applyAsFltX(T a) throws Throwable {
+			return target.applyAsFltX(a);
+		}
+	}
+
 	@Nonnull
 	static <T> LToFltFunction<T> recursive(final @Nonnull LFunction<LToFltFunction<T>, LToFltFunction<T>> selfLambda) {
-		final LToFltFunctionSingle<T> single = new LToFltFunctionSingle();
+		final S<T> single = new S();
 		LToFltFunction<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LToFltFunctionSingle<T> implements LToFltFunction<T> {
-		private LToFltFunction<T> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T> M<T> mementoOf(T a, LToFltFunction<T> function) {
+		var initialValue = function.applyAsFlt(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T> M<T> initializedMementoOf(float initialValue, LToFltFunction<T> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T> M<T> deltaOf(T a, LToFltFunction<T> function, LFltBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsFlt(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T> M<T> deltaOf(T a, LToFltFunction<T> function) {
+		var initialValue = function.applyAsFlt(a);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T> M<T> initializedDeltaOf(float initialValue, LToFltFunction<T> function, LFltBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T> M<T> memento(float initialValue, LToFltFunction<T> baseFunction, LFltBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LToFltFunction.D)
+	 */
+	final class M<T> implements LToFltFunction<T> {
+
+		private float lastValue;
+		private final LFltBinaryOperator mementoFunction;
+		private final LToFltFunction<T> baseFunction;
+
+		private M(float lastValue, LToFltFunction<T> baseFunction, LFltBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public float applyAsFltX(T a) throws Throwable {
-			return target.applyAsFltX(a);
+			float x2 = baseFunction.applyAsFltX(a);
+			float x1 = lastValue;
+			return lastValue = mementoFunction.applyAsFlt(x1, x2);
 		}
 
+		public float lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

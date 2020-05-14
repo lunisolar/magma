@@ -29,7 +29,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -52,10 +51,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LazyChar extends LCharSupMemento implements LCharSingle {
+public class LazyChar implements LCharSupplier, LCharSingle {
+
+	private char value;
+	private LCharSupplier function;
 
 	protected LazyChar(LCharSupplier function) {
-		super(function);
+		this.function = function;
 	}
 
 	public static LazyChar lazyValue(LCharSupplier supplier) {
@@ -67,13 +69,13 @@ public class LazyChar extends LCharSupMemento implements LCharSingle {
 	}
 
 	@Override
-	public char getAsChar() {
+	public char getAsCharX() {
 		if (function != null) {
-			lastValue = function.getAsChar();
+			value = function.getAsChar();
 			function = null;
 		}
 
-		return lastValue;
+		return value;
 	}
 
 	public char value() {

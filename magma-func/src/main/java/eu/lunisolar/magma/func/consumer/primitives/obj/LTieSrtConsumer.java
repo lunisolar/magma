@@ -394,22 +394,20 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return lambda;
 	}
 
-	@Nonnull
-	static <T> LTieSrtConsumer<T> recursive(final @Nonnull LFunction<LTieSrtConsumer<T>, LTieSrtConsumer<T>> selfLambda) {
-		final LTieSrtConsumerSingle<T> single = new LTieSrtConsumerSingle();
-		LTieSrtConsumer<T> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LTieSrtConsumerSingle<T> implements LTieSrtConsumer<T> {
+	final class S<T> implements LTieSrtConsumer<T> {
 		private LTieSrtConsumer<T> target = null;
-
 		@Override
 		public void acceptX(T a1, int a2, short a3) throws Throwable {
 			target.acceptX(a1, a2, a3);
 		}
+	}
 
+	@Nonnull
+	static <T> LTieSrtConsumer<T> recursive(final @Nonnull LFunction<LTieSrtConsumer<T>, LTieSrtConsumer<T>> selfLambda) {
+		final S<T> single = new S();
+		LTieSrtConsumer<T> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

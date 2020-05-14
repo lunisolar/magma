@@ -343,22 +343,87 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	final class S implements LFltToSrtFunction {
+		private LFltToSrtFunction target = null;
+		@Override
+		public short applyAsSrtX(float a) throws Throwable {
+			return target.applyAsSrtX(a);
+		}
+	}
+
 	@Nonnull
 	static LFltToSrtFunction recursive(final @Nonnull LFunction<LFltToSrtFunction, LFltToSrtFunction> selfLambda) {
-		final LFltToSrtFunctionSingle single = new LFltToSrtFunctionSingle();
+		final S single = new S();
 		LFltToSrtFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LFltToSrtFunctionSingle implements LFltToSrtFunction {
-		private LFltToSrtFunction target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(float a, LFltToSrtFunction function) {
+		var initialValue = function.applyAsSrt(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(short initialValue, LFltToSrtFunction function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(float a, LFltToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsSrt(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(float a, LFltToSrtFunction function) {
+		var initialValue = function.applyAsSrt(a);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (short) (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(short initialValue, LFltToSrtFunction function, LSrtBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(short initialValue, LFltToSrtFunction baseFunction, LSrtBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LFltToSrtFunction.D)
+	 */
+	final class M implements LFltToSrtFunction {
+
+		private short lastValue;
+		private final LSrtBinaryOperator mementoFunction;
+		private final LFltToSrtFunction baseFunction;
+
+		private M(short lastValue, LFltToSrtFunction baseFunction, LSrtBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public short applyAsSrtX(float a) throws Throwable {
-			return target.applyAsSrtX(a);
+			short x2 = baseFunction.applyAsSrtX(a);
+			short x1 = lastValue;
+			return lastValue = mementoFunction.applyAsSrt(x1, x2);
 		}
 
+		public short lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

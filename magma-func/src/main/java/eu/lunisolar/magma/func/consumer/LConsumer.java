@@ -341,22 +341,20 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		return lambda;
 	}
 
-	@Nonnull
-	static <T> LConsumer<T> recursive(final @Nonnull LFunction<LConsumer<T>, LConsumer<T>> selfLambda) {
-		final LConsumerSingle<T> single = new LConsumerSingle();
-		LConsumer<T> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LConsumerSingle<T> implements LConsumer<T> {
+	final class S<T> implements LConsumer<T> {
 		private LConsumer<T> target = null;
-
 		@Override
 		public void acceptX(T a) throws Throwable {
 			target.acceptX(a);
 		}
+	}
 
+	@Nonnull
+	static <T> LConsumer<T> recursive(final @Nonnull LFunction<LConsumer<T>, LConsumer<T>> selfLambda) {
+		final S<T> single = new S();
+		LConsumer<T> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

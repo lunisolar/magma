@@ -405,22 +405,20 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return lambda;
 	}
 
-	@Nonnull
-	static <T1, T2, T3> LTriConsumer<T1, T2, T3> recursive(final @Nonnull LFunction<LTriConsumer<T1, T2, T3>, LTriConsumer<T1, T2, T3>> selfLambda) {
-		final LTriConsumerSingle<T1, T2, T3> single = new LTriConsumerSingle();
-		LTriConsumer<T1, T2, T3> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LTriConsumerSingle<T1, T2, T3> implements LTriConsumer<T1, T2, T3> {
+	final class S<T1, T2, T3> implements LTriConsumer<T1, T2, T3> {
 		private LTriConsumer<T1, T2, T3> target = null;
-
 		@Override
 		public void acceptX(T1 a1, T2 a2, T3 a3) throws Throwable {
 			target.acceptX(a1, a2, a3);
 		}
+	}
 
+	@Nonnull
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> recursive(final @Nonnull LFunction<LTriConsumer<T1, T2, T3>, LTriConsumer<T1, T2, T3>> selfLambda) {
+		final S<T1, T2, T3> single = new S();
+		LTriConsumer<T1, T2, T3> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

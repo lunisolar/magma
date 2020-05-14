@@ -29,7 +29,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -52,10 +51,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LazySrt extends LSrtSupMemento implements LSrtSingle {
+public class LazySrt implements LSrtSupplier, LSrtSingle {
+
+	private short value;
+	private LSrtSupplier function;
 
 	protected LazySrt(LSrtSupplier function) {
-		super(function);
+		this.function = function;
 	}
 
 	public static LazySrt lazyValue(LSrtSupplier supplier) {
@@ -67,13 +69,13 @@ public class LazySrt extends LSrtSupMemento implements LSrtSingle {
 	}
 
 	@Override
-	public short getAsSrt() {
+	public short getAsSrtX() {
 		if (function != null) {
-			lastValue = function.getAsSrt();
+			value = function.getAsSrt();
 			function = null;
 		}
 
-		return lastValue;
+		return value;
 	}
 
 	public short value() {

@@ -29,7 +29,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -52,10 +51,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LazyLong extends LLongSupMemento implements LLongSingle {
+public class LazyLong implements LLongSupplier, LLongSingle {
+
+	private long value;
+	private LLongSupplier function;
 
 	protected LazyLong(LLongSupplier function) {
-		super(function);
+		this.function = function;
 	}
 
 	public static LazyLong lazyValue(LLongSupplier supplier) {
@@ -67,13 +69,13 @@ public class LazyLong extends LLongSupMemento implements LLongSingle {
 	}
 
 	@Override
-	public long getAsLong() {
+	public long getAsLongX() {
 		if (function != null) {
-			lastValue = function.getAsLong();
+			value = function.getAsLong();
 			function = null;
 		}
 
-		return lastValue;
+		return value;
 	}
 
 	public long value() {

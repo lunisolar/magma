@@ -305,22 +305,20 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return lambda;
 	}
 
-	@Nonnull
-	static LAction recursive(final @Nonnull LFunction<LAction, LAction> selfLambda) {
-		final LActionSingle single = new LActionSingle();
-		LAction func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LActionSingle implements LAction {
+	final class S implements LAction {
 		private LAction target = null;
-
 		@Override
 		public void executeX() throws Throwable {
 			target.executeX();
 		}
+	}
 
+	@Nonnull
+	static LAction recursive(final @Nonnull LFunction<LAction, LAction> selfLambda) {
+		final S single = new S();
+		LAction func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

@@ -29,7 +29,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -52,10 +51,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class Lazy<T> extends LSupMemento<T> implements LSingle<T> {
+public class Lazy<T> implements LSupplier<T>, LSingle<T> {
+
+	private T value;
+	private LSupplier<T> function;
 
 	protected Lazy(LSupplier<T> function) {
-		super(function);
+		this.function = function;
 	}
 
 	public static <T> Lazy<T> lazyValue(LSupplier<T> supplier) {
@@ -67,13 +69,13 @@ public class Lazy<T> extends LSupMemento<T> implements LSingle<T> {
 	}
 
 	@Override
-	public T get() {
+	public T getX() {
 		if (function != null) {
-			lastValue = function.get();
+			value = function.get();
 			function = null;
 		}
 
-		return lastValue;
+		return value;
 	}
 
 	public T value() {

@@ -377,22 +377,20 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return lambda;
 	}
 
-	@Nonnull
-	static LBoolIntConsumer recursive(final @Nonnull LFunction<LBoolIntConsumer, LBoolIntConsumer> selfLambda) {
-		final LBoolIntConsumerSingle single = new LBoolIntConsumerSingle();
-		LBoolIntConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LBoolIntConsumerSingle implements LBoolIntConsumer {
+	final class S implements LBoolIntConsumer {
 		private LBoolIntConsumer target = null;
-
 		@Override
 		public void acceptX(boolean a1, int a2) throws Throwable {
 			target.acceptX(a1, a2);
 		}
+	}
 
+	@Nonnull
+	static LBoolIntConsumer recursive(final @Nonnull LFunction<LBoolIntConsumer, LBoolIntConsumer> selfLambda) {
+		final S single = new S();
+		LBoolIntConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

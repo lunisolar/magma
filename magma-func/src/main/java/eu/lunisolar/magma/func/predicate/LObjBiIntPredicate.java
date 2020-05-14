@@ -822,22 +822,87 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		return lambda;
 	}
 
+	final class S<T> implements LObjBiIntPredicate<T> {
+		private LObjBiIntPredicate<T> target = null;
+		@Override
+		public boolean testX(T a1, int a2, int a3) throws Throwable {
+			return target.testX(a1, a2, a3);
+		}
+	}
+
 	@Nonnull
 	static <T> LObjBiIntPredicate<T> recursive(final @Nonnull LFunction<LObjBiIntPredicate<T>, LObjBiIntPredicate<T>> selfLambda) {
-		final LObjBiIntPredicateSingle<T> single = new LObjBiIntPredicateSingle();
+		final S<T> single = new S();
 		LObjBiIntPredicate<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LObjBiIntPredicateSingle<T> implements LObjBiIntPredicate<T> {
-		private LObjBiIntPredicate<T> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T> M<T> mementoOf(T a1, int a2, int a3, LObjBiIntPredicate<T> function) {
+		var initialValue = function.test(a1, a2, a3);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T> M<T> initializedMementoOf(boolean initialValue, LObjBiIntPredicate<T> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T> M<T> deltaOf(T a1, int a2, int a3, LObjBiIntPredicate<T> function, LLogicalBinaryOperator deltaFunction) {
+		var initialValue = function.test(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T> M<T> deltaOf(T a1, int a2, int a3, LObjBiIntPredicate<T> function) {
+		var initialValue = function.test(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> x1 != x2);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T> M<T> initializedDeltaOf(boolean initialValue, LObjBiIntPredicate<T> function, LLogicalBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T> M<T> memento(boolean initialValue, LObjBiIntPredicate<T> baseFunction, LLogicalBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LObjBiIntPredicate.D)
+	 */
+	final class M<T> implements LObjBiIntPredicate<T> {
+
+		private boolean lastValue;
+		private final LLogicalBinaryOperator mementoFunction;
+		private final LObjBiIntPredicate<T> baseFunction;
+
+		private M(boolean lastValue, LObjBiIntPredicate<T> baseFunction, LLogicalBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public boolean testX(T a1, int a2, int a3) throws Throwable {
-			return target.testX(a1, a2, a3);
+			boolean x2 = baseFunction.testX(a1, a2, a3);
+			boolean x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public boolean lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

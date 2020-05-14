@@ -369,22 +369,82 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	final class S<R> implements LFltFunction<R> {
+		private LFltFunction<R> target = null;
+		@Override
+		public R applyX(float a) throws Throwable {
+			return target.applyX(a);
+		}
+	}
+
 	@Nonnull
 	static <R> LFltFunction<R> recursive(final @Nonnull LFunction<LFltFunction<R>, LFltFunction<R>> selfLambda) {
-		final LFltFunctionSingle<R> single = new LFltFunctionSingle();
+		final S<R> single = new S();
 		LFltFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LFltFunctionSingle<R> implements LFltFunction<R> {
-		private LFltFunction<R> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <R> M<R> mementoOf(float a, LFltFunction<R> function) {
+		var initialValue = function.apply(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <R> M<R> initializedMementoOf(R initialValue, LFltFunction<R> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <R> M<R> deltaOf(float a, LFltFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var initialValue = function.apply(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <R> M<R> initializedDeltaOf(R initialValue, LFltFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <R> M<R> memento(R initialValue, LFltFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LFltFunction.D)
+	 */
+	final class M<R> implements LFltFunction<R> {
+
+		private R lastValue;
+		private final LBinaryOperator<R> mementoFunction;
+		private final LFltFunction<R> baseFunction;
+
+		private M(R lastValue, LFltFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public R applyX(float a) throws Throwable {
-			return target.applyX(a);
+			R x2 = baseFunction.applyX(a);
+			R x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public R lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

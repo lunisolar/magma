@@ -384,22 +384,82 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return lambda;
 	}
 
+	final class S<T, R> implements LFunction<T, R> {
+		private LFunction<T, R> target = null;
+		@Override
+		public R applyX(T a) throws Throwable {
+			return target.applyX(a);
+		}
+	}
+
 	@Nonnull
 	static <T, R> LFunction<T, R> recursive(final @Nonnull LFunction<LFunction<T, R>, LFunction<T, R>> selfLambda) {
-		final LFunctionSingle<T, R> single = new LFunctionSingle();
+		final S<T, R> single = new S();
 		LFunction<T, R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LFunctionSingle<T, R> implements LFunction<T, R> {
-		private LFunction<T, R> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T, R> M<T, R> mementoOf(T a, LFunction<T, R> function) {
+		var initialValue = function.apply(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T, R> M<T, R> initializedMementoOf(R initialValue, LFunction<T, R> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T, R> M<T, R> deltaOf(T a, LFunction<T, R> function, LBinaryOperator<R> deltaFunction) {
+		var initialValue = function.apply(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T, R> M<T, R> initializedDeltaOf(R initialValue, LFunction<T, R> function, LBinaryOperator<R> deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T, R> M<T, R> memento(R initialValue, LFunction<T, R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LFunction.D)
+	 */
+	final class M<T, R> implements LFunction<T, R> {
+
+		private R lastValue;
+		private final LBinaryOperator<R> mementoFunction;
+		private final LFunction<T, R> baseFunction;
+
+		private M(R lastValue, LFunction<T, R> baseFunction, LBinaryOperator<R> mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public R applyX(T a) throws Throwable {
-			return target.applyX(a);
+			R x2 = baseFunction.applyX(a);
+			R x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public R lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

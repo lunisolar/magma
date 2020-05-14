@@ -460,22 +460,82 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return lambda;
 	}
 
+	final class S<T1, T2, T3, T4, T5, R> implements LQuintFunction<T1, T2, T3, T4, T5, R> {
+		private LQuintFunction<T1, T2, T3, T4, T5, R> target = null;
+		@Override
+		public R applyX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) throws Throwable {
+			return target.applyX(a1, a2, a3, a4, a5);
+		}
+	}
+
 	@Nonnull
 	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> recursive(final @Nonnull LFunction<LQuintFunction<T1, T2, T3, T4, T5, R>, LQuintFunction<T1, T2, T3, T4, T5, R>> selfLambda) {
-		final LQuintFunctionSingle<T1, T2, T3, T4, T5, R> single = new LQuintFunctionSingle();
+		final S<T1, T2, T3, T4, T5, R> single = new S();
 		LQuintFunction<T1, T2, T3, T4, T5, R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LQuintFunctionSingle<T1, T2, T3, T4, T5, R> implements LQuintFunction<T1, T2, T3, T4, T5, R> {
-		private LQuintFunction<T1, T2, T3, T4, T5, R> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T1, T2, T3, T4, T5, R> M<T1, T2, T3, T4, T5, R> mementoOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> function) {
+		var initialValue = function.apply(a1, a2, a3, a4, a5);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T1, T2, T3, T4, T5, R> M<T1, T2, T3, T4, T5, R> initializedMementoOf(R initialValue, LQuintFunction<T1, T2, T3, T4, T5, R> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T1, T2, T3, T4, T5, R> M<T1, T2, T3, T4, T5, R> deltaOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> function, LBinaryOperator<R> deltaFunction) {
+		var initialValue = function.apply(a1, a2, a3, a4, a5);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T1, T2, T3, T4, T5, R> M<T1, T2, T3, T4, T5, R> initializedDeltaOf(R initialValue, LQuintFunction<T1, T2, T3, T4, T5, R> function, LBinaryOperator<R> deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T1, T2, T3, T4, T5, R> M<T1, T2, T3, T4, T5, R> memento(R initialValue, LQuintFunction<T1, T2, T3, T4, T5, R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LQuintFunction.D)
+	 */
+	final class M<T1, T2, T3, T4, T5, R> implements LQuintFunction<T1, T2, T3, T4, T5, R> {
+
+		private R lastValue;
+		private final LBinaryOperator<R> mementoFunction;
+		private final LQuintFunction<T1, T2, T3, T4, T5, R> baseFunction;
+
+		private M(R lastValue, LQuintFunction<T1, T2, T3, T4, T5, R> baseFunction, LBinaryOperator<R> mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public R applyX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) throws Throwable {
-			return target.applyX(a1, a2, a3, a4, a5);
+			R x2 = baseFunction.applyX(a1, a2, a3, a4, a5);
+			R x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public R lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

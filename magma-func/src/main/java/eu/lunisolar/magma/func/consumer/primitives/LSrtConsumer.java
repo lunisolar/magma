@@ -319,22 +319,20 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return lambda;
 	}
 
-	@Nonnull
-	static LSrtConsumer recursive(final @Nonnull LFunction<LSrtConsumer, LSrtConsumer> selfLambda) {
-		final LSrtConsumerSingle single = new LSrtConsumerSingle();
-		LSrtConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LSrtConsumerSingle implements LSrtConsumer {
+	final class S implements LSrtConsumer {
 		private LSrtConsumer target = null;
-
 		@Override
 		public void acceptX(short a) throws Throwable {
 			target.acceptX(a);
 		}
+	}
 
+	@Nonnull
+	static LSrtConsumer recursive(final @Nonnull LFunction<LSrtConsumer, LSrtConsumer> selfLambda) {
+		final S single = new S();
+		LSrtConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

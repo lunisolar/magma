@@ -635,22 +635,87 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return lambda;
 	}
 
+	final class S<T> implements LPredicate<T> {
+		private LPredicate<T> target = null;
+		@Override
+		public boolean testX(T a) throws Throwable {
+			return target.testX(a);
+		}
+	}
+
 	@Nonnull
 	static <T> LPredicate<T> recursive(final @Nonnull LFunction<LPredicate<T>, LPredicate<T>> selfLambda) {
-		final LPredicateSingle<T> single = new LPredicateSingle();
+		final S<T> single = new S();
 		LPredicate<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LPredicateSingle<T> implements LPredicate<T> {
-		private LPredicate<T> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T> M<T> mementoOf(T a, LPredicate<T> function) {
+		var initialValue = function.test(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T> M<T> initializedMementoOf(boolean initialValue, LPredicate<T> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T> M<T> deltaOf(T a, LPredicate<T> function, LLogicalBinaryOperator deltaFunction) {
+		var initialValue = function.test(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T> M<T> deltaOf(T a, LPredicate<T> function) {
+		var initialValue = function.test(a);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> x1 != x2);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T> M<T> initializedDeltaOf(boolean initialValue, LPredicate<T> function, LLogicalBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T> M<T> memento(boolean initialValue, LPredicate<T> baseFunction, LLogicalBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LPredicate.D)
+	 */
+	final class M<T> implements LPredicate<T> {
+
+		private boolean lastValue;
+		private final LLogicalBinaryOperator mementoFunction;
+		private final LPredicate<T> baseFunction;
+
+		private M(boolean lastValue, LPredicate<T> baseFunction, LLogicalBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public boolean testX(T a) throws Throwable {
-			return target.testX(a);
+			boolean x2 = baseFunction.testX(a);
+			boolean x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public boolean lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

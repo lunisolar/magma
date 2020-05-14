@@ -411,22 +411,20 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		return lambda;
 	}
 
-	@Nonnull
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> recursive(final @Nonnull LFunction<LQuadConsumer<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>> selfLambda) {
-		final LQuadConsumerSingle<T1, T2, T3, T4> single = new LQuadConsumerSingle();
-		LQuadConsumer<T1, T2, T3, T4> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LQuadConsumerSingle<T1, T2, T3, T4> implements LQuadConsumer<T1, T2, T3, T4> {
+	final class S<T1, T2, T3, T4> implements LQuadConsumer<T1, T2, T3, T4> {
 		private LQuadConsumer<T1, T2, T3, T4> target = null;
-
 		@Override
 		public void acceptX(T1 a1, T2 a2, T3 a3, T4 a4) throws Throwable {
 			target.acceptX(a1, a2, a3, a4);
 		}
+	}
 
+	@Nonnull
+	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> recursive(final @Nonnull LFunction<LQuadConsumer<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>> selfLambda) {
+		final S<T1, T2, T3, T4> single = new S();
+		LQuadConsumer<T1, T2, T3, T4> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

@@ -29,7 +29,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -52,10 +51,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LazyBool extends LBoolSupMemento implements LBoolSingle {
+public class LazyBool implements LBoolSupplier, LBoolSingle {
+
+	private boolean value;
+	private LBoolSupplier function;
 
 	protected LazyBool(LBoolSupplier function) {
-		super(function);
+		this.function = function;
 	}
 
 	public static LazyBool lazyValue(LBoolSupplier supplier) {
@@ -67,13 +69,13 @@ public class LazyBool extends LBoolSupMemento implements LBoolSingle {
 	}
 
 	@Override
-	public boolean getAsBool() {
+	public boolean getAsBoolX() {
 		if (function != null) {
-			lastValue = function.getAsBool();
+			value = function.getAsBool();
 			function = null;
 		}
 
-		return lastValue;
+		return value;
 	}
 
 	public boolean value() {

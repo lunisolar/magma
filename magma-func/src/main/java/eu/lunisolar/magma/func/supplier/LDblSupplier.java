@@ -337,22 +337,87 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		return lambda;
 	}
 
+	final class S implements LDblSupplier {
+		private LDblSupplier target = null;
+		@Override
+		public double getAsDblX() throws Throwable {
+			return target.getAsDblX();
+		}
+	}
+
 	@Nonnull
 	static LDblSupplier recursive(final @Nonnull LFunction<LDblSupplier, LDblSupplier> selfLambda) {
-		final LDblSupplierSingle single = new LDblSupplierSingle();
+		final S single = new S();
 		LDblSupplier func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LDblSupplierSingle implements LDblSupplier {
-		private LDblSupplier target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(LDblSupplier function) {
+		var initialValue = function.getAsDbl();
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(double initialValue, LDblSupplier function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(LDblSupplier function, LDblBinaryOperator deltaFunction) {
+		var initialValue = function.getAsDbl();
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(LDblSupplier function) {
+		var initialValue = function.getAsDbl();
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(double initialValue, LDblSupplier function, LDblBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(double initialValue, LDblSupplier baseFunction, LDblBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LDblSupplier.D)
+	 */
+	final class M implements LDblSupplier {
+
+		private double lastValue;
+		private final LDblBinaryOperator mementoFunction;
+		private final LDblSupplier baseFunction;
+
+		private M(double lastValue, LDblSupplier baseFunction, LDblBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public double getAsDblX() throws Throwable {
-			return target.getAsDblX();
+			double x2 = baseFunction.getAsDblX();
+			double x1 = lastValue;
+			return lastValue = mementoFunction.applyAsDbl(x1, x2);
 		}
 
+		public double lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

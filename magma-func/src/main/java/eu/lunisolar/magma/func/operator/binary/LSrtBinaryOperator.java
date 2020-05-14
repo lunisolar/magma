@@ -401,22 +401,87 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	final class S implements LSrtBinaryOperator {
+		private LSrtBinaryOperator target = null;
+		@Override
+		public short applyAsSrtX(short a1, short a2) throws Throwable {
+			return target.applyAsSrtX(a1, a2);
+		}
+	}
+
 	@Nonnull
 	static LSrtBinaryOperator recursive(final @Nonnull LFunction<LSrtBinaryOperator, LSrtBinaryOperator> selfLambda) {
-		final LSrtBinaryOperatorSingle single = new LSrtBinaryOperatorSingle();
+		final S single = new S();
 		LSrtBinaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LSrtBinaryOperatorSingle implements LSrtBinaryOperator {
-		private LSrtBinaryOperator target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(short a1, short a2, LSrtBinaryOperator function) {
+		var initialValue = function.applyAsSrt(a1, a2);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(short initialValue, LSrtBinaryOperator function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(short a1, short a2, LSrtBinaryOperator function, LSrtBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsSrt(a1, a2);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(short a1, short a2, LSrtBinaryOperator function) {
+		var initialValue = function.applyAsSrt(a1, a2);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (short) (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(short initialValue, LSrtBinaryOperator function, LSrtBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(short initialValue, LSrtBinaryOperator baseFunction, LSrtBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LSrtBinaryOperator.D)
+	 */
+	final class M implements LSrtBinaryOperator {
+
+		private short lastValue;
+		private final LSrtBinaryOperator mementoFunction;
+		private final LSrtBinaryOperator baseFunction;
+
+		private M(short lastValue, LSrtBinaryOperator baseFunction, LSrtBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public short applyAsSrtX(short a1, short a2) throws Throwable {
-			return target.applyAsSrtX(a1, a2);
+			short x2 = baseFunction.applyAsSrtX(a1, a2);
+			short x1 = lastValue;
+			return lastValue = mementoFunction.applyAsSrt(x1, x2);
 		}
 
+		public short lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

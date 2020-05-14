@@ -433,22 +433,82 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	final class S<R> implements LTriBoolFunction<R> {
+		private LTriBoolFunction<R> target = null;
+		@Override
+		public R applyX(boolean a1, boolean a2, boolean a3) throws Throwable {
+			return target.applyX(a1, a2, a3);
+		}
+	}
+
 	@Nonnull
 	static <R> LTriBoolFunction<R> recursive(final @Nonnull LFunction<LTriBoolFunction<R>, LTriBoolFunction<R>> selfLambda) {
-		final LTriBoolFunctionSingle<R> single = new LTriBoolFunctionSingle();
+		final S<R> single = new S();
 		LTriBoolFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LTriBoolFunctionSingle<R> implements LTriBoolFunction<R> {
-		private LTriBoolFunction<R> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <R> M<R> mementoOf(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> function) {
+		var initialValue = function.apply(a1, a2, a3);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <R> M<R> initializedMementoOf(R initialValue, LTriBoolFunction<R> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <R> M<R> deltaOf(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var initialValue = function.apply(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <R> M<R> initializedDeltaOf(R initialValue, LTriBoolFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <R> M<R> memento(R initialValue, LTriBoolFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LTriBoolFunction.D)
+	 */
+	final class M<R> implements LTriBoolFunction<R> {
+
+		private R lastValue;
+		private final LBinaryOperator<R> mementoFunction;
+		private final LTriBoolFunction<R> baseFunction;
+
+		private M(R lastValue, LTriBoolFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public R applyX(boolean a1, boolean a2, boolean a3) throws Throwable {
-			return target.applyX(a1, a2, a3);
+			R x2 = baseFunction.applyX(a1, a2, a3);
+			R x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public R lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

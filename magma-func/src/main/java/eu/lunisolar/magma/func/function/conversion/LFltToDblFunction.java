@@ -343,22 +343,87 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	final class S implements LFltToDblFunction {
+		private LFltToDblFunction target = null;
+		@Override
+		public double applyAsDblX(float a) throws Throwable {
+			return target.applyAsDblX(a);
+		}
+	}
+
 	@Nonnull
 	static LFltToDblFunction recursive(final @Nonnull LFunction<LFltToDblFunction, LFltToDblFunction> selfLambda) {
-		final LFltToDblFunctionSingle single = new LFltToDblFunctionSingle();
+		final S single = new S();
 		LFltToDblFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LFltToDblFunctionSingle implements LFltToDblFunction {
-		private LFltToDblFunction target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(float a, LFltToDblFunction function) {
+		var initialValue = function.applyAsDbl(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(double initialValue, LFltToDblFunction function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(float a, LFltToDblFunction function, LDblBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsDbl(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(float a, LFltToDblFunction function) {
+		var initialValue = function.applyAsDbl(a);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(double initialValue, LFltToDblFunction function, LDblBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(double initialValue, LFltToDblFunction baseFunction, LDblBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LFltToDblFunction.D)
+	 */
+	final class M implements LFltToDblFunction {
+
+		private double lastValue;
+		private final LDblBinaryOperator mementoFunction;
+		private final LFltToDblFunction baseFunction;
+
+		private M(double lastValue, LFltToDblFunction baseFunction, LDblBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public double applyAsDblX(float a) throws Throwable {
-			return target.applyAsDblX(a);
+			double x2 = baseFunction.applyAsDblX(a);
+			double x1 = lastValue;
+			return lastValue = mementoFunction.applyAsDbl(x1, x2);
 		}
 
+		public double lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

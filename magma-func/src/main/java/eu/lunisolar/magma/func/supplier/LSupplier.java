@@ -353,22 +353,82 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return lambda;
 	}
 
+	final class S<T> implements LSupplier<T> {
+		private LSupplier<T> target = null;
+		@Override
+		public T getX() throws Throwable {
+			return target.getX();
+		}
+	}
+
 	@Nonnull
 	static <T> LSupplier<T> recursive(final @Nonnull LFunction<LSupplier<T>, LSupplier<T>> selfLambda) {
-		final LSupplierSingle<T> single = new LSupplierSingle();
+		final S<T> single = new S();
 		LSupplier<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LSupplierSingle<T> implements LSupplier<T> {
-		private LSupplier<T> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T> M<T> mementoOf(LSupplier<T> function) {
+		var initialValue = function.get();
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T> M<T> initializedMementoOf(T initialValue, LSupplier<T> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T> M<T> deltaOf(LSupplier<T> function, LBinaryOperator<T> deltaFunction) {
+		var initialValue = function.get();
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T> M<T> initializedDeltaOf(T initialValue, LSupplier<T> function, LBinaryOperator<T> deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T> M<T> memento(T initialValue, LSupplier<T> baseFunction, LBinaryOperator<T> mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LSupplier.D)
+	 */
+	final class M<T> implements LSupplier<T> {
+
+		private T lastValue;
+		private final LBinaryOperator<T> mementoFunction;
+		private final LSupplier<T> baseFunction;
+
+		private M(T lastValue, LSupplier<T> baseFunction, LBinaryOperator<T> mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public T getX() throws Throwable {
-			return target.getX();
+			T x2 = baseFunction.getX();
+			T x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public T lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

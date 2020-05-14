@@ -401,22 +401,87 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	final class S implements LFltBinaryOperator {
+		private LFltBinaryOperator target = null;
+		@Override
+		public float applyAsFltX(float a1, float a2) throws Throwable {
+			return target.applyAsFltX(a1, a2);
+		}
+	}
+
 	@Nonnull
 	static LFltBinaryOperator recursive(final @Nonnull LFunction<LFltBinaryOperator, LFltBinaryOperator> selfLambda) {
-		final LFltBinaryOperatorSingle single = new LFltBinaryOperatorSingle();
+		final S single = new S();
 		LFltBinaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LFltBinaryOperatorSingle implements LFltBinaryOperator {
-		private LFltBinaryOperator target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(float a1, float a2, LFltBinaryOperator function) {
+		var initialValue = function.applyAsFlt(a1, a2);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(float initialValue, LFltBinaryOperator function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(float a1, float a2, LFltBinaryOperator function, LFltBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsFlt(a1, a2);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(float a1, float a2, LFltBinaryOperator function) {
+		var initialValue = function.applyAsFlt(a1, a2);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(float initialValue, LFltBinaryOperator function, LFltBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(float initialValue, LFltBinaryOperator baseFunction, LFltBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LFltBinaryOperator.D)
+	 */
+	final class M implements LFltBinaryOperator {
+
+		private float lastValue;
+		private final LFltBinaryOperator mementoFunction;
+		private final LFltBinaryOperator baseFunction;
+
+		private M(float lastValue, LFltBinaryOperator baseFunction, LFltBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public float applyAsFltX(float a1, float a2) throws Throwable {
-			return target.applyAsFltX(a1, a2);
+			float x2 = baseFunction.applyAsFltX(a1, a2);
+			float x1 = lastValue;
+			return lastValue = mementoFunction.applyAsFlt(x1, x2);
 		}
 
+		public float lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

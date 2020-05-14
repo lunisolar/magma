@@ -438,22 +438,87 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return lambda;
 	}
 
+	final class S<T> implements LOiToLongFunction<T> {
+		private LOiToLongFunction<T> target = null;
+		@Override
+		public long applyAsLongX(T a1, int a2) throws Throwable {
+			return target.applyAsLongX(a1, a2);
+		}
+	}
+
 	@Nonnull
 	static <T> LOiToLongFunction<T> recursive(final @Nonnull LFunction<LOiToLongFunction<T>, LOiToLongFunction<T>> selfLambda) {
-		final LOiToLongFunctionSingle<T> single = new LOiToLongFunctionSingle();
+		final S<T> single = new S();
 		LOiToLongFunction<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LOiToLongFunctionSingle<T> implements LOiToLongFunction<T> {
-		private LOiToLongFunction<T> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T> M<T> mementoOf(T a1, int a2, LOiToLongFunction<T> function) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T> M<T> initializedMementoOf(long initialValue, LOiToLongFunction<T> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T> M<T> deltaOf(T a1, int a2, LOiToLongFunction<T> function, LLongBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T> M<T> deltaOf(T a1, int a2, LOiToLongFunction<T> function) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T> M<T> initializedDeltaOf(long initialValue, LOiToLongFunction<T> function, LLongBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T> M<T> memento(long initialValue, LOiToLongFunction<T> baseFunction, LLongBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LOiToLongFunction.D)
+	 */
+	final class M<T> implements LOiToLongFunction<T> {
+
+		private long lastValue;
+		private final LLongBinaryOperator mementoFunction;
+		private final LOiToLongFunction<T> baseFunction;
+
+		private M(long lastValue, LOiToLongFunction<T> baseFunction, LLongBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public long applyAsLongX(T a1, int a2) throws Throwable {
-			return target.applyAsLongX(a1, a2);
+			long x2 = baseFunction.applyAsLongX(a1, a2);
+			long x1 = lastValue;
+			return lastValue = mementoFunction.applyAsLong(x1, x2);
 		}
 
+		public long lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

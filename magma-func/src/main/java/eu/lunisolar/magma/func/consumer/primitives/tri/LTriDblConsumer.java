@@ -383,22 +383,20 @@ public interface LTriDblConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return lambda;
 	}
 
-	@Nonnull
-	static LTriDblConsumer recursive(final @Nonnull LFunction<LTriDblConsumer, LTriDblConsumer> selfLambda) {
-		final LTriDblConsumerSingle single = new LTriDblConsumerSingle();
-		LTriDblConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LTriDblConsumerSingle implements LTriDblConsumer {
+	final class S implements LTriDblConsumer {
 		private LTriDblConsumer target = null;
-
 		@Override
 		public void acceptX(double a1, double a2, double a3) throws Throwable {
 			target.acceptX(a1, a2, a3);
 		}
+	}
 
+	@Nonnull
+	static LTriDblConsumer recursive(final @Nonnull LFunction<LTriDblConsumer, LTriDblConsumer> selfLambda) {
+		final S single = new S();
+		LTriDblConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

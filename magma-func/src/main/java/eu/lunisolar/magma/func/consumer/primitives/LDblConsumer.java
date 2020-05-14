@@ -319,22 +319,20 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		return lambda;
 	}
 
-	@Nonnull
-	static LDblConsumer recursive(final @Nonnull LFunction<LDblConsumer, LDblConsumer> selfLambda) {
-		final LDblConsumerSingle single = new LDblConsumerSingle();
-		LDblConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LDblConsumerSingle implements LDblConsumer {
+	final class S implements LDblConsumer {
 		private LDblConsumer target = null;
-
 		@Override
 		public void acceptX(double a) throws Throwable {
 			target.acceptX(a);
 		}
+	}
 
+	@Nonnull
+	static LDblConsumer recursive(final @Nonnull LFunction<LDblConsumer, LDblConsumer> selfLambda) {
+		final S single = new S();
+		LDblConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

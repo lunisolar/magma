@@ -29,7 +29,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -52,10 +51,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LazyFlt extends LFltSupMemento implements LFltSingle {
+public class LazyFlt implements LFltSupplier, LFltSingle {
+
+	private float value;
+	private LFltSupplier function;
 
 	protected LazyFlt(LFltSupplier function) {
-		super(function);
+		this.function = function;
 	}
 
 	public static LazyFlt lazyValue(LFltSupplier supplier) {
@@ -67,13 +69,13 @@ public class LazyFlt extends LFltSupMemento implements LFltSingle {
 	}
 
 	@Override
-	public float getAsFlt() {
+	public float getAsFltX() {
 		if (function != null) {
-			lastValue = function.getAsFlt();
+			value = function.getAsFlt();
 			function = null;
 		}
 
-		return lastValue;
+		return value;
 	}
 
 	public float value() {

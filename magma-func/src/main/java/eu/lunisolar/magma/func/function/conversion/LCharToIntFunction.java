@@ -343,22 +343,87 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	final class S implements LCharToIntFunction {
+		private LCharToIntFunction target = null;
+		@Override
+		public int applyAsIntX(char a) throws Throwable {
+			return target.applyAsIntX(a);
+		}
+	}
+
 	@Nonnull
 	static LCharToIntFunction recursive(final @Nonnull LFunction<LCharToIntFunction, LCharToIntFunction> selfLambda) {
-		final LCharToIntFunctionSingle single = new LCharToIntFunctionSingle();
+		final S single = new S();
 		LCharToIntFunction func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LCharToIntFunctionSingle implements LCharToIntFunction {
-		private LCharToIntFunction target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(char a, LCharToIntFunction function) {
+		var initialValue = function.applyAsInt(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(int initialValue, LCharToIntFunction function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(char a, LCharToIntFunction function, LIntBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsInt(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(char a, LCharToIntFunction function) {
+		var initialValue = function.applyAsInt(a);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(int initialValue, LCharToIntFunction function, LIntBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(int initialValue, LCharToIntFunction baseFunction, LIntBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LCharToIntFunction.D)
+	 */
+	final class M implements LCharToIntFunction {
+
+		private int lastValue;
+		private final LIntBinaryOperator mementoFunction;
+		private final LCharToIntFunction baseFunction;
+
+		private M(int lastValue, LCharToIntFunction baseFunction, LIntBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public int applyAsIntX(char a) throws Throwable {
-			return target.applyAsIntX(a);
+			int x2 = baseFunction.applyAsIntX(a);
+			int x1 = lastValue;
+			return lastValue = mementoFunction.applyAsInt(x1, x2);
 		}
 
+		public int lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

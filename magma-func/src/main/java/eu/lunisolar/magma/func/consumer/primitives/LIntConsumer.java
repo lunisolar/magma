@@ -319,22 +319,20 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		return lambda;
 	}
 
-	@Nonnull
-	static LIntConsumer recursive(final @Nonnull LFunction<LIntConsumer, LIntConsumer> selfLambda) {
-		final LIntConsumerSingle single = new LIntConsumerSingle();
-		LIntConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LIntConsumerSingle implements LIntConsumer {
+	final class S implements LIntConsumer {
 		private LIntConsumer target = null;
-
 		@Override
 		public void acceptX(int a) throws Throwable {
 			target.acceptX(a);
 		}
+	}
 
+	@Nonnull
+	static LIntConsumer recursive(final @Nonnull LFunction<LIntConsumer, LIntConsumer> selfLambda) {
+		final S single = new S();
+		LIntConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

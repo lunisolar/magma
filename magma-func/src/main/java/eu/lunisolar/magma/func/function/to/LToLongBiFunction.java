@@ -436,22 +436,87 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return lambda;
 	}
 
+	final class S<T1, T2> implements LToLongBiFunction<T1, T2> {
+		private LToLongBiFunction<T1, T2> target = null;
+		@Override
+		public long applyAsLongX(T1 a1, T2 a2) throws Throwable {
+			return target.applyAsLongX(a1, a2);
+		}
+	}
+
 	@Nonnull
 	static <T1, T2> LToLongBiFunction<T1, T2> recursive(final @Nonnull LFunction<LToLongBiFunction<T1, T2>, LToLongBiFunction<T1, T2>> selfLambda) {
-		final LToLongBiFunctionSingle<T1, T2> single = new LToLongBiFunctionSingle();
+		final S<T1, T2> single = new S();
 		LToLongBiFunction<T1, T2> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LToLongBiFunctionSingle<T1, T2> implements LToLongBiFunction<T1, T2> {
-		private LToLongBiFunction<T1, T2> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, LToLongBiFunction<T1, T2> function) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T1, T2> M<T1, T2> initializedMementoOf(long initialValue, LToLongBiFunction<T1, T2> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T1, T2> M<T1, T2> deltaOf(T1 a1, T2 a2, LToLongBiFunction<T1, T2> function, LLongBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T1, T2> M<T1, T2> deltaOf(T1 a1, T2 a2, LToLongBiFunction<T1, T2> function) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T1, T2> M<T1, T2> initializedDeltaOf(long initialValue, LToLongBiFunction<T1, T2> function, LLongBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T1, T2> M<T1, T2> memento(long initialValue, LToLongBiFunction<T1, T2> baseFunction, LLongBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LToLongBiFunction.D)
+	 */
+	final class M<T1, T2> implements LToLongBiFunction<T1, T2> {
+
+		private long lastValue;
+		private final LLongBinaryOperator mementoFunction;
+		private final LToLongBiFunction<T1, T2> baseFunction;
+
+		private M(long lastValue, LToLongBiFunction<T1, T2> baseFunction, LLongBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public long applyAsLongX(T1 a1, T2 a2) throws Throwable {
-			return target.applyAsLongX(a1, a2);
+			long x2 = baseFunction.applyAsLongX(a1, a2);
+			long x1 = lastValue;
+			return lastValue = mementoFunction.applyAsLong(x1, x2);
 		}
 
+		public long lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

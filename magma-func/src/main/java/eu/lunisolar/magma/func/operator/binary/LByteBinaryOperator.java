@@ -401,22 +401,87 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return lambda;
 	}
 
+	final class S implements LByteBinaryOperator {
+		private LByteBinaryOperator target = null;
+		@Override
+		public byte applyAsByteX(byte a1, byte a2) throws Throwable {
+			return target.applyAsByteX(a1, a2);
+		}
+	}
+
 	@Nonnull
 	static LByteBinaryOperator recursive(final @Nonnull LFunction<LByteBinaryOperator, LByteBinaryOperator> selfLambda) {
-		final LByteBinaryOperatorSingle single = new LByteBinaryOperatorSingle();
+		final S single = new S();
 		LByteBinaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LByteBinaryOperatorSingle implements LByteBinaryOperator {
-		private LByteBinaryOperator target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(byte a1, byte a2, LByteBinaryOperator function) {
+		var initialValue = function.applyAsByte(a1, a2);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(byte initialValue, LByteBinaryOperator function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(byte a1, byte a2, LByteBinaryOperator function, LByteBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsByte(a1, a2);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(byte a1, byte a2, LByteBinaryOperator function) {
+		var initialValue = function.applyAsByte(a1, a2);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (byte) (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(byte initialValue, LByteBinaryOperator function, LByteBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(byte initialValue, LByteBinaryOperator baseFunction, LByteBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LByteBinaryOperator.D)
+	 */
+	final class M implements LByteBinaryOperator {
+
+		private byte lastValue;
+		private final LByteBinaryOperator mementoFunction;
+		private final LByteBinaryOperator baseFunction;
+
+		private M(byte lastValue, LByteBinaryOperator baseFunction, LByteBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public byte applyAsByteX(byte a1, byte a2) throws Throwable {
-			return target.applyAsByteX(a1, a2);
+			byte x2 = baseFunction.applyAsByteX(a1, a2);
+			byte x1 = lastValue;
+			return lastValue = mementoFunction.applyAsByte(x1, x2);
 		}
 
+		public byte lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

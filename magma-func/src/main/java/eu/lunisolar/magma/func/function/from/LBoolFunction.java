@@ -369,22 +369,82 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return lambda;
 	}
 
+	final class S<R> implements LBoolFunction<R> {
+		private LBoolFunction<R> target = null;
+		@Override
+		public R applyX(boolean a) throws Throwable {
+			return target.applyX(a);
+		}
+	}
+
 	@Nonnull
 	static <R> LBoolFunction<R> recursive(final @Nonnull LFunction<LBoolFunction<R>, LBoolFunction<R>> selfLambda) {
-		final LBoolFunctionSingle<R> single = new LBoolFunctionSingle();
+		final S<R> single = new S();
 		LBoolFunction<R> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LBoolFunctionSingle<R> implements LBoolFunction<R> {
-		private LBoolFunction<R> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <R> M<R> mementoOf(boolean a, LBoolFunction<R> function) {
+		var initialValue = function.apply(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <R> M<R> initializedMementoOf(R initialValue, LBoolFunction<R> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <R> M<R> deltaOf(boolean a, LBoolFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		var initialValue = function.apply(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <R> M<R> initializedDeltaOf(R initialValue, LBoolFunction<R> function, LBinaryOperator<R> deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <R> M<R> memento(R initialValue, LBoolFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LBoolFunction.D)
+	 */
+	final class M<R> implements LBoolFunction<R> {
+
+		private R lastValue;
+		private final LBinaryOperator<R> mementoFunction;
+		private final LBoolFunction<R> baseFunction;
+
+		private M(R lastValue, LBoolFunction<R> baseFunction, LBinaryOperator<R> mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public R applyX(boolean a) throws Throwable {
-			return target.applyX(a);
+			R x2 = baseFunction.applyX(a);
+			R x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public R lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

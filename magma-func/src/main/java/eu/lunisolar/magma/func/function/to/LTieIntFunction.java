@@ -444,22 +444,87 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	final class S<T> implements LTieIntFunction<T> {
+		private LTieIntFunction<T> target = null;
+		@Override
+		public int applyAsIntX(T a1, int a2, int a3) throws Throwable {
+			return target.applyAsIntX(a1, a2, a3);
+		}
+	}
+
 	@Nonnull
 	static <T> LTieIntFunction<T> recursive(final @Nonnull LFunction<LTieIntFunction<T>, LTieIntFunction<T>> selfLambda) {
-		final LTieIntFunctionSingle<T> single = new LTieIntFunctionSingle();
+		final S<T> single = new S();
 		LTieIntFunction<T> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LTieIntFunctionSingle<T> implements LTieIntFunction<T> {
-		private LTieIntFunction<T> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T> M<T> mementoOf(T a1, int a2, int a3, LTieIntFunction<T> function) {
+		var initialValue = function.applyAsInt(a1, a2, a3);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T> M<T> initializedMementoOf(int initialValue, LTieIntFunction<T> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T> M<T> deltaOf(T a1, int a2, int a3, LTieIntFunction<T> function, LIntBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsInt(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T> M<T> deltaOf(T a1, int a2, int a3, LTieIntFunction<T> function) {
+		var initialValue = function.applyAsInt(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T> M<T> initializedDeltaOf(int initialValue, LTieIntFunction<T> function, LIntBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T> M<T> memento(int initialValue, LTieIntFunction<T> baseFunction, LIntBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LTieIntFunction.D)
+	 */
+	final class M<T> implements LTieIntFunction<T> {
+
+		private int lastValue;
+		private final LIntBinaryOperator mementoFunction;
+		private final LTieIntFunction<T> baseFunction;
+
+		private M(int lastValue, LTieIntFunction<T> baseFunction, LIntBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public int applyAsIntX(T a1, int a2, int a3) throws Throwable {
-			return target.applyAsIntX(a1, a2, a3);
+			int x2 = baseFunction.applyAsIntX(a1, a2, a3);
+			int x1 = lastValue;
+			return lastValue = mementoFunction.applyAsInt(x1, x2);
 		}
 
+		public int lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

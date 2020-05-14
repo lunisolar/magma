@@ -29,7 +29,6 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.memento.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
@@ -52,10 +51,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-public class LazyDbl extends LDblSupMemento implements LDblSingle {
+public class LazyDbl implements LDblSupplier, LDblSingle {
+
+	private double value;
+	private LDblSupplier function;
 
 	protected LazyDbl(LDblSupplier function) {
-		super(function);
+		this.function = function;
 	}
 
 	public static LazyDbl lazyValue(LDblSupplier supplier) {
@@ -67,13 +69,13 @@ public class LazyDbl extends LDblSupMemento implements LDblSingle {
 	}
 
 	@Override
-	public double getAsDbl() {
+	public double getAsDblX() {
 		if (function != null) {
-			lastValue = function.getAsDbl();
+			value = function.getAsDbl();
 			function = null;
 		}
 
-		return lastValue;
+		return value;
 	}
 
 	public double value() {

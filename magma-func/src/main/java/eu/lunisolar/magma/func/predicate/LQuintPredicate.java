@@ -857,22 +857,87 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return lambda;
 	}
 
+	final class S<T1, T2, T3, T4, T5> implements LQuintPredicate<T1, T2, T3, T4, T5> {
+		private LQuintPredicate<T1, T2, T3, T4, T5> target = null;
+		@Override
+		public boolean testX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) throws Throwable {
+			return target.testX(a1, a2, a3, a4, a5);
+		}
+	}
+
 	@Nonnull
 	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> recursive(final @Nonnull LFunction<LQuintPredicate<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>> selfLambda) {
-		final LQuintPredicateSingle<T1, T2, T3, T4, T5> single = new LQuintPredicateSingle();
+		final S<T1, T2, T3, T4, T5> single = new S();
 		LQuintPredicate<T1, T2, T3, T4, T5> func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LQuintPredicateSingle<T1, T2, T3, T4, T5> implements LQuintPredicate<T1, T2, T3, T4, T5> {
-		private LQuintPredicate<T1, T2, T3, T4, T5> target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static <T1, T2, T3, T4, T5> M<T1, T2, T3, T4, T5> mementoOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> function) {
+		var initialValue = function.test(a1, a2, a3, a4, a5);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static <T1, T2, T3, T4, T5> M<T1, T2, T3, T4, T5> initializedMementoOf(boolean initialValue, LQuintPredicate<T1, T2, T3, T4, T5> function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static <T1, T2, T3, T4, T5> M<T1, T2, T3, T4, T5> deltaOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> function, LLogicalBinaryOperator deltaFunction) {
+		var initialValue = function.test(a1, a2, a3, a4, a5);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static <T1, T2, T3, T4, T5> M<T1, T2, T3, T4, T5> deltaOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> function) {
+		var initialValue = function.test(a1, a2, a3, a4, a5);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> x1 != x2);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static <T1, T2, T3, T4, T5> M<T1, T2, T3, T4, T5> initializedDeltaOf(boolean initialValue, LQuintPredicate<T1, T2, T3, T4, T5> function, LLogicalBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static <T1, T2, T3, T4, T5> M<T1, T2, T3, T4, T5> memento(boolean initialValue, LQuintPredicate<T1, T2, T3, T4, T5> baseFunction, LLogicalBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LQuintPredicate.D)
+	 */
+	final class M<T1, T2, T3, T4, T5> implements LQuintPredicate<T1, T2, T3, T4, T5> {
+
+		private boolean lastValue;
+		private final LLogicalBinaryOperator mementoFunction;
+		private final LQuintPredicate<T1, T2, T3, T4, T5> baseFunction;
+
+		private M(boolean lastValue, LQuintPredicate<T1, T2, T3, T4, T5> baseFunction, LLogicalBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public boolean testX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) throws Throwable {
-			return target.testX(a1, a2, a3, a4, a5);
+			boolean x2 = baseFunction.testX(a1, a2, a3, a4, a5);
+			boolean x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public boolean lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

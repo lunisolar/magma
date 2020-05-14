@@ -401,22 +401,20 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 		return lambda;
 	}
 
-	@Nonnull
-	static <T> LObjDblConsumer<T> recursive(final @Nonnull LFunction<LObjDblConsumer<T>, LObjDblConsumer<T>> selfLambda) {
-		final LObjDblConsumerSingle<T> single = new LObjDblConsumerSingle();
-		LObjDblConsumer<T> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LObjDblConsumerSingle<T> implements LObjDblConsumer<T> {
+	final class S<T> implements LObjDblConsumer<T> {
 		private LObjDblConsumer<T> target = null;
-
 		@Override
 		public void acceptX(T a1, double a2) throws Throwable {
 			target.acceptX(a1, a2);
 		}
+	}
 
+	@Nonnull
+	static <T> LObjDblConsumer<T> recursive(final @Nonnull LFunction<LObjDblConsumer<T>, LObjDblConsumer<T>> selfLambda) {
+		final S<T> single = new S();
+		LObjDblConsumer<T> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

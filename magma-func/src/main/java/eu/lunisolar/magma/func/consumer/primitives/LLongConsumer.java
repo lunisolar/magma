@@ -319,22 +319,20 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		return lambda;
 	}
 
-	@Nonnull
-	static LLongConsumer recursive(final @Nonnull LFunction<LLongConsumer, LLongConsumer> selfLambda) {
-		final LLongConsumerSingle single = new LLongConsumerSingle();
-		LLongConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LLongConsumerSingle implements LLongConsumer {
+	final class S implements LLongConsumer {
 		private LLongConsumer target = null;
-
 		@Override
 		public void acceptX(long a) throws Throwable {
 			target.acceptX(a);
 		}
+	}
 
+	@Nonnull
+	static LLongConsumer recursive(final @Nonnull LFunction<LLongConsumer, LLongConsumer> selfLambda) {
+		final S single = new S();
+		LLongConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

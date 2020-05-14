@@ -401,22 +401,20 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return lambda;
 	}
 
-	@Nonnull
-	static <T> LObjBoolConsumer<T> recursive(final @Nonnull LFunction<LObjBoolConsumer<T>, LObjBoolConsumer<T>> selfLambda) {
-		final LObjBoolConsumerSingle<T> single = new LObjBoolConsumerSingle();
-		LObjBoolConsumer<T> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LObjBoolConsumerSingle<T> implements LObjBoolConsumer<T> {
+	final class S<T> implements LObjBoolConsumer<T> {
 		private LObjBoolConsumer<T> target = null;
-
 		@Override
 		public void acceptX(T a1, boolean a2) throws Throwable {
 			target.acceptX(a1, a2);
 		}
+	}
 
+	@Nonnull
+	static <T> LObjBoolConsumer<T> recursive(final @Nonnull LFunction<LObjBoolConsumer<T>, LObjBoolConsumer<T>> selfLambda) {
+		final S<T> single = new S();
+		LObjBoolConsumer<T> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

@@ -401,22 +401,87 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		return lambda;
 	}
 
+	final class S implements LLongBinaryOperator {
+		private LLongBinaryOperator target = null;
+		@Override
+		public long applyAsLongX(long a1, long a2) throws Throwable {
+			return target.applyAsLongX(a1, a2);
+		}
+	}
+
 	@Nonnull
 	static LLongBinaryOperator recursive(final @Nonnull LFunction<LLongBinaryOperator, LLongBinaryOperator> selfLambda) {
-		final LLongBinaryOperatorSingle single = new LLongBinaryOperatorSingle();
+		final S single = new S();
 		LLongBinaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LLongBinaryOperatorSingle implements LLongBinaryOperator {
-		private LLongBinaryOperator target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(long a1, long a2, LLongBinaryOperator function) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(long initialValue, LLongBinaryOperator function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(long a1, long a2, LLongBinaryOperator function, LLongBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(long a1, long a2, LLongBinaryOperator function) {
+		var initialValue = function.applyAsLong(a1, a2);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(long initialValue, LLongBinaryOperator function, LLongBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(long initialValue, LLongBinaryOperator baseFunction, LLongBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LLongBinaryOperator.D)
+	 */
+	final class M implements LLongBinaryOperator {
+
+		private long lastValue;
+		private final LLongBinaryOperator mementoFunction;
+		private final LLongBinaryOperator baseFunction;
+
+		private M(long lastValue, LLongBinaryOperator baseFunction, LLongBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public long applyAsLongX(long a1, long a2) throws Throwable {
-			return target.applyAsLongX(a1, a2);
+			long x2 = baseFunction.applyAsLongX(a1, a2);
+			long x1 = lastValue;
+			return lastValue = mementoFunction.applyAsLong(x1, x2);
 		}
 
+		public long lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

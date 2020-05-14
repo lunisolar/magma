@@ -343,22 +343,87 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	final class S implements LSrtUnaryOperator {
+		private LSrtUnaryOperator target = null;
+		@Override
+		public short applyAsSrtX(short a) throws Throwable {
+			return target.applyAsSrtX(a);
+		}
+	}
+
 	@Nonnull
 	static LSrtUnaryOperator recursive(final @Nonnull LFunction<LSrtUnaryOperator, LSrtUnaryOperator> selfLambda) {
-		final LSrtUnaryOperatorSingle single = new LSrtUnaryOperatorSingle();
+		final S single = new S();
 		LSrtUnaryOperator func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LSrtUnaryOperatorSingle implements LSrtUnaryOperator {
-		private LSrtUnaryOperator target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(short a, LSrtUnaryOperator function) {
+		var initialValue = function.applyAsSrt(a);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(short initialValue, LSrtUnaryOperator function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(short a, LSrtUnaryOperator function, LSrtBinaryOperator deltaFunction) {
+		var initialValue = function.applyAsSrt(a);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(short a, LSrtUnaryOperator function) {
+		var initialValue = function.applyAsSrt(a);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (short) (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(short initialValue, LSrtUnaryOperator function, LSrtBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(short initialValue, LSrtUnaryOperator baseFunction, LSrtBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LSrtUnaryOperator.D)
+	 */
+	final class M implements LSrtUnaryOperator {
+
+		private short lastValue;
+		private final LSrtBinaryOperator mementoFunction;
+		private final LSrtUnaryOperator baseFunction;
+
+		private M(short lastValue, LSrtUnaryOperator baseFunction, LSrtBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public short applyAsSrtX(short a) throws Throwable {
-			return target.applyAsSrtX(a);
+			short x2 = baseFunction.applyAsSrtX(a);
+			short x1 = lastValue;
+			return lastValue = mementoFunction.applyAsSrt(x1, x2);
 		}
 
+		public short lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

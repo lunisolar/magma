@@ -319,22 +319,20 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return lambda;
 	}
 
-	@Nonnull
-	static LBoolConsumer recursive(final @Nonnull LFunction<LBoolConsumer, LBoolConsumer> selfLambda) {
-		final LBoolConsumerSingle single = new LBoolConsumerSingle();
-		LBoolConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LBoolConsumerSingle implements LBoolConsumer {
+	final class S implements LBoolConsumer {
 		private LBoolConsumer target = null;
-
 		@Override
 		public void acceptX(boolean a) throws Throwable {
 			target.acceptX(a);
 		}
+	}
 
+	@Nonnull
+	static LBoolConsumer recursive(final @Nonnull LFunction<LBoolConsumer, LBoolConsumer> selfLambda) {
+		final S single = new S();
+		LBoolConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

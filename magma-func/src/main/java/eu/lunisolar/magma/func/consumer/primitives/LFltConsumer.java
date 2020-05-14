@@ -319,22 +319,20 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return lambda;
 	}
 
-	@Nonnull
-	static LFltConsumer recursive(final @Nonnull LFunction<LFltConsumer, LFltConsumer> selfLambda) {
-		final LFltConsumerSingle single = new LFltConsumerSingle();
-		LFltConsumer func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LFltConsumerSingle implements LFltConsumer {
+	final class S implements LFltConsumer {
 		private LFltConsumer target = null;
-
 		@Override
 		public void acceptX(float a) throws Throwable {
 			target.acceptX(a);
 		}
+	}
 
+	@Nonnull
+	static LFltConsumer recursive(final @Nonnull LFunction<LFltConsumer, LFltConsumer> selfLambda) {
+		final S single = new S();
+		LFltConsumer func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

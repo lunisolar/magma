@@ -621,22 +621,87 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	final class S implements LTriDblPredicate {
+		private LTriDblPredicate target = null;
+		@Override
+		public boolean testX(double a1, double a2, double a3) throws Throwable {
+			return target.testX(a1, a2, a3);
+		}
+	}
+
 	@Nonnull
 	static LTriDblPredicate recursive(final @Nonnull LFunction<LTriDblPredicate, LTriDblPredicate> selfLambda) {
-		final LTriDblPredicateSingle single = new LTriDblPredicateSingle();
+		final S single = new S();
 		LTriDblPredicate func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LTriDblPredicateSingle implements LTriDblPredicate {
-		private LTriDblPredicate target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(double a1, double a2, double a3, LTriDblPredicate function) {
+		var initialValue = function.test(a1, a2, a3);
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(boolean initialValue, LTriDblPredicate function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(double a1, double a2, double a3, LTriDblPredicate function, LLogicalBinaryOperator deltaFunction) {
+		var initialValue = function.test(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(double a1, double a2, double a3, LTriDblPredicate function) {
+		var initialValue = function.test(a1, a2, a3);
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> x1 != x2);
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(boolean initialValue, LTriDblPredicate function, LLogicalBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(boolean initialValue, LTriDblPredicate baseFunction, LLogicalBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LTriDblPredicate.D)
+	 */
+	final class M implements LTriDblPredicate {
+
+		private boolean lastValue;
+		private final LLogicalBinaryOperator mementoFunction;
+		private final LTriDblPredicate baseFunction;
+
+		private M(boolean lastValue, LTriDblPredicate baseFunction, LLogicalBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public boolean testX(double a1, double a2, double a3) throws Throwable {
-			return target.testX(a1, a2, a3);
+			boolean x2 = baseFunction.testX(a1, a2, a3);
+			boolean x1 = lastValue;
+			return lastValue = mementoFunction.apply(x1, x2);
 		}
 
+		public boolean lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull

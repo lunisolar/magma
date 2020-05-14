@@ -405,22 +405,20 @@ public interface LBiObjBoolConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 		return lambda;
 	}
 
-	@Nonnull
-	static <T1, T2> LBiObjBoolConsumer<T1, T2> recursive(final @Nonnull LFunction<LBiObjBoolConsumer<T1, T2>, LBiObjBoolConsumer<T1, T2>> selfLambda) {
-		final LBiObjBoolConsumerSingle<T1, T2> single = new LBiObjBoolConsumerSingle();
-		LBiObjBoolConsumer<T1, T2> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	final class LBiObjBoolConsumerSingle<T1, T2> implements LBiObjBoolConsumer<T1, T2> {
+	final class S<T1, T2> implements LBiObjBoolConsumer<T1, T2> {
 		private LBiObjBoolConsumer<T1, T2> target = null;
-
 		@Override
 		public void acceptX(T1 a1, T2 a2, boolean a3) throws Throwable {
 			target.acceptX(a1, a2, a3);
 		}
+	}
 
+	@Nonnull
+	static <T1, T2> LBiObjBoolConsumer<T1, T2> recursive(final @Nonnull LFunction<LBiObjBoolConsumer<T1, T2>, LBiObjBoolConsumer<T1, T2>> selfLambda) {
+		final S<T1, T2> single = new S();
+		LBiObjBoolConsumer<T1, T2> func = selfLambda.apply(single);
+		single.target = func;
+		return func;
 	}
 
 	@Nonnull

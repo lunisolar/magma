@@ -327,22 +327,87 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return lambda;
 	}
 
+	final class S implements LCharSupplier {
+		private LCharSupplier target = null;
+		@Override
+		public char getAsCharX() throws Throwable {
+			return target.getAsCharX();
+		}
+	}
+
 	@Nonnull
 	static LCharSupplier recursive(final @Nonnull LFunction<LCharSupplier, LCharSupplier> selfLambda) {
-		final LCharSupplierSingle single = new LCharSupplierSingle();
+		final S single = new S();
 		LCharSupplier func = selfLambda.apply(single);
 		single.target = func;
 		return func;
 	}
 
-	final class LCharSupplierSingle implements LCharSupplier {
-		private LCharSupplier target = null;
+	/**
+	 * Memento of a function, initialized with value from it.
+	 */
+	public static M mementoOf(LCharSupplier function) {
+		var initialValue = function.getAsChar();
+		return initializedMementoOf(initialValue, function);
+	}
+
+	/**
+	 * Memento of a function, initialized with argument value.
+	 */
+	public static M initializedMementoOf(char initialValue, LCharSupplier function) {
+		return memento(initialValue, function, (x1, x2) -> x2);
+	}
+
+	public static M deltaOf(LCharSupplier function, LCharBinaryOperator deltaFunction) {
+		var initialValue = function.getAsChar();
+		return initializedDeltaOf(initialValue, function, deltaFunction);
+	}
+
+	public static M deltaOf(LCharSupplier function) {
+		var initialValue = function.getAsChar();
+		return initializedDeltaOf(initialValue, function, (x1, x2) -> (char) (x2 - x1));
+	}
+
+	/**
+	 * Delta of a function result, initialized with argument value.
+	 */
+	public static M initializedDeltaOf(char initialValue, LCharSupplier function, LCharBinaryOperator deltaFunction) {
+		return memento(initialValue, function, deltaFunction);
+	}
+
+	/**
+	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
+	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
+	 */
+	public static M memento(char initialValue, LCharSupplier baseFunction, LCharBinaryOperator mementoFunction) {
+		return new M(initialValue, baseFunction, mementoFunction);
+	}
+
+	/**
+	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LCharSupplier.D)
+	 */
+	final class M implements LCharSupplier {
+
+		private char lastValue;
+		private final LCharBinaryOperator mementoFunction;
+		private final LCharSupplier baseFunction;
+
+		private M(char lastValue, LCharSupplier baseFunction, LCharBinaryOperator mementoFunction) {
+			this.lastValue = lastValue;
+			this.mementoFunction = mementoFunction;
+			this.baseFunction = baseFunction;
+		}
 
 		@Override
 		public char getAsCharX() throws Throwable {
-			return target.getAsCharX();
+			char x2 = baseFunction.getAsCharX();
+			char x1 = lastValue;
+			return lastValue = mementoFunction.applyAsChar(x1, x2);
 		}
 
+		public char lastValue() {
+			return lastValue;
+		};
 	}
 
 	@Nonnull
