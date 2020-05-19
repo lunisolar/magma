@@ -727,6 +727,14 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return self();
 	}
 
+	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LTriConsumer<? super K1, ? super K2, ? super T> action) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, a2, get());
+		}
+		return self();
+	}
+
 	// </editor-fold>
 
 	/** Compared to ifPresent it will simply fails if there is no value */
