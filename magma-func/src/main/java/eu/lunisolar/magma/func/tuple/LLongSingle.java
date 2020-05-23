@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LLongConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongSingle extends LTuple<Object> {
+public interface LLongSingle extends LTuple<Long>, Comparable<LLongSingle> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,17 @@ public interface LLongSingle extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default Long get(int index) {
+		switch (index) {
+			case 1 :
+				return value();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default long getLong(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +64,7 @@ public interface LLongSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +116,9 @@ public interface LLongSingle extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Long> iterator() {
+		return new Iterator<Long>() {
 
 			private int index;
 
@@ -116,27 +128,40 @@ public interface LLongSingle extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public Long next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableLongSingle extends LLongSingle, Comparable<LLongSingle> {
+	default PrimitiveIterator.OfLong longIterator() {
+		return new PrimitiveIterator.OfLong() {
 
-		@Override
-		default int compareTo(LLongSingle that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Long.compare(one.value(), two.value())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public long nextLong() {
+				index++;
+				return getLong(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LLongSingle that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Long.compare(one.value(), two.value())) != 0 ? retval : 0; //
+			});
 	}
 
-	abstract class AbstractLongSingle implements LLongSingle {
+	abstract class AbstractLongSingle extends Number implements LLongSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -157,12 +182,114 @@ public interface LLongSingle extends LTuple<Object> {
 			return sb.toString();
 		}
 
+		@Override
+		public byte byteValue() {
+			return (byte) value();
+		}
+
+		@Override
+		public short shortValue() {
+			return (short) value();
+		}
+
+		@Override
+		public int intValue() {
+			return (int) value();
+		}
+
+		@Override
+		public long longValue() {
+			return (long) value();
+		}
+
+		@Override
+		public float floatValue() {
+			return (float) value();
+		}
+
+		@Override
+		public double doubleValue() {
+			return (double) value();
+		}
+	}
+
+	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LLongSingle {
+
+		SELF value(long value);
+
+		default SELF setValue(long value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(long value, LLongPredicate predicate) {
+			if (predicate.test(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LToLongFunction<R> func) {
+			if (arg != null) {
+				return this.value(func.applyAsLong(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LLongPredicate predicate, long value) {
+			if (predicate.test(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(long value, LBiLongPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LBiLongPredicate predicate, long value) {
+			if (predicate.test(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value(0L);
+			return (SELF) this;
+		}
+	}
+
+	public static MutLongSingle of() {
+		return of(0L);
+	}
+
+	public static MutLongSingle of(long a) {
+		return new MutLongSingle(a);
+	}
+
+	public static MutLongSingle copyOf(LLongSingle tuple) {
+		return of(tuple.value());
 	}
 
 	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutLongSingle extends AbstractLongSingle {
+
+	class MutLongSingle extends AbstractLongSingle implements Mut<MutLongSingle> {
 
 		private long value;
 
@@ -170,153 +297,23 @@ public interface LLongSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static MutLongSingle of(long a) {
-			return new MutLongSingle(a);
-		}
-
-		public static MutLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public long value() {
+		public @Override long value() {
 			return value;
 		}
 
-		public MutLongSingle value(long value) {
+		public @Override MutLongSingle value(long value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutLongSingle setValue(long value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutLongSingle setValueIfArg(long value, LLongPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutLongSingle setValueIfArgNotNull(R arg, LToLongFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsLong(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutLongSingle setValueIf(LLongPredicate predicate, long value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutLongSingle setValueIf(long value, LBiLongPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutLongSingle setValueIf(LBiLongPredicate predicate, long value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0L;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompLongSingle extends AbstractLongSingle implements ComparableLongSingle {
+	public static ImmLongSingle immutableOf(long a) {
+		return new ImmLongSingle(a);
+	}
 
-		private long value;
-
-		public MutCompLongSingle(long a) {
-			this.value = a;
-		}
-
-		public static MutCompLongSingle of(long a) {
-			return new MutCompLongSingle(a);
-		}
-
-		public static MutCompLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public long value() {
-			return value;
-		}
-
-		public MutCompLongSingle value(long value) {
-			this.value = value;
-			return this;
-		}
-
-		public MutCompLongSingle setValue(long value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompLongSingle setValueIfArg(long value, LLongPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompLongSingle setValueIfArgNotNull(R arg, LToLongFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsLong(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompLongSingle setValueIf(LLongPredicate predicate, long value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompLongSingle setValueIf(long value, LBiLongPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompLongSingle setValueIf(LBiLongPredicate predicate, long value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0L;
-		}
+	public static ImmLongSingle immutableCopyOf(LLongSingle tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,41 +328,7 @@ public interface LLongSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static ImmLongSingle of(long a) {
-			return new ImmLongSingle(a);
-		}
-
-		public static ImmLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public long value() {
-			return value;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompLongSingle extends AbstractLongSingle implements ComparableLongSingle {
-
-		private final long value;
-
-		public ImmCompLongSingle(long a) {
-			this.value = a;
-		}
-
-		public static ImmCompLongSingle of(long a) {
-			return new ImmCompLongSingle(a);
-		}
-
-		public static ImmCompLongSingle copyOf(LLongSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public long value() {
+		public @Override long value() {
 			return value;
 		}
 

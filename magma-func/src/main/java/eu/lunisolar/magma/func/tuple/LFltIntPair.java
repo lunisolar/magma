@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LFltIntConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltIntPair extends LTuple<Object>, LFltSingle {
+public interface LFltIntPair extends LTuple<Number> {
 
 	int SIZE = 2;
 
@@ -46,7 +46,8 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 
 	int second();
 
-	default Object get(int index) {
+	@Override
+	default Number get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -58,6 +59,7 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -111,8 +113,9 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Number> iterator() {
+		return new Iterator<Number>() {
 
 			private int index;
 
@@ -122,7 +125,7 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 			}
 
 			@Override
-			public Object next() {
+			public Number next() {
 				index++;
 				return get(index);
 			}
@@ -130,7 +133,6 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 	}
 
 	interface ComparableFltIntPair extends LFltIntPair, Comparable<LFltIntPair> {
-
 		@Override
 		default int compareTo(LFltIntPair that) {
 			return Null.compare(this, that, (one, two) -> {
@@ -169,9 +171,130 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LFltIntPair {
+
+		SELF first(float first);
+		SELF second(int second);
+
+		default SELF setFirst(float first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(float first, LFltPredicate predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LToFltFunction<R> func) {
+			if (arg != null) {
+				return this.first(func.applyAsFlt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LFltPredicate predicate, float first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(float first, LBiFltPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiFltPredicate predicate, float first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(int second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(int second, LIntPredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsInt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LIntPredicate predicate, int second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(int second, LBiIntPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiIntPredicate predicate, int second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first(0f);
+			this.second(0);
+			return (SELF) this;
+		}
+	}
+
+	public static MutFltIntPair of() {
+		return of(0f, 0);
+	}
+
+	public static MutFltIntPair of(float a1, int a2) {
+		return new MutFltIntPair(a1, a2);
+	}
+
+	public static MutFltIntPair copyOf(LFltIntPair tuple) {
+		return of(tuple.first(), tuple.second());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutFltIntPair extends AbstractFltIntPair {
+
+	class MutFltIntPair extends AbstractFltIntPair implements Mut<MutFltIntPair> {
 
 		private float first;
 		private int second;
@@ -181,136 +304,43 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 			this.second = a2;
 		}
 
-		public static MutFltIntPair of(float a1, int a2) {
-			return new MutFltIntPair(a1, a2);
-		}
-
-		public static MutFltIntPair copyOf(LFltIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public float first() {
+		public @Override float first() {
 			return first;
 		}
 
-		public MutFltIntPair first(float first) {
+		public @Override MutFltIntPair first(float first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutFltIntPair second(int second) {
+		public @Override MutFltIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutFltIntPair setFirst(float first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutFltIntPair setFirstIfArg(float first, LFltPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static MutCompFltIntPair comparableOf() {
+		return comparableOf(0f, 0);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutFltIntPair setFirstIfArgNotNull(R arg, LToFltFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsFlt(arg);
-			}
-			return this;
-		}
+	public static MutCompFltIntPair comparableOf(float a1, int a2) {
+		return new MutCompFltIntPair(a1, a2);
+	}
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutFltIntPair setFirstIf(LFltPredicate predicate, float first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutFltIntPair setFirstIf(float first, LBiFltPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutFltIntPair setFirstIf(LBiFltPredicate predicate, float first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutFltIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutFltIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutFltIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutFltIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutFltIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutFltIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = 0f;
-			second = 0;
-		}
+	public static MutCompFltIntPair comparableCopyOf(LFltIntPair tuple) {
+		return comparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompFltIntPair extends AbstractFltIntPair implements ComparableFltIntPair {
+
+	final class MutCompFltIntPair extends AbstractFltIntPair implements ComparableFltIntPair, Mut<MutCompFltIntPair> {
 
 		private float first;
 		private int second;
@@ -320,130 +350,32 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 			this.second = a2;
 		}
 
-		public static MutCompFltIntPair of(float a1, int a2) {
-			return new MutCompFltIntPair(a1, a2);
-		}
-
-		public static MutCompFltIntPair copyOf(LFltIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public float first() {
+		public @Override float first() {
 			return first;
 		}
 
-		public MutCompFltIntPair first(float first) {
+		public @Override MutCompFltIntPair first(float first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutCompFltIntPair second(int second) {
+		public @Override MutCompFltIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutCompFltIntPair setFirst(float first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompFltIntPair setFirstIfArg(float first, LFltPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static ImmFltIntPair immutableOf(float a1, int a2) {
+		return new ImmFltIntPair(a1, a2);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompFltIntPair setFirstIfArgNotNull(R arg, LToFltFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsFlt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompFltIntPair setFirstIf(LFltPredicate predicate, float first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompFltIntPair setFirstIf(float first, LBiFltPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompFltIntPair setFirstIf(LBiFltPredicate predicate, float first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompFltIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompFltIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompFltIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompFltIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompFltIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompFltIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = 0f;
-			second = 0;
-		}
+	public static ImmFltIntPair immutableCopyOf(LFltIntPair tuple) {
+		return immutableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -460,22 +392,22 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 			this.second = a2;
 		}
 
-		public static ImmFltIntPair of(float a1, int a2) {
-			return new ImmFltIntPair(a1, a2);
-		}
-
-		public static ImmFltIntPair copyOf(LFltIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public float first() {
+		public @Override float first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
+	}
+
+	public static ImmCompFltIntPair immutableComparableOf(float a1, int a2) {
+		return new ImmCompFltIntPair(a1, a2);
+	}
+
+	public static ImmCompFltIntPair immutableComparableCopyOf(LFltIntPair tuple) {
+		return immutableComparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -492,19 +424,11 @@ public interface LFltIntPair extends LTuple<Object>, LFltSingle {
 			this.second = a2;
 		}
 
-		public static ImmCompFltIntPair of(float a1, int a2) {
-			return new ImmCompFltIntPair(a1, a2);
-		}
-
-		public static ImmCompFltIntPair copyOf(LFltIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public float first() {
+		public @Override float first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 

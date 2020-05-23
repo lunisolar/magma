@@ -73,4 +73,20 @@ public interface IntValueTrait<SELF extends IntValueTrait<SELF>> extends FluentT
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
+	default SELF add(int a1) {
+		return value((value() + a1));
+	}
+
+	default SELF sub(int a1) {
+		return value((value() - a1));
+	}
+
+	default SELF inc() {
+		return add(1);
+	}
+
+	default SELF dec() {
+		return sub(1);
+	}
+
 }

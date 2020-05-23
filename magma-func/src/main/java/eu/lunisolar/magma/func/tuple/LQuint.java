@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LQuintConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2, T3, T4>, Map.Entry<T2, T1> {
+public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T2, T1> {
 
 	int SIZE = 5;
 
@@ -52,6 +52,7 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 
 	T5 fifth();
 
+	@Override
 	default Object get(int index) {
 		switch (index) {
 			case 1 :
@@ -70,6 +71,7 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -150,6 +152,7 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 			});
 	}
 
+	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -172,7 +175,6 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 			extends
 				LQuint<T1, T2, T3, T4, T5>,
 				Comparable<LQuint<T1, T2, T3, T4, T5>> {
-
 		@Override
 		default int compareTo(LQuint<T1, T2, T3, T4, T5> that) {
 			return Null.compare(this, that, (one, two) -> {
@@ -220,9 +222,274 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<T1, T2, T3, T4, T5, SELF extends Mut<T1, T2, T3, T4, T5, SELF>> extends LQuint<T1, T2, T3, T4, T5> {
+
+		SELF first(T1 first);
+		SELF second(T2 second);
+		SELF third(T3 third);
+		SELF fourth(T4 fourth);
+		SELF fifth(T5 fifth);
+
+		default SELF setFirst(T1 first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(T1 first, LPredicate<T1> predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LFunction<R, T1> func) {
+			if (arg != null) {
+				return this.first(func.apply(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LPredicate<T1> predicate, T1 first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(T2 second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(T2 second, LPredicate<T2> predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LFunction<R, T2> func) {
+			if (arg != null) {
+				return this.second(func.apply(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LPredicate<T2> predicate, T2 second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setThird(T3 third) {
+			this.third(third);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setThirdIfArg(T3 third, LPredicate<T3> predicate) {
+			if (predicate.test(third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setThirdIfArgNotNull(R arg, LFunction<R, T3> func) {
+			if (arg != null) {
+				return this.third(func.apply(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setThirdIf(LPredicate<T3> predicate, T3 third) {
+			if (predicate.test(this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setThirdIf(T3 third, LBiPredicate<T3, T3> predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(third, this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setThirdIf(LBiPredicate<T3, T3> predicate, T3 third) {
+			if (predicate.test(this.third(), third)) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setFourth(T4 fourth) {
+			this.fourth(fourth);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFourthIfArg(T4 fourth, LPredicate<T4> predicate) {
+			if (predicate.test(fourth())) {
+				return this.fourth(fourth);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFourthIfArgNotNull(R arg, LFunction<R, T4> func) {
+			if (arg != null) {
+				return this.fourth(func.apply(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFourthIf(LPredicate<T4> predicate, T4 fourth) {
+			if (predicate.test(this.fourth())) {
+				return this.fourth(fourth);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFourthIf(T4 fourth, LBiPredicate<T4, T4> predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(fourth, this.fourth())) {
+				return this.fourth(fourth);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFourthIf(LBiPredicate<T4, T4> predicate, T4 fourth) {
+			if (predicate.test(this.fourth(), fourth)) {
+				return this.fourth(fourth);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setFifth(T5 fifth) {
+			this.fifth(fifth);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFifthIfArg(T5 fifth, LPredicate<T5> predicate) {
+			if (predicate.test(fifth())) {
+				return this.fifth(fifth);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFifthIfArgNotNull(R arg, LFunction<R, T5> func) {
+			if (arg != null) {
+				return this.fifth(func.apply(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFifthIf(LPredicate<T5> predicate, T5 fifth) {
+			if (predicate.test(this.fifth())) {
+				return this.fifth(fifth);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFifthIf(T5 fifth, LBiPredicate<T5, T5> predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(fifth, this.fifth())) {
+				return this.fifth(fifth);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFifthIf(LBiPredicate<T5, T5> predicate, T5 fifth) {
+			if (predicate.test(this.fifth(), fifth)) {
+				return this.fifth(fifth);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first(null);
+			this.second(null);
+			this.third(null);
+			this.fourth(null);
+			this.fifth(null);
+			return (SELF) this;
+		}
+	}
+
+	public static <T1, T2, T3, T4, T5> MutQuint<T1, T2, T3, T4, T5> of() {
+		return of(null, null, null, null, null);
+	}
+
+	public static <T1, T2, T3, T4, T5> MutQuint<T1, T2, T3, T4, T5> of(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return new MutQuint(a1, a2, a3, a4, a5);
+	}
+
+	public static <T1, T2, T3, T4, T5> MutQuint<T1, T2, T3, T4, T5> copyOf(LQuint<T1, T2, T3, T4, T5> tuple) {
+		return of(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutQuint<T1, T2, T3, T4, T5> extends AbstractQuint<T1, T2, T3, T4, T5> {
+
+	class MutQuint<T1, T2, T3, T4, T5> extends AbstractQuint<T1, T2, T3, T4, T5> implements Mut<T1, T2, T3, T4, T5, MutQuint<T1, T2, T3, T4, T5>> {
 
 		private T1 first;
 		private T2 second;
@@ -238,309 +505,75 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 			this.fifth = a5;
 		}
 
-		public static <T1, T2, T3, T4, T5> MutQuint<T1, T2, T3, T4, T5> of(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-			return new MutQuint(a1, a2, a3, a4, a5);
-		}
-
-		public static <T1, T2, T3, T4, T5> MutQuint<T1, T2, T3, T4, T5> copyOf(LQuint<T1, T2, T3, T4, T5> tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
-		}
-
-		public T1 first() {
+		public @Override T1 first() {
 			return first;
 		}
 
-		public MutQuint<T1, T2, T3, T4, T5> first(T1 first) {
+		public @Override MutQuint<T1, T2, T3, T4, T5> first(T1 first) {
 			this.first = first;
 			return this;
 		}
 
-		public T2 second() {
+		public @Override T2 second() {
 			return second;
 		}
 
-		public MutQuint<T1, T2, T3, T4, T5> second(T2 second) {
+		public @Override MutQuint<T1, T2, T3, T4, T5> second(T2 second) {
 			this.second = second;
 			return this;
 		}
 
-		public T3 third() {
+		public @Override T3 third() {
 			return third;
 		}
 
-		public MutQuint<T1, T2, T3, T4, T5> third(T3 third) {
+		public @Override MutQuint<T1, T2, T3, T4, T5> third(T3 third) {
 			this.third = third;
 			return this;
 		}
 
-		public T4 fourth() {
+		public @Override T4 fourth() {
 			return fourth;
 		}
 
-		public MutQuint<T1, T2, T3, T4, T5> fourth(T4 fourth) {
+		public @Override MutQuint<T1, T2, T3, T4, T5> fourth(T4 fourth) {
 			this.fourth = fourth;
 			return this;
 		}
 
-		public T5 fifth() {
+		public @Override T5 fifth() {
 			return fifth;
 		}
 
-		public MutQuint<T1, T2, T3, T4, T5> fifth(T5 fifth) {
+		public @Override MutQuint<T1, T2, T3, T4, T5> fifth(T5 fifth) {
 			this.fifth = fifth;
 			return this;
 		}
 
-		public MutQuint<T1, T2, T3, T4, T5> setFirst(T1 first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setFirstIfArg(T1 first, LPredicate<T1> predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> MutCompQuint<T1, T2, T3, T4, T5> comparableOf() {
+		return comparableOf(null, null, null, null, null);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutQuint<T1, T2, T3, T4, T5> setFirstIfArgNotNull(R arg, LFunction<R, T1> func) {
-			if (arg != null) {
-				this.first = func.apply(arg);
-			}
-			return this;
-		}
+	public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> MutCompQuint<T1, T2, T3, T4, T5> comparableOf(T1 a1, T2 a2,
+			T3 a3, T4 a4, T5 a5) {
+		return new MutCompQuint(a1, a2, a3, a4, a5);
+	}
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setFirstIf(LPredicate<T1> predicate, T1 first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutQuint<T1, T2, T3, T4, T5> setSecond(T2 second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setSecondIfArg(T2 second, LPredicate<T2> predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutQuint<T1, T2, T3, T4, T5> setSecondIfArgNotNull(R arg, LFunction<R, T2> func) {
-			if (arg != null) {
-				this.second = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setSecondIf(LPredicate<T2> predicate, T2 second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutQuint<T1, T2, T3, T4, T5> setThird(T3 third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setThirdIfArg(T3 third, LPredicate<T3> predicate) {
-			if (predicate.test(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutQuint<T1, T2, T3, T4, T5> setThirdIfArgNotNull(R arg, LFunction<R, T3> func) {
-			if (arg != null) {
-				this.third = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setThirdIf(LPredicate<T3> predicate, T3 third) {
-			if (predicate.test(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setThirdIf(T3 third, LBiPredicate<T3, T3> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setThirdIf(LBiPredicate<T3, T3> predicate, T3 third) {
-
-			if (predicate.test(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public MutQuint<T1, T2, T3, T4, T5> setFourth(T4 fourth) {
-			this.fourth = fourth;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setFourthIfArg(T4 fourth, LPredicate<T4> predicate) {
-			if (predicate.test(fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutQuint<T1, T2, T3, T4, T5> setFourthIfArgNotNull(R arg, LFunction<R, T4> func) {
-			if (arg != null) {
-				this.fourth = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setFourthIf(LPredicate<T4> predicate, T4 fourth) {
-			if (predicate.test(this.fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setFourthIf(T4 fourth, LBiPredicate<T4, T4> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(fourth, this.fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setFourthIf(LBiPredicate<T4, T4> predicate, T4 fourth) {
-
-			if (predicate.test(this.fourth, fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		public MutQuint<T1, T2, T3, T4, T5> setFifth(T5 fifth) {
-			this.fifth = fifth;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setFifthIfArg(T5 fifth, LPredicate<T5> predicate) {
-			if (predicate.test(fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutQuint<T1, T2, T3, T4, T5> setFifthIfArgNotNull(R arg, LFunction<R, T5> func) {
-			if (arg != null) {
-				this.fifth = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutQuint<T1, T2, T3, T4, T5> setFifthIf(LPredicate<T5> predicate, T5 fifth) {
-			if (predicate.test(this.fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setFifthIf(T5 fifth, LBiPredicate<T5, T5> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(fifth, this.fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutQuint<T1, T2, T3, T4, T5> setFifthIf(LBiPredicate<T5, T5> predicate, T5 fifth) {
-
-			if (predicate.test(this.fifth, fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = null;
-			second = null;
-			third = null;
-			fourth = null;
-			fifth = null;
-		}
+	public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> MutCompQuint<T1, T2, T3, T4, T5> comparableCopyOf(
+			LQuint<T1, T2, T3, T4, T5> tuple) {
+		return comparableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
 	}
 
 	/**
 	 * Mutable, comparable tuple.
 	 */
+
 	final class MutCompQuint<T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> extends AbstractQuint<T1, T2, T3, T4, T5>
 			implements
-				ComparableQuint<T1, T2, T3, T4, T5> {
+				ComparableQuint<T1, T2, T3, T4, T5>,
+				Mut<T1, T2, T3, T4, T5, MutCompQuint<T1, T2, T3, T4, T5>> {
 
 		private T1 first;
 		private T2 second;
@@ -556,303 +589,59 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 			this.fifth = a5;
 		}
 
-		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> MutCompQuint<T1, T2, T3, T4, T5> of(T1 a1, T2 a2, T3 a3,
-				T4 a4, T5 a5) {
-			return new MutCompQuint(a1, a2, a3, a4, a5);
-		}
-
-		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> MutCompQuint<T1, T2, T3, T4, T5> copyOf(
-				LQuint<T1, T2, T3, T4, T5> tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
-		}
-
-		public T1 first() {
+		public @Override T1 first() {
 			return first;
 		}
 
-		public MutCompQuint<T1, T2, T3, T4, T5> first(T1 first) {
+		public @Override MutCompQuint<T1, T2, T3, T4, T5> first(T1 first) {
 			this.first = first;
 			return this;
 		}
 
-		public T2 second() {
+		public @Override T2 second() {
 			return second;
 		}
 
-		public MutCompQuint<T1, T2, T3, T4, T5> second(T2 second) {
+		public @Override MutCompQuint<T1, T2, T3, T4, T5> second(T2 second) {
 			this.second = second;
 			return this;
 		}
 
-		public T3 third() {
+		public @Override T3 third() {
 			return third;
 		}
 
-		public MutCompQuint<T1, T2, T3, T4, T5> third(T3 third) {
+		public @Override MutCompQuint<T1, T2, T3, T4, T5> third(T3 third) {
 			this.third = third;
 			return this;
 		}
 
-		public T4 fourth() {
+		public @Override T4 fourth() {
 			return fourth;
 		}
 
-		public MutCompQuint<T1, T2, T3, T4, T5> fourth(T4 fourth) {
+		public @Override MutCompQuint<T1, T2, T3, T4, T5> fourth(T4 fourth) {
 			this.fourth = fourth;
 			return this;
 		}
 
-		public T5 fifth() {
+		public @Override T5 fifth() {
 			return fifth;
 		}
 
-		public MutCompQuint<T1, T2, T3, T4, T5> fifth(T5 fifth) {
+		public @Override MutCompQuint<T1, T2, T3, T4, T5> fifth(T5 fifth) {
 			this.fifth = fifth;
 			return this;
 		}
 
-		public MutCompQuint<T1, T2, T3, T4, T5> setFirst(T1 first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFirstIfArg(T1 first, LPredicate<T1> predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static <T1, T2, T3, T4, T5> ImmQuint<T1, T2, T3, T4, T5> immutableOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return new ImmQuint(a1, a2, a3, a4, a5);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompQuint<T1, T2, T3, T4, T5> setFirstIfArgNotNull(R arg, LFunction<R, T1> func) {
-			if (arg != null) {
-				this.first = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFirstIf(LPredicate<T1> predicate, T1 first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompQuint<T1, T2, T3, T4, T5> setSecond(T2 second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setSecondIfArg(T2 second, LPredicate<T2> predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompQuint<T1, T2, T3, T4, T5> setSecondIfArgNotNull(R arg, LFunction<R, T2> func) {
-			if (arg != null) {
-				this.second = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setSecondIf(LPredicate<T2> predicate, T2 second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutCompQuint<T1, T2, T3, T4, T5> setThird(T3 third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setThirdIfArg(T3 third, LPredicate<T3> predicate) {
-			if (predicate.test(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompQuint<T1, T2, T3, T4, T5> setThirdIfArgNotNull(R arg, LFunction<R, T3> func) {
-			if (arg != null) {
-				this.third = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setThirdIf(LPredicate<T3> predicate, T3 third) {
-			if (predicate.test(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setThirdIf(T3 third, LBiPredicate<T3, T3> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setThirdIf(LBiPredicate<T3, T3> predicate, T3 third) {
-
-			if (predicate.test(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public MutCompQuint<T1, T2, T3, T4, T5> setFourth(T4 fourth) {
-			this.fourth = fourth;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFourthIfArg(T4 fourth, LPredicate<T4> predicate) {
-			if (predicate.test(fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompQuint<T1, T2, T3, T4, T5> setFourthIfArgNotNull(R arg, LFunction<R, T4> func) {
-			if (arg != null) {
-				this.fourth = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFourthIf(LPredicate<T4> predicate, T4 fourth) {
-			if (predicate.test(this.fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFourthIf(T4 fourth, LBiPredicate<T4, T4> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(fourth, this.fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFourthIf(LBiPredicate<T4, T4> predicate, T4 fourth) {
-
-			if (predicate.test(this.fourth, fourth)) {
-				this.fourth = fourth;
-			}
-			return this;
-		}
-
-		public MutCompQuint<T1, T2, T3, T4, T5> setFifth(T5 fifth) {
-			this.fifth = fifth;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFifthIfArg(T5 fifth, LPredicate<T5> predicate) {
-			if (predicate.test(fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompQuint<T1, T2, T3, T4, T5> setFifthIfArgNotNull(R arg, LFunction<R, T5> func) {
-			if (arg != null) {
-				this.fifth = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFifthIf(LPredicate<T5> predicate, T5 fifth) {
-			if (predicate.test(this.fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFifthIf(T5 fifth, LBiPredicate<T5, T5> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(fifth, this.fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompQuint<T1, T2, T3, T4, T5> setFifthIf(LBiPredicate<T5, T5> predicate, T5 fifth) {
-
-			if (predicate.test(this.fifth, fifth)) {
-				this.fifth = fifth;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = null;
-			second = null;
-			third = null;
-			fourth = null;
-			fifth = null;
-		}
+	public static <T1, T2, T3, T4, T5> ImmQuint<T1, T2, T3, T4, T5> immutableCopyOf(LQuint<T1, T2, T3, T4, T5> tuple) {
+		return immutableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
 	}
 
 	/**
@@ -875,34 +664,36 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 			this.fifth = a5;
 		}
 
-		public static <T1, T2, T3, T4, T5> ImmQuint<T1, T2, T3, T4, T5> of(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-			return new ImmQuint(a1, a2, a3, a4, a5);
-		}
-
-		public static <T1, T2, T3, T4, T5> ImmQuint<T1, T2, T3, T4, T5> copyOf(LQuint<T1, T2, T3, T4, T5> tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
-		}
-
-		public T1 first() {
+		public @Override T1 first() {
 			return first;
 		}
 
-		public T2 second() {
+		public @Override T2 second() {
 			return second;
 		}
 
-		public T3 third() {
+		public @Override T3 third() {
 			return third;
 		}
 
-		public T4 fourth() {
+		public @Override T4 fourth() {
 			return fourth;
 		}
 
-		public T5 fifth() {
+		public @Override T5 fifth() {
 			return fifth;
 		}
 
+	}
+
+	public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> ImmCompQuint<T1, T2, T3, T4, T5> immutableComparableOf(
+			T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+		return new ImmCompQuint(a1, a2, a3, a4, a5);
+	}
+
+	public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> ImmCompQuint<T1, T2, T3, T4, T5> immutableComparableCopyOf(
+			LQuint<T1, T2, T3, T4, T5> tuple) {
+		return immutableComparableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
 	}
 
 	/**
@@ -927,33 +718,23 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, LQuad<T1, T2
 			this.fifth = a5;
 		}
 
-		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> ImmCompQuint<T1, T2, T3, T4, T5> of(T1 a1, T2 a2, T3 a3,
-				T4 a4, T5 a5) {
-			return new ImmCompQuint(a1, a2, a3, a4, a5);
-		}
-
-		public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>, T3 extends Comparable<? super T3>, T4 extends Comparable<? super T4>, T5 extends Comparable<? super T5>> ImmCompQuint<T1, T2, T3, T4, T5> copyOf(
-				LQuint<T1, T2, T3, T4, T5> tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
-		}
-
-		public T1 first() {
+		public @Override T1 first() {
 			return first;
 		}
 
-		public T2 second() {
+		public @Override T2 second() {
 			return second;
 		}
 
-		public T3 third() {
+		public @Override T3 third() {
 			return third;
 		}
 
-		public T4 fourth() {
+		public @Override T4 fourth() {
 			return fourth;
 		}
 
-		public T5 fifth() {
+		public @Override T5 fifth() {
 			return fifth;
 		}
 

@@ -18,11 +18,19 @@
 
 package eu.lunisolar.magma.basics.meta;
 
+import eu.lunisolar.magma.basics.exceptions.Handling;
+
 import java.util.*;
 
 public interface LTuple<T> extends Cloneable {
 
     int tupleSize();
+
+    Object get(int index);
+
+    Iterator<? extends Object> iterator();
+
+//    Stream<? extends Object> stream();
 
     final class Void implements LTuple<java.lang.Void> {
 
@@ -58,6 +66,10 @@ public interface LTuple<T> extends Cloneable {
 
         @Override protected Object clone() throws CloneNotSupportedException {
             return this;
+        }
+
+        @Override public Object get(int index) {
+            return new IllegalStateException("Void means empty.");
         }
     }
 

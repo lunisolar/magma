@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LTriDblConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblTriple extends LTuple<Object>, LDblPair {
+public interface LDblTriple extends LTuple<Double>, Comparable<LDblTriple> {
 
 	int SIZE = 3;
 
@@ -48,7 +48,21 @@ public interface LDblTriple extends LTuple<Object>, LDblPair {
 
 	double third();
 
-	default Object get(int index) {
+	@Override
+	default Double get(int index) {
+		switch (index) {
+			case 1 :
+				return first();
+			case 2 :
+				return second();
+			case 3 :
+				return third();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default double getDouble(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -62,6 +76,7 @@ public interface LDblTriple extends LTuple<Object>, LDblPair {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -117,8 +132,9 @@ public interface LDblTriple extends LTuple<Object>, LDblPair {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Double> iterator() {
+		return new Iterator<Double>() {
 
 			private int index;
 
@@ -128,26 +144,39 @@ public interface LDblTriple extends LTuple<Object>, LDblPair {
 			}
 
 			@Override
-			public Object next() {
+			public Double next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableDblTriple extends LDblTriple, Comparable<LDblTriple> {
+	default PrimitiveIterator.OfDouble doubleIterator() {
+		return new PrimitiveIterator.OfDouble() {
 
-		@Override
-		default int compareTo(LDblTriple that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Double.compare(one.first(), two.first())) != 0 ? retval : //
-						(retval = Double.compare(one.second(), two.second())) != 0 ? retval : //
-								(retval = Double.compare(one.third(), two.third())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public double nextDouble() {
+				index++;
+				return getDouble(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LDblTriple that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Double.compare(one.first(), two.first())) != 0 ? retval : //
+					(retval = Double.compare(one.second(), two.second())) != 0 ? retval : //
+							(retval = Double.compare(one.third(), two.third())) != 0 ? retval : 0; //
+			});
 	}
 
 	abstract class AbstractDblTriple implements LDblTriple {
@@ -178,9 +207,178 @@ public interface LDblTriple extends LTuple<Object>, LDblPair {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LDblTriple {
+
+		SELF first(double first);
+		SELF second(double second);
+		SELF third(double third);
+
+		default SELF setFirst(double first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(double first, LDblPredicate predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LToDblFunction<R> func) {
+			if (arg != null) {
+				return this.first(func.applyAsDbl(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LDblPredicate predicate, double first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(double first, LBiDblPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiDblPredicate predicate, double first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(double second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(double second, LDblPredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsDbl(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LDblPredicate predicate, double second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(double second, LBiDblPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiDblPredicate predicate, double second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setThird(double third) {
+			this.third(third);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setThirdIfArg(double third, LDblPredicate predicate) {
+			if (predicate.test(third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setThirdIfArgNotNull(R arg, LToDblFunction<R> func) {
+			if (arg != null) {
+				return this.third(func.applyAsDbl(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setThirdIf(LDblPredicate predicate, double third) {
+			if (predicate.test(this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setThirdIf(double third, LBiDblPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(third, this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setThirdIf(LBiDblPredicate predicate, double third) {
+			if (predicate.test(this.third(), third)) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first(0d);
+			this.second(0d);
+			this.third(0d);
+			return (SELF) this;
+		}
+	}
+
+	public static MutDblTriple of() {
+		return of(0d, 0d, 0d);
+	}
+
+	public static MutDblTriple of(double a1, double a2, double a3) {
+		return new MutDblTriple(a1, a2, a3);
+	}
+
+	public static MutDblTriple copyOf(LDblTriple tuple) {
+		return of(tuple.first(), tuple.second(), tuple.third());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutDblTriple extends AbstractDblTriple {
+
+	class MutDblTriple extends AbstractDblTriple implements Mut<MutDblTriple> {
 
 		private double first;
 		private double second;
@@ -192,385 +390,41 @@ public interface LDblTriple extends LTuple<Object>, LDblPair {
 			this.third = a3;
 		}
 
-		public static MutDblTriple of(double a1, double a2, double a3) {
-			return new MutDblTriple(a1, a2, a3);
-		}
-
-		public static MutDblTriple copyOf(LDblTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public double first() {
+		public @Override double first() {
 			return first;
 		}
 
-		public MutDblTriple first(double first) {
+		public @Override MutDblTriple first(double first) {
 			this.first = first;
 			return this;
 		}
 
-		public double second() {
+		public @Override double second() {
 			return second;
 		}
 
-		public MutDblTriple second(double second) {
+		public @Override MutDblTriple second(double second) {
 			this.second = second;
 			return this;
 		}
 
-		public double third() {
+		public @Override double third() {
 			return third;
 		}
 
-		public MutDblTriple third(double third) {
+		public @Override MutDblTriple third(double third) {
 			this.third = third;
 			return this;
 		}
 
-		public MutDblTriple setFirst(double first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutDblTriple setFirstIfArg(double first, LDblPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutDblTriple setFirstIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutDblTriple setFirstIf(LDblPredicate predicate, double first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutDblTriple setFirstIf(double first, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutDblTriple setFirstIf(LBiDblPredicate predicate, double first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutDblTriple setSecond(double second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutDblTriple setSecondIfArg(double second, LDblPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutDblTriple setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutDblTriple setSecondIf(LDblPredicate predicate, double second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutDblTriple setSecondIf(double second, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutDblTriple setSecondIf(LBiDblPredicate predicate, double second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutDblTriple setThird(double third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutDblTriple setThirdIfArg(double third, LDblPredicate predicate) {
-			if (predicate.test(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutDblTriple setThirdIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.third = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutDblTriple setThirdIf(LDblPredicate predicate, double third) {
-			if (predicate.test(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutDblTriple setThirdIf(double third, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutDblTriple setThirdIf(LBiDblPredicate predicate, double third) {
-
-			if (predicate.test(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = 0d;
-			second = 0d;
-			third = 0d;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompDblTriple extends AbstractDblTriple implements ComparableDblTriple {
+	public static ImmDblTriple immutableOf(double a1, double a2, double a3) {
+		return new ImmDblTriple(a1, a2, a3);
+	}
 
-		private double first;
-		private double second;
-		private double third;
-
-		public MutCompDblTriple(double a1, double a2, double a3) {
-			this.first = a1;
-			this.second = a2;
-			this.third = a3;
-		}
-
-		public static MutCompDblTriple of(double a1, double a2, double a3) {
-			return new MutCompDblTriple(a1, a2, a3);
-		}
-
-		public static MutCompDblTriple copyOf(LDblTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public double first() {
-			return first;
-		}
-
-		public MutCompDblTriple first(double first) {
-			this.first = first;
-			return this;
-		}
-
-		public double second() {
-			return second;
-		}
-
-		public MutCompDblTriple second(double second) {
-			this.second = second;
-			return this;
-		}
-
-		public double third() {
-			return third;
-		}
-
-		public MutCompDblTriple third(double third) {
-			this.third = third;
-			return this;
-		}
-
-		public MutCompDblTriple setFirst(double first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompDblTriple setFirstIfArg(double first, LDblPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompDblTriple setFirstIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompDblTriple setFirstIf(LDblPredicate predicate, double first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompDblTriple setFirstIf(double first, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompDblTriple setFirstIf(LBiDblPredicate predicate, double first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompDblTriple setSecond(double second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompDblTriple setSecondIfArg(double second, LDblPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompDblTriple setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompDblTriple setSecondIf(LDblPredicate predicate, double second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompDblTriple setSecondIf(double second, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompDblTriple setSecondIf(LBiDblPredicate predicate, double second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutCompDblTriple setThird(double third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompDblTriple setThirdIfArg(double third, LDblPredicate predicate) {
-			if (predicate.test(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompDblTriple setThirdIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.third = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompDblTriple setThirdIf(LDblPredicate predicate, double third) {
-			if (predicate.test(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompDblTriple setThirdIf(double third, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompDblTriple setThirdIf(LBiDblPredicate predicate, double third) {
-
-			if (predicate.test(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = 0d;
-			second = 0d;
-			third = 0d;
-		}
+	public static ImmDblTriple immutableCopyOf(LDblTriple tuple) {
+		return immutableOf(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	/**
@@ -589,61 +443,15 @@ public interface LDblTriple extends LTuple<Object>, LDblPair {
 			this.third = a3;
 		}
 
-		public static ImmDblTriple of(double a1, double a2, double a3) {
-			return new ImmDblTriple(a1, a2, a3);
-		}
-
-		public static ImmDblTriple copyOf(LDblTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public double first() {
+		public @Override double first() {
 			return first;
 		}
 
-		public double second() {
+		public @Override double second() {
 			return second;
 		}
 
-		public double third() {
-			return third;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompDblTriple extends AbstractDblTriple implements ComparableDblTriple {
-
-		private final double first;
-		private final double second;
-		private final double third;
-
-		public ImmCompDblTriple(double a1, double a2, double a3) {
-			this.first = a1;
-			this.second = a2;
-			this.third = a3;
-		}
-
-		public static ImmCompDblTriple of(double a1, double a2, double a3) {
-			return new ImmCompDblTriple(a1, a2, a3);
-		}
-
-		public static ImmCompDblTriple copyOf(LDblTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public double first() {
-			return first;
-		}
-
-		public double second() {
-			return second;
-		}
-
-		public double third() {
+		public @Override double third() {
 			return third;
 		}
 

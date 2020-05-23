@@ -33,6 +33,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.Clazz; // NOSONAR
+import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.FluentTrait; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
@@ -55,38 +56,33 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface ByteValueTrait<SELF extends ByteValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aByte>, LByteSingle {
+public final class LShort implements FluentTrait<LShort>, aValue<aShort>, CheckSrtTrait<LShort>, FilterSrtSingleTrait<LShort>, IsSrtTrait<LShort>, DoIfSrtSingleTrait<LShort>, UseSrtSingleTrait<LShort>, SrtValueTrait<LShort>, LSrtSingle.Mut<LShort> {
 
-	/**
-	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).
-	 * It gives specializations to create instance of SELF.
-	 **/
+	private short value;
+
+	public LShort(short value) {
+		value(value);
+	}
+
+	public static LShort srtValue(short value) {
+		return new LShort(value);
+	}
+
+	@Override
+	public short value() {
+		return value;
+	}
+
 	@Nonnull
-	SELF value(byte value);
-
-	/** Provided that implementation supports empty values this will produce 'SELF' representing it. */
-	default @Nonnull SELF voidValue() {
-		throw Handling.create(X::unsupported, "Trait implementation (%s) does not support empty value.", this.getClass().getSimpleName());
+	@Override
+	public LShort value(short value) {
+		this.value = value;
+		return this;
 	}
 
-	default SELF valueFrom(@Nonnull OptByteTrait<?> trait) {
-		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
-	}
-
-	default SELF add(byte a1) {
-		return value((byte) (value() + a1));
-	}
-
-	default SELF sub(byte a1) {
-		return value((byte) (value() - a1));
-	}
-
-	default SELF inc() {
-		return add((byte) 1);
-	}
-
-	default SELF dec() {
-		return sub((byte) 1);
+	@Override
+	public short get() {
+		return value;
 	}
 
 }

@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LTriCharConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharTriple extends LTuple<Object>, LCharPair {
+public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> {
 
 	int SIZE = 3;
 
@@ -48,7 +48,21 @@ public interface LCharTriple extends LTuple<Object>, LCharPair {
 
 	char third();
 
-	default Object get(int index) {
+	@Override
+	default Character get(int index) {
+		switch (index) {
+			case 1 :
+				return first();
+			case 2 :
+				return second();
+			case 3 :
+				return third();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default char getChar(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -62,6 +76,7 @@ public interface LCharTriple extends LTuple<Object>, LCharPair {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -117,8 +132,9 @@ public interface LCharTriple extends LTuple<Object>, LCharPair {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Character> iterator() {
+		return new Iterator<Character>() {
 
 			private int index;
 
@@ -128,26 +144,39 @@ public interface LCharTriple extends LTuple<Object>, LCharPair {
 			}
 
 			@Override
-			public Object next() {
+			public Character next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableCharTriple extends LCharTriple, Comparable<LCharTriple> {
+	default PrimitiveIterator.OfInt intIterator() {
+		return new PrimitiveIterator.OfInt() {
 
-		@Override
-		default int compareTo(LCharTriple that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Character.compare(one.first(), two.first())) != 0 ? retval : //
-						(retval = Character.compare(one.second(), two.second())) != 0 ? retval : //
-								(retval = Character.compare(one.third(), two.third())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public int nextInt() {
+				index++;
+				return getChar(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LCharTriple that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Character.compare(one.first(), two.first())) != 0 ? retval : //
+					(retval = Character.compare(one.second(), two.second())) != 0 ? retval : //
+							(retval = Character.compare(one.third(), two.third())) != 0 ? retval : 0; //
+			});
 	}
 
 	abstract class AbstractCharTriple implements LCharTriple {
@@ -178,9 +207,178 @@ public interface LCharTriple extends LTuple<Object>, LCharPair {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LCharTriple {
+
+		SELF first(char first);
+		SELF second(char second);
+		SELF third(char third);
+
+		default SELF setFirst(char first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(char first, LCharPredicate predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
+			if (arg != null) {
+				return this.first(func.applyAsChar(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LCharPredicate predicate, char first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(char first, LBiCharPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiCharPredicate predicate, char first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(char second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(char second, LCharPredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToCharFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsChar(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LCharPredicate predicate, char second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(char second, LBiCharPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiCharPredicate predicate, char second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setThird(char third) {
+			this.third(third);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setThirdIfArg(char third, LCharPredicate predicate) {
+			if (predicate.test(third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setThirdIfArgNotNull(R arg, LToCharFunction<R> func) {
+			if (arg != null) {
+				return this.third(func.applyAsChar(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setThirdIf(LCharPredicate predicate, char third) {
+			if (predicate.test(this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setThirdIf(char third, LBiCharPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(third, this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setThirdIf(LBiCharPredicate predicate, char third) {
+			if (predicate.test(this.third(), third)) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first('\u0000');
+			this.second('\u0000');
+			this.third('\u0000');
+			return (SELF) this;
+		}
+	}
+
+	public static MutCharTriple of() {
+		return of('\u0000', '\u0000', '\u0000');
+	}
+
+	public static MutCharTriple of(char a1, char a2, char a3) {
+		return new MutCharTriple(a1, a2, a3);
+	}
+
+	public static MutCharTriple copyOf(LCharTriple tuple) {
+		return of(tuple.first(), tuple.second(), tuple.third());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutCharTriple extends AbstractCharTriple {
+
+	class MutCharTriple extends AbstractCharTriple implements Mut<MutCharTriple> {
 
 		private char first;
 		private char second;
@@ -192,385 +390,41 @@ public interface LCharTriple extends LTuple<Object>, LCharPair {
 			this.third = a3;
 		}
 
-		public static MutCharTriple of(char a1, char a2, char a3) {
-			return new MutCharTriple(a1, a2, a3);
-		}
-
-		public static MutCharTriple copyOf(LCharTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public char first() {
+		public @Override char first() {
 			return first;
 		}
 
-		public MutCharTriple first(char first) {
+		public @Override MutCharTriple first(char first) {
 			this.first = first;
 			return this;
 		}
 
-		public char second() {
+		public @Override char second() {
 			return second;
 		}
 
-		public MutCharTriple second(char second) {
+		public @Override MutCharTriple second(char second) {
 			this.second = second;
 			return this;
 		}
 
-		public char third() {
+		public @Override char third() {
 			return third;
 		}
 
-		public MutCharTriple third(char third) {
+		public @Override MutCharTriple third(char third) {
 			this.third = third;
 			return this;
 		}
 
-		public MutCharTriple setFirst(char first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCharTriple setFirstIfArg(char first, LCharPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCharTriple setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCharTriple setFirstIf(LCharPredicate predicate, char first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCharTriple setFirstIf(char first, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCharTriple setFirstIf(LBiCharPredicate predicate, char first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCharTriple setSecond(char second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCharTriple setSecondIfArg(char second, LCharPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCharTriple setSecondIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCharTriple setSecondIf(LCharPredicate predicate, char second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCharTriple setSecondIf(char second, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCharTriple setSecondIf(LBiCharPredicate predicate, char second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutCharTriple setThird(char third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCharTriple setThirdIfArg(char third, LCharPredicate predicate) {
-			if (predicate.test(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCharTriple setThirdIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.third = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCharTriple setThirdIf(LCharPredicate predicate, char third) {
-			if (predicate.test(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCharTriple setThirdIf(char third, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCharTriple setThirdIf(LBiCharPredicate predicate, char third) {
-
-			if (predicate.test(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = '\u0000';
-			second = '\u0000';
-			third = '\u0000';
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompCharTriple extends AbstractCharTriple implements ComparableCharTriple {
+	public static ImmCharTriple immutableOf(char a1, char a2, char a3) {
+		return new ImmCharTriple(a1, a2, a3);
+	}
 
-		private char first;
-		private char second;
-		private char third;
-
-		public MutCompCharTriple(char a1, char a2, char a3) {
-			this.first = a1;
-			this.second = a2;
-			this.third = a3;
-		}
-
-		public static MutCompCharTriple of(char a1, char a2, char a3) {
-			return new MutCompCharTriple(a1, a2, a3);
-		}
-
-		public static MutCompCharTriple copyOf(LCharTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public char first() {
-			return first;
-		}
-
-		public MutCompCharTriple first(char first) {
-			this.first = first;
-			return this;
-		}
-
-		public char second() {
-			return second;
-		}
-
-		public MutCompCharTriple second(char second) {
-			this.second = second;
-			return this;
-		}
-
-		public char third() {
-			return third;
-		}
-
-		public MutCompCharTriple third(char third) {
-			this.third = third;
-			return this;
-		}
-
-		public MutCompCharTriple setFirst(char first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompCharTriple setFirstIfArg(char first, LCharPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompCharTriple setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompCharTriple setFirstIf(LCharPredicate predicate, char first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompCharTriple setFirstIf(char first, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompCharTriple setFirstIf(LBiCharPredicate predicate, char first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompCharTriple setSecond(char second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompCharTriple setSecondIfArg(char second, LCharPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompCharTriple setSecondIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompCharTriple setSecondIf(LCharPredicate predicate, char second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompCharTriple setSecondIf(char second, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompCharTriple setSecondIf(LBiCharPredicate predicate, char second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutCompCharTriple setThird(char third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompCharTriple setThirdIfArg(char third, LCharPredicate predicate) {
-			if (predicate.test(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompCharTriple setThirdIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.third = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompCharTriple setThirdIf(LCharPredicate predicate, char third) {
-			if (predicate.test(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompCharTriple setThirdIf(char third, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompCharTriple setThirdIf(LBiCharPredicate predicate, char third) {
-
-			if (predicate.test(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = '\u0000';
-			second = '\u0000';
-			third = '\u0000';
-		}
+	public static ImmCharTriple immutableCopyOf(LCharTriple tuple) {
+		return immutableOf(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	/**
@@ -589,61 +443,15 @@ public interface LCharTriple extends LTuple<Object>, LCharPair {
 			this.third = a3;
 		}
 
-		public static ImmCharTriple of(char a1, char a2, char a3) {
-			return new ImmCharTriple(a1, a2, a3);
-		}
-
-		public static ImmCharTriple copyOf(LCharTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public char first() {
+		public @Override char first() {
 			return first;
 		}
 
-		public char second() {
+		public @Override char second() {
 			return second;
 		}
 
-		public char third() {
-			return third;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompCharTriple extends AbstractCharTriple implements ComparableCharTriple {
-
-		private final char first;
-		private final char second;
-		private final char third;
-
-		public ImmCompCharTriple(char a1, char a2, char a3) {
-			this.first = a1;
-			this.second = a2;
-			this.third = a3;
-		}
-
-		public static ImmCompCharTriple of(char a1, char a2, char a3) {
-			return new ImmCompCharTriple(a1, a2, a3);
-		}
-
-		public static ImmCompCharTriple copyOf(LCharTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public char first() {
-			return first;
-		}
-
-		public char second() {
-			return second;
-		}
-
-		public char third() {
+		public @Override char third() {
 			return third;
 		}
 

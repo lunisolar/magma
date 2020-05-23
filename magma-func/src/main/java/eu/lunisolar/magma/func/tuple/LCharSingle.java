@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LCharConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharSingle extends LTuple<Object> {
+public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,17 @@ public interface LCharSingle extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default Character get(int index) {
+		switch (index) {
+			case 1 :
+				return value();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default char getChar(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +64,7 @@ public interface LCharSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +116,9 @@ public interface LCharSingle extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Character> iterator() {
+		return new Iterator<Character>() {
 
 			private int index;
 
@@ -116,24 +128,37 @@ public interface LCharSingle extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public Character next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableCharSingle extends LCharSingle, Comparable<LCharSingle> {
+	default PrimitiveIterator.OfInt intIterator() {
+		return new PrimitiveIterator.OfInt() {
 
-		@Override
-		default int compareTo(LCharSingle that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Character.compare(one.value(), two.value())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public int nextInt() {
+				index++;
+				return getChar(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LCharSingle that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Character.compare(one.value(), two.value())) != 0 ? retval : 0; //
+			});
 	}
 
 	abstract class AbstractCharSingle implements LCharSingle {
@@ -160,9 +185,82 @@ public interface LCharSingle extends LTuple<Object> {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LCharSingle {
+
+		SELF value(char value);
+
+		default SELF setValue(char value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(char value, LCharPredicate predicate) {
+			if (predicate.test(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LToCharFunction<R> func) {
+			if (arg != null) {
+				return this.value(func.applyAsChar(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LCharPredicate predicate, char value) {
+			if (predicate.test(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(char value, LBiCharPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LBiCharPredicate predicate, char value) {
+			if (predicate.test(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value('\u0000');
+			return (SELF) this;
+		}
+	}
+
+	public static MutCharSingle of() {
+		return of('\u0000');
+	}
+
+	public static MutCharSingle of(char a) {
+		return new MutCharSingle(a);
+	}
+
+	public static MutCharSingle copyOf(LCharSingle tuple) {
+		return of(tuple.value());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutCharSingle extends AbstractCharSingle {
+
+	class MutCharSingle extends AbstractCharSingle implements Mut<MutCharSingle> {
 
 		private char value;
 
@@ -170,153 +268,23 @@ public interface LCharSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static MutCharSingle of(char a) {
-			return new MutCharSingle(a);
-		}
-
-		public static MutCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public char value() {
+		public @Override char value() {
 			return value;
 		}
 
-		public MutCharSingle value(char value) {
+		public @Override MutCharSingle value(char value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutCharSingle setValue(char value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCharSingle setValueIfArg(char value, LCharPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCharSingle setValueIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCharSingle setValueIf(LCharPredicate predicate, char value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCharSingle setValueIf(char value, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCharSingle setValueIf(LBiCharPredicate predicate, char value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = '\u0000';
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompCharSingle extends AbstractCharSingle implements ComparableCharSingle {
+	public static ImmCharSingle immutableOf(char a) {
+		return new ImmCharSingle(a);
+	}
 
-		private char value;
-
-		public MutCompCharSingle(char a) {
-			this.value = a;
-		}
-
-		public static MutCompCharSingle of(char a) {
-			return new MutCompCharSingle(a);
-		}
-
-		public static MutCompCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public char value() {
-			return value;
-		}
-
-		public MutCompCharSingle value(char value) {
-			this.value = value;
-			return this;
-		}
-
-		public MutCompCharSingle setValue(char value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompCharSingle setValueIfArg(char value, LCharPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompCharSingle setValueIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompCharSingle setValueIf(LCharPredicate predicate, char value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompCharSingle setValueIf(char value, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompCharSingle setValueIf(LBiCharPredicate predicate, char value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = '\u0000';
-		}
+	public static ImmCharSingle immutableCopyOf(LCharSingle tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,41 +299,7 @@ public interface LCharSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static ImmCharSingle of(char a) {
-			return new ImmCharSingle(a);
-		}
-
-		public static ImmCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public char value() {
-			return value;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompCharSingle extends AbstractCharSingle implements ComparableCharSingle {
-
-		private final char value;
-
-		public ImmCompCharSingle(char a) {
-			this.value = a;
-		}
-
-		public static ImmCompCharSingle of(char a) {
-			return new ImmCompCharSingle(a);
-		}
-
-		public static ImmCompCharSingle copyOf(LCharSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public char value() {
+		public @Override char value() {
 			return value;
 		}
 

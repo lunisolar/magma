@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LObjDblConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
+public interface LObjDblPair<T> extends LTuple<Object> {
 
 	int SIZE = 2;
 
@@ -46,6 +46,7 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 
 	double second();
 
+	@Override
 	default Object get(int index) {
 		switch (index) {
 			case 1 :
@@ -58,6 +59,7 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -111,6 +113,7 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 			});
 	}
 
+	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -130,7 +133,6 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 	}
 
 	interface ComparableObjDblPair<T extends Comparable<? super T>> extends LObjDblPair<T>, Comparable<LObjDblPair<T>> {
-
 		@Override
 		default int compareTo(LObjDblPair<T> that) {
 			return Null.compare(this, that, (one, two) -> {
@@ -169,9 +171,130 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<T, SELF extends Mut<T, SELF>> extends LObjDblPair<T> {
+
+		SELF first(T first);
+		SELF second(double second);
+
+		default SELF setFirst(T first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(T first, LPredicate<T> predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LFunction<R, T> func) {
+			if (arg != null) {
+				return this.first(func.apply(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LPredicate<T> predicate, T first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(T first, LBiPredicate<T, T> predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiPredicate<T, T> predicate, T first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(double second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(double second, LDblPredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsDbl(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LDblPredicate predicate, double second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(double second, LBiDblPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiDblPredicate predicate, double second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first(null);
+			this.second(0d);
+			return (SELF) this;
+		}
+	}
+
+	public static <T> MutObjDblPair<T> of() {
+		return of(null, 0d);
+	}
+
+	public static <T> MutObjDblPair<T> of(T a1, double a2) {
+		return new MutObjDblPair(a1, a2);
+	}
+
+	public static <T> MutObjDblPair<T> copyOf(LObjDblPair<T> tuple) {
+		return of(tuple.first(), tuple.second());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutObjDblPair<T> extends AbstractObjDblPair<T> {
+
+	class MutObjDblPair<T> extends AbstractObjDblPair<T> implements Mut<T, MutObjDblPair<T>> {
 
 		private T first;
 		private double second;
@@ -181,136 +304,43 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T> MutObjDblPair<T> of(T a1, double a2) {
-			return new MutObjDblPair(a1, a2);
-		}
-
-		public static <T> MutObjDblPair<T> copyOf(LObjDblPair<T> tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public T first() {
+		public @Override T first() {
 			return first;
 		}
 
-		public MutObjDblPair<T> first(T first) {
+		public @Override MutObjDblPair<T> first(T first) {
 			this.first = first;
 			return this;
 		}
 
-		public double second() {
+		public @Override double second() {
 			return second;
 		}
 
-		public MutObjDblPair<T> second(double second) {
+		public @Override MutObjDblPair<T> second(double second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutObjDblPair<T> setFirst(T first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutObjDblPair<T> setFirstIfArg(T first, LPredicate<T> predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static <T extends Comparable<? super T>> MutCompObjDblPair<T> comparableOf() {
+		return comparableOf(null, 0d);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutObjDblPair<T> setFirstIfArgNotNull(R arg, LFunction<R, T> func) {
-			if (arg != null) {
-				this.first = func.apply(arg);
-			}
-			return this;
-		}
+	public static <T extends Comparable<? super T>> MutCompObjDblPair<T> comparableOf(T a1, double a2) {
+		return new MutCompObjDblPair(a1, a2);
+	}
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutObjDblPair<T> setFirstIf(LPredicate<T> predicate, T first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutObjDblPair<T> setFirstIf(T first, LBiPredicate<T, T> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutObjDblPair<T> setFirstIf(LBiPredicate<T, T> predicate, T first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutObjDblPair<T> setSecond(double second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutObjDblPair<T> setSecondIfArg(double second, LDblPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutObjDblPair<T> setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutObjDblPair<T> setSecondIf(LDblPredicate predicate, double second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutObjDblPair<T> setSecondIf(double second, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutObjDblPair<T> setSecondIf(LBiDblPredicate predicate, double second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = null;
-			second = 0d;
-		}
+	public static <T extends Comparable<? super T>> MutCompObjDblPair<T> comparableCopyOf(LObjDblPair<T> tuple) {
+		return comparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompObjDblPair<T extends Comparable<? super T>> extends AbstractObjDblPair<T> implements ComparableObjDblPair<T> {
+
+	final class MutCompObjDblPair<T extends Comparable<? super T>> extends AbstractObjDblPair<T> implements ComparableObjDblPair<T>, Mut<T, MutCompObjDblPair<T>> {
 
 		private T first;
 		private double second;
@@ -320,130 +350,32 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T extends Comparable<? super T>> MutCompObjDblPair<T> of(T a1, double a2) {
-			return new MutCompObjDblPair(a1, a2);
-		}
-
-		public static <T extends Comparable<? super T>> MutCompObjDblPair<T> copyOf(LObjDblPair<T> tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public T first() {
+		public @Override T first() {
 			return first;
 		}
 
-		public MutCompObjDblPair<T> first(T first) {
+		public @Override MutCompObjDblPair<T> first(T first) {
 			this.first = first;
 			return this;
 		}
 
-		public double second() {
+		public @Override double second() {
 			return second;
 		}
 
-		public MutCompObjDblPair<T> second(double second) {
+		public @Override MutCompObjDblPair<T> second(double second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutCompObjDblPair<T> setFirst(T first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompObjDblPair<T> setFirstIfArg(T first, LPredicate<T> predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static <T> ImmObjDblPair<T> immutableOf(T a1, double a2) {
+		return new ImmObjDblPair(a1, a2);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompObjDblPair<T> setFirstIfArgNotNull(R arg, LFunction<R, T> func) {
-			if (arg != null) {
-				this.first = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompObjDblPair<T> setFirstIf(LPredicate<T> predicate, T first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompObjDblPair<T> setFirstIf(T first, LBiPredicate<T, T> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompObjDblPair<T> setFirstIf(LBiPredicate<T, T> predicate, T first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompObjDblPair<T> setSecond(double second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompObjDblPair<T> setSecondIfArg(double second, LDblPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompObjDblPair<T> setSecondIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompObjDblPair<T> setSecondIf(LDblPredicate predicate, double second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompObjDblPair<T> setSecondIf(double second, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompObjDblPair<T> setSecondIf(LBiDblPredicate predicate, double second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = null;
-			second = 0d;
-		}
+	public static <T> ImmObjDblPair<T> immutableCopyOf(LObjDblPair<T> tuple) {
+		return immutableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -460,22 +392,22 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T> ImmObjDblPair<T> of(T a1, double a2) {
-			return new ImmObjDblPair(a1, a2);
-		}
-
-		public static <T> ImmObjDblPair<T> copyOf(LObjDblPair<T> tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public T first() {
+		public @Override T first() {
 			return first;
 		}
 
-		public double second() {
+		public @Override double second() {
 			return second;
 		}
 
+	}
+
+	public static <T extends Comparable<? super T>> ImmCompObjDblPair<T> immutableComparableOf(T a1, double a2) {
+		return new ImmCompObjDblPair(a1, a2);
+	}
+
+	public static <T extends Comparable<? super T>> ImmCompObjDblPair<T> immutableComparableCopyOf(LObjDblPair<T> tuple) {
+		return immutableComparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -492,19 +424,11 @@ public interface LObjDblPair<T> extends LTuple<Object>, LSingle<T> {
 			this.second = a2;
 		}
 
-		public static <T extends Comparable<? super T>> ImmCompObjDblPair<T> of(T a1, double a2) {
-			return new ImmCompObjDblPair(a1, a2);
-		}
-
-		public static <T extends Comparable<? super T>> ImmCompObjDblPair<T> copyOf(LObjDblPair<T> tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public T first() {
+		public @Override T first() {
 			return first;
 		}
 
-		public double second() {
+		public @Override double second() {
 			return second;
 		}
 

@@ -73,4 +73,20 @@ public interface FltValueTrait<SELF extends FltValueTrait<SELF>> extends FluentT
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
+	default SELF add(float a1) {
+		return value((value() + a1));
+	}
+
+	default SELF sub(float a1) {
+		return value((value() - a1));
+	}
+
+	default SELF inc() {
+		return add(1f);
+	}
+
+	default SELF dec() {
+		return sub(1f);
+	}
+
 }

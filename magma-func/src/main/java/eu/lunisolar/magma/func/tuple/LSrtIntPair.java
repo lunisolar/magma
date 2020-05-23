@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LSrtIntConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
+public interface LSrtIntPair extends LTuple<Number> {
 
 	int SIZE = 2;
 
@@ -46,7 +46,8 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 
 	int second();
 
-	default Object get(int index) {
+	@Override
+	default Number get(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -58,6 +59,7 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -111,8 +113,9 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Number> iterator() {
+		return new Iterator<Number>() {
 
 			private int index;
 
@@ -122,7 +125,7 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 			}
 
 			@Override
-			public Object next() {
+			public Number next() {
 				index++;
 				return get(index);
 			}
@@ -130,7 +133,6 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 	}
 
 	interface ComparableSrtIntPair extends LSrtIntPair, Comparable<LSrtIntPair> {
-
 		@Override
 		default int compareTo(LSrtIntPair that) {
 			return Null.compare(this, that, (one, two) -> {
@@ -169,9 +171,130 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LSrtIntPair {
+
+		SELF first(short first);
+		SELF second(int second);
+
+		default SELF setFirst(short first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(short first, LSrtPredicate predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LToSrtFunction<R> func) {
+			if (arg != null) {
+				return this.first(func.applyAsSrt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LSrtPredicate predicate, short first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(short first, LBiSrtPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiSrtPredicate predicate, short first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(int second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(int second, LIntPredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsInt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LIntPredicate predicate, int second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(int second, LBiIntPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiIntPredicate predicate, int second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first((short) 0);
+			this.second(0);
+			return (SELF) this;
+		}
+	}
+
+	public static MutSrtIntPair of() {
+		return of((short) 0, 0);
+	}
+
+	public static MutSrtIntPair of(short a1, int a2) {
+		return new MutSrtIntPair(a1, a2);
+	}
+
+	public static MutSrtIntPair copyOf(LSrtIntPair tuple) {
+		return of(tuple.first(), tuple.second());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutSrtIntPair extends AbstractSrtIntPair {
+
+	class MutSrtIntPair extends AbstractSrtIntPair implements Mut<MutSrtIntPair> {
 
 		private short first;
 		private int second;
@@ -181,136 +304,43 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 			this.second = a2;
 		}
 
-		public static MutSrtIntPair of(short a1, int a2) {
-			return new MutSrtIntPair(a1, a2);
-		}
-
-		public static MutSrtIntPair copyOf(LSrtIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public short first() {
+		public @Override short first() {
 			return first;
 		}
 
-		public MutSrtIntPair first(short first) {
+		public @Override MutSrtIntPair first(short first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutSrtIntPair second(int second) {
+		public @Override MutSrtIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutSrtIntPair setFirst(short first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutSrtIntPair setFirstIfArg(short first, LSrtPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static MutCompSrtIntPair comparableOf() {
+		return comparableOf((short) 0, 0);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutSrtIntPair setFirstIfArgNotNull(R arg, LToSrtFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsSrt(arg);
-			}
-			return this;
-		}
+	public static MutCompSrtIntPair comparableOf(short a1, int a2) {
+		return new MutCompSrtIntPair(a1, a2);
+	}
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutSrtIntPair setFirstIf(LSrtPredicate predicate, short first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutSrtIntPair setFirstIf(short first, LBiSrtPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutSrtIntPair setFirstIf(LBiSrtPredicate predicate, short first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutSrtIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutSrtIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutSrtIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutSrtIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutSrtIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutSrtIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = (short) 0;
-			second = 0;
-		}
+	public static MutCompSrtIntPair comparableCopyOf(LSrtIntPair tuple) {
+		return comparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompSrtIntPair extends AbstractSrtIntPair implements ComparableSrtIntPair {
+
+	final class MutCompSrtIntPair extends AbstractSrtIntPair implements ComparableSrtIntPair, Mut<MutCompSrtIntPair> {
 
 		private short first;
 		private int second;
@@ -320,130 +350,32 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 			this.second = a2;
 		}
 
-		public static MutCompSrtIntPair of(short a1, int a2) {
-			return new MutCompSrtIntPair(a1, a2);
-		}
-
-		public static MutCompSrtIntPair copyOf(LSrtIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public short first() {
+		public @Override short first() {
 			return first;
 		}
 
-		public MutCompSrtIntPair first(short first) {
+		public @Override MutCompSrtIntPair first(short first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutCompSrtIntPair second(int second) {
+		public @Override MutCompSrtIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutCompSrtIntPair setFirst(short first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompSrtIntPair setFirstIfArg(short first, LSrtPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static ImmSrtIntPair immutableOf(short a1, int a2) {
+		return new ImmSrtIntPair(a1, a2);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompSrtIntPair setFirstIfArgNotNull(R arg, LToSrtFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsSrt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompSrtIntPair setFirstIf(LSrtPredicate predicate, short first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompSrtIntPair setFirstIf(short first, LBiSrtPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompSrtIntPair setFirstIf(LBiSrtPredicate predicate, short first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompSrtIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompSrtIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompSrtIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompSrtIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompSrtIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompSrtIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = (short) 0;
-			second = 0;
-		}
+	public static ImmSrtIntPair immutableCopyOf(LSrtIntPair tuple) {
+		return immutableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -460,22 +392,22 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 			this.second = a2;
 		}
 
-		public static ImmSrtIntPair of(short a1, int a2) {
-			return new ImmSrtIntPair(a1, a2);
-		}
-
-		public static ImmSrtIntPair copyOf(LSrtIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public short first() {
+		public @Override short first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
+	}
+
+	public static ImmCompSrtIntPair immutableComparableOf(short a1, int a2) {
+		return new ImmCompSrtIntPair(a1, a2);
+	}
+
+	public static ImmCompSrtIntPair immutableComparableCopyOf(LSrtIntPair tuple) {
+		return immutableComparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -492,19 +424,11 @@ public interface LSrtIntPair extends LTuple<Object>, LSrtSingle {
 			this.second = a2;
 		}
 
-		public static ImmCompSrtIntPair of(short a1, int a2) {
-			return new ImmCompSrtIntPair(a1, a2);
-		}
-
-		public static ImmCompSrtIntPair copyOf(LSrtIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public short first() {
+		public @Override short first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 

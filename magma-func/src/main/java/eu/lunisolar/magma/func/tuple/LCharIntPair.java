@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LCharIntConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharIntPair extends LTuple<Object>, LCharSingle {
+public interface LCharIntPair extends LTuple<Object> {
 
 	int SIZE = 2;
 
@@ -46,6 +46,7 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 
 	int second();
 
+	@Override
 	default Object get(int index) {
 		switch (index) {
 			case 1 :
@@ -58,6 +59,7 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -111,6 +113,7 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 			});
 	}
 
+	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -130,7 +133,6 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 	}
 
 	interface ComparableCharIntPair extends LCharIntPair, Comparable<LCharIntPair> {
-
 		@Override
 		default int compareTo(LCharIntPair that) {
 			return Null.compare(this, that, (one, two) -> {
@@ -169,9 +171,130 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LCharIntPair {
+
+		SELF first(char first);
+		SELF second(int second);
+
+		default SELF setFirst(char first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(char first, LCharPredicate predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
+			if (arg != null) {
+				return this.first(func.applyAsChar(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LCharPredicate predicate, char first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(char first, LBiCharPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiCharPredicate predicate, char first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(int second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(int second, LIntPredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsInt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LIntPredicate predicate, int second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(int second, LBiIntPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiIntPredicate predicate, int second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first('\u0000');
+			this.second(0);
+			return (SELF) this;
+		}
+	}
+
+	public static MutCharIntPair of() {
+		return of('\u0000', 0);
+	}
+
+	public static MutCharIntPair of(char a1, int a2) {
+		return new MutCharIntPair(a1, a2);
+	}
+
+	public static MutCharIntPair copyOf(LCharIntPair tuple) {
+		return of(tuple.first(), tuple.second());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutCharIntPair extends AbstractCharIntPair {
+
+	class MutCharIntPair extends AbstractCharIntPair implements Mut<MutCharIntPair> {
 
 		private char first;
 		private int second;
@@ -181,136 +304,43 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 			this.second = a2;
 		}
 
-		public static MutCharIntPair of(char a1, int a2) {
-			return new MutCharIntPair(a1, a2);
-		}
-
-		public static MutCharIntPair copyOf(LCharIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public char first() {
+		public @Override char first() {
 			return first;
 		}
 
-		public MutCharIntPair first(char first) {
+		public @Override MutCharIntPair first(char first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutCharIntPair second(int second) {
+		public @Override MutCharIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutCharIntPair setFirst(char first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCharIntPair setFirstIfArg(char first, LCharPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static MutCompCharIntPair comparableOf() {
+		return comparableOf('\u0000', 0);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCharIntPair setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsChar(arg);
-			}
-			return this;
-		}
+	public static MutCompCharIntPair comparableOf(char a1, int a2) {
+		return new MutCompCharIntPair(a1, a2);
+	}
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCharIntPair setFirstIf(LCharPredicate predicate, char first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCharIntPair setFirstIf(char first, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCharIntPair setFirstIf(LBiCharPredicate predicate, char first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCharIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCharIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCharIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCharIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCharIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCharIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = '\u0000';
-			second = 0;
-		}
+	public static MutCompCharIntPair comparableCopyOf(LCharIntPair tuple) {
+		return comparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompCharIntPair extends AbstractCharIntPair implements ComparableCharIntPair {
+
+	final class MutCompCharIntPair extends AbstractCharIntPair implements ComparableCharIntPair, Mut<MutCompCharIntPair> {
 
 		private char first;
 		private int second;
@@ -320,130 +350,32 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 			this.second = a2;
 		}
 
-		public static MutCompCharIntPair of(char a1, int a2) {
-			return new MutCompCharIntPair(a1, a2);
-		}
-
-		public static MutCompCharIntPair copyOf(LCharIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public char first() {
+		public @Override char first() {
 			return first;
 		}
 
-		public MutCompCharIntPair first(char first) {
+		public @Override MutCompCharIntPair first(char first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutCompCharIntPair second(int second) {
+		public @Override MutCompCharIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutCompCharIntPair setFirst(char first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompCharIntPair setFirstIfArg(char first, LCharPredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static ImmCharIntPair immutableOf(char a1, int a2) {
+		return new ImmCharIntPair(a1, a2);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompCharIntPair setFirstIfArgNotNull(R arg, LToCharFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsChar(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompCharIntPair setFirstIf(LCharPredicate predicate, char first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompCharIntPair setFirstIf(char first, LBiCharPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompCharIntPair setFirstIf(LBiCharPredicate predicate, char first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompCharIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompCharIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompCharIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompCharIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompCharIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompCharIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = '\u0000';
-			second = 0;
-		}
+	public static ImmCharIntPair immutableCopyOf(LCharIntPair tuple) {
+		return immutableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -460,22 +392,22 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 			this.second = a2;
 		}
 
-		public static ImmCharIntPair of(char a1, int a2) {
-			return new ImmCharIntPair(a1, a2);
-		}
-
-		public static ImmCharIntPair copyOf(LCharIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public char first() {
+		public @Override char first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
+	}
+
+	public static ImmCompCharIntPair immutableComparableOf(char a1, int a2) {
+		return new ImmCompCharIntPair(a1, a2);
+	}
+
+	public static ImmCompCharIntPair immutableComparableCopyOf(LCharIntPair tuple) {
+		return immutableComparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -492,19 +424,11 @@ public interface LCharIntPair extends LTuple<Object>, LCharSingle {
 			this.second = a2;
 		}
 
-		public static ImmCompCharIntPair of(char a1, int a2) {
-			return new ImmCompCharIntPair(a1, a2);
-		}
-
-		public static ImmCompCharIntPair copyOf(LCharIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public char first() {
+		public @Override char first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 

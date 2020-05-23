@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LSingle<T> extends LTuple<Object> {
+public interface LSingle<T> extends LTuple<T> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,8 @@ public interface LSingle<T> extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default T get(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +55,7 @@ public interface LSingle<T> extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +107,9 @@ public interface LSingle<T> extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<T> iterator() {
+		return new Iterator<T>() {
 
 			private int index;
 
@@ -116,7 +119,7 @@ public interface LSingle<T> extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public T next() {
 				index++;
 				return get(index);
 			}
@@ -124,7 +127,6 @@ public interface LSingle<T> extends LTuple<Object> {
 	}
 
 	interface ComparableSingle<T extends Comparable<? super T>> extends LSingle<T>, Comparable<LSingle<T>> {
-
 		@Override
 		default int compareTo(LSingle<T> that) {
 			return Null.compare(this, that, (one, two) -> {
@@ -160,9 +162,82 @@ public interface LSingle<T> extends LTuple<Object> {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<T, SELF extends Mut<T, SELF>> extends LSingle<T> {
+
+		SELF value(T value);
+
+		default SELF setValue(T value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(T value, LPredicate<T> predicate) {
+			if (predicate.test(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LFunction<R, T> func) {
+			if (arg != null) {
+				return this.value(func.apply(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LPredicate<T> predicate, T value) {
+			if (predicate.test(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(T value, LBiPredicate<T, T> predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LBiPredicate<T, T> predicate, T value) {
+			if (predicate.test(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value(null);
+			return (SELF) this;
+		}
+	}
+
+	public static <T> MutSingle<T> of() {
+		return of(null);
+	}
+
+	public static <T> MutSingle<T> of(T a) {
+		return new MutSingle(a);
+	}
+
+	public static <T> MutSingle<T> copyOf(LSingle<T> tuple) {
+		return of(tuple.value());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutSingle<T> extends AbstractSingle<T> {
+
+	class MutSingle<T> extends AbstractSingle<T> implements Mut<T, MutSingle<T>> {
 
 		private T value;
 
@@ -170,79 +245,34 @@ public interface LSingle<T> extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static <T> MutSingle<T> of(T a) {
-			return new MutSingle(a);
-		}
-
-		public static <T> MutSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.value());
-		}
-
-		public T value() {
+		public @Override T value() {
 			return value;
 		}
 
-		public MutSingle<T> value(T value) {
+		public @Override MutSingle<T> value(T value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutSingle<T> setValue(T value) {
-			this.value = value;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutSingle<T> setValueIfArg(T value, LPredicate<T> predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
+	public static <T extends Comparable<? super T>> MutCompSingle<T> comparableOf() {
+		return comparableOf(null);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutSingle<T> setValueIfArgNotNull(R arg, LFunction<R, T> func) {
-			if (arg != null) {
-				this.value = func.apply(arg);
-			}
-			return this;
-		}
+	public static <T extends Comparable<? super T>> MutCompSingle<T> comparableOf(T a) {
+		return new MutCompSingle(a);
+	}
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutSingle<T> setValueIf(LPredicate<T> predicate, T value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutSingle<T> setValueIf(T value, LBiPredicate<T, T> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutSingle<T> setValueIf(LBiPredicate<T, T> predicate, T value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = null;
-		}
+	public static <T extends Comparable<? super T>> MutCompSingle<T> comparableCopyOf(LSingle<T> tuple) {
+		return comparableOf(tuple.value());
 	}
 
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompSingle<T extends Comparable<? super T>> extends AbstractSingle<T> implements ComparableSingle<T> {
+
+	final class MutCompSingle<T extends Comparable<? super T>> extends AbstractSingle<T> implements ComparableSingle<T>, Mut<T, MutCompSingle<T>> {
 
 		private T value;
 
@@ -250,73 +280,23 @@ public interface LSingle<T> extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static <T extends Comparable<? super T>> MutCompSingle<T> of(T a) {
-			return new MutCompSingle(a);
-		}
-
-		public static <T extends Comparable<? super T>> MutCompSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.value());
-		}
-
-		public T value() {
+		public @Override T value() {
 			return value;
 		}
 
-		public MutCompSingle<T> value(T value) {
+		public @Override MutCompSingle<T> value(T value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutCompSingle<T> setValue(T value) {
-			this.value = value;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompSingle<T> setValueIfArg(T value, LPredicate<T> predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
+	public static <T> ImmSingle<T> immutableOf(T a) {
+		return new ImmSingle(a);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompSingle<T> setValueIfArgNotNull(R arg, LFunction<R, T> func) {
-			if (arg != null) {
-				this.value = func.apply(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompSingle<T> setValueIf(LPredicate<T> predicate, T value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompSingle<T> setValueIf(T value, LBiPredicate<T, T> predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompSingle<T> setValueIf(LBiPredicate<T, T> predicate, T value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = null;
-		}
+	public static <T> ImmSingle<T> immutableCopyOf(LSingle<T> tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,18 +311,18 @@ public interface LSingle<T> extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static <T> ImmSingle<T> of(T a) {
-			return new ImmSingle(a);
-		}
-
-		public static <T> ImmSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.value());
-		}
-
-		public T value() {
+		public @Override T value() {
 			return value;
 		}
 
+	}
+
+	public static <T extends Comparable<? super T>> ImmCompSingle<T> immutableComparableOf(T a) {
+		return new ImmCompSingle(a);
+	}
+
+	public static <T extends Comparable<? super T>> ImmCompSingle<T> immutableComparableCopyOf(LSingle<T> tuple) {
+		return immutableComparableOf(tuple.value());
 	}
 
 	/**
@@ -357,15 +337,7 @@ public interface LSingle<T> extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static <T extends Comparable<? super T>> ImmCompSingle<T> of(T a) {
-			return new ImmCompSingle(a);
-		}
-
-		public static <T extends Comparable<? super T>> ImmCompSingle<T> copyOf(LSingle<T> tuple) {
-			return of(tuple.value());
-		}
-
-		public T value() {
+		public @Override T value() {
 			return value;
 		}
 

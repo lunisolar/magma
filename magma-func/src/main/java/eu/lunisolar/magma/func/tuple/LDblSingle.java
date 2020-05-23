@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LDblConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblSingle extends LTuple<Object> {
+public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,17 @@ public interface LDblSingle extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default Double get(int index) {
+		switch (index) {
+			case 1 :
+				return value();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default double getDouble(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +64,7 @@ public interface LDblSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +116,9 @@ public interface LDblSingle extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Double> iterator() {
+		return new Iterator<Double>() {
 
 			private int index;
 
@@ -116,27 +128,40 @@ public interface LDblSingle extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public Double next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableDblSingle extends LDblSingle, Comparable<LDblSingle> {
+	default PrimitiveIterator.OfDouble doubleIterator() {
+		return new PrimitiveIterator.OfDouble() {
 
-		@Override
-		default int compareTo(LDblSingle that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Double.compare(one.value(), two.value())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public double nextDouble() {
+				index++;
+				return getDouble(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LDblSingle that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Double.compare(one.value(), two.value())) != 0 ? retval : 0; //
+			});
 	}
 
-	abstract class AbstractDblSingle implements LDblSingle {
+	abstract class AbstractDblSingle extends Number implements LDblSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -157,12 +182,114 @@ public interface LDblSingle extends LTuple<Object> {
 			return sb.toString();
 		}
 
+		@Override
+		public byte byteValue() {
+			return (byte) value();
+		}
+
+		@Override
+		public short shortValue() {
+			return (short) value();
+		}
+
+		@Override
+		public int intValue() {
+			return (int) value();
+		}
+
+		@Override
+		public long longValue() {
+			return (long) value();
+		}
+
+		@Override
+		public float floatValue() {
+			return (float) value();
+		}
+
+		@Override
+		public double doubleValue() {
+			return (double) value();
+		}
+	}
+
+	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LDblSingle {
+
+		SELF value(double value);
+
+		default SELF setValue(double value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(double value, LDblPredicate predicate) {
+			if (predicate.test(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
+			if (arg != null) {
+				return this.value(func.applyAsDbl(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LDblPredicate predicate, double value) {
+			if (predicate.test(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(double value, LBiDblPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LBiDblPredicate predicate, double value) {
+			if (predicate.test(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value(0d);
+			return (SELF) this;
+		}
+	}
+
+	public static MutDblSingle of() {
+		return of(0d);
+	}
+
+	public static MutDblSingle of(double a) {
+		return new MutDblSingle(a);
+	}
+
+	public static MutDblSingle copyOf(LDblSingle tuple) {
+		return of(tuple.value());
 	}
 
 	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutDblSingle extends AbstractDblSingle {
+
+	class MutDblSingle extends AbstractDblSingle implements Mut<MutDblSingle> {
 
 		private double value;
 
@@ -170,153 +297,23 @@ public interface LDblSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static MutDblSingle of(double a) {
-			return new MutDblSingle(a);
-		}
-
-		public static MutDblSingle copyOf(LDblSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public double value() {
+		public @Override double value() {
 			return value;
 		}
 
-		public MutDblSingle value(double value) {
+		public @Override MutDblSingle value(double value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutDblSingle setValue(double value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutDblSingle setValueIfArg(double value, LDblPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutDblSingle setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutDblSingle setValueIf(LDblPredicate predicate, double value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutDblSingle setValueIf(double value, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutDblSingle setValueIf(LBiDblPredicate predicate, double value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0d;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompDblSingle extends AbstractDblSingle implements ComparableDblSingle {
+	public static ImmDblSingle immutableOf(double a) {
+		return new ImmDblSingle(a);
+	}
 
-		private double value;
-
-		public MutCompDblSingle(double a) {
-			this.value = a;
-		}
-
-		public static MutCompDblSingle of(double a) {
-			return new MutCompDblSingle(a);
-		}
-
-		public static MutCompDblSingle copyOf(LDblSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public double value() {
-			return value;
-		}
-
-		public MutCompDblSingle value(double value) {
-			this.value = value;
-			return this;
-		}
-
-		public MutCompDblSingle setValue(double value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompDblSingle setValueIfArg(double value, LDblPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompDblSingle setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsDbl(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompDblSingle setValueIf(LDblPredicate predicate, double value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompDblSingle setValueIf(double value, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompDblSingle setValueIf(LBiDblPredicate predicate, double value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0d;
-		}
+	public static ImmDblSingle immutableCopyOf(LDblSingle tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,41 +328,7 @@ public interface LDblSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static ImmDblSingle of(double a) {
-			return new ImmDblSingle(a);
-		}
-
-		public static ImmDblSingle copyOf(LDblSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public double value() {
-			return value;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompDblSingle extends AbstractDblSingle implements ComparableDblSingle {
-
-		private final double value;
-
-		public ImmCompDblSingle(double a) {
-			this.value = a;
-		}
-
-		public static ImmCompDblSingle of(double a) {
-			return new ImmCompDblSingle(a);
-		}
-
-		public static ImmCompDblSingle copyOf(LDblSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public double value() {
+		public @Override double value() {
 			return value;
 		}
 

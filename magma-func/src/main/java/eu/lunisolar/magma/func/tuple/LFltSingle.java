@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LFltConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltSingle extends LTuple<Object> {
+public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,17 @@ public interface LFltSingle extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default Float get(int index) {
+		switch (index) {
+			case 1 :
+				return value();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default float getFloat(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +64,7 @@ public interface LFltSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +116,9 @@ public interface LFltSingle extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Float> iterator() {
+		return new Iterator<Float>() {
 
 			private int index;
 
@@ -116,27 +128,40 @@ public interface LFltSingle extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public Float next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableFltSingle extends LFltSingle, Comparable<LFltSingle> {
+	default PrimitiveIterator.OfDouble doubleIterator() {
+		return new PrimitiveIterator.OfDouble() {
 
-		@Override
-		default int compareTo(LFltSingle that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Float.compare(one.value(), two.value())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public double nextDouble() {
+				index++;
+				return getFloat(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LFltSingle that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Float.compare(one.value(), two.value())) != 0 ? retval : 0; //
+			});
 	}
 
-	abstract class AbstractFltSingle implements LFltSingle {
+	abstract class AbstractFltSingle extends Number implements LFltSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -157,12 +182,114 @@ public interface LFltSingle extends LTuple<Object> {
 			return sb.toString();
 		}
 
+		@Override
+		public byte byteValue() {
+			return (byte) value();
+		}
+
+		@Override
+		public short shortValue() {
+			return (short) value();
+		}
+
+		@Override
+		public int intValue() {
+			return (int) value();
+		}
+
+		@Override
+		public long longValue() {
+			return (long) value();
+		}
+
+		@Override
+		public float floatValue() {
+			return (float) value();
+		}
+
+		@Override
+		public double doubleValue() {
+			return (double) value();
+		}
+	}
+
+	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LFltSingle {
+
+		SELF value(float value);
+
+		default SELF setValue(float value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(float value, LFltPredicate predicate) {
+			if (predicate.test(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LToFltFunction<R> func) {
+			if (arg != null) {
+				return this.value(func.applyAsFlt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LFltPredicate predicate, float value) {
+			if (predicate.test(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(float value, LBiFltPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LBiFltPredicate predicate, float value) {
+			if (predicate.test(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value(0f);
+			return (SELF) this;
+		}
+	}
+
+	public static MutFltSingle of() {
+		return of(0f);
+	}
+
+	public static MutFltSingle of(float a) {
+		return new MutFltSingle(a);
+	}
+
+	public static MutFltSingle copyOf(LFltSingle tuple) {
+		return of(tuple.value());
 	}
 
 	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutFltSingle extends AbstractFltSingle {
+
+	class MutFltSingle extends AbstractFltSingle implements Mut<MutFltSingle> {
 
 		private float value;
 
@@ -170,153 +297,23 @@ public interface LFltSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static MutFltSingle of(float a) {
-			return new MutFltSingle(a);
-		}
-
-		public static MutFltSingle copyOf(LFltSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public float value() {
+		public @Override float value() {
 			return value;
 		}
 
-		public MutFltSingle value(float value) {
+		public @Override MutFltSingle value(float value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutFltSingle setValue(float value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutFltSingle setValueIfArg(float value, LFltPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutFltSingle setValueIfArgNotNull(R arg, LToFltFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsFlt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutFltSingle setValueIf(LFltPredicate predicate, float value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutFltSingle setValueIf(float value, LBiFltPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutFltSingle setValueIf(LBiFltPredicate predicate, float value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0f;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompFltSingle extends AbstractFltSingle implements ComparableFltSingle {
+	public static ImmFltSingle immutableOf(float a) {
+		return new ImmFltSingle(a);
+	}
 
-		private float value;
-
-		public MutCompFltSingle(float a) {
-			this.value = a;
-		}
-
-		public static MutCompFltSingle of(float a) {
-			return new MutCompFltSingle(a);
-		}
-
-		public static MutCompFltSingle copyOf(LFltSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public float value() {
-			return value;
-		}
-
-		public MutCompFltSingle value(float value) {
-			this.value = value;
-			return this;
-		}
-
-		public MutCompFltSingle setValue(float value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompFltSingle setValueIfArg(float value, LFltPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompFltSingle setValueIfArgNotNull(R arg, LToFltFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsFlt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompFltSingle setValueIf(LFltPredicate predicate, float value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompFltSingle setValueIf(float value, LBiFltPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompFltSingle setValueIf(LBiFltPredicate predicate, float value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0f;
-		}
+	public static ImmFltSingle immutableCopyOf(LFltSingle tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,41 +328,7 @@ public interface LFltSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static ImmFltSingle of(float a) {
-			return new ImmFltSingle(a);
-		}
-
-		public static ImmFltSingle copyOf(LFltSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public float value() {
-			return value;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompFltSingle extends AbstractFltSingle implements ComparableFltSingle {
-
-		private final float value;
-
-		public ImmCompFltSingle(float a) {
-			this.value = a;
-		}
-
-		public static ImmCompFltSingle of(float a) {
-			return new ImmCompFltSingle(a);
-		}
-
-		public static ImmCompFltSingle copyOf(LFltSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public float value() {
+		public @Override float value() {
 			return value;
 		}
 

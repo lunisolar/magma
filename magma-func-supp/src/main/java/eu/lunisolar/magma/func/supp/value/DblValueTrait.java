@@ -73,4 +73,20 @@ public interface DblValueTrait<SELF extends DblValueTrait<SELF>> extends FluentT
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
+	default SELF add(double a1) {
+		return value((value() + a1));
+	}
+
+	default SELF sub(double a1) {
+		return value((value() - a1));
+	}
+
+	default SELF inc() {
+		return add(1d);
+	}
+
+	default SELF dec() {
+		return sub(1d);
+	}
+
 }

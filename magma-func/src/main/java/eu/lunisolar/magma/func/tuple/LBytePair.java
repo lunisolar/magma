@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBiByteConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBytePair extends LTuple<Object>, LByteSingle {
+public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 
 	int SIZE = 2;
 
@@ -46,7 +46,19 @@ public interface LBytePair extends LTuple<Object>, LByteSingle {
 
 	byte second();
 
-	default Object get(int index) {
+	@Override
+	default Byte get(int index) {
+		switch (index) {
+			case 1 :
+				return first();
+			case 2 :
+				return second();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default byte getByte(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -58,6 +70,7 @@ public interface LBytePair extends LTuple<Object>, LByteSingle {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -111,8 +124,9 @@ public interface LBytePair extends LTuple<Object>, LByteSingle {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Byte> iterator() {
+		return new Iterator<Byte>() {
 
 			private int index;
 
@@ -122,25 +136,38 @@ public interface LBytePair extends LTuple<Object>, LByteSingle {
 			}
 
 			@Override
-			public Object next() {
+			public Byte next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableBytePair extends LBytePair, Comparable<LBytePair> {
+	default PrimitiveIterator.OfInt intIterator() {
+		return new PrimitiveIterator.OfInt() {
 
-		@Override
-		default int compareTo(LBytePair that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Byte.compare(one.first(), two.first())) != 0 ? retval : //
-						(retval = Byte.compare(one.second(), two.second())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public int nextInt() {
+				index++;
+				return getByte(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LBytePair that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Byte.compare(one.first(), two.first())) != 0 ? retval : //
+					(retval = Byte.compare(one.second(), two.second())) != 0 ? retval : 0; //
+			});
 	}
 
 	abstract class AbstractBytePair implements LBytePair {
@@ -169,9 +196,130 @@ public interface LBytePair extends LTuple<Object>, LByteSingle {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LBytePair {
+
+		SELF first(byte first);
+		SELF second(byte second);
+
+		default SELF setFirst(byte first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(byte first, LBytePredicate predicate) {
+			if (predicate.test(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LToByteFunction<R> func) {
+			if (arg != null) {
+				return this.first(func.applyAsByte(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LBytePredicate predicate, byte first) {
+			if (predicate.test(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(byte first, LBiBytePredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LBiBytePredicate predicate, byte first) {
+			if (predicate.test(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(byte second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(byte second, LBytePredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToByteFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsByte(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LBytePredicate predicate, byte second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(byte second, LBiBytePredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiBytePredicate predicate, byte second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first((byte) 0);
+			this.second((byte) 0);
+			return (SELF) this;
+		}
+	}
+
+	public static MutBytePair of() {
+		return of((byte) 0, (byte) 0);
+	}
+
+	public static MutBytePair of(byte a1, byte a2) {
+		return new MutBytePair(a1, a2);
+	}
+
+	public static MutBytePair copyOf(LBytePair tuple) {
+		return of(tuple.first(), tuple.second());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutBytePair extends AbstractBytePair {
+
+	class MutBytePair extends AbstractBytePair implements Mut<MutBytePair> {
 
 		private byte first;
 		private byte second;
@@ -181,269 +329,32 @@ public interface LBytePair extends LTuple<Object>, LByteSingle {
 			this.second = a2;
 		}
 
-		public static MutBytePair of(byte a1, byte a2) {
-			return new MutBytePair(a1, a2);
-		}
-
-		public static MutBytePair copyOf(LBytePair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public byte first() {
+		public @Override byte first() {
 			return first;
 		}
 
-		public MutBytePair first(byte first) {
+		public @Override MutBytePair first(byte first) {
 			this.first = first;
 			return this;
 		}
 
-		public byte second() {
+		public @Override byte second() {
 			return second;
 		}
 
-		public MutBytePair second(byte second) {
+		public @Override MutBytePair second(byte second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutBytePair setFirst(byte first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBytePair setFirstIfArg(byte first, LBytePredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBytePair setFirstIfArgNotNull(R arg, LToByteFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsByte(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBytePair setFirstIf(LBytePredicate predicate, byte first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBytePair setFirstIf(byte first, LBiBytePredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBytePair setFirstIf(LBiBytePredicate predicate, byte first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutBytePair setSecond(byte second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBytePair setSecondIfArg(byte second, LBytePredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBytePair setSecondIfArgNotNull(R arg, LToByteFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsByte(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBytePair setSecondIf(LBytePredicate predicate, byte second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBytePair setSecondIf(byte second, LBiBytePredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBytePair setSecondIf(LBiBytePredicate predicate, byte second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = (byte) 0;
-			second = (byte) 0;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompBytePair extends AbstractBytePair implements ComparableBytePair {
+	public static ImmBytePair immutableOf(byte a1, byte a2) {
+		return new ImmBytePair(a1, a2);
+	}
 
-		private byte first;
-		private byte second;
-
-		public MutCompBytePair(byte a1, byte a2) {
-			this.first = a1;
-			this.second = a2;
-		}
-
-		public static MutCompBytePair of(byte a1, byte a2) {
-			return new MutCompBytePair(a1, a2);
-		}
-
-		public static MutCompBytePair copyOf(LBytePair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public byte first() {
-			return first;
-		}
-
-		public MutCompBytePair first(byte first) {
-			this.first = first;
-			return this;
-		}
-
-		public byte second() {
-			return second;
-		}
-
-		public MutCompBytePair second(byte second) {
-			this.second = second;
-			return this;
-		}
-
-		public MutCompBytePair setFirst(byte first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBytePair setFirstIfArg(byte first, LBytePredicate predicate) {
-			if (predicate.test(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBytePair setFirstIfArgNotNull(R arg, LToByteFunction<R> func) {
-			if (arg != null) {
-				this.first = func.applyAsByte(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBytePair setFirstIf(LBytePredicate predicate, byte first) {
-			if (predicate.test(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBytePair setFirstIf(byte first, LBiBytePredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBytePair setFirstIf(LBiBytePredicate predicate, byte first) {
-
-			if (predicate.test(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompBytePair setSecond(byte second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBytePair setSecondIfArg(byte second, LBytePredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBytePair setSecondIfArgNotNull(R arg, LToByteFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsByte(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBytePair setSecondIf(LBytePredicate predicate, byte second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBytePair setSecondIf(byte second, LBiBytePredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBytePair setSecondIf(LBiBytePredicate predicate, byte second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = (byte) 0;
-			second = (byte) 0;
-		}
+	public static ImmBytePair immutableCopyOf(LBytePair tuple) {
+		return immutableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -460,51 +371,11 @@ public interface LBytePair extends LTuple<Object>, LByteSingle {
 			this.second = a2;
 		}
 
-		public static ImmBytePair of(byte a1, byte a2) {
-			return new ImmBytePair(a1, a2);
-		}
-
-		public static ImmBytePair copyOf(LBytePair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public byte first() {
+		public @Override byte first() {
 			return first;
 		}
 
-		public byte second() {
-			return second;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompBytePair extends AbstractBytePair implements ComparableBytePair {
-
-		private final byte first;
-		private final byte second;
-
-		public ImmCompBytePair(byte a1, byte a2) {
-			this.first = a1;
-			this.second = a2;
-		}
-
-		public static ImmCompBytePair of(byte a1, byte a2) {
-			return new ImmCompBytePair(a1, a2);
-		}
-
-		public static ImmCompBytePair copyOf(LBytePair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public byte first() {
-			return first;
-		}
-
-		public byte second() {
+		public @Override byte second() {
 			return second;
 		}
 

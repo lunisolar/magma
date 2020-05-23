@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LIntConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntSingle extends LTuple<Object> {
+public interface LIntSingle extends LTuple<Integer>, Comparable<LIntSingle> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,17 @@ public interface LIntSingle extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default Integer get(int index) {
+		switch (index) {
+			case 1 :
+				return value();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default int getInt(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +64,7 @@ public interface LIntSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +116,9 @@ public interface LIntSingle extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Integer> iterator() {
+		return new Iterator<Integer>() {
 
 			private int index;
 
@@ -116,27 +128,40 @@ public interface LIntSingle extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public Integer next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableIntSingle extends LIntSingle, Comparable<LIntSingle> {
+	default PrimitiveIterator.OfInt intIterator() {
+		return new PrimitiveIterator.OfInt() {
 
-		@Override
-		default int compareTo(LIntSingle that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Integer.compare(one.value(), two.value())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public int nextInt() {
+				index++;
+				return getInt(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LIntSingle that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Integer.compare(one.value(), two.value())) != 0 ? retval : 0; //
+			});
 	}
 
-	abstract class AbstractIntSingle implements LIntSingle {
+	abstract class AbstractIntSingle extends Number implements LIntSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -157,12 +182,114 @@ public interface LIntSingle extends LTuple<Object> {
 			return sb.toString();
 		}
 
+		@Override
+		public byte byteValue() {
+			return (byte) value();
+		}
+
+		@Override
+		public short shortValue() {
+			return (short) value();
+		}
+
+		@Override
+		public int intValue() {
+			return (int) value();
+		}
+
+		@Override
+		public long longValue() {
+			return (long) value();
+		}
+
+		@Override
+		public float floatValue() {
+			return (float) value();
+		}
+
+		@Override
+		public double doubleValue() {
+			return (double) value();
+		}
+	}
+
+	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LIntSingle {
+
+		SELF value(int value);
+
+		default SELF setValue(int value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(int value, LIntPredicate predicate) {
+			if (predicate.test(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LToIntFunction<R> func) {
+			if (arg != null) {
+				return this.value(func.applyAsInt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LIntPredicate predicate, int value) {
+			if (predicate.test(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(int value, LBiIntPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LBiIntPredicate predicate, int value) {
+			if (predicate.test(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value(0);
+			return (SELF) this;
+		}
+	}
+
+	public static MutIntSingle of() {
+		return of(0);
+	}
+
+	public static MutIntSingle of(int a) {
+		return new MutIntSingle(a);
+	}
+
+	public static MutIntSingle copyOf(LIntSingle tuple) {
+		return of(tuple.value());
 	}
 
 	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutIntSingle extends AbstractIntSingle {
+
+	class MutIntSingle extends AbstractIntSingle implements Mut<MutIntSingle> {
 
 		private int value;
 
@@ -170,153 +297,23 @@ public interface LIntSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static MutIntSingle of(int a) {
-			return new MutIntSingle(a);
-		}
-
-		public static MutIntSingle copyOf(LIntSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public int value() {
+		public @Override int value() {
 			return value;
 		}
 
-		public MutIntSingle value(int value) {
+		public @Override MutIntSingle value(int value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutIntSingle setValue(int value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutIntSingle setValueIfArg(int value, LIntPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutIntSingle setValueIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutIntSingle setValueIf(LIntPredicate predicate, int value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutIntSingle setValueIf(int value, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutIntSingle setValueIf(LBiIntPredicate predicate, int value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompIntSingle extends AbstractIntSingle implements ComparableIntSingle {
+	public static ImmIntSingle immutableOf(int a) {
+		return new ImmIntSingle(a);
+	}
 
-		private int value;
-
-		public MutCompIntSingle(int a) {
-			this.value = a;
-		}
-
-		public static MutCompIntSingle of(int a) {
-			return new MutCompIntSingle(a);
-		}
-
-		public static MutCompIntSingle copyOf(LIntSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public int value() {
-			return value;
-		}
-
-		public MutCompIntSingle value(int value) {
-			this.value = value;
-			return this;
-		}
-
-		public MutCompIntSingle setValue(int value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompIntSingle setValueIfArg(int value, LIntPredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompIntSingle setValueIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompIntSingle setValueIf(LIntPredicate predicate, int value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompIntSingle setValueIf(int value, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompIntSingle setValueIf(LBiIntPredicate predicate, int value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = 0;
-		}
+	public static ImmIntSingle immutableCopyOf(LIntSingle tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,41 +328,7 @@ public interface LIntSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static ImmIntSingle of(int a) {
-			return new ImmIntSingle(a);
-		}
-
-		public static ImmIntSingle copyOf(LIntSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public int value() {
-			return value;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompIntSingle extends AbstractIntSingle implements ComparableIntSingle {
-
-		private final int value;
-
-		public ImmCompIntSingle(int a) {
-			this.value = a;
-		}
-
-		public static ImmCompIntSingle of(int a) {
-			return new ImmCompIntSingle(a);
-		}
-
-		public static ImmCompIntSingle copyOf(LIntSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public int value() {
+		public @Override int value() {
 			return value;
 		}
 

@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBoolIntConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
+public interface LBoolIntPair extends LTuple<Object> {
 
 	int SIZE = 2;
 
@@ -46,6 +46,7 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 
 	int second();
 
+	@Override
 	default Object get(int index) {
 		switch (index) {
 			case 1 :
@@ -58,6 +59,7 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -111,6 +113,7 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 			});
 	}
 
+	@Override
 	default Iterator<Object> iterator() {
 		return new Iterator<Object>() {
 
@@ -130,7 +133,6 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 	}
 
 	interface ComparableBoolIntPair extends LBoolIntPair, Comparable<LBoolIntPair> {
-
 		@Override
 		default int compareTo(LBoolIntPair that) {
 			return Null.compare(this, that, (one, two) -> {
@@ -169,9 +171,130 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LBoolIntPair {
+
+		SELF first(boolean first);
+		SELF second(int second);
+
+		default SELF setFirst(boolean first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(boolean first, LLogicalOperator predicate) {
+			if (predicate.apply(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LPredicate<R> func) {
+			if (arg != null) {
+				return this.first(func.test(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LLogicalOperator predicate, boolean first) {
+			if (predicate.apply(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.apply(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
+			if (predicate.apply(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(int second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(int second, LIntPredicate predicate) {
+			if (predicate.test(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
+			if (arg != null) {
+				return this.second(func.applyAsInt(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LIntPredicate predicate, int second) {
+			if (predicate.test(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(int second, LBiIntPredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LBiIntPredicate predicate, int second) {
+			if (predicate.test(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first(false);
+			this.second(0);
+			return (SELF) this;
+		}
+	}
+
+	public static MutBoolIntPair of() {
+		return of(false, 0);
+	}
+
+	public static MutBoolIntPair of(boolean a1, int a2) {
+		return new MutBoolIntPair(a1, a2);
+	}
+
+	public static MutBoolIntPair copyOf(LBoolIntPair tuple) {
+		return of(tuple.first(), tuple.second());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutBoolIntPair extends AbstractBoolIntPair {
+
+	class MutBoolIntPair extends AbstractBoolIntPair implements Mut<MutBoolIntPair> {
 
 		private boolean first;
 		private int second;
@@ -181,136 +304,43 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 			this.second = a2;
 		}
 
-		public static MutBoolIntPair of(boolean a1, int a2) {
-			return new MutBoolIntPair(a1, a2);
-		}
-
-		public static MutBoolIntPair copyOf(LBoolIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public boolean first() {
+		public @Override boolean first() {
 			return first;
 		}
 
-		public MutBoolIntPair first(boolean first) {
+		public @Override MutBoolIntPair first(boolean first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutBoolIntPair second(int second) {
+		public @Override MutBoolIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutBoolIntPair setFirst(boolean first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBoolIntPair setFirstIfArg(boolean first, LLogicalOperator predicate) {
-			if (predicate.apply(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static MutCompBoolIntPair comparableOf() {
+		return comparableOf(false, 0);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBoolIntPair setFirstIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.first = func.test(arg);
-			}
-			return this;
-		}
+	public static MutCompBoolIntPair comparableOf(boolean a1, int a2) {
+		return new MutCompBoolIntPair(a1, a2);
+	}
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBoolIntPair setFirstIf(LLogicalOperator predicate, boolean first) {
-			if (predicate.apply(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBoolIntPair setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBoolIntPair setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
-
-			if (predicate.apply(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutBoolIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBoolIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBoolIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBoolIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBoolIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBoolIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = false;
-			second = 0;
-		}
+	public static MutCompBoolIntPair comparableCopyOf(LBoolIntPair tuple) {
+		return comparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
 	 * Mutable, comparable tuple.
 	 */
-	final class MutCompBoolIntPair extends AbstractBoolIntPair implements ComparableBoolIntPair {
+
+	final class MutCompBoolIntPair extends AbstractBoolIntPair implements ComparableBoolIntPair, Mut<MutCompBoolIntPair> {
 
 		private boolean first;
 		private int second;
@@ -320,130 +350,32 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 			this.second = a2;
 		}
 
-		public static MutCompBoolIntPair of(boolean a1, int a2) {
-			return new MutCompBoolIntPair(a1, a2);
-		}
-
-		public static MutCompBoolIntPair copyOf(LBoolIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public boolean first() {
+		public @Override boolean first() {
 			return first;
 		}
 
-		public MutCompBoolIntPair first(boolean first) {
+		public @Override MutCompBoolIntPair first(boolean first) {
 			this.first = first;
 			return this;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
-		public MutCompBoolIntPair second(int second) {
+		public @Override MutCompBoolIntPair second(int second) {
 			this.second = second;
 			return this;
 		}
 
-		public MutCompBoolIntPair setFirst(boolean first) {
-			this.first = first;
-			return this;
-		}
+	}
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBoolIntPair setFirstIfArg(boolean first, LLogicalOperator predicate) {
-			if (predicate.apply(first)) {
-				this.first = first;
-			}
-			return this;
-		}
+	public static ImmBoolIntPair immutableOf(boolean a1, int a2) {
+		return new ImmBoolIntPair(a1, a2);
+	}
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBoolIntPair setFirstIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.first = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBoolIntPair setFirstIf(LLogicalOperator predicate, boolean first) {
-			if (predicate.apply(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBoolIntPair setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBoolIntPair setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
-
-			if (predicate.apply(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompBoolIntPair setSecond(int second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBoolIntPair setSecondIfArg(int second, LIntPredicate predicate) {
-			if (predicate.test(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBoolIntPair setSecondIfArgNotNull(R arg, LToIntFunction<R> func) {
-			if (arg != null) {
-				this.second = func.applyAsInt(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBoolIntPair setSecondIf(LIntPredicate predicate, int second) {
-			if (predicate.test(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBoolIntPair setSecondIf(int second, LBiIntPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBoolIntPair setSecondIf(LBiIntPredicate predicate, int second) {
-
-			if (predicate.test(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = false;
-			second = 0;
-		}
+	public static ImmBoolIntPair immutableCopyOf(LBoolIntPair tuple) {
+		return immutableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -460,22 +392,22 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 			this.second = a2;
 		}
 
-		public static ImmBoolIntPair of(boolean a1, int a2) {
-			return new ImmBoolIntPair(a1, a2);
-		}
-
-		public static ImmBoolIntPair copyOf(LBoolIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public boolean first() {
+		public @Override boolean first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 
+	}
+
+	public static ImmCompBoolIntPair immutableComparableOf(boolean a1, int a2) {
+		return new ImmCompBoolIntPair(a1, a2);
+	}
+
+	public static ImmCompBoolIntPair immutableComparableCopyOf(LBoolIntPair tuple) {
+		return immutableComparableOf(tuple.first(), tuple.second());
 	}
 
 	/**
@@ -492,19 +424,11 @@ public interface LBoolIntPair extends LTuple<Object>, LBoolSingle {
 			this.second = a2;
 		}
 
-		public static ImmCompBoolIntPair of(boolean a1, int a2) {
-			return new ImmCompBoolIntPair(a1, a2);
-		}
-
-		public static ImmCompBoolIntPair copyOf(LBoolIntPair tuple) {
-			return of(tuple.first(), tuple.second());
-		}
-
-		public boolean first() {
+		public @Override boolean first() {
 			return first;
 		}
 
-		public int second() {
+		public @Override int second() {
 			return second;
 		}
 

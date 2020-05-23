@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LByteConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteSingle extends LTuple<Object> {
+public interface LByteSingle extends LTuple<Byte>, Comparable<LByteSingle> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,17 @@ public interface LByteSingle extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default Byte get(int index) {
+		switch (index) {
+			case 1 :
+				return value();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default byte getByte(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +64,7 @@ public interface LByteSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +116,9 @@ public interface LByteSingle extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Byte> iterator() {
+		return new Iterator<Byte>() {
 
 			private int index;
 
@@ -116,27 +128,40 @@ public interface LByteSingle extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public Byte next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableByteSingle extends LByteSingle, Comparable<LByteSingle> {
+	default PrimitiveIterator.OfInt intIterator() {
+		return new PrimitiveIterator.OfInt() {
 
-		@Override
-		default int compareTo(LByteSingle that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
+			private int index;
 
-				return (retval = Byte.compare(one.value(), two.value())) != 0 ? retval : 0; //
-				});
-		}
+			@Override
+			public boolean hasNext() {
+				return index < SIZE;
+			}
 
+			@Override
+			public int nextInt() {
+				index++;
+				return getByte(index);
+			}
+		};
+	}
+	@Override
+	default int compareTo(LByteSingle that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
+
+			return (retval = Byte.compare(one.value(), two.value())) != 0 ? retval : 0; //
+			});
 	}
 
-	abstract class AbstractByteSingle implements LByteSingle {
+	abstract class AbstractByteSingle extends Number implements LByteSingle {
 
 		@Override
 		public boolean equals(Object that) {
@@ -157,12 +182,114 @@ public interface LByteSingle extends LTuple<Object> {
 			return sb.toString();
 		}
 
+		@Override
+		public byte byteValue() {
+			return (byte) value();
+		}
+
+		@Override
+		public short shortValue() {
+			return (short) value();
+		}
+
+		@Override
+		public int intValue() {
+			return (int) value();
+		}
+
+		@Override
+		public long longValue() {
+			return (long) value();
+		}
+
+		@Override
+		public float floatValue() {
+			return (float) value();
+		}
+
+		@Override
+		public double doubleValue() {
+			return (double) value();
+		}
+	}
+
+	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LByteSingle {
+
+		SELF value(byte value);
+
+		default SELF setValue(byte value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(byte value, LBytePredicate predicate) {
+			if (predicate.test(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
+			if (arg != null) {
+				return this.value(func.applyAsByte(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LBytePredicate predicate, byte value) {
+			if (predicate.test(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(byte value, LBiBytePredicate predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.test(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LBiBytePredicate predicate, byte value) {
+			if (predicate.test(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value((byte) 0);
+			return (SELF) this;
+		}
+	}
+
+	public static MutByteSingle of() {
+		return of((byte) 0);
+	}
+
+	public static MutByteSingle of(byte a) {
+		return new MutByteSingle(a);
+	}
+
+	public static MutByteSingle copyOf(LByteSingle tuple) {
+		return of(tuple.value());
 	}
 
 	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutByteSingle extends AbstractByteSingle {
+
+	class MutByteSingle extends AbstractByteSingle implements Mut<MutByteSingle> {
 
 		private byte value;
 
@@ -170,153 +297,23 @@ public interface LByteSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static MutByteSingle of(byte a) {
-			return new MutByteSingle(a);
-		}
-
-		public static MutByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public byte value() {
+		public @Override byte value() {
 			return value;
 		}
 
-		public MutByteSingle value(byte value) {
+		public @Override MutByteSingle value(byte value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutByteSingle setValue(byte value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutByteSingle setValueIfArg(byte value, LBytePredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutByteSingle setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsByte(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutByteSingle setValueIf(LBytePredicate predicate, byte value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutByteSingle setValueIf(byte value, LBiBytePredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutByteSingle setValueIf(LBiBytePredicate predicate, byte value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = (byte) 0;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompByteSingle extends AbstractByteSingle implements ComparableByteSingle {
+	public static ImmByteSingle immutableOf(byte a) {
+		return new ImmByteSingle(a);
+	}
 
-		private byte value;
-
-		public MutCompByteSingle(byte a) {
-			this.value = a;
-		}
-
-		public static MutCompByteSingle of(byte a) {
-			return new MutCompByteSingle(a);
-		}
-
-		public static MutCompByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public byte value() {
-			return value;
-		}
-
-		public MutCompByteSingle value(byte value) {
-			this.value = value;
-			return this;
-		}
-
-		public MutCompByteSingle setValue(byte value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompByteSingle setValueIfArg(byte value, LBytePredicate predicate) {
-			if (predicate.test(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompByteSingle setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
-			if (arg != null) {
-				this.value = func.applyAsByte(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompByteSingle setValueIf(LBytePredicate predicate, byte value) {
-			if (predicate.test(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompByteSingle setValueIf(byte value, LBiBytePredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompByteSingle setValueIf(LBiBytePredicate predicate, byte value) {
-
-			if (predicate.test(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = (byte) 0;
-		}
+	public static ImmByteSingle immutableCopyOf(LByteSingle tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,41 +328,7 @@ public interface LByteSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static ImmByteSingle of(byte a) {
-			return new ImmByteSingle(a);
-		}
-
-		public static ImmByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public byte value() {
-			return value;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompByteSingle extends AbstractByteSingle implements ComparableByteSingle {
-
-		private final byte value;
-
-		public ImmCompByteSingle(byte a) {
-			this.value = a;
-		}
-
-		public static ImmCompByteSingle of(byte a) {
-			return new ImmCompByteSingle(a);
-		}
-
-		public static ImmCompByteSingle copyOf(LByteSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public byte value() {
+		public @Override byte value() {
 			return value;
 		}
 

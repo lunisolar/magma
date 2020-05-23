@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LBoolConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolSingle extends LTuple<Object> {
+public interface LBoolSingle extends LTuple<Boolean>, Comparable<LBoolSingle> {
 
 	int SIZE = 1;
 
@@ -44,7 +44,17 @@ public interface LBoolSingle extends LTuple<Object> {
 		return value();
 	}
 
-	default Object get(int index) {
+	@Override
+	default Boolean get(int index) {
+		switch (index) {
+			case 1 :
+				return value();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default boolean getBoolean(int index) {
 		switch (index) {
 			case 1 :
 				return value();
@@ -54,6 +64,7 @@ public interface LBoolSingle extends LTuple<Object> {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -105,8 +116,9 @@ public interface LBoolSingle extends LTuple<Object> {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Boolean> iterator() {
+		return new Iterator<Boolean>() {
 
 			private int index;
 
@@ -116,24 +128,20 @@ public interface LBoolSingle extends LTuple<Object> {
 			}
 
 			@Override
-			public Object next() {
+			public Boolean next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableBoolSingle extends LBoolSingle, Comparable<LBoolSingle> {
+	@Override
+	default int compareTo(LBoolSingle that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
 
-		@Override
-		default int compareTo(LBoolSingle that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
-
-				return (retval = Boolean.compare(one.value(), two.value())) != 0 ? retval : 0; //
-				});
-		}
-
+			return (retval = Boolean.compare(one.value(), two.value())) != 0 ? retval : 0; //
+			});
 	}
 
 	abstract class AbstractBoolSingle implements LBoolSingle {
@@ -160,9 +168,82 @@ public interface LBoolSingle extends LTuple<Object> {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LBoolSingle {
+
+		SELF value(boolean value);
+
+		default SELF setValue(boolean value) {
+			this.value(value);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setValueIfArg(boolean value, LLogicalOperator predicate) {
+			if (predicate.apply(value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setValueIfArgNotNull(R arg, LPredicate<R> func) {
+			if (arg != null) {
+				return this.value(func.test(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setValueIf(LLogicalOperator predicate, boolean value) {
+			if (predicate.apply(this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setValueIf(boolean value, LLogicalBinaryOperator predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.apply(value, this.value())) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setValueIf(LLogicalBinaryOperator predicate, boolean value) {
+			if (predicate.apply(this.value(), value)) {
+				return this.value(value);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.value(false);
+			return (SELF) this;
+		}
+	}
+
+	public static MutBoolSingle of() {
+		return of(false);
+	}
+
+	public static MutBoolSingle of(boolean a) {
+		return new MutBoolSingle(a);
+	}
+
+	public static MutBoolSingle copyOf(LBoolSingle tuple) {
+		return of(tuple.value());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutBoolSingle extends AbstractBoolSingle {
+
+	class MutBoolSingle extends AbstractBoolSingle implements Mut<MutBoolSingle> {
 
 		private boolean value;
 
@@ -170,153 +251,23 @@ public interface LBoolSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static MutBoolSingle of(boolean a) {
-			return new MutBoolSingle(a);
-		}
-
-		public static MutBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public boolean value() {
+		public @Override boolean value() {
 			return value;
 		}
 
-		public MutBoolSingle value(boolean value) {
+		public @Override MutBoolSingle value(boolean value) {
 			this.value = value;
 			return this;
 		}
 
-		public MutBoolSingle setValue(boolean value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBoolSingle setValueIfArg(boolean value, LLogicalOperator predicate) {
-			if (predicate.apply(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBoolSingle setValueIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.value = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBoolSingle setValueIf(LLogicalOperator predicate, boolean value) {
-			if (predicate.apply(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBoolSingle setValueIf(boolean value, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBoolSingle setValueIf(LLogicalBinaryOperator predicate, boolean value) {
-
-			if (predicate.apply(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = false;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompBoolSingle extends AbstractBoolSingle implements ComparableBoolSingle {
+	public static ImmBoolSingle immutableOf(boolean a) {
+		return new ImmBoolSingle(a);
+	}
 
-		private boolean value;
-
-		public MutCompBoolSingle(boolean a) {
-			this.value = a;
-		}
-
-		public static MutCompBoolSingle of(boolean a) {
-			return new MutCompBoolSingle(a);
-		}
-
-		public static MutCompBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public boolean value() {
-			return value;
-		}
-
-		public MutCompBoolSingle value(boolean value) {
-			this.value = value;
-			return this;
-		}
-
-		public MutCompBoolSingle setValue(boolean value) {
-			this.value = value;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBoolSingle setValueIfArg(boolean value, LLogicalOperator predicate) {
-			if (predicate.apply(value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBoolSingle setValueIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.value = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBoolSingle setValueIf(LLogicalOperator predicate, boolean value) {
-			if (predicate.apply(this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBoolSingle setValueIf(boolean value, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(value, this.value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBoolSingle setValueIf(LLogicalBinaryOperator predicate, boolean value) {
-
-			if (predicate.apply(this.value, value)) {
-				this.value = value;
-			}
-			return this;
-		}
-
-		public void reset() {
-			value = false;
-		}
+	public static ImmBoolSingle immutableCopyOf(LBoolSingle tuple) {
+		return immutableOf(tuple.value());
 	}
 
 	/**
@@ -331,41 +282,7 @@ public interface LBoolSingle extends LTuple<Object> {
 			this.value = a;
 		}
 
-		public static ImmBoolSingle of(boolean a) {
-			return new ImmBoolSingle(a);
-		}
-
-		public static ImmBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public boolean value() {
-			return value;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompBoolSingle extends AbstractBoolSingle implements ComparableBoolSingle {
-
-		private final boolean value;
-
-		public ImmCompBoolSingle(boolean a) {
-			this.value = a;
-		}
-
-		public static ImmCompBoolSingle of(boolean a) {
-			return new ImmCompBoolSingle(a);
-		}
-
-		public static ImmCompBoolSingle copyOf(LBoolSingle tuple) {
-			return of(tuple.value());
-		}
-
-		public boolean value() {
+		public @Override boolean value() {
 			return value;
 		}
 

@@ -34,7 +34,7 @@ import java.util.*;
  * Exact equivalent of input parameters used in LTriBoolConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolTriple extends LTuple<Object>, LBoolPair {
+public interface LBoolTriple extends LTuple<Boolean>, Comparable<LBoolTriple> {
 
 	int SIZE = 3;
 
@@ -48,7 +48,21 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 
 	boolean third();
 
-	default Object get(int index) {
+	@Override
+	default Boolean get(int index) {
+		switch (index) {
+			case 1 :
+				return first();
+			case 2 :
+				return second();
+			case 3 :
+				return third();
+			default :
+				throw new NoSuchElementException();
+		}
+	}
+
+	default boolean getBoolean(int index) {
 		switch (index) {
 			case 1 :
 				return first();
@@ -62,6 +76,7 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 	}
 
 	/** Tuple size */
+	@Override
 	default int tupleSize() {
 		return SIZE;
 	}
@@ -117,8 +132,9 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 			});
 	}
 
-	default Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	@Override
+	default Iterator<Boolean> iterator() {
+		return new Iterator<Boolean>() {
 
 			private int index;
 
@@ -128,26 +144,22 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 			}
 
 			@Override
-			public Object next() {
+			public Boolean next() {
 				index++;
 				return get(index);
 			}
 		};
 	}
 
-	interface ComparableBoolTriple extends LBoolTriple, Comparable<LBoolTriple> {
+	@Override
+	default int compareTo(LBoolTriple that) {
+		return Null.compare(this, that, (one, two) -> {
+			int retval = 0;
 
-		@Override
-		default int compareTo(LBoolTriple that) {
-			return Null.compare(this, that, (one, two) -> {
-				int retval = 0;
-
-				return (retval = Boolean.compare(one.first(), two.first())) != 0 ? retval : //
-						(retval = Boolean.compare(one.second(), two.second())) != 0 ? retval : //
-								(retval = Boolean.compare(one.third(), two.third())) != 0 ? retval : 0; //
-				});
-		}
-
+			return (retval = Boolean.compare(one.first(), two.first())) != 0 ? retval : //
+					(retval = Boolean.compare(one.second(), two.second())) != 0 ? retval : //
+							(retval = Boolean.compare(one.third(), two.third())) != 0 ? retval : 0; //
+			});
 	}
 
 	abstract class AbstractBoolTriple implements LBoolTriple {
@@ -178,9 +190,178 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 	}
 
 	/**
+	 * Mutable tuple.
+	 */
+
+	interface Mut<SELF extends Mut<SELF>> extends LBoolTriple {
+
+		SELF first(boolean first);
+		SELF second(boolean second);
+		SELF third(boolean third);
+
+		default SELF setFirst(boolean first) {
+			this.first(first);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setFirstIfArg(boolean first, LLogicalOperator predicate) {
+			if (predicate.apply(first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setFirstIfArgNotNull(R arg, LPredicate<R> func) {
+			if (arg != null) {
+				return this.first(func.test(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setFirstIf(LLogicalOperator predicate, boolean first) {
+			if (predicate.apply(this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.apply(first, this.first())) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
+			if (predicate.apply(this.first(), first)) {
+				return this.first(first);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setSecond(boolean second) {
+			this.second(second);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setSecondIfArg(boolean second, LLogicalOperator predicate) {
+			if (predicate.apply(second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setSecondIfArgNotNull(R arg, LPredicate<R> func) {
+			if (arg != null) {
+				return this.second(func.test(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setSecondIf(LLogicalOperator predicate, boolean second) {
+			if (predicate.apply(this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.apply(second, this.second())) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
+			if (predicate.apply(this.second(), second)) {
+				return this.second(second);
+			}
+			return (SELF) this;
+		}
+
+		default SELF setThird(boolean third) {
+			this.third(third);
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(newValue) OR newValue::predicate is true */
+		default SELF setThirdIfArg(boolean third, LLogicalOperator predicate) {
+			if (predicate.apply(third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value derived from non-null argument, only if argument is not null. */
+		default <R> SELF setThirdIfArgNotNull(R arg, LPredicate<R> func) {
+			if (arg != null) {
+				return this.third(func.test(arg));
+			}
+			return (SELF) this;
+		}
+
+		/** Sets value if predicate(current) OR current::predicate is true */
+		default SELF setThirdIf(LLogicalOperator predicate, boolean third) {
+			if (predicate.apply(this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+		default SELF setThirdIf(boolean third, LLogicalBinaryOperator predicate) {
+			// the order of arguments is intentional, to allow predicate:
+			if (predicate.apply(third, this.third())) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+		default SELF setThirdIf(LLogicalBinaryOperator predicate, boolean third) {
+			if (predicate.apply(this.third(), third)) {
+				return this.third(third);
+			}
+			return (SELF) this;
+		}
+
+		default SELF reset() {
+			this.first(false);
+			this.second(false);
+			this.third(false);
+			return (SELF) this;
+		}
+	}
+
+	public static MutBoolTriple of() {
+		return of(false, false, false);
+	}
+
+	public static MutBoolTriple of(boolean a1, boolean a2, boolean a3) {
+		return new MutBoolTriple(a1, a2, a3);
+	}
+
+	public static MutBoolTriple copyOf(LBoolTriple tuple) {
+		return of(tuple.first(), tuple.second(), tuple.third());
+	}
+
+	/**
 	 * Mutable, non-comparable tuple.
 	 */
-	final class MutBoolTriple extends AbstractBoolTriple {
+
+	class MutBoolTriple extends AbstractBoolTriple implements Mut<MutBoolTriple> {
 
 		private boolean first;
 		private boolean second;
@@ -192,385 +373,41 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 			this.third = a3;
 		}
 
-		public static MutBoolTriple of(boolean a1, boolean a2, boolean a3) {
-			return new MutBoolTriple(a1, a2, a3);
-		}
-
-		public static MutBoolTriple copyOf(LBoolTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public boolean first() {
+		public @Override boolean first() {
 			return first;
 		}
 
-		public MutBoolTriple first(boolean first) {
+		public @Override MutBoolTriple first(boolean first) {
 			this.first = first;
 			return this;
 		}
 
-		public boolean second() {
+		public @Override boolean second() {
 			return second;
 		}
 
-		public MutBoolTriple second(boolean second) {
+		public @Override MutBoolTriple second(boolean second) {
 			this.second = second;
 			return this;
 		}
 
-		public boolean third() {
+		public @Override boolean third() {
 			return third;
 		}
 
-		public MutBoolTriple third(boolean third) {
+		public @Override MutBoolTriple third(boolean third) {
 			this.third = third;
 			return this;
 		}
 
-		public MutBoolTriple setFirst(boolean first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBoolTriple setFirstIfArg(boolean first, LLogicalOperator predicate) {
-			if (predicate.apply(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBoolTriple setFirstIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.first = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBoolTriple setFirstIf(LLogicalOperator predicate, boolean first) {
-			if (predicate.apply(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBoolTriple setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBoolTriple setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
-
-			if (predicate.apply(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutBoolTriple setSecond(boolean second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBoolTriple setSecondIfArg(boolean second, LLogicalOperator predicate) {
-			if (predicate.apply(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBoolTriple setSecondIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.second = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBoolTriple setSecondIf(LLogicalOperator predicate, boolean second) {
-			if (predicate.apply(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBoolTriple setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBoolTriple setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
-
-			if (predicate.apply(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutBoolTriple setThird(boolean third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutBoolTriple setThirdIfArg(boolean third, LLogicalOperator predicate) {
-			if (predicate.apply(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutBoolTriple setThirdIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.third = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutBoolTriple setThirdIf(LLogicalOperator predicate, boolean third) {
-			if (predicate.apply(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutBoolTriple setThirdIf(boolean third, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutBoolTriple setThirdIf(LLogicalBinaryOperator predicate, boolean third) {
-
-			if (predicate.apply(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = false;
-			second = false;
-			third = false;
-		}
 	}
 
-	/**
-	 * Mutable, comparable tuple.
-	 */
-	final class MutCompBoolTriple extends AbstractBoolTriple implements ComparableBoolTriple {
+	public static ImmBoolTriple immutableOf(boolean a1, boolean a2, boolean a3) {
+		return new ImmBoolTriple(a1, a2, a3);
+	}
 
-		private boolean first;
-		private boolean second;
-		private boolean third;
-
-		public MutCompBoolTriple(boolean a1, boolean a2, boolean a3) {
-			this.first = a1;
-			this.second = a2;
-			this.third = a3;
-		}
-
-		public static MutCompBoolTriple of(boolean a1, boolean a2, boolean a3) {
-			return new MutCompBoolTriple(a1, a2, a3);
-		}
-
-		public static MutCompBoolTriple copyOf(LBoolTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public boolean first() {
-			return first;
-		}
-
-		public MutCompBoolTriple first(boolean first) {
-			this.first = first;
-			return this;
-		}
-
-		public boolean second() {
-			return second;
-		}
-
-		public MutCompBoolTriple second(boolean second) {
-			this.second = second;
-			return this;
-		}
-
-		public boolean third() {
-			return third;
-		}
-
-		public MutCompBoolTriple third(boolean third) {
-			this.third = third;
-			return this;
-		}
-
-		public MutCompBoolTriple setFirst(boolean first) {
-			this.first = first;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBoolTriple setFirstIfArg(boolean first, LLogicalOperator predicate) {
-			if (predicate.apply(first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBoolTriple setFirstIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.first = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBoolTriple setFirstIf(LLogicalOperator predicate, boolean first) {
-			if (predicate.apply(this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBoolTriple setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(first, this.first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBoolTriple setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
-
-			if (predicate.apply(this.first, first)) {
-				this.first = first;
-			}
-			return this;
-		}
-
-		public MutCompBoolTriple setSecond(boolean second) {
-			this.second = second;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBoolTriple setSecondIfArg(boolean second, LLogicalOperator predicate) {
-			if (predicate.apply(second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBoolTriple setSecondIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.second = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBoolTriple setSecondIf(LLogicalOperator predicate, boolean second) {
-			if (predicate.apply(this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBoolTriple setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(second, this.second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBoolTriple setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
-
-			if (predicate.apply(this.second, second)) {
-				this.second = second;
-			}
-			return this;
-		}
-
-		public MutCompBoolTriple setThird(boolean third) {
-			this.third = third;
-			return this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		public MutCompBoolTriple setThirdIfArg(boolean third, LLogicalOperator predicate) {
-			if (predicate.apply(third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		public <R> MutCompBoolTriple setThirdIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				this.third = func.test(arg);
-			}
-			return this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		public MutCompBoolTriple setThirdIf(LLogicalOperator predicate, boolean third) {
-			if (predicate.apply(this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		public MutCompBoolTriple setThirdIf(boolean third, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(third, this.third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		public MutCompBoolTriple setThirdIf(LLogicalBinaryOperator predicate, boolean third) {
-
-			if (predicate.apply(this.third, third)) {
-				this.third = third;
-			}
-			return this;
-		}
-
-		public void reset() {
-			first = false;
-			second = false;
-			third = false;
-		}
+	public static ImmBoolTriple immutableCopyOf(LBoolTriple tuple) {
+		return immutableOf(tuple.first(), tuple.second(), tuple.third());
 	}
 
 	/**
@@ -589,61 +426,15 @@ public interface LBoolTriple extends LTuple<Object>, LBoolPair {
 			this.third = a3;
 		}
 
-		public static ImmBoolTriple of(boolean a1, boolean a2, boolean a3) {
-			return new ImmBoolTriple(a1, a2, a3);
-		}
-
-		public static ImmBoolTriple copyOf(LBoolTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public boolean first() {
+		public @Override boolean first() {
 			return first;
 		}
 
-		public boolean second() {
+		public @Override boolean second() {
 			return second;
 		}
 
-		public boolean third() {
-			return third;
-		}
-
-	}
-
-	/**
-	 * Immutable, comparable tuple.
-	 */
-	@Immutable
-	final class ImmCompBoolTriple extends AbstractBoolTriple implements ComparableBoolTriple {
-
-		private final boolean first;
-		private final boolean second;
-		private final boolean third;
-
-		public ImmCompBoolTriple(boolean a1, boolean a2, boolean a3) {
-			this.first = a1;
-			this.second = a2;
-			this.third = a3;
-		}
-
-		public static ImmCompBoolTriple of(boolean a1, boolean a2, boolean a3) {
-			return new ImmCompBoolTriple(a1, a2, a3);
-		}
-
-		public static ImmCompBoolTriple copyOf(LBoolTriple tuple) {
-			return of(tuple.first(), tuple.second(), tuple.third());
-		}
-
-		public boolean first() {
-			return first;
-		}
-
-		public boolean second() {
-			return second;
-		}
-
-		public boolean third() {
+		public @Override boolean third() {
 			return third;
 		}
 
