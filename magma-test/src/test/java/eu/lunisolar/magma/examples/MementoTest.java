@@ -33,33 +33,62 @@ public class MementoTest {
     @Test
     void memento1() {
         AtomicLong i = new AtomicLong(0);
-        var sut = LLongSupplier.memento(-1, i::getAndIncrement, (x1, x2)-> x2 );
+        var sut = LLongSupplier.memento(-1, -1, i::getAndIncrement, (m, x1, x2) -> x2);
 
         assertThat(sut.lastValue()).isEqualTo(-1);
+        assertThat(sut.lastBaseValue()).isEqualTo(-1);
         assertThat(sut.getAsLong()).isEqualTo(0);
 
         assertThat(sut.lastValue()).isEqualTo(0);
+        assertThat(sut.lastBaseValue()).isEqualTo(0);
         assertThat(sut.getAsLong()).isEqualTo(1);
 
         assertThat(sut.lastValue()).isEqualTo(1);
+        assertThat(sut.lastBaseValue()).isEqualTo(1);
         assertThat(sut.getAsLong()).isEqualTo(2);
     }
 
     @Test
     void memento2() {
         AtomicLong i = new AtomicLong(0);
-        var sut = LLongSupplier.memento(-1, i::getAndIncrement, Long::sum);
+        var sut = LLongSupplier.memento(-1, 5, i::getAndIncrement, (m, x1, x2) -> Long.sum(m, x2));
 
-        assertThat(sut.lastValue()).isEqualTo(-1);
-        assertThat(sut.getAsLong()).isEqualTo(-1); // -1 + 0
+        assertThat(sut.lastValue()).isEqualTo(5);
+        assertThat(sut.lastBaseValue()).isEqualTo(-1);
+        assertThat(sut.getAsLong()).isEqualTo(5); // 5 + 0
 
-        assertThat(sut.lastValue()).isEqualTo(-1);
-        assertThat(sut.getAsLong()).isEqualTo(0);  // -1 + 0 + 1
+        assertThat(sut.lastValue()).isEqualTo(5);
+        assertThat(sut.lastBaseValue()).isEqualTo(0);
+        assertThat(sut.getAsLong()).isEqualTo(6);  // 5 + 0 + 1
+
+        assertThat(sut.lastValue()).isEqualTo(6);
+        assertThat(sut.lastBaseValue()).isEqualTo(1);
+        assertThat(sut.getAsLong()).isEqualTo(8);  // 5 + 0 + 1 + 2
+
+        assertThat(sut.lastValue()).isEqualTo(8);
+        assertThat(sut.lastBaseValue()).isEqualTo(2);
+        assertThat(sut.getAsLong()).isEqualTo(11);  // 5 + 0 + 1 + 2 + 3
+    }
+
+    @Test
+    void delta() {
+        AtomicLong i = new AtomicLong(0);
+        var sut = LLongSupplier.deltaOf(i::getAndIncrement);
 
         assertThat(sut.lastValue()).isEqualTo(0);
-        assertThat(sut.getAsLong()).isEqualTo(2);  // -1 + 0 + 1 + 2
+        assertThat(sut.lastBaseValue()).isEqualTo(0);
+        assertThat(sut.getAsLong()).isEqualTo(1); // increment 1
 
-        assertThat(sut.lastValue()).isEqualTo(2);
-        assertThat(sut.getAsLong()).isEqualTo(5);  // -1 + 0 + 1 + 2 + 3
+        assertThat(sut.lastValue()).isEqualTo(1);
+        assertThat(sut.lastBaseValue()).isEqualTo(1);
+        assertThat(sut.getAsLong()).isEqualTo(1);  // increment 1
+
+        assertThat(sut.lastValue()).isEqualTo(1);
+        assertThat(sut.lastBaseValue()).isEqualTo(2);
+        assertThat(sut.getAsLong()).isEqualTo(1);
+
+        assertThat(sut.lastValue()).isEqualTo(1);
+        assertThat(sut.lastBaseValue()).isEqualTo(3);
+        assertThat(sut.getAsLong()).isEqualTo(1);
     }
 }

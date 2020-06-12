@@ -396,19 +396,13 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static <T> M<T> mementoOf(T a, LToIntFunction<T> function) {
 		var initialValue = function.applyAsInt(a);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static <T> M<T> initializedMementoOf(int initialValue, LToIntFunction<T> function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static <T> M<T> deltaOf(T a, LToIntFunction<T> function, LIntBinaryOperator deltaFunction) {
@@ -421,45 +415,45 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static <T> M<T> initializedDeltaOf(int initialValue, LToIntFunction<T> function, LIntBinaryOperator deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.applyAsInt(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.applyAsInt(x1, x2));
+	}
+
+	public static <T> M<T> memento(int initialBaseValue, int initialValue, LToIntFunction<T> baseFunction, LIntTernaryOperator mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static <T> M<T> memento(int initialValue, LToIntFunction<T> baseFunction, LIntBinaryOperator mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LToIntFunction.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LToIntFunction.M)
 	 */
 	final class M<T> implements LToIntFunction<T> {
 
-		private int lastValue;
-		private final LIntBinaryOperator mementoFunction;
 		private final LToIntFunction<T> baseFunction;
+		private int lastBaseValue;
+		private int lastValue;
+		private final LIntTernaryOperator mementoFunction;
 
-		private M(int lastValue, LToIntFunction<T> baseFunction, LIntBinaryOperator mementoFunction) {
+		private M(int lastBaseValue, int lastValue, LToIntFunction<T> baseFunction, LIntTernaryOperator mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public int applyAsIntX(T a) throws Throwable {
-			int x2 = baseFunction.applyAsIntX(a);
-			int x1 = lastValue;
-			return lastValue = mementoFunction.applyAsInt(x1, x2);
+			int x1 = lastBaseValue;
+			int x2 = lastBaseValue = baseFunction.applyAsIntX(a);
+
+			return lastValue = mementoFunction.applyAsInt(lastValue, x1, x2);
 		}
 
 		public int lastValue() {
 			return lastValue;
+		};
+
+		public int lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 

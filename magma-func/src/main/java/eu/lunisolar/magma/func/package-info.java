@@ -93,7 +93,14 @@
  * | {@link eu.lunisolar.magma.func.operator.binary.LLogicalBinaryOperator}           | boolean a1,boolean a2                    | boolean    |
  * | {@link eu.lunisolar.magma.func.operator.binary.LLongBinaryOperator}              | long a1,long a2                          | long       |
  * | {@link eu.lunisolar.magma.func.operator.binary.LSrtBinaryOperator}               | short a1,short a2                        | short      |
+ * | {@link eu.lunisolar.magma.func.operator.ternary.LByteTernaryOperator}            | byte a1,byte a2,byte a3                  | byte       |
+ * | {@link eu.lunisolar.magma.func.operator.ternary.LCharTernaryOperator}            | char a1,char a2,char a3                  | char       |
+ * | {@link eu.lunisolar.magma.func.operator.ternary.LDblTernaryOperator}             | double a1,double a2,double a3            | double     |
+ * | {@link eu.lunisolar.magma.func.operator.ternary.LFltTernaryOperator}             | float a1,float a2,float a3               | float      |
+ * | {@link eu.lunisolar.magma.func.operator.ternary.LIntTernaryOperator}             | int a1,int a2,int a3                     | int        |
  * | {@link eu.lunisolar.magma.func.operator.ternary.LLogicalTernaryOperator}         | boolean a1,boolean a2,boolean a3         | boolean    |
+ * | {@link eu.lunisolar.magma.func.operator.ternary.LLongTernaryOperator}            | long a1,long a2,long a3                  | long       |
+ * | {@link eu.lunisolar.magma.func.operator.ternary.LSrtTernaryOperator}             | short a1,short a2,short a3               | short      |
  * | {@link eu.lunisolar.magma.func.operator.ternary.LTernaryOperator}                | T a1,T a2,T a3                           | T          |
  * | {@link eu.lunisolar.magma.func.operator.unary.LByteUnaryOperator}                | byte a                                   | byte       |
  * | {@link eu.lunisolar.magma.func.operator.unary.LCharUnaryOperator}                | char a                                   | char       |

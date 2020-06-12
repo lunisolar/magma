@@ -468,19 +468,13 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static <T1, T2, T3, T4, R> M<T1, T2, T3, T4, R> mementoOf(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> function) {
 		var initialValue = function.apply(a1, a2, a3, a4);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static <T1, T2, T3, T4, R> M<T1, T2, T3, T4, R> initializedMementoOf(R initialValue, LQuadFunction<T1, T2, T3, T4, R> function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static <T1, T2, T3, T4, R> M<T1, T2, T3, T4, R> deltaOf(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> function, LBinaryOperator<R> deltaFunction) {
@@ -488,45 +482,45 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return initializedDeltaOf(initialValue, function, deltaFunction);
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static <T1, T2, T3, T4, R> M<T1, T2, T3, T4, R> initializedDeltaOf(R initialValue, LQuadFunction<T1, T2, T3, T4, R> function, LBinaryOperator<R> deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.apply(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.apply(x1, x2));
+	}
+
+	public static <T1, T2, T3, T4, R> M<T1, T2, T3, T4, R> memento(R initialBaseValue, R initialValue, LQuadFunction<T1, T2, T3, T4, R> baseFunction, LTernaryOperator<R> mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static <T1, T2, T3, T4, R> M<T1, T2, T3, T4, R> memento(R initialValue, LQuadFunction<T1, T2, T3, T4, R> baseFunction, LBinaryOperator<R> mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LQuadFunction.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LQuadFunction.M)
 	 */
 	final class M<T1, T2, T3, T4, R> implements LQuadFunction<T1, T2, T3, T4, R> {
 
-		private R lastValue;
-		private final LBinaryOperator<R> mementoFunction;
 		private final LQuadFunction<T1, T2, T3, T4, R> baseFunction;
+		private R lastBaseValue;
+		private R lastValue;
+		private final LTernaryOperator<R> mementoFunction;
 
-		private M(R lastValue, LQuadFunction<T1, T2, T3, T4, R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		private M(R lastBaseValue, R lastValue, LQuadFunction<T1, T2, T3, T4, R> baseFunction, LTernaryOperator<R> mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public R applyX(T1 a1, T2 a2, T3 a3, T4 a4) throws Throwable {
-			R x2 = baseFunction.applyX(a1, a2, a3, a4);
-			R x1 = lastValue;
-			return lastValue = mementoFunction.apply(x1, x2);
+			R x1 = lastBaseValue;
+			R x2 = lastBaseValue = baseFunction.applyX(a1, a2, a3, a4);
+
+			return lastValue = mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {
 			return lastValue;
+		};
+
+		public R lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 

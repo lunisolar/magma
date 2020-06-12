@@ -462,19 +462,13 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, LToDblBiFunction<T1, T2> function) {
 		var initialValue = function.applyAsDbl(a1, a2);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static <T1, T2> M<T1, T2> initializedMementoOf(double initialValue, LToDblBiFunction<T1, T2> function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static <T1, T2> M<T1, T2> deltaOf(T1 a1, T2 a2, LToDblBiFunction<T1, T2> function, LDblBinaryOperator deltaFunction) {
@@ -487,45 +481,45 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static <T1, T2> M<T1, T2> initializedDeltaOf(double initialValue, LToDblBiFunction<T1, T2> function, LDblBinaryOperator deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.applyAsDbl(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.applyAsDbl(x1, x2));
+	}
+
+	public static <T1, T2> M<T1, T2> memento(double initialBaseValue, double initialValue, LToDblBiFunction<T1, T2> baseFunction, LDblTernaryOperator mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static <T1, T2> M<T1, T2> memento(double initialValue, LToDblBiFunction<T1, T2> baseFunction, LDblBinaryOperator mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LToDblBiFunction.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LToDblBiFunction.M)
 	 */
 	final class M<T1, T2> implements LToDblBiFunction<T1, T2> {
 
-		private double lastValue;
-		private final LDblBinaryOperator mementoFunction;
 		private final LToDblBiFunction<T1, T2> baseFunction;
+		private double lastBaseValue;
+		private double lastValue;
+		private final LDblTernaryOperator mementoFunction;
 
-		private M(double lastValue, LToDblBiFunction<T1, T2> baseFunction, LDblBinaryOperator mementoFunction) {
+		private M(double lastBaseValue, double lastValue, LToDblBiFunction<T1, T2> baseFunction, LDblTernaryOperator mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public double applyAsDblX(T1 a1, T2 a2) throws Throwable {
-			double x2 = baseFunction.applyAsDblX(a1, a2);
-			double x1 = lastValue;
-			return lastValue = mementoFunction.applyAsDbl(x1, x2);
+			double x1 = lastBaseValue;
+			double x2 = lastBaseValue = baseFunction.applyAsDblX(a1, a2);
+
+			return lastValue = mementoFunction.applyAsDbl(lastValue, x1, x2);
 		}
 
 		public double lastValue() {
 			return lastValue;
+		};
+
+		public double lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 

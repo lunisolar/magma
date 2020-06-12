@@ -384,19 +384,13 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static <T> M<T> mementoOf(T a, LUnaryOperator<T> function) {
 		var initialValue = function.apply(a);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static <T> M<T> initializedMementoOf(T initialValue, LUnaryOperator<T> function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static <T> M<T> deltaOf(T a, LUnaryOperator<T> function, LBinaryOperator<T> deltaFunction) {
@@ -404,45 +398,45 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return initializedDeltaOf(initialValue, function, deltaFunction);
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static <T> M<T> initializedDeltaOf(T initialValue, LUnaryOperator<T> function, LBinaryOperator<T> deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.apply(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.apply(x1, x2));
+	}
+
+	public static <T> M<T> memento(T initialBaseValue, T initialValue, LUnaryOperator<T> baseFunction, LTernaryOperator<T> mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static <T> M<T> memento(T initialValue, LUnaryOperator<T> baseFunction, LBinaryOperator<T> mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LUnaryOperator.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LUnaryOperator.M)
 	 */
 	final class M<T> implements LUnaryOperator<T> {
 
-		private T lastValue;
-		private final LBinaryOperator<T> mementoFunction;
 		private final LUnaryOperator<T> baseFunction;
+		private T lastBaseValue;
+		private T lastValue;
+		private final LTernaryOperator<T> mementoFunction;
 
-		private M(T lastValue, LUnaryOperator<T> baseFunction, LBinaryOperator<T> mementoFunction) {
+		private M(T lastBaseValue, T lastValue, LUnaryOperator<T> baseFunction, LTernaryOperator<T> mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public T applyX(T a) throws Throwable {
-			T x2 = baseFunction.applyX(a);
-			T x1 = lastValue;
-			return lastValue = mementoFunction.apply(x1, x2);
+			T x1 = lastBaseValue;
+			T x2 = lastBaseValue = baseFunction.applyX(a);
+
+			return lastValue = mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public T lastValue() {
 			return lastValue;
+		};
+
+		public T lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 

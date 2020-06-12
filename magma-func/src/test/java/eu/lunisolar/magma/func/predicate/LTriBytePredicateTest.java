@@ -303,7 +303,43 @@ public class LTriBytePredicateTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToTriBytePred0() throws Throwable  {
+    public void testBoolToByteTernaryOp0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriBytePredicate sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
+                assertThat(a3).isEqualTo((byte)82);
+                return true;
+        };
+
+        LBoolToByteFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // byte
+                return (byte)100;
+        };
+
+        //when
+        LByteTernaryOperator function = sutO.boolToByteTernaryOp(thenFunction);
+        byte finalValue = function.applyAsByte((byte)80,(byte)81,(byte)82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo((byte)100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testBoolToTriBytePred1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

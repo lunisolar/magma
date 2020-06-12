@@ -635,19 +635,13 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static M mementoOf(byte a1, byte a2, byte a3, LTriBytePredicate function) {
 		var initialValue = function.test(a1, a2, a3);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static M initializedMementoOf(boolean initialValue, LTriBytePredicate function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static M deltaOf(byte a1, byte a2, byte a3, LTriBytePredicate function, LLogicalBinaryOperator deltaFunction) {
@@ -660,45 +654,45 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 		return initializedDeltaOf(initialValue, function, (x1, x2) -> x1 != x2);
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static M initializedDeltaOf(boolean initialValue, LTriBytePredicate function, LLogicalBinaryOperator deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.apply(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.apply(x1, x2));
+	}
+
+	public static M memento(boolean initialBaseValue, boolean initialValue, LTriBytePredicate baseFunction, LLogicalTernaryOperator mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static M memento(boolean initialValue, LTriBytePredicate baseFunction, LLogicalBinaryOperator mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LTriBytePredicate.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LTriBytePredicate.M)
 	 */
 	final class M implements LTriBytePredicate {
 
-		private boolean lastValue;
-		private final LLogicalBinaryOperator mementoFunction;
 		private final LTriBytePredicate baseFunction;
+		private boolean lastBaseValue;
+		private boolean lastValue;
+		private final LLogicalTernaryOperator mementoFunction;
 
-		private M(boolean lastValue, LTriBytePredicate baseFunction, LLogicalBinaryOperator mementoFunction) {
+		private M(boolean lastBaseValue, boolean lastValue, LTriBytePredicate baseFunction, LLogicalTernaryOperator mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public boolean testX(byte a1, byte a2, byte a3) throws Throwable {
-			boolean x2 = baseFunction.testX(a1, a2, a3);
-			boolean x1 = lastValue;
-			return lastValue = mementoFunction.apply(x1, x2);
+			boolean x1 = lastBaseValue;
+			boolean x2 = lastBaseValue = baseFunction.testX(a1, a2, a3);
+
+			return lastValue = mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {
 			return lastValue;
+		};
+
+		public boolean lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 
@@ -852,6 +846,13 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default LByteTernaryOperator boolToByteTernaryOp(@Nonnull LBoolToByteFunction after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.applyAsByte(this.test(a1, a2, a3));
+	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull

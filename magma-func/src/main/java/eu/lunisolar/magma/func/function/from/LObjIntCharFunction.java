@@ -442,19 +442,13 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static <T, R> M<T, R> mementoOf(T a1, int a2, char a3, LObjIntCharFunction<T, R> function) {
 		var initialValue = function.apply(a1, a2, a3);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static <T, R> M<T, R> initializedMementoOf(R initialValue, LObjIntCharFunction<T, R> function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static <T, R> M<T, R> deltaOf(T a1, int a2, char a3, LObjIntCharFunction<T, R> function, LBinaryOperator<R> deltaFunction) {
@@ -462,45 +456,45 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 		return initializedDeltaOf(initialValue, function, deltaFunction);
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static <T, R> M<T, R> initializedDeltaOf(R initialValue, LObjIntCharFunction<T, R> function, LBinaryOperator<R> deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.apply(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.apply(x1, x2));
+	}
+
+	public static <T, R> M<T, R> memento(R initialBaseValue, R initialValue, LObjIntCharFunction<T, R> baseFunction, LTernaryOperator<R> mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static <T, R> M<T, R> memento(R initialValue, LObjIntCharFunction<T, R> baseFunction, LBinaryOperator<R> mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LObjIntCharFunction.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LObjIntCharFunction.M)
 	 */
 	final class M<T, R> implements LObjIntCharFunction<T, R> {
 
-		private R lastValue;
-		private final LBinaryOperator<R> mementoFunction;
 		private final LObjIntCharFunction<T, R> baseFunction;
+		private R lastBaseValue;
+		private R lastValue;
+		private final LTernaryOperator<R> mementoFunction;
 
-		private M(R lastValue, LObjIntCharFunction<T, R> baseFunction, LBinaryOperator<R> mementoFunction) {
+		private M(R lastBaseValue, R lastValue, LObjIntCharFunction<T, R> baseFunction, LTernaryOperator<R> mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public R applyX(T a1, int a2, char a3) throws Throwable {
-			R x2 = baseFunction.applyX(a1, a2, a3);
-			R x1 = lastValue;
-			return lastValue = mementoFunction.apply(x1, x2);
+			R x1 = lastBaseValue;
+			R x2 = lastBaseValue = baseFunction.applyX(a1, a2, a3);
+
+			return lastValue = mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {
 			return lastValue;
+		};
+
+		public R lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 

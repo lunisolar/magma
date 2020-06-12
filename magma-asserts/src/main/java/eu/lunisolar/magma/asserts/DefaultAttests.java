@@ -1321,9 +1321,51 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 	}
 
 	@Nonnull
+	default <A extends LByteTernaryOperator> LByteTernaryOperatorAssert.The<A, ? extends AbstractByteAssert> attestByteTernaryOp(LByteTernaryOperator func) {
+		LByteFunction<AbstractByteAssert> assertFunc = this::attestThatByte;
+		return new LByteTernaryOperatorAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LCharTernaryOperator> LCharTernaryOperatorAssert.The<A, ? extends AbstractCharacterAssert> attestCharTernaryOp(LCharTernaryOperator func) {
+		LCharFunction<AbstractCharacterAssert> assertFunc = this::attestThatChar;
+		return new LCharTernaryOperatorAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LDblTernaryOperator> LDblTernaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> attestDblTernaryOp(LDblTernaryOperator func) {
+		LDblFunction<AbstractDoubleAssert> assertFunc = this::attestThatDbl;
+		return new LDblTernaryOperatorAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LFltTernaryOperator> LFltTernaryOperatorAssert.The<A, ? extends AbstractFloatAssert> attestFltTernaryOp(LFltTernaryOperator func) {
+		LFltFunction<AbstractFloatAssert> assertFunc = this::attestThatFlt;
+		return new LFltTernaryOperatorAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LIntTernaryOperator> LIntTernaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> attestIntTernaryOp(LIntTernaryOperator func) {
+		LIntFunction<AbstractIntegerAssert> assertFunc = this::attestThatInt;
+		return new LIntTernaryOperatorAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
 	default <A extends LLogicalTernaryOperator> LLogicalTernaryOperatorAssert.The<A, ? extends AbstractBooleanAssert> attestLogicalTernaryOp(LLogicalTernaryOperator func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
 		return new LLogicalTernaryOperatorAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LLongTernaryOperator> LLongTernaryOperatorAssert.The<A, ? extends AbstractLongAssert> attestLongTernaryOp(LLongTernaryOperator func) {
+		LLongFunction<AbstractLongAssert> assertFunc = this::attestThatLong;
+		return new LLongTernaryOperatorAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LSrtTernaryOperator> LSrtTernaryOperatorAssert.The<A, ? extends AbstractShortAssert> attestSrtTernaryOp(LSrtTernaryOperator func) {
+		LSrtFunction<AbstractShortAssert> assertFunc = this::attestThatSrt;
+		return new LSrtTernaryOperatorAssert.The(func, assertFunc);
 	}
 
 	@Nonnull

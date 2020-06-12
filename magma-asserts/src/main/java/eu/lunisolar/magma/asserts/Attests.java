@@ -980,8 +980,43 @@ public interface Attests {
 	}
 
 	@Nonnull
+	public static <A extends LByteTernaryOperator, RS extends AbstractByteAssert<RS>> LByteTernaryOperatorAssert.The<A, RS> attestByteTernaryOp(LByteTernaryOperator func) {
+		return new LByteTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LCharTernaryOperator, RS extends AbstractCharacterAssert<RS>> LCharTernaryOperatorAssert.The<A, RS> attestCharTernaryOp(LCharTernaryOperator func) {
+		return new LCharTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LDblTernaryOperator, RS extends AbstractDoubleAssert<RS>> LDblTernaryOperatorAssert.The<A, RS> attestDblTernaryOp(LDblTernaryOperator func) {
+		return new LDblTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LFltTernaryOperator, RS extends AbstractFloatAssert<RS>> LFltTernaryOperatorAssert.The<A, RS> attestFltTernaryOp(LFltTernaryOperator func) {
+		return new LFltTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LIntTernaryOperator, RS extends AbstractIntegerAssert<RS>> LIntTernaryOperatorAssert.The<A, RS> attestIntTernaryOp(LIntTernaryOperator func) {
+		return new LIntTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	public static <A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> LLogicalTernaryOperatorAssert.The<A, RS> attestLogicalTernaryOp(LLogicalTernaryOperator func) {
 		return new LLogicalTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LLongTernaryOperator, RS extends AbstractLongAssert<RS>> LLongTernaryOperatorAssert.The<A, RS> attestLongTernaryOp(LLongTernaryOperator func) {
+		return new LLongTernaryOperatorAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LSrtTernaryOperator, RS extends AbstractShortAssert<RS>> LSrtTernaryOperatorAssert.The<A, RS> attestSrtTernaryOp(LSrtTernaryOperator func) {
+		return new LSrtTernaryOperatorAssert.The(func, Assertions::assertThat);
 	}
 
 	@Nonnull

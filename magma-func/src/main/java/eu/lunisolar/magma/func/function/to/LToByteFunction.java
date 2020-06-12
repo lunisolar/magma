@@ -396,19 +396,13 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static <T> M<T> mementoOf(T a, LToByteFunction<T> function) {
 		var initialValue = function.applyAsByte(a);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static <T> M<T> initializedMementoOf(byte initialValue, LToByteFunction<T> function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static <T> M<T> deltaOf(T a, LToByteFunction<T> function, LByteBinaryOperator deltaFunction) {
@@ -421,45 +415,45 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return initializedDeltaOf(initialValue, function, (x1, x2) -> (byte) (x2 - x1));
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static <T> M<T> initializedDeltaOf(byte initialValue, LToByteFunction<T> function, LByteBinaryOperator deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.applyAsByte(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.applyAsByte(x1, x2));
+	}
+
+	public static <T> M<T> memento(byte initialBaseValue, byte initialValue, LToByteFunction<T> baseFunction, LByteTernaryOperator mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static <T> M<T> memento(byte initialValue, LToByteFunction<T> baseFunction, LByteBinaryOperator mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LToByteFunction.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LToByteFunction.M)
 	 */
 	final class M<T> implements LToByteFunction<T> {
 
-		private byte lastValue;
-		private final LByteBinaryOperator mementoFunction;
 		private final LToByteFunction<T> baseFunction;
+		private byte lastBaseValue;
+		private byte lastValue;
+		private final LByteTernaryOperator mementoFunction;
 
-		private M(byte lastValue, LToByteFunction<T> baseFunction, LByteBinaryOperator mementoFunction) {
+		private M(byte lastBaseValue, byte lastValue, LToByteFunction<T> baseFunction, LByteTernaryOperator mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public byte applyAsByteX(T a) throws Throwable {
-			byte x2 = baseFunction.applyAsByteX(a);
-			byte x1 = lastValue;
-			return lastValue = mementoFunction.applyAsByte(x1, x2);
+			byte x1 = lastBaseValue;
+			byte x2 = lastBaseValue = baseFunction.applyAsByteX(a);
+
+			return lastValue = mementoFunction.applyAsByte(lastValue, x1, x2);
 		}
 
 		public byte lastValue() {
 			return lastValue;
+		};
+
+		public byte lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 

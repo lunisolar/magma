@@ -303,7 +303,43 @@ public class LTriCharPredicateTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToTriCharPred0() throws Throwable  {
+    public void testBoolToCharTernaryOp0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriCharPredicate sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a2).isEqualTo('\u0081');
+                assertThat(a3).isEqualTo('\u0082');
+                return true;
+        };
+
+        LBoolToCharFunction thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // char
+                return '\u0100';
+        };
+
+        //when
+        LCharTernaryOperator function = sutO.boolToCharTernaryOp(thenFunction);
+        char finalValue = function.applyAsChar('\u0080','\u0081','\u0082');
+
+        //then - finals
+        assertThat(finalValue).isEqualTo('\u0100');
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testBoolToTriCharPred1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

@@ -359,19 +359,13 @@ public interface LFltToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static M mementoOf(float a, LFltToLongFunction function) {
 		var initialValue = function.applyAsLong(a);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static M initializedMementoOf(long initialValue, LFltToLongFunction function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static M deltaOf(float a, LFltToLongFunction function, LLongBinaryOperator deltaFunction) {
@@ -384,45 +378,45 @@ public interface LFltToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static M initializedDeltaOf(long initialValue, LFltToLongFunction function, LLongBinaryOperator deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.applyAsLong(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.applyAsLong(x1, x2));
+	}
+
+	public static M memento(long initialBaseValue, long initialValue, LFltToLongFunction baseFunction, LLongTernaryOperator mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static M memento(long initialValue, LFltToLongFunction baseFunction, LLongBinaryOperator mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LFltToLongFunction.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LFltToLongFunction.M)
 	 */
 	final class M implements LFltToLongFunction {
 
-		private long lastValue;
-		private final LLongBinaryOperator mementoFunction;
 		private final LFltToLongFunction baseFunction;
+		private long lastBaseValue;
+		private long lastValue;
+		private final LLongTernaryOperator mementoFunction;
 
-		private M(long lastValue, LFltToLongFunction baseFunction, LLongBinaryOperator mementoFunction) {
+		private M(long lastBaseValue, long lastValue, LFltToLongFunction baseFunction, LLongTernaryOperator mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public long applyAsLongX(float a) throws Throwable {
-			long x2 = baseFunction.applyAsLongX(a);
-			long x1 = lastValue;
-			return lastValue = mementoFunction.applyAsLong(x1, x2);
+			long x1 = lastBaseValue;
+			long x2 = lastBaseValue = baseFunction.applyAsLongX(a);
+
+			return lastValue = mementoFunction.applyAsLong(lastValue, x1, x2);
 		}
 
 		public long lastValue() {
 			return lastValue;
+		};
+
+		public long lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 

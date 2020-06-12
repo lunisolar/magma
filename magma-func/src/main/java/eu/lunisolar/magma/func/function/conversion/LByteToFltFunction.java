@@ -359,19 +359,13 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return func;
 	}
 
-	/**
-	 * Memento of a function, initialized with value from it.
-	 */
 	public static M mementoOf(byte a, LByteToFltFunction function) {
 		var initialValue = function.applyAsFlt(a);
 		return initializedMementoOf(initialValue, function);
 	}
 
-	/**
-	 * Memento of a function, initialized with argument value.
-	 */
 	public static M initializedMementoOf(float initialValue, LByteToFltFunction function) {
-		return memento(initialValue, function, (x1, x2) -> x2);
+		return memento(initialValue, initialValue, function, (m, x1, x2) -> x2);
 	}
 
 	public static M deltaOf(byte a, LByteToFltFunction function, LFltBinaryOperator deltaFunction) {
@@ -384,45 +378,45 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return initializedDeltaOf(initialValue, function, (x1, x2) -> (x2 - x1));
 	}
 
-	/**
-	 * Delta of a function result, initialized with argument value.
-	 */
 	public static M initializedDeltaOf(float initialValue, LByteToFltFunction function, LFltBinaryOperator deltaFunction) {
-		return memento(initialValue, function, deltaFunction);
+		return memento(initialValue, deltaFunction.applyAsFlt(initialValue, initialValue), function, (m, x1, x2) -> deltaFunction.applyAsFlt(x1, x2));
+	}
+
+	public static M memento(float initialBaseValue, float initialValue, LByteToFltFunction baseFunction, LFltTernaryOperator mementoFunction) {
+		return new M(initialBaseValue, initialValue, baseFunction, mementoFunction);
 	}
 
 	/**
-	 * Creates function that remembers previous result of itself and applies a memento-function on it an current result of base function.
-	 * Basically, provided that calls and arguments (if applicable) represents progression of some sort, makes possible to apply functions like MAX. MIN, DELTA on the result of the base function.
-	 */
-	public static M memento(float initialValue, LByteToFltFunction baseFunction, LFltBinaryOperator mementoFunction) {
-		return new M(initialValue, baseFunction, mementoFunction);
-	}
-
-	/**
-	 * Implementation that allows to create derivative functions (do not ). Very short name is intended to be used with parent (LByteToFltFunction.D)
+	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LByteToFltFunction.M)
 	 */
 	final class M implements LByteToFltFunction {
 
-		private float lastValue;
-		private final LFltBinaryOperator mementoFunction;
 		private final LByteToFltFunction baseFunction;
+		private float lastBaseValue;
+		private float lastValue;
+		private final LFltTernaryOperator mementoFunction;
 
-		private M(float lastValue, LByteToFltFunction baseFunction, LFltBinaryOperator mementoFunction) {
+		private M(float lastBaseValue, float lastValue, LByteToFltFunction baseFunction, LFltTernaryOperator mementoFunction) {
+			this.baseFunction = baseFunction;
+			this.lastBaseValue = lastBaseValue;
 			this.lastValue = lastValue;
 			this.mementoFunction = mementoFunction;
-			this.baseFunction = baseFunction;
 		}
 
 		@Override
 		public float applyAsFltX(byte a) throws Throwable {
-			float x2 = baseFunction.applyAsFltX(a);
-			float x1 = lastValue;
-			return lastValue = mementoFunction.applyAsFlt(x1, x2);
+			float x1 = lastBaseValue;
+			float x2 = lastBaseValue = baseFunction.applyAsFltX(a);
+
+			return lastValue = mementoFunction.applyAsFlt(lastValue, x1, x2);
 		}
 
 		public float lastValue() {
 			return lastValue;
+		};
+
+		public float lastBaseValue() {
+			return lastBaseValue;
 		};
 	}
 
