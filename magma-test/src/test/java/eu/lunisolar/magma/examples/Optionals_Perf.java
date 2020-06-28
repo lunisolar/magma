@@ -20,6 +20,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 
 import static eu.lunisolar.magma.test.random.Series.series;
 import static eu.lunisolar.magma.test.random.SimpleRandoms.anInt;
@@ -55,8 +56,21 @@ public class Optionals_Perf {
 //                .poolCProducer(nullStr);    // <-- ALT2
     }
 
+    private static SeriesParams<Integer> params2() {
+        return SeriesParams.<Integer>params()
+                       .size(SERIES_SIZE)
+                       .poolASize(5)
+                       .percentageA(39)
+                       .poolAProducer(int1.toSup(Opt::of))
+                       .poolBSize(20)
+                       .percentageB(60)
+                       .poolBProducer(int1.toSup(Opt::of))
+                       .poolCProducer(int1.toSup(Opt::of));        // <-- ALT1
+//                .poolCProducer(nullStr);    // <-- ALT2
+    }
+
     @State(Scope.Thread)
-    public static class TheState {
+    public static class TheState  {
 
         static Series<Integer> names  = series(params().name("names"));
         static Series<Integer> values = series(params().name("values"));
@@ -77,7 +91,35 @@ public class Optionals_Perf {
             return iteration;
         }
 
+        public Opt<Integer> value(int i) {
+            return Opt.of(values.v(i));
+        }
+
     }
+
+    @State(Scope.Thread)
+    public static class TheState2 {
+
+        static Series<Integer> names  = series(params().name("names"));
+        static Series<Opt<Integer>> values = series(params2().name("values"));
+
+        @Setup
+        public void setup() {
+        }
+
+        @TearDown
+        public void after() {
+        }
+
+        private int iteration = 0;
+
+        public int i() {
+            iteration++;
+            iteration = iteration >= SERIES_SIZE ? 0 : iteration;
+            return iteration;
+        }
+    }
+
 
     @Benchmark @Threads(THREADS) public Object obj_equals_Opt(TheState state) {
         int a = 0;
@@ -89,7 +131,47 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_Opt2(TheState state) {
+    @Benchmark @Threads(THREADS) public Object obj_equals_Opt_2_(TheState2 state) {
+        int a = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            int i = state.i();
+            a += Opt.of(state.values.v(i))
+                    .is(P::equal, state.names.v(i)) ? 1 : 0;
+        }
+        return a;
+    }
+
+    @Benchmark @Threads(THREADS) public Object obj_equals_Opt_2_B(TheState2 state) {
+        int a = 0;
+        AtomicReference<Opt<Integer>> AA = new AtomicReference(null);
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var FF = c;
+            int i = state.i();
+
+            a += state.values.v(i)
+                    .is(__ -> P.equal(__, state.names.v(i))) ? 1 : 0;
+        }
+        return a;
+    }
+
+     @Benchmark @Threads(THREADS) public Object obj_equals_Opt_2_B2(TheState2 state) {
+        int a = 0;
+
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var FF = c;
+            int i = state.i();
+            a += state.values.v(i)
+                    .is(__ -> aBoolean(state, FF, i, __)) ? 1 : 0;
+        }
+        return a;
+    }
+
+    public static boolean aBoolean(TheState2 state, int FF, int i, Integer __) {
+        return (FF%2>0) ||  P.equal(__, state.names.v(i));
+    }
+
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_Opt2(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -99,7 +181,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_Opt3(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_Opt3(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -109,7 +192,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_OptInt(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_OptInt(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -119,7 +203,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_OptInt2(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_OptInt2(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -129,7 +214,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_Optional(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_Optional(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -140,7 +226,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_ref(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_ref(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -149,7 +236,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_ref2(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_ref2(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -158,7 +246,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_equals_ref3(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_equals_ref3(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -193,7 +282,8 @@ public class Optionals_Perf {
         }
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_fromOpt_BCS(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_fromOpt_BCS(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -203,7 +293,8 @@ public class Optionals_Perf {
         return a;
     }
 
-    @Benchmark @Threads(THREADS) public Object obj_fromOpt_WCS(TheState state) {
+//    @Benchmark @Threads(THREADS)
+    public Object obj_fromOpt_WCS(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
