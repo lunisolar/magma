@@ -360,7 +360,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <T> LTernaryOperator cast(LTernaryOperator<T> function) {
+	public static LTernaryOperator cast(LTernaryOperator<?> function) {
 		return (LTernaryOperator) function;
 	}
 

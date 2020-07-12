@@ -23,11 +23,13 @@ import eu.lunisolar.magma.examples.support.CheckedException;
 import eu.lunisolar.magma.examples.support.DifferentRuntimeException;
 import eu.lunisolar.magma.examples.support.DifferentSpecializedRuntimeException;
 import eu.lunisolar.magma.examples.support.SomeRuntimeExcepton;
+import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.supp.Has;
 import eu.lunisolar.magma.func.supp.Is;
 import org.testng.annotations.Test;
 
+import java.io.*;
 import java.text.*;
 import java.util.function.*;
 
@@ -89,6 +91,21 @@ public class Example_ExceptionHandling_Test {
 ///1. Instance methods that returns function that always does the exact handling every time. To create function that handles exceptions for all calls.
 ///1. Static method that takes function arguments, function instance, and handling argument.
 ///
+
+
+  /** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * When you write some utility that constantly do, for example, IO operations and is already limited by contract that it cannot declare checked exceptions:
+     */
+    //>example<
+    @Test
+    public void quickHandlingException() {
+        byte[] input = new byte[0];
+
+        LConsumer.handlingAccept(input, in -> new ByteArrayInputStream(in).close(), e -> e
+                .wrapIf(IOException.class::isInstance, RuntimeException::new)
+                .handleRest());
+    }
+    //>example<
 
     /**
      * ### Examples

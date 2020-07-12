@@ -354,7 +354,7 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieCharFunction<V2> cast(LTieCharFunction<T> function) {
+	public static <V2> LTieCharFunction<V2> cast(LTieCharFunction<?> function) {
 		return (LTieCharFunction) function;
 	}
 

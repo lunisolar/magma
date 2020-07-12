@@ -378,7 +378,7 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T, R> LOiFunction<V2, V3> cast(LOiFunction<T, R> function) {
+	public static <V2, V3> LOiFunction<V2, V3> cast(LOiFunction<?, ?> function) {
 		return (LOiFunction) function;
 	}
 

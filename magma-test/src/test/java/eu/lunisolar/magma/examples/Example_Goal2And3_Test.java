@@ -29,8 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 /**
- * Basic introduction (by example) to details of second and third of main goals:
- * **More primitive types supported**. **More combinations of arguments**.
+ * Basic introduction (by example) to details of main features:
+ * **More primitive types supported**. **More combinations of arguments** .
  */
 //>inject<:readmore
 
@@ -42,28 +42,55 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ###  Abstract
  *
- * Basic introduction (by example) to details of second and third of main goals:
- * **More primitive types supported**. **More combinations of arguments**.
+ * Basic introduction (by example) to details of main features:
+ * **More primitive types supported**. **More combinations of arguments** .
  */
 public class Example_Goal2And3_Test {
 
     private static final List<Integer> integerList = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
+///
+///### More primitive types.
+///
+/// The issue is simple. Functional interface library from JRE contains functional interfaces required by JRE itself.
+/// While in most of circumstances what JRE offers is enough, there are obvious and not so obvious limitations:
+///
+/// + sometimes you need more arguments
+/// + sometimes you want use more primitives
+/// + sometimes you want all interfaces to have some default and static methods - Function(3) vs ToIntBiFunction (0)
+///
+///
+/// > No silver bullet (note about performance)
+/// >
+/// > Do not take this library as a universal tool that improves performance (e.g. by creating more possibilities to avoid capturing lambdas or to avoid boxing/unboxing).
+/// >
+/// > First, there is a lot of cases that actually Java compiler, JIT and GC are already doing a lot of optimizations for you.
+/// >
+/// > Second, diminishing returns might actually mean that any gain you will have is marginal at best.
+///
+///Basically this library supports:
+///
+///+ More of functional interfaces
+///   + More primitive types are supported
+///   + More combinations of arguments.
+///   + further documentation:
+///      + [action](http://lunisolar.eu/magma/all-functions/actions)
+///      + [suppliers](http://lunisolar.eu/magma/all-functions/suppliers)
+///      + [consumers](http://lunisolar.eu/magma/all-functions/consumers)
+///      + [predicates](http://lunisolar.eu/magma/all-functions/predicates)
+///      + [operators](http://lunisolar.eu/magma/all-functions/operators)
+///      + [ordinary functions](http://lunisolar.eu/magma/all-functions/functions)
+///      + [all interfaces](http://lunisolar.eu/magma/all-functions)
+///+ Thus, reducing number of cases where:
+///   + You cannot directly reference method
+///   + JVM cannot optimize code better (although nothing is guaranteed)
+///+ Default and static utility methods (applicable to the case and availability of other interfaces).
+///  [read more](http://lunisolar.eu/magma/defaults)
+///
+///
+
     /**
-     * ###  More primitive types.
-     *
-     * The issue is simple. Functional interface library from JRE contains functional interfaces required by JRE itself. As a result it do not cover all
-     * primitive types. There might be places that you would like to use those primitive types. So for example you would need to write your own FloatFunction
-     * interface. And that would not be a problem, unless in next place you would not need FloatPredicate, then FloatConsumer. It is still no
-     * problem but then you realise that, The original Function or Predicate has some default functions that others are missing.
-     *
-     * Then second dimension to the issue arises when you need something like this: FloatToIntFunction, IntToFloatFunction, ObjFloatFunction,
-     * BiFloatPredicate.
-     *
-     * If you consider all default and static methods that you eventually might want to have in each of them, then to put it simple, it is separate project from
-     * the one you want use those interfaces in.
-     *
-     * The list of the all interfaces is split into the separate articles.
+     * Just short example: 
      */
     //>example<
     private static String typeToString(Float f) {

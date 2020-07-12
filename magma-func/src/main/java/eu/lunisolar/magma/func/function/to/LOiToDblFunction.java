@@ -374,7 +374,7 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LOiToDblFunction<V2> cast(LOiToDblFunction<T> function) {
+	public static <V2> LOiToDblFunction<V2> cast(LOiToDblFunction<?> function) {
 		return (LOiToDblFunction) function;
 	}
 

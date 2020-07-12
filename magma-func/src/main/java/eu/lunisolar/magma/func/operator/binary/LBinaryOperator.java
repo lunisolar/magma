@@ -360,7 +360,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Cast that replace generics. */
-	public static <T> LBinaryOperator cast(LBinaryOperator<T> function) {
+	public static LBinaryOperator cast(LBinaryOperator<?> function) {
 		return (LBinaryOperator) function;
 	}
 

@@ -328,7 +328,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LToCharFunction<V2> cast(LToCharFunction<T> function) {
+	public static <V2> LToCharFunction<V2> cast(LToCharFunction<?> function) {
 		return (LToCharFunction) function;
 	}
 

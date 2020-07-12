@@ -354,7 +354,7 @@ public interface LTieDblFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieDblFunction<V2> cast(LTieDblFunction<T> function) {
+	public static <V2> LTieDblFunction<V2> cast(LTieDblFunction<?> function) {
 		return (LTieDblFunction) function;
 	}
 

@@ -317,7 +317,7 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LDblFunction<V2> cast(LDblFunction<R> function) {
+	public static <V2> LDblFunction<V2> cast(LDblFunction<?> function) {
 		return (LDblFunction) function;
 	}
 

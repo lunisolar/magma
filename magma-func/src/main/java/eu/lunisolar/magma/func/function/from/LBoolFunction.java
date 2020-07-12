@@ -317,7 +317,7 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LBoolFunction<V2> cast(LBoolFunction<R> function) {
+	public static <V2> LBoolFunction<V2> cast(LBoolFunction<?> function) {
 		return (LBoolFunction) function;
 	}
 

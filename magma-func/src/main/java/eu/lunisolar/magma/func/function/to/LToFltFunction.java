@@ -328,7 +328,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LToFltFunction<V2> cast(LToFltFunction<T> function) {
+	public static <V2> LToFltFunction<V2> cast(LToFltFunction<?> function) {
 		return (LToFltFunction) function;
 	}
 

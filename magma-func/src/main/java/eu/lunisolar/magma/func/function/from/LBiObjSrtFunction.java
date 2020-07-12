@@ -376,7 +376,7 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, T1, T2, R> LBiObjSrtFunction<V2, V3, V4> cast(LBiObjSrtFunction<T1, T2, R> function) {
+	public static <V2, V3, V4> LBiObjSrtFunction<V2, V3, V4> cast(LBiObjSrtFunction<?, ?, ?> function) {
 		return (LBiObjSrtFunction) function;
 	}
 

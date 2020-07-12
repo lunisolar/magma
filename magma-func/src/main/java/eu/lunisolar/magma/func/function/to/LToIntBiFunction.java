@@ -372,7 +372,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LToIntBiFunction<V2, V3> cast(LToIntBiFunction<T1, T2> function) {
+	public static <V2, V3> LToIntBiFunction<V2, V3> cast(LToIntBiFunction<?, ?> function) {
 		return (LToIntBiFunction) function;
 	}
 

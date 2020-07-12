@@ -355,7 +355,7 @@ public interface LBiObjDblConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LBiObjDblConsumer<V2, V3> cast(LBiObjDblConsumer<T1, T2> function) {
+	public static <V2, V3> LBiObjDblConsumer<V2, V3> cast(LBiObjDblConsumer<?, ?> function) {
 		return (LBiObjDblConsumer) function;
 	}
 

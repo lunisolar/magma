@@ -356,7 +356,7 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T, R> LObjIntByteFunction<V2, V3> cast(LObjIntByteFunction<T, R> function) {
+	public static <V2, V3> LObjIntByteFunction<V2, V3> cast(LObjIntByteFunction<?, ?> function) {
 		return (LObjIntByteFunction) function;
 	}
 

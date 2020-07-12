@@ -328,7 +328,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LToLongFunction<V2> cast(LToLongFunction<T> function) {
+	public static <V2> LToLongFunction<V2> cast(LToLongFunction<?> function) {
 		return (LToLongFunction) function;
 	}
 

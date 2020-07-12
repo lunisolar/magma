@@ -388,7 +388,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LObjIntObjPredicate<V2, V3> cast(LObjIntObjPredicate<T1, T2> function) {
+	public static <V2, V3> LObjIntObjPredicate<V2, V3> cast(LObjIntObjPredicate<?, ?> function) {
 		return (LObjIntObjPredicate) function;
 	}
 

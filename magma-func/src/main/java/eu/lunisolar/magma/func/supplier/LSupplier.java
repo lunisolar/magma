@@ -315,7 +315,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LSupplier<V2> cast(LSupplier<T> function) {
+	public static <V2> LSupplier<V2> cast(LSupplier<?> function) {
 		return (LSupplier) function;
 	}
 

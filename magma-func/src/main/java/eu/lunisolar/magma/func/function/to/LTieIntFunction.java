@@ -374,7 +374,7 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieIntFunction<V2> cast(LTieIntFunction<T> function) {
+	public static <V2> LTieIntFunction<V2> cast(LTieIntFunction<?> function) {
 		return (LTieIntFunction) function;
 	}
 

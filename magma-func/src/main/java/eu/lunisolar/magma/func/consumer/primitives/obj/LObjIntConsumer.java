@@ -357,7 +357,7 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LObjIntConsumer<V2> cast(LObjIntConsumer<T> function) {
+	public static <V2> LObjIntConsumer<V2> cast(LObjIntConsumer<?> function) {
 		return (LObjIntConsumer) function;
 	}
 

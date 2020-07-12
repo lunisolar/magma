@@ -354,7 +354,7 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieByteFunction<V2> cast(LTieByteFunction<T> function) {
+	public static <V2> LTieByteFunction<V2> cast(LTieByteFunction<?> function) {
 		return (LTieByteFunction) function;
 	}
 

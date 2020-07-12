@@ -356,7 +356,7 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, T1, T2, R> LObjIntObjFunction<V2, V3, V4> cast(LObjIntObjFunction<T1, T2, R> function) {
+	public static <V2, V3, V4> LObjIntObjFunction<V2, V3, V4> cast(LObjIntObjFunction<?, ?, ?> function) {
 		return (LObjIntObjFunction) function;
 	}
 

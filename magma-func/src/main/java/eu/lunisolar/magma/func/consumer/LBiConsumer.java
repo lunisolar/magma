@@ -357,7 +357,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LBiConsumer<V2, V3> cast(LBiConsumer<T1, T2> function) {
+	public static <V2, V3> LBiConsumer<V2, V3> cast(LBiConsumer<?, ?> function) {
 		return (LBiConsumer) function;
 	}
 

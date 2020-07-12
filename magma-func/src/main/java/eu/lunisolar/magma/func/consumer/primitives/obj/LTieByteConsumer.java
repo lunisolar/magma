@@ -344,7 +344,7 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieByteConsumer<V2> cast(LTieByteConsumer<T> function) {
+	public static <V2> LTieByteConsumer<V2> cast(LTieByteConsumer<?> function) {
 		return (LTieByteConsumer) function;
 	}
 

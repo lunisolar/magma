@@ -34,9 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 //>transform-to-MD<
 /**
- * Basic introduction (by example) to details of first of main goals -
- * **Throwing lambda expressions and functional interfaces that declare and throw
- * checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.
+ * Basic introduction (by example) to **Throwing lambda expressions** .
  */
 //>inject<:readmore
 
@@ -48,9 +46,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *
  * ### Abstract
  *
- * Basic introduction (by example) to details of first of main goals -
- * **Throwing lambda expressions and functional interfaces that declare and throw
- * checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.
+ * Basic introduction (by example) to **Throwing lambda expressions** .
  */
 public class Example_Goal1_Test {
 
@@ -175,7 +171,7 @@ public class Example_Goal1_Test {
     /**
      * ### Addition effects
      *
-     * Here are additional examples of what you can do with additional methods:
+     * You could opt for re-throwing checked exception as runtime one (yes, it is not elegant - but it is there in case you want it):
      */
 
     //>example<
@@ -185,7 +181,13 @@ public class Example_Goal1_Test {
 
         LConsumer.cons((byte[] in) -> new ByteArrayInputStream(in).close()).shovingAccept(input);
     }
+    //>example<
 
+    /**
+     * There is also a method to reverse above effect (just in case it is needed):
+     */
+
+    //>example<
     @Test
     public void quickNestException() {
         byte[] input = new byte[0];
@@ -198,18 +200,8 @@ public class Example_Goal1_Test {
     //>example<
 
     /**
-     * When you write some utility that constantly do for example IO operations and is already defined by contract that it cannot declare checked exceptions.
+     * More about exception handling id documented [here](http://lunisolar.eu/magma/exception-handling).
      */
-    //>example<
-    @Test
-    public void quickHandlingException() {
-        byte[] input = new byte[0];
-
-        LConsumer.handlingAccept(input, in -> new ByteArrayInputStream(in).close(), e -> e
-                .wrapIf(IOException.class::isInstance, RuntimeException::new)
-                .handleRest());
-    }
-    //>example<
 
     //>inject<:generated
 }

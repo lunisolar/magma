@@ -317,7 +317,7 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LCharFunction<V2> cast(LCharFunction<R> function) {
+	public static <V2> LCharFunction<V2> cast(LCharFunction<?> function) {
 		return (LCharFunction) function;
 	}
 

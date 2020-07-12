@@ -354,7 +354,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieLongFunction<V2> cast(LTieLongFunction<T> function) {
+	public static <V2> LTieLongFunction<V2> cast(LTieLongFunction<?> function) {
 		return (LTieLongFunction) function;
 	}
 

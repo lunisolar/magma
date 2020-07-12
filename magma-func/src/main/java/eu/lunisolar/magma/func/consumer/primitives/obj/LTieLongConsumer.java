@@ -344,7 +344,7 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieLongConsumer<V2> cast(LTieLongConsumer<T> function) {
+	public static <V2> LTieLongConsumer<V2> cast(LTieLongConsumer<?> function) {
 		return (LTieLongConsumer) function;
 	}
 

@@ -344,7 +344,7 @@ public interface LTieCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieCharConsumer<V2> cast(LTieCharConsumer<T> function) {
+	public static <V2> LTieCharConsumer<V2> cast(LTieCharConsumer<?> function) {
 		return (LTieCharConsumer) function;
 	}
 

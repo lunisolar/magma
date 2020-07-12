@@ -354,7 +354,7 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieBoolFunction<V2> cast(LTieBoolFunction<T> function) {
+	public static <V2> LTieBoolFunction<V2> cast(LTieBoolFunction<?> function) {
 		return (LTieBoolFunction) function;
 	}
 

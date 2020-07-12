@@ -328,7 +328,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LToIntFunction<V2> cast(LToIntFunction<T> function) {
+	public static <V2> LToIntFunction<V2> cast(LToIntFunction<?> function) {
 		return (LToIntFunction) function;
 	}
 

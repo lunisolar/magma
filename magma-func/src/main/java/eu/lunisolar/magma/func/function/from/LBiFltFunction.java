@@ -363,7 +363,7 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LBiFltFunction<V2> cast(LBiFltFunction<R> function) {
+	public static <V2> LBiFltFunction<V2> cast(LBiFltFunction<?> function) {
 		return (LBiFltFunction) function;
 	}
 

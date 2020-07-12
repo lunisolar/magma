@@ -376,7 +376,7 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T, R> LObjLongFunction<V2, V3> cast(LObjLongFunction<T, R> function) {
+	public static <V2, V3> LObjLongFunction<V2, V3> cast(LObjLongFunction<?, ?> function) {
 		return (LObjLongFunction) function;
 	}
 

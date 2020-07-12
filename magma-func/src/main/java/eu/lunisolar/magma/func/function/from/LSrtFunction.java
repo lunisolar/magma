@@ -317,7 +317,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LSrtFunction<V2> cast(LSrtFunction<R> function) {
+	public static <V2> LSrtFunction<V2> cast(LSrtFunction<?> function) {
 		return (LSrtFunction) function;
 	}
 

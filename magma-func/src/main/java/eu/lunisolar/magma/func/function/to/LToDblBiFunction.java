@@ -382,7 +382,7 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LToDblBiFunction<V2, V3> cast(LToDblBiFunction<T1, T2> function) {
+	public static <V2, V3> LToDblBiFunction<V2, V3> cast(LToDblBiFunction<?, ?> function) {
 		return (LToDblBiFunction) function;
 	}
 

@@ -357,7 +357,7 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LObjBoolConsumer<V2> cast(LObjBoolConsumer<T> function) {
+	public static <V2> LObjBoolConsumer<V2> cast(LObjBoolConsumer<?> function) {
 		return (LObjBoolConsumer) function;
 	}
 

@@ -413,7 +413,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LPredicate<V2> cast(LPredicate<T> function) {
+	public static <V2> LPredicate<V2> cast(LPredicate<?> function) {
 		return (LPredicate) function;
 	}
 

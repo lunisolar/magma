@@ -316,7 +316,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 
 	/** Cast that replace generics. */
-	public static <T> LUnaryOperator cast(LUnaryOperator<T> function) {
+	public static LUnaryOperator cast(LUnaryOperator<?> function) {
 		return (LUnaryOperator) function;
 	}
 

@@ -364,7 +364,7 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieIntConsumer<V2> cast(LTieIntConsumer<T> function) {
+	public static <V2> LTieIntConsumer<V2> cast(LTieIntConsumer<?> function) {
 		return (LTieIntConsumer) function;
 	}
 

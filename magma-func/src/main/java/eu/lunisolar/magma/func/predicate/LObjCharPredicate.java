@@ -418,7 +418,7 @@ public interface LObjCharPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LObjCharPredicate<V2> cast(LObjCharPredicate<T> function) {
+	public static <V2> LObjCharPredicate<V2> cast(LObjCharPredicate<?> function) {
 		return (LObjCharPredicate) function;
 	}
 

@@ -357,7 +357,7 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LObjLongConsumer<V2> cast(LObjLongConsumer<T> function) {
+	public static <V2> LObjLongConsumer<V2> cast(LObjLongConsumer<?> function) {
 		return (LObjLongConsumer) function;
 	}
 

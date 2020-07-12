@@ -439,7 +439,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LObjIntPredicate<V2> cast(LObjIntPredicate<T> function) {
+	public static <V2> LObjIntPredicate<V2> cast(LObjIntPredicate<?> function) {
 		return (LObjIntPredicate) function;
 	}
 

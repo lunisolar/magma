@@ -355,7 +355,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, T1, T2, T3> LTriConsumer<V2, V3, V4> cast(LTriConsumer<T1, T2, T3> function) {
+	public static <V2, V3, V4> LTriConsumer<V2, V3, V4> cast(LTriConsumer<?, ?, ?> function) {
 		return (LTriConsumer) function;
 	}
 

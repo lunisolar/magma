@@ -428,7 +428,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LBiPredicate<V2, V3> cast(LBiPredicate<T1, T2> function) {
+	public static <V2, V3> LBiPredicate<V2, V3> cast(LBiPredicate<?, ?> function) {
 		return (LBiPredicate) function;
 	}
 

@@ -372,7 +372,7 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, T1, T2, T3> LToIntTriFunction<V2, V3, V4> cast(LToIntTriFunction<T1, T2, T3> function) {
+	public static <V2, V3, V4> LToIntTriFunction<V2, V3, V4> cast(LToIntTriFunction<?, ?, ?> function) {
 		return (LToIntTriFunction) function;
 	}
 

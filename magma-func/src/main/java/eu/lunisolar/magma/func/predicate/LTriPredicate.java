@@ -418,7 +418,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, T1, T2, T3> LTriPredicate<V2, V3, V4> cast(LTriPredicate<T1, T2, T3> function) {
+	public static <V2, V3, V4> LTriPredicate<V2, V3, V4> cast(LTriPredicate<?, ?, ?> function) {
 		return (LTriPredicate) function;
 	}
 

@@ -317,7 +317,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LLongFunction<V2> cast(LLongFunction<R> function) {
+	public static <V2> LLongFunction<V2> cast(LLongFunction<?> function) {
 		return (LLongFunction) function;
 	}
 

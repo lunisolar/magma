@@ -355,7 +355,7 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, T1, T2, T3, T4> LQuadConsumer<V2, V3, V4, V5> cast(LQuadConsumer<T1, T2, T3, T4> function) {
+	public static <V2, V3, V4, V5> LQuadConsumer<V2, V3, V4, V5> cast(LQuadConsumer<?, ?, ?, ?> function) {
 		return (LQuadConsumer) function;
 	}
 

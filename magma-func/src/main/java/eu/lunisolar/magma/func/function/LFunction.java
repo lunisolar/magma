@@ -332,7 +332,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T, R> LFunction<V2, V3> cast(LFunction<T, R> function) {
+	public static <V2, V3> LFunction<V2, V3> cast(LFunction<?, ?> function) {
 		return (LFunction) function;
 	}
 

@@ -372,7 +372,7 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LToSrtBiFunction<V2, V3> cast(LToSrtBiFunction<T1, T2> function) {
+	public static <V2, V3> LToSrtBiFunction<V2, V3> cast(LToSrtBiFunction<?, ?> function) {
 		return (LToSrtBiFunction) function;
 	}
 

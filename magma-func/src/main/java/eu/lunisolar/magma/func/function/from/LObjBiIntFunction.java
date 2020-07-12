@@ -376,7 +376,7 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T, R> LObjBiIntFunction<V2, V3> cast(LObjBiIntFunction<T, R> function) {
+	public static <V2, V3> LObjBiIntFunction<V2, V3> cast(LObjBiIntFunction<?, ?> function) {
 		return (LObjBiIntFunction) function;
 	}
 

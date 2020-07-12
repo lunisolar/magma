@@ -409,7 +409,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, V6, T1, T2, T3, T4, T5> LQuintPredicate<V2, V3, V4, V5, V6> cast(LQuintPredicate<T1, T2, T3, T4, T5> function) {
+	public static <V2, V3, V4, V5, V6> LQuintPredicate<V2, V3, V4, V5, V6> cast(LQuintPredicate<?, ?, ?, ?, ?> function) {
 		return (LQuintPredicate) function;
 	}
 

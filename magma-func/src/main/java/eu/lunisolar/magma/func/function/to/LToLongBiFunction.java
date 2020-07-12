@@ -372,7 +372,7 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LToLongBiFunction<V2, V3> cast(LToLongBiFunction<T1, T2> function) {
+	public static <V2, V3> LToLongBiFunction<V2, V3> cast(LToLongBiFunction<?, ?> function) {
 		return (LToLongBiFunction) function;
 	}
 

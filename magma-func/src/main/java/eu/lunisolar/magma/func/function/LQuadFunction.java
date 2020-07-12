@@ -376,7 +376,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, V6, T1, T2, T3, T4, R> LQuadFunction<V2, V3, V4, V5, V6> cast(LQuadFunction<T1, T2, T3, T4, R> function) {
+	public static <V2, V3, V4, V5, V6> LQuadFunction<V2, V3, V4, V5, V6> cast(LQuadFunction<?, ?, ?, ?, ?> function) {
 		return (LQuadFunction) function;
 	}
 

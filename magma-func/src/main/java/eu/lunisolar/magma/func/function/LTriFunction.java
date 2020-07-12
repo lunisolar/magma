@@ -376,7 +376,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, T1, T2, T3, R> LTriFunction<V2, V3, V4, V5> cast(LTriFunction<T1, T2, T3, R> function) {
+	public static <V2, V3, V4, V5> LTriFunction<V2, V3, V4, V5> cast(LTriFunction<?, ?, ?, ?> function) {
 		return (LTriFunction) function;
 	}
 

@@ -377,7 +377,7 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, V6, V7, T1, T2, T3, T4, T5, R> LQuintFunction<V2, V3, V4, V5, V6, V7> cast(LQuintFunction<T1, T2, T3, T4, T5, R> function) {
+	public static <V2, V3, V4, V5, V6, V7> LQuintFunction<V2, V3, V4, V5, V6, V7> cast(LQuintFunction<?, ?, ?, ?, ?, ?> function) {
 		return (LQuintFunction) function;
 	}
 

@@ -356,7 +356,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, V6, T1, T2, T3, T4, T5> LQuintConsumer<V2, V3, V4, V5, V6> cast(LQuintConsumer<T1, T2, T3, T4, T5> function) {
+	public static <V2, V3, V4, V5, V6> LQuintConsumer<V2, V3, V4, V5, V6> cast(LQuintConsumer<?, ?, ?, ?, ?> function) {
 		return (LQuintConsumer) function;
 	}
 

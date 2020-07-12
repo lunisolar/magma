@@ -408,7 +408,7 @@ public interface LBiObjBytePredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LBiObjBytePredicate<V2, V3> cast(LBiObjBytePredicate<T1, T2> function) {
+	public static <V2, V3> LBiObjBytePredicate<V2, V3> cast(LBiObjBytePredicate<?, ?> function) {
 		return (LBiObjBytePredicate) function;
 	}
 

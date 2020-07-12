@@ -338,7 +338,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LToDblFunction<V2> cast(LToDblFunction<T> function) {
+	public static <V2> LToDblFunction<V2> cast(LToDblFunction<?> function) {
 		return (LToDblFunction) function;
 	}
 

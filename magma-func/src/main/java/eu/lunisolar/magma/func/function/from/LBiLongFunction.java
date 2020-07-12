@@ -363,7 +363,7 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LBiLongFunction<V2> cast(LBiLongFunction<R> function) {
+	public static <V2> LBiLongFunction<V2> cast(LBiLongFunction<?> function) {
 		return (LBiLongFunction) function;
 	}
 

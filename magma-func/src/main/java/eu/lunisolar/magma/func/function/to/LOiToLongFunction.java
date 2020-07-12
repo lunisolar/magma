@@ -374,7 +374,7 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LOiToLongFunction<V2> cast(LOiToLongFunction<T> function) {
+	public static <V2> LOiToLongFunction<V2> cast(LOiToLongFunction<?> function) {
 		return (LOiToLongFunction) function;
 	}
 

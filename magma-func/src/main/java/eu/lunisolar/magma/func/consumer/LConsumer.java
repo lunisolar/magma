@@ -309,7 +309,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LConsumer<V2> cast(LConsumer<T> function) {
+	public static <V2> LConsumer<V2> cast(LConsumer<?> function) {
 		return (LConsumer) function;
 	}
 

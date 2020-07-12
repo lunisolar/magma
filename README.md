@@ -13,45 +13,37 @@ A library of functional interfaces for Java 8 (now 11), concentrated on ability 
 checked exceptions (throwing lambda) and/or primitive types, supplemented with 
 assertion classes, builders and some additional classes. 
 
-It started with few interfaces that I happened to write and use. Then I found 
-that extending, synchronising, and testing, and most of all making sure it is 
-behaving consistently between growing number of classes (that look and do almost 
-the same except for the specifics of arguments and return value) is getting 
-annoying. So I started to moving those classes to the separate project.     
+### Features
  
-### Main goals
- 
-There are three main goals that this library was started to be build for:  
-
-+ **Throwing lambda expressions and functional interfaces that declare and throw
- checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.      
-+ **More functions** 
-  + **More primitive types supported** 
-  + **More combinations of arguments.**
-  + list is here: [Functions](table.md)
-+ **Reducing number of cases where:** 
-  + you cannot directly reference method 
-  + JVM cannot optimize code better (although nothing is guaranteed)  
++ More of functional interfaces 
+   + More primitive types are supported
+   + More combinations of arguments.
+   + further documentation:
+      + [action](http://lunisolar.eu/magma/all-functions/actions)
+      + [suppliers](http://lunisolar.eu/magma/all-functions/suppliers)
+      + [consumers](http://lunisolar.eu/magma/all-functions/consumers)
+      + [predicates](http://lunisolar.eu/magma/all-functions/predicates)
+      + [operators](http://lunisolar.eu/magma/all-functions/operators)
+      + [ordinary functions](http://lunisolar.eu/magma/all-functions/functions)
+      + [all interfaces](http://lunisolar.eu/magma/all-functions)
++ Thus, reducing number of cases where:
+   + You cannot directly reference method
+   + JVM cannot optimize code better (although nothing is guaranteed)
++ [Default and static utility methods](http://lunisolar.eu/magma/defaults)  (applicable to the case and availability of other interfaces).
++ [Tuples](https://github.com/lunisolar/magma/tree/master/magma-func/src/main/java/eu/lunisolar/magma/func/tuple)
+    + For each function that has a domain there exists in addition to that function a tuple class (e.g. Pair, Triple). 
+    + Obviously number of tuples is much smaller because for each domain there is also a list of codomain types 
+      (return values) that multiply number of functions.
+    + Tuples have their mutable and immutable variants.    
++ Java 'monads'     
 
 Most of the above goals adds to the actual number of interfaces so this is not 
-very tinny library as one would think. Behind each of those goals there are
-reasons that do not apply for every day to day use cases that programmer can run 
-into. Apart from that, I can easily state programming paradigms that are in 
-opposition to the goals of ths library, e.g.:
- 
-+ <strike>Checked exceptions are evil</strike> (since 2.0 all checked exception are wrapped by default). 
-+ Fully object oriented programming should avoid usage of primitive types.
-+ Any multiple arguments can be replaced with instance of single object wrapping them. 
+very tinny library as one would think.
 
-So, this is no silver bullet. **Choose the weapon accordingly to what you 
-are aiming _at at any given time_.**  
 
 #### Additional goals
 
-Additionally some supporting functionality were implemented: 
-
-+ **default methods** for each end very interface (inspired by some JRE default 
-methods for the main interfaces).  
+ 
 + **assertions for AspectJ** for all interfaces + JRE interfaces.
 + **builders** for complex implementations that can be divided into multiple cases 
 consisted of pairs:
@@ -60,14 +52,9 @@ consisted of pairs:
     + that might seem not so useful for simple lambda expression cases, but trust 
     me I had a use case for that so I did it. 
 + **exception handling** 
-+ custom set of optionals [Opt](magma-func-supp/src/main/eu/lunisolar/magma/meta/functional/model/func/Opt.java) ...
-+ set of argument/state [Checks](magma-func-supp/src/main/eu/lunisolar/magma/func/supp/check/Cheks.java)
++ custom set of optionals [Opt](https://github.com/lunisolar/magma/tree/master/magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/opt/Opt.java) ...
++ set of argument/state [Checks](https://github.com/lunisolar/magma/tree/master/magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/check/Checks.java)
 
-### Conventions
-One big _convention_ that most might disagree with, is totally abandoning JavaDoc/HTML 
-convention. I do not like to use a HTML browser to actually be able to _read_ the 
-comments in the code, so I use MD. Thankfully there is a doclet for that :) - if not 
-that plugin I would simply use doxygen.
 
 #### Code repository
 

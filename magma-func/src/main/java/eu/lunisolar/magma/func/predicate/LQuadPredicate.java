@@ -418,7 +418,7 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, T1, T2, T3, T4> LQuadPredicate<V2, V3, V4, V5> cast(LQuadPredicate<T1, T2, T3, T4> function) {
+	public static <V2, V3, V4, V5> LQuadPredicate<V2, V3, V4, V5> cast(LQuadPredicate<?, ?, ?, ?> function) {
 		return (LQuadPredicate) function;
 	}
 

@@ -328,7 +328,7 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LToByteFunction<V2> cast(LToByteFunction<T> function) {
+	public static <V2> LToByteFunction<V2> cast(LToByteFunction<?> function) {
 		return (LToByteFunction) function;
 	}
 

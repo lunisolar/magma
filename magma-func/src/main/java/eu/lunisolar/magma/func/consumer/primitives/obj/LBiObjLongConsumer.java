@@ -355,7 +355,7 @@ public interface LBiObjLongConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T1, T2> LBiObjLongConsumer<V2, V3> cast(LBiObjLongConsumer<T1, T2> function) {
+	public static <V2, V3> LBiObjLongConsumer<V2, V3> cast(LBiObjLongConsumer<?, ?> function) {
 		return (LBiObjLongConsumer) function;
 	}
 

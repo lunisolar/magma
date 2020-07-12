@@ -357,7 +357,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LObjDblConsumer<V2> cast(LObjDblConsumer<T> function) {
+	public static <V2> LObjDblConsumer<V2> cast(LObjDblConsumer<?> function) {
 		return (LObjDblConsumer) function;
 	}
 

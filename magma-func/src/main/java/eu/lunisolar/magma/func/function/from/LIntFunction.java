@@ -317,7 +317,7 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LIntFunction<V2> cast(LIntFunction<R> function) {
+	public static <V2> LIntFunction<V2> cast(LIntFunction<?> function) {
 		return (LIntFunction) function;
 	}
 

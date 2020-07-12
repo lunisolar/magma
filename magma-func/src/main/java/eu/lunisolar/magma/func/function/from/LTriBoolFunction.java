@@ -363,7 +363,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LTriBoolFunction<V2> cast(LTriBoolFunction<R> function) {
+	public static <V2> LTriBoolFunction<V2> cast(LTriBoolFunction<?> function) {
 		return (LTriBoolFunction) function;
 	}
 

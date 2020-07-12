@@ -344,7 +344,7 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, T> LTieBoolConsumer<V2> cast(LTieBoolConsumer<T> function) {
+	public static <V2> LTieBoolConsumer<V2> cast(LTieBoolConsumer<?> function) {
 		return (LTieBoolConsumer) function;
 	}
 

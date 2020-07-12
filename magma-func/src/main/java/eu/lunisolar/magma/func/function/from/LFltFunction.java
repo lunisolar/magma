@@ -317,7 +317,7 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, R> LFltFunction<V2> cast(LFltFunction<R> function) {
+	public static <V2> LFltFunction<V2> cast(LFltFunction<?> function) {
 		return (LFltFunction) function;
 	}
 

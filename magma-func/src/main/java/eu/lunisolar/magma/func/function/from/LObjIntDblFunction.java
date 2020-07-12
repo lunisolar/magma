@@ -356,7 +356,7 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Cast that replace generics. */
-	public static <V2, V3, T, R> LObjIntDblFunction<V2, V3> cast(LObjIntDblFunction<T, R> function) {
+	public static <V2, V3> LObjIntDblFunction<V2, V3> cast(LObjIntDblFunction<?, ?> function) {
 		return (LObjIntDblFunction) function;
 	}
 
