@@ -15,8 +15,8 @@ assertion classes, builders and some additional classes.
 
 It started with few interfaces that I happened to write and use. Then I found 
 that extending, synchronising, and testing, and most of all making sure it is 
-behaving consistently between growing number of classes that look and do almost 
-the same except for the specifics of arguments and return value, is getting 
+behaving consistently between growing number of classes (that look and do almost 
+the same except for the specifics of arguments and return value) is getting 
 annoying. So I started to moving those classes to the separate project.     
  
 ### Main goals
@@ -25,15 +25,16 @@ There are three main goals that this library was started to be build for:
 
 + **Throwing lambda expressions and functional interfaces that declare and throw
  checked exceptions (since 2.0 throwing non-throwing lambdas are merged)**.      
-+ **More primitive types supported**. 
-+ **More combinations of arguments.**
-+ **Reducing number of cases that:** 
++ **More functions** 
+  + **More primitive types supported** 
+  + **More combinations of arguments.**
+  + list is here: [Functions](table.md)
++ **Reducing number of cases where:** 
   + you cannot directly reference method 
   + JVM cannot optimize code better (although nothing is guaranteed)  
 
- 
 Most of the above goals adds to the actual number of interfaces so this is not 
-very tinny library as one would think. And behind each of those goals there are
+very tinny library as one would think. Behind each of those goals there are
 reasons that do not apply for every day to day use cases that programmer can run 
 into. Apart from that, I can easily state programming paradigms that are in 
 opposition to the goals of ths library, e.g.:
@@ -59,18 +60,9 @@ consisted of pairs:
     + that might seem not so useful for simple lambda expression cases, but trust 
     me I had a use case for that so I did it. 
 + **exception handling** 
-+ own set of Optional<?> (TODO link to class)
-+ set of argument/state [Validations](magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/Validations.java)
++ custom set of optionals [Opt](magma-func-supp/src/main/eu/lunisolar/magma/meta/functional/model/func/Opt.java) ...
++ set of argument/state [Checks](magma-func-supp/src/main/eu/lunisolar/magma/func/supp/check/Cheks.java)
 
-### General advice
-By writing and using those interfaces, even if just in the unit tests that were 
-generated for those interfaces, I found that a Java compiler sometimes need a help
-in inferring the type of the generics. And then sometimes even more help is required 
-to infer the generic types in throwing expressions. Mind that, in the end, it is 
-after all only 3rd level language and compiler do not YET utilise AI engine. There 
-are some cases that compiler has enough information to infer one generic type but 
-ignores it completely because the other generic type is not specified at all.  
-   
 ### Conventions
 One big _convention_ that most might disagree with, is totally abandoning JavaDoc/HTML 
 convention. I do not like to use a HTML browser to actually be able to _read_ the 
