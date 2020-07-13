@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.operator.unary;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
@@ -389,6 +390,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	/**
 	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LLongUnaryOperator.M)
 	 */
+	@NotThreadSafe
 	final class M implements LLongUnaryOperator {
 
 		private final LLongUnaryOperator baseFunction;

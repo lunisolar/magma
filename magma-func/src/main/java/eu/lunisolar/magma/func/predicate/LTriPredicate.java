@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.predicate;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
@@ -890,6 +891,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	/**
 	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LTriPredicate.M)
 	 */
+	@NotThreadSafe
 	final class M<T1, T2, T3> implements LTriPredicate<T1, T2, T3> {
 
 		private final LTriPredicate<T1, T2, T3> baseFunction;

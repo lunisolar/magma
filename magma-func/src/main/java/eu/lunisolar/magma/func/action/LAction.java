@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.action;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects;// NOSONAR
 import java.util.function.Predicate; //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR

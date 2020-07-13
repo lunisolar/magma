@@ -20,24 +20,29 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.LIntConsumer;
+import eu.lunisolar.magma.func.consumer.primitives.LLongConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.obj.LObjIntConsumer;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.operator.binary.LBinaryOperator;
 import eu.lunisolar.magma.func.operator.binary.LIntBinaryOperator;
+import eu.lunisolar.magma.func.operator.unary.LLongUnaryOperator;
 import eu.lunisolar.magma.func.operator.unary.LUnaryOperator;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.P;
+import eu.lunisolar.magma.func.supplier.LLongSupplier;
+import eu.lunisolar.magma.func.supplier.LSupplier;
 import eu.lunisolar.magma.func.tuple.LIntPair;
 import org.testng.annotations.Test;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
-import static eu.lunisolar.magma.asserts.Attests.attestThatThrownBy;
-import static eu.lunisolar.magma.asserts.Attests.attestUnaryOp;
+import static eu.lunisolar.magma.asserts.Attests.*;
 import static eu.lunisolar.magma.asserts.TestFlow.test;
 import static eu.lunisolar.magma.asserts.func.operator.binary.LBinaryOperatorAssert.attestBinaryOp;
+import static eu.lunisolar.magma.asserts.func.supplier.LSupplierAssert.attestSup;
 import static eu.lunisolar.magma.func.function.LFunction.func;
 import static eu.lunisolar.magma.func.operator.unary.LUnaryOperator.unaryOp;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
@@ -111,6 +116,17 @@ public class Example_Defaults_Test {
         Stream.of(new File("")).map(
                 func(File::getCanonicalPath) // wrap lambda to handle exceptions in places where JRE functional interface is used
         );
+    }
+    //>example<
+
+    /**
+     * Another static wrapper is for JRE functions. Every interface in this library has this method if it inherits from actual JRE interface.
+     */
+    //>example<
+    @Test
+    public void wrapJre() {
+        Function<String, String> f1 = s-> s;
+        LFunction<String, String> f2 = LFunction.wrap(f1);
     }
     //>example<
 
@@ -249,6 +265,93 @@ public class Example_Defaults_Test {
             attest(state.sb.toString()).mustEx(Be::equalEx, "3+4=7");
         });
 
+    }
+    //>example<
+
+    /**
+     * ### capture
+     *
+     * 'Capture' the fixed arguments and returns the supplier that returns the result of a call to original function. The function is called each time.
+     */
+    //>example<
+    @Test
+    public void capture() {
+
+        LUnaryOperator<String> f1 = s -> s;
+        LSupplier<String> f2 = f1.capture("345");
+
+        attestSup(f2).doesGet().asEqualTo("345");
+    }
+    //>example<
+
+    /**
+     * ### recursive()
+     *
+     * In cases where needed, recursive method allows to define recursive implementation of a function (by declaring higher order function).
+     */
+    //>example<
+    @Test
+    public void recursive() {
+        StringBuilder sb = new StringBuilder();
+
+        LLongUnaryOperator factorial = LLongUnaryOperator.recursive(f -> n -> (n <= 1) ? 1 : n * f.applyAsLong(n - 1L));
+
+        attestLongUnaryOp(factorial)
+                .doesApplyAsLong(0).asEqualTo(1L)
+                .doesApplyAsLong(1).asEqualTo(1L)
+                .doesApplyAsLong(2).asEqualTo(2L)
+                .doesApplyAsLong(3).asEqualTo(6L);
+
+    }
+    //>example<
+
+    /**
+     * ### memento(), deltaOf()
+     *
+     * Within this library, 'Memento' is a derivative function, that keeps state. Specifically two values: last value returned by original function and last
+     * value returned by derivative function. This allows for creating functions that calculate for example: delta or sum.
+     *
+     * The limitations/complications are obvious:
+     * - it is inherently not threadsafe
+     * - it keeps references to objects (if codomain is object)
+     */
+    //>example<
+    @Test
+    public void memento() {
+        LLongUnaryOperator originalFunction = i -> i; // lets keep it simple
+
+        LLongUnaryOperator.M sum = LLongUnaryOperator.memento(0, 0, originalFunction, (lastR_bis, lastR, r) -> lastR_bis + r);
+        LLongUnaryOperator.M delta = LLongUnaryOperator.memento(0, 0, originalFunction, (lastR_bis, lastR, r) -> r - lastR);
+
+        attestLongUnaryOp(sum)
+                .doesApplyAsLong(0).asEqualTo(0L)
+                .doesApplyAsLong(2).asEqualTo(2L)
+                .doesApplyAsLong(3).asEqualTo(5L)
+                .doesApplyAsLong(50).asEqualTo(55L);
+
+        attestLongUnaryOp(delta)
+                .doesApplyAsLong(0).asEqualTo(0L)
+                .doesApplyAsLong(2).asEqualTo(2L)
+                .doesApplyAsLong(3).asEqualTo(1L)
+                .doesApplyAsLong(50).asEqualTo(47L)
+                .doesApplyAsLong(40).asEqualTo(-10L);
+
+    }
+    //>example<
+
+    /**
+     *  An example that actually could be used more frequently is:
+     */
+    //>example<
+    @Test
+    public void timeDelta() {
+        LLongSupplier.M timeDelta = LLongSupplier.deltaOf(System::currentTimeMillis);
+
+        LLongConsumer.tryAccept(200, Thread::sleep);
+
+        long elapsedTime = timeDelta.getAsLong();
+
+        attest(elapsedTime).must(Be::inRange, 150, 500, "Elapsed time must be between 150 and 500 ms !"); // sleep() CPU scheduling is not precise
     }
     //>example<
 

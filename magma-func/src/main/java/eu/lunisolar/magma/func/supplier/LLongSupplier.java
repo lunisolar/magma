@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supplier;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -373,6 +374,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	/**
 	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LLongSupplier.M)
 	 */
+	@NotThreadSafe
 	final class M implements LLongSupplier {
 
 		private final LLongSupplier baseFunction;

@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.predicate;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
@@ -634,6 +635,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 	/**
 	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LIntPredicate.M)
 	 */
+	@NotThreadSafe
 	final class M implements LIntPredicate {
 
 		private final LIntPredicate baseFunction;

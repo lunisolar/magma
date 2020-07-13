@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.operator.binary;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
@@ -447,6 +448,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	/**
 	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LByteBinaryOperator.M)
 	 */
+	@NotThreadSafe
 	final class M implements LByteBinaryOperator {
 
 		private final LByteBinaryOperator baseFunction;

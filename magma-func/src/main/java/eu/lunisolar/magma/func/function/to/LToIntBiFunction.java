@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.function.to;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
@@ -482,6 +483,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 	/**
 	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LToIntBiFunction.M)
 	 */
+	@NotThreadSafe
 	final class M<T1, T2> implements LToIntBiFunction<T1, T2> {
 
 		private final LToIntBiFunction<T1, T2> baseFunction;

@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.function.from;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
@@ -468,6 +469,7 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	/**
 	 * Implementation that allows to create derivative functions (do not confuse it with math concepts). Very short name is intended to be used with parent (LBiBoolFunction.M)
 	 */
+	@NotThreadSafe
 	final class M<R> implements LBiBoolFunction<R> {
 
 		private final LBiBoolFunction<R> baseFunction;
