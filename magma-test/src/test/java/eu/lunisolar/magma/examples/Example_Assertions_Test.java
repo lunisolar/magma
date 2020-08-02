@@ -18,10 +18,13 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.asserts.func.operator.unary.LIntUnaryOperatorAssert;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.build.action.LActionBuilder;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.from.LSrtFunction;
+import eu.lunisolar.magma.func.operator.binary.LBinaryOperator;
+import eu.lunisolar.magma.func.supp.Be;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
@@ -30,6 +33,7 @@ import java.util.concurrent.atomic.*;
 
 import static eu.lunisolar.magma.asserts.Attests.THEN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 //>transform-to-MD<
 /**
@@ -47,30 +51,27 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * Basic introduction (by example) to asserting the function behaviour.
  *
- * In case there is any value in testing specific function implementations, a fluent assertions might come handy. Obviously this is not intended for every
- * function.
- * And actually you could always use it for testing any method that happens to have corresponding interface in this library.
+ * While testing single lambda expression (usually very small peace of code), on its own, might be overkill. It might be beneficial in some cases
+ * to enclose tested solution into a functional interface and test its response (codomain) for the given input (domain).
+ *
+ * For that purpose every functional interface from library has the assertion class (plus assertion classes for JRE function in any case they would be needed).
  */
 public class Example_Assertions_Test {
 
 ///
 ///### Before we use assertions
 ///
-///<a href="https://github.com/lunisolar/magma/blob/master/magma-asserts/src/main/java/eu/lunisolar/magma/func/asserts/MagmaAssertions.java" target="_blank">MagmaAssertions</a>
+///<a href="https://github.com/lunisolar/magma/blob/master/magma-asserts/src/main/java/eu/lunisolar/magma/asserts/Attests.java" target="_blank">Attests</a>
 ///and
-///<a href="https://github.com/lunisolar/magma/blob/master/magma-asserts/src/main/java/eu/lunisolar/magma/func/asserts/DefaultMagmaAssertions.java" target="_blank">DefaultMagmaAssertions</a>
-///are the classes that are aggregating all the methods you need. 
+///<a href="https://github.com/lunisolar/magma/blob/master/magma-asserts/src/main/java/eu/lunisolar/magma/asserts/DefaultAttests.java" target="_blank">DefaultAttests</a>
+///are the classes that are aggregating all the factory methods you might need.
 ///
 
     /**
      * ### Examples
-     *
-     * Lets consider following functions.
      */
-    //>example<
     private LFunction<Integer, Integer> function      = i -> i;
     private LSrtFunction<Integer>       shortFunction = i -> (int) i;
-    //>example<
 
     public static final AtomicInteger extInfluence = new AtomicInteger(0);
     public static final AtomicInteger extEffect    = new AtomicInteger(0);
@@ -80,8 +81,55 @@ public class Example_Assertions_Test {
                                            .otherwise(() -> extEffect.set(-1))
                                            .build();
 
+    @Test
+    public void inAllFollowingCases_cumulates() {
+
+        LIntUnaryOperatorAssert.The<?, ?> sut = THEN.attestIntUnaryOp(i -> i)
+                                                    .inAllFollowingCases(a -> a.isGreaterThan(20))
+                                                    .inAllFollowingCases(a -> a.isLessThan(10));
+
+        assertThatThrownBy(() -> sut.doesApplyAsInt(15).asEqualTo(15))
+                .isInstanceOf(AssertionError.class)
+                .hasMessageContaining("to be greater than");
+
+        assertThatThrownBy(() -> sut.doesApplyAsInt(25).asEqualTo(15))
+                .isInstanceOf(AssertionError.class)
+                .hasMessageContaining("to be less than");
+
+    }
+
     /**
-     * Now we can test the function with assertions.
+     * This is how some simple tests can be carried on based on functional assertions:
+     */
+    //>example<
+    @Test
+    public void example0() {
+
+        String sut = "1234567890";
+        LBinaryOperator<String> replaceOperation = sut::replace;
+
+        THEN.withinStringCodomain()                                         // #1
+            .attestBinaryOp(replaceOperation)
+            .inAllFollowingCases(result -> result.contains("_x_"))          // #2
+            .doesApply("1", "_x_").asEqualTo("_x_234567890")       // #3
+            .doesApply("2", "_x_").asEqualTo("1_x_34567890")
+            .doesApply("3", "_x_").toEx(check -> check.mustEx(Be::equalEx, "12_x_4567890"))  // #4
+            .doesApply("3", null).withException(ex -> ex.isInstanceOf(NullPointerException.class));
+    }
+    //>example<
+///
+/// > At #1) We can manipulate AssertJ assertion for the codomain.
+/// >
+/// > At #2) We can add recurring assertions (multiple if needed) to check generic assertions.
+/// >
+/// > At #3) We can add as many corner cases as needed.
+/// >
+/// > At #4) There is possibility to use [fluent validations](http://lunisolar.eu/magma/validations-fluent). The "ex" stands for "ex" variants of the methods
+/// that actually produce message.
+/// 
+
+    /**
+     * Another example with some explanation below:
      */
     //>example<
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case \\(0\\) should evaluate with exception.")
@@ -93,7 +141,6 @@ public class Example_Assertions_Test {
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(e -> e.isExactlyInstanceOf(UnsupportedOperationException.class)
                                               .hasMessage("Some message"));
-
     }
     //>example<
 
@@ -126,7 +173,7 @@ public class Example_Assertions_Test {
     //>example<
 
     /**
-     * Here are examples how you can specify specific assertions for the generic codomain.
+     * Here are examples how you can specify specific AssertJ assertions for the generic codomain.
      */
     //>example<
     @Test
@@ -154,12 +201,15 @@ public class Example_Assertions_Test {
                 .hasMessage("Some message"));
     }
 
-    /**
-     * ### What if function do not have an input or output?
-     *
-     * In most cases it means that the real _effect_ or _influence_ is external. If you can access that external effect and cause then following example
-     * might be useful. Lets consider extreme case - Action.
-     */
+///
+/// ### What if function do not have an input or output?
+///
+/// Every functional interface has its assertion class, that includes even LAction -
+/// <a href="https://github.com/lunisolar/magma/blob/master/magma-asserts/src/main/java/eu/lunisolar/magma/asserts/func/action/LActionAssert.java" target="_blank">LActionAssert</a>
+/// In such cases where there is no domain and/or codomain, the assumption of the assertion class is that there might be some external _influence_ or
+/// _effect_.
+/// Here is an example how to 'access' that external _effect_/_influence_:
+///
     //>example<
     @Test(expectedExceptions = AssertionError.class)
     public void testActionAssert() {
@@ -172,24 +222,15 @@ public class Example_Assertions_Test {
     }
     //>example<
 
-
-    /**
-     * ### Assertions for JRE interfaces
-     *
-     * Provided that JRE interface exists, the library interface extends it. But that will not work for asserting the result of the instance of the only JRE interface.
-     * So for each JRE interface there is also a corresponding factory method (however naming convention is not from JRE): 
-     */
-    //>example<
     @Test(expectedExceptions = AssertionError.class)
     public void testRecurringAssertsNegative() {
 
-        THEN.attestAct((Runnable)action)
+        THEN.attestAct((Runnable) action)
             .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
             .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
             .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> assertThat(extEffect.get()).isEqualTo(1))
             .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> assertThat(extEffect.get()).isEqualTo(4000));
     }
-    //>example<
 
     //>inject<:generated
 }

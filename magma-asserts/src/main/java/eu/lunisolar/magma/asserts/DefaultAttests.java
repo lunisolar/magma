@@ -4710,17 +4710,17 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 	}
 
 	@Nonnull
-	default <A> MagmaAssert.ObjAssert<A> attestThat(A actual) {
-		return new MagmaAssert.ObjAssert(actual);
+	default <A> Attest.ObjAttest<A> attestThat(A actual) {
+		return new Attest.ObjAttest(actual);
 	}
 
 	@Nonnull
-	default <A extends Throwable> MagmaAssert.ThrowableAssert<A> attestThat(A actual) {
-		return new MagmaAssert.ThrowableAssert(actual);
+	default <A extends Throwable> Attest.ThrowableAttest<A> attestThat(A actual) {
+		return new Attest.ThrowableAttest(actual);
 	}
 
 	@Nonnull
-	default MagmaAssert.ThrowableAssert<? extends Throwable> attestThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+	default Attest.ThrowableAttest<? extends Throwable> attestThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
 		return attestThat(Assertions.catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
 	}
 }

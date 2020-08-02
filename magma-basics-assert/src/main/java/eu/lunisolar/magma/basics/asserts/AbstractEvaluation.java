@@ -30,6 +30,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.*;
 import java.util.function.*;
 
+import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Fail.fail;
 
 /**
@@ -47,7 +48,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
     protected @Nonnull        Supplier<String>         caseDescription;
     protected @Nullable       PC                       preconditioner;
     protected final @Nonnull  AssertionFunction<PC, A> assertFunction;
-    protected final @Nullable Consumer<A>              assertPreConsumer;
+    protected final @Nullable List<Consumer<A>>        assertPreConsumer;
 
     protected final @Nonnull CTX context;
 
@@ -56,7 +57,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
             @Nonnull Supplier<String> description,
             @Nonnull Supplier<String> caseDescription,
             @Nonnull AssertionFunction<PC, A> assertFunction,
-            @Nullable Consumer<A> assertPreConsumer) {
+            @Nullable List<Consumer<A>> assertPreConsumer) {
         this.description = description;
         this.caseDescription = caseDescription;
         this.assertPreConsumer = assertPreConsumer;
@@ -69,8 +70,9 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
             @Nonnull CTX context,
             @Nonnull Supplier<String> description,
             @Nonnull Supplier<String> caseDescription,
-            @Nullable AssertionsCheck assertPreConsumer, AssertionFunction<PC, A> assertFunction) {
-        this(context, description, caseDescription, assertFunction, assertPreConsumer == null ? null : a -> assertPreConsumer.assertionsCheck());
+            @Nullable List<AssertionsCheck> assertPreConsumer, AssertionFunction<PC, A> assertFunction) {
+        this(context, description, caseDescription, assertFunction,
+             assertPreConsumer == null ? null : assertPreConsumer.stream().map(a -> (Consumer<A>) __ -> a.assertionsCheck()).collect(toList()));
     }
 
     public SELF when(PC preconditioner) {
@@ -101,7 +103,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
             @Nonnull Supplier<String> caseDescription,
             @Nullable PC preconditioner,
             @Nonnull AssertionFunction<PC, A> assertFunction,
-            @Nullable Consumer<A> assertPreConsumer,
+            @Nullable List<Consumer<A>> assertPreConsumer,
             @Nonnull Consumer<A> assertConsumer
     ) {
         try {
@@ -109,7 +111,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
 
             try {
                 if (assertPreConsumer != null) {
-                    assertPreConsumer.accept(resultAssert);
+                    assertPreConsumer.forEach(c -> c.accept(resultAssert));
                 }
             } catch (AssertionError e) {
                 throw new AssertionError(String.format("%sRecurring assertion failed.%s", mainDescription(description), e.getMessage()), e);

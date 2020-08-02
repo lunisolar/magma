@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.*;
 import java.util.function.*;
 
 /**
@@ -37,7 +38,7 @@ public final class SemiEvaluation<CTX extends FunctionalAssert.Simple<CTX, PC, A
             @Nonnull CTX context,
             @Nonnull Supplier<String> description,
             @Nonnull Supplier<String> caseDescription,
-            @Nullable AssertionsCheck assertPreConsumer,
+            @Nullable List<AssertionsCheck> assertPreConsumer,
             @Nonnull AssertionFunction<PC, A> assertFunction) {
         super(context, description, caseDescription, assertPreConsumer, assertFunction);
     }

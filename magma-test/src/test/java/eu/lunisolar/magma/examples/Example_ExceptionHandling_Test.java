@@ -24,6 +24,7 @@ import eu.lunisolar.magma.examples.support.DifferentRuntimeException;
 import eu.lunisolar.magma.examples.support.DifferentSpecializedRuntimeException;
 import eu.lunisolar.magma.examples.support.SomeRuntimeExcepton;
 import eu.lunisolar.magma.func.consumer.LConsumer;
+import eu.lunisolar.magma.func.consumer.primitives.LLongConsumer;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.supp.Has;
 import eu.lunisolar.magma.func.supp.Is;
@@ -38,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 
-/**                                                                              
+/**
  * Basic introduction (by example) to exception handling with functional interfaces from this library.
  */
 //>inject<:readmore
@@ -62,11 +63,11 @@ public class Example_ExceptionHandling_Test {
 ///
 ///#### Default behaviour
 ///
-///First the actual method that need to be implemented is the method that is throwing Throwable. This method is not intended to be called directly:
+///First, the actual method that need to be implemented is throwing Throwable:
 ///
 ///`R applyX(T a) throws Throwable;`
 ///
-///The method that is intended to be called is:
+///This method is not intended to be used directly, because there is less exotic method to be called:
 ///
 ///`default R apply(T a) { ... }`
 ///
@@ -85,32 +86,30 @@ public class Example_ExceptionHandling_Test {
 ///1. There two -apply- methods that additionally takes reference to exception constructor with option to pass message arguments.
 ///1. There is -applyThen- that takes function that is supposed to transform exception into the originally expected value type.
 ///
-///For each of those mentioned above there is a:
+///So, in general there are 3 possibilities to handle exceptions:
 ///
 ///1. Instance methods that is just 'apply' with additional handling. To handle exceptions on per call basis.
 ///1. Instance methods that returns function that always does the exact handling every time. To create function that handles exceptions for all calls.
 ///1. Static method that takes function arguments, function instance, and handling argument.
 ///
 
-
-  /** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * When you write some utility that constantly do, for example, IO operations and is already limited by contract that it cannot declare checked exceptions:
+    /**
+     * ### Examples
+     *
+     * Probably the most quick use of exception handling, provided that situation does not require actual handling of exception (and propagation of nested
+     * exception is enough) would be:
      */
     //>example<
     @Test
-    public void quickHandlingException() {
-        byte[] input = new byte[0];
+    public void oneLinePropagation() {
 
-        LConsumer.handlingAccept(input, in -> new ByteArrayInputStream(in).close(), e -> e
-                .wrapIf(IOException.class::isInstance, RuntimeException::new)
-                .handleRest());
+        LLongConsumer.tryAccept(300, Thread::sleep);
+
     }
     //>example<
 
     /**
-     * ### Examples
-     *
-     * Here is a example function and its implementation that will be used in the flowing examples:     *
+     * For further examples lets confider a method and/or function that throw checked exceptions:
      */
 
     //>example<
@@ -124,14 +123,13 @@ public class Example_ExceptionHandling_Test {
     //>example<
 
     /**
-     * And here is an example with handling instructions: 
+     * And here is an example with handling instructions:
      */
-
     //>example<
     @Test(expectedExceptions = DifferentRuntimeException.class)
     public void exampleHandling() {
 
-        LFunction<Integer, Integer> function1 =  throwingAlways.handling(h -> h
+        LFunction<Integer, Integer> function1 = throwingAlways.handling(h -> h
                 .wrapIf(e -> e instanceof RuntimeException, RuntimeException::new)
                 .wrapIf(pred(Has::cause).and(Is::notRuntime), DifferentSpecializedRuntimeException::new)
                 .wrap(DifferentRuntimeException::new)
@@ -180,13 +178,13 @@ public class Example_ExceptionHandling_Test {
      */
     //>example<
     @Test(expectedExceptions = NestedException.class)
-    public void staticExamples()  {
+    public void staticExamples() {
         LFunction.tryApply(0, Example_ExceptionHandling_Test::throwingAlways);
     }
 
     @Test(expectedExceptions = DifferentRuntimeException.class, expectedExceptionsMessageRegExp = "text message and param")
-    public void staticExamples2()  {
-        LFunction.tryApply(0, Example_ExceptionHandling_Test::throwingAlways, DifferentRuntimeException::new ,"text message and %s", "param");
+    public void staticExamples2() {
+        LFunction.tryApply(0, Example_ExceptionHandling_Test::throwingAlways, DifferentRuntimeException::new, "text message and %s", "param");
     }
     //>example<
 

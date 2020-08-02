@@ -38,7 +38,7 @@ import static eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer.tieCo
 import static java.util.Arrays.*;
 import static java.util.stream.Collectors.*;
 
-//TODO this i compilation "test'
+//TODO this a compilation "test'
 @SuppressWarnings("SimplifyStreamApiCallChains")
 public class Example_ForEach_Test {
 

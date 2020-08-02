@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Extension over CheckTrait with specific purpose of unit test assertions. Advantage is that properly written assert class includes messages similar like AssertJ, otherwise
  * adhoc usage of CHeckTrait methods is still possible.     
  */
-public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Assert<SELF, A>, FluentTrait<SELF>, CheckTrait<A, SELF> {
+public interface Attest<SELF extends Attest<SELF, A>, A> extends Assert<SELF, A>, FluentTrait<SELF>, CheckTrait<A, SELF> {
 
 	@Nullable
 	A actual();
@@ -108,9 +108,9 @@ public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Asser
 		return self();
 	}
 
-	public static abstract class AbstractObjAssert<SELF extends AbstractObjAssert<SELF, A>, A> extends AbstractObjectAssert<SELF, A> implements MagmaAssert<SELF, A> {
+	public static abstract class AbstractObjAttest<SELF extends AbstractObjAttest<SELF, A>, A> extends AbstractObjectAssert<SELF, A> implements Attest<SELF, A> {
 
-		public AbstractObjAssert(A a, Class<?> selfType) {
+		public AbstractObjAttest(A a, Class<?> selfType) {
 			super(a, selfType);
 		}
 
@@ -121,10 +121,10 @@ public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Asser
 		}
 	}
 
-	public static class ObjAssert<A> extends AbstractObjAssert<ObjAssert<A>, A> implements MagmaAssert<ObjAssert<A>, A> {
+	public static class ObjAttest<A> extends AbstractObjAttest<ObjAttest<A>, A> implements Attest<ObjAttest<A>, A> {
 
-		public ObjAssert(A a) {
-			super(a, ObjAssert.class);
+		public ObjAttest(A a) {
+			super(a, ObjAttest.class);
 		}
 
 		@Nullable
@@ -134,10 +134,10 @@ public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Asser
 		}
 	}
 
-	public static class ThrowableAssert<A extends Throwable> extends AbstractThrowableAssert<ThrowableAssert<A>, A> implements MagmaAssert<ThrowableAssert<A>, A> {
+	public static class ThrowableAttest<A extends Throwable> extends AbstractThrowableAssert<ThrowableAttest<A>, A> implements Attest<ThrowableAttest<A>, A> {
 
-		public ThrowableAssert(A a) {
-			super(a, ThrowableAssert.class);
+		public ThrowableAttest(A a) {
+			super(a, ThrowableAttest.class);
 		}
 
 		@Nullable
@@ -147,7 +147,7 @@ public interface MagmaAssert<SELF extends MagmaAssert<SELF, A>, A> extends Asser
 		}
 
 		@Override
-		protected ThrowableAssert<A> hasBeenThrown() {
+		protected ThrowableAttest<A> hasBeenThrown() {
 			return super.hasBeenThrown();
 		}
 	}

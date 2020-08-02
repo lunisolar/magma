@@ -22,6 +22,7 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assert;
 
 import javax.annotation.Nonnull;
+import java.util.*;
 
 public interface RecurringAsserts<S extends Assert<S, A>, A, RA> {
 
@@ -33,7 +34,7 @@ public interface RecurringAsserts<S extends Assert<S, A>, A, RA> {
 
     abstract class Base<S extends Base<S, A, RA>, A, RA> extends AbstractObjectAssert<S, A> implements RecurringAsserts<S, A, RA> {
 
-        protected RA recurringAssert;
+        protected List<RA> recurringAssert = new ArrayList<>();
 
         public Base(A actual, Class<?> selfType) {
             super(actual, selfType);
@@ -42,12 +43,12 @@ public interface RecurringAsserts<S extends Assert<S, A>, A, RA> {
         @Override
         @Nonnull
         public S inAllFollowingCases(@Nonnull RA recurringAssert) {
-            this.recurringAssert = recurringAssert;
+            this.recurringAssert.add(recurringAssert);
             return myself;
         }
 
         @Nonnull
-        protected RA recurringAssert() {
+        protected List<RA> recurringAssert() {
             return recurringAssert;
         }
 

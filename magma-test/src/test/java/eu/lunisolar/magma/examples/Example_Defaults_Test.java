@@ -356,5 +356,12 @@ public class Example_Defaults_Test {
     //>example<
 
     //>inject<:generated
+
+    /**
+     * ### compose(), then(), thenConsume(), thenToInt(), ...
+     *
+     * Methods like compose() and then() are analogous to JRE's Function.compose() and Function.andThen() + few more.
+     *
+     */
 }
 

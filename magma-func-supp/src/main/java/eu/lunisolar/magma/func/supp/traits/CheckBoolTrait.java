@@ -243,7 +243,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1MUM(), params)));
 		}
 		return self();
 	}
@@ -257,7 +257,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1MUM(), params)));
 		}
 		return self();
 	}
@@ -271,75 +271,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBoolFunction<? extends String> specialPredicate) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(get());
-		if (msg != null) {
-			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get());
-		if (msg != null) {
-			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get());
-		if (msg != null) {
-			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get());
-		if (msg != null) {
-			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get());
-		if (msg != null) {
-			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
 		return self();
 	}
@@ -611,7 +543,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -625,7 +557,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -639,7 +571,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -679,7 +611,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -693,7 +625,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -707,143 +639,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
 		return self();
 	}
@@ -1115,7 +911,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -1129,7 +925,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -1143,7 +939,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -1183,7 +979,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -1197,7 +993,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -1211,143 +1007,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull SELF mustNotEx(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(get(), a2, a3);
-		if (msg != null) {
-			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
 		return self();
 	}
@@ -1811,7 +1471,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -1825,7 +1485,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -1839,7 +1499,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -1879,7 +1539,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -1893,7 +1553,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -1907,143 +1567,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V> SELF mustNot_Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.applyBoolObj(get(), v);
-		if (msg != null) {
-			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
 		return self();
 	}
@@ -2315,7 +1839,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -2329,7 +1853,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -2343,7 +1867,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -2383,7 +1907,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -2397,7 +1921,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
 		return self();
 	}
@@ -2411,143 +1935,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1> SELF mustNotWithBoolEx(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
 		return self();
 	}
@@ -2819,7 +2207,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -2833,7 +2221,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -2847,7 +2235,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -2887,7 +2275,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -2901,7 +2289,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
 		return self();
 	}
@@ -2915,143 +2303,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 		if (msg != null) {
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, params);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
-		}
-		return self();
-	}
-
-	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithEx(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		Null.nonNullArg(specialPredicate, "specialPredicate");
-		Null.nonNullArg(message, "message");
-		@Nonnull
-		String msg = specialPredicate.apply(with1, with2, get());
-		if (msg != null) {
-			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
-			params[params.length - 1] = format(message, param1, param2, param3);
-			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
 		return self();
 	}

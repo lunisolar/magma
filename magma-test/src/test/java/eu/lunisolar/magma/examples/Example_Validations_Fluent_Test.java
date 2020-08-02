@@ -21,7 +21,6 @@ package eu.lunisolar.magma.examples;
 import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Have;
-import eu.lunisolar.magma.func.supp.MsgVerbosity;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.supp.opt.Opt;
@@ -48,7 +47,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 ///
 ///### Abstract
 ///
-///Basic introduction (by example) to fluent validations with library functions. Described here functionality is available since version 2.1.0.
+///Basic introduction (by example) to fluent validations with library functions. Described here functionality is available since version 3.0.0.
 ///
 ///### Examples
 ///
@@ -62,33 +61,32 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Introduced here examples cover few most common cases of validation/assertions.
- *
- * > Fluent assertions always include current/actual value, values of parameters. If that is not desired then simple validations in form of static methods on predicates could be used instead (methods 'throwIf').
- *
  */
 public class Example_Validations_Fluent_Test {
 
     private int arg45 = 45;
 
+/// > Before moving further, please note that various factory methods represents different verbosity and exception being thrown.
+
     /**
      * Lets consider very simple validation that need to be done.
      */
     //>example<
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: cannot be greater or equal 50")
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: #3 cannot be greater or equal 50")
     public void test1() {
 
         Checks.arg(arg45)
-              .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //passes
-              .must(Be::lt, 50, "cannot be greater or equal 50"); //passes
+              .mustNot(Be::gtEq, 50, "#1 cannot be greater or equal 50") //passes
+              .must(Be::lt, 50, "#2 cannot be lighter than 50"); //passes
 
         var i = arg(60)
-                .mustNot(Be::gtEq, 50, "cannot be greater or equal 50") //fails
+                .mustNot(Be::gtEq, 50, "#3 cannot be greater or equal 50") //fails
                 .get();
     }
     //>example<
 
     /**
-     * Now lets include the value of the argument to the message and the name.
+     * Now lets include the value and name of the argument to the message.
      */
     //>example<
     @Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "State \\[number=='60'\\]: cannot be greater or equal 40")
@@ -103,11 +101,11 @@ public class Example_Validations_Fluent_Test {
      * Another good example:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[arg45\\]: Fully custom message: must be 5 < V=45 < 40")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[arg45\\]: must be 5 < V=45 < 40")
     public void test3() {
 
         //fails
-        value(arg45, "arg45").must(Be::between, 5, 40, "Fully custom message: must be %2$d < V=%1$d < %3$d");
+        value(arg45, "arg45").must(Be::between, 5, 40, "must be %2$d < V=%1$d < %3$d");
 
     }
     //>example<
@@ -126,7 +124,7 @@ public class Example_Validations_Fluent_Test {
     //>example<
 
     /**
-     * Similar but with name being used:
+     * Similar but with derivative's name being used:
      */
     //>example<
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[size\\]: Collection size must be >1")
@@ -139,28 +137,45 @@ public class Example_Validations_Fluent_Test {
     //>example<
 
     /**
-     * Another good example:
+     * Another good example (the 'attest' method implies verbosity 'ALL', and AssertionError being thrown):
      */
     //>example<
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check/attest \\[arg45=='45'\\]\\(params: '5', '40'\\): Fully custom message: must be 5 < V=45 < 40")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check/attest \\[arg45=='45'\\]\\(params: '5', '40'\\): must be 5 < V=45 < 40")
     public void test6() {
 
         //fails
-        attest(arg45, "arg45").must(Be::between, 5, 40, "Fully custom message: must be %2$d < V=%1$d < %3$d");
+        attest(arg45, "arg45").must(Be::between, 5, 40, "must be %2$d < V=%1$d < %3$d");
 
     }
     //>example<
 
     /**
-     * We can also use method that will include check parameters in the message for us.
+     * We can do the same without using 'attest' method (changing verbosity and exception factory):
      */
     //>example<
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check/attest \\[arg45=='45'\\]\\(params: '5', '40'\\): not between")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Value \\[arg45=='45'\\]\\(params: '5', '40'\\): not between")
     public void test7() {
 
         //fails
-        attest(arg45, "arg45").verbosity(ALL).must(Be::between, 5, 40, "not between");
+        value(arg45, "arg45", AssertionError::new).verbosity(ALL).must(Be::between, 5, 40, "not between");
 
+    }
+    //>example<
+
+    /**
+     * Going back to the initial example, lets now use _self-explaining_ variants of the methods 'Ex' (or simply for EXtended):
+     */
+    //>example<
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Argument \\[\\?\\]: 60 must NOT be >= 50\\. - #3 some additional info: it failed")
+    public void test1_bis() {
+
+        Checks.arg(arg45)
+              .mustEx(Be::notGtEqEx, 50 ) //passes (there is no mustNotEx method for logical reasons)
+              .mustEx(Be::ltEx, 50); //passes
+
+        var i = arg(60)
+                .mustEx(Be::notGtEqEx, 50, "#3 some additional info: %s", "it failed") //fails
+                .get();
     }
     //>example<
 
@@ -211,6 +226,8 @@ public class Example_Validations_Fluent_Test {
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null.")
     public void specialPredicates() {
         Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx);
+//        Checks.value(new Object[]{1, 2}).must(Be::allNull, "aaaaa");
+//        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx, "aaaaa");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")
@@ -219,7 +236,6 @@ public class Example_Validations_Fluent_Test {
 
         Checks.value(e).mustEx(P.haveEx(Exception::getCause, Have::msgContainEx, "I'm Expecting this"));
     }
-
 
     /**
      * Alternatively you can build predicate with P.have (or Does.have) methods.
@@ -231,6 +247,17 @@ public class Example_Validations_Fluent_Test {
                 .must(P.have(Object::toString, P::notNull), "serialise to non-null string")
                 .must(P.have(Object::toString, P::equal, "1"), "serialize to '1'")
                 .must(P.haveToInt(Integer::intValue, P::equal, 1), "not between");
+    }
+    //>example<
+
+     /**
+     * And in such cases you can also use _self-explaining_ methods ('Ex').
+     */
+    //>example<
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check/attest \\[\\?=='1'\\]: 1 must be equal to 45.")
+    public void test9() {
+        attest(new Integer(1))
+                .mustEx(P.haveToIntEx(Integer::intValue, P::equalEx, 45));
     }
     //>example<
 

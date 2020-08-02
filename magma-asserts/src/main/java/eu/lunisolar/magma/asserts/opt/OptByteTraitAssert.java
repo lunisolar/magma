@@ -58,7 +58,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import static eu.lunisolar.magma.func.supp.check.Checks.arg; // NOSONAR
 import static org.assertj.core.error.OptionalShouldContain.shouldContain; // NOSONAR
 
-public class OptByteTraitAssert extends AbstractObjectAssert<OptByteTraitAssert, OptByteTrait<?>> implements FluentTrait<OptByteTraitAssert>, MagmaAssert<OptByteTraitAssert, OptByteTrait<?>> {
+public class OptByteTraitAssert extends AbstractObjectAssert<OptByteTraitAssert, OptByteTrait<?>> implements FluentTrait<OptByteTraitAssert>, Attest<OptByteTraitAssert, OptByteTrait<?>> {
 
 	@Override
 	public OptByteTrait<?> actual() {

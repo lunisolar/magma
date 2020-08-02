@@ -19,6 +19,7 @@
 package eu.lunisolar.magma.basics.asserts;
 
 import eu.lunisolar.magma.basics.Null;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.Condition;
 
@@ -26,6 +27,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.*;
 import java.util.concurrent.atomic.*;
 import java.util.function.*;
 
@@ -43,7 +45,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
             @Nonnull Supplier<String> description,
             @Nonnull Supplier<String> caseDescription,
             @Nonnull AssertionFunction<PC, RS> assertFunction,
-            @Nullable java.util.function.Consumer<RS> assertPreConsumer) {
+            @Nullable List<Consumer<RS>> assertPreConsumer) {
         super(context, description, caseDescription, assertFunction, assertPreConsumer);
     }
 
@@ -83,7 +85,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         return context.self();
     }
 
-    /** Ads possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
+    /** Adds possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
     public CTX that(@Nonnull Consumer<R> customCheckBlock) {
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
         R actualResult = stillActualResult();
@@ -91,7 +93,15 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         return context.self();
     }
 
-    /** Ads possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
+    /** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
+    public CTX toEx(@Nonnull Consumer<Checks.Check<R>> customCheckBlock) {
+        Null.nonNullArg(customCheckBlock, "customCheckBlock");
+        R actualResult = stillActualResult();
+        customCheckBlock.accept(Checks.attest(actualResult));
+        return context.self();
+    }
+
+    /** Adds possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
     public <AA> CTX that(@Nonnull Function<R, AA> adapter, @Nonnull Consumer<AA> customCheckBlock) {
         Null.nonNullArg(adapter, "adapter");
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
@@ -105,7 +115,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         return context.self();
     }
 
-    /** Ads possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
+    /** Adds possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
     public <V, AA> CTX that(@Nonnull BiFunction<R, V, AA> adapter, @Nullable V adapterParam, @Nonnull Consumer<AA> customCheckBlock) {
         Null.nonNullArg(adapter, "adapter");
         Null.nonNullArg(customCheckBlock, "customCheckBlock");

@@ -146,12 +146,12 @@ public class Example_Builders_Test {
         return ((long) Integer.MAX_VALUE) >= o && o >= ((long) Integer.MIN_VALUE);
     }
 
-    /**
-     * ### Examples with Generics and type arguments.
-     *
-     * Previous examples actually avoid one ot the issues a Java compiler might have (all the generic types are declared as Object). There is a limitation to
-     * what Java compiler can guess.  This example would not actually compile without repeating the argument type `<T>`:
-     */
+/// 
+/// ### Examples with Generics and type arguments.
+/// 
+/// Previous examples actually avoid one ot the issues a Java compiler might have (all the generic types are compiled as Object). There is a limitation to
+/// what Java compiler can guess.  This example would not actually compile without repeating the argument type `<T>`:
+/// 
     //>example<
     @Test
     public <T> void testGeneric1() {
@@ -164,7 +164,7 @@ public class Example_Builders_Test {
     //>example<
 
     /**
-     * That is not the issue if there is only one generic argument and if it has such short name. But this example is obviously better way to do it:
+     * That is not the issue if there is only one generic argument and if it has such short name. But here is an example with a better way to do it:
      */
     //>example<
     @Test

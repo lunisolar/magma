@@ -332,6 +332,16 @@ public final class Be implements FluentSyntax {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGt(byte n, byte a1) {
+		return !(n > a1);
+	}
+
+	/** "Special" predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEx(byte n, byte a1) {
+		return !(n > a1) ? null : String.format("%s must NOT be > %s.", n, a1);
+	}
+
 	/** Predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean lt(byte n, byte a1) {
 		return n < a1;
@@ -340,6 +350,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEx(byte n, byte a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLt(byte n, byte a1) {
+		return !(n < a1);
+	}
+
+	/** "Special" predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEx(byte n, byte a1) {
+		return !(n < a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
 	/** Predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
@@ -352,6 +372,16 @@ public final class Be implements FluentSyntax {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGtEq(byte n, byte a1) {
+		return !(n >= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEqEx(byte n, byte a1) {
+		return !(n >= a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
+	}
+
 	/** Predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean ltEq(byte n, byte a1) {
 		return n <= a1;
@@ -360,6 +390,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEqEx(byte n, byte a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLtEq(byte n, byte a1) {
+		return !(n <= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEqEx(byte n, byte a1) {
+		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -392,6 +432,16 @@ public final class Be implements FluentSyntax {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGt(short n, short a1) {
+		return !(n > a1);
+	}
+
+	/** "Special" predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEx(short n, short a1) {
+		return !(n > a1) ? null : String.format("%s must NOT be > %s.", n, a1);
+	}
+
 	/** Predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean lt(short n, short a1) {
 		return n < a1;
@@ -400,6 +450,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEx(short n, short a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLt(short n, short a1) {
+		return !(n < a1);
+	}
+
+	/** "Special" predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEx(short n, short a1) {
+		return !(n < a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
 	/** Predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
@@ -412,6 +472,16 @@ public final class Be implements FluentSyntax {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGtEq(short n, short a1) {
+		return !(n >= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEqEx(short n, short a1) {
+		return !(n >= a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
+	}
+
 	/** Predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean ltEq(short n, short a1) {
 		return n <= a1;
@@ -420,6 +490,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEqEx(short n, short a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLtEq(short n, short a1) {
+		return !(n <= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEqEx(short n, short a1) {
+		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -452,6 +532,16 @@ public final class Be implements FluentSyntax {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGt(int n, int a1) {
+		return !(n > a1);
+	}
+
+	/** "Special" predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEx(int n, int a1) {
+		return !(n > a1) ? null : String.format("%s must NOT be > %s.", n, a1);
+	}
+
 	/** Predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean lt(int n, int a1) {
 		return n < a1;
@@ -460,6 +550,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEx(int n, int a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLt(int n, int a1) {
+		return !(n < a1);
+	}
+
+	/** "Special" predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEx(int n, int a1) {
+		return !(n < a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
 	/** Predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
@@ -472,6 +572,16 @@ public final class Be implements FluentSyntax {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGtEq(int n, int a1) {
+		return !(n >= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEqEx(int n, int a1) {
+		return !(n >= a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
+	}
+
 	/** Predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean ltEq(int n, int a1) {
 		return n <= a1;
@@ -480,6 +590,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEqEx(int n, int a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLtEq(int n, int a1) {
+		return !(n <= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEqEx(int n, int a1) {
+		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -512,6 +632,16 @@ public final class Be implements FluentSyntax {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGt(long n, long a1) {
+		return !(n > a1);
+	}
+
+	/** "Special" predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEx(long n, long a1) {
+		return !(n > a1) ? null : String.format("%s must NOT be > %s.", n, a1);
+	}
+
 	/** Predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean lt(long n, long a1) {
 		return n < a1;
@@ -520,6 +650,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEx(long n, long a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLt(long n, long a1) {
+		return !(n < a1);
+	}
+
+	/** "Special" predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEx(long n, long a1) {
+		return !(n < a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
 	/** Predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
@@ -532,6 +672,16 @@ public final class Be implements FluentSyntax {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGtEq(long n, long a1) {
+		return !(n >= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEqEx(long n, long a1) {
+		return !(n >= a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
+	}
+
 	/** Predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean ltEq(long n, long a1) {
 		return n <= a1;
@@ -540,6 +690,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEqEx(long n, long a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLtEq(long n, long a1) {
+		return !(n <= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEqEx(long n, long a1) {
+		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -572,6 +732,16 @@ public final class Be implements FluentSyntax {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGt(float n, float a1) {
+		return !(n > a1);
+	}
+
+	/** "Special" predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEx(float n, float a1) {
+		return !(n > a1) ? null : String.format("%s must NOT be > %s.", n, a1);
+	}
+
 	/** Predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean lt(float n, float a1) {
 		return n < a1;
@@ -580,6 +750,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEx(float n, float a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLt(float n, float a1) {
+		return !(n < a1);
+	}
+
+	/** "Special" predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEx(float n, float a1) {
+		return !(n < a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
 	/** Predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
@@ -592,6 +772,16 @@ public final class Be implements FluentSyntax {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGtEq(float n, float a1) {
+		return !(n >= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEqEx(float n, float a1) {
+		return !(n >= a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
+	}
+
 	/** Predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean ltEq(float n, float a1) {
 		return n <= a1;
@@ -600,6 +790,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEqEx(float n, float a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLtEq(float n, float a1) {
+		return !(n <= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEqEx(float n, float a1) {
+		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -632,6 +832,16 @@ public final class Be implements FluentSyntax {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGt(double n, double a1) {
+		return !(n > a1);
+	}
+
+	/** "Special" predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEx(double n, double a1) {
+		return !(n > a1) ? null : String.format("%s must NOT be > %s.", n, a1);
+	}
+
 	/** Predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean lt(double n, double a1) {
 		return n < a1;
@@ -640,6 +850,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEx(double n, double a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLt(double n, double a1) {
+		return !(n < a1);
+	}
+
+	/** "Special" predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEx(double n, double a1) {
+		return !(n < a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
 	/** Predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
@@ -652,6 +872,16 @@ public final class Be implements FluentSyntax {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGtEq(double n, double a1) {
+		return !(n >= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEqEx(double n, double a1) {
+		return !(n >= a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
+	}
+
 	/** Predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean ltEq(double n, double a1) {
 		return n <= a1;
@@ -660,6 +890,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEqEx(double n, double a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLtEq(double n, double a1) {
+		return !(n <= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEqEx(double n, double a1) {
+		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -692,6 +932,16 @@ public final class Be implements FluentSyntax {
 		return (n > a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGt(char n, char a1) {
+		return !(n > a1);
+	}
+
+	/** "Special" predicate: %s must NOT be > %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEx(char n, char a1) {
+		return !(n > a1) ? null : String.format("%s must NOT be > %s.", n, a1);
+	}
+
 	/** Predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean lt(char n, char a1) {
 		return n < a1;
@@ -700,6 +950,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEx(char n, char a1) {
 		return (n < a1) ? null : String.format("%s must be < %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLt(char n, char a1) {
+		return !(n < a1);
+	}
+
+	/** "Special" predicate: %s must NOT be < %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEx(char n, char a1) {
+		return !(n < a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
 	/** Predicate: %s must be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
@@ -712,6 +972,16 @@ public final class Be implements FluentSyntax {
 		return (n >= a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 
+	/** Predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notGtEq(char n, char a1) {
+		return !(n >= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be >= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notGtEqEx(char n, char a1) {
+		return !(n >= a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
+	}
+
 	/** Predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean ltEq(char n, char a1) {
 		return n <= a1;
@@ -720,6 +990,16 @@ public final class Be implements FluentSyntax {
 	/** "Special" predicate: %s must be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String ltEqEx(char n, char a1) {
 		return (n <= a1) ? null : String.format("%s must be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notLtEq(char n, char a1) {
+		return !(n <= a1);
+	}
+
+	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notLtEqEx(char n, char a1) {
+		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
 	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/

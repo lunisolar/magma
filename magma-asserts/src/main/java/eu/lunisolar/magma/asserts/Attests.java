@@ -3690,17 +3690,17 @@ public interface Attests {
 	}
 
 	@Nonnull
-	public static <A> MagmaAssert.ObjAssert<A> attestThat(A actual) {
+	public static <A> Attest.ObjAttest<A> attestThat(A actual) {
 		return THEN.attestThat(actual);
 	}
 
 	@Nonnull
-	public static <A extends Throwable> MagmaAssert.ThrowableAssert<A> attestThat(A actual) {
-		return new MagmaAssert.ThrowableAssert(actual);
+	public static <A extends Throwable> Attest.ThrowableAttest<A> attestThat(A actual) {
+		return new Attest.ThrowableAttest(actual);
 	}
 
 	@Nonnull
-	public static MagmaAssert.ThrowableAssert<? extends Throwable> attestThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+	public static Attest.ThrowableAttest<? extends Throwable> attestThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
 		return attestThat(Assertions.catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
 	}
 

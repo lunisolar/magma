@@ -19,6 +19,7 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.X;
+import eu.lunisolar.magma.func.predicate.LBiIntPredicate;
 import eu.lunisolar.magma.func.predicate.LBiPredicate;
 import eu.lunisolar.magma.func.predicate.LPredicate;
 import eu.lunisolar.magma.func.supp.Be;
@@ -83,7 +84,7 @@ public class Example_Validations_Simple_Test {
     public void test2() throws Exception {
 
         //fails
-        throwIf(arg45, arg -> arg >= 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
+        throwIf(arg45, arg -> arg >= 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal %s", arg45, 40);
     }
     //>example<
 
@@ -99,6 +100,18 @@ public class Example_Validations_Simple_Test {
     }
     //>example<
 
+    /**
+     * A more general version:
+     */
+    //>example<
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "'arg'=45  cannot be greater or equal 40")
+    public void test4() {
+
+        //fails
+        LBiIntPredicate.throwIf(arg45, 40, (arg, threshold)-> arg >= threshold, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal %s");
+    }
+    //>example<
+
 ///Bellow is more descriptive example, that references one of the methods from classes
 ///<a href="https://github.com/lunisolar/magma/blob/master/magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/Be.java" target="_blank">Be</a>,
 ///<a href="https://github.com/lunisolar/magma/blob/master/magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/Does.java" target="_blank">Does</a>,
@@ -108,7 +121,7 @@ public class Example_Validations_Simple_Test {
 
     //>example<
     @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "'arg'=45  cannot be greater or equal 40")
-    public void test4() {
+    public void test5() {
 
         //fails
         throwIf(arg45, Is::gtEq, 40, IllegalArgumentException::new, "'arg'=%s  cannot be greater or equal 40");
@@ -126,7 +139,7 @@ public class Example_Validations_Simple_Test {
      */
     //>example<
     @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "'arg'=45  must be between 5 and 40.")
-    public void test5() {
+    public void test6() {
 
         //fails
         throwIfNot(arg45, Is::between, 5, 40, X::arg, "'arg'=%s  must be between 5 and 40.");
@@ -142,7 +155,7 @@ public class Example_Validations_Simple_Test {
      */
     //>example<
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "'arg'=45  must be between 5 and 40.")
-    public void test6() {
+    public void test7() {
         throwIfNot(arg45, Is::between, 5, 40, X::assertion, "'arg'=%s  must be between 5 and 40.");
     }
     //>example<
