@@ -113,7 +113,7 @@ public class Example_Assertions_Test {
             .inAllFollowingCases(result -> result.contains("_x_"))          // #2
             .doesApply("1", "_x_").asEqualTo("_x_234567890")       // #3
             .doesApply("2", "_x_").asEqualTo("1_x_34567890")
-            .doesApply("3", "_x_").toEx(check -> check.mustEx(Be::equalEx, "12_x_4567890"))  // #4
+            .doesApply("3", "_x_").toEx(check -> check.must2Ex(Be::equalEx, "12_x_4567890"))  // #4
             .doesApply("3", null).withException(ex -> ex.isInstanceOf(NullPointerException.class));
     }
     //>example<

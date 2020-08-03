@@ -277,7 +277,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull LBiIntFunction<String> msgFunc) {
+	default @Nonnull SELF must2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull LBiIntFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(get(), a2)) {
@@ -287,7 +287,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message) {
+	default @Nonnull SELF must2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -299,7 +299,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -311,7 +311,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -323,7 +323,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -335,7 +335,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull LBiIntFunction<String> msgFunc) {
+	default @Nonnull SELF must2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull LBiIntFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(get(), a2)) {
@@ -345,7 +345,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message) {
+	default @Nonnull SELF must2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -357,7 +357,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -369,7 +369,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -381,7 +381,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -393,7 +393,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull LBiIntFunction<String> msgFunc) {
+	default @Nonnull SELF mustNot2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull LBiIntFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(get(), a2)) {
@@ -403,7 +403,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message) {
+	default @Nonnull SELF mustNot2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -415,7 +415,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -427,7 +427,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -439,7 +439,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot2(@Nonnull LBiIntPredicate predicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -451,7 +451,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull LBiIntFunction<String> msgFunc) {
+	default @Nonnull SELF mustNot2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull LBiIntFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(get(), a2)) {
@@ -461,7 +461,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNot2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -473,7 +473,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -485,7 +485,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -497,7 +497,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot2(int a2, @Nonnull LBiIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -509,7 +509,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2) {
+	default @Nonnull SELF must2Ex(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -521,7 +521,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message) {
+	default @Nonnull SELF must2Ex(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -535,7 +535,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must2Ex(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -549,7 +549,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2Ex(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -563,7 +563,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must2Ex(@Nonnull LBiIntFunction<? extends String> specialPredicate, int a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -577,7 +577,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF must2Ex(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -589,7 +589,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF must2Ex(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -603,7 +603,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must2Ex(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -617,7 +617,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2Ex(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -631,7 +631,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must2Ex(int a2, @Nonnull LBiIntFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -645,7 +645,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message) {
+	default @Nonnull SELF must3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -657,7 +657,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -669,7 +669,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -681,7 +681,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -693,7 +693,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message) {
+	default @Nonnull SELF must3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -705,7 +705,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -717,7 +717,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -729,7 +729,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF must(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -741,7 +741,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message) {
+	default @Nonnull SELF mustNot3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -753,7 +753,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -765,7 +765,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -777,7 +777,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot3(@Nonnull LTriIntPredicate predicate, int a2, int a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -789,7 +789,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNot3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -801,7 +801,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -813,7 +813,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -825,7 +825,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot3(int a2, int a3, @Nonnull LTriIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -837,7 +837,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message) {
+	default @Nonnull SELF mustBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -849,7 +849,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -861,7 +861,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -873,7 +873,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -885,7 +885,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -897,7 +897,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -909,7 +909,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -921,7 +921,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntBool(get(), v)) {
@@ -933,7 +933,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message) {
+	default @Nonnull SELF mustNotBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -945,7 +945,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -957,7 +957,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -969,7 +969,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotBool_2(@Nonnull LBoolIntPredicate.LIntBoolPred predicate, boolean v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -981,7 +981,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -993,7 +993,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -1005,7 +1005,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -1017,7 +1017,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotBool_2(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntBool(get(), v)) {
@@ -1029,7 +1029,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message) {
+	default @Nonnull SELF mustByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1041,7 +1041,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1053,7 +1053,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1065,7 +1065,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1077,7 +1077,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1089,7 +1089,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1101,7 +1101,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1113,7 +1113,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntByte(get(), v)) {
@@ -1125,7 +1125,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message) {
+	default @Nonnull SELF mustNotByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1137,7 +1137,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1149,7 +1149,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1161,7 +1161,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotByte_2(@Nonnull LByteIntPredicate.LIntBytePred predicate, byte v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1173,7 +1173,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1185,7 +1185,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1197,7 +1197,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1209,7 +1209,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotByte_2(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntByte(get(), v)) {
@@ -1221,7 +1221,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message) {
+	default @Nonnull SELF mustDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1233,7 +1233,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1245,7 +1245,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1257,7 +1257,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1269,7 +1269,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1281,7 +1281,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1293,7 +1293,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1305,7 +1305,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntDbl(get(), v)) {
@@ -1317,7 +1317,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message) {
+	default @Nonnull SELF mustNotDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1329,7 +1329,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1341,7 +1341,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1353,7 +1353,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotDbl_2(@Nonnull LDblIntPredicate.LIntDblPred predicate, double v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1365,7 +1365,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1377,7 +1377,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1389,7 +1389,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1401,7 +1401,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotDbl_2(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntDbl(get(), v)) {
@@ -1413,7 +1413,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message) {
+	default @Nonnull SELF mustChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1425,7 +1425,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1437,7 +1437,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1449,7 +1449,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1461,7 +1461,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1473,7 +1473,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1485,7 +1485,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1497,7 +1497,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntChar(get(), v)) {
@@ -1509,7 +1509,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message) {
+	default @Nonnull SELF mustNotChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1521,7 +1521,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1533,7 +1533,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1545,7 +1545,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotChar_2(@Nonnull LCharIntPredicate.LIntCharPred predicate, char v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1557,7 +1557,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1569,7 +1569,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1581,7 +1581,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1593,7 +1593,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotChar_2(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntChar(get(), v)) {
@@ -1605,7 +1605,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message) {
+	default @Nonnull SELF mustSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1617,7 +1617,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1629,7 +1629,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1641,7 +1641,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1653,7 +1653,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1665,7 +1665,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1677,7 +1677,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1689,7 +1689,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntSrt(get(), v)) {
@@ -1701,7 +1701,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message) {
+	default @Nonnull SELF mustNotSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1713,7 +1713,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1725,7 +1725,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1737,7 +1737,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotSrt_2(@Nonnull LSrtIntPredicate.LIntSrtPred predicate, short v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1749,7 +1749,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1761,7 +1761,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1773,7 +1773,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1785,7 +1785,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotSrt_2(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntSrt(get(), v)) {
@@ -1797,7 +1797,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message) {
+	default @Nonnull SELF mustFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1809,7 +1809,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1821,7 +1821,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1833,7 +1833,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1845,7 +1845,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1857,7 +1857,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1869,7 +1869,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1881,7 +1881,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntFlt(get(), v)) {
@@ -1893,7 +1893,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message) {
+	default @Nonnull SELF mustNotFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1905,7 +1905,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1917,7 +1917,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1929,7 +1929,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotFlt_2(@Nonnull LFltIntPredicate.LIntFltPred predicate, float v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1941,7 +1941,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1953,7 +1953,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1965,7 +1965,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1977,7 +1977,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotFlt_2(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntFlt(get(), v)) {
@@ -1989,7 +1989,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message) {
+	default @Nonnull SELF mustLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2001,7 +2001,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2013,7 +2013,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2025,7 +2025,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2037,7 +2037,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2049,7 +2049,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2061,7 +2061,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2073,7 +2073,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntLong(get(), v)) {
@@ -2085,7 +2085,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message) {
+	default @Nonnull SELF mustNotLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2097,7 +2097,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2109,7 +2109,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2121,7 +2121,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotLong_2(@Nonnull LLongIntPredicate.LIntLongPred predicate, long v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2133,7 +2133,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message) {
+	default @Nonnull SELF mustNotLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2145,7 +2145,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2157,7 +2157,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2169,7 +2169,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotLong_2(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntLong(get(), v)) {
@@ -2181,7 +2181,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF must_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2191,7 +2191,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF must_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2203,7 +2203,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2215,7 +2215,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2227,7 +2227,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2239,7 +2239,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2249,7 +2249,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message) {
+	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2261,7 +2261,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2273,7 +2273,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2285,7 +2285,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testIntObj(get(), v)) {
@@ -2297,7 +2297,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.testIntObj(get(), v)) {
@@ -2307,7 +2307,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2319,7 +2319,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2331,7 +2331,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2343,7 +2343,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2355,7 +2355,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull LOiFunction.LIntObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.testIntObj(get(), v)) {
@@ -2365,7 +2365,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message) {
+	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2377,7 +2377,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2389,7 +2389,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2401,7 +2401,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testIntObj(get(), v)) {
@@ -2413,7 +2413,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v) {
+	default @Nonnull <V> SELF must_2Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applyIntObj(get(), v);
@@ -2425,7 +2425,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF must_2Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2439,7 +2439,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_2Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2453,7 +2453,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_2Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2467,7 +2467,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_2Ex(@Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2481,7 +2481,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate) {
+	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applyIntObj(get(), v);
@@ -2493,7 +2493,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2507,7 +2507,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2521,7 +2521,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2535,7 +2535,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LOiFunction.LIntObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2549,7 +2549,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull LOiFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull LOiFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, get())) {
@@ -2559,7 +2559,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2571,7 +2571,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2583,7 +2583,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2595,7 +2595,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2607,7 +2607,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LOiFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LOiFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, get())) {
@@ -2617,7 +2617,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2629,7 +2629,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2641,7 +2641,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2653,7 +2653,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -2665,7 +2665,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull LOiFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustNotWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull LOiFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, get())) {
@@ -2675,7 +2675,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2687,7 +2687,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2699,7 +2699,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2711,7 +2711,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithInt2(@Nonnull LObjIntPredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2723,7 +2723,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LOiFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustNotWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull LOiFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, get())) {
@@ -2733,7 +2733,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2745,7 +2745,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2757,7 +2757,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2769,7 +2769,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithInt2(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -2781,7 +2781,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -2793,7 +2793,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2807,7 +2807,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2821,7 +2821,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2835,7 +2835,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(@Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2849,7 +2849,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -2861,7 +2861,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2875,7 +2875,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2889,7 +2889,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2903,7 +2903,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithIntEx(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithInt2Ex(V1 with1, @Nonnull LOiFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2917,7 +2917,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, with2, get())) {
@@ -2927,7 +2927,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2939,7 +2939,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2951,7 +2951,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2963,7 +2963,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2975,7 +2975,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, with2, get())) {
@@ -2985,7 +2985,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2997,7 +2997,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -3009,7 +3009,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -3021,7 +3021,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -3033,7 +3033,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, with2, get())) {
@@ -3043,7 +3043,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3055,7 +3055,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3067,7 +3067,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3079,7 +3079,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3091,7 +3091,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, with2, get())) {
@@ -3101,7 +3101,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3113,7 +3113,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3125,7 +3125,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3137,7 +3137,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjIntPredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -3149,7 +3149,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -3161,7 +3161,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -3175,7 +3175,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -3189,7 +3189,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -3203,7 +3203,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -3217,7 +3217,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -3229,7 +3229,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -3243,7 +3243,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -3257,7 +3257,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -3271,7 +3271,7 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FluentT
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull

@@ -18,14 +18,12 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.basics.ToStr;
 import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.predicate.LBiPredicate;
 import eu.lunisolar.magma.func.predicate.LPredicate;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Is;
-import eu.lunisolar.magma.func.supp.MsgVerbosity;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.opt.Opt;
 import eu.lunisolar.magma.func.supplier.LSupplier;
@@ -231,7 +229,7 @@ public class Validations4U_Perf {
             int i = state.i();
             try {
                 arg(state.values.v(i)).mustNot(Be::nullOrEmpty, "Cannot be empty.")
-                                      .checkInt(String::length,"der",  v -> v.must(Be::gtEq, 2, "Must be longer than 2"));
+                                      .checkInt(String::length,"der",  v -> v.must2(Be::gtEq, 2, "Must be longer than 2"));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -261,7 +259,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).mustNot(P::equal, "", "No no!");
+                arg(state.values.v(i)).mustNot2(P::equal, "", "No no!");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -275,7 +273,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).fluentUse(__ -> __.mustNot(P::equal, "", "No no!"));
+                arg(state.values.v(i)).fluentUse(__ -> __.mustNot2(P::equal, "", "No no!"));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -289,7 +287,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).verbosity(ALL).mustNot(P::equal, "","No no!");
+                arg(state.values.v(i)).verbosity(ALL).mustNot2(P::equal, "","No no!");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -396,7 +394,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).mustNot(Be::equal, "", "Cannot be empty.");
+                arg(state.values.v(i)).mustNot2(Be::equal, "", "Cannot be empty.");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -410,7 +408,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).verbosity(ALL).mustNot(Be::equal, "", "Cannot be empty.");
+                arg(state.values.v(i)).verbosity(ALL).mustNot2(Be::equal, "", "Cannot be empty.");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -426,7 +424,7 @@ public class Validations4U_Perf {
             try {
                 var s = state.values.v(i);
                 if (s!= null ) {
-                    arg(state.values.v(i)).verbosity(ALL).mustNot(Be::equal, "", "Cannot be empty.");
+                    arg(state.values.v(i)).verbosity(ALL).mustNot2(Be::equal, "", "Cannot be empty.");
                 }
 
                 a++;
@@ -444,7 +442,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    arg(state.values.v(i)).mustEx(Be::notEqualEx, "");
+                    arg(state.values.v(i)).must2Ex(Be::notEqualEx, "");
 //                }
 
                 a++;
@@ -482,7 +480,7 @@ public class Validations4U_Perf {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
                 String v = state.values.v(i);
-                arg(v).mustEx(Be::notEqualEx, "", "Special comment: %s");
+                arg(v).must2Ex(Be::notEqualEx, "", "Special comment: %s");
 //                }
 
                 a++;
@@ -536,7 +534,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                arg(state.values.v(i)).mustEx(Be::notEqualEx, ALL,"");
+                arg(state.values.v(i)).must2Ex(Be::notEqualEx, ALL,"");
 //                }throwIfNot
 
                 a++;
@@ -554,7 +552,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    arg(state.values.v(i)).must(Be::notEqual, "", "MUST");
+                    arg(state.values.v(i)).must2(Be::notEqual, "", "MUST");
 //                }
 
                 a++;
@@ -570,7 +568,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).checkWhen(Is::notNull, __ -> __.mustNot(Be::equal, "", "Cannot be empty."));
+                arg(state.values.v(i)).checkWhen(Is::notNull, __ -> __.mustNot2(Be::equal, "", "Cannot be empty."));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -584,7 +582,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), "data").checkWhen(Is::notNull, __ -> __.mustNot(Be::equal, "conditional check", "Cannot be empty."));
+                arg(state.values.v(i), "data").checkWhen(Is::notNull, __ -> __.mustNot2(Be::equal, "conditional check", "Cannot be empty."));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -613,7 +611,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).must(PP::notSame3, SAME, "a", "b","Cannot be empty index");
+                arg(state.values.v(i), state.names.v(i)).must4(PP::notSame4, SAME, "a", "b", "Cannot be empty index");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -627,7 +625,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).must(PP::notSame3, SAME, "a", "b","Cannot be empty index");
+                arg(state.values.v(i), state.names.v(i)).must4(PP::notSame4, SAME, "a", "b", "Cannot be empty index");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -641,7 +639,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).must(PP::notSame3, SAME, "a", "b", "Cannot be empty index");
+                arg(state.values.v(i), state.names.v(i)).must4(PP::notSame4, SAME, "a", "b", "Cannot be empty index");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -655,7 +653,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).verbosity(MIN).must(PP::notSame3, SAME, "a", "b", "Cannot be empty index");
+                arg(state.values.v(i), state.names.v(i)).verbosity(MIN).must4(PP::notSame4, SAME, "a", "b", "Cannot be empty index");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -669,7 +667,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).verbosity(VAL).must(PP::notSame3, SAME, "a", "b","Cannot be empty index");
+                arg(state.values.v(i), state.names.v(i)).verbosity(VAL).must4(PP::notSame4, SAME, "a", "b", "Cannot be empty index");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -683,7 +681,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).verbosity(ALL).must(PP::notSame3, SAME, "a", "b", "Cannot be empty index");
+                arg(state.values.v(i), state.names.v(i)).verbosity(ALL).must4(PP::notSame4, SAME, "a", "b", "Cannot be empty index");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -697,7 +695,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL).mustEx(PP::notSame3Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
+                arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL).must4Ex(PP::notSame4Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -711,7 +709,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).verbose().must(PP::notSame3, SAME, "a", "b", "Cannot be empty index %s", "3465");
+                arg(state.values.v(i), state.names.v(i)).verbose().must4(PP::notSame4, SAME, "a", "b", "Cannot be empty index %s", "3465");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -790,12 +788,12 @@ public class Validations4U_Perf {
 
     public static class PP {
 
-        public static boolean notSame3(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
+        public static boolean notSame4(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
             return !(n == other1) && !(n == other2) && !(n == other3);
         }
 
-        public static String notSame3Ex(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
-            if (!notSame3(n, other1, other2, other3 )) {
+        public static String notSame4Ex(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
+            if (!notSame4(n, other1, other2, other3 )) {
                 return String.format("<%s> must be different from <%s>, <%s> and <%s>", other1, other2, other3);
             };
             return null;

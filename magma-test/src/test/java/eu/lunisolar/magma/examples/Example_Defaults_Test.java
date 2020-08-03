@@ -147,7 +147,7 @@ public class Example_Defaults_Test {
 
         int actual = f1.tupleApplyAsInt(LIntPair.of(2, 5));
 
-        attest(actual).mustEx(Be::equalEx, 7);
+        attest(actual).must2Ex(Be::equalEx, 7);
     }
     //>example<
 
@@ -187,7 +187,7 @@ public class Example_Defaults_Test {
 
         attestThatThrownBy(
                 () -> badFunction.nonNullApply(null)
-        ).mustEx(Be::instanceOfEx, RuntimeException.class)
+        ).must2Ex(Be::instanceOfEx, RuntimeException.class)
          .mustEx(P.haveEx(Throwable::getMessage, P::containEx, "Evaluated value by nonNullApply() method cannot be null"));
 
         attestUnaryOp(badFunction.nonNullable())
@@ -262,7 +262,7 @@ public class Example_Defaults_Test {
         }).when(state -> {
             state.func.apply(3, 4);
         }).then(state -> {
-            attest(state.sb.toString()).mustEx(Be::equalEx, "3+4=7");
+            attest(state.sb.toString()).must2Ex(Be::equalEx, "3+4=7");
         });
 
     }
@@ -351,7 +351,7 @@ public class Example_Defaults_Test {
 
         long elapsedTime = timeDelta.getAsLong();
 
-        attest(elapsedTime).must(Be::inRange, 150, 500, "Elapsed time must be between 150 and 500 ms !"); // sleep() CPU scheduling is not precise
+        attest(elapsedTime).must3(Be::inRange, 150, 500, "Elapsed time must be between 150 and 500 ms !"); // sleep() CPU scheduling is not precise
     }
     //>example<
 

@@ -76,11 +76,11 @@ public class Example_Validations_Fluent_Test {
     public void test1() {
 
         Checks.arg(arg45)
-              .mustNot(Be::gtEq, 50, "#1 cannot be greater or equal 50") //passes
-              .must(Be::lt, 50, "#2 cannot be lighter than 50"); //passes
+              .mustNot2(Be::gtEq, 50, "#1 cannot be greater or equal 50") //passes
+              .must2(Be::lt, 50, "#2 cannot be lighter than 50"); //passes
 
         var i = arg(60)
-                .mustNot(Be::gtEq, 50, "#3 cannot be greater or equal 50") //fails
+                .mustNot2(Be::gtEq, 50, "#3 cannot be greater or equal 50") //fails
                 .get();
     }
     //>example<
@@ -93,7 +93,7 @@ public class Example_Validations_Fluent_Test {
     public void test2() throws Exception {
 
         //fails
-        var i = state(60, "number").verbosity(VAL).mustNot(Be::gtEq, 40, "cannot be greater or equal 40").get();
+        var i = state(60, "number").verbosity(VAL).mustNot2(Be::gtEq, 40, "cannot be greater or equal 40").get();
     }
     //>example<
 
@@ -105,7 +105,7 @@ public class Example_Validations_Fluent_Test {
     public void test3() {
 
         //fails
-        value(arg45, "arg45").must(Be::between, 5, 40, "must be %2$d < V=%1$d < %3$d");
+        value(arg45, "arg45").must3(Be::between, 5, 40, "must be %2$d < V=%1$d < %3$d");
 
     }
     //>example<
@@ -119,7 +119,7 @@ public class Example_Validations_Fluent_Test {
         value(Collections.singleton(2), "collection name")
                 .mustNot(Be::Null, "This collection cannot be null.")
                 //fails:
-                .checkInt(Collection::size, v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
+                .checkInt(Collection::size, v -> v.must2(Be::gtEq, 2, "Collection size must be >1"));
     }
     //>example<
 
@@ -132,7 +132,7 @@ public class Example_Validations_Fluent_Test {
         value(Collections.singleton(2), "collection_name")
                 .mustNot(Be::Null, "This collection cannot be null.")
                 //fails:
-                .checkInt(Collection::size, "size", v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
+                .checkInt(Collection::size, "size", v -> v.must2(Be::gtEq, 2, "Collection size must be >1"));
     }
     //>example<
 
@@ -144,7 +144,7 @@ public class Example_Validations_Fluent_Test {
     public void test6() {
 
         //fails
-        attest(arg45, "arg45").must(Be::between, 5, 40, "must be %2$d < V=%1$d < %3$d");
+        attest(arg45, "arg45").must3(Be::between, 5, 40, "must be %2$d < V=%1$d < %3$d");
 
     }
     //>example<
@@ -157,7 +157,7 @@ public class Example_Validations_Fluent_Test {
     public void test7() {
 
         //fails
-        value(arg45, "arg45", AssertionError::new).verbosity(ALL).must(Be::between, 5, 40, "not between");
+        value(arg45, "arg45", AssertionError::new).verbosity(ALL).must3(Be::between, 5, 40, "not between");
 
     }
     //>example<
@@ -170,11 +170,11 @@ public class Example_Validations_Fluent_Test {
     public void test1_bis() {
 
         Checks.arg(arg45)
-              .mustEx(Be::notGtEqEx, 50 ) //passes (there is no mustNotEx method for logical reasons)
-              .mustEx(Be::ltEx, 50); //passes
+              .must2Ex(Be::notGtEqEx, 50 ) //passes (there is no mustNotEx method for logical reasons)
+              .must2Ex(Be::ltEx, 50); //passes
 
         var i = arg(60)
-                .mustEx(Be::notGtEqEx, 50, "#3 some additional info: %s", "it failed") //fails
+                .must2Ex(Be::notGtEqEx, 50, "#3 some additional info: %s", "it failed") //fails
                 .get();
     }
     //>example<
@@ -194,40 +194,40 @@ public class Example_Validations_Fluent_Test {
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: There is no key in the map")
     public void checkWith() {
         Map<String, String> map = new HashMap();
-        Checks.value("key22").mustWith(map, Map::containsKey, "There is no key in the map");
+        Checks.value("key22").mustWith2(map, Map::containsKey, "There is no key in the map");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: There is no key in the map")
     public void checkWith_MIN() {
         Map<String, String> map = new HashMap();
-        Checks.value("key22").verbosity(MIN).mustWith(map, Map::containsKey, "There is no key in the map");
+        Checks.value("key22").verbosity(MIN).mustWith2(map, Map::containsKey, "There is no key in the map");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?=='key22'\\]: There is no key in the map")
     public void checkWith_VAL() {
         Map<String, String> map = new HashMap();
-        Checks.value("key22").verbosity(VAL).mustWith(map, Map::containsKey, "There is no key in the map");
+        Checks.value("key22").verbosity(VAL).mustWith2(map, Map::containsKey, "There is no key in the map");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?=='key22'\\]\\(param: '\\{A=a\\}'\\): There is no key in the map")
     public void checkWith_ALL() {
         Map<String, String> map = new HashMap();
         map.put("A", "a");
-        Checks.value("key22").verbosity(ALL).mustWith(map, Map::containsKey, "There is no key in the map");
+        Checks.value("key22").verbosity(ALL).mustWith2(map, Map::containsKey, "There is no key in the map");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]\\(param: '\\{A=a\\}'\\): There is no key in the map")
     public void checkWith__PARAM() {
         Map<String, String> map = new HashMap();
         map.put("A", "a");
-        Checks.value("key22").verbosity(PARAMS).mustWith(map, Map::containsKey, "There is no key in the map");
+        Checks.value("key22").verbosity(PARAMS).mustWith2(map, Map::containsKey, "There is no key in the map");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null.")
     public void specialPredicates() {
         Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx);
-//        Checks.value(new Object[]{1, 2}).must(Be::allNull, "aaaaa");
-//        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx, "aaaaa");
+        Checks.value(new Object[]{1, 2}).must(Be::allNull, "aaaaa", "a");
+//        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx, "aaaaa");    // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")

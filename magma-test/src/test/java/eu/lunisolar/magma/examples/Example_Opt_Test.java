@@ -131,7 +131,7 @@ public class Example_Opt_Test {
         assertThat(ooo.is(P::inRange, 5, 7)).isTrue();
         assertThat(ooo.is(P::between, 5, 7)).isFalse();
 
-        ooo.uniMust(Be::equal, 99, "must be 99");
+        ooo.uniMust2(Be::equal, 99, "must be 99");
     }
     //>example<
 
@@ -153,7 +153,7 @@ public class Example_Opt_Test {
     public void test5() {
         OptInt ooo = OptInt.empty();
 
-        ooo.must(Be::equal, 99, "must be 99");
+        ooo.must2(Be::equal, 99, "must be 99");
     }
     //>example<
 
@@ -209,7 +209,7 @@ public class Example_Opt_Test {
     static {
         Opt<Integer> ooo = Opt.obj(5);
         ooo.uniIs(5, Objects::equals);
-        ooo.uniMust(Be::equal, 5, "must be 5");
+        ooo.uniMust2(Be::equal, 5, "must be 5");
         ooo.uniIs(Objects::equals, 5);
     }
 

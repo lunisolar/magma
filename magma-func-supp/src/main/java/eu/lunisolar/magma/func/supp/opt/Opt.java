@@ -264,13 +264,13 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
 		Null.nonNullArg(clazz, "clazz");
-		return (Opt) must(Be::instanceOf, clazz, message);
+		return (Opt) must2(Be::instanceOf, clazz, message);
 	}
 
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		var nullable = nullable();
-		return (Opt) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+		return (Opt) must2(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
 	}
 
 }
