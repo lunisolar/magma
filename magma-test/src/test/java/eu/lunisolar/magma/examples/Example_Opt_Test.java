@@ -47,11 +47,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * ### Abstract
  *
  * Basic introduction (by example) to Opt classes.
- * Available since 2.1.0.
+ * Available since 3.0.0.
  *
  * ### Description
- * Opt/OptInt/OptLong/OptDouble and other primitive examples are like extension to the Optional/OptionalInt/OptionalLong/OptionalDouble, and you can use them as
- * 'optional' response. But it is actually impossible to extent the JRE classes. Optional classes from this library aims to provide:
+ * Opt/OptInt/OptLong/OptDouble and other primitive examples are like spiritual extension to the Optional/OptionalInt/OptionalLong/OptionalDouble (since those
+ * cannot be extended), and you can use them as spiritual replacement in 'optional' response. Optional classes from this library aims to provide:
  *
  * - more possibility for cases where simply referencing existing method (that can be provided by editor completion).
  * - that means more possibility to build 'sentences' that actually tell what happens.
@@ -119,7 +119,7 @@ public class Example_Opt_Test {
     }
 
     /**
-     * Here is example of `is` alternative to `filter` methods along with a `must` check.
+     * Here is example of `is` alternative to `filter` methods along with a `must` check, since Opt(*) inherit most check methods [described here](http://lunisolar.eu/magma/validations-fluent).
      */
     //>example<
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Opt \\[\\?\\]: must be 99")
@@ -166,13 +166,13 @@ public class Example_Opt_Test {
                 .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
 
         // that's part of Optional 'contract'
-         attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
 
         // that's part of Opt 'contract'
         assertThat(opt.nullable()).isNull();
 
         // that's part of Opt/Check 'contract'
-         attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
     }
 
     @Test
@@ -184,13 +184,13 @@ public class Example_Opt_Test {
                 .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
 
         // that's part of Optional 'contract'
-         attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
 
         // that's part of Opt 'contract'
         assertThat(opt.nullable()).isNull();
 
         // that's part of Opt/Check 'contract'
-         attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
     }
 
     @Test
@@ -229,8 +229,6 @@ public class Example_Opt_Test {
     public static <S1, S2> boolean filterB(S1 s1, S2 s3) {
         return true;
     }
-
-
 
     static {
         Opt<S> optS = Opt.of(null);

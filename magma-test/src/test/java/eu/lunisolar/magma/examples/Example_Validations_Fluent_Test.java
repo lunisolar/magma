@@ -261,6 +261,12 @@ public class Example_Validations_Fluent_Test {
     }
     //>example<
 
+/// > Summary note on naming convention:
+/// >
+/// > - must**Ex** - _Ex_ stands for self-**ex**plaining
+/// > - must**2** - _2_ solves problem with ambiguous arguments (a matter of number of function arguments vs number of message arguments)
+///
+
     @Test
     public void toString1() {
         assertThat(Opt.of(45).toString()).isEqualTo("OptInt['45'^^int]");
