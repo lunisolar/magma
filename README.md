@@ -18,7 +18,7 @@ assertion classes, builders and some additional classes.
 + More of functional interfaces 
    + More primitive types are supported
    + More combinations of arguments.
-   + further documentation:
+   + List of interfaces:
       + [action](http://lunisolar.eu/magma/all-functions/actions)
       + [suppliers](http://lunisolar.eu/magma/all-functions/suppliers)
       + [consumers](http://lunisolar.eu/magma/all-functions/consumers)
@@ -26,35 +26,23 @@ assertion classes, builders and some additional classes.
       + [operators](http://lunisolar.eu/magma/all-functions/operators)
       + [ordinary functions](http://lunisolar.eu/magma/all-functions/functions)
       + [all interfaces](http://lunisolar.eu/magma/all-functions)
+   + Support for [throwing lambda](http://lunisolar.eu/magma/throwing-lambda) expressions. 
+   + Support for [exception handling](http://lunisolar.eu/magma/exception-handling)  
+   + [Default and static functions](http://lunisolar.eu/magma/defaults)
+      + including simple [validations (throwIf)](http://lunisolar.eu/magma/validations-throwif) 
+   + With AssertJ [assertions](http://lunisolar.eu/magma/assertions)
+   + With [builders](http://lunisolar.eu/magma/builders)
 + Thus, reducing number of cases where:
    + You cannot directly reference method
    + JVM cannot optimize code better (although nothing is guaranteed)
-+ [Default and static utility methods](http://lunisolar.eu/magma/defaults)  (applicable to the case and availability of other interfaces).
 + [Tuples](https://github.com/lunisolar/magma/tree/master/magma-func/src/main/java/eu/lunisolar/magma/func/tuple)
-    + For each function that has a domain there exists in addition to that function a tuple class (e.g. Pair, Triple). 
-    + Obviously number of tuples is much smaller because for each domain there is also a list of codomain types 
-      (return values) that multiply number of functions.
-    + Tuples have their mutable and immutable variants.    
-+ Java 'monads'     
+    + For each function that has a domain there exists in addition to that function a tuple class (e.g. Pair, Triple).
++ Java 'monads'
+    + [Opt(ionals)](http://lunisolar.eu/magma/opt-ional)
+    + [Fluent validations/checks](http://lunisolar.eu/magma/validations-fluent)     
 
 Most of the above goals adds to the actual number of interfaces so this is not 
 very tinny library as one would think.
-
-
-#### Additional goals
-
- 
-+ **assertions for AspectJ** for all interfaces + JRE interfaces.
-+ **builders** for complex implementations that can be divided into multiple cases 
-consisted of pairs:
-    + predicate (tests condition if given function should be applied)
-    + function (that will be evaluated if predicate tests positively)
-    + that might seem not so useful for simple lambda expression cases, but trust 
-    me I had a use case for that so I did it. 
-+ **exception handling** 
-+ custom set of optionals [Opt](https://github.com/lunisolar/magma/tree/master/magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/opt/Opt.java) ...
-+ set of argument/state [Checks](https://github.com/lunisolar/magma/tree/master/magma-func-supp/src/main/java/eu/lunisolar/magma/func/supp/check/Checks.java)
-
 
 #### Code repository
 
