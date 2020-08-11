@@ -16,7 +16,7 @@ assertion classes, builders and some additional classes.
 ### Features
  
 + More of functional interfaces 
-   + More primitive types are supported
+   + More primitive types supported
    + More combinations of arguments.
    + List of interfaces:
       + [action](http://lunisolar.eu/magma/all-functions/actions)

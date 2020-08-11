@@ -22,7 +22,7 @@
 
     <groupId>eu.lunisolar</groupId>
     <artifactId>magma</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
 
     <name>Lunisolar Magma</name>
@@ -61,8 +61,7 @@
     <modules>
         <module>magma-pom</module>
         <module>magma-basics</module>
-
-
+        
         <module>magma-func</module>
 
         <module>magma-func-supp</module>

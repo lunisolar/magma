@@ -23,13 +23,13 @@
     <parent>
         <groupId>eu.lunisolar</groupId>
         <artifactId>magma</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>eu.lunisolar.magma</groupId>
     <artifactId>magma-pom</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -78,33 +78,33 @@
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-basics</artifactId>
-                <version>3.0.0-SNAPSHOT</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-basics-assert</artifactId>
-                <version>3.0.0-SNAPSHOT</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func</artifactId>
-                <version>3.0.0-SNAPSHOT</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-asserts</artifactId>
-                <version>3.0.0-SNAPSHOT</version>
+                <version>3.0.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-builder</artifactId>
-                <version>3.0.0-SNAPSHOT</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-supp</artifactId>
-                <version>3.0.0-SNAPSHOT</version>
+                <version>3.0.0</version>
             </dependency>
 
             <!--External dependencies-->
