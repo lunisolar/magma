@@ -890,6 +890,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return isPresent() ? get() : supplier.applyAsInt(a1, a2);
 	}
 
+	default <K1, K2, K3> int orElseApply(K1 a1, K2 a2, K3 a3, @Nonnull LToIntTriFunction<? super K1, ? super K2, ? super K3> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? get() : supplier.applyAsInt(a1, a2, a3);
+	}
+
 	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LToIntBiFunction<? super K1, ? super K2> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : value(supplier.applyAsInt(a1, a2));
@@ -898,6 +903,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends OptIntTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+	}
+
+	default <K1, K2, K3> SELF orFlatApply(K1 a1, K2 a2, K3 a3, @Nonnull LTriFunction<? super K1, ? super K2, ? super K3, ? extends OptIntTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
 	// </editor-fold>

@@ -748,6 +748,11 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
 	}
 
+	default <K1, K2, K3> SELF orFlatApply(K1 a1, K2 a2, K3 a3, @Nonnull LTriFunction<? super K1, ? super K2, ? super K3, ? extends OptCharTrait<?>> supplier) {
+		Null.nonNullArg(supplier, "supplier");
+		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2, a3));
+	}
+
 	// </editor-fold>
 
 	default OptionalInt toOptional() {
