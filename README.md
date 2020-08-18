@@ -49,11 +49,13 @@ very tinny library as one would think.
 Artifacts are available in Maven Central.  
 
 For your production code:  
+
 - [eu.lunisolar.magma:magma-func:3.0.0](https://search.maven.org/artifact/eu.lunisolar.magma/magma-func/3.0.0/jar) 
 - [eu.lunisolar.magma:magma-func-builder:3.0.0](https://search.maven.org/artifact/eu.lunisolar.magma/magma-func-builder/3.0.0/jar)
 - [eu.lunisolar.magma:magma-func-supp:3.0.0](https://search.maven.org/artifact/eu.lunisolar.magma/magma-func-supp/3.0.0/jar)
 
 For your test code: 
+
 - [eu.lunisolar.magma:magma-asserts:3.0.0](https://search.maven.org/artifact/eu.lunisolar.magma/magma-asserts/3.0.0/jar)
 
 #### Code repository

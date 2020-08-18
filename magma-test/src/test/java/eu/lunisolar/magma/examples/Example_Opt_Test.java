@@ -23,9 +23,11 @@ import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Is;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.opt.Opt;
+import eu.lunisolar.magma.func.supp.opt.OptBase;
 import eu.lunisolar.magma.func.supp.opt.OptInt;
 import org.testng.annotations.Test;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 import static eu.lunisolar.magma.asserts.Attests.attestSup;
@@ -245,7 +247,46 @@ public class Example_Opt_Test {
         optS.filter((Object) null, P::equal);
     }
 
-    private int arg45 = 45;
+
+    /**
+     * Do you need specialized optional for your application?
+     */
+    //>example<
+    public final static class OptStr extends OptBase<String, OptStr> {
+
+        public static final OptStr EMPTY_STR = new OptStr("");
+        public static final OptStr VOID      = new OptStr(null);
+
+        private OptStr(String value)                   { super(value);}
+        @Override public OptStr value(String value)    { return str(value);}
+        @Override public OptStr voidValue()            { return VOID;}
+        public static OptStr str(@Nullable String str) { return new OptStr(str);}
+        public static OptStr emptyOptStr()             { return EMPTY_STR;}
+        public String toString()                       {return value;}
+
+        //<editor-fold desc="custom methods">
+
+        public OptStr replace(String target, String replacement) {
+            return this.uniMap(s -> s.replace(target, replacement));
+        }
+
+        public OptStr removeTail(String tail) {
+            return this.uniMap(s -> s.endsWith(tail) ? s.substring(0, s.length() - tail.length()) : s);
+        }
+
+        //</editor-fold>
+    }
+
+    @Test
+    public void test6() {
+
+        OptStr str = OptStr.str("This is optional string.")
+                           .replace("This", "THIS")
+                           .removeTail(".")
+                           .must2Ex(Be::equalEx, "THIS is optional string");
+
+    }
+    //>example<
 
     //>inject<:generated
 
