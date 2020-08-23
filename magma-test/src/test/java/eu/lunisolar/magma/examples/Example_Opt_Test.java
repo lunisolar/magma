@@ -267,7 +267,8 @@ public class Example_Opt_Test {
         //<editor-fold desc="custom methods">
 
         public OptStr replace(String target, String replacement) {
-            return this.uniMap(s -> s.replace(target, replacement));
+            this.uniMap(s -> s.replace(target, replacement));
+            return this.uniMap(target, replacement, String::replace);
         }
 
         public OptStr removeTail(String tail) {
@@ -277,13 +278,23 @@ public class Example_Opt_Test {
         //</editor-fold>
     }
 
-    @Test
+    @Test(expectedExceptions = NoSuchElementException.class)
     public void test6() {
 
-        OptStr str = OptStr.str("This is optional string.")
+        String input = "This is optional string.";
+        
+        OptStr str = OptStr.str(input)
+                           .filter(P::startWith, "T")
                            .replace("This", "THIS")
                            .removeTail(".")
                            .must2Ex(Be::equalEx, "THIS is optional string");
+
+        OptStr str2 = OptStr.str(input)
+                           .filter(P::startWith, "123456789")
+                           .replace("This", "THIS")
+                           .removeTail(".")
+                           .must2Ex(Be::equalEx, "THIS is optional string");   //NoSuchElementException
+//                           .mustBeEmpty();  /// TODO Add
 
     }
     //>example<
