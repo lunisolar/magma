@@ -745,6 +745,19 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return a -> test(a) && other.test(a);
 	}
 
+	@Nonnull
+	public static LCharPredicate and(@Nonnull LCharPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LCharPredicate p : predicates) {
+				if (!p.test(a)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -753,6 +766,19 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default LCharPredicate or(@Nonnull LCharPredicate other) {
 		Null.nonNullArg(other, "other");
 		return a -> test(a) || other.test(a);
+	}
+
+	@Nonnull
+	public static LCharPredicate or(@Nonnull LCharPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LCharPredicate p : predicates) {
+				if (p.test(a)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

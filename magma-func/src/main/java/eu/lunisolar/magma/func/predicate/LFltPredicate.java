@@ -745,6 +745,19 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		return a -> test(a) && other.test(a);
 	}
 
+	@Nonnull
+	public static LFltPredicate and(@Nonnull LFltPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LFltPredicate p : predicates) {
+				if (!p.test(a)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -753,6 +766,19 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	default LFltPredicate or(@Nonnull LFltPredicate other) {
 		Null.nonNullArg(other, "other");
 		return a -> test(a) || other.test(a);
+	}
+
+	@Nonnull
+	public static LFltPredicate or(@Nonnull LFltPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LFltPredicate p : predicates) {
+				if (p.test(a)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

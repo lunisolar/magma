@@ -750,6 +750,19 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return a -> test(a) && other.test(a);
 	}
 
+	@Nonnull
+	public static LDblPredicate and(@Nonnull LDblPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LDblPredicate p : predicates) {
+				if (!p.test(a)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -758,6 +771,19 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 	default LDblPredicate or(@Nonnull LDblPredicate other) {
 		Null.nonNullArg(other, "other");
 		return a -> test(a) || other.test(a);
+	}
+
+	@Nonnull
+	public static LDblPredicate or(@Nonnull LDblPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LDblPredicate p : predicates) {
+				if (p.test(a)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

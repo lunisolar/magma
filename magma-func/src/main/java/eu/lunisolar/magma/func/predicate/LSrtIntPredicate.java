@@ -810,6 +810,19 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (a1, a2) -> test(a1, a2) && other.test(a1, a2);
 	}
 
+	@Nonnull
+	public static LSrtIntPredicate and(@Nonnull LSrtIntPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LSrtIntPredicate p : predicates) {
+				if (!p.test(a1, a2)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -818,6 +831,19 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default LSrtIntPredicate or(@Nonnull LSrtIntPredicate other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2) -> test(a1, a2) || other.test(a1, a2);
+	}
+
+	@Nonnull
+	public static LSrtIntPredicate or(@Nonnull LSrtIntPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LSrtIntPredicate p : predicates) {
+				if (p.test(a1, a2)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

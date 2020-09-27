@@ -1002,6 +1002,19 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return (a1, a2) -> test(a1, a2) && other.test(a1, a2);
 	}
 
+	@Nonnull
+	public static <T> LObjSrtPredicate<T> and(@Nonnull LObjSrtPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LObjSrtPredicate<? super T> p : predicates) {
+				if (!p.test(a1, a2)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -1010,6 +1023,19 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default LObjSrtPredicate<T> or(@Nonnull LObjSrtPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2) -> test(a1, a2) || other.test(a1, a2);
+	}
+
+	@Nonnull
+	public static <T> LObjSrtPredicate<T> or(@Nonnull LObjSrtPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LObjSrtPredicate<? super T> p : predicates) {
+				if (p.test(a1, a2)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

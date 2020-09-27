@@ -955,6 +955,19 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return (a1, a2) -> test(a1, a2) && other.test(a1, a2);
 	}
 
+	@Nonnull
+	public static LBiSrtPredicate and(@Nonnull LBiSrtPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LBiSrtPredicate p : predicates) {
+				if (!p.test(a1, a2)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -963,6 +976,19 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default LBiSrtPredicate or(@Nonnull LBiSrtPredicate other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2) -> test(a1, a2) || other.test(a1, a2);
+	}
+
+	@Nonnull
+	public static LBiSrtPredicate or(@Nonnull LBiSrtPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LBiSrtPredicate p : predicates) {
+				if (p.test(a1, a2)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

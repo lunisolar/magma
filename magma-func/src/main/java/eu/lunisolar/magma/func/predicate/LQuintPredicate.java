@@ -1024,6 +1024,19 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5) && other.test(a1, a2, a3, a4, a5);
 	}
 
+	@Nonnull
+	public static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> and(@Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3, a4, a5) -> {
+			for (LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> p : predicates) {
+				if (!p.test(a1, a2, a3, a4, a5)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -1032,6 +1045,19 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default LQuintPredicate<T1, T2, T3, T4, T5> or(@Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5) || other.test(a1, a2, a3, a4, a5);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> or(@Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3, a4, a5) -> {
+			for (LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> p : predicates) {
+				if (p.test(a1, a2, a3, a4, a5)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

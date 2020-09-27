@@ -947,6 +947,19 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return (a1, a2) -> apply(a1, a2) && other.apply(a1, a2);
 	}
 
+	@Nonnull
+	public static LLogicalBinaryOperator and(@Nonnull LLogicalBinaryOperator... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LLogicalBinaryOperator p : predicates) {
+				if (!p.apply(a1, a2)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -955,6 +968,19 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default LLogicalBinaryOperator or(@Nonnull LLogicalBinaryOperator other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2) -> apply(a1, a2) || other.apply(a1, a2);
+	}
+
+	@Nonnull
+	public static LLogicalBinaryOperator or(@Nonnull LLogicalBinaryOperator... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2) -> {
+			for (LLogicalBinaryOperator p : predicates) {
+				if (p.apply(a1, a2)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

@@ -955,6 +955,19 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return (a1, a2, a3) -> apply(a1, a2, a3) && other.apply(a1, a2, a3);
 	}
 
+	@Nonnull
+	public static LLogicalTernaryOperator and(@Nonnull LLogicalTernaryOperator... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LLogicalTernaryOperator p : predicates) {
+				if (!p.apply(a1, a2, a3)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -963,6 +976,19 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default LLogicalTernaryOperator or(@Nonnull LLogicalTernaryOperator other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2, a3) -> apply(a1, a2, a3) || other.apply(a1, a2, a3);
+	}
+
+	@Nonnull
+	public static LLogicalTernaryOperator or(@Nonnull LLogicalTernaryOperator... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LLogicalTernaryOperator p : predicates) {
+				if (p.apply(a1, a2, a3)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

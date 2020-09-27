@@ -1023,6 +1023,19 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return (a1, a2, a3, a4) -> test(a1, a2, a3, a4) && other.test(a1, a2, a3, a4);
 	}
 
+	@Nonnull
+	public static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> and(@Nonnull LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3, a4) -> {
+			for (LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4> p : predicates) {
+				if (!p.test(a1, a2, a3, a4)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -1031,6 +1044,19 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	default LQuadPredicate<T1, T2, T3, T4> or(@Nonnull LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4> other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2, a3, a4) -> test(a1, a2, a3, a4) || other.test(a1, a2, a3, a4);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> or(@Nonnull LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3, a4) -> {
+			for (LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4> p : predicates) {
+				if (p.test(a1, a2, a3, a4)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

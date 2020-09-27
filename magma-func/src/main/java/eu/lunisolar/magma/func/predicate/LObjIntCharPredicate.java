@@ -1010,6 +1010,19 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 		return (a1, a2, a3) -> test(a1, a2, a3) && other.test(a1, a2, a3);
 	}
 
+	@Nonnull
+	public static <T> LObjIntCharPredicate<T> and(@Nonnull LObjIntCharPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LObjIntCharPredicate<? super T> p : predicates) {
+				if (!p.test(a1, a2, a3)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -1018,6 +1031,19 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 	default LObjIntCharPredicate<T> or(@Nonnull LObjIntCharPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2, a3) -> test(a1, a2, a3) || other.test(a1, a2, a3);
+	}
+
+	@Nonnull
+	public static <T> LObjIntCharPredicate<T> or(@Nonnull LObjIntCharPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LObjIntCharPredicate<? super T> p : predicates) {
+				if (p.test(a1, a2, a3)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

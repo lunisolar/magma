@@ -750,6 +750,19 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return a -> test(a) && other.test(a);
 	}
 
+	@Nonnull
+	public static LLongPredicate and(@Nonnull LLongPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LLongPredicate p : predicates) {
+				if (!p.test(a)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -758,6 +771,19 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 	default LLongPredicate or(@Nonnull LLongPredicate other) {
 		Null.nonNullArg(other, "other");
 		return a -> test(a) || other.test(a);
+	}
+
+	@Nonnull
+	public static LLongPredicate or(@Nonnull LLongPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LLongPredicate p : predicates) {
+				if (p.test(a)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

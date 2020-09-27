@@ -1050,6 +1050,19 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return (a1, a2, a3) -> test(a1, a2, a3) && other.test(a1, a2, a3);
 	}
 
+	@Nonnull
+	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> and(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LTriPredicate<? super T1, ? super T2, ? super T3> p : predicates) {
+				if (!p.test(a1, a2, a3)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -1058,6 +1071,19 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default LTriPredicate<T1, T2, T3> or(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3> other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2, a3) -> test(a1, a2, a3) || other.test(a1, a2, a3);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> or(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LTriPredicate<? super T1, ? super T2, ? super T3> p : predicates) {
+				if (p.test(a1, a2, a3)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

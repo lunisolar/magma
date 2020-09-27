@@ -807,6 +807,19 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return a -> test(a) && other.test(a);
 	}
 
+	@Nonnull
+	public static <T> LPredicate<T> and(@Nonnull LPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LPredicate<? super T> p : predicates) {
+				if (!p.test(a)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -815,6 +828,19 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default LPredicate<T> or(@Nonnull LPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
 		return a -> test(a) || other.test(a);
+	}
+
+	@Nonnull
+	public static <T> LPredicate<T> or(@Nonnull LPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LPredicate<? super T> p : predicates) {
+				if (p.test(a)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

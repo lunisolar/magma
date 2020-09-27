@@ -786,6 +786,19 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 		return (a1, a2, a3) -> test(a1, a2, a3) && other.test(a1, a2, a3);
 	}
 
+	@Nonnull
+	public static LTriBytePredicate and(@Nonnull LTriBytePredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LTriBytePredicate p : predicates) {
+				if (!p.test(a1, a2, a3)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -794,6 +807,19 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 	default LTriBytePredicate or(@Nonnull LTriBytePredicate other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2, a3) -> test(a1, a2, a3) || other.test(a1, a2, a3);
+	}
+
+	@Nonnull
+	public static LTriBytePredicate or(@Nonnull LTriBytePredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LTriBytePredicate p : predicates) {
+				if (p.test(a1, a2, a3)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

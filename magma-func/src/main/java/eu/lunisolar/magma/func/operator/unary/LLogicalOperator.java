@@ -744,6 +744,19 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return a -> apply(a) && other.apply(a);
 	}
 
+	@Nonnull
+	public static LLogicalOperator and(@Nonnull LLogicalOperator... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LLogicalOperator p : predicates) {
+				if (!p.apply(a)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -752,6 +765,19 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default LLogicalOperator or(@Nonnull LLogicalOperator other) {
 		Null.nonNullArg(other, "other");
 		return a -> apply(a) || other.apply(a);
+	}
+
+	@Nonnull
+	public static LLogicalOperator or(@Nonnull LLogicalOperator... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return a -> {
+			for (LLogicalOperator p : predicates) {
+				if (p.apply(a)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**

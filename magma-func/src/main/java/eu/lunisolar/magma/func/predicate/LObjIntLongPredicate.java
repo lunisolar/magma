@@ -1010,6 +1010,19 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 		return (a1, a2, a3) -> test(a1, a2, a3) && other.test(a1, a2, a3);
 	}
 
+	@Nonnull
+	public static <T> LObjIntLongPredicate<T> and(@Nonnull LObjIntLongPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LObjIntLongPredicate<? super T> p : predicates) {
+				if (!p.test(a1, a2, a3)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+
 	/**
 	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
 	 * @see {@link java.util.function.Predicate#or}
@@ -1018,6 +1031,19 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 	default LObjIntLongPredicate<T> or(@Nonnull LObjIntLongPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
 		return (a1, a2, a3) -> test(a1, a2, a3) || other.test(a1, a2, a3);
+	}
+
+	@Nonnull
+	public static <T> LObjIntLongPredicate<T> or(@Nonnull LObjIntLongPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		return (a1, a2, a3) -> {
+			for (LObjIntLongPredicate<? super T> p : predicates) {
+				if (p.test(a1, a2, a3)) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	/**
