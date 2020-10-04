@@ -88,64 +88,64 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return (a1, a2, a3) -> handlingApply(a1, a2, a3, handling);
 	}
 
-	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage);
+	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, factory, newMessage);
 	}
 
-	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, param1);
+	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, param1, param1);
+	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, factory, newMessage, param1, param1);
 	}
 
-	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3) -> apply(a1, a2, a3, exF, newMessage, param1, param2, param3);
+	default LTernaryOperator<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	default T apply(T a1, T a2, T a3, @Nonnull ExWF<RuntimeException> exF) {
+	default T apply(T a1, T a2, T a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LTernaryOperator<T> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3) -> apply(a1, a2, a3, exF);
+	default LTernaryOperator<T> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, factory);
 	}
 
 	default T applyThen(T a1, T a2, T a3, @Nonnull LFunction<Throwable, T> handler) {
@@ -189,29 +189,29 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return func.nestingApply(a1, a2, a3);
 	}
 
-	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, a3, exF, newMessage);
+		return func.apply(a1, a2, a3, factory, newMessage);
 	}
 
-	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, a3, exF, newMessage, param1);
+		return func.apply(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, a3, exF, newMessage, param1, param2);
+		return func.apply(a1, a2, a3, factory, newMessage, param1, param2);
 	}
 
-	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, a3, exF, newMessage, param1, param2, param3);
+		return func.apply(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T> T tryApply(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, a3, exF);
+		return func.apply(a1, a2, a3, factory);
 	}
 
 	static <T> T tryApplyThen(T a1, T a2, T a3, LTernaryOperator<T> func, @Nonnull LFunction<Throwable, T> handler) {

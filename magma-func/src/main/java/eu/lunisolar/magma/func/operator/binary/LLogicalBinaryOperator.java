@@ -103,64 +103,64 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return (a1, a2) -> handlingApply(a1, a2, handling);
 	}
 
-	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage);
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage);
 	}
 
-	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1);
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1);
 	}
 
-	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param1);
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param2, param3);
+	default LLogicalBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean apply(boolean a1, boolean a2, @Nonnull ExWF<RuntimeException> exF) {
+	default boolean apply(boolean a1, boolean a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LLogicalBinaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> apply(a1, a2, exF);
+	default LLogicalBinaryOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> apply(a1, a2, factory);
 	}
 
 	default boolean applyThen(boolean a1, boolean a2, @Nonnull LPredicate<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return func.nestingApply(a1, a2);
 	}
 
-	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage);
+		return func.apply(a1, a2, factory, newMessage);
 	}
 
-	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1);
+		return func.apply(a1, a2, factory, newMessage, param1);
 	}
 
-	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1, param2);
+		return func.apply(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.apply(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static boolean tryApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF);
+		return func.apply(a1, a2, factory);
 	}
 
 	static boolean tryApplyThen(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull LPredicate<Throwable> handler) {
@@ -520,6 +520,26 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.apply(a1, a2)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExMF<X> factory, @Nonnull LBiBoolFunction<? extends String> msgFunc) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
@@ -626,6 +646,26 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		Null.nonNullArg(message, "message");
 		if (!pred.apply(a1, a2)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.apply(a1, a2)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a1, @Nonnull LLogicalBinaryOperator pred, boolean a2, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.apply(a1, a2)) {
+			throw Handling.create(noArgFactory);
 		}
 		return a1;
 	}

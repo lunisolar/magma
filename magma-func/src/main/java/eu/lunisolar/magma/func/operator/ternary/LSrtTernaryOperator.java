@@ -103,64 +103,64 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (a1, a2, a3) -> handlingApplyAsSrt(a1, a2, a3, handling);
 	}
 
-	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsSrtX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsSrtX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsSrtX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, exF, newMessage);
+	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, factory, newMessage);
 	}
 
-	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, exF, newMessage, param1);
+	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, exF, newMessage, param1, param1);
+	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, factory, newMessage, param1, param1);
 	}
 
-	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, exF, newMessage, param1, param2, param3);
+	default LSrtTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWF<RuntimeException> exF) {
+	default short applyAsSrt(short a1, short a2, short a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsSrtX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LSrtTernaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, exF);
+	default LSrtTernaryOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3) -> applyAsSrt(a1, a2, a3, factory);
 	}
 
 	default short applyAsSrtThen(short a1, short a2, short a3, @Nonnull LToSrtFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.nestingApplyAsSrt(a1, a2, a3);
 	}
 
-	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a1, a2, a3, exF, newMessage);
+		return func.applyAsSrt(a1, a2, a3, factory, newMessage);
 	}
 
-	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a1, a2, a3, exF, newMessage, param1);
+		return func.applyAsSrt(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a1, a2, a3, exF, newMessage, param1, param2);
+		return func.applyAsSrt(a1, a2, a3, factory, newMessage, param1, param2);
 	}
 
-	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a1, a2, a3, exF, newMessage, param1, param2, param3);
+		return func.applyAsSrt(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static short tryApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a1, a2, a3, exF);
+		return func.applyAsSrt(a1, a2, a3, factory);
 	}
 
 	static short tryApplyAsSrtThen(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull LToSrtFunction<Throwable> handler) {

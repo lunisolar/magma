@@ -104,64 +104,64 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return () -> handlingExecute(handling);
 	}
 
-	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.executeX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.executeX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.executeX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default void execute(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.executeX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return () -> execute(exF, newMessage);
+	default LAction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return () -> execute(factory, newMessage);
 	}
 
-	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return () -> execute(exF, newMessage, param1);
+	default LAction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> execute(factory, newMessage, param1);
 	}
 
-	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return () -> execute(exF, newMessage, param1, param1);
+	default LAction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> execute(factory, newMessage, param1, param1);
 	}
 
-	default LAction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return () -> execute(exF, newMessage, param1, param2, param3);
+	default LAction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> execute(factory, newMessage, param1, param2, param3);
 	}
 
-	default void execute(@Nonnull ExWF<RuntimeException> exF) {
+	default void execute(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.executeX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LAction trying(@Nonnull ExWF<RuntimeException> exF) {
-		return () -> execute(exF);
+	default LAction trying(@Nonnull ExWF<RuntimeException> factory) {
+		return () -> execute(factory);
 	}
 
 	default void executeThen(@Nonnull LConsumer<Throwable> handler) {
@@ -205,29 +205,29 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		func.nestingExecute();
 	}
 
-	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.execute(exF, newMessage);
+		func.execute(factory, newMessage);
 	}
 
-	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		func.execute(exF, newMessage, param1);
+		func.execute(factory, newMessage, param1);
 	}
 
-	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		func.execute(exF, newMessage, param1, param2);
+		func.execute(factory, newMessage, param1, param2);
 	}
 
-	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static void tryExecute(LAction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		func.execute(exF, newMessage, param1, param2, param3);
+		func.execute(factory, newMessage, param1, param2, param3);
 	}
 
-	static void tryExecute(LAction func, @Nonnull ExWF<RuntimeException> exF) {
+	static void tryExecute(LAction func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		func.execute(exF);
+		func.execute(factory);
 	}
 
 	static void tryExecuteThen(LAction func, @Nonnull LConsumer<Throwable> handler) {

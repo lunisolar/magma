@@ -104,64 +104,64 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (a1, a2) -> handlingApply(a1, a2, handling);
 	}
 
-	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default R apply(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage);
+	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage);
 	}
 
-	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1);
+	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1);
 	}
 
-	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param1);
+	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param2, param3);
+	default LBiLongFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default R apply(long a1, long a2, @Nonnull ExWF<RuntimeException> exF) {
+	default R apply(long a1, long a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LBiLongFunction<R> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> apply(a1, a2, exF);
+	default LBiLongFunction<R> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> apply(a1, a2, factory);
 	}
 
 	default R applyThen(long a1, long a2, @Nonnull LFunction<Throwable, R> handler) {
@@ -205,29 +205,29 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApply(a1, a2);
 	}
 
-	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage);
+		return func.apply(a1, a2, factory, newMessage);
 	}
 
-	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1);
+		return func.apply(a1, a2, factory, newMessage, param1);
 	}
 
-	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1, param2);
+		return func.apply(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.apply(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <R> R tryApply(long a1, long a2, LBiLongFunction<R> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF);
+		return func.apply(a1, a2, factory);
 	}
 
 	static <R> R tryApplyThen(long a1, long a2, LBiLongFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {

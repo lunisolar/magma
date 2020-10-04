@@ -102,64 +102,64 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return () -> handlingGet(handling);
 	}
 
-	default T get(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default T get(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default T get(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default T get(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return () -> get(exF, newMessage);
+	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return () -> get(factory, newMessage);
 	}
 
-	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return () -> get(exF, newMessage, param1);
+	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> get(factory, newMessage, param1);
 	}
 
-	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return () -> get(exF, newMessage, param1, param1);
+	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> get(factory, newMessage, param1, param1);
 	}
 
-	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return () -> get(exF, newMessage, param1, param2, param3);
+	default LSupplier<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> get(factory, newMessage, param1, param2, param3);
 	}
 
-	default T get(@Nonnull ExWF<RuntimeException> exF) {
+	default T get(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LSupplier<T> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return () -> get(exF);
+	default LSupplier<T> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return () -> get(factory);
 	}
 
 	default T getThen(@Nonnull LFunction<Throwable, T> handler) {
@@ -203,29 +203,29 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return func.nestingGet();
 	}
 
-	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.get(exF, newMessage);
+		return func.get(factory, newMessage);
 	}
 
-	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.get(exF, newMessage, param1);
+		return func.get(factory, newMessage, param1);
 	}
 
-	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.get(exF, newMessage, param1, param2);
+		return func.get(factory, newMessage, param1, param2);
 	}
 
-	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.get(exF, newMessage, param1, param2, param3);
+		return func.get(factory, newMessage, param1, param2, param3);
 	}
 
-	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T> T tryGet(LSupplier<T> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.get(exF);
+		return func.get(factory);
 	}
 
 	static <T> T tryGetThen(LSupplier<T> func, @Nonnull LFunction<Throwable, T> handler) {

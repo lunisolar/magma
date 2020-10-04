@@ -113,64 +113,64 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return (a1, a2) -> handlingApplyAsDbl(a1, a2, handling);
 	}
 
-	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage);
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsDbl(a1, a2, factory, newMessage);
 	}
 
-	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1);
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsDbl(a1, a2, factory, newMessage, param1);
 	}
 
-	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1, param1);
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsDbl(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> applyAsDbl(a1, a2, exF, newMessage, param1, param2, param3);
+	default LDblBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsDbl(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default double applyAsDbl(double a1, double a2, @Nonnull ExWF<RuntimeException> exF) {
+	default double applyAsDbl(double a1, double a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LDblBinaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> applyAsDbl(a1, a2, exF);
+	default LDblBinaryOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> applyAsDbl(a1, a2, factory);
 	}
 
 	default double applyAsDblThen(double a1, double a2, @Nonnull LToDblFunction<Throwable> handler) {
@@ -214,29 +214,29 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return func.nestingApplyAsDbl(a1, a2);
 	}
 
-	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a1, a2, exF, newMessage);
+		return func.applyAsDbl(a1, a2, factory, newMessage);
 	}
 
-	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a1, a2, exF, newMessage, param1);
+		return func.applyAsDbl(a1, a2, factory, newMessage, param1);
 	}
 
-	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a1, a2, exF, newMessage, param1, param2);
+		return func.applyAsDbl(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.applyAsDbl(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static double tryApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a1, a2, exF);
+		return func.applyAsDbl(a1, a2, factory);
 	}
 
 	static double tryApplyAsDblThen(double a1, double a2, LDblBinaryOperator func, @Nonnull LToDblFunction<Throwable> handler) {

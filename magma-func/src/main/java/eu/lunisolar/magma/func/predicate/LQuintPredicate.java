@@ -103,64 +103,64 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (a1, a2, a3, a4, a5) -> handlingTest(a1, a2, a3, a4, a5, handling);
 	}
 
-	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage);
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, factory, newMessage);
 	}
 
-	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage, param1);
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, factory, newMessage, param1);
 	}
 
-	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage, param1, param1);
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, factory, newMessage, param1, param1);
 	}
 
-	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> exF) {
+	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, exF);
+	default LQuintPredicate<T1, T2, T3, T4, T5> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5, factory);
 	}
 
 	default boolean testThen(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LPredicate<Throwable> handler) {
@@ -204,30 +204,30 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return func.nestingTest(a1, a2, a3, a4, a5);
 	}
 
-	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, a4, a5, exF, newMessage);
+		return func.test(a1, a2, a3, a4, a5, factory, newMessage);
 	}
 
-	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, a4, a5, exF, newMessage, param1);
+		return func.test(a1, a2, a3, a4, a5, factory, newMessage, param1);
 	}
 
-	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, a4, a5, exF, newMessage, param1, param2);
+		return func.test(a1, a2, a3, a4, a5, factory, newMessage, param1, param2);
 	}
 
-	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2,
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2,
 			@Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
+		return func.test(a1, a2, a3, a4, a5, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T1, T2, T3, T4, T5> boolean tryTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, a4, a5, exF);
+		return func.test(a1, a2, a3, a4, a5, factory);
 	}
 
 	static <T1, T2, T3, T4, T5> boolean tryTestThen(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull LPredicate<Throwable> handler) {
@@ -558,6 +558,26 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory,
 			@Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> msgFunc) throws X {
 		Null.nonNullArg(pred, "pred");
@@ -672,6 +692,26 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		Null.nonNullArg(message, "message");
 		if (!pred.test(a1, a2, a3, a4, a5)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> pred, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2, a3, a4, a5)) {
+			throw Handling.create(noArgFactory);
 		}
 		return a1;
 	}

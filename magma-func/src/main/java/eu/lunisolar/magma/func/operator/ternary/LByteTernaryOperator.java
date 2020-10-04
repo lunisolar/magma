@@ -103,64 +103,64 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (a1, a2, a3) -> handlingApplyAsByte(a1, a2, a3, handling);
 	}
 
-	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, exF, newMessage);
+	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, factory, newMessage);
 	}
 
-	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, exF, newMessage, param1);
+	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, exF, newMessage, param1, param1);
+	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, factory, newMessage, param1, param1);
 	}
 
-	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, exF, newMessage, param1, param2, param3);
+	default LByteTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWF<RuntimeException> exF) {
+	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LByteTernaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, exF);
+	default LByteTernaryOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3) -> applyAsByte(a1, a2, a3, factory);
 	}
 
 	default byte applyAsByteThen(byte a1, byte a2, byte a3, @Nonnull LToByteFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return func.nestingApplyAsByte(a1, a2, a3);
 	}
 
-	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, a3, exF, newMessage);
+		return func.applyAsByte(a1, a2, a3, factory, newMessage);
 	}
 
-	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, a3, exF, newMessage, param1);
+		return func.applyAsByte(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, a3, exF, newMessage, param1, param2);
+		return func.applyAsByte(a1, a2, a3, factory, newMessage, param1, param2);
 	}
 
-	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, a3, exF, newMessage, param1, param2, param3);
+		return func.applyAsByte(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static byte tryApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, a3, exF);
+		return func.applyAsByte(a1, a2, a3, factory);
 	}
 
 	static byte tryApplyAsByteThen(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull LToByteFunction<Throwable> handler) {

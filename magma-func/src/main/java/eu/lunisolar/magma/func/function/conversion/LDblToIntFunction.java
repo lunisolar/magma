@@ -103,64 +103,64 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		return a -> handlingApplyAsInt(a, handling);
 	}
 
-	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default int applyAsInt(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> applyAsInt(a, exF, newMessage);
+	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> applyAsInt(a, factory, newMessage);
 	}
 
-	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> applyAsInt(a, exF, newMessage, param1);
+	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsInt(a, factory, newMessage, param1);
 	}
 
-	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> applyAsInt(a, exF, newMessage, param1, param1);
+	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsInt(a, factory, newMessage, param1, param1);
 	}
 
-	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> applyAsInt(a, exF, newMessage, param1, param2, param3);
+	default LDblToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsInt(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default int applyAsInt(double a, @Nonnull ExWF<RuntimeException> exF) {
+	default int applyAsInt(double a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LDblToIntFunction trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> applyAsInt(a, exF);
+	default LDblToIntFunction trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> applyAsInt(a, factory);
 	}
 
 	default int applyAsIntThen(double a, @Nonnull LToIntFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage);
+		return func.applyAsInt(a, factory, newMessage);
 	}
 
-	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage, param1);
+		return func.applyAsInt(a, factory, newMessage, param1);
 	}
 
-	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage, param1, param2);
+		return func.applyAsInt(a, factory, newMessage, param1, param2);
 	}
 
-	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage, param1, param2, param3);
+		return func.applyAsInt(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {
+	static int tryApplyAsInt(double a, LDblToIntFunction func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF);
+		return func.applyAsInt(a, factory);
 	}
 
 	static int tryApplyAsIntThen(double a, LDblToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {

@@ -103,64 +103,64 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return (a1, a2, a3) -> handlingTest(a1, a2, a3, handling);
 	}
 
-	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage);
+	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage);
 	}
 
-	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage, param1);
+	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage, param1, param1);
+	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage, param1, param1);
 	}
 
-	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage, param1, param2, param3);
+	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWF<RuntimeException> exF) {
+	default boolean test(T1 a1, T2 a2, float a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF);
+	default LBiObjFltPredicate<T1, T2> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory);
 	}
 
 	default boolean testThen(T1 a1, T2 a2, float a3, @Nonnull LPredicate<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return func.nestingTest(a1, a2, a3);
 	}
 
-	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage);
+		return func.test(a1, a2, a3, factory, newMessage);
 	}
 
-	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage, param1);
+		return func.test(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage, param1, param2);
+		return func.test(a1, a2, a3, factory, newMessage, param1, param2);
 	}
 
-	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage, param1, param2, param3);
+		return func.test(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T1, T2> boolean tryTest(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF);
+		return func.test(a1, a2, a3, factory);
 	}
 
 	static <T1, T2> boolean tryTestThen(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> func, @Nonnull LPredicate<Throwable> handler) {
@@ -551,6 +551,26 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <T1, T2, X extends Throwable> T1 throwIf(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltPredicate<? super T1, ? super T2> pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, X extends Throwable> T1 throwIfNot(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltPredicate<? super T1, ? super T2> pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <T1, T2, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LBiObjFltPredicate<? super T1, ? super T2> pred, T2 a2, float a3, @Nonnull ExMF<X> factory, @Nonnull LBiObjFltFunction<? super T1, ? super T2, ? extends String> msgFunc) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
@@ -659,6 +679,26 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		Null.nonNullArg(message, "message");
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T1, T2, X extends Throwable> T1 throwIf(T1 a1, @Nonnull LBiObjFltPredicate<? super T1, ? super T2> pred, T2 a2, float a3, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T1, T2, X extends Throwable> T1 throwIfNot(T1 a1, @Nonnull LBiObjFltPredicate<? super T1, ? super T2> pred, T2 a2, float a3, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
 		}
 		return a1;
 	}

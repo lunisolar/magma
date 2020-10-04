@@ -106,64 +106,64 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return (a1, a2) -> handlingAccept(a1, a2, handling);
 	}
 
-	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default void accept(T a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage);
+	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage);
 	}
 
-	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1);
+	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage, param1);
 	}
 
-	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param1);
+	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param2, param3);
+	default LObjByteConsumer<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default void accept(T a1, byte a2, @Nonnull ExWF<RuntimeException> exF) {
+	default void accept(T a1, byte a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LObjByteConsumer<T> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> accept(a1, a2, exF);
+	default LObjByteConsumer<T> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> accept(a1, a2, factory);
 	}
 
 	default void acceptThen(T a1, byte a2, @Nonnull LConsumer<Throwable> handler) {
@@ -207,29 +207,29 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		func.nestingAccept(a1, a2);
 	}
 
-	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage);
+		func.accept(a1, a2, factory, newMessage);
 	}
 
-	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, param1);
+		func.accept(a1, a2, factory, newMessage, param1);
 	}
 
-	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, param1, param2);
+		func.accept(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, param1, param2, param3);
+		func.accept(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T> void tryAccept(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF);
+		func.accept(a1, a2, factory);
 	}
 
 	static <T> void tryAcceptThen(T a1, byte a2, LObjByteConsumer<T> func, @Nonnull LConsumer<Throwable> handler) {

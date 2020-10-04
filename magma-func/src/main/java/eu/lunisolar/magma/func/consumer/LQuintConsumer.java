@@ -104,64 +104,64 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return (a1, a2, a3, a4, a5) -> handlingAccept(a1, a2, a3, a4, a5, handling);
 	}
 
-	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, exF, newMessage);
+	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, factory, newMessage);
 	}
 
-	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, exF, newMessage, param1);
+	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, factory, newMessage, param1);
 	}
 
-	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, exF, newMessage, param1, param1);
+	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, factory, newMessage, param1, param1);
 	}
 
-	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
+	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, factory, newMessage, param1, param2, param3);
 	}
 
-	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> exF) {
+	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, exF);
+	default LQuintConsumer<T1, T2, T3, T4, T5> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5, factory);
 	}
 
 	default void acceptThen(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LConsumer<Throwable> handler) {
@@ -205,30 +205,30 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		func.nestingAccept(a1, a2, a3, a4, a5);
 	}
 
-	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, a3, a4, a5, exF, newMessage);
+		func.accept(a1, a2, a3, a4, a5, factory, newMessage);
 	}
 
-	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, a3, a4, a5, exF, newMessage, param1);
+		func.accept(a1, a2, a3, a4, a5, factory, newMessage, param1);
 	}
 
-	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, a3, a4, a5, exF, newMessage, param1, param2);
+		func.accept(a1, a2, a3, a4, a5, factory, newMessage, param1, param2);
 	}
 
-	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2,
+	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2,
 			@Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, a3, a4, a5, exF, newMessage, param1, param2, param3);
+		func.accept(a1, a2, a3, a4, a5, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T1, T2, T3, T4, T5> void tryAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, a3, a4, a5, exF);
+		func.accept(a1, a2, a3, a4, a5, factory);
 	}
 
 	static <T1, T2, T3, T4, T5> void tryAcceptThen(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull LConsumer<Throwable> handler) {

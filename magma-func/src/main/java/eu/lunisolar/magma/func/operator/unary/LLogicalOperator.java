@@ -103,64 +103,64 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return a -> handlingApply(a, handling);
 	}
 
-	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> apply(a, exF, newMessage);
+	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> apply(a, factory, newMessage);
 	}
 
-	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> apply(a, exF, newMessage, param1);
+	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> apply(a, factory, newMessage, param1);
 	}
 
-	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> apply(a, exF, newMessage, param1, param1);
+	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> apply(a, factory, newMessage, param1, param1);
 	}
 
-	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> apply(a, exF, newMessage, param1, param2, param3);
+	default LLogicalOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> apply(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean apply(boolean a, @Nonnull ExWF<RuntimeException> exF) {
+	default boolean apply(boolean a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LLogicalOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> apply(a, exF);
+	default LLogicalOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> apply(a, factory);
 	}
 
 	default boolean applyThen(boolean a, @Nonnull LPredicate<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return func.nestingApply(a);
 	}
 
-	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage);
+		return func.apply(a, factory, newMessage);
 	}
 
-	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage, param1);
+		return func.apply(a, factory, newMessage, param1);
 	}
 
-	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage, param1, param2);
+		return func.apply(a, factory, newMessage, param1, param2);
 	}
 
-	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage, param1, param2, param3);
+		return func.apply(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static boolean tryApply(boolean a, LLogicalOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF);
+		return func.apply(a, factory);
 	}
 
 	static boolean tryApplyThen(boolean a, LLogicalOperator func, @Nonnull LPredicate<Throwable> handler) {
@@ -497,6 +497,26 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		Null.nonNullArg(message, "message");
 		if (!pred.apply(a)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> boolean throwIf(boolean a, @Nonnull LLogicalOperator pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.apply(a)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> boolean throwIfNot(boolean a, @Nonnull LLogicalOperator pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.apply(a)) {
+			throw Handling.create(noArgFactory);
 		}
 		return a;
 	}

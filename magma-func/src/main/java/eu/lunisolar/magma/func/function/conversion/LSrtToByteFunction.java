@@ -103,64 +103,64 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsByte(a, handling);
 	}
 
-	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default byte applyAsByte(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> applyAsByte(a, exF, newMessage);
+	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> applyAsByte(a, factory, newMessage);
 	}
 
-	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> applyAsByte(a, exF, newMessage, param1);
+	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsByte(a, factory, newMessage, param1);
 	}
 
-	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> applyAsByte(a, exF, newMessage, param1, param1);
+	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsByte(a, factory, newMessage, param1, param1);
 	}
 
-	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> applyAsByte(a, exF, newMessage, param1, param2, param3);
+	default LSrtToByteFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsByte(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default byte applyAsByte(short a, @Nonnull ExWF<RuntimeException> exF) {
+	default byte applyAsByte(short a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LSrtToByteFunction trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> applyAsByte(a, exF);
+	default LSrtToByteFunction trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> applyAsByte(a, factory);
 	}
 
 	default byte applyAsByteThen(short a, @Nonnull LToByteFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsByte(a);
 	}
 
-	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a, exF, newMessage);
+		return func.applyAsByte(a, factory, newMessage);
 	}
 
-	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a, exF, newMessage, param1);
+		return func.applyAsByte(a, factory, newMessage, param1);
 	}
 
-	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a, exF, newMessage, param1, param2);
+		return func.applyAsByte(a, factory, newMessage, param1, param2);
 	}
 
-	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a, exF, newMessage, param1, param2, param3);
+		return func.applyAsByte(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWF<RuntimeException> exF) {
+	static byte tryApplyAsByte(short a, LSrtToByteFunction func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a, exF);
+		return func.applyAsByte(a, factory);
 	}
 
 	static byte tryApplyAsByteThen(short a, LSrtToByteFunction func, @Nonnull LToByteFunction<Throwable> handler) {

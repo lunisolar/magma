@@ -103,64 +103,64 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return a -> handlingApplyAsChar(a, handling);
 	}
 
-	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default char applyAsChar(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> applyAsChar(a, exF, newMessage);
+	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> applyAsChar(a, factory, newMessage);
 	}
 
-	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> applyAsChar(a, exF, newMessage, param1);
+	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsChar(a, factory, newMessage, param1);
 	}
 
-	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> applyAsChar(a, exF, newMessage, param1, param1);
+	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsChar(a, factory, newMessage, param1, param1);
 	}
 
-	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> applyAsChar(a, exF, newMessage, param1, param2, param3);
+	default LBoolToCharFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsChar(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default char applyAsChar(boolean a, @Nonnull ExWF<RuntimeException> exF) {
+	default char applyAsChar(boolean a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LBoolToCharFunction trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> applyAsChar(a, exF);
+	default LBoolToCharFunction trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> applyAsChar(a, factory);
 	}
 
 	default char applyAsCharThen(boolean a, @Nonnull LToCharFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return func.nestingApplyAsChar(a);
 	}
 
-	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a, exF, newMessage);
+		return func.applyAsChar(a, factory, newMessage);
 	}
 
-	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a, exF, newMessage, param1);
+		return func.applyAsChar(a, factory, newMessage, param1);
 	}
 
-	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a, exF, newMessage, param1, param2);
+		return func.applyAsChar(a, factory, newMessage, param1, param2);
 	}
 
-	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a, exF, newMessage, param1, param2, param3);
+		return func.applyAsChar(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWF<RuntimeException> exF) {
+	static char tryApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a, exF);
+		return func.applyAsChar(a, factory);
 	}
 
 	static char tryApplyAsCharThen(boolean a, LBoolToCharFunction func, @Nonnull LToCharFunction<Throwable> handler) {

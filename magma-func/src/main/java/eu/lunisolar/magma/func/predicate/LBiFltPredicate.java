@@ -103,64 +103,64 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return (a1, a2) -> handlingTest(a1, a2, handling);
 	}
 
-	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean test(float a1, float a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> test(a1, a2, exF, newMessage);
+	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> test(a1, a2, factory, newMessage);
 	}
 
-	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> test(a1, a2, exF, newMessage, param1);
+	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> test(a1, a2, factory, newMessage, param1);
 	}
 
-	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> test(a1, a2, exF, newMessage, param1, param1);
+	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> test(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> test(a1, a2, exF, newMessage, param1, param2, param3);
+	default LBiFltPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> test(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean test(float a1, float a2, @Nonnull ExWF<RuntimeException> exF) {
+	default boolean test(float a1, float a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LBiFltPredicate trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> test(a1, a2, exF);
+	default LBiFltPredicate trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> test(a1, a2, factory);
 	}
 
 	default boolean testThen(float a1, float a2, @Nonnull LPredicate<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return func.nestingTest(a1, a2);
 	}
 
-	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, exF, newMessage);
+		return func.test(a1, a2, factory, newMessage);
 	}
 
-	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, exF, newMessage, param1);
+		return func.test(a1, a2, factory, newMessage, param1);
 	}
 
-	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, exF, newMessage, param1, param2);
+		return func.test(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.test(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWF<RuntimeException> exF) {
+	static boolean tryTest(float a1, float a2, LBiFltPredicate func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, exF);
+		return func.test(a1, a2, factory);
 	}
 
 	static boolean tryTestThen(float a1, float a2, LBiFltPredicate func, @Nonnull LPredicate<Throwable> handler) {
@@ -520,6 +520,26 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> float throwIf(float a1, float a2, @Nonnull LBiFltPredicate pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> float throwIfNot(float a1, float a2, @Nonnull LBiFltPredicate pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> float throwIf(float a1, @Nonnull LBiFltPredicate pred, float a2, @Nonnull ExMF<X> factory, @Nonnull LBiFltFunction<? extends String> msgFunc) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
@@ -625,6 +645,26 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		Null.nonNullArg(message, "message");
 		if (!pred.test(a1, a2)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> float throwIf(float a1, @Nonnull LBiFltPredicate pred, float a2, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> float throwIfNot(float a1, @Nonnull LBiFltPredicate pred, float a2, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2)) {
+			throw Handling.create(noArgFactory);
 		}
 		return a1;
 	}

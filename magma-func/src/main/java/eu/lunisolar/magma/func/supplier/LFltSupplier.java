@@ -101,64 +101,64 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return () -> handlingGetAsFlt(handling);
 	}
 
-	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default float getAsFlt(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return () -> getAsFlt(exF, newMessage);
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return () -> getAsFlt(factory, newMessage);
 	}
 
-	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return () -> getAsFlt(exF, newMessage, param1);
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsFlt(factory, newMessage, param1);
 	}
 
-	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return () -> getAsFlt(exF, newMessage, param1, param1);
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsFlt(factory, newMessage, param1, param1);
 	}
 
-	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return () -> getAsFlt(exF, newMessage, param1, param2, param3);
+	default LFltSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsFlt(factory, newMessage, param1, param2, param3);
 	}
 
-	default float getAsFlt(@Nonnull ExWF<RuntimeException> exF) {
+	default float getAsFlt(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LFltSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
-		return () -> getAsFlt(exF);
+	default LFltSupplier trying(@Nonnull ExWF<RuntimeException> factory) {
+		return () -> getAsFlt(factory);
 	}
 
 	default float getAsFltThen(@Nonnull LToFltFunction<Throwable> handler) {
@@ -202,29 +202,29 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func.nestingGetAsFlt();
 	}
 
-	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsFlt(exF, newMessage);
+		return func.getAsFlt(factory, newMessage);
 	}
 
-	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.getAsFlt(exF, newMessage, param1);
+		return func.getAsFlt(factory, newMessage, param1);
 	}
 
-	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.getAsFlt(exF, newMessage, param1, param2);
+		return func.getAsFlt(factory, newMessage, param1, param2);
 	}
 
-	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.getAsFlt(exF, newMessage, param1, param2, param3);
+		return func.getAsFlt(factory, newMessage, param1, param2, param3);
 	}
 
-	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWF<RuntimeException> exF) {
+	static float tryGetAsFlt(LFltSupplier func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.getAsFlt(exF);
+		return func.getAsFlt(factory);
 	}
 
 	static float tryGetAsFltThen(LFltSupplier func, @Nonnull LToFltFunction<Throwable> handler) {

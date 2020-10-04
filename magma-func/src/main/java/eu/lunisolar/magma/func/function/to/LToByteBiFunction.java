@@ -103,64 +103,64 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return (a1, a2) -> handlingApplyAsByte(a1, a2, handling);
 	}
 
-	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage);
+	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsByte(a1, a2, factory, newMessage);
 	}
 
-	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage, param1);
+	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsByte(a1, a2, factory, newMessage, param1);
 	}
 
-	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage, param1, param1);
+	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsByte(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> applyAsByte(a1, a2, exF, newMessage, param1, param2, param3);
+	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsByte(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> exF) {
+	default byte applyAsByte(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> applyAsByte(a1, a2, exF);
+	default LToByteBiFunction<T1, T2> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> applyAsByte(a1, a2, factory);
 	}
 
 	default byte applyAsByteThen(T1 a1, T2 a2, @Nonnull LToByteFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return func.nestingApplyAsByte(a1, a2);
 	}
 
-	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, exF, newMessage);
+		return func.applyAsByte(a1, a2, factory, newMessage);
 	}
 
-	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, exF, newMessage, param1);
+		return func.applyAsByte(a1, a2, factory, newMessage, param1);
 	}
 
-	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, exF, newMessage, param1, param2);
+		return func.applyAsByte(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.applyAsByte(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T1, T2> byte tryApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsByte(a1, a2, exF);
+		return func.applyAsByte(a1, a2, factory);
 	}
 
 	static <T1, T2> byte tryApplyAsByteThen(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull LToByteFunction<Throwable> handler) {

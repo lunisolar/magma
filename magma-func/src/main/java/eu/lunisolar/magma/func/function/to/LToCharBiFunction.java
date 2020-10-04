@@ -103,64 +103,64 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return (a1, a2) -> handlingApplyAsChar(a1, a2, handling);
 	}
 
-	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> applyAsChar(a1, a2, exF, newMessage);
+	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsChar(a1, a2, factory, newMessage);
 	}
 
-	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> applyAsChar(a1, a2, exF, newMessage, param1);
+	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsChar(a1, a2, factory, newMessage, param1);
 	}
 
-	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> applyAsChar(a1, a2, exF, newMessage, param1, param1);
+	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsChar(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> applyAsChar(a1, a2, exF, newMessage, param1, param2, param3);
+	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsChar(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> exF) {
+	default char applyAsChar(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> applyAsChar(a1, a2, exF);
+	default LToCharBiFunction<T1, T2> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> applyAsChar(a1, a2, factory);
 	}
 
 	default char applyAsCharThen(T1 a1, T2 a2, @Nonnull LToCharFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return func.nestingApplyAsChar(a1, a2);
 	}
 
-	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, exF, newMessage);
+		return func.applyAsChar(a1, a2, factory, newMessage);
 	}
 
-	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, exF, newMessage, param1);
+		return func.applyAsChar(a1, a2, factory, newMessage, param1);
 	}
 
-	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, exF, newMessage, param1, param2);
+		return func.applyAsChar(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.applyAsChar(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T1, T2> char tryApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, exF);
+		return func.applyAsChar(a1, a2, factory);
 	}
 
 	static <T1, T2> char tryApplyAsCharThen(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, @Nonnull LToCharFunction<Throwable> handler) {

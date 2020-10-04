@@ -101,64 +101,64 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return () -> handlingGetAsLong(handling);
 	}
 
-	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default long getAsLong(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return () -> getAsLong(exF, newMessage);
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return () -> getAsLong(factory, newMessage);
 	}
 
-	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return () -> getAsLong(exF, newMessage, param1);
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsLong(factory, newMessage, param1);
 	}
 
-	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return () -> getAsLong(exF, newMessage, param1, param1);
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsLong(factory, newMessage, param1, param1);
 	}
 
-	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return () -> getAsLong(exF, newMessage, param1, param2, param3);
+	default LLongSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsLong(factory, newMessage, param1, param2, param3);
 	}
 
-	default long getAsLong(@Nonnull ExWF<RuntimeException> exF) {
+	default long getAsLong(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LLongSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
-		return () -> getAsLong(exF);
+	default LLongSupplier trying(@Nonnull ExWF<RuntimeException> factory) {
+		return () -> getAsLong(factory);
 	}
 
 	default long getAsLongThen(@Nonnull LToLongFunction<Throwable> handler) {
@@ -202,29 +202,29 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return func.nestingGetAsLong();
 	}
 
-	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsLong(exF, newMessage);
+		return func.getAsLong(factory, newMessage);
 	}
 
-	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.getAsLong(exF, newMessage, param1);
+		return func.getAsLong(factory, newMessage, param1);
 	}
 
-	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.getAsLong(exF, newMessage, param1, param2);
+		return func.getAsLong(factory, newMessage, param1, param2);
 	}
 
-	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.getAsLong(exF, newMessage, param1, param2, param3);
+		return func.getAsLong(factory, newMessage, param1, param2, param3);
 	}
 
-	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWF<RuntimeException> exF) {
+	static long tryGetAsLong(LLongSupplier func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.getAsLong(exF);
+		return func.getAsLong(factory);
 	}
 
 	static long tryGetAsLongThen(LLongSupplier func, @Nonnull LToLongFunction<Throwable> handler) {

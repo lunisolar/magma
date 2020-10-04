@@ -103,64 +103,64 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return (a1, a2, a3) -> handlingTest(a1, a2, a3, handling);
 	}
 
-	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean test(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage);
+	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage);
 	}
 
-	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage, param1);
+	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage, param1, param1);
+	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage, param1, param1);
 	}
 
-	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF, newMessage, param1, param2, param3);
+	default LTriLongPredicate trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean test(long a1, long a2, long a3, @Nonnull ExWF<RuntimeException> exF) {
+	default boolean test(long a1, long a2, long a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LTriLongPredicate trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3) -> test(a1, a2, a3, exF);
+	default LTriLongPredicate trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3) -> test(a1, a2, a3, factory);
 	}
 
 	default boolean testThen(long a1, long a2, long a3, @Nonnull LPredicate<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.nestingTest(a1, a2, a3);
 	}
 
-	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage);
+		return func.test(a1, a2, a3, factory, newMessage);
 	}
 
-	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage, param1);
+		return func.test(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage, param1, param2);
+		return func.test(a1, a2, a3, factory, newMessage, param1, param2);
 	}
 
-	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF, newMessage, param1, param2, param3);
+		return func.test(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWF<RuntimeException> exF) {
+	static boolean tryTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.test(a1, a2, a3, exF);
+		return func.test(a1, a2, a3, factory);
 	}
 
 	static boolean tryTestThen(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull LPredicate<Throwable> handler) {
@@ -498,6 +498,26 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> long throwIf(long a1, long a2, long a3, @Nonnull LTriLongPredicate pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> long throwIfNot(long a1, long a2, long a3, @Nonnull LTriLongPredicate pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> long throwIf(long a1, @Nonnull LTriLongPredicate pred, long a2, long a3, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
@@ -581,6 +601,26 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		Null.nonNullArg(message, "message");
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> long throwIf(long a1, @Nonnull LTriLongPredicate pred, long a2, long a3, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> long throwIfNot(long a1, @Nonnull LTriLongPredicate pred, long a2, long a3, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(noArgFactory);
 		}
 		return a1;
 	}

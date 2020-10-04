@@ -103,64 +103,64 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return a -> handlingApplyAsDbl(a, handling);
 	}
 
-	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default double applyAsDbl(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> applyAsDbl(a, exF, newMessage);
+	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> applyAsDbl(a, factory, newMessage);
 	}
 
-	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> applyAsDbl(a, exF, newMessage, param1);
+	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsDbl(a, factory, newMessage, param1);
 	}
 
-	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> applyAsDbl(a, exF, newMessage, param1, param1);
+	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsDbl(a, factory, newMessage, param1, param1);
 	}
 
-	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> applyAsDbl(a, exF, newMessage, param1, param2, param3);
+	default LSrtToDblFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsDbl(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default double applyAsDbl(short a, @Nonnull ExWF<RuntimeException> exF) {
+	default double applyAsDbl(short a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LSrtToDblFunction trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> applyAsDbl(a, exF);
+	default LSrtToDblFunction trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> applyAsDbl(a, factory);
 	}
 
 	default double applyAsDblThen(short a, @Nonnull LToDblFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.nestingApplyAsDbl(a);
 	}
 
-	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a, exF, newMessage);
+		return func.applyAsDbl(a, factory, newMessage);
 	}
 
-	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a, exF, newMessage, param1);
+		return func.applyAsDbl(a, factory, newMessage, param1);
 	}
 
-	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a, exF, newMessage, param1, param2);
+		return func.applyAsDbl(a, factory, newMessage, param1, param2);
 	}
 
-	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a, exF, newMessage, param1, param2, param3);
+		return func.applyAsDbl(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWF<RuntimeException> exF) {
+	static double tryApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsDbl(a, exF);
+		return func.applyAsDbl(a, factory);
 	}
 
 	static double tryApplyAsDblThen(short a, LSrtToDblFunction func, @Nonnull LToDblFunction<Throwable> handler) {

@@ -103,64 +103,64 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return a -> handlingApplyAsInt(a, handling);
 	}
 
-	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> applyAsInt(a, exF, newMessage);
+	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> applyAsInt(a, factory, newMessage);
 	}
 
-	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> applyAsInt(a, exF, newMessage, param1);
+	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsInt(a, factory, newMessage, param1);
 	}
 
-	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> applyAsInt(a, exF, newMessage, param1, param1);
+	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsInt(a, factory, newMessage, param1, param1);
 	}
 
-	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> applyAsInt(a, exF, newMessage, param1, param2, param3);
+	default LByteToIntFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsInt(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default int applyAsInt(byte a, @Nonnull ExWF<RuntimeException> exF) {
+	default int applyAsInt(byte a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LByteToIntFunction trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> applyAsInt(a, exF);
+	default LByteToIntFunction trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> applyAsInt(a, factory);
 	}
 
 	default int applyAsIntThen(byte a, @Nonnull LToIntFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.nestingApplyAsInt(a);
 	}
 
-	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage);
+		return func.applyAsInt(a, factory, newMessage);
 	}
 
-	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage, param1);
+		return func.applyAsInt(a, factory, newMessage, param1);
 	}
 
-	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage, param1, param2);
+		return func.applyAsInt(a, factory, newMessage, param1, param2);
 	}
 
-	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF, newMessage, param1, param2, param3);
+		return func.applyAsInt(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWF<RuntimeException> exF) {
+	static int tryApplyAsInt(byte a, LByteToIntFunction func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a, exF);
+		return func.applyAsInt(a, factory);
 	}
 
 	static int tryApplyAsIntThen(byte a, LByteToIntFunction func, @Nonnull LToIntFunction<Throwable> handler) {

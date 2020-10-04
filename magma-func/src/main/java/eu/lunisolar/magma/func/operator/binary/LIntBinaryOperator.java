@@ -103,64 +103,64 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		return (a1, a2) -> handlingApplyAsInt(a1, a2, handling);
 	}
 
-	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default int applyAsInt(int a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> applyAsInt(a1, a2, exF, newMessage);
+	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsInt(a1, a2, factory, newMessage);
 	}
 
-	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> applyAsInt(a1, a2, exF, newMessage, param1);
+	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsInt(a1, a2, factory, newMessage, param1);
 	}
 
-	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> applyAsInt(a1, a2, exF, newMessage, param1, param1);
+	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsInt(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> applyAsInt(a1, a2, exF, newMessage, param1, param2, param3);
+	default LIntBinaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsInt(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default int applyAsInt(int a1, int a2, @Nonnull ExWF<RuntimeException> exF) {
+	default int applyAsInt(int a1, int a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LIntBinaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> applyAsInt(a1, a2, exF);
+	default LIntBinaryOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> applyAsInt(a1, a2, factory);
 	}
 
 	default int applyAsIntThen(int a1, int a2, @Nonnull LToIntFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		return func.nestingApplyAsInt(a1, a2);
 	}
 
-	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a1, a2, exF, newMessage);
+		return func.applyAsInt(a1, a2, factory, newMessage);
 	}
 
-	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a1, a2, exF, newMessage, param1);
+		return func.applyAsInt(a1, a2, factory, newMessage, param1);
 	}
 
-	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a1, a2, exF, newMessage, param1, param2);
+		return func.applyAsInt(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.applyAsInt(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static int tryApplyAsInt(int a1, int a2, LIntBinaryOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsInt(a1, a2, exF);
+		return func.applyAsInt(a1, a2, factory);
 	}
 
 	static int tryApplyAsIntThen(int a1, int a2, LIntBinaryOperator func, @Nonnull LToIntFunction<Throwable> handler) {

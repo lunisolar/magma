@@ -104,64 +104,64 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return (a1, a2) -> handlingApply(a1, a2, handling);
 	}
 
-	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default R apply(T a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage);
+	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage);
 	}
 
-	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1);
+	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1);
 	}
 
-	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param1);
+	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> apply(a1, a2, exF, newMessage, param1, param2, param3);
+	default LObjBoolFunction<T, R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> apply(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default R apply(T a1, boolean a2, @Nonnull ExWF<RuntimeException> exF) {
+	default R apply(T a1, boolean a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LObjBoolFunction<T, R> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> apply(a1, a2, exF);
+	default LObjBoolFunction<T, R> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> apply(a1, a2, factory);
 	}
 
 	default R applyThen(T a1, boolean a2, @Nonnull LFunction<Throwable, R> handler) {
@@ -205,29 +205,29 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return func.nestingApply(a1, a2);
 	}
 
-	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage);
+		return func.apply(a1, a2, factory, newMessage);
 	}
 
-	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1);
+		return func.apply(a1, a2, factory, newMessage, param1);
 	}
 
-	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1, param2);
+		return func.apply(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.apply(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T, R> R tryApply(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a1, a2, exF);
+		return func.apply(a1, a2, factory);
 	}
 
 	static <T, R> R tryApplyThen(T a1, boolean a2, LObjBoolFunction<T, R> func, @Nonnull LFunction<Throwable, R> handler) {

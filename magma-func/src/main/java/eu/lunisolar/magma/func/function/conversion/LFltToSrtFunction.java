@@ -103,64 +103,64 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return a -> handlingApplyAsSrt(a, handling);
 	}
 
-	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default short applyAsSrt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> applyAsSrt(a, exF, newMessage);
+	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> applyAsSrt(a, factory, newMessage);
 	}
 
-	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> applyAsSrt(a, exF, newMessage, param1);
+	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> applyAsSrt(a, factory, newMessage, param1);
 	}
 
-	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> applyAsSrt(a, exF, newMessage, param1, param1);
+	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> applyAsSrt(a, factory, newMessage, param1, param1);
 	}
 
-	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> applyAsSrt(a, exF, newMessage, param1, param2, param3);
+	default LFltToSrtFunction trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> applyAsSrt(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default short applyAsSrt(float a, @Nonnull ExWF<RuntimeException> exF) {
+	default short applyAsSrt(float a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LFltToSrtFunction trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> applyAsSrt(a, exF);
+	default LFltToSrtFunction trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> applyAsSrt(a, factory);
 	}
 
 	default short applyAsSrtThen(float a, @Nonnull LToSrtFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.nestingApplyAsSrt(a);
 	}
 
-	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a, exF, newMessage);
+		return func.applyAsSrt(a, factory, newMessage);
 	}
 
-	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a, exF, newMessage, param1);
+		return func.applyAsSrt(a, factory, newMessage, param1);
 	}
 
-	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a, exF, newMessage, param1, param2);
+		return func.applyAsSrt(a, factory, newMessage, param1, param2);
 	}
 
-	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a, exF, newMessage, param1, param2, param3);
+		return func.applyAsSrt(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWF<RuntimeException> exF) {
+	static short tryApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsSrt(a, exF);
+		return func.applyAsSrt(a, factory);
 	}
 
 	static short tryApplyAsSrtThen(float a, LFltToSrtFunction func, @Nonnull LToSrtFunction<Throwable> handler) {

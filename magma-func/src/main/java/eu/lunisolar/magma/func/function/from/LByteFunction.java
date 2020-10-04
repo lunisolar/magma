@@ -104,64 +104,64 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return a -> handlingApply(a, handling);
 	}
 
-	default R apply(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default R apply(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default R apply(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default R apply(byte a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> apply(a, exF, newMessage);
+	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> apply(a, factory, newMessage);
 	}
 
-	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> apply(a, exF, newMessage, param1);
+	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> apply(a, factory, newMessage, param1);
 	}
 
-	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> apply(a, exF, newMessage, param1, param1);
+	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> apply(a, factory, newMessage, param1, param1);
 	}
 
-	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> apply(a, exF, newMessage, param1, param2, param3);
+	default LByteFunction<R> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> apply(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default R apply(byte a, @Nonnull ExWF<RuntimeException> exF) {
+	default R apply(byte a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LByteFunction<R> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> apply(a, exF);
+	default LByteFunction<R> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> apply(a, factory);
 	}
 
 	default R applyThen(byte a, @Nonnull LFunction<Throwable, R> handler) {
@@ -205,29 +205,29 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return func.nestingApply(a);
 	}
 
-	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage);
+		return func.apply(a, factory, newMessage);
 	}
 
-	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage, param1);
+		return func.apply(a, factory, newMessage, param1);
 	}
 
-	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage, param1, param2);
+		return func.apply(a, factory, newMessage, param1, param2);
 	}
 
-	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF, newMessage, param1, param2, param3);
+		return func.apply(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <R> R tryApply(byte a, LByteFunction<R> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.apply(a, exF);
+		return func.apply(a, factory);
 	}
 
 	static <R> R tryApplyThen(byte a, LByteFunction<R> func, @Nonnull LFunction<Throwable, R> handler) {

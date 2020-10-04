@@ -105,64 +105,64 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return (a1, a2) -> handlingApplyAsLong(a1, a2, handling);
 	}
 
-	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default long applyAsLong(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage);
+	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsLong(a1, a2, factory, newMessage);
 	}
 
-	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage, param1);
+	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsLong(a1, a2, factory, newMessage, param1);
 	}
 
-	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage, param1, param1);
+	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsLong(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> applyAsLong(a1, a2, exF, newMessage, param1, param2, param3);
+	default LOiToLongFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsLong(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default long applyAsLong(T a1, int a2, @Nonnull ExWF<RuntimeException> exF) {
+	default long applyAsLong(T a1, int a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LOiToLongFunction<T> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> applyAsLong(a1, a2, exF);
+	default LOiToLongFunction<T> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> applyAsLong(a1, a2, factory);
 	}
 
 	default long applyAsLongThen(T a1, int a2, @Nonnull LToLongFunction<Throwable> handler) {
@@ -206,29 +206,29 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func.nestingApplyAsLong(a1, a2);
 	}
 
-	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, exF, newMessage);
+		return func.applyAsLong(a1, a2, factory, newMessage);
 	}
 
-	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, exF, newMessage, param1);
+		return func.applyAsLong(a1, a2, factory, newMessage, param1);
 	}
 
-	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, exF, newMessage, param1, param2);
+		return func.applyAsLong(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.applyAsLong(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T> long tryApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, exF);
+		return func.applyAsLong(a1, a2, factory);
 	}
 
 	static <T> long tryApplyAsLongThen(T a1, int a2, LOiToLongFunction<T> func, @Nonnull LToLongFunction<Throwable> handler) {

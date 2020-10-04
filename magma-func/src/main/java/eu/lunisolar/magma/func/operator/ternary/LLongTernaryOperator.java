@@ -103,64 +103,64 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (a1, a2, a3) -> handlingApplyAsLong(a1, a2, a3, handling);
 	}
 
-	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsLongX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsLongX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsLongX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, exF, newMessage);
+	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, factory, newMessage);
 	}
 
-	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, exF, newMessage, param1);
+	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, exF, newMessage, param1, param1);
+	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, factory, newMessage, param1, param1);
 	}
 
-	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, exF, newMessage, param1, param2, param3);
+	default LLongTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWF<RuntimeException> exF) {
+	default long applyAsLong(long a1, long a2, long a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsLongX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LLongTernaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, exF);
+	default LLongTernaryOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3) -> applyAsLong(a1, a2, a3, factory);
 	}
 
 	default long applyAsLongThen(long a1, long a2, long a3, @Nonnull LToLongFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return func.nestingApplyAsLong(a1, a2, a3);
 	}
 
-	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, a3, exF, newMessage);
+		return func.applyAsLong(a1, a2, a3, factory, newMessage);
 	}
 
-	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, a3, exF, newMessage, param1);
+		return func.applyAsLong(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, a3, exF, newMessage, param1, param2);
+		return func.applyAsLong(a1, a2, a3, factory, newMessage, param1, param2);
 	}
 
-	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, a3, exF, newMessage, param1, param2, param3);
+		return func.applyAsLong(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static long tryApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsLong(a1, a2, a3, exF);
+		return func.applyAsLong(a1, a2, a3, factory);
 	}
 
 	static long tryApplyAsLongThen(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull LToLongFunction<Throwable> handler) {

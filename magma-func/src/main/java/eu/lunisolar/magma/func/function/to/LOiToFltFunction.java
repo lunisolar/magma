@@ -105,64 +105,64 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (a1, a2) -> handlingApplyAsFlt(a1, a2, handling);
 	}
 
-	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default float applyAsFlt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage);
+	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> applyAsFlt(a1, a2, factory, newMessage);
 	}
 
-	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage, param1);
+	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> applyAsFlt(a1, a2, factory, newMessage, param1);
 	}
 
-	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage, param1, param1);
+	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> applyAsFlt(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> applyAsFlt(a1, a2, exF, newMessage, param1, param2, param3);
+	default LOiToFltFunction<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> applyAsFlt(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default float applyAsFlt(T a1, int a2, @Nonnull ExWF<RuntimeException> exF) {
+	default float applyAsFlt(T a1, int a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LOiToFltFunction<T> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> applyAsFlt(a1, a2, exF);
+	default LOiToFltFunction<T> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> applyAsFlt(a1, a2, factory);
 	}
 
 	default float applyAsFltThen(T a1, int a2, @Nonnull LToFltFunction<Throwable> handler) {
@@ -206,29 +206,29 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.nestingApplyAsFlt(a1, a2);
 	}
 
-	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsFlt(a1, a2, exF, newMessage);
+		return func.applyAsFlt(a1, a2, factory, newMessage);
 	}
 
-	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsFlt(a1, a2, exF, newMessage, param1);
+		return func.applyAsFlt(a1, a2, factory, newMessage, param1);
 	}
 
-	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsFlt(a1, a2, exF, newMessage, param1, param2);
+		return func.applyAsFlt(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsFlt(a1, a2, exF, newMessage, param1, param2, param3);
+		return func.applyAsFlt(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T> float tryApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsFlt(a1, a2, exF);
+		return func.applyAsFlt(a1, a2, factory);
 	}
 
 	static <T> float tryApplyAsFltThen(T a1, int a2, LOiToFltFunction<T> func, @Nonnull LToFltFunction<Throwable> handler) {

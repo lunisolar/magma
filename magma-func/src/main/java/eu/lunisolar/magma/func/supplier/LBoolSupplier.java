@@ -111,64 +111,64 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return () -> handlingGetAsBool(handling);
 	}
 
-	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return () -> getAsBool(exF, newMessage);
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return () -> getAsBool(factory, newMessage);
 	}
 
-	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return () -> getAsBool(exF, newMessage, param1);
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsBool(factory, newMessage, param1);
 	}
 
-	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return () -> getAsBool(exF, newMessage, param1, param1);
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsBool(factory, newMessage, param1, param1);
 	}
 
-	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return () -> getAsBool(exF, newMessage, param1, param2, param3);
+	default LBoolSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsBool(factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean getAsBool(@Nonnull ExWF<RuntimeException> exF) {
+	default boolean getAsBool(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LBoolSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
-		return () -> getAsBool(exF);
+	default LBoolSupplier trying(@Nonnull ExWF<RuntimeException> factory) {
+		return () -> getAsBool(factory);
 	}
 
 	default boolean getAsBoolThen(@Nonnull LPredicate<Throwable> handler) {
@@ -212,29 +212,29 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return func.nestingGetAsBool();
 	}
 
-	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsBool(exF, newMessage);
+		return func.getAsBool(factory, newMessage);
 	}
 
-	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.getAsBool(exF, newMessage, param1);
+		return func.getAsBool(factory, newMessage, param1);
 	}
 
-	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.getAsBool(exF, newMessage, param1, param2);
+		return func.getAsBool(factory, newMessage, param1, param2);
 	}
 
-	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.getAsBool(exF, newMessage, param1, param2, param3);
+		return func.getAsBool(factory, newMessage, param1, param2, param3);
 	}
 
-	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWF<RuntimeException> exF) {
+	static boolean tryGetAsBool(LBoolSupplier func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.getAsBool(exF);
+		return func.getAsBool(factory);
 	}
 
 	static boolean tryGetAsBoolThen(LBoolSupplier func, @Nonnull LPredicate<Throwable> handler) {

@@ -104,64 +104,64 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return a -> handlingAccept(a, handling);
 	}
 
-	default void accept(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default void accept(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default void accept(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default void accept(char a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> accept(a, exF, newMessage);
+	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> accept(a, factory, newMessage);
 	}
 
-	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> accept(a, exF, newMessage, param1);
+	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> accept(a, factory, newMessage, param1);
 	}
 
-	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> accept(a, exF, newMessage, param1, param1);
+	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> accept(a, factory, newMessage, param1, param1);
 	}
 
-	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> accept(a, exF, newMessage, param1, param2, param3);
+	default LCharConsumer trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> accept(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default void accept(char a, @Nonnull ExWF<RuntimeException> exF) {
+	default void accept(char a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LCharConsumer trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> accept(a, exF);
+	default LCharConsumer trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> accept(a, factory);
 	}
 
 	default void acceptThen(char a, @Nonnull LConsumer<Throwable> handler) {
@@ -205,29 +205,29 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		func.nestingAccept(a);
 	}
 
-	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a, exF, newMessage);
+		func.accept(a, factory, newMessage);
 	}
 
-	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		func.accept(a, exF, newMessage, param1);
+		func.accept(a, factory, newMessage, param1);
 	}
 
-	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		func.accept(a, exF, newMessage, param1, param2);
+		func.accept(a, factory, newMessage, param1, param2);
 	}
 
-	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		func.accept(a, exF, newMessage, param1, param2, param3);
+		func.accept(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWF<RuntimeException> exF) {
+	static void tryAccept(char a, LCharConsumer func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		func.accept(a, exF);
+		func.accept(a, factory);
 	}
 
 	static void tryAcceptThen(char a, LCharConsumer func, @Nonnull LConsumer<Throwable> handler) {

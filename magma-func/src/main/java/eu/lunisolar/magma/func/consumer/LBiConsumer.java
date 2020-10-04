@@ -106,64 +106,64 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return (a1, a2) -> handlingAccept(a1, a2, handling);
 	}
 
-	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage);
+	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage);
 	}
 
-	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1);
+	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage, param1);
 	}
 
-	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param1);
+	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage, param1, param1);
 	}
 
-	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2) -> accept(a1, a2, exF, newMessage, param1, param2, param3);
+	default LBiConsumer<T1, T2> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2) -> accept(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	default void accept(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> exF) {
+	default void accept(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LBiConsumer<T1, T2> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2) -> accept(a1, a2, exF);
+	default LBiConsumer<T1, T2> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2) -> accept(a1, a2, factory);
 	}
 
 	default void acceptThen(T1 a1, T2 a2, @Nonnull LConsumer<Throwable> handler) {
@@ -207,29 +207,29 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		func.nestingAccept(a1, a2);
 	}
 
-	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage);
+		func.accept(a1, a2, factory, newMessage);
 	}
 
-	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, param1);
+		func.accept(a1, a2, factory, newMessage, param1);
 	}
 
-	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, param1, param2);
+		func.accept(a1, a2, factory, newMessage, param1, param2);
 	}
 
-	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF, newMessage, param1, param2, param3);
+		func.accept(a1, a2, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T1, T2> void tryAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		func.accept(a1, a2, exF);
+		func.accept(a1, a2, factory);
 	}
 
 	static <T1, T2> void tryAcceptThen(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull LConsumer<Throwable> handler) {

@@ -103,64 +103,64 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (a1, a2, a3) -> handlingApplyAsChar(a1, a2, a3, handling);
 	}
 
-	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, exF, newMessage);
+	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, factory, newMessage);
 	}
 
-	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, exF, newMessage, param1);
+	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, exF, newMessage, param1, param1);
+	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, factory, newMessage, param1, param1);
 	}
 
-	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, exF, newMessage, param1, param2, param3);
+	default LCharTernaryOperator trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWF<RuntimeException> exF) {
+	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LCharTernaryOperator trying(@Nonnull ExWF<RuntimeException> exF) {
-		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, exF);
+	default LCharTernaryOperator trying(@Nonnull ExWF<RuntimeException> factory) {
+		return (a1, a2, a3) -> applyAsChar(a1, a2, a3, factory);
 	}
 
 	default char applyAsCharThen(char a1, char a2, char a3, @Nonnull LToCharFunction<Throwable> handler) {
@@ -204,29 +204,29 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return func.nestingApplyAsChar(a1, a2, a3);
 	}
 
-	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, a3, exF, newMessage);
+		return func.applyAsChar(a1, a2, a3, factory, newMessage);
 	}
 
-	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, a3, exF, newMessage, param1);
+		return func.applyAsChar(a1, a2, a3, factory, newMessage, param1);
 	}
 
-	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, a3, exF, newMessage, param1, param2);
+		return func.applyAsChar(a1, a2, a3, factory, newMessage, param1, param2);
 	}
 
-	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, a3, exF, newMessage, param1, param2, param3);
+		return func.applyAsChar(a1, a2, a3, factory, newMessage, param1, param2, param3);
 	}
 
-	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWF<RuntimeException> exF) {
+	static char tryApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.applyAsChar(a1, a2, a3, exF);
+		return func.applyAsChar(a1, a2, a3, factory);
 	}
 
 	static char tryApplyAsCharThen(char a1, char a2, char a3, LCharTernaryOperator func, @Nonnull LToCharFunction<Throwable> handler) {

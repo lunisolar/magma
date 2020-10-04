@@ -101,64 +101,64 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return () -> handlingGetAsChar(handling);
 	}
 
-	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsCharX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsCharX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsCharX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default char getAsChar(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default char getAsChar(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsCharX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return () -> getAsChar(exF, newMessage);
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return () -> getAsChar(factory, newMessage);
 	}
 
-	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return () -> getAsChar(exF, newMessage, param1);
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return () -> getAsChar(factory, newMessage, param1);
 	}
 
-	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return () -> getAsChar(exF, newMessage, param1, param1);
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return () -> getAsChar(factory, newMessage, param1, param1);
 	}
 
-	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return () -> getAsChar(exF, newMessage, param1, param2, param3);
+	default LCharSupplier trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return () -> getAsChar(factory, newMessage, param1, param2, param3);
 	}
 
-	default char getAsChar(@Nonnull ExWF<RuntimeException> exF) {
+	default char getAsChar(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsCharX();
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LCharSupplier trying(@Nonnull ExWF<RuntimeException> exF) {
-		return () -> getAsChar(exF);
+	default LCharSupplier trying(@Nonnull ExWF<RuntimeException> factory) {
+		return () -> getAsChar(factory);
 	}
 
 	default char getAsCharThen(@Nonnull LToCharFunction<Throwable> handler) {
@@ -202,29 +202,29 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return func.nestingGetAsChar();
 	}
 
-	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.getAsChar(exF, newMessage);
+		return func.getAsChar(factory, newMessage);
 	}
 
-	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.getAsChar(exF, newMessage, param1);
+		return func.getAsChar(factory, newMessage, param1);
 	}
 
-	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.getAsChar(exF, newMessage, param1, param2);
+		return func.getAsChar(factory, newMessage, param1, param2);
 	}
 
-	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.getAsChar(exF, newMessage, param1, param2, param3);
+		return func.getAsChar(factory, newMessage, param1, param2, param3);
 	}
 
-	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWF<RuntimeException> exF) {
+	static char tryGetAsChar(LCharSupplier func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.getAsChar(exF);
+		return func.getAsChar(factory);
 	}
 
 	static char tryGetAsCharThen(LCharSupplier func, @Nonnull LToCharFunction<Throwable> handler) {

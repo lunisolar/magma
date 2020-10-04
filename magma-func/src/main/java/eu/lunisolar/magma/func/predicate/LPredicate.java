@@ -105,64 +105,64 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return a -> handlingTest(a, handling);
 	}
 
-	default boolean test(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage);
+			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
 
-	default boolean test(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1);
+			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
 
-	default boolean test(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2);
+			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
 
-	default boolean test(T a, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF, newMessage, param1, param2, param3);
+			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
 
-	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
-		return a -> test(a, exF, newMessage);
+	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
+		return a -> test(a, factory, newMessage);
 	}
 
-	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
-		return a -> test(a, exF, newMessage, param1);
+	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
+		return a -> test(a, factory, newMessage, param1);
 	}
 
-	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
-		return a -> test(a, exF, newMessage, param1, param1);
+	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+		return a -> test(a, factory, newMessage, param1, param1);
 	}
 
-	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
-		return a -> test(a, exF, newMessage, param1, param2, param3);
+	default LPredicate<T> trying(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		return a -> test(a, factory, newMessage, param1, param2, param3);
 	}
 
-	default boolean test(T a, @Nonnull ExWF<RuntimeException> exF) {
+	default boolean test(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
-			throw Handling.wrap(e, exF);
+			throw Handling.wrap(e, factory);
 		}
 	}
 
-	default LPredicate<T> trying(@Nonnull ExWF<RuntimeException> exF) {
-		return a -> test(a, exF);
+	default LPredicate<T> trying(@Nonnull ExWF<RuntimeException> factory) {
+		return a -> test(a, factory);
 	}
 
 	default boolean testThen(T a, @Nonnull LPredicate<Throwable> handler) {
@@ -206,29 +206,29 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return func.nestingTest(a);
 	}
 
-	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage) {
+	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		Null.nonNullArg(func, "func");
-		return func.test(a, exF, newMessage);
+		return func.test(a, factory, newMessage);
 	}
 
-	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1) {
+	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		Null.nonNullArg(func, "func");
-		return func.test(a, exF, newMessage, param1);
+		return func.test(a, factory, newMessage, param1);
 	}
 
-	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
+	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(func, "func");
-		return func.test(a, exF, newMessage, param1, param2);
+		return func.test(a, factory, newMessage, param1, param2);
 	}
 
-	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> exF, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(func, "func");
-		return func.test(a, exF, newMessage, param1, param2, param3);
+		return func.test(a, factory, newMessage, param1, param2, param3);
 	}
 
-	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWF<RuntimeException> exF) {
+	static <T> boolean tryTest(T a, LPredicate<T> func, @Nonnull ExWF<RuntimeException> factory) {
 		Null.nonNullArg(func, "func");
-		return func.test(a, exF);
+		return func.test(a, factory);
 	}
 
 	static <T> boolean tryTestThen(T a, LPredicate<T> func, @Nonnull LPredicate<Throwable> handler) {
@@ -548,6 +548,26 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		Null.nonNullArg(message, "message");
 		if (!pred.test(a)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is met. */
+	public static <T, X extends Throwable> T throwIf(T a, @Nonnull LPredicate<? super T> pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (pred.test(a)) {
+			throw Handling.create(noArgFactory);
+		}
+		return a;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <T, X extends Throwable> T throwIfNot(T a, @Nonnull LPredicate<? super T> pred, @Nonnull ExF<X> noArgFactory) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(noArgFactory, "noArgFactory");
+		if (!pred.test(a)) {
+			throw Handling.create(noArgFactory);
 		}
 		return a;
 	}
