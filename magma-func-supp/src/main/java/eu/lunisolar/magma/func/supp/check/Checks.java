@@ -1407,4 +1407,16 @@ public final class Checks implements FluentSyntax {
 		return new CheckLong(value, name, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
+	/** Due to the nature of the check, this method is not recommended for production runtime. */
+	public static Check<Throwable> attestThrownBy(@Nonnull LAction action) {
+		Null.nonNullArg(action, "action");
+		try {
+			action.execute();
+		} catch (Throwable e) {
+			return Checks.attest(e, "exception");
+		}
+
+		return Checks.attest(null, "exception");
+	}
+
 }
