@@ -222,52 +222,52 @@ public final class P2 implements FluentSyntax {
 
 	// <editor-fold desc="object derivatives">
 
-	/** Predicate: Object <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** Predicate: Object <%s> of class <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> boolean instanceOf(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return clazz.isInstance(object);
 	}
 
-	/** "Special" predicate: Object <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> String instanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
-		return (clazz.isInstance(object)) ? null : String.format("Object <%s> must be instance of <%s>.", object, clazz);
+		return (clazz.isInstance(object)) ? null : String.format("Object <%s> of class <%s> must be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
-	/** Predicate: Object <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** Predicate: Object <%s> of class <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> boolean notInstanceOf(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isInstance(object));
 	}
 
-	/** "Special" predicate: Object <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> String notInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
-		return !(clazz.isInstance(object)) ? null : String.format("Object <%s> must NOT be instance of <%s>.", object, clazz);
+		return !(clazz.isInstance(object)) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
-	/** Predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> boolean assignableFrom(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return clazz.isAssignableFrom(specialization);
 	}
 
-	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> String assignableFromEx(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
-		return (clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> must ---NOT-- be specialization of <%s>.", specialization, clazz);
+		return (clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> of class <%s> must ---NOT-- be specialization of <%s>.", specialization, specialization != null ? specialization.getClass() : null, clazz);
 	}
 
-	/** Predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> boolean notAssignableFrom(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return !(clazz.isAssignableFrom(specialization));
 	}
 
-	/** "Special" predicate: Class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1, MP2> String notAssignableFromEx(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
-		return !(clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> must ---NOT-- be specialization of <%s>.", specialization, clazz);
+		return !(clazz.isAssignableFrom(specialization)) ? null : String.format("Class <%s> of class <%s> must ---NOT-- be specialization of <%s>.", specialization, specialization != null ? specialization.getClass() : null, clazz);
 	}
 
 	// </editor-fold>
