@@ -49,7 +49,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         super(context, description, caseDescription, assertFunction, assertPreConsumer);
     }
 
-    private R stillActualResult() {
+    private R stealActualResult() {
         final AtomicReference<R> reference = new AtomicReference<>();
 
         to(rs -> rs.satisfies(new Condition<R>() {
@@ -88,7 +88,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
     /** Adds possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
     public CTX that(@Nonnull Consumer<R> customCheckBlock) {
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
-        R actualResult = stillActualResult();
+        R actualResult = stealActualResult();
         customCheckBlock.accept(actualResult);
         return context.self();
     }
@@ -96,7 +96,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
     /** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
     public CTX toEx(@Nonnull Consumer<Checks.Check<R>> customCheckBlock) {
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
-        R actualResult = stillActualResult();
+        R actualResult = stealActualResult();
         customCheckBlock.accept(Checks.attest(actualResult));
         return context.self();
     }
@@ -106,7 +106,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         Null.nonNullArg(adapter, "adapter");
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
 
-        R actualResult = stillActualResult();
+        R actualResult = stealActualResult();
 
         AA wrapper = adapter.apply(actualResult);
         Null.nonNull(wrapper, () -> "Adapter function must produce non-null result!");
@@ -120,7 +120,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         Null.nonNullArg(adapter, "adapter");
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
 
-        R actualResult = stillActualResult();
+        R actualResult = stealActualResult();
 
         AA wrapper = adapter.apply(actualResult, adapterParam);
         Null.nonNull(wrapper, () -> "Adapter function must produce non-null result!");
