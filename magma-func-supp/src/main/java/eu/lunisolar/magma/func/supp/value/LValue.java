@@ -65,6 +65,7 @@ public final class LValue<T>
 			IsTrait<T, LValue<T>>,
 			DoIfSingleTrait<T, LValue<T>>,
 			UseSingleTrait<T, LValue<T>>,
+			AutoCloseable,
 			ValueTrait<T, LValue<T>>,
 			LSingle.Mut<T, LValue<T>> {
 
@@ -93,6 +94,13 @@ public final class LValue<T>
 	@Override
 	public T get() {
 		return value;
+	}
+
+	@Override
+	public void close() {
+		if (value instanceof AutoCloseable) {
+			LConsumer.tryAccept((AutoCloseable) this.value, AutoCloseable::close); // any exception will be nested
+		}
 	}
 
 }
