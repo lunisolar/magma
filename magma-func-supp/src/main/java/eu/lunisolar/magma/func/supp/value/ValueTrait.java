@@ -74,4 +74,16 @@ public interface ValueTrait<T, SELF extends ValueTrait<T, SELF>> extends FluentT
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
+	default @Nonnull T nonnull() {
+		var value = value();
+		if (value == null) {
+			throw new IllegalStateException("Value cannot be null!");
+		}
+		return value();
+	}
+
+	default @Nullable T nullable() {
+		return value();
+	}
+
 }

@@ -6594,16 +6594,6 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 
 	// </editor-fold>
 
-	default @Nonnull T nonnull() {
-		must(Be::notNull, "Value cannot be null!");
-		return value();
-	}
-
-	default @Nonnull T nullable() {
-		must(Be::notNull, "Value cannot be null!");
-		return value();
-	}
-
 	default @Nonnull SELF checkBool(@Nonnull LPredicate<T> func, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
