@@ -194,6 +194,11 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		}
 	}
 
+	static byte shovingApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a1, a2, a3);
+	}
+
 	static byte handlingApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a1, a2, a3, handling);

@@ -194,6 +194,11 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		}
 	}
 
+	static int shovingApplyAsInt(double a, LDblToIntFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(double a, LDblToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

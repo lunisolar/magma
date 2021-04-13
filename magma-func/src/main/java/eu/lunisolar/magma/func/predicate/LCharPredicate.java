@@ -194,6 +194,11 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		}
 	}
 
+	static boolean shovingTest(char a, LCharPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a);
+	}
+
 	static boolean handlingTest(char a, LCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);

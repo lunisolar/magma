@@ -194,6 +194,11 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		}
 	}
 
+	static int shovingApplyAsInt(int a1, int a2, int a3, LIntTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a1, a2, a3);
+	}
+
 	static int handlingApplyAsInt(int a1, int a2, int a3, LIntTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, a3, handling);

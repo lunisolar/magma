@@ -194,6 +194,11 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		}
 	}
 
+	static <T1, T2> char shovingApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a1, a2);
+	}
+
 	static <T1, T2> char handlingApplyAsChar(T1 a1, T2 a2, LToCharBiFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a1, a2, handling);

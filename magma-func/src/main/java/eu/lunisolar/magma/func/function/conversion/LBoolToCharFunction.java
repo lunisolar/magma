@@ -194,6 +194,11 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static char shovingApplyAsChar(boolean a, LBoolToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(boolean a, LBoolToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

@@ -194,6 +194,11 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static char shovingApplyAsChar(long a, LLongToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(long a, LLongToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

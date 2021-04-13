@@ -194,6 +194,11 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static char shovingApplyAsChar(short a, LSrtToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(short a, LSrtToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

@@ -194,6 +194,11 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 		}
 	}
 
+	static long shovingApplyAsLong(int a, LIntToLongFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a);
+	}
+
 	static long handlingApplyAsLong(int a, LIntToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);

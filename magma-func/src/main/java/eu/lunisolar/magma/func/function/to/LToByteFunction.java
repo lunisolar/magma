@@ -196,6 +196,11 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static <T> byte shovingApplyAsByte(T a, LToByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static <T> byte handlingApplyAsByte(T a, LToByteFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

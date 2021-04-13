@@ -192,6 +192,11 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		}
 	}
 
+	static char shovingGetAsChar(LCharSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsChar();
+	}
+
 	static char handlingGetAsChar(LCharSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsChar(handling);

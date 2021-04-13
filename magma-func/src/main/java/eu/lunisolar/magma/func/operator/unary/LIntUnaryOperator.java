@@ -194,6 +194,11 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		}
 	}
 
+	static int shovingApplyAsInt(int a, LIntUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(int a, LIntUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

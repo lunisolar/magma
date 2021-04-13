@@ -194,6 +194,11 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static float shovingApplyAsFlt(char a, LCharToFltFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a);
+	}
+
 	static float handlingApplyAsFlt(char a, LCharToFltFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);

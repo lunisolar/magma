@@ -195,6 +195,11 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		}
 	}
 
+	static void shovingAccept(boolean a1, boolean a2, boolean a3, LTriBoolConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3);
+	}
+
 	static void handlingAccept(boolean a1, boolean a2, boolean a3, LTriBoolConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);

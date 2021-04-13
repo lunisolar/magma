@@ -194,6 +194,11 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static byte shovingApplyAsByte(double a, LDblToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static byte handlingApplyAsByte(double a, LDblToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

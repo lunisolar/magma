@@ -194,6 +194,11 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static long shovingApplyAsLong(char a, LCharToLongFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a);
+	}
+
 	static long handlingApplyAsLong(char a, LCharToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);

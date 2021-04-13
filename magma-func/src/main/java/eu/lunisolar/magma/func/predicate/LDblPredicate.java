@@ -194,6 +194,11 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		}
 	}
 
+	static boolean shovingTest(double a, LDblPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a);
+	}
+
 	static boolean handlingTest(double a, LDblPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);

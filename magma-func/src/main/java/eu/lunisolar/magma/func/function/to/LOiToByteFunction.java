@@ -196,6 +196,11 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		}
 	}
 
+	static <T> byte shovingApplyAsByte(T a1, int a2, LOiToByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a1, a2);
+	}
+
 	static <T> byte handlingApplyAsByte(T a1, int a2, LOiToByteFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a1, a2, handling);

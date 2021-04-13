@@ -197,6 +197,11 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		}
 	}
 
+	static <T> void shovingAccept(T a1, long a2, LObjLongConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2);
+	}
+
 	static <T> void handlingAccept(T a1, long a2, LObjLongConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, handling);

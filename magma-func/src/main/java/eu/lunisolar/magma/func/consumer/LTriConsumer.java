@@ -195,6 +195,11 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
+	static <T1, T2, T3> void shovingAccept(T1 a1, T2 a2, T3 a3, LTriConsumer<T1, T2, T3> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3);
+	}
+
 	static <T1, T2, T3> void handlingAccept(T1 a1, T2 a2, T3 a3, LTriConsumer<T1, T2, T3> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);

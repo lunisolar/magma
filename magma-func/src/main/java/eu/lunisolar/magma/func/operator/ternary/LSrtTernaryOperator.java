@@ -194,6 +194,11 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		}
 	}
 
+	static short shovingApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a1, a2, a3);
+	}
+
 	static short handlingApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a1, a2, a3, handling);

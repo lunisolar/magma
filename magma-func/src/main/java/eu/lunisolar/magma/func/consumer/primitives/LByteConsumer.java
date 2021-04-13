@@ -195,6 +195,11 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		}
 	}
 
+	static void shovingAccept(byte a, LByteConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(byte a, LByteConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

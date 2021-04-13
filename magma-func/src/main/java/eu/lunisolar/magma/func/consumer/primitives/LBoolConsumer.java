@@ -195,6 +195,11 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		}
 	}
 
+	static void shovingAccept(boolean a, LBoolConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(boolean a, LBoolConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

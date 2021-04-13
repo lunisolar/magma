@@ -194,6 +194,11 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
+	static <T1, T2, T3, T4, T5> boolean shovingTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3, a4, a5);
+	}
+
 	static <T1, T2, T3, T4, T5> boolean handlingTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, a4, a5, handling);

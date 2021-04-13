@@ -194,6 +194,11 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static char shovingApplyAsChar(double a, LDblToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(double a, LDblToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

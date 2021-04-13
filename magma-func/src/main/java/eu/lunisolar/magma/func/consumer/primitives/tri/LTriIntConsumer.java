@@ -195,6 +195,11 @@ public interface LTriIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		}
 	}
 
+	static void shovingAccept(int a1, int a2, int a3, LTriIntConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3);
+	}
+
 	static void handlingAccept(int a1, int a2, int a3, LTriIntConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);

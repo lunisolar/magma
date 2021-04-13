@@ -195,6 +195,11 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static <R> R shovingApply(char a1, char a2, LBiCharFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <R> R handlingApply(char a1, char a2, LBiCharFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

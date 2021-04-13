@@ -194,6 +194,11 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
+	static boolean shovingTest(char a1, char a2, char a3, LTriCharPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3);
+	}
+
 	static boolean handlingTest(char a1, char a2, char a3, LTriCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);

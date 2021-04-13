@@ -194,6 +194,11 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static short shovingApplyAsSrt(int a, LIntToSrtFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a);
+	}
+
 	static short handlingApplyAsSrt(int a, LIntToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);

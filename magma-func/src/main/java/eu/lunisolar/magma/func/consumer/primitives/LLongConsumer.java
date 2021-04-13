@@ -195,6 +195,11 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		}
 	}
 
+	static void shovingAccept(long a, LLongConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(long a, LLongConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

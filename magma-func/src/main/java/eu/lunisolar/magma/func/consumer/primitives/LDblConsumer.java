@@ -195,6 +195,11 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		}
 	}
 
+	static void shovingAccept(double a, LDblConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(double a, LDblConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

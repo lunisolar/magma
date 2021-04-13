@@ -204,6 +204,11 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		}
 	}
 
+	static double shovingApplyAsDbl(double a1, double a2, LDblBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a1, a2);
+	}
+
 	static double handlingApplyAsDbl(double a1, double a2, LDblBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a1, a2, handling);

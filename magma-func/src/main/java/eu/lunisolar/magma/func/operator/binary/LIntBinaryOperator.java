@@ -194,6 +194,11 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		}
 	}
 
+	static int shovingApplyAsInt(int a1, int a2, LIntBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a1, a2);
+	}
+
 	static int handlingApplyAsInt(int a1, int a2, LIntBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, handling);

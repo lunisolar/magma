@@ -206,6 +206,11 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		}
 	}
 
+	static <T> double shovingApplyAsDbl(T a, LToDblFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a);
+	}
+
 	static <T> double handlingApplyAsDbl(T a, LToDblFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);

@@ -194,6 +194,11 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		}
 	}
 
+	static <T1, T2> short shovingApplyAsSrt(T1 a1, T2 a2, LToSrtBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a1, a2);
+	}
+
 	static <T1, T2> short handlingApplyAsSrt(T1 a1, T2 a2, LToSrtBiFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a1, a2, handling);

@@ -195,6 +195,11 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		}
 	}
 
+	static <R> R shovingApply(float a, LFltFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static <R> R handlingApply(float a, LFltFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

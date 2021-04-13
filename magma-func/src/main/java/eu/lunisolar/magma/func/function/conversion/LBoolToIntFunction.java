@@ -194,6 +194,11 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static int shovingApplyAsInt(boolean a, LBoolToIntFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(boolean a, LBoolToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

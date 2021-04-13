@@ -194,6 +194,11 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		}
 	}
 
+	static boolean shovingTest(char a1, char a2, LBiCharPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2);
+	}
+
 	static boolean handlingTest(char a1, char a2, LBiCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, handling);

@@ -179,6 +179,11 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		}
 	}
 
+	static <T> T shovingApply(T a1, T a2, LBinaryOperator<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <T> T handlingApply(T a1, T a2, LBinaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

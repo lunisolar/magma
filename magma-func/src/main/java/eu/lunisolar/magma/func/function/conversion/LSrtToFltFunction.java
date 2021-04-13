@@ -194,6 +194,11 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static float shovingApplyAsFlt(short a, LSrtToFltFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a);
+	}
+
 	static float handlingApplyAsFlt(short a, LSrtToFltFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);

@@ -197,6 +197,11 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		}
 	}
 
+	static <T1, T2> void shovingAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2);
+	}
+
 	static <T1, T2> void handlingAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, handling);

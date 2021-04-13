@@ -192,6 +192,11 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		}
 	}
 
+	static float shovingGetAsFlt(LFltSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsFlt();
+	}
+
 	static float handlingGetAsFlt(LFltSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsFlt(handling);

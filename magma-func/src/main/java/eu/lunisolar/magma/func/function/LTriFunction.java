@@ -195,6 +195,11 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		}
 	}
 
+	static <T1, T2, T3, R> R shovingApply(T1 a1, T2 a2, T3 a3, LTriFunction<T1, T2, T3, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2, a3);
+	}
+
 	static <T1, T2, T3, R> R handlingApply(T1 a1, T2 a2, T3 a3, LTriFunction<T1, T2, T3, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);

@@ -194,6 +194,11 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static byte shovingApplyAsByte(short a, LSrtToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static byte handlingApplyAsByte(short a, LSrtToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

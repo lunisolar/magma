@@ -194,6 +194,11 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static long shovingApplyAsLong(boolean a, LBoolToLongFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a);
+	}
+
 	static long handlingApplyAsLong(boolean a, LBoolToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);

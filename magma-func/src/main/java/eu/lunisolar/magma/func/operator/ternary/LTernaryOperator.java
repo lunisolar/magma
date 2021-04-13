@@ -179,6 +179,11 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		}
 	}
 
+	static <T> T shovingApply(T a1, T a2, T a3, LTernaryOperator<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2, a3);
+	}
+
 	static <T> T handlingApply(T a1, T a2, T a3, LTernaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);

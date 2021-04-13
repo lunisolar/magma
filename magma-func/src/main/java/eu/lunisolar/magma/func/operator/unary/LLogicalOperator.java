@@ -194,6 +194,11 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		}
 	}
 
+	static boolean shovingApply(boolean a, LLogicalOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static boolean handlingApply(boolean a, LLogicalOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

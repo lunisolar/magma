@@ -194,6 +194,11 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static char shovingApplyAsChar(int a, LIntToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(int a, LIntToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

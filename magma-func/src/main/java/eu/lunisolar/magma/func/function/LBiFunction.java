@@ -195,6 +195,11 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		}
 	}
 
+	static <T1, T2, R> R shovingApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <T1, T2, R> R handlingApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

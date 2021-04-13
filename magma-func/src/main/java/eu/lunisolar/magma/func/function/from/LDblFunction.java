@@ -195,6 +195,11 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		}
 	}
 
+	static <R> R shovingApply(double a, LDblFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static <R> R handlingApply(double a, LDblFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

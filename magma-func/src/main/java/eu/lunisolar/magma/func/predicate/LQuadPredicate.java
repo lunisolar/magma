@@ -194,6 +194,11 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		}
 	}
 
+	static <T1, T2, T3, T4> boolean shovingTest(T1 a1, T2 a2, T3 a3, T4 a4, LQuadPredicate<T1, T2, T3, T4> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3, a4);
+	}
+
 	static <T1, T2, T3, T4> boolean handlingTest(T1 a1, T2 a2, T3 a3, T4 a4, LQuadPredicate<T1, T2, T3, T4> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, a4, handling);

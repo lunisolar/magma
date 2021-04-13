@@ -194,6 +194,11 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static byte shovingApplyAsByte(boolean a, LBoolToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static byte handlingApplyAsByte(boolean a, LBoolToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

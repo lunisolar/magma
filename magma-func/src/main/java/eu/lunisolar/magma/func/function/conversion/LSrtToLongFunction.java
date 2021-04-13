@@ -194,6 +194,11 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static long shovingApplyAsLong(short a, LSrtToLongFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a);
+	}
+
 	static long handlingApplyAsLong(short a, LSrtToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);

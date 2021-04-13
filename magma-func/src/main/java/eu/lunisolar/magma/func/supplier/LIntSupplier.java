@@ -192,6 +192,11 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		}
 	}
 
+	static int shovingGetAsInt(LIntSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsInt();
+	}
+
 	static int handlingGetAsInt(LIntSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsInt(handling);

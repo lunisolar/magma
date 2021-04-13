@@ -194,6 +194,11 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static char shovingApplyAsChar(float a, LFltToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(float a, LFltToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

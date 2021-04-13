@@ -194,6 +194,11 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static float shovingApplyAsFlt(double a, LDblToFltFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a);
+	}
+
 	static float handlingApplyAsFlt(double a, LDblToFltFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);

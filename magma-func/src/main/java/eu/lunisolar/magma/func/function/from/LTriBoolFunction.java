@@ -195,6 +195,11 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static <R> R shovingApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2, a3);
+	}
+
 	static <R> R handlingApply(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);

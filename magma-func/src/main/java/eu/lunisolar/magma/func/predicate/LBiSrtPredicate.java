@@ -194,6 +194,11 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		}
 	}
 
+	static boolean shovingTest(short a1, short a2, LBiSrtPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2);
+	}
+
 	static boolean handlingTest(short a1, short a2, LBiSrtPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, handling);

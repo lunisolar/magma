@@ -195,6 +195,11 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
+	static void shovingExecute(LAction func) {
+		Null.nonNullArg(func, "func");
+		func.shovingExecute();
+	}
+
 	static void handlingExecute(LAction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingExecute(handling);

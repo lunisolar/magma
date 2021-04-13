@@ -194,6 +194,11 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		}
 	}
 
+	static <T1, T2> float shovingApplyAsFlt(T1 a1, T2 a2, LToFltBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a1, a2);
+	}
+
 	static <T1, T2> float handlingApplyAsFlt(T1 a1, T2 a2, LToFltBiFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a1, a2, handling);

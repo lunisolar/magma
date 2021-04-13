@@ -195,6 +195,11 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static <R> R shovingApply(long a1, long a2, LBiLongFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <R> R handlingApply(long a1, long a2, LBiLongFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

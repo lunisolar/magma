@@ -194,6 +194,11 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static double shovingApplyAsDbl(boolean a, LBoolToDblFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a);
+	}
+
 	static double handlingApplyAsDbl(boolean a, LBoolToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);

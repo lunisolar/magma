@@ -194,6 +194,11 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		}
 	}
 
+	static boolean shovingTest(int a, LIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a);
+	}
+
 	static boolean handlingTest(int a, LIntPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);

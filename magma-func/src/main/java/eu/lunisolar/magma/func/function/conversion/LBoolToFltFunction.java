@@ -194,6 +194,11 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static float shovingApplyAsFlt(boolean a, LBoolToFltFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a);
+	}
+
 	static float handlingApplyAsFlt(boolean a, LBoolToFltFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);

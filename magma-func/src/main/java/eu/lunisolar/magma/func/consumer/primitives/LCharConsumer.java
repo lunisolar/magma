@@ -195,6 +195,11 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		}
 	}
 
+	static void shovingAccept(char a, LCharConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(char a, LCharConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

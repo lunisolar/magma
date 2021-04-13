@@ -194,6 +194,11 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		}
 	}
 
+	static <T1, T2> long shovingApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a1, a2);
+	}
+
 	static <T1, T2> long handlingApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a1, a2, handling);

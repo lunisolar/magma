@@ -192,6 +192,11 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		}
 	}
 
+	static long shovingGetAsLong(LLongSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsLong();
+	}
+
 	static long handlingGetAsLong(LLongSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsLong(handling);

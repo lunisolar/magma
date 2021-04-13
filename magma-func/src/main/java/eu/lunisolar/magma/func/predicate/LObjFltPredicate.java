@@ -194,6 +194,11 @@ public interface LObjFltPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		}
 	}
 
+	static <T> boolean shovingTest(T a1, float a2, LObjFltPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2);
+	}
+
 	static <T> boolean handlingTest(T a1, float a2, LObjFltPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, handling);

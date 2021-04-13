@@ -194,6 +194,11 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		}
 	}
 
+	static boolean shovingApply(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2, a3);
+	}
+
 	static boolean handlingApply(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);

@@ -204,6 +204,11 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		}
 	}
 
+	static <T1, T2> double shovingApplyAsDbl(T1 a1, T2 a2, LToDblBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a1, a2);
+	}
+
 	static <T1, T2> double handlingApplyAsDbl(T1 a1, T2 a2, LToDblBiFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a1, a2, handling);

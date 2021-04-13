@@ -195,6 +195,11 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		}
 	}
 
+	static void shovingAccept(short a1, short a2, short a3, LTriSrtConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3);
+	}
+
 	static void handlingAccept(short a1, short a2, short a3, LTriSrtConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);

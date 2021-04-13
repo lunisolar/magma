@@ -196,6 +196,11 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		}
 	}
 
+	static <T> long shovingApplyAsLong(T a1, int a2, LOiToLongFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a1, a2);
+	}
+
 	static <T> long handlingApplyAsLong(T a1, int a2, LOiToLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a1, a2, handling);

@@ -202,6 +202,11 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		}
 	}
 
+	static double shovingGetAsDbl(LDblSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsDbl();
+	}
+
 	static double handlingGetAsDbl(LDblSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsDbl(handling);

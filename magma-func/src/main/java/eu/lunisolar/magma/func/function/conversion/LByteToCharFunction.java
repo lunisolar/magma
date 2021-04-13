@@ -194,6 +194,11 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static char shovingApplyAsChar(byte a, LByteToCharFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(byte a, LByteToCharFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

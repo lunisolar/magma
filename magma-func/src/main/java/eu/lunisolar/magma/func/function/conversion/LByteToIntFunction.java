@@ -194,6 +194,11 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static int shovingApplyAsInt(byte a, LByteToIntFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(byte a, LByteToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

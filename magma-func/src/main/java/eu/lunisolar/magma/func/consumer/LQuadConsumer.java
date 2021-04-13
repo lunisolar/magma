@@ -195,6 +195,11 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		}
 	}
 
+	static <T1, T2, T3, T4> void shovingAccept(T1 a1, T2 a2, T3 a3, T4 a4, LQuadConsumer<T1, T2, T3, T4> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3, a4);
+	}
+
 	static <T1, T2, T3, T4> void handlingAccept(T1 a1, T2 a2, T3 a3, T4 a4, LQuadConsumer<T1, T2, T3, T4> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, a4, handling);

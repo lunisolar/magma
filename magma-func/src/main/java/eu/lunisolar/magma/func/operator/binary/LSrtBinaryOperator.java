@@ -194,6 +194,11 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		}
 	}
 
+	static short shovingApplyAsSrt(short a1, short a2, LSrtBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a1, a2);
+	}
+
 	static short handlingApplyAsSrt(short a1, short a2, LSrtBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a1, a2, handling);

@@ -193,6 +193,11 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
+	static <T> T shovingGet(LSupplier<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGet();
+	}
+
 	static <T> T handlingGet(LSupplier<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGet(handling);

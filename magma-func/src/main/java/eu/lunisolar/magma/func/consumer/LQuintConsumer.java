@@ -195,6 +195,11 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		}
 	}
 
+	static <T1, T2, T3, T4, T5> void shovingAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3, a4, a5);
+	}
+
 	static <T1, T2, T3, T4, T5> void handlingAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, a4, a5, handling);

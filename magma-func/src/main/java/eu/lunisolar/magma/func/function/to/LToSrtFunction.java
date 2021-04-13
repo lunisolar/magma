@@ -196,6 +196,11 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static <T> short shovingApplyAsSrt(T a, LToSrtFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a);
+	}
+
 	static <T> short handlingApplyAsSrt(T a, LToSrtFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);

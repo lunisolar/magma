@@ -195,6 +195,11 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		}
 	}
 
+	static void shovingAccept(int a, LIntConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(int a, LIntConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

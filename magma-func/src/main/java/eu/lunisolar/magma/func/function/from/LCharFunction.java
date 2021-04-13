@@ -195,6 +195,11 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		}
 	}
 
+	static <R> R shovingApply(char a, LCharFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static <R> R handlingApply(char a, LCharFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

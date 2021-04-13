@@ -194,6 +194,11 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		}
 	}
 
+	static boolean shovingTest(short a, LSrtPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a);
+	}
+
 	static boolean handlingTest(short a, LSrtPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);

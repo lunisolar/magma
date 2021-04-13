@@ -195,6 +195,11 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		}
 	}
 
+	static void shovingAccept(short a, LSrtConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(short a, LSrtConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

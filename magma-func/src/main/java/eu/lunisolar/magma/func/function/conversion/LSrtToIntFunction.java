@@ -194,6 +194,11 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static int shovingApplyAsInt(short a, LSrtToIntFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(short a, LSrtToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

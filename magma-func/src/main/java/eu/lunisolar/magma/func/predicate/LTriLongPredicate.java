@@ -194,6 +194,11 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
+	static boolean shovingTest(long a1, long a2, long a3, LTriLongPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3);
+	}
+
 	static boolean handlingTest(long a1, long a2, long a3, LTriLongPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);

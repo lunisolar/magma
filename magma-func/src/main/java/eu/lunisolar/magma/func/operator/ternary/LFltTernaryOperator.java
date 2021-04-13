@@ -194,6 +194,11 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		}
 	}
 
+	static float shovingApplyAsFlt(float a1, float a2, float a3, LFltTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a1, a2, a3);
+	}
+
 	static float handlingApplyAsFlt(float a1, float a2, float a3, LFltTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a1, a2, a3, handling);

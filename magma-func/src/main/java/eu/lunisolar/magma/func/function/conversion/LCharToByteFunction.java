@@ -194,6 +194,11 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static byte shovingApplyAsByte(char a, LCharToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static byte handlingApplyAsByte(char a, LCharToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

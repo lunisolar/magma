@@ -194,6 +194,11 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static short shovingApplyAsSrt(boolean a, LBoolToSrtFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a);
+	}
+
 	static short handlingApplyAsSrt(boolean a, LBoolToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);

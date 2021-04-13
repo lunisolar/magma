@@ -204,6 +204,11 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 		}
 	}
 
+	static double shovingApplyAsDbl(long a, LLongToDblFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a);
+	}
+
 	static double handlingApplyAsDbl(long a, LLongToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);

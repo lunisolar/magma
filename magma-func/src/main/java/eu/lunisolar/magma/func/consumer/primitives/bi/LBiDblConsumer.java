@@ -195,6 +195,11 @@ public interface LBiDblConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		}
 	}
 
+	static void shovingAccept(double a1, double a2, LBiDblConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2);
+	}
+
 	static void handlingAccept(double a1, double a2, LBiDblConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, handling);

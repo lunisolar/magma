@@ -194,6 +194,11 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		}
 	}
 
+	static boolean shovingApply(boolean a1, boolean a2, LLogicalBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static boolean handlingApply(boolean a1, boolean a2, LLogicalBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

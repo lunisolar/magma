@@ -196,6 +196,11 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static <T> int shovingApplyAsInt(T a1, int a2, LOiToIntFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a1, a2);
+	}
+
 	static <T> int handlingApplyAsInt(T a1, int a2, LOiToIntFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, handling);

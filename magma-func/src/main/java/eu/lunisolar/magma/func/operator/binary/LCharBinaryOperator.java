@@ -194,6 +194,11 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		}
 	}
 
+	static char shovingApplyAsChar(char a1, char a2, LCharBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a1, a2);
+	}
+
 	static char handlingApplyAsChar(char a1, char a2, LCharBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a1, a2, handling);

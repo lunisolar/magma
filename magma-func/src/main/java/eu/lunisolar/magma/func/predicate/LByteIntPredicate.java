@@ -194,6 +194,11 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		}
 	}
 
+	static boolean shovingTest(byte a1, int a2, LByteIntPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2);
+	}
+
 	static boolean handlingTest(byte a1, int a2, LByteIntPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, handling);

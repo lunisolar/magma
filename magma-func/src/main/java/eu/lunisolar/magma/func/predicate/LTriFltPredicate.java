@@ -194,6 +194,11 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		}
 	}
 
+	static boolean shovingTest(float a1, float a2, float a3, LTriFltPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3);
+	}
+
 	static boolean handlingTest(float a1, float a2, float a3, LTriFltPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);

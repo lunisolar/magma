@@ -194,6 +194,11 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		}
 	}
 
+	static <T1, T2> boolean shovingTest(T1 a1, int a2, T2 a3, LObjIntObjPredicate<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3);
+	}
+
 	static <T1, T2> boolean handlingTest(T1 a1, int a2, T2 a3, LObjIntObjPredicate<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);

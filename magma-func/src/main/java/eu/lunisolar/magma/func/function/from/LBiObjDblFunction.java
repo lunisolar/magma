@@ -195,6 +195,11 @@ public interface LBiObjDblFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		}
 	}
 
+	static <T1, T2, R> R shovingApply(T1 a1, T2 a2, double a3, LBiObjDblFunction<T1, T2, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2, a3);
+	}
+
 	static <T1, T2, R> R handlingApply(T1 a1, T2 a2, double a3, LBiObjDblFunction<T1, T2, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);

@@ -195,6 +195,11 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		}
 	}
 
+	static void shovingAccept(long a1, int a2, LLongIntConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2);
+	}
+
 	static void handlingAccept(long a1, int a2, LLongIntConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, handling);

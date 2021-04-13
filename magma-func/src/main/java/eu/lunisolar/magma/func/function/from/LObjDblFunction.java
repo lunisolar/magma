@@ -195,6 +195,11 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		}
 	}
 
+	static <T, R> R shovingApply(T a1, double a2, LObjDblFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <T, R> R handlingApply(T a1, double a2, LObjDblFunction<T, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

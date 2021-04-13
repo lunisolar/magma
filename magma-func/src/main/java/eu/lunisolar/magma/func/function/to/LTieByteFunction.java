@@ -196,6 +196,11 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static <T> int shovingApplyAsInt(T a1, int a2, byte a3, LTieByteFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a1, a2, a3);
+	}
+
 	static <T> int handlingApplyAsInt(T a1, int a2, byte a3, LTieByteFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, a3, handling);

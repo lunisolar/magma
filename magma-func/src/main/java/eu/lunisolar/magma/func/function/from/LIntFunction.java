@@ -195,6 +195,11 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		}
 	}
 
+	static <R> R shovingApply(int a, LIntFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static <R> R handlingApply(int a, LIntFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

@@ -196,6 +196,11 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		}
 	}
 
+	static <T> char shovingApplyAsChar(T a1, int a2, LOiToCharFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a1, a2);
+	}
+
 	static <T> char handlingApplyAsChar(T a1, int a2, LOiToCharFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a1, a2, handling);

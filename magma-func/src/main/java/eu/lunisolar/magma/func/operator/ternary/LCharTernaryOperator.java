@@ -194,6 +194,11 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		}
 	}
 
+	static char shovingApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a1, a2, a3);
+	}
+
 	static char handlingApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a1, a2, a3, handling);

@@ -194,6 +194,11 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static int shovingApplyAsInt(char a, LCharToIntFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(char a, LCharToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

@@ -194,6 +194,11 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		}
 	}
 
+	static long shovingApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a1, a2, a3);
+	}
+
 	static long handlingApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a1, a2, a3, handling);

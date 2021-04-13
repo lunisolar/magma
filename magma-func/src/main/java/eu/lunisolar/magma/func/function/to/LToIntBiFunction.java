@@ -194,6 +194,11 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		}
 	}
 
+	static <T1, T2> int shovingApplyAsInt(T1 a1, T2 a2, LToIntBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a1, a2);
+	}
+
 	static <T1, T2> int handlingApplyAsInt(T1 a1, T2 a2, LToIntBiFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, handling);

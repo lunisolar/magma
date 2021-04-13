@@ -204,6 +204,11 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		}
 	}
 
+	static double shovingApplyAsDbl(double a, LDblUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a);
+	}
+
 	static double handlingApplyAsDbl(double a, LDblUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);

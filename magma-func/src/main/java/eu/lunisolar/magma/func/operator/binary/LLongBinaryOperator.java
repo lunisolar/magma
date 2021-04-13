@@ -194,6 +194,11 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		}
 	}
 
+	static long shovingApplyAsLong(long a1, long a2, LLongBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a1, a2);
+	}
+
 	static long handlingApplyAsLong(long a1, long a2, LLongBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a1, a2, handling);

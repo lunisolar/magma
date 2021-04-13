@@ -194,6 +194,11 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static byte shovingApplyAsByte(int a, LIntToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static byte handlingApplyAsByte(int a, LIntToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

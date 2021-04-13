@@ -194,6 +194,11 @@ public interface LObjIntSrtPredicate<T> extends MetaPredicate, MetaInterface.Non
 		}
 	}
 
+	static <T> boolean shovingTest(T a1, int a2, short a3, LObjIntSrtPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3);
+	}
+
 	static <T> boolean handlingTest(T a1, int a2, short a3, LObjIntSrtPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);

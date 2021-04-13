@@ -195,6 +195,11 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static <R> R shovingApply(boolean a1, boolean a2, LBiBoolFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <R> R handlingApply(boolean a1, boolean a2, LBiBoolFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

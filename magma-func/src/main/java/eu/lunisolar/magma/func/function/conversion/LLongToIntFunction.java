@@ -194,6 +194,11 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 		}
 	}
 
+	static int shovingApplyAsInt(long a, LLongToIntFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(long a, LLongToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

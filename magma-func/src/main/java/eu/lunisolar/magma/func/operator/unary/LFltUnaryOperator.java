@@ -194,6 +194,11 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		}
 	}
 
+	static float shovingApplyAsFlt(float a, LFltUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a);
+	}
+
 	static float handlingApplyAsFlt(float a, LFltUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);

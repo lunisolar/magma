@@ -194,6 +194,11 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		}
 	}
 
+	static char shovingApplyAsChar(char a, LCharUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsChar(a);
+	}
+
 	static char handlingApplyAsChar(char a, LCharUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);

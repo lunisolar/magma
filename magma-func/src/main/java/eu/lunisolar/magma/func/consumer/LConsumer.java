@@ -195,6 +195,11 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		}
 	}
 
+	static <T> void shovingAccept(T a, LConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static <T> void handlingAccept(T a, LConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

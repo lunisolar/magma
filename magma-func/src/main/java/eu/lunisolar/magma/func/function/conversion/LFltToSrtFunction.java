@@ -194,6 +194,11 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static short shovingApplyAsSrt(float a, LFltToSrtFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a);
+	}
+
 	static short handlingApplyAsSrt(float a, LFltToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);

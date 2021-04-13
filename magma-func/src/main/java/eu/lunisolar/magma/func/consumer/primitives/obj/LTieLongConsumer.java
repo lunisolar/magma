@@ -197,6 +197,11 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		}
 	}
 
+	static <T> void shovingAccept(T a1, int a2, long a3, LTieLongConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3);
+	}
+
 	static <T> void handlingAccept(T a1, int a2, long a3, LTieLongConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);

@@ -192,6 +192,11 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		}
 	}
 
+	static byte shovingGetAsByte(LByteSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsByte();
+	}
+
 	static byte handlingGetAsByte(LByteSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsByte(handling);

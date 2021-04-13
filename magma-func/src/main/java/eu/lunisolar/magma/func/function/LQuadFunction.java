@@ -195,6 +195,11 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		}
 	}
 
+	static <T1, T2, T3, T4, R> R shovingApply(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2, a3, a4);
+	}
+
 	static <T1, T2, T3, T4, R> R handlingApply(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, a4, handling);

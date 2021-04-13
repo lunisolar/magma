@@ -195,6 +195,11 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static <R> R shovingApply(float a1, float a2, LBiFltFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <R> R handlingApply(float a1, float a2, LBiFltFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

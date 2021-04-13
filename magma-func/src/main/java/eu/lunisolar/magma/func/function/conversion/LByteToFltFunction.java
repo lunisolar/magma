@@ -194,6 +194,11 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static float shovingApplyAsFlt(byte a, LByteToFltFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a);
+	}
+
 	static float handlingApplyAsFlt(byte a, LByteToFltFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);

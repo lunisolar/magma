@@ -196,6 +196,11 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		}
 	}
 
+	static <T> int shovingApplyAsInt(T a, LToIntFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static <T> int handlingApplyAsInt(T a, LToIntFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

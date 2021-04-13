@@ -194,6 +194,11 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		}
 	}
 
+	static byte shovingApplyAsByte(byte a1, byte a2, LByteBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a1, a2);
+	}
+
 	static byte handlingApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a1, a2, handling);

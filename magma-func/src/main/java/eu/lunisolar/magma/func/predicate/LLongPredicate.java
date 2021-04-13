@@ -194,6 +194,11 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		}
 	}
 
+	static boolean shovingTest(long a, LLongPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a);
+	}
+
 	static boolean handlingTest(long a, LLongPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);

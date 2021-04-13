@@ -194,6 +194,11 @@ public interface LLongToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static short shovingApplyAsSrt(long a, LLongToSrtFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a);
+	}
+
 	static short handlingApplyAsSrt(long a, LLongToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);

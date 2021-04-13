@@ -194,6 +194,11 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		}
 	}
 
+	static long shovingApplyAsLong(long a, LLongUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a);
+	}
+
 	static long handlingApplyAsLong(long a, LLongUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);

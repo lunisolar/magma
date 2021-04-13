@@ -196,6 +196,11 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		}
 	}
 
+	static <T> long shovingApplyAsLong(T a, LToLongFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsLong(a);
+	}
+
 	static <T> long handlingApplyAsLong(T a, LToLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);

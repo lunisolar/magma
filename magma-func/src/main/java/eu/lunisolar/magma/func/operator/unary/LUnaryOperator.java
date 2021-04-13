@@ -181,6 +181,11 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		}
 	}
 
+	static <T> T shovingApply(T a, LUnaryOperator<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static <T> T handlingApply(T a, LUnaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

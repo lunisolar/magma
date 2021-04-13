@@ -194,6 +194,11 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		}
 	}
 
+	static <T> boolean shovingTest(T a1, long a2, LObjLongPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2);
+	}
+
 	static <T> boolean handlingTest(T a1, long a2, LObjLongPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, handling);

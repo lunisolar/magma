@@ -195,6 +195,11 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		}
 	}
 
+	static <T, R> R shovingApply(T a1, long a2, LObjLongFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <T, R> R handlingApply(T a1, long a2, LObjLongFunction<T, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

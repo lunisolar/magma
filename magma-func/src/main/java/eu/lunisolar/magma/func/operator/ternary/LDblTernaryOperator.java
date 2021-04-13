@@ -194,6 +194,11 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		}
 	}
 
+	static double shovingApplyAsDbl(double a1, double a2, double a3, LDblTernaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a1, a2, a3);
+	}
+
 	static double handlingApplyAsDbl(double a1, double a2, double a3, LDblTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a1, a2, a3, handling);

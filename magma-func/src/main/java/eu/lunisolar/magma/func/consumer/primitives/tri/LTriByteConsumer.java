@@ -195,6 +195,11 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		}
 	}
 
+	static void shovingAccept(byte a1, byte a2, byte a3, LTriByteConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3);
+	}
+
 	static void handlingAccept(byte a1, byte a2, byte a3, LTriByteConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);

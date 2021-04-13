@@ -192,6 +192,11 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		}
 	}
 
+	static short shovingGetAsSrt(LSrtSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsSrt();
+	}
+
 	static short handlingGetAsSrt(LSrtSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsSrt(handling);

@@ -194,6 +194,11 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static byte shovingApplyAsByte(long a, LLongToByteFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static byte handlingApplyAsByte(long a, LLongToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

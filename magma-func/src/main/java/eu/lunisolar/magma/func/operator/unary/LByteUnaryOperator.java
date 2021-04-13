@@ -194,6 +194,11 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		}
 	}
 
+	static byte shovingApplyAsByte(byte a, LByteUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a);
+	}
+
 	static byte handlingApplyAsByte(byte a, LByteUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);

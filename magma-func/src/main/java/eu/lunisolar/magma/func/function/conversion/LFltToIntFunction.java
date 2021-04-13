@@ -194,6 +194,11 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static int shovingApplyAsInt(float a, LFltToIntFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a);
+	}
+
 	static int handlingApplyAsInt(float a, LFltToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);

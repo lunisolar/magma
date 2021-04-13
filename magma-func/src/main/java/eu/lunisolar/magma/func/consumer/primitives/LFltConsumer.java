@@ -195,6 +195,11 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		}
 	}
 
+	static void shovingAccept(float a, LFltConsumer func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a);
+	}
+
 	static void handlingAccept(float a, LFltConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);

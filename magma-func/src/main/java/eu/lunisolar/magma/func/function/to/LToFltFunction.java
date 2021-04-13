@@ -196,6 +196,11 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static <T> float shovingApplyAsFlt(T a, LToFltFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a);
+	}
+
 	static <T> float handlingApplyAsFlt(T a, LToFltFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);

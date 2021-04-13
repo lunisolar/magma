@@ -194,6 +194,11 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		}
 	}
 
+	static <T> boolean shovingTest(T a1, int a2, int a3, LObjBiIntPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3);
+	}
+
 	static <T> boolean handlingTest(T a1, int a2, int a3, LObjBiIntPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);

@@ -195,6 +195,11 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		}
 	}
 
+	static <T1, T2, T3, T4, T5, R> R shovingApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2, a3, a4, a5);
+	}
+
 	static <T1, T2, T3, T4, T5, R> R handlingApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, a4, a5, handling);

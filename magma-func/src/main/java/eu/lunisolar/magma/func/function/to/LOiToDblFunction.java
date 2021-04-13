@@ -196,6 +196,11 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		}
 	}
 
+	static <T> double shovingApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a1, a2);
+	}
+
 	static <T> double handlingApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a1, a2, handling);

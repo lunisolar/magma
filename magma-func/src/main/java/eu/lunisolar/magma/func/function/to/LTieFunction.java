@@ -196,6 +196,11 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 		}
 	}
 
+	static <T1, T2> int shovingApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a1, a2, a3);
+	}
+
 	static <T1, T2> int handlingApplyAsInt(T1 a1, int a2, T2 a3, LTieFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, a3, handling);

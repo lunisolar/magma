@@ -195,6 +195,11 @@ public interface LBiObjLongConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 		}
 	}
 
+	static <T1, T2> void shovingAccept(T1 a1, T2 a2, long a3, LBiObjLongConsumer<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2, a3);
+	}
+
 	static <T1, T2> void handlingAccept(T1 a1, T2 a2, long a3, LBiObjLongConsumer<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);

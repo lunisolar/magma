@@ -194,6 +194,11 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		}
 	}
 
+	static short shovingApplyAsSrt(short a, LSrtUnaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a);
+	}
+
 	static short handlingApplyAsSrt(short a, LSrtUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);

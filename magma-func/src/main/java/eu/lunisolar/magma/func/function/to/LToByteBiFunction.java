@@ -194,6 +194,11 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		}
 	}
 
+	static <T1, T2> byte shovingApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsByte(a1, a2);
+	}
+
 	static <T1, T2> byte handlingApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a1, a2, handling);

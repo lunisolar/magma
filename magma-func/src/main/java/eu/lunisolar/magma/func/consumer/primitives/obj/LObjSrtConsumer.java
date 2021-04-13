@@ -197,6 +197,11 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		}
 	}
 
+	static <T> void shovingAccept(T a1, short a2, LObjSrtConsumer<T> func) {
+		Null.nonNullArg(func, "func");
+		func.shovingAccept(a1, a2);
+	}
+
 	static <T> void handlingAccept(T a1, short a2, LObjSrtConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, handling);

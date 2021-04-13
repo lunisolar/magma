@@ -194,6 +194,11 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		}
 	}
 
+	static <T1, T2, T3> boolean shovingTest(T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a1, a2, a3);
+	}
+
 	static <T1, T2, T3> boolean handlingTest(T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);

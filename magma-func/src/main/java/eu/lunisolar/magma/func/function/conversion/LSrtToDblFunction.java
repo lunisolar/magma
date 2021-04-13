@@ -194,6 +194,11 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static double shovingApplyAsDbl(short a, LSrtToDblFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a);
+	}
+
 	static double handlingApplyAsDbl(short a, LSrtToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);

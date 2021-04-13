@@ -195,6 +195,11 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		}
 	}
 
+	static <R> R shovingApply(byte a1, byte a2, LBiByteFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a1, a2);
+	}
+
 	static <R> R handlingApply(byte a1, byte a2, LBiByteFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);

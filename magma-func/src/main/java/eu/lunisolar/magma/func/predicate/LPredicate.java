@@ -196,6 +196,11 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
+	static <T> boolean shovingTest(T a, LPredicate<T> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a);
+	}
+
 	static <T> boolean handlingTest(T a, LPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);

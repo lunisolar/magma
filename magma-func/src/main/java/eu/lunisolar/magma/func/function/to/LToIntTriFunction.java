@@ -194,6 +194,11 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		}
 	}
 
+	static <T1, T2, T3> int shovingApplyAsInt(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsInt(a1, a2, a3);
+	}
+
 	static <T1, T2, T3> int handlingApplyAsInt(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, a3, handling);

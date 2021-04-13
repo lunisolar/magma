@@ -195,6 +195,11 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		}
 	}
 
+	static <R> R shovingApply(long a, LLongFunction<R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static <R> R handlingApply(long a, LLongFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

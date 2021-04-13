@@ -202,6 +202,11 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
+	static boolean shovingGetAsBool(LBoolSupplier func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingGetAsBool();
+	}
+
 	static boolean handlingGetAsBool(LBoolSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsBool(handling);

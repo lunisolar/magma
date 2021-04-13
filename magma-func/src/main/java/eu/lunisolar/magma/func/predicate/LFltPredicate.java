@@ -194,6 +194,11 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		}
 	}
 
+	static boolean shovingTest(float a, LFltPredicate func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingTest(a);
+	}
+
 	static boolean handlingTest(float a, LFltPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);

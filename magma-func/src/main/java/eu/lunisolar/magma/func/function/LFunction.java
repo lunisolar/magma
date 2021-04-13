@@ -197,6 +197,11 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
+	static <T, R> R shovingApply(T a, LFunction<T, R> func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApply(a);
+	}
+
 	static <T, R> R handlingApply(T a, LFunction<T, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);

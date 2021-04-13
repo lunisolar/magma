@@ -194,6 +194,11 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		}
 	}
 
+	static float shovingApplyAsFlt(float a1, float a2, LFltBinaryOperator func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsFlt(a1, a2);
+	}
+
 	static float handlingApplyAsFlt(float a1, float a2, LFltBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a1, a2, handling);

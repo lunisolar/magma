@@ -194,6 +194,11 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		}
 	}
 
+	static short shovingApplyAsSrt(double a, LDblToSrtFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsSrt(a);
+	}
+
 	static short handlingApplyAsSrt(double a, LDblToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);

@@ -204,6 +204,11 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 		}
 	}
 
+	static double shovingApplyAsDbl(int a, LIntToDblFunction func) {
+		Null.nonNullArg(func, "func");
+		return func.shovingApplyAsDbl(a);
+	}
+
 	static double handlingApplyAsDbl(int a, LIntToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);
