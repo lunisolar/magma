@@ -70,9 +70,14 @@ public interface ValueTrait<T, SELF extends ValueTrait<T, SELF>> extends FluentT
 		throw Handling.create(X::unsupported, "Trait implementation (%s) does not support empty value.", this.getClass().getSimpleName());
 	}
 
-	default SELF valueFrom(@Nonnull OptTrait<? extends T, ?> trait) {
-		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
+	default SELF valueFrom(@Nonnull ValueTrait<? extends T, ?> trait) {
+		return getClass().isInstance(trait) ? (SELF) trait : valueFromOther(trait);
 	}
+
+	private SELF valueFromOther(@Nonnull ValueTrait<? extends T,?> trait) {
+        var value = trait.nullable();
+        return (value == null) ? voidValue() : value(value);
+    }
 
 	default @Nonnull T nonnull() {
 		var value = value();

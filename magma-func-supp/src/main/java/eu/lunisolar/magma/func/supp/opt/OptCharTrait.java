@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -76,11 +77,6 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 	SELF voidValue();
 
 	// </editor-fold>
-
-	default @Nonnull SELF valueFrom(@Nonnull OptCharTrait<?> opt) {
-		Null.nonNullArg(opt, "opt");
-		return opt.isPresent() ? value(opt.value()) : voidValue();
-	}
 
 	char get();
 
@@ -490,27 +486,27 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 		return isPresent() ? OptLong.from(mapping.apply(a1, a2, get())) : OptLong.empty();
 	}
 
-	default @Nonnull <R> Opt<R> flatMapToObj(@Nonnull LCharFunction<? extends OptTrait<? extends R, ?>> mapping) {
+	default @Nonnull <R> Opt<R> flatMapToObj(@Nonnull LCharFunction<? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(get())) : Opt.empty();
 	}
 
-	default @Nonnull <R, K> Opt<R> flatMapToObj_(K a1, @Nonnull LObjCharFunction.LCharObjFunc<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
+	default @Nonnull <R, K> Opt<R> flatMapToObj_(K a1, @Nonnull LObjCharFunction.LCharObjFunc<? super K, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.applyCharObj(get(), a1)) : Opt.empty();
 	}
 
-	default @Nonnull <R, K> Opt<R> flatMapToObjWith(K a1, @Nonnull LObjCharFunction<? super K, ? extends OptTrait<? extends R, ?>> mapping) {
+	default @Nonnull <R, K> Opt<R> flatMapToObjWith(K a1, @Nonnull LObjCharFunction<? super K, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, get())) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2> Opt<R> flatMapToObj_(K1 a1, K2 a2, @Nonnull LBiObjCharFunction.LChar2Obj0Obj1Func<? super K1, ? super K2, ? extends OptTrait<? extends R, ?>> mapping) {
+	default @Nonnull <R, K1, K2> Opt<R> flatMapToObj_(K1 a1, K2 a2, @Nonnull LBiObjCharFunction.LChar2Obj0Obj1Func<? super K1, ? super K2, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.applyChar2Obj0Obj1(get(), a1, a2)) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2> Opt<R> flatMapToObjWith(K1 a1, K2 a2, @Nonnull LBiObjCharFunction<? super K1, ? super K2, ? extends OptTrait<? extends R, ?>> mapping) {
+	default @Nonnull <R, K1, K2> Opt<R> flatMapToObjWith(K1 a1, K2 a2, @Nonnull LBiObjCharFunction<? super K1, ? super K2, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, a2, get())) : Opt.empty();
 	}
@@ -716,6 +712,11 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 	default SELF orOpt(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return isPresent() ? self() : valueFrom(opt);
+	}
+
+	default SELF orValue(@Nonnull CharValueTrait<?> value) {
+		Null.nonNullArg(value, "value");
+		return isPresent() ? self() : value(value.value());
 	}
 
 	default <K> char orElseApply(K a1, @Nonnull LToCharFunction<? super K> supplier) {

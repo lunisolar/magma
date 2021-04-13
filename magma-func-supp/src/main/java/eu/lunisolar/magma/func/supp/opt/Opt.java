@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
@@ -96,9 +97,9 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		return Clazz.assuredClass(OptBool.class, opt, o -> o.isPresent() ? OptBool.of(o.get()) : OptBool.empty());
 	}
 
-	public static <T> Opt<T> from(@Nonnull OptTrait<? extends T, ?> opt) {
-		Null.nonNullArg(opt, "opt");
-		return Clazz.assuredClass(Opt.class, opt, o -> o.isPresent() ? Opt.of(o.get()) : Opt.empty());
+	public static <T> Opt<T> from(@Nonnull ValueTrait<? extends T, ?> source) {
+		Null.nonNullArg(source, "source");
+		return Clazz.assuredClass(Opt.class, source, o -> Opt.obj(source.nullable()));
 	}
 
 	public static OptByte from(@Nonnull OptByteTrait<?> opt) {
