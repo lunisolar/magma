@@ -68,16 +68,31 @@ public final class Clazz {
 		}
 	}
 
-	public static <T1, T2> void doFor(@Nonnull Class<T1> clazz, @Nullable Object instance, T2 t2, @Nonnull LBiConsumer<? super T1, ? super T2> function) {
+	public static <T, H1> void doFor(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, @Nonnull LBiConsumer<? super T, ? super H1> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(function, "function");
 		if (clazz.isInstance(instance)) {
-			function.accept((T1) instance, t2);
+			function.accept((T) instance, a2);
 		}
 	}
 
-	@Nullable
-	public static <T, R> R from(@Nonnull Class<T> clazz, @Nullable Object instance, @Nonnull LFunction<? super T, ? extends R> function) {
+	public static <T, H1, H2> void doFor(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, H2 a3, @Nonnull LTriConsumer<? super T, ? super H1, ? super H2> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		if (clazz.isInstance(instance)) {
+			function.accept((T) instance, a2, a3);
+		}
+	}
+
+	public static <T, H1, H2, H3> void doFor(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, H2 a3, H3 a4, @Nonnull LQuadConsumer<? super T, ? super H1, ? super H2, ? super H3> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		if (clazz.isInstance(instance)) {
+			function.accept((T) instance, a2, a3, a4);
+		}
+	}
+
+	public static @Nullable <T, R> R from(@Nonnull Class<T> clazz, @Nullable Object instance, @Nonnull LFunction<? super T, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(function, "function");
 		if (clazz.isInstance(instance)) {
@@ -86,54 +101,113 @@ public final class Clazz {
 		return null;
 	}
 
-	@Nullable
-	public static <T1, T2, R> R from(@Nonnull Class<T1> clazz, @Nullable Object instance, T2 t2, @Nonnull LBiFunction<? super T1, ? super T2, ? extends R> function) {
-		Null.nonNullArg(clazz, "clazz");
-		Null.nonNullArg(function, "function");
-		if (clazz.isInstance(instance)) {
-			return function.apply((T1) instance, t2);
-		}
-		return null;
-	}
-
-	public static <T, R> Opt<R> optionalFrom(@Nonnull Class<T> clazz, @Nullable Object instance, @Nonnull LFunction<? super T, ? extends R> function) {
+	public static @Nonnull <T, R> Opt<R> optionalFrom(@Nonnull Class<T> clazz, @Nullable Object instance, @Nonnull LFunction<? super T, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(function, "function");
 		return Opt.of(from(clazz, instance, function));
 	}
 
-	public static <T1, T2, R> Opt<R> optionalFrom(@Nonnull Class<T1> clazz, @Nullable Object instance, T2 t2, @Nonnull LBiFunction<? super T1, ? super T2, ? extends R> function) {
+	public static @Nullable <T, H1, R> R from(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, @Nonnull LBiFunction<? super T, ? super H1, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(function, "function");
-		return Opt.of(from(clazz, instance, t2, function));
+		if (clazz.isInstance(instance)) {
+			return function.apply((T) instance, a2);
+		}
+		return null;
+	}
+
+	public static @Nonnull <T, H1, R> Opt<R> optionalFrom(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, @Nonnull LBiFunction<? super T, ? super H1, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		return Opt.of(from(clazz, instance, a2, function));
+	}
+
+	public static @Nullable <T, H1, H2, R> R from(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, H2 a3, @Nonnull LTriFunction<? super T, ? super H1, ? super H2, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		if (clazz.isInstance(instance)) {
+			return function.apply((T) instance, a2, a3);
+		}
+		return null;
+	}
+
+	public static @Nonnull <T, H1, H2, R> Opt<R> optionalFrom(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, H2 a3, @Nonnull LTriFunction<? super T, ? super H1, ? super H2, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		return Opt.of(from(clazz, instance, a2, a3, function));
+	}
+
+	public static @Nullable <T, H1, H2, H3, R> R from(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, H2 a3, H3 a4, @Nonnull LQuadFunction<? super T, ? super H1, ? super H2, ? super H3, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		if (clazz.isInstance(instance)) {
+			return function.apply((T) instance, a2, a3, a4);
+		}
+		return null;
+	}
+
+	public static @Nonnull <T, H1, H2, H3, R> Opt<R> optionalFrom(@Nonnull Class<T> clazz, @Nullable Object instance, H1 a2, H2 a3, H3 a4, @Nonnull LQuadFunction<? super T, ? super H1, ? super H2, ? super H3, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		return Opt.of(from(clazz, instance, a2, a3, a4, function));
 	}
 
 	// <editor-fold desc="in some case's helps with compiler">
 
-	public static <T, R> R assuredClass(@Nonnull Class<R> clazz, @Nonnull T instance, @Nonnull LFunction<? super T, ? extends R> function) {
+	public static @Nonnull <T, R> R assuredClass(@Nonnull Class<R> clazz, @Nonnull T instance, @Nonnull LFunction<? super T, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(instance, "instance");
 		Null.nonNullArg(function, "function");
-		return clazz.isInstance(instance) ? (R) instance : function.apply(instance);
+		var retval = clazz.isInstance(instance) ? (R) instance : function.apply(instance);
+		return Objects.requireNonNull(retval);
 	}
 
-	public static <T, R> R optionalAssuredClass(@Nonnull Class<R> clazz, @Nullable T instance, @Nonnull LFunction<? super T, ? extends R> function) {
+	public static @Nullable <T, R> R nullableAssuredClass(@Nonnull Class<R> clazz, @Nullable T instance, @Nonnull LFunction<? super T, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(function, "function");
 		return instance == null ? null : assuredClass(clazz, instance, function);
 	}
 
-	public static <T, H, R> R assuredClass(@Nonnull Class<R> clazz, @Nonnull T instance, H helper, @Nonnull LBiFunction<? super T, ? super H, ? extends R> function) {
+	public static @Nonnull <T, H1, R> R assuredClass(@Nonnull Class<R> clazz, @Nonnull T instance, H1 a2, @Nonnull LBiFunction<? super T, ? super H1, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(instance, "instance");
 		Null.nonNullArg(function, "function");
-		return clazz.isInstance(instance) ? (R) instance : function.apply(instance, helper);
+		var retval = clazz.isInstance(instance) ? (R) instance : function.apply(instance, a2);
+		return Objects.requireNonNull(retval);
 	}
 
-	public static <T, H, R> R optionalAssuredClass(@Nonnull Class<R> clazz, @Nullable T instance, H helper, @Nonnull LBiFunction<? super T, ? super H, ? extends R> function) {
+	public static @Nullable <T, H1, R> R nullableAssuredClass(@Nonnull Class<R> clazz, @Nullable T instance, H1 a2, @Nonnull LBiFunction<? super T, ? super H1, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
 		Null.nonNullArg(function, "function");
-		return instance == null ? null : assuredClass(clazz, instance, helper, function);
+		return instance == null ? null : assuredClass(clazz, instance, a2, function);
+	}
+
+	public static @Nonnull <T, H1, H2, R> R assuredClass(@Nonnull Class<R> clazz, @Nonnull T instance, H1 a2, H2 a3, @Nonnull LTriFunction<? super T, ? super H1, ? super H2, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(instance, "instance");
+		Null.nonNullArg(function, "function");
+		var retval = clazz.isInstance(instance) ? (R) instance : function.apply(instance, a2, a3);
+		return Objects.requireNonNull(retval);
+	}
+
+	public static @Nullable <T, H1, H2, R> R nullableAssuredClass(@Nonnull Class<R> clazz, @Nullable T instance, H1 a2, H2 a3, @Nonnull LTriFunction<? super T, ? super H1, ? super H2, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		return instance == null ? null : assuredClass(clazz, instance, a2, a3, function);
+	}
+
+	public static @Nonnull <T, H1, H2, H3, R> R assuredClass(@Nonnull Class<R> clazz, @Nonnull T instance, H1 a2, H2 a3, H3 a4, @Nonnull LQuadFunction<? super T, ? super H1, ? super H2, ? super H3, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(instance, "instance");
+		Null.nonNullArg(function, "function");
+		var retval = clazz.isInstance(instance) ? (R) instance : function.apply(instance, a2, a3, a4);
+		return Objects.requireNonNull(retval);
+	}
+
+	public static @Nullable <T, H1, H2, H3, R> R nullableAssuredClass(@Nonnull Class<R> clazz, @Nullable T instance, H1 a2, H2 a3, H3 a4, @Nonnull LQuadFunction<? super T, ? super H1, ? super H2, ? super H3, ? extends R> function) {
+		Null.nonNullArg(clazz, "clazz");
+		Null.nonNullArg(function, "function");
+		return instance == null ? null : assuredClass(clazz, instance, a2, a3, a4, function);
 	}
 
 	// </editor-fold>
