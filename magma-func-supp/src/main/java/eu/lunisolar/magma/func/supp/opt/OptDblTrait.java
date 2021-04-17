@@ -545,18 +545,74 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return self();
 	}
 
-	default <K> SELF ifPresent_(K a1, @Nonnull LObjDblConsumer.LDblObjCons<? super K> action) {
+	default <K1> SELF ifPresent_(K1 a2, @Nonnull LObjDblConsumer.LDblObjCons<? super K1> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.acceptDblObj(get(), a1);
+			action.acceptDblObj(get(), a2);
 		}
 		return self();
 	}
 
-	default <K> SELF ifPresentWith(K a1, @Nonnull LObjDblConsumer<? super K> action) {
+	default <K1> SELF ifPresent_(K1 a2, @Nonnull LObjDblConsumer.LDblObjCons<? super K1> action, @Nonnull LAction emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.acceptDblObj(get(), a2);
+		} else {
+			emptyAction.execute();
+		}
+		return self();
+	}
+
+	default <K1, K2> SELF ifPresent_(K1 a2, K2 a3, @Nonnull LBiObjDblConsumer.LDbl2Obj0Obj1Cons<? super K1, ? super K2> action) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.acceptDbl2Obj0Obj1(get(), a2, a3);
+		}
+		return self();
+	}
+
+	default <K1, K2> SELF ifPresent_(K1 a2, K2 a3, @Nonnull LBiObjDblConsumer.LDbl2Obj0Obj1Cons<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.acceptDbl2Obj0Obj1(get(), a2, a3);
+		} else {
+			emptyAction.execute();
+		}
+		return self();
+	}
+
+	default SELF ifPresentWith(@Nonnull LDblConsumer action) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(get());
+		}
+		return self();
+	}
+
+	default SELF ifPresentWith(@Nonnull LDblConsumer action, @Nonnull LAction emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(get());
+		} else {
+			emptyAction.execute();
+		}
+		return self();
+	}
+
+	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LObjDblConsumer<? super K1> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(a1, get());
+		}
+		return self();
+	}
+
+	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LObjDblConsumer<? super K1> action, @Nonnull LAction emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, get());
+		} else {
+			emptyAction.execute();
 		}
 		return self();
 	}
@@ -565,6 +621,48 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(a1, a2, get());
+		}
+		return self();
+	}
+
+	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LBiObjDblConsumer<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, a2, get());
+		} else {
+			emptyAction.execute();
+		}
+		return self();
+	}
+
+	default SELF ifExists(@Nonnull LConsumer<? super SELF> action) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(self());
+		}
+		return self();
+	}
+
+	default <T2> SELF ifExists(T2 a2, @Nonnull LBiConsumer<? super SELF, ? super T2> action) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(self(), a2);
+		}
+		return self();
+	}
+
+	default <T2, T3> SELF ifExists(T2 a2, T3 a3, @Nonnull LTriConsumer<? super SELF, ? super T2, ? super T3> action) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(self(), a2, a3);
+		}
+		return self();
+	}
+
+	default <T2, T4, T5> SELF ifExists(T2 a2, T4 a3, T5 a4, @Nonnull LQuadConsumer<? super SELF, ? super T2, ? super T4, ? super T5> action) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(self(), a2, a3, a4);
 		}
 		return self();
 	}

@@ -141,8 +141,11 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		return value == null ? empty() : new Opt(value);
 	}
 
-	/** If you want to force Opt<T> */
 	public static <T> Opt<T> obj(@Nullable T value) {
+		return value == null ? empty() : new Opt(value);
+	}
+
+	public static <T> Opt<T> opt(@Nullable T value) {
 		return value == null ? empty() : new Opt(value);
 	}
 
