@@ -36,6 +36,8 @@ import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
+import static eu.lunisolar.magma.func.function.LBiFunction.tryApplyThen; //NOSONAR
+
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
@@ -244,4 +246,19 @@ public final class Clazz {
 	}
 
 	// </editor-fold>
+
+	// <editor-fold desc="enum">
+
+	public static @Nonnull <T extends Enum<T>> Opt<T> aEnum(@Nonnull Class<T> enumClazz, @Nullable Object rawValue, LFunction<Throwable, T> noMatchHandler) {
+		return Opt.obj(Clazz.nullableAssuredClass(enumClazz, rawValue, enumClazz, noMatchHandler, (rv, ec, nmh) -> Opt.obj(rv.toString()).filterAndMap(String.class).map(str -> tryApplyThen(ec, str, Enum::valueOf, nmh)).orElse(null)));
+	}
+
+	public static @Nonnull <T extends Enum<T>> T theEnum(@Nonnull Class<T> enumClazz, @Nullable Object rawValue) {
+		return aEnum(enumClazz, rawValue, x -> {
+			throw x;
+		}).orElseThrow(X::state, "No value found.");
+	}
+
+	// </editor-fold>
+
 }

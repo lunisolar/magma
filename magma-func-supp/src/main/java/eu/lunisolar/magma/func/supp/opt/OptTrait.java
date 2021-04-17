@@ -1269,6 +1269,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		throw Handling.create(fx, msg, param1, param2, param3);
 	}
 
+	@Override
 	default T orElse(@Nullable T value) {
 		return isPresent() ? get() : value;
 	}
