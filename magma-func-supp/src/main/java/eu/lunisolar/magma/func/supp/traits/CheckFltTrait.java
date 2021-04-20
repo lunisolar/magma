@@ -61,7 +61,7 @@ import static eu.lunisolar.magma.func.supp.traits.CheckTrait.*;
 import static java.lang.String.*; // NOSONAR
 import static eu.lunisolar.magma.func.supp.MsgVerbosity.*; // NOSONAR
 
-public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentTrait<SELF>, aValue<aFloat>, LFltSingle, FltValueTrait<SELF> {
+public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FluentTrait<SELF>, aValue<aFloat>, FltValueTrait<SELF> {
 
 	float get();
 

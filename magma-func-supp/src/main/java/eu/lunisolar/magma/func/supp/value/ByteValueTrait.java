@@ -55,7 +55,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface ByteValueTrait<SELF extends ByteValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aByte>, LByteSingle {
+public interface ByteValueTrait<SELF extends ByteValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aByte> {
+
+	byte value();
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).

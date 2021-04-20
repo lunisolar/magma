@@ -61,7 +61,7 @@ import static eu.lunisolar.magma.func.supp.traits.CheckTrait.*;
 import static java.lang.String.*; // NOSONAR
 import static eu.lunisolar.magma.func.supp.MsgVerbosity.*; // NOSONAR
 
-public interface CheckDblTrait<SELF extends CheckDblTrait<SELF>> extends FluentTrait<SELF>, aValue<aDouble>, LDblSingle, DblValueTrait<SELF> {
+public interface CheckDblTrait<SELF extends CheckDblTrait<SELF>> extends FluentTrait<SELF>, aValue<aDouble>, DblValueTrait<SELF> {
 
 	double get();
 

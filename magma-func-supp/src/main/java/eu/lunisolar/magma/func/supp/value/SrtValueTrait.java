@@ -55,7 +55,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface SrtValueTrait<SELF extends SrtValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aShort>, LSrtSingle {
+public interface SrtValueTrait<SELF extends SrtValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aShort> {
+
+	short value();
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).

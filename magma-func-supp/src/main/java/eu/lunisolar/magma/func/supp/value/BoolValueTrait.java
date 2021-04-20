@@ -55,7 +55,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface BoolValueTrait<SELF extends BoolValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aBool>, LBoolSingle {
+public interface BoolValueTrait<SELF extends BoolValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aBool> {
+
+	boolean value();
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).

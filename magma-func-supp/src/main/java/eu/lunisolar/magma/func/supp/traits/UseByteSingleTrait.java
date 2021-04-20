@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface UseByteSingleTrait<SELF extends UseByteSingleTrait<SELF>> extends LByteSingle, UseByteTrait<SELF>, ByteValueTrait<SELF> {
+public interface UseByteSingleTrait<SELF extends UseByteSingleTrait<SELF>> extends UseByteTrait<SELF>, ByteValueTrait<SELF> {
 
 	// <editor-fold desc="doIf">
 

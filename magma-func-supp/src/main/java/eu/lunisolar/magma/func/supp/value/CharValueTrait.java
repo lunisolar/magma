@@ -55,7 +55,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface CharValueTrait<SELF extends CharValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aChar>, LCharSingle {
+public interface CharValueTrait<SELF extends CharValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aChar> {
+
+	char value();
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).

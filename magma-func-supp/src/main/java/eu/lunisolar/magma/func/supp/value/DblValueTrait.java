@@ -55,7 +55,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface DblValueTrait<SELF extends DblValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aDouble>, LDblSingle {
+public interface DblValueTrait<SELF extends DblValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aDouble> {
+
+	double value();
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).

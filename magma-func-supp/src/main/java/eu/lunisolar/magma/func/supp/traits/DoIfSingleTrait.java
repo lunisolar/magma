@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Trait for any class that has fluent filter method.
  */
-public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> extends LSingle<T>, DoIfTrait<T, SELF>, IsTrait<T, SELF>, ValueTrait<T, SELF> {
+public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> extends DoIfTrait<T, SELF>, IsTrait<T, SELF>, ValueTrait<T, SELF> {
 
 	@Override
 	default <R> SELF doIf(@Nonnull Class<R> clazz, @Nonnull LConsumer<R> action) {

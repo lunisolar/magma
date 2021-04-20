@@ -55,7 +55,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface IntValueTrait<SELF extends IntValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aInt>, LIntSingle {
+public interface IntValueTrait<SELF extends IntValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aInt> {
+
+	int value();
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).

@@ -55,7 +55,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public interface FltValueTrait<SELF extends FltValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aFloat>, LFltSingle {
+public interface FltValueTrait<SELF extends FltValueTrait<SELF>> extends FluentTrait<SELF>, aValue<aFloat> {
+
+	float value();
 
 	/**
 	 * Returns either the same or new Value object (depends on implementation) that is holding the value (mutating vs immutable).
