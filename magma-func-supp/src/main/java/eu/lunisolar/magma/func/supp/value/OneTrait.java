@@ -403,6 +403,145 @@ public interface OneTrait<T> {
 
 	// </editor-fold>
 
+	// <editor-fold desc="orSafe...">
+
+	default T orSafeElse(@Nullable T defaultValue) {
+		Opt<T> o = (Opt) aSafeValue(defaultValue.getClass());
+		return o.orElse(defaultValue);
+	}
+
+	default T orSafeElseObj(@Nullable T defaultValue) {
+		return orSafeElse(defaultValue);
+	}
+
+	default byte orSafeElseByte(byte defaultValue) {
+		return aSafeByte().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default byte altSafe(byte defaultValue) {
+		return orSafeElseByte(defaultValue);
+	}
+
+	default short orSafeElseSrt(short defaultValue) {
+		return aSafeSrt().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default short altSafe(short defaultValue) {
+		return orSafeElseSrt(defaultValue);
+	}
+
+	default int orSafeElseInt(int defaultValue) {
+		return aSafeInt().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default int altSafe(int defaultValue) {
+		return orSafeElseInt(defaultValue);
+	}
+
+	default long orSafeElseLong(long defaultValue) {
+		return aSafeLong().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default long altSafe(long defaultValue) {
+		return orSafeElseLong(defaultValue);
+	}
+
+	default float orSafeElseFlt(float defaultValue) {
+		return aSafeFlt().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default float altSafe(float defaultValue) {
+		return orSafeElseFlt(defaultValue);
+	}
+
+	default double orSafeElseDbl(double defaultValue) {
+		return aSafeDbl().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default double altSafe(double defaultValue) {
+		return orSafeElseDbl(defaultValue);
+	}
+
+	default char orSafeElseChar(char defaultValue) {
+		return aSafeChar().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default char altSafe(char defaultValue) {
+		return orSafeElseChar(defaultValue);
+	}
+
+	default boolean orSafeElseBool(boolean defaultValue) {
+		return aSafeBool().orElse(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default boolean altSafe(boolean defaultValue) {
+		return orSafeElseBool(defaultValue);
+	}
+
+	default String orSafeElseStr(String defaultValue) {
+		return aSafeStr().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default String altSafe(String defaultValue) {
+		return orSafeElseStr(defaultValue);
+	}
+
+	default BigInteger orSafeElseBigInt(BigInteger defaultValue) {
+		return aSafeBigInt().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default BigInteger altSafe(BigInteger defaultValue) {
+		return orSafeElseBigInt(defaultValue);
+	}
+
+	default BigDecimal orSafeElseBigDec(BigDecimal defaultValue) {
+		return aSafeBigDec().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default BigDecimal altSafe(BigDecimal defaultValue) {
+		return orSafeElseBigDec(defaultValue);
+	}
+
+	default LocalDateTime orSafeElseDateTime(LocalDateTime defaultValue) {
+		return aSafeDateTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default LocalDateTime altSafe(LocalDateTime defaultValue) {
+		return orSafeElseDateTime(defaultValue);
+	}
+
+	default LocalDate orSafeElseDate(LocalDate defaultValue) {
+		return aSafeDate().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default LocalDate altSafe(LocalDate defaultValue) {
+		return orSafeElseDate(defaultValue);
+	}
+
+	default LocalTime orSafeElseTime(LocalTime defaultValue) {
+		return aSafeTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default LocalTime altSafe(LocalTime defaultValue) {
+		return orSafeElseTime(defaultValue);
+	}
+
+	// </editor-fold>
+
 	// <editor-fold desc="enum">
 
 	/** Expectation: there might be a value, it MUST be of specific type. */
