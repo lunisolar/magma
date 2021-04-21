@@ -546,6 +546,7 @@ public interface OneTrait<T> {
 
 	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull <T extends Enum<T>> Opt<T> aEnum(@Nonnull Class<T> enumClazz) {
+		Null.nonNullArg(enumClazz, "enumClazz");
 		return Clazz.aEnum(enumClazz, nullable(), x -> {
 			throw x;
 		});
@@ -553,11 +554,23 @@ public interface OneTrait<T> {
 
 	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull <T extends Enum<T>> Opt<T> aSafeEnum(@Nonnull Class<T> enumClazz) {
+		Null.nonNullArg(enumClazz, "enumClazz");
 		return Clazz.aEnum(enumClazz, nullable(), x -> null);
 	}
 
 	default @Nonnull <T extends Enum<T>> T theEnum(@Nonnull Class<T> enumClazz) {
+		Null.nonNullArg(enumClazz, "enumClazz");
 		return Clazz.theEnum(enumClazz, nullable());
+	}
+
+	default @Nonnull <T extends Enum<T>> T aEnum(@Nonnull T defaultValue) {
+		Null.nonNullArg(defaultValue, "defaultValue");
+		return (T) aEnum(defaultValue.getClass()).orElse(defaultValue);
+	}
+
+	default @Nonnull <T extends Enum<T>> T aSafeEnum(@Nonnull T defaultValue) {
+		Null.nonNullArg(defaultValue, "defaultValue");
+		return (T) aSafeEnum(defaultValue.getClass()).orElse(defaultValue);
 	}
 
 	// </editor-fold>
