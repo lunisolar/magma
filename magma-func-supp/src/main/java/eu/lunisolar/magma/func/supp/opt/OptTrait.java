@@ -1288,7 +1288,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? self() : value(supplier.get());
 	}
 
-	default SELF orFlatGet(@Nonnull LSupplier<? extends ValueTrait<T, ?>> supplier) {
+	default SELF orFlatGet(@Nonnull LSupplier<? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.get());
 	}
@@ -1302,7 +1302,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? self() : valueFrom(opt);
 	}
 
-	default SELF orValue(@Nonnull ValueTrait<T, ?> value) {
+	default SELF orValue(@Nonnull ValueTrait<? extends T, ?> value) {
 		Null.nonNullArg(value, "value");
 		return isPresent() ? self() : value(value.value());
 	}
@@ -1317,7 +1317,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? self() : value(supplier.apply(a1));
 	}
 
-	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends ValueTrait<T, ?>> supplier) {
+	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1));
 	}
@@ -1342,12 +1342,12 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? self() : value(supplier.apply(a1, a2, a3));
 	}
 
-	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends ValueTrait<T, ?>> supplier) {
+	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
 	}
 
-	default <K1, K2, K3> SELF orFlatApply(K1 a1, K2 a2, K3 a3, @Nonnull LTriFunction<? super K1, ? super K2, ? super K3, ? extends ValueTrait<T, ?>> supplier) {
+	default <K1, K2, K3> SELF orFlatApply(K1 a1, K2 a2, K3 a3, @Nonnull LTriFunction<? super K1, ? super K2, ? super K3, ? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
 		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2, a3));
 	}
