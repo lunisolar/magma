@@ -195,6 +195,10 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 
 	// </editor-fold>
 
+	default SELF butNot(byte value) {
+		return isPresent() ? (value() == value ? voidValue() : self()) : voidValue();
+	}
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LBytePredicate mapping) {

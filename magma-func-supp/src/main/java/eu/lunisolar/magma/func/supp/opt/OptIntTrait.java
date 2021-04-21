@@ -267,6 +267,10 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	// </editor-fold>
 
+	default SELF butNot(int value) {
+		return isPresent() ? (value() == value ? voidValue() : self()) : voidValue();
+	}
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LIntPredicate mapping) {

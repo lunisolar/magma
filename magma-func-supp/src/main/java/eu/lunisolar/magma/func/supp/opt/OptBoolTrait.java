@@ -187,6 +187,10 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 
 	// </editor-fold>
 
+	default SELF butNot(boolean value) {
+		return isPresent() ? (value() == value ? voidValue() : self()) : voidValue();
+	}
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool map(@Nonnull LLogicalOperator mapping) {

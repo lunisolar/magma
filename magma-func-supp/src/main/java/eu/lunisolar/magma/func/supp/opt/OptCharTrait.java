@@ -195,6 +195,10 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 
 	// </editor-fold>
 
+	default SELF butNot(char value) {
+		return isPresent() ? (value() == value ? voidValue() : self()) : voidValue();
+	}
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LCharPredicate mapping) {

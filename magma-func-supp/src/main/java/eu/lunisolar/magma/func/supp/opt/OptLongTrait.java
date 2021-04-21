@@ -195,6 +195,10 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 
 	// </editor-fold>
 
+	default SELF butNot(long value) {
+		return isPresent() ? (value() == value ? voidValue() : self()) : voidValue();
+	}
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LLongPredicate mapping) {

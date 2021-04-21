@@ -336,6 +336,10 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	// </editor-fold>
 
+	default SELF butNot(char value) {
+		return isPresent() ? (Is.equal(value(), value) ? voidValue() : self()) : voidValue();
+	}
+
 	public default <R> Opt<R> filterAndMap(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return (isPresent() && clazz.isInstance(this.get())) ? (Opt) this : Opt.empty();

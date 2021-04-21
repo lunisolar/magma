@@ -195,6 +195,10 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 
 	// </editor-fold>
 
+	default SELF butNot(double value) {
+		return isPresent() ? (value() == value ? voidValue() : self()) : voidValue();
+	}
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LDblPredicate mapping) {
