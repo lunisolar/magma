@@ -862,4 +862,69 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();
 	}
 
+	public static @Nonnull OptChar op(@Nonnull OptCharTrait<?> opt1, @Nonnull OptCharTrait<?> opt2, @Nonnull LCharBinaryOperator both, @Nonnull LCharUnaryOperator first, @Nonnull LCharUnaryOperator second, @Nonnull LCharSupplier none) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+
+		if (opt1.isPresent()) {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(both, "both");
+				return Opt.of(both.applyAsChar(opt1.get(), opt2.get()));
+			} else {
+				Null.nonNullArg(first, "first");
+				return Opt.of(first.applyAsChar(opt1.get()));
+			}
+		} else {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(second, "second");
+				return Opt.of(second.applyAsChar(opt2.get()));
+			} else {
+				Null.nonNullArg(none, "none");
+				return Opt.of(none.getAsChar());
+			}
+		}
+	}
+
+	public static @Nonnull OptChar simpleOp(@Nonnull OptChar opt1, @Nonnull OptChar opt2, char defaultInput, @Nonnull LCharBinaryOperator operation) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+
+		return Opt.of(operation.applyAsChar(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+	}
+
+	public static @Nonnull OptChar simpleOp(@Nonnull OptChar opt1, @Nonnull OptChar opt2, @Nonnull LCharBinaryOperator operation) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+
+		if (opt1.isPresent() && opt2.isPresent()) {
+			return Opt.of(operation.applyAsChar(opt1.get(), opt2.get()));
+		}
+
+		return OptChar.empty();
+	}
+
+	public static @Nonnull OptChar flatOp(@Nonnull OptCharTrait<?> opt1, @Nonnull OptCharTrait<?> opt2, @Nonnull LBiCharFunction<? extends OptCharTrait<?>> both, @Nonnull LCharFunction<? extends OptCharTrait<?>> first,
+			@Nonnull LCharFunction<? extends OptCharTrait<?>> second, @Nonnull LSupplier<? extends OptCharTrait<?>> none) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+
+		if (opt1.isPresent()) {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(both, "both");
+				return Opt.from(both.apply(opt1.get(), opt2.get()));
+			} else {
+				Null.nonNullArg(first, "first");
+				return Opt.from(first.apply(opt1.get()));
+			}
+		} else {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(second, "second");
+				return Opt.from(second.apply(opt2.get()));
+			} else {
+				Null.nonNullArg(none, "none");
+				return Opt.from(none.get());
+			}
+		}
+	}
+
 }

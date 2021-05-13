@@ -1362,4 +1362,71 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	default void close() throws Exception {
 		filterAndMap(AutoCloseable.class).ifPresent(AutoCloseable::close); // any exception will be nested
 	}
+
+	public static @Nonnull <T, R> Opt<R> op(@Nonnull OptTrait<? extends T, ?> opt1, @Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends R> both, @Nonnull LFunction<? super T, ? extends R> first,
+			@Nonnull LFunction<? super T, ? extends R> second, @Nonnull LSupplier<? extends R> none) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+
+		if (opt1.isPresent()) {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(both, "both");
+				return Opt.of(both.apply(opt1.get(), opt2.get()));
+			} else {
+				Null.nonNullArg(first, "first");
+				return Opt.of(first.apply(opt1.get()));
+			}
+		} else {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(second, "second");
+				return Opt.of(second.apply(opt2.get()));
+			} else {
+				Null.nonNullArg(none, "none");
+				return Opt.of(none.get());
+			}
+		}
+	}
+
+	public static @Nonnull <T, R> Opt<R> simpleOp(@Nonnull Opt<T> opt1, @Nonnull Opt<T> opt2, T defaultInput, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+		Null.nonNullArg(defaultInput, "defaultInput");
+		return Opt.of(operation.apply(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+	}
+
+	public static @Nonnull <T, R> Opt<R> simpleOp(@Nonnull Opt<T> opt1, @Nonnull Opt<T> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+
+		if (opt1.isPresent() && opt2.isPresent()) {
+			return Opt.of(operation.apply(opt1.get(), opt2.get()));
+		}
+
+		return Opt.empty();
+	}
+
+	public static @Nonnull <T, R> Opt<R> flatOp(@Nonnull OptTrait<? extends T, ?> opt1, @Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends ValueTrait<? extends R, ?>> both,
+			@Nonnull LFunction<? super T, ? extends ValueTrait<? extends R, ?>> first, @Nonnull LFunction<? super T, ? extends ValueTrait<? extends R, ?>> second, @Nonnull LSupplier<? extends ValueTrait<? extends R, ?>> none) {
+		Null.nonNullArg(opt1, "opt1");
+		Null.nonNullArg(opt2, "opt2");
+
+		if (opt1.isPresent()) {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(both, "both");
+				return Opt.from(both.apply(opt1.get(), opt2.get()));
+			} else {
+				Null.nonNullArg(first, "first");
+				return Opt.from(first.apply(opt1.get()));
+			}
+		} else {
+			if (opt2.isPresent()) {
+				Null.nonNullArg(second, "second");
+				return Opt.from(second.apply(opt2.get()));
+			} else {
+				Null.nonNullArg(none, "none");
+				return Opt.from(none.get());
+			}
+		}
+	}
+
 }
