@@ -1363,6 +1363,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		filterAndMap(AutoCloseable.class).ifPresent(AutoCloseable::close); // any exception will be nested
 	}
 
+	default @Nonnull <R> Opt<R> op(@Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends R> both, @Nonnull LFunction<? super T, ? extends R> first, @Nonnull LFunction<? super T, ? extends R> second,
+			@Nonnull LSupplier<? extends R> none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull <T, R> Opt<R> op(@Nonnull OptTrait<? extends T, ?> opt1, @Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends R> both, @Nonnull LFunction<? super T, ? extends R> first,
 			@Nonnull LFunction<? super T, ? extends R> second, @Nonnull LSupplier<? extends R> none) {
 		Null.nonNullArg(opt1, "opt1");
@@ -1387,14 +1392,22 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		}
 	}
 
-	public static @Nonnull <T, R> Opt<R> simpleOp(@Nonnull Opt<T> opt1, @Nonnull Opt<T> opt2, T defaultInput, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
+	default @Nonnull <T, R> Opt<R> simpleOp(@Nonnull OptTrait<? extends T, ?> opt2, T defaultInput, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
+		return simpleOp((OptTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull <T, R> Opt<R> simpleOp(@Nonnull OptTrait<? extends T, ?> opt1, @Nonnull OptTrait<? extends T, ?> opt2, T defaultInput, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 		Null.nonNullArg(defaultInput, "defaultInput");
-		return Opt.of(operation.apply(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.apply(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull <T, R> Opt<R> simpleOp(@Nonnull Opt<T> opt1, @Nonnull Opt<T> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
+	default @Nonnull <T, R> Opt<R> simpleOp(@Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
+		return simpleOp((OptTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull <T, R> Opt<R> simpleOp(@Nonnull OptTrait<? extends T, ?> opt1, @Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends R> operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -1403,6 +1416,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		}
 
 		return Opt.empty();
+	}
+
+	default @Nonnull <T, R> Opt<R> flatOp(@Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends ValueTrait<? extends R, ?>> both, @Nonnull LFunction<? super T, ? extends ValueTrait<? extends R, ?>> first,
+			@Nonnull LFunction<? super T, ? extends ValueTrait<? extends R, ?>> second, @Nonnull LSupplier<? extends ValueTrait<? extends R, ?>> none) {
+		return flatOp((OptTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull <T, R> Opt<R> flatOp(@Nonnull OptTrait<? extends T, ?> opt1, @Nonnull OptTrait<? extends T, ?> opt2, @Nonnull LBiFunction<? super T, ? super T, ? extends ValueTrait<? extends R, ?>> both,

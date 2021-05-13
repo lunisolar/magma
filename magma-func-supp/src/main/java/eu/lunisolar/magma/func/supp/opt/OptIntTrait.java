@@ -1024,6 +1024,10 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();
 	}
 
+	default @Nonnull OptInt op(@Nonnull OptIntTrait<?> opt2, @Nonnull LIntBinaryOperator both, @Nonnull LIntUnaryOperator first, @Nonnull LIntUnaryOperator second, @Nonnull LIntSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptInt op(@Nonnull OptIntTrait<?> opt1, @Nonnull OptIntTrait<?> opt2, @Nonnull LIntBinaryOperator both, @Nonnull LIntUnaryOperator first, @Nonnull LIntUnaryOperator second, @Nonnull LIntSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -1047,14 +1051,22 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		}
 	}
 
-	public static @Nonnull OptInt simpleOp(@Nonnull OptInt opt1, @Nonnull OptInt opt2, int defaultInput, @Nonnull LIntBinaryOperator operation) {
+	default @Nonnull OptInt simpleOp(@Nonnull OptIntTrait<?> opt2, int defaultInput, @Nonnull LIntBinaryOperator operation) {
+		return simpleOp((OptIntTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptInt simpleOp(@Nonnull OptIntTrait<?> opt1, @Nonnull OptIntTrait<?> opt2, int defaultInput, @Nonnull LIntBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.applyAsInt(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.applyAsInt(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptInt simpleOp(@Nonnull OptInt opt1, @Nonnull OptInt opt2, @Nonnull LIntBinaryOperator operation) {
+	default @Nonnull OptInt simpleOp(@Nonnull OptIntTrait<?> opt2, @Nonnull LIntBinaryOperator operation) {
+		return simpleOp((OptIntTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptInt simpleOp(@Nonnull OptIntTrait<?> opt1, @Nonnull OptIntTrait<?> opt2, @Nonnull LIntBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -1063,6 +1075,11 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		}
 
 		return OptInt.empty();
+	}
+
+	default @Nonnull OptInt flatOp(@Nonnull OptIntTrait<?> opt2, @Nonnull LBiIntFunction<? extends OptIntTrait<?>> both, @Nonnull LIntFunction<? extends OptIntTrait<?>> first, @Nonnull LIntFunction<? extends OptIntTrait<?>> second,
+			@Nonnull LSupplier<? extends OptIntTrait<?>> none) {
+		return flatOp((OptIntTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptInt flatOp(@Nonnull OptIntTrait<?> opt1, @Nonnull OptIntTrait<?> opt2, @Nonnull LBiIntFunction<? extends OptIntTrait<?>> both, @Nonnull LIntFunction<? extends OptIntTrait<?>> first,

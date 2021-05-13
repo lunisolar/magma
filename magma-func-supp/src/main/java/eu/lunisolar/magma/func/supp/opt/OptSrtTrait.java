@@ -862,6 +862,10 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();
 	}
 
+	default @Nonnull OptSrt op(@Nonnull OptSrtTrait<?> opt2, @Nonnull LSrtBinaryOperator both, @Nonnull LSrtUnaryOperator first, @Nonnull LSrtUnaryOperator second, @Nonnull LSrtSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptSrt op(@Nonnull OptSrtTrait<?> opt1, @Nonnull OptSrtTrait<?> opt2, @Nonnull LSrtBinaryOperator both, @Nonnull LSrtUnaryOperator first, @Nonnull LSrtUnaryOperator second, @Nonnull LSrtSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -885,14 +889,22 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		}
 	}
 
-	public static @Nonnull OptSrt simpleOp(@Nonnull OptSrt opt1, @Nonnull OptSrt opt2, short defaultInput, @Nonnull LSrtBinaryOperator operation) {
+	default @Nonnull OptSrt simpleOp(@Nonnull OptSrtTrait<?> opt2, short defaultInput, @Nonnull LSrtBinaryOperator operation) {
+		return simpleOp((OptSrtTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptSrt simpleOp(@Nonnull OptSrtTrait<?> opt1, @Nonnull OptSrtTrait<?> opt2, short defaultInput, @Nonnull LSrtBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.applyAsSrt(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.applyAsSrt(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptSrt simpleOp(@Nonnull OptSrt opt1, @Nonnull OptSrt opt2, @Nonnull LSrtBinaryOperator operation) {
+	default @Nonnull OptSrt simpleOp(@Nonnull OptSrtTrait<?> opt2, @Nonnull LSrtBinaryOperator operation) {
+		return simpleOp((OptSrtTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptSrt simpleOp(@Nonnull OptSrtTrait<?> opt1, @Nonnull OptSrtTrait<?> opt2, @Nonnull LSrtBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -901,6 +913,11 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		}
 
 		return OptSrt.empty();
+	}
+
+	default @Nonnull OptSrt flatOp(@Nonnull OptSrtTrait<?> opt2, @Nonnull LBiSrtFunction<? extends OptSrtTrait<?>> both, @Nonnull LSrtFunction<? extends OptSrtTrait<?>> first, @Nonnull LSrtFunction<? extends OptSrtTrait<?>> second,
+			@Nonnull LSupplier<? extends OptSrtTrait<?>> none) {
+		return flatOp((OptSrtTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptSrt flatOp(@Nonnull OptSrtTrait<?> opt1, @Nonnull OptSrtTrait<?> opt2, @Nonnull LBiSrtFunction<? extends OptSrtTrait<?>> both, @Nonnull LSrtFunction<? extends OptSrtTrait<?>> first,

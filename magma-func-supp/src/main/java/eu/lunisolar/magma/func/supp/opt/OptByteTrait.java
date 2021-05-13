@@ -862,6 +862,10 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();
 	}
 
+	default @Nonnull OptByte op(@Nonnull OptByteTrait<?> opt2, @Nonnull LByteBinaryOperator both, @Nonnull LByteUnaryOperator first, @Nonnull LByteUnaryOperator second, @Nonnull LByteSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptByte op(@Nonnull OptByteTrait<?> opt1, @Nonnull OptByteTrait<?> opt2, @Nonnull LByteBinaryOperator both, @Nonnull LByteUnaryOperator first, @Nonnull LByteUnaryOperator second, @Nonnull LByteSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -885,14 +889,22 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		}
 	}
 
-	public static @Nonnull OptByte simpleOp(@Nonnull OptByte opt1, @Nonnull OptByte opt2, byte defaultInput, @Nonnull LByteBinaryOperator operation) {
+	default @Nonnull OptByte simpleOp(@Nonnull OptByteTrait<?> opt2, byte defaultInput, @Nonnull LByteBinaryOperator operation) {
+		return simpleOp((OptByteTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptByte simpleOp(@Nonnull OptByteTrait<?> opt1, @Nonnull OptByteTrait<?> opt2, byte defaultInput, @Nonnull LByteBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.applyAsByte(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.applyAsByte(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptByte simpleOp(@Nonnull OptByte opt1, @Nonnull OptByte opt2, @Nonnull LByteBinaryOperator operation) {
+	default @Nonnull OptByte simpleOp(@Nonnull OptByteTrait<?> opt2, @Nonnull LByteBinaryOperator operation) {
+		return simpleOp((OptByteTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptByte simpleOp(@Nonnull OptByteTrait<?> opt1, @Nonnull OptByteTrait<?> opt2, @Nonnull LByteBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -901,6 +913,11 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		}
 
 		return OptByte.empty();
+	}
+
+	default @Nonnull OptByte flatOp(@Nonnull OptByteTrait<?> opt2, @Nonnull LBiByteFunction<? extends OptByteTrait<?>> both, @Nonnull LByteFunction<? extends OptByteTrait<?>> first, @Nonnull LByteFunction<? extends OptByteTrait<?>> second,
+			@Nonnull LSupplier<? extends OptByteTrait<?>> none) {
+		return flatOp((OptByteTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptByte flatOp(@Nonnull OptByteTrait<?> opt1, @Nonnull OptByteTrait<?> opt2, @Nonnull LBiByteFunction<? extends OptByteTrait<?>> both, @Nonnull LByteFunction<? extends OptByteTrait<?>> first,

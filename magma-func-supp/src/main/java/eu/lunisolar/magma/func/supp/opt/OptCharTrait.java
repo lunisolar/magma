@@ -862,6 +862,10 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();
 	}
 
+	default @Nonnull OptChar op(@Nonnull OptCharTrait<?> opt2, @Nonnull LCharBinaryOperator both, @Nonnull LCharUnaryOperator first, @Nonnull LCharUnaryOperator second, @Nonnull LCharSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptChar op(@Nonnull OptCharTrait<?> opt1, @Nonnull OptCharTrait<?> opt2, @Nonnull LCharBinaryOperator both, @Nonnull LCharUnaryOperator first, @Nonnull LCharUnaryOperator second, @Nonnull LCharSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -885,14 +889,22 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 		}
 	}
 
-	public static @Nonnull OptChar simpleOp(@Nonnull OptChar opt1, @Nonnull OptChar opt2, char defaultInput, @Nonnull LCharBinaryOperator operation) {
+	default @Nonnull OptChar simpleOp(@Nonnull OptCharTrait<?> opt2, char defaultInput, @Nonnull LCharBinaryOperator operation) {
+		return simpleOp((OptCharTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptChar simpleOp(@Nonnull OptCharTrait<?> opt1, @Nonnull OptCharTrait<?> opt2, char defaultInput, @Nonnull LCharBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.applyAsChar(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.applyAsChar(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptChar simpleOp(@Nonnull OptChar opt1, @Nonnull OptChar opt2, @Nonnull LCharBinaryOperator operation) {
+	default @Nonnull OptChar simpleOp(@Nonnull OptCharTrait<?> opt2, @Nonnull LCharBinaryOperator operation) {
+		return simpleOp((OptCharTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptChar simpleOp(@Nonnull OptCharTrait<?> opt1, @Nonnull OptCharTrait<?> opt2, @Nonnull LCharBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -901,6 +913,11 @@ public interface OptCharTrait<SELF extends OptCharTrait<SELF>> extends FluentTra
 		}
 
 		return OptChar.empty();
+	}
+
+	default @Nonnull OptChar flatOp(@Nonnull OptCharTrait<?> opt2, @Nonnull LBiCharFunction<? extends OptCharTrait<?>> both, @Nonnull LCharFunction<? extends OptCharTrait<?>> first, @Nonnull LCharFunction<? extends OptCharTrait<?>> second,
+			@Nonnull LSupplier<? extends OptCharTrait<?>> none) {
+		return flatOp((OptCharTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptChar flatOp(@Nonnull OptCharTrait<?> opt1, @Nonnull OptCharTrait<?> opt2, @Nonnull LBiCharFunction<? extends OptCharTrait<?>> both, @Nonnull LCharFunction<? extends OptCharTrait<?>> first,

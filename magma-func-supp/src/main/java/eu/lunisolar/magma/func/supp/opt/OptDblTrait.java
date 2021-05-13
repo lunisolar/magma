@@ -862,6 +862,10 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() ? OptionalDouble.of(value()) : OptionalDouble.empty();
 	}
 
+	default @Nonnull OptDbl op(@Nonnull OptDblTrait<?> opt2, @Nonnull LDblBinaryOperator both, @Nonnull LDblUnaryOperator first, @Nonnull LDblUnaryOperator second, @Nonnull LDblSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptDbl op(@Nonnull OptDblTrait<?> opt1, @Nonnull OptDblTrait<?> opt2, @Nonnull LDblBinaryOperator both, @Nonnull LDblUnaryOperator first, @Nonnull LDblUnaryOperator second, @Nonnull LDblSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -885,14 +889,22 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		}
 	}
 
-	public static @Nonnull OptDbl simpleOp(@Nonnull OptDbl opt1, @Nonnull OptDbl opt2, double defaultInput, @Nonnull LDblBinaryOperator operation) {
+	default @Nonnull OptDbl simpleOp(@Nonnull OptDblTrait<?> opt2, double defaultInput, @Nonnull LDblBinaryOperator operation) {
+		return simpleOp((OptDblTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptDbl simpleOp(@Nonnull OptDblTrait<?> opt1, @Nonnull OptDblTrait<?> opt2, double defaultInput, @Nonnull LDblBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.applyAsDbl(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.applyAsDbl(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptDbl simpleOp(@Nonnull OptDbl opt1, @Nonnull OptDbl opt2, @Nonnull LDblBinaryOperator operation) {
+	default @Nonnull OptDbl simpleOp(@Nonnull OptDblTrait<?> opt2, @Nonnull LDblBinaryOperator operation) {
+		return simpleOp((OptDblTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptDbl simpleOp(@Nonnull OptDblTrait<?> opt1, @Nonnull OptDblTrait<?> opt2, @Nonnull LDblBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -901,6 +913,11 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		}
 
 		return OptDbl.empty();
+	}
+
+	default @Nonnull OptDbl flatOp(@Nonnull OptDblTrait<?> opt2, @Nonnull LBiDblFunction<? extends OptDblTrait<?>> both, @Nonnull LDblFunction<? extends OptDblTrait<?>> first, @Nonnull LDblFunction<? extends OptDblTrait<?>> second,
+			@Nonnull LSupplier<? extends OptDblTrait<?>> none) {
+		return flatOp((OptDblTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptDbl flatOp(@Nonnull OptDblTrait<?> opt1, @Nonnull OptDblTrait<?> opt2, @Nonnull LBiDblFunction<? extends OptDblTrait<?>> both, @Nonnull LDblFunction<? extends OptDblTrait<?>> first,

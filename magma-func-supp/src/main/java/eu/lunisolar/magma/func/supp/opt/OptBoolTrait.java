@@ -860,6 +860,10 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 
 	// </editor-fold>
 
+	default @Nonnull OptBool op(@Nonnull OptBoolTrait<?> opt2, @Nonnull LLogicalBinaryOperator both, @Nonnull LLogicalOperator first, @Nonnull LLogicalOperator second, @Nonnull LBoolSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptBool op(@Nonnull OptBoolTrait<?> opt1, @Nonnull OptBoolTrait<?> opt2, @Nonnull LLogicalBinaryOperator both, @Nonnull LLogicalOperator first, @Nonnull LLogicalOperator second, @Nonnull LBoolSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -883,14 +887,22 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		}
 	}
 
-	public static @Nonnull OptBool simpleOp(@Nonnull OptBool opt1, @Nonnull OptBool opt2, boolean defaultInput, @Nonnull LLogicalBinaryOperator operation) {
+	default @Nonnull OptBool simpleOp(@Nonnull OptBoolTrait<?> opt2, boolean defaultInput, @Nonnull LLogicalBinaryOperator operation) {
+		return simpleOp((OptBoolTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptBool simpleOp(@Nonnull OptBoolTrait<?> opt1, @Nonnull OptBoolTrait<?> opt2, boolean defaultInput, @Nonnull LLogicalBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.apply(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.apply(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptBool simpleOp(@Nonnull OptBool opt1, @Nonnull OptBool opt2, @Nonnull LLogicalBinaryOperator operation) {
+	default @Nonnull OptBool simpleOp(@Nonnull OptBoolTrait<?> opt2, @Nonnull LLogicalBinaryOperator operation) {
+		return simpleOp((OptBoolTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptBool simpleOp(@Nonnull OptBoolTrait<?> opt1, @Nonnull OptBoolTrait<?> opt2, @Nonnull LLogicalBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -899,6 +911,11 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		}
 
 		return OptBool.empty();
+	}
+
+	default @Nonnull OptBool flatOp(@Nonnull OptBoolTrait<?> opt2, @Nonnull LBiBoolFunction<? extends OptBoolTrait<?>> both, @Nonnull LBoolFunction<? extends OptBoolTrait<?>> first, @Nonnull LBoolFunction<? extends OptBoolTrait<?>> second,
+			@Nonnull LSupplier<? extends OptBoolTrait<?>> none) {
+		return flatOp((OptBoolTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptBool flatOp(@Nonnull OptBoolTrait<?> opt1, @Nonnull OptBoolTrait<?> opt2, @Nonnull LBiBoolFunction<? extends OptBoolTrait<?>> both, @Nonnull LBoolFunction<? extends OptBoolTrait<?>> first,

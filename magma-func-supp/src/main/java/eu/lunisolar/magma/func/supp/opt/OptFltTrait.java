@@ -862,6 +862,10 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait
 		return isPresent() ? OptionalDouble.of(value()) : OptionalDouble.empty();
 	}
 
+	default @Nonnull OptFlt op(@Nonnull OptFltTrait<?> opt2, @Nonnull LFltBinaryOperator both, @Nonnull LFltUnaryOperator first, @Nonnull LFltUnaryOperator second, @Nonnull LFltSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptFlt op(@Nonnull OptFltTrait<?> opt1, @Nonnull OptFltTrait<?> opt2, @Nonnull LFltBinaryOperator both, @Nonnull LFltUnaryOperator first, @Nonnull LFltUnaryOperator second, @Nonnull LFltSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -885,14 +889,22 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait
 		}
 	}
 
-	public static @Nonnull OptFlt simpleOp(@Nonnull OptFlt opt1, @Nonnull OptFlt opt2, float defaultInput, @Nonnull LFltBinaryOperator operation) {
+	default @Nonnull OptFlt simpleOp(@Nonnull OptFltTrait<?> opt2, float defaultInput, @Nonnull LFltBinaryOperator operation) {
+		return simpleOp((OptFltTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptFlt simpleOp(@Nonnull OptFltTrait<?> opt1, @Nonnull OptFltTrait<?> opt2, float defaultInput, @Nonnull LFltBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.applyAsFlt(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.applyAsFlt(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptFlt simpleOp(@Nonnull OptFlt opt1, @Nonnull OptFlt opt2, @Nonnull LFltBinaryOperator operation) {
+	default @Nonnull OptFlt simpleOp(@Nonnull OptFltTrait<?> opt2, @Nonnull LFltBinaryOperator operation) {
+		return simpleOp((OptFltTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptFlt simpleOp(@Nonnull OptFltTrait<?> opt1, @Nonnull OptFltTrait<?> opt2, @Nonnull LFltBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -901,6 +913,11 @@ public interface OptFltTrait<SELF extends OptFltTrait<SELF>> extends FluentTrait
 		}
 
 		return OptFlt.empty();
+	}
+
+	default @Nonnull OptFlt flatOp(@Nonnull OptFltTrait<?> opt2, @Nonnull LBiFltFunction<? extends OptFltTrait<?>> both, @Nonnull LFltFunction<? extends OptFltTrait<?>> first, @Nonnull LFltFunction<? extends OptFltTrait<?>> second,
+			@Nonnull LSupplier<? extends OptFltTrait<?>> none) {
+		return flatOp((OptFltTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptFlt flatOp(@Nonnull OptFltTrait<?> opt1, @Nonnull OptFltTrait<?> opt2, @Nonnull LBiFltFunction<? extends OptFltTrait<?>> both, @Nonnull LFltFunction<? extends OptFltTrait<?>> first,

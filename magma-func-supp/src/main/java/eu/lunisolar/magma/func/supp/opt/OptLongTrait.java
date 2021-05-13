@@ -862,6 +862,10 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 		return isPresent() ? OptionalLong.of(value()) : OptionalLong.empty();
 	}
 
+	default @Nonnull OptLong op(@Nonnull OptLongTrait<?> opt2, @Nonnull LLongBinaryOperator both, @Nonnull LLongUnaryOperator first, @Nonnull LLongUnaryOperator second, @Nonnull LLongSupplier none) {
+		return op(this, opt2, both, first, second, none);
+	}
+
 	public static @Nonnull OptLong op(@Nonnull OptLongTrait<?> opt1, @Nonnull OptLongTrait<?> opt2, @Nonnull LLongBinaryOperator both, @Nonnull LLongUnaryOperator first, @Nonnull LLongUnaryOperator second, @Nonnull LLongSupplier none) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
@@ -885,14 +889,22 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 		}
 	}
 
-	public static @Nonnull OptLong simpleOp(@Nonnull OptLong opt1, @Nonnull OptLong opt2, long defaultInput, @Nonnull LLongBinaryOperator operation) {
+	default @Nonnull OptLong simpleOp(@Nonnull OptLongTrait<?> opt2, long defaultInput, @Nonnull LLongBinaryOperator operation) {
+		return simpleOp((OptLongTrait) this, opt2, defaultInput, operation);
+	}
+
+	public static @Nonnull OptLong simpleOp(@Nonnull OptLongTrait<?> opt1, @Nonnull OptLongTrait<?> opt2, long defaultInput, @Nonnull LLongBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
-		return Opt.of(operation.applyAsLong(opt1.orElse(defaultInput), opt2.orElse(defaultInput)));
+		return Opt.of(operation.applyAsLong(opt1.orElse(Clazz.the(defaultInput)), opt2.orElse(Clazz.the(defaultInput))));
 	}
 
-	public static @Nonnull OptLong simpleOp(@Nonnull OptLong opt1, @Nonnull OptLong opt2, @Nonnull LLongBinaryOperator operation) {
+	default @Nonnull OptLong simpleOp(@Nonnull OptLongTrait<?> opt2, @Nonnull LLongBinaryOperator operation) {
+		return simpleOp((OptLongTrait) this, opt2, operation);
+	}
+
+	public static @Nonnull OptLong simpleOp(@Nonnull OptLongTrait<?> opt1, @Nonnull OptLongTrait<?> opt2, @Nonnull LLongBinaryOperator operation) {
 		Null.nonNullArg(opt1, "opt1");
 		Null.nonNullArg(opt2, "opt2");
 
@@ -901,6 +913,11 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 		}
 
 		return OptLong.empty();
+	}
+
+	default @Nonnull OptLong flatOp(@Nonnull OptLongTrait<?> opt2, @Nonnull LBiLongFunction<? extends OptLongTrait<?>> both, @Nonnull LLongFunction<? extends OptLongTrait<?>> first, @Nonnull LLongFunction<? extends OptLongTrait<?>> second,
+			@Nonnull LSupplier<? extends OptLongTrait<?>> none) {
+		return flatOp((OptLongTrait) this, opt2, both, first, second, none);
 	}
 
 	public static @Nonnull OptLong flatOp(@Nonnull OptLongTrait<?> opt1, @Nonnull OptLongTrait<?> opt2, @Nonnull LBiLongFunction<? extends OptLongTrait<?>> both, @Nonnull LLongFunction<? extends OptLongTrait<?>> first,
