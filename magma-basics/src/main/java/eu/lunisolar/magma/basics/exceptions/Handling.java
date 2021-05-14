@@ -402,4 +402,8 @@ public final class Handling implements Serializable {
     }
 
     // </editor-fold>
+
+    public static void ignore(@Nullable Throwable e) {
+        // noop
+    }
 }
