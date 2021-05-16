@@ -41,7 +41,11 @@ public final class Handling implements Serializable {
      * implementation and this always is some mistake in programming code in one place or another.
      */
     public static RuntimeException shouldNeverBeenHere() {
-        throw new Error("Should never happen.");
+        throw shouldNeverBeenHere("Should never happen.");
+    }
+
+    public static RuntimeException shouldNeverBeenHere(String explanation) {
+        throw new Error(explanation);
     }
 
     public static void handleErrors(Throwable throwable) {

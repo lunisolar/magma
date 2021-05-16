@@ -112,4 +112,128 @@ public final class OptInt extends OptIntBase<OptInt> {
 
 	// </editor-fold>
 
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
+	public static @Nonnull OptInt safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LIntSupplier producer) {
+		Null.nonNullArg(produceEmpty, "produceEmpty");
+		Null.nonNullArg(elseHandler, "elseHandler");
+		Null.nonNullArg(producer, "producer");
+
+		try {
+			return Opt.valueOf(producer.getAsInt());
+		} catch (Throwable e) {
+			Handling.handleErrors(e);
+			if (produceEmpty.test(e)) {
+				return OptInt.empty();
+			}
+			throw elseHandler.produce(e.getMessage(), e);
+		}
+	}
+
+	public static @Nonnull OptInt safelyFrom(@Nonnull ExWF<RuntimeException> elseHandler, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LIntSupplier producer) {
+		return safelyFrom(produceEmpty, (s, e) -> elseHandler.produce(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are re-throw (only runtime exceptions) or nested (checked exceptions). */
+	public static @Nonnull OptInt safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LIntSupplier producer) {
+		return safelyFrom(produceEmpty, (s, e) -> Handling.nestCheckedAndThrow(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are shoved as is (undeclared checked exception that can be catch directly). */
+	public static @Nonnull OptInt shovingSafelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LIntSupplier producer) {
+		return safelyFrom(produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
+	public static @Nonnull <K> OptInt safelyFrom(K a, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LToIntFunction<K> producer) {
+		Null.nonNullArg(produceEmpty, "produceEmpty");
+		Null.nonNullArg(elseHandler, "elseHandler");
+		Null.nonNullArg(producer, "producer");
+
+		try {
+			return Opt.valueOf(producer.applyAsInt(a));
+		} catch (Throwable e) {
+			Handling.handleErrors(e);
+			if (produceEmpty.test(e)) {
+				return OptInt.empty();
+			}
+			throw elseHandler.produce(e.getMessage(), e);
+		}
+	}
+
+	public static @Nonnull <K> OptInt safelyFrom(K a, @Nonnull ExWF<RuntimeException> elseHandler, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntFunction<K> producer) {
+		return safelyFrom(a, produceEmpty, (s, e) -> elseHandler.produce(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are re-throw (only runtime exceptions) or nested (checked exceptions). */
+	public static @Nonnull <K> OptInt safelyFrom(K a, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntFunction<K> producer) {
+		return safelyFrom(a, produceEmpty, (s, e) -> Handling.nestCheckedAndThrow(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are shoved as is (undeclared checked exception that can be catch directly). */
+	public static @Nonnull <K> OptInt shovingSafelyFrom(K a, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntFunction<K> producer) {
+		return safelyFrom(a, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
+	public static @Nonnull <K1, K2> OptInt safelyFrom(K1 a1, K2 a2, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LToIntBiFunction<K1, K2> producer) {
+		Null.nonNullArg(produceEmpty, "produceEmpty");
+		Null.nonNullArg(elseHandler, "elseHandler");
+		Null.nonNullArg(producer, "producer");
+
+		try {
+			return Opt.valueOf(producer.applyAsInt(a1, a2));
+		} catch (Throwable e) {
+			Handling.handleErrors(e);
+			if (produceEmpty.test(e)) {
+				return OptInt.empty();
+			}
+			throw elseHandler.produce(e.getMessage(), e);
+		}
+	}
+
+	public static @Nonnull <K1, K2> OptInt safelyFrom(K1 a1, K2 a2, @Nonnull ExWF<RuntimeException> elseHandler, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntBiFunction<K1, K2> producer) {
+		return safelyFrom(a1, a2, produceEmpty, (s, e) -> elseHandler.produce(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are re-throw (only runtime exceptions) or nested (checked exceptions). */
+	public static @Nonnull <K1, K2> OptInt safelyFrom(K1 a1, K2 a2, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntBiFunction<K1, K2> producer) {
+		return safelyFrom(a1, a2, produceEmpty, (s, e) -> Handling.nestCheckedAndThrow(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are shoved as is (undeclared checked exception that can be catch directly). */
+	public static @Nonnull <K1, K2> OptInt shovingSafelyFrom(K1 a1, K2 a2, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntBiFunction<K1, K2> producer) {
+		return safelyFrom(a1, a2, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
+	public static @Nonnull <K1, K2, K3> OptInt safelyFrom(K1 a1, K2 a2, K3 a3, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LToIntTriFunction<K1, K2, K3> producer) {
+		Null.nonNullArg(produceEmpty, "produceEmpty");
+		Null.nonNullArg(elseHandler, "elseHandler");
+		Null.nonNullArg(producer, "producer");
+
+		try {
+			return Opt.valueOf(producer.applyAsInt(a1, a2, a3));
+		} catch (Throwable e) {
+			Handling.handleErrors(e);
+			if (produceEmpty.test(e)) {
+				return OptInt.empty();
+			}
+			throw elseHandler.produce(e.getMessage(), e);
+		}
+	}
+
+	public static @Nonnull <K1, K2, K3> OptInt safelyFrom(K1 a1, K2 a2, K3 a3, @Nonnull ExWF<RuntimeException> elseHandler, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntTriFunction<K1, K2, K3> producer) {
+		return safelyFrom(a1, a2, a3, produceEmpty, (s, e) -> elseHandler.produce(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are re-throw (only runtime exceptions) or nested (checked exceptions). */
+	public static @Nonnull <K1, K2, K3> OptInt safelyFrom(K1 a1, K2 a2, K3 a3, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntTriFunction<K1, K2, K3> producer) {
+		return safelyFrom(a1, a2, a3, produceEmpty, (s, e) -> Handling.nestCheckedAndThrow(e), producer);
+	}
+
+	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are shoved as is (undeclared checked exception that can be catch directly). */
+	public static @Nonnull <K1, K2, K3> OptInt shovingSafelyFrom(K1 a1, K2 a2, K3 a3, @Nonnull LPredicate<Throwable> produceEmpty, @Nonnull LToIntTriFunction<K1, K2, K3> producer) {
+		return safelyFrom(a1, a2, a3, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
+	}
+
 }
