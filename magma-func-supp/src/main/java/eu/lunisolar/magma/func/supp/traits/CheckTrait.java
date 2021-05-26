@@ -6597,126 +6597,126 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 	default @Nonnull SELF checkBool(@Nonnull LPredicate<T> func, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.test(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckBool(func.test(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkBool(@Nonnull LPredicate<T> func, @Nullable String name, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.test(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckBool(func.test(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkByte(@Nonnull LToByteFunction<T> func, LConsumer<Checks.CheckByte> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsByte(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckByte(func.applyAsByte(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkByte(@Nonnull LToByteFunction<T> func, @Nullable String name, LConsumer<Checks.CheckByte> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsByte(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckByte(func.applyAsByte(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkDbl(@Nonnull LToDblFunction<T> func, LConsumer<Checks.CheckDbl> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsDbl(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckDbl(func.applyAsDbl(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkDbl(@Nonnull LToDblFunction<T> func, @Nullable String name, LConsumer<Checks.CheckDbl> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsDbl(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckDbl(func.applyAsDbl(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkChar(@Nonnull LToCharFunction<T> func, LConsumer<Checks.CheckChar> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsChar(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckChar(func.applyAsChar(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkChar(@Nonnull LToCharFunction<T> func, @Nullable String name, LConsumer<Checks.CheckChar> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsChar(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckChar(func.applyAsChar(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkSrt(@Nonnull LToSrtFunction<T> func, LConsumer<Checks.CheckSrt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsSrt(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckSrt(func.applyAsSrt(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkSrt(@Nonnull LToSrtFunction<T> func, @Nullable String name, LConsumer<Checks.CheckSrt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsSrt(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckSrt(func.applyAsSrt(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkFlt(@Nonnull LToFltFunction<T> func, LConsumer<Checks.CheckFlt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsFlt(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckFlt(func.applyAsFlt(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkFlt(@Nonnull LToFltFunction<T> func, @Nullable String name, LConsumer<Checks.CheckFlt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsFlt(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckFlt(func.applyAsFlt(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkInt(@Nonnull LToIntFunction<T> func, LConsumer<Checks.CheckInt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsInt(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckInt(func.applyAsInt(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkInt(@Nonnull LToIntFunction<T> func, @Nullable String name, LConsumer<Checks.CheckInt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsInt(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckInt(func.applyAsInt(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkLong(@Nonnull LToLongFunction<T> func, LConsumer<Checks.CheckLong> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsLong(get()), checkTraitFactory()));
+		checks.accept(new Checks.CheckLong(func.applyAsLong(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull SELF checkLong(@Nonnull LToLongFunction<T> func, @Nullable String name, LConsumer<Checks.CheckLong> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.applyAsLong(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.CheckLong(func.applyAsLong(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull <R> SELF check(@Nonnull LFunction<T, R> func, LConsumer<Checks.Check<R>> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.apply(get()), checkTraitFactory()));
+		checks.accept(new Checks.Check<R>(func.apply(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 
 	default @Nonnull <R> SELF check(@Nonnull LFunction<T, R> func, @Nullable String name, LConsumer<Checks.Check<R>> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
-		checks.accept(Checks.check(func.apply(get()), name, checkTraitFactory()));
+		checks.accept(new Checks.Check<R>(func.apply(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
 		return self();
 	}
 

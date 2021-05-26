@@ -73,7 +73,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckBool(boolean value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckBool(boolean value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -221,7 +221,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private Check(@Nullable T value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public Check(@Nullable T value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -380,7 +380,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckByte(byte value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckByte(byte value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -528,7 +528,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckDbl(double value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckDbl(double value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -676,7 +676,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckChar(char value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckChar(char value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -824,7 +824,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckSrt(short value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckSrt(short value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -972,7 +972,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckFlt(float value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckFlt(float value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -1120,7 +1120,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckInt(int value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckInt(int value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;
@@ -1268,7 +1268,7 @@ public final class Checks implements FluentSyntax {
 		private final ExMF<RuntimeException> factory;
 		private final MsgVerbosity verbosity;
 
-		private CheckLong(long value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
+		public CheckLong(long value, @Nullable String name, ExMF<RuntimeException> factory, String type, MsgVerbosity verbosity) {
 			this.name = name;
 			this.value = value;
 			this.factory = factory;

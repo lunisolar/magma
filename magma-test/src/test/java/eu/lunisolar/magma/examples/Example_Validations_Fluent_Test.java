@@ -114,7 +114,7 @@ public class Example_Validations_Fluent_Test {
      * Example with values derived from the object:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[\\?\\]: Collection size must be >1")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Collection size must be >1")
     public void test4() {
         value(Collections.singleton(2), "collection name")
                 .mustNot(Be::Null, "This collection cannot be null.")
@@ -127,7 +127,7 @@ public class Example_Validations_Fluent_Test {
      * Similar but with derivative's name being used:
      */
     //>example<
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Check \\[size\\]: Collection size must be >1")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[size\\]: Collection size must be >1")
     public void test5() {
         value(Collections.singleton(2), "collection_name")
                 .mustNot(Be::Null, "This collection cannot be null.")
