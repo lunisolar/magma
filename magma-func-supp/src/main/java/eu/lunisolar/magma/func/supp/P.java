@@ -1518,6 +1518,26 @@ public final class P implements FluentSyntax {
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
 	}
 
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(boolean[] a1, boolean[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(boolean[] a1, boolean[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(boolean[] a1, boolean[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(boolean[] a1, boolean[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
+	}
+
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static boolean length(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -1632,6 +1652,26 @@ public final class P implements FluentSyntax {
 	public static String notSingletonEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
+	}
+
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(byte[] a1, byte[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(byte[] a1, byte[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(byte[] a1, byte[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(byte[] a1, byte[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -1750,6 +1790,26 @@ public final class P implements FluentSyntax {
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
 	}
 
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(double[] a1, double[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(double[] a1, double[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(double[] a1, double[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(double[] a1, double[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
+	}
+
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static boolean length(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -1864,6 +1924,26 @@ public final class P implements FluentSyntax {
 	public static String notSingletonEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
+	}
+
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(char[] a1, char[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(char[] a1, char[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(char[] a1, char[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(char[] a1, char[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -1982,6 +2062,26 @@ public final class P implements FluentSyntax {
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
 	}
 
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(short[] a1, short[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(short[] a1, short[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(short[] a1, short[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(short[] a1, short[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
+	}
+
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static boolean length(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -2096,6 +2196,26 @@ public final class P implements FluentSyntax {
 	public static String notSingletonEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
+	}
+
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(float[] a1, float[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(float[] a1, float[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(float[] a1, float[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(float[] a1, float[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -2214,6 +2334,26 @@ public final class P implements FluentSyntax {
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
 	}
 
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(int[] a1, int[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(int[] a1, int[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(int[] a1, int[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(int[] a1, int[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
+	}
+
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static boolean length(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -2330,6 +2470,26 @@ public final class P implements FluentSyntax {
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
 	}
 
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean equal(long[] a1, long[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String equalEx(long[] a1, long[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean notEqual(long[] a1, long[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String notEqualEx(long[] a1, long[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
+	}
+
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static <T> boolean length(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -2444,6 +2604,26 @@ public final class P implements FluentSyntax {
 	public static <T> String notSingletonEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return !(Array.getLength(array) == 1) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", (Object) array);
+	}
+
+	/** Predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <T> boolean equal(T[] a1, T[] a2) {
+		return Arrays.equals(a1, a2);
+	}
+
+	/** "Special" predicate: Array <%s> must be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <T> String equalEx(T[] a1, T[] a2) {
+		return (Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must be equal to array <%s>.", a1, a2);
+	}
+
+	/** Predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <T> boolean notEqual(T[] a1, T[] a2) {
+		return !(Arrays.equals(a1, a2));
+	}
+
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <T> String notEqualEx(T[] a1, T[] a2) {
+		return !(Arrays.equals(a1, a2)) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", a1, a2);
 	}
 
 	// </editor-fold>
