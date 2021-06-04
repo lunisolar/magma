@@ -337,7 +337,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	// </editor-fold>
 
 	default SELF butNot(char value) {
-		return isPresent() ? (Is.equal(value(), value) ? voidValue() : self()) : voidValue();
+		return isPresent() ? (Is.equal(value(), value) ? voidValue() : fluentCtx()) : voidValue();
 	}
 
 	public default <R> Opt<R> filterAndMap(@Nonnull Class<R> clazz) {
@@ -365,19 +365,19 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	public default <R, O extends OptTrait<R, O>> O alwaysFlatMap(@Nonnull LFunction<SELF, O> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		O result = mapping.apply(self());
+		O result = mapping.apply(fluentCtx());
 		return Objects.requireNonNull(result);
 	}
 
 	public default <R, O extends OptTrait<R, O>, K> O alwaysFlatMap(K a1, @Nonnull LBiFunction<SELF, ? super K, O> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		O result = mapping.apply(self(), a1);
+		O result = mapping.apply(fluentCtx(), a1);
 		return Objects.requireNonNull(result);
 	}
 
 	public default <R, O extends OptTrait<R, O>, K> O alwaysFlatMapWith(K a1, @Nonnull LBiFunction<? super K, SELF, O> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		O result = mapping.apply(a1, self());
+		O result = mapping.apply(a1, fluentCtx());
 		return Objects.requireNonNull(result);
 	}
 
@@ -970,7 +970,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isVoid()) {
 			action.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresent(@Nonnull LConsumer<? super T> action) {
@@ -978,7 +978,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresent(@Nonnull LConsumer<? super T> action, @Nonnull LAction emptyAction) {
@@ -988,7 +988,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresent(K1 a2, @Nonnull LBiConsumer<? super T, ? super K1> action) {
@@ -996,7 +996,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(get(), a2);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresent(K1 a2, @Nonnull LBiConsumer<? super T, ? super K1> action, @Nonnull LAction emptyAction) {
@@ -1006,7 +1006,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresent(K1 a2, K2 a3, @Nonnull LTriConsumer<? super T, ? super K1, ? super K2> action) {
@@ -1014,7 +1014,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(get(), a2, a3);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresent(K1 a2, K2 a3, @Nonnull LTriConsumer<? super T, ? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
@@ -1024,7 +1024,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K3, K4> SELF ifPresent(K1 a2, K3 a3, K4 a4, @Nonnull LQuadConsumer<? super T, ? super K1, ? super K3, ? super K4> action) {
@@ -1032,7 +1032,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(get(), a2, a3, a4);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K3, K4> SELF ifPresent(K1 a2, K3 a3, K4 a4, @Nonnull LQuadConsumer<? super T, ? super K1, ? super K3, ? super K4> action, @Nonnull LAction emptyAction) {
@@ -1042,7 +1042,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresentWith(@Nonnull LConsumer<? super T> action) {
@@ -1050,7 +1050,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresentWith(@Nonnull LConsumer<? super T> action, @Nonnull LAction emptyAction) {
@@ -1060,7 +1060,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LBiConsumer<? super K1, ? super T> action) {
@@ -1068,7 +1068,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(a1, get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LBiConsumer<? super K1, ? super T> action, @Nonnull LAction emptyAction) {
@@ -1078,7 +1078,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LTriConsumer<? super K1, ? super K2, ? super T> action) {
@@ -1086,7 +1086,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(a1, a2, get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LTriConsumer<? super K1, ? super K2, ? super T> action, @Nonnull LAction emptyAction) {
@@ -1096,7 +1096,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K3, K4> SELF ifPresentWith(K1 a1, K3 a2, K4 a3, @Nonnull LQuadConsumer<? super K1, ? super K3, ? super K4, ? super T> action) {
@@ -1104,7 +1104,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(a1, a2, a3, get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K3, K4> SELF ifPresentWith(K1 a1, K3 a2, K4 a3, @Nonnull LQuadConsumer<? super K1, ? super K3, ? super K4, ? super T> action, @Nonnull LAction emptyAction) {
@@ -1114,39 +1114,39 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifExists(@Nonnull LConsumer<? super SELF> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self());
+			action.accept(fluentCtx());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <T2> SELF ifExists(T2 a2, @Nonnull LBiConsumer<? super SELF, ? super T2> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self(), a2);
+			action.accept(fluentCtx(), a2);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <T2, T3> SELF ifExists(T2 a2, T3 a3, @Nonnull LTriConsumer<? super SELF, ? super T2, ? super T3> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self(), a2, a3);
+			action.accept(fluentCtx(), a2, a3);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <T2, T4, T5> SELF ifExists(T2 a2, T4 a3, T5 a4, @Nonnull LQuadConsumer<? super SELF, ? super T2, ? super T4, ? super T5> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self(), a2, a3, a4);
+			action.accept(fluentCtx(), a2, a3, a4);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	// </editor-fold>
@@ -1155,21 +1155,21 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	default @Nonnull SELF visit(@Nonnull LConsumer<T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		consumer.accept(get());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Compared to ifPresent if no value is present then it will be substituted with null.  */
 	default @Nonnull SELF visitNullable(@Nonnull LConsumer<T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		consumer.accept(nullable());
-		return self();
+		return fluentCtx();
 	}
 
 	// <editor-fold desc="orElse">
 
 	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		throw Handling.create(X::noSuchElement);
@@ -1177,7 +1177,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -1186,7 +1186,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -1195,7 +1195,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -1204,7 +1204,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -1213,7 +1213,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -1285,26 +1285,26 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default SELF orGet(@Nonnull LSupplier<? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.get());
+		return isPresent() ? fluentCtx() : value(supplier.get());
 	}
 
 	default SELF orFlatGet(@Nonnull LSupplier<? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.get());
+		return isPresent() ? fluentCtx() : valueFrom(supplier.get());
 	}
 
 	default SELF or(@Nullable T value) {
-		return isPresent() ? self() : value(value);
+		return isPresent() ? fluentCtx() : value(value);
 	}
 
 	default SELF orOpt(@Nonnull OptTrait<? extends T, ?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? self() : valueFrom(opt);
+		return isPresent() ? fluentCtx() : valueFrom(opt);
 	}
 
 	default SELF orValue(@Nonnull ValueTrait<? extends T, ?> value) {
 		Null.nonNullArg(value, "value");
-		return isPresent() ? self() : value(value.value());
+		return isPresent() ? fluentCtx() : value(value.value());
 	}
 
 	default <K> T orElseApply(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
@@ -1314,12 +1314,12 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default <K> SELF orApply(K a1, @Nonnull LFunction<? super K, ? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.apply(a1));
+		return isPresent() ? fluentCtx() : value(supplier.apply(a1));
 	}
 
 	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.apply(a1));
+		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1));
 	}
 
 	default <K1, K2> T orElseApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends T> supplier) {
@@ -1334,22 +1334,22 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 
 	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.apply(a1, a2));
+		return isPresent() ? fluentCtx() : value(supplier.apply(a1, a2));
 	}
 
 	default <K1, K2, K3> SELF orApply(K1 a1, K2 a2, K3 a3, @Nonnull LTriFunction<? super K1, ? super K2, ? super K3, ? extends T> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.apply(a1, a2, a3));
+		return isPresent() ? fluentCtx() : value(supplier.apply(a1, a2, a3));
 	}
 
 	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2));
 	}
 
 	default <K1, K2, K3> SELF orFlatApply(K1 a1, K2 a2, K3 a3, @Nonnull LTriFunction<? super K1, ? super K2, ? super K3, ? extends ValueTrait<? extends T, ?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2, a3));
+		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
 	// </editor-fold>

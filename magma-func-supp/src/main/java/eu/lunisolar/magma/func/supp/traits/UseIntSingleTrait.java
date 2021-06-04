@@ -61,12 +61,12 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF use(@Nonnull LIntConsumer consumer) {
 		consumer.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF use(int a2, @Nonnull LBiIntConsumer consumer) {
 		consumer.accept(value(), a2);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -76,7 +76,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF use(int a2, int a3, @Nonnull LTriIntConsumer consumer) {
 		consumer.accept(value(), a2, a3);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -86,7 +86,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF useBool_(boolean v, @Nonnull LBoolIntConsumer.LIntBoolCons consumer) {
 		consumer.acceptIntBool(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -96,7 +96,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF useByte_(byte v, @Nonnull LByteIntConsumer.LIntByteCons consumer) {
 		consumer.acceptIntByte(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -106,7 +106,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF useDbl_(double v, @Nonnull LDblIntConsumer.LIntDblCons consumer) {
 		consumer.acceptIntDbl(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -116,7 +116,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF useChar_(char v, @Nonnull LCharIntConsumer.LIntCharCons consumer) {
 		consumer.acceptIntChar(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -126,7 +126,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF useSrt_(short v, @Nonnull LSrtIntConsumer.LIntSrtCons consumer) {
 		consumer.acceptIntSrt(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -136,7 +136,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF useFlt_(float v, @Nonnull LFltIntConsumer.LIntFltCons consumer) {
 		consumer.acceptIntFlt(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -146,7 +146,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull SELF useLong_(long v, @Nonnull LLongIntConsumer.LIntLongCons consumer) {
 		consumer.acceptIntLong(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -156,7 +156,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull <V> SELF use_(V v, @Nonnull LObjIntConsumer.LIntObjCons<? super V> consumer) {
 		consumer.acceptIntObj(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -166,7 +166,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull <V1> SELF useWithInt(V1 with1, @Nonnull LObjIntConsumer<? super V1> consumer) {
 		consumer.accept(with1, value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -176,7 +176,7 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 
 	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjIntConsumer<? super V1, ? super V2> consumer) {
 		consumer.accept(with1, with2, value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */

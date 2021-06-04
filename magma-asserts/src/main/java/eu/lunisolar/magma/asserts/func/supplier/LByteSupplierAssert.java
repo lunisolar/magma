@@ -93,7 +93,7 @@ public interface LByteSupplierAssert<S extends LByteSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public S doesReturn(byte value) {
 			doesGetAsByte().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

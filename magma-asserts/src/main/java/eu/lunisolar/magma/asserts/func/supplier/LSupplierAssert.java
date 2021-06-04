@@ -93,7 +93,7 @@ public interface LSupplierAssert<S extends LSupplierAssert<S, A, RS, T>, A exten
 		@Nonnull
 		public S doesReturn(T value) {
 			doesGet().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

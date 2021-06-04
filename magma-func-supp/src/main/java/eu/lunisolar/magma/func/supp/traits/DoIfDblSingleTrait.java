@@ -62,19 +62,19 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull SELF doIf(@Nonnull LDblPredicate predicate, @Nonnull LDblConsumer action) {
 		if (is(predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF doIfNot(@Nonnull LDblPredicate predicate, @Nonnull LDblConsumer action) {
 		if (isNot(predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF doIf(double a2, @Nonnull LBiDblPredicate predicate, @Nonnull LDblConsumer action) {
 		if (is(a2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -85,7 +85,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull SELF doIfNot(double a2, @Nonnull LBiDblPredicate predicate, @Nonnull LDblConsumer action) {
 		if (isNot(a2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -96,7 +96,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull SELF doIf(double a2, double a3, @Nonnull LTriDblPredicate predicate, @Nonnull LDblConsumer action) {
 		if (is(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -107,7 +107,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull SELF doIfNot(double a2, double a3, @Nonnull LTriDblPredicate predicate, @Nonnull LDblConsumer action) {
 		if (isNot(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -118,7 +118,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull SELF doIfInt(int v, @Nonnull LDblIntPredicate predicate, @Nonnull LDblConsumer action) {
 		if (isInt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -129,7 +129,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull SELF doIfNotInt(int v, @Nonnull LDblIntPredicate predicate, @Nonnull LDblConsumer action) {
 		if (isNotInt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -140,7 +140,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
 		if (is_(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -151,7 +151,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
 		if (isNot_(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -162,7 +162,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull <V1> SELF doIfWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate, @Nonnull LDblConsumer action) {
 		if (isWithDbl(with1, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -173,7 +173,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull <V1> SELF doIfNotWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate, @Nonnull LDblConsumer action) {
 		if (isNotWithDbl(with1, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -184,7 +184,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull <V1, V2> SELF doIfWith(V1 with1, V2 with2, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate, @Nonnull LDblConsumer action) {
 		if (isWith(with1, with2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -195,7 +195,7 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 	default @Nonnull <V1, V2> SELF doIfNotWith(V1 with1, V2 with2, @Nonnull LBiObjDblPredicate<? super V1, ? super V2> predicate, @Nonnull LDblConsumer action) {
 		if (isNotWith(with1, with2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */

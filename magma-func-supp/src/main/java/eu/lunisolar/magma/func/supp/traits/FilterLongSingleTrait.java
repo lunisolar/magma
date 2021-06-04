@@ -62,43 +62,43 @@ public interface FilterLongSingleTrait<SELF extends FilterLongSingleTrait<SELF>>
 	@Override
 	default @Nonnull SELF filter(@Nonnull LLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(predicate) ? self() : voidValue();
+		return this.is(predicate) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull SELF filter(long a2, @Nonnull LBiLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, predicate) ? self() : voidValue();
+		return this.is(a2, predicate) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull SELF filter(long a2, long a3, @Nonnull LTriLongPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is(a2, a3, predicate) ? self() : voidValue();
+		return this.is(a2, a3, predicate) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull SELF filterInt(int v, @Nonnull LLongIntPredicate predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isInt(v, predicate) ? self() : voidValue();
+		return this.isInt(v, predicate) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.is_(v, predicate) ? self() : voidValue();
+		return this.is_(v, predicate) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull <V1> SELF filterWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWithLong(with1, predicate) ? self() : voidValue();
+		return this.isWithLong(with1, predicate) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LBiObjLongPredicate<? super V1, ? super V2> predicate) {
 		Null.nonNullArg(predicate, "predicate");
-		return this.isWith(with1, with2, predicate) ? self() : voidValue();
+		return this.isWith(with1, with2, predicate) ? fluentCtx() : voidValue();
 	}
 
 	// </editor-fold>

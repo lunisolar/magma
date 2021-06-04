@@ -91,7 +91,7 @@ public interface JreSupplierAssert<S extends JreSupplierAssert<S, A, RS, T>, A e
 		@Nonnull
 		public S doesReturn(T value) {
 			doesGet().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

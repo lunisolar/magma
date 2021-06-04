@@ -61,12 +61,12 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 
 	default @Nonnull SELF use(@Nonnull LLongConsumer consumer) {
 		consumer.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF use(long a2, @Nonnull LBiLongConsumer consumer) {
 		consumer.accept(value(), a2);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -76,7 +76,7 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 
 	default @Nonnull SELF use(long a2, long a3, @Nonnull LTriLongConsumer consumer) {
 		consumer.accept(value(), a2, a3);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -86,7 +86,7 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 
 	default @Nonnull SELF useInt(int v, @Nonnull LLongIntConsumer consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -96,7 +96,7 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 
 	default @Nonnull <V> SELF use_(V v, @Nonnull LObjLongConsumer.LLongObjCons<? super V> consumer) {
 		consumer.acceptLongObj(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -106,7 +106,7 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 
 	default @Nonnull <V1> SELF useWithLong(V1 with1, @Nonnull LObjLongConsumer<? super V1> consumer) {
 		consumer.accept(with1, value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -116,7 +116,7 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 
 	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LBiObjLongConsumer<? super V1, ? super V2> consumer) {
 		consumer.accept(with1, with2, value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */

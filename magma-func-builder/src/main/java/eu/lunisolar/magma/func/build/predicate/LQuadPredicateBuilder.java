@@ -100,7 +100,7 @@ public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderW
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
-		return self();
+		return fluentCtx();
 	}
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
@@ -110,7 +110,7 @@ public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderW
 				&& (argC4 == null || argC4.isInstance(a4)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
@@ -120,7 +120,7 @@ public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderW
 				&& (argC4 == null || argC4.isInstance(a4)));
 
 		pc.evaluate(function);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

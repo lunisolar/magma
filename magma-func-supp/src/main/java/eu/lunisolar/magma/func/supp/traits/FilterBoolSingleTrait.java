@@ -62,43 +62,43 @@ public interface FilterBoolSingleTrait<SELF extends FilterBoolSingleTrait<SELF>>
 	@Override
 	default @Nonnull SELF filter(@Nonnull LLogicalOperator operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.is(operator) ? self() : voidValue();
+		return this.is(operator) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull SELF filter(boolean a2, @Nonnull LLogicalBinaryOperator operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.is(a2, operator) ? self() : voidValue();
+		return this.is(a2, operator) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull SELF filter(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.is(a2, a3, operator) ? self() : voidValue();
+		return this.is(a2, a3, operator) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull SELF filterInt(int v, @Nonnull LBoolIntPredicate operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.isInt(v, operator) ? self() : voidValue();
+		return this.isInt(v, operator) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.is_(v, operator) ? self() : voidValue();
+		return this.is_(v, operator) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull <V1> SELF filterWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.isWithBool(with1, operator) ? self() : voidValue();
+		return this.isWithBool(with1, operator) ? fluentCtx() : voidValue();
 	}
 
 	@Override
 	default @Nonnull <V1, V2> SELF filterWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator) {
 		Null.nonNullArg(operator, "operator");
-		return this.isWith(with1, with2, operator) ? self() : voidValue();
+		return this.isWith(with1, with2, operator) ? fluentCtx() : voidValue();
 	}
 
 	// </editor-fold>

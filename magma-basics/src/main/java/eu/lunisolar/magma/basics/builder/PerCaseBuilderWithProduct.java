@@ -46,7 +46,7 @@ public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithPr
     /** Sets the function to evaluate _eventually_ when input data do not match any case. */
     public final PCB otherwiseProduce(@Nonnull R directValue) {
         otherwise = directToFunction.apply(directValue);
-        return self();
+        return fluentCtx();
     }
 
     // </editor-fold>
@@ -62,7 +62,7 @@ public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithPr
 
         @Override
         protected PartialCaseWithProduct.The<SELF, P, F, R> partialCaseFactoryMethod(P casePredicate) {
-            return new PartialCaseWithProduct.The(self(), casePredicate, subCasesFactory);
+            return new PartialCaseWithProduct.The(fluentCtx(), casePredicate, subCasesFactory);
         }
     }
 

@@ -100,7 +100,7 @@ public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLo
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
-		return self();
+		return fluentCtx();
 	}
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
@@ -109,7 +109,7 @@ public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLo
 		PartialCase.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
@@ -118,7 +118,7 @@ public final class LObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<LObjLo
 		PartialCase.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 
 		pc.evaluate(function);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

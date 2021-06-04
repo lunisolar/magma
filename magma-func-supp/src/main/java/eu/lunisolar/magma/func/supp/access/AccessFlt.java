@@ -81,7 +81,7 @@ public final class AccessFlt implements FltValueTrait<AccessFlt>, CheckFltTrait<
 	@Override
 	public AccessFlt value(float value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

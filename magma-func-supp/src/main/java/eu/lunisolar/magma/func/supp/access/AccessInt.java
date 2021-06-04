@@ -81,7 +81,7 @@ public final class AccessInt implements IntValueTrait<AccessInt>, CheckIntTrait<
 	@Override
 	public AccessInt value(int value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

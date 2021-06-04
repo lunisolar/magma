@@ -91,7 +91,7 @@ public interface JreDoubleSupplierAssert<S extends JreDoubleSupplierAssert<S, A,
 		@Nonnull
 		public S doesReturn(double value) {
 			doesGetAsDbl().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

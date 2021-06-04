@@ -81,7 +81,7 @@ public final class AccessLong implements LongValueTrait<AccessLong>, CheckLongTr
 	@Override
 	public AccessLong value(long value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

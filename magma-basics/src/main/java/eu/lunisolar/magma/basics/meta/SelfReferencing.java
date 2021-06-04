@@ -18,10 +18,9 @@
 
 package eu.lunisolar.magma.basics.meta;
 
+@SuppressWarnings("unchecked")
 public interface SelfReferencing<SELF extends SelfReferencing<SELF>> {
 
-    default SELF self() {
-        return (SELF) this;
-    }
+    default SELF self() { return (SELF) this;}
 
 }

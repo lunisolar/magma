@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Trait for any class that has fluent filter method.
  * Compared to {@link Fluent} forces to use exception handling from Magma functions. 
  */
-public interface FluentTrait<SELF extends FluentTrait<SELF>> extends Fluent<SELF> {
+public interface FluentTrait<SELF> extends Fluent<SELF> {
 
 	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
 	default @Nonnull SELF fluentUse(@Nonnull LConsumer<SELF> interjection) {

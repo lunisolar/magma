@@ -97,7 +97,7 @@ public interface Attest<SELF extends Attest<SELF, A>, A> extends Assert<SELF, A>
 		isNotNull();
 		R derivedActual = predicate.apply(actual());
 		Assertions.assertThat(derivedActual).as(message, args).isEqualTo(expected);
-		return self();
+		return fluentCtx();
 	}
 
 	@Deprecated
@@ -105,7 +105,7 @@ public interface Attest<SELF extends Attest<SELF, A>, A> extends Assert<SELF, A>
 		isNotNull();
 		BooleanAssert as = (BooleanAssert) Assertions.assertThat(predicate.test(actual())).as(message, args);
 		as.isEqualTo(expected);
-		return self();
+		return fluentCtx();
 	}
 
 	public static abstract class AbstractObjAttest<SELF extends AbstractObjAttest<SELF, A>, A> extends AbstractObjectAssert<SELF, A> implements Attest<SELF, A> {

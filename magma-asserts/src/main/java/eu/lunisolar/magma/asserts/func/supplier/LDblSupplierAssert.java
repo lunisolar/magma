@@ -93,7 +93,7 @@ public interface LDblSupplierAssert<S extends LDblSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public S doesReturn(double value) {
 			doesGetAsDbl().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

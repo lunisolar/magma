@@ -64,7 +64,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 		if (is(P::instanceOf, clazz)) {
 			action.accept((R) value());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	// <editor-fold desc="doIf">
@@ -72,19 +72,19 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIf(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (is(predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF doIfNot(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNot(predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF uniDoIf(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIs(a2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -95,7 +95,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF uniDoIfNot(T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIsNot(a2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -106,7 +106,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF uniDoIf(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIs(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -117,7 +117,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF uniDoIfNot(T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIsNot(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -128,7 +128,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF uniDoIf(T a2, T a3, T a4, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIs(a2, a3, a4, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -139,7 +139,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF uniDoIfNot(T a2, T a3, T a4, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIsNot(a2, a3, a4, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -150,7 +150,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isBool(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -161,7 +161,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotBool(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -172,7 +172,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfByte(byte v, @Nonnull LObjBytePredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isByte(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -183,7 +183,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotByte(byte v, @Nonnull LObjBytePredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotByte(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -194,7 +194,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfDbl(double v, @Nonnull LObjDblPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isDbl(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -205,7 +205,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotDbl(double v, @Nonnull LObjDblPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotDbl(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -216,7 +216,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfChar(char v, @Nonnull LObjCharPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isChar(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -227,7 +227,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotChar(char v, @Nonnull LObjCharPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotChar(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -238,7 +238,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfSrt(short v, @Nonnull LObjSrtPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isSrt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -249,7 +249,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotSrt(short v, @Nonnull LObjSrtPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotSrt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -260,7 +260,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfFlt(float v, @Nonnull LObjFltPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isFlt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -271,7 +271,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotFlt(float v, @Nonnull LObjFltPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotFlt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -282,7 +282,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfInt(int v, @Nonnull LObjIntPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isInt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -293,7 +293,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotInt(int v, @Nonnull LObjIntPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotInt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -304,7 +304,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfLong(long v, @Nonnull LObjLongPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isLong(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -315,7 +315,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF doIfNotLong(long v, @Nonnull LObjLongPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotLong(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -326,7 +326,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V> SELF doIf(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate, @Nonnull LConsumer<? super T> action) {
 		if (is(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -337,7 +337,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V> SELF doIfNot(V v, @Nonnull LBiPredicate<? super T, ? super V> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNot(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -348,7 +348,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V2, V3> SELF doIf(V2 a2, V3 a3, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate, @Nonnull LConsumer<? super T> action) {
 		if (is(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -359,7 +359,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V2, V3> SELF doIfNot(V2 a2, V3 a3, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNot(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -370,7 +370,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V2, V3, V4> SELF doIf(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull LConsumer<? super T> action) {
 		if (is(a2, a3, a4, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -381,7 +381,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V2, V3, V4> SELF doIfNot(V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNot(a2, a3, a4, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -392,7 +392,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V1> SELF doIfWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isWith(with1, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -403,7 +403,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V1> SELF doIfNotWith(V1 with1, @Nonnull LBiPredicate<? super V1, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotWith(with1, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -414,7 +414,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V1, V2> SELF doIfWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isWith(with1, with2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -425,7 +425,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull <V1, V2> SELF doIfNotWith(V1 with1, V2 with2, @Nonnull LTriPredicate<? super V1, ? super V2, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isNotWith(with1, with2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -436,7 +436,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF uniDoIfWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIsWith(with, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -447,7 +447,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 	default @Nonnull SELF uniDoIfNotWith(T with, @Nonnull LBiPredicate<? super T, ? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (uniIsNotWith(with, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */

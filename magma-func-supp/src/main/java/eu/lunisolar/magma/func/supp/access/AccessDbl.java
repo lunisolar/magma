@@ -81,7 +81,7 @@ public final class AccessDbl implements DblValueTrait<AccessDbl>, CheckDblTrait<
 	@Override
 	public AccessDbl value(double value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

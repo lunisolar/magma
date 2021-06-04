@@ -61,12 +61,12 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF use(@Nonnull LConsumer<? super T> consumer) {
 		consumer.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF uniUse(T a2, @Nonnull LBiConsumer<? super T, ? super T> consumer) {
 		consumer.accept(value(), a2);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -76,7 +76,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF uniUse(T a2, T a3, @Nonnull LTriConsumer<? super T, ? super T, ? super T> consumer) {
 		consumer.accept(value(), a2, a3);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -86,7 +86,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF uniUse(T a2, T a3, T a4, @Nonnull LQuadConsumer<? super T, ? super T, ? super T, ? super T> consumer) {
 		consumer.accept(value(), a2, a3, a4);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -96,7 +96,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useBool(boolean v, @Nonnull LObjBoolConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -106,7 +106,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useByte(byte v, @Nonnull LObjByteConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -116,7 +116,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useDbl(double v, @Nonnull LObjDblConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -126,7 +126,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useChar(char v, @Nonnull LObjCharConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -136,7 +136,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useSrt(short v, @Nonnull LObjSrtConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -146,7 +146,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useFlt(float v, @Nonnull LObjFltConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -156,7 +156,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useInt(int v, @Nonnull LObjIntConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -166,7 +166,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF useLong(long v, @Nonnull LObjLongConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -176,7 +176,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull <V> SELF use(V v, @Nonnull LBiConsumer<? super T, ? super V> consumer) {
 		consumer.accept(value(), v);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -186,7 +186,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull <V2, V3> SELF use(V2 a2, V3 a3, @Nonnull LTriConsumer<? super T, ? super V2, ? super V3> consumer) {
 		consumer.accept(value(), a2, a3);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -196,7 +196,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull <V2, V3, V4> SELF use(V2 a2, V3 a3, V4 a4, @Nonnull LQuadConsumer<? super T, ? super V2, ? super V3, ? super V4> consumer) {
 		consumer.accept(value(), a2, a3, a4);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -206,7 +206,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull <V1> SELF useWith(V1 with1, @Nonnull LBiConsumer<? super V1, ? super T> consumer) {
 		consumer.accept(with1, value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -216,7 +216,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull <V1, V2> SELF useWith(V1 with1, V2 with2, @Nonnull LTriConsumer<? super V1, ? super V2, ? super T> consumer) {
 		consumer.accept(with1, with2, value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -226,7 +226,7 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 
 	default @Nonnull SELF uniUseWith(T with, @Nonnull LBiConsumer<? super T, ? super T> consumer) {
 		consumer.accept(with, value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */

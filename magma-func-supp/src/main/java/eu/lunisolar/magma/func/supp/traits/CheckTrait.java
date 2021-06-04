@@ -99,7 +99,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -111,7 +111,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -123,7 +123,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -135,7 +135,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -147,7 +147,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -157,7 +157,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -169,7 +169,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -181,7 +181,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -193,7 +193,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -205,7 +205,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -217,7 +217,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -231,7 +231,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -245,7 +245,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -259,7 +259,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -273,7 +273,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format1MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -283,7 +283,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -295,7 +295,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -307,7 +307,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -319,7 +319,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -331,7 +331,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -341,7 +341,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -353,7 +353,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -365,7 +365,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -377,7 +377,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -389,7 +389,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -399,7 +399,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -411,7 +411,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -423,7 +423,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -435,7 +435,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -447,7 +447,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -457,7 +457,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -469,7 +469,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -481,7 +481,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -493,7 +493,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -505,7 +505,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -517,7 +517,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -531,7 +531,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -545,7 +545,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -559,7 +559,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -573,7 +573,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -585,7 +585,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -599,7 +599,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -613,7 +613,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -627,7 +627,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -641,7 +641,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -651,7 +651,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -663,7 +663,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -675,7 +675,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -687,7 +687,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -699,7 +699,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -709,7 +709,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -721,7 +721,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -733,7 +733,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -745,7 +745,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -757,7 +757,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -767,7 +767,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -779,7 +779,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -791,7 +791,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -803,7 +803,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -815,7 +815,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -825,7 +825,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -837,7 +837,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -849,7 +849,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -861,7 +861,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -873,7 +873,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -885,7 +885,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -899,7 +899,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -913,7 +913,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -927,7 +927,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -941,7 +941,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -953,7 +953,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -967,7 +967,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -981,7 +981,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -995,7 +995,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1009,7 +1009,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1019,7 +1019,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1031,7 +1031,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1043,7 +1043,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1055,7 +1055,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1067,7 +1067,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1077,7 +1077,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1089,7 +1089,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1101,7 +1101,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1113,7 +1113,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1125,7 +1125,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1135,7 +1135,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1147,7 +1147,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1159,7 +1159,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1171,7 +1171,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1183,7 +1183,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1193,7 +1193,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1205,7 +1205,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1217,7 +1217,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1229,7 +1229,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1241,7 +1241,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1253,7 +1253,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, a4, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1267,7 +1267,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1281,7 +1281,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1295,7 +1295,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1310,7 +1310,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1322,7 +1322,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, a4, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1336,7 +1336,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1350,7 +1350,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1364,7 +1364,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1379,7 +1379,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1389,7 +1389,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1401,7 +1401,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1413,7 +1413,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1425,7 +1425,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1437,7 +1437,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1447,7 +1447,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1459,7 +1459,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1471,7 +1471,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1483,7 +1483,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1495,7 +1495,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1505,7 +1505,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1517,7 +1517,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1529,7 +1529,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1541,7 +1541,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1553,7 +1553,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1563,7 +1563,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1575,7 +1575,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1587,7 +1587,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1599,7 +1599,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1611,7 +1611,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1623,7 +1623,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1637,7 +1637,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1651,7 +1651,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1665,7 +1665,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1679,7 +1679,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1691,7 +1691,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1705,7 +1705,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1719,7 +1719,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1733,7 +1733,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1747,7 +1747,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1757,7 +1757,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1769,7 +1769,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1781,7 +1781,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1793,7 +1793,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1805,7 +1805,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1815,7 +1815,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1827,7 +1827,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1839,7 +1839,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1851,7 +1851,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1863,7 +1863,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1873,7 +1873,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1885,7 +1885,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1897,7 +1897,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1909,7 +1909,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1921,7 +1921,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1931,7 +1931,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1943,7 +1943,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1955,7 +1955,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1967,7 +1967,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1979,7 +1979,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -1991,7 +1991,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2005,7 +2005,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2019,7 +2019,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2033,7 +2033,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2047,7 +2047,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2059,7 +2059,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2073,7 +2073,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2087,7 +2087,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2101,7 +2101,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2115,7 +2115,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2125,7 +2125,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2137,7 +2137,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2149,7 +2149,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2161,7 +2161,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2173,7 +2173,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2183,7 +2183,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2195,7 +2195,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2207,7 +2207,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2219,7 +2219,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2231,7 +2231,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2241,7 +2241,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2253,7 +2253,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2265,7 +2265,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2277,7 +2277,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2289,7 +2289,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2299,7 +2299,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2311,7 +2311,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2323,7 +2323,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2335,7 +2335,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2347,7 +2347,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2359,7 +2359,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2373,7 +2373,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2387,7 +2387,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2401,7 +2401,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2415,7 +2415,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2427,7 +2427,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2441,7 +2441,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2455,7 +2455,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2469,7 +2469,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2483,7 +2483,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2493,7 +2493,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2505,7 +2505,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2517,7 +2517,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2529,7 +2529,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2541,7 +2541,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2551,7 +2551,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2563,7 +2563,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2575,7 +2575,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2587,7 +2587,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2599,7 +2599,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2609,7 +2609,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2621,7 +2621,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2633,7 +2633,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2645,7 +2645,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2657,7 +2657,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2667,7 +2667,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2679,7 +2679,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2691,7 +2691,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2703,7 +2703,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2715,7 +2715,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2727,7 +2727,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2741,7 +2741,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2755,7 +2755,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2769,7 +2769,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2783,7 +2783,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2795,7 +2795,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2809,7 +2809,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2823,7 +2823,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2837,7 +2837,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2851,7 +2851,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2861,7 +2861,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2873,7 +2873,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2885,7 +2885,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2897,7 +2897,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2909,7 +2909,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2919,7 +2919,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2931,7 +2931,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2943,7 +2943,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2955,7 +2955,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2967,7 +2967,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2977,7 +2977,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -2989,7 +2989,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3001,7 +3001,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3013,7 +3013,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3025,7 +3025,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3035,7 +3035,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3047,7 +3047,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3059,7 +3059,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3071,7 +3071,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3083,7 +3083,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3095,7 +3095,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3109,7 +3109,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3123,7 +3123,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3137,7 +3137,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3151,7 +3151,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3163,7 +3163,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3177,7 +3177,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3191,7 +3191,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3205,7 +3205,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3219,7 +3219,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3229,7 +3229,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3241,7 +3241,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3253,7 +3253,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3265,7 +3265,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3277,7 +3277,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3287,7 +3287,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3299,7 +3299,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3311,7 +3311,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3323,7 +3323,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3335,7 +3335,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3345,7 +3345,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3357,7 +3357,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3369,7 +3369,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3381,7 +3381,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3393,7 +3393,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3403,7 +3403,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3415,7 +3415,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3427,7 +3427,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3439,7 +3439,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3451,7 +3451,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3463,7 +3463,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3477,7 +3477,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3491,7 +3491,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3505,7 +3505,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3519,7 +3519,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3531,7 +3531,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3545,7 +3545,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3559,7 +3559,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3573,7 +3573,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3587,7 +3587,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3597,7 +3597,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3609,7 +3609,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3621,7 +3621,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3633,7 +3633,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3645,7 +3645,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3655,7 +3655,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3667,7 +3667,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3679,7 +3679,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3691,7 +3691,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3703,7 +3703,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3713,7 +3713,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3725,7 +3725,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3737,7 +3737,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3749,7 +3749,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3761,7 +3761,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3771,7 +3771,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3783,7 +3783,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3795,7 +3795,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3807,7 +3807,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3819,7 +3819,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3831,7 +3831,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3845,7 +3845,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3859,7 +3859,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3873,7 +3873,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3887,7 +3887,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3899,7 +3899,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3913,7 +3913,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3927,7 +3927,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3941,7 +3941,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3955,7 +3955,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3965,7 +3965,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3977,7 +3977,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -3989,7 +3989,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4001,7 +4001,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4013,7 +4013,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4023,7 +4023,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4035,7 +4035,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4047,7 +4047,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4059,7 +4059,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4071,7 +4071,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4081,7 +4081,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4093,7 +4093,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4105,7 +4105,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4117,7 +4117,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4129,7 +4129,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4139,7 +4139,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4151,7 +4151,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4163,7 +4163,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4175,7 +4175,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4187,7 +4187,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4199,7 +4199,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4213,7 +4213,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4227,7 +4227,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4241,7 +4241,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4255,7 +4255,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4267,7 +4267,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4281,7 +4281,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4295,7 +4295,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4309,7 +4309,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4323,7 +4323,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4333,7 +4333,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4345,7 +4345,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4357,7 +4357,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4369,7 +4369,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4381,7 +4381,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4391,7 +4391,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4403,7 +4403,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4415,7 +4415,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4427,7 +4427,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4439,7 +4439,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4449,7 +4449,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4461,7 +4461,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4473,7 +4473,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4485,7 +4485,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4497,7 +4497,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4507,7 +4507,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), v)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), v));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4519,7 +4519,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4531,7 +4531,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4543,7 +4543,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4555,7 +4555,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4567,7 +4567,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4581,7 +4581,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4595,7 +4595,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4609,7 +4609,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4623,7 +4623,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4635,7 +4635,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), v, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4649,7 +4649,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4663,7 +4663,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4677,7 +4677,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4691,7 +4691,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4701,7 +4701,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4713,7 +4713,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4725,7 +4725,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4737,7 +4737,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4749,7 +4749,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4759,7 +4759,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4771,7 +4771,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4783,7 +4783,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4795,7 +4795,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4807,7 +4807,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4817,7 +4817,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4829,7 +4829,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4841,7 +4841,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4853,7 +4853,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4865,7 +4865,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4875,7 +4875,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4887,7 +4887,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4899,7 +4899,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4911,7 +4911,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4923,7 +4923,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4935,7 +4935,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4949,7 +4949,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4963,7 +4963,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4977,7 +4977,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -4991,7 +4991,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5003,7 +5003,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5017,7 +5017,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5031,7 +5031,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5045,7 +5045,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5059,7 +5059,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5069,7 +5069,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5081,7 +5081,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5093,7 +5093,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5105,7 +5105,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5117,7 +5117,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5127,7 +5127,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5139,7 +5139,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5151,7 +5151,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5163,7 +5163,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5175,7 +5175,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5185,7 +5185,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5197,7 +5197,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5209,7 +5209,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5221,7 +5221,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5233,7 +5233,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5243,7 +5243,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(get(), a2, a3, a4)) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2, a3, a4));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5255,7 +5255,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5267,7 +5267,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5279,7 +5279,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5291,7 +5291,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5303,7 +5303,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, a4, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5317,7 +5317,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5331,7 +5331,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5345,7 +5345,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5360,7 +5360,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5372,7 +5372,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), a2, a3, a4, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5386,7 +5386,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5400,7 +5400,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5414,7 +5414,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5429,7 +5429,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format4MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5439,7 +5439,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(with1, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5451,7 +5451,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5463,7 +5463,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5475,7 +5475,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5487,7 +5487,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5497,7 +5497,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(with1, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5509,7 +5509,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5521,7 +5521,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5533,7 +5533,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5545,7 +5545,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5555,7 +5555,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(with1, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5567,7 +5567,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5579,7 +5579,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5591,7 +5591,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5603,7 +5603,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5613,7 +5613,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(with1, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5625,7 +5625,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5637,7 +5637,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5649,7 +5649,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5661,7 +5661,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5673,7 +5673,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5687,7 +5687,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5701,7 +5701,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5715,7 +5715,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5729,7 +5729,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5741,7 +5741,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), with1, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5755,7 +5755,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5769,7 +5769,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5783,7 +5783,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5797,7 +5797,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5807,7 +5807,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(with1, with2, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, with2, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5819,7 +5819,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5831,7 +5831,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5843,7 +5843,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5855,7 +5855,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5865,7 +5865,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(with1, with2, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, with2, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5877,7 +5877,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5889,7 +5889,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5901,7 +5901,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5913,7 +5913,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5923,7 +5923,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(with1, with2, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, with2, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5935,7 +5935,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5947,7 +5947,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5959,7 +5959,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5971,7 +5971,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5981,7 +5981,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(with1, with2, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with1, with2, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -5993,7 +5993,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6005,7 +6005,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6017,7 +6017,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6029,7 +6029,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6041,7 +6041,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6055,7 +6055,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6069,7 +6069,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6083,7 +6083,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6098,7 +6098,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6110,7 +6110,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), with1, with2, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6124,7 +6124,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6138,7 +6138,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6152,7 +6152,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6167,7 +6167,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format3MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6177,7 +6177,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(with, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6189,7 +6189,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6201,7 +6201,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6213,7 +6213,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6225,7 +6225,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6235,7 +6235,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (!predicate.test(with, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6247,7 +6247,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6259,7 +6259,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6271,7 +6271,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6283,7 +6283,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6293,7 +6293,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(with, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6305,7 +6305,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6317,7 +6317,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6329,7 +6329,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6341,7 +6341,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6351,7 +6351,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		if (predicate.test(with, get())) {
 			throw Handling.create(checkTraitFactory(), msgFunc.apply(with, get()));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6363,7 +6363,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6375,7 +6375,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6387,7 +6387,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6399,7 +6399,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6411,7 +6411,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), with, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6425,7 +6425,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6439,7 +6439,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6453,7 +6453,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6467,7 +6467,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6479,7 +6479,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			var params = new Object[]{get(), with, null, null, checkTraitType(), checkTraitName(), msg, null};
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6493,7 +6493,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, params);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6507,7 +6507,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6521,7 +6521,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	/**   */
@@ -6535,61 +6535,61 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 			params[params.length - 1] = format(message, param1, param2, param3);
 			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkWhen(@Nonnull LPredicate<T> pred, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get())) {
-			conditionalChecks.accept(self());
+			conditionalChecks.accept(fluentCtx());
 		};
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkWhenNot(@Nonnull LPredicate<T> pred, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get())) {
-			conditionalChecks.accept(self());
+			conditionalChecks.accept(fluentCtx());
 		};
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull <T2> SELF checkWhen(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2)) {
-			conditionalChecks.accept(self());
+			conditionalChecks.accept(fluentCtx());
 		};
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull <T2> SELF checkWhenNot(@Nonnull LBiPredicate<T, T2> pred, T2 a2, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2)) {
-			conditionalChecks.accept(self());
+			conditionalChecks.accept(fluentCtx());
 		};
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull <T2, T3> SELF checkWhen(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2, a3)) {
-			conditionalChecks.accept(self());
+			conditionalChecks.accept(fluentCtx());
 		};
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull <T2, T3> SELF checkWhenNot(@Nonnull LTriPredicate<T, T2, T3> pred, T2 a2, T3 a3, @Nonnull LConsumer<SELF> conditionalChecks) {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2, a3)) {
-			conditionalChecks.accept(self());
+			conditionalChecks.accept(fluentCtx());
 		};
-		return self();
+		return fluentCtx();
 	}
 
 	// </editor-fold>
@@ -6598,126 +6598,126 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckBool(func.test(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkBool(@Nonnull LPredicate<T> func, @Nullable String name, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckBool(func.test(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkByte(@Nonnull LToByteFunction<T> func, LConsumer<Checks.CheckByte> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckByte(func.applyAsByte(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkByte(@Nonnull LToByteFunction<T> func, @Nullable String name, LConsumer<Checks.CheckByte> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckByte(func.applyAsByte(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkDbl(@Nonnull LToDblFunction<T> func, LConsumer<Checks.CheckDbl> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckDbl(func.applyAsDbl(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkDbl(@Nonnull LToDblFunction<T> func, @Nullable String name, LConsumer<Checks.CheckDbl> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckDbl(func.applyAsDbl(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkChar(@Nonnull LToCharFunction<T> func, LConsumer<Checks.CheckChar> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckChar(func.applyAsChar(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkChar(@Nonnull LToCharFunction<T> func, @Nullable String name, LConsumer<Checks.CheckChar> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckChar(func.applyAsChar(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkSrt(@Nonnull LToSrtFunction<T> func, LConsumer<Checks.CheckSrt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckSrt(func.applyAsSrt(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkSrt(@Nonnull LToSrtFunction<T> func, @Nullable String name, LConsumer<Checks.CheckSrt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckSrt(func.applyAsSrt(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkFlt(@Nonnull LToFltFunction<T> func, LConsumer<Checks.CheckFlt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckFlt(func.applyAsFlt(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkFlt(@Nonnull LToFltFunction<T> func, @Nullable String name, LConsumer<Checks.CheckFlt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckFlt(func.applyAsFlt(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkInt(@Nonnull LToIntFunction<T> func, LConsumer<Checks.CheckInt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckInt(func.applyAsInt(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkInt(@Nonnull LToIntFunction<T> func, @Nullable String name, LConsumer<Checks.CheckInt> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckInt(func.applyAsInt(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkLong(@Nonnull LToLongFunction<T> func, LConsumer<Checks.CheckLong> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckLong(func.applyAsLong(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF checkLong(@Nonnull LToLongFunction<T> func, @Nullable String name, LConsumer<Checks.CheckLong> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.CheckLong(func.applyAsLong(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull <R> SELF check(@Nonnull LFunction<T, R> func, LConsumer<Checks.Check<R>> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.Check<R>(func.apply(get()), "?", checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull <R> SELF check(@Nonnull LFunction<T, R> func, @Nullable String name, LConsumer<Checks.Check<R>> checks) {
 		Null.nonNullArg(func, "func");
 		Null.nonNullArg(checks, "checks");
 		checks.accept(new Checks.Check<R>(func.apply(get()), name, checkTraitFactory(), checkTraitType(), verbosity()));
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF fails(@Nonnull String newMessage) {

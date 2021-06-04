@@ -100,7 +100,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
-		return self();
+		return fluentCtx();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

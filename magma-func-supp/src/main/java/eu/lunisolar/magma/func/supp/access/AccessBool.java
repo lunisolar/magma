@@ -81,7 +81,7 @@ public final class AccessBool implements BoolValueTrait<AccessBool>, CheckBoolTr
 	@Override
 	public AccessBool value(boolean value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

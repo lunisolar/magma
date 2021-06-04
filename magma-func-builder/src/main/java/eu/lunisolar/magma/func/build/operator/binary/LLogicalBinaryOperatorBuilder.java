@@ -100,7 +100,7 @@ public final class LLogicalBinaryOperatorBuilder extends PerCaseBuilderWithBoolP
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
-		return self();
+		return fluentCtx();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

@@ -81,7 +81,7 @@ public final class AccessSrt implements SrtValueTrait<AccessSrt>, CheckSrtTrait<
 	@Override
 	public AccessSrt value(short value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

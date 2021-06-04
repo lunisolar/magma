@@ -62,19 +62,19 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull SELF doIf(@Nonnull LBytePredicate predicate, @Nonnull LByteConsumer action) {
 		if (is(predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF doIfNot(@Nonnull LBytePredicate predicate, @Nonnull LByteConsumer action) {
 		if (isNot(predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF doIf(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LByteConsumer action) {
 		if (is(a2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -85,7 +85,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfNot(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LByteConsumer action) {
 		if (isNot(a2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -96,7 +96,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull SELF doIf(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull LByteConsumer action) {
 		if (is(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -107,7 +107,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfNot(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull LByteConsumer action) {
 		if (isNot(a2, a3, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -118,7 +118,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfInt(int v, @Nonnull LByteIntPredicate predicate, @Nonnull LByteConsumer action) {
 		if (isInt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -129,7 +129,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfNotInt(int v, @Nonnull LByteIntPredicate predicate, @Nonnull LByteConsumer action) {
 		if (isNotInt(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -140,7 +140,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LByteConsumer action) {
 		if (is_(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -151,7 +151,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LByteConsumer action) {
 		if (isNot_(v, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -162,7 +162,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull <V1> SELF doIfWithByte(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LByteConsumer action) {
 		if (isWithByte(with1, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -173,7 +173,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull <V1> SELF doIfNotWithByte(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LByteConsumer action) {
 		if (isNotWithByte(with1, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -184,7 +184,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull <V1, V2> SELF doIfWith(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull LByteConsumer action) {
 		if (isWith(with1, with2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -195,7 +195,7 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 	default @Nonnull <V1, V2> SELF doIfNotWith(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull LByteConsumer action) {
 		if (isNotWith(with1, with2, predicate))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */

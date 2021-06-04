@@ -53,20 +53,20 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, 
     /** Adds full new case. */
     public final PCB aCase(@Nonnull Case<P, F> theCase) {
         cases.add(theCase);
-        return self();
+        return fluentCtx();
     }
 
     /** Builds full new case by lambda expression (presumably). */
     public final PCB aCase(Consumer<CaseBuilder<P, PC>> caseBuilderConsumer) {
         Null.nonNullArg(caseBuilderConsumer, "caseBuilderConsumer");
         caseBuilderConsumer.accept(new CaseBuilder<>(this::partialCaseFactoryMethod));
-        return self();
+        return fluentCtx();
     }
 
     /** Adds full new case by lambda expressions (presumably). */
     public final PCB aCase(@Nonnull P casePredicate, @Nonnull F caseFunction) {
         cases.add(new Case<>(casePredicate, caseFunction));
-        return self();
+        return fluentCtx();
     }
 
     /** Starts adding the case to the list. Changes also the fluent context. */
@@ -78,7 +78,7 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, 
     /** Sets the function to evaluate _otherwise_ when input data do not match any case. */
     public final PCB otherwise(@Nonnull F caseFunction) {
         otherwise = caseFunction;
-        return self();
+        return fluentCtx();
     }
 
     public abstract F build();
@@ -96,7 +96,7 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, 
 
         @Override
         protected PartialCase.The<SELF, P, F> partialCaseFactoryMethod(P casePredicate) {
-            return new PartialCase.The(self(), casePredicate, subCasesFactory);
+            return new PartialCase.The(fluentCtx(), casePredicate, subCasesFactory);
         }
     }
 

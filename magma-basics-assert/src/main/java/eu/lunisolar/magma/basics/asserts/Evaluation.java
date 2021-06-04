@@ -65,13 +65,13 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
     public CTX to(@Nonnull java.util.function.Consumer<RS> assertions) {
         normalCheck(description, caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-        return context.self();
+        return context.fluentCtx();
     }
 
     /** Convenient method to just check equality */
     public CTX toEqualTo(R equalsTo) {
         to(rs -> rs.isEqualTo(equalsTo));
-        return context.self();
+        return context.fluentCtx();
     }
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
@@ -82,7 +82,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
     /** Convenient method to just check equality */
     public CTX asEqualTo(R equalsTo) {
         to(rs -> rs.isEqualTo(equalsTo));
-        return context.self();
+        return context.fluentCtx();
     }
 
     /** Adds possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
@@ -90,7 +90,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
         R actualResult = stealActualResult();
         customCheckBlock.accept(actualResult);
-        return context.self();
+        return context.fluentCtx();
     }
 
     /** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
@@ -98,7 +98,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
         R actualResult = stealActualResult();
         customCheckBlock.accept(Checks.attest(actualResult));
-        return context.self();
+        return context.fluentCtx();
     }
 
     /** Adds possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
@@ -112,7 +112,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         Null.nonNull(wrapper, () -> "Adapter function must produce non-null result!");
 
         customCheckBlock.accept(wrapper);
-        return context.self();
+        return context.fluentCtx();
     }
 
     /** Adds possibility to add custom checks for the value. The block is responsible for throwing exceptions on its own! */
@@ -126,7 +126,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
         Null.nonNull(wrapper, () -> "Adapter function must produce non-null result!");
 
         customCheckBlock.accept(wrapper);
-        return context.self();
+        return context.fluentCtx();
     }
 
 }

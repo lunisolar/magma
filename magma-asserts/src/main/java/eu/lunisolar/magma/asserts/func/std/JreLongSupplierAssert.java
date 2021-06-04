@@ -91,7 +91,7 @@ public interface JreLongSupplierAssert<S extends JreLongSupplierAssert<S, A, RS>
 		@Nonnull
 		public S doesReturn(long value) {
 			doesGetAsLong().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

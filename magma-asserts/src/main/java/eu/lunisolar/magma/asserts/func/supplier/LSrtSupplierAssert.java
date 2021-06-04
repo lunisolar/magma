@@ -93,7 +93,7 @@ public interface LSrtSupplierAssert<S extends LSrtSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public S doesReturn(short value) {
 			doesGetAsSrt().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

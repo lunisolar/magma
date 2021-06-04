@@ -43,7 +43,7 @@ public interface FunctionalAssert<S extends FunctionalAssert<S, PC, A, RA>, PC, 
         @Nonnull
         protected SemiEvaluation<S, PC, A> evaluation(
                 Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, ?> assertFunction) {
-            return new SemiEvaluation(self(), ()->descriptionText(), caseDescription, recurringAssert, assertFunction);
+            return new SemiEvaluation(fluentCtx(), ()->descriptionText(), caseDescription, recurringAssert, assertFunction);
         }
 
     }

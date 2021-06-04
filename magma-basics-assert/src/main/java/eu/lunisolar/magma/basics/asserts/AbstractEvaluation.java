@@ -77,25 +77,25 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
 
     public SELF when(PC preconditioner) {
         this.preconditioner = preconditioner;
-        return self();
+        return fluentCtx();
     }
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
     public CTX soThat(@Nonnull AssertionsCheck assertions) {
         normalCheck(description, caseDescription, preconditioner, assertFunction, assertPreConsumer, a -> assertions.assertionsCheck());
-        return context.self();
+        return context.fluentCtx();
     }
 
     public CTX withoutException() {
         exceptionCheck(description, caseDescription, preconditioner, assertFunction, a -> {
         });
-        return context.self();
+        return context.fluentCtx();
     }
 
     /** Assertion for the failure of the method under test. */
     public CTX withException(@Nonnull Consumer<AbstractThrowableAssert<?, ? extends Throwable>> assertions) {
         exceptionCheck(description, caseDescription, preconditioner, assertFunction, assertions);
-        return context.self();
+        return context.fluentCtx();
     }
 
     protected static <PC, A, X extends Throwable> void normalCheck(

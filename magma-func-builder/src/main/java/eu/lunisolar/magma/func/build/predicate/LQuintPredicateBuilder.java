@@ -100,7 +100,7 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
-		return self();
+		return fluentCtx();
 	}
 
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
@@ -111,7 +111,7 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 				&& (argC4 == null || argC4.isInstance(a4)) && (argC5 == null || argC5.isInstance(a5)));
 
 		pc.specifySubCases((Consumer) pcpConsumer);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
@@ -122,7 +122,7 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 				&& (argC4 == null || argC4.isInstance(a4)) && (argC5 == null || argC5.isInstance(a5)));
 
 		pc.evaluate(function);
-		return self();
+		return fluentCtx();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

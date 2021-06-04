@@ -19,52 +19,52 @@
 package eu.lunisolar.magma.basics.fluent;
 
 import eu.lunisolar.magma.basics.Null;
-import eu.lunisolar.magma.basics.meta.SelfReferencing;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.*;
 
-@Deprecated // simply use FluentTrait from 'support' module
-public interface Fluent<SELF extends Fluent<SELF>> extends SelfReferencing<SELF> {
+public interface Fluent<F> {
+
+    default F fluentCtx() { return (F) this;}
 
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default @Nonnull SELF fluentUse(@Nonnull Consumer<SELF> interjection) {
+    default @Nonnull F fluentUse(@Nonnull Consumer<F> interjection) {
         Null.nonNull(interjection);
-        final SELF self = self();
+        final F self = fluentCtx();
         interjection.accept(self);
         return self;
     }
 
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default @Nonnull <T> SELF fluentUse(T ctx, @Nonnull BiConsumer<SELF, T> interjection) {
+    default @Nonnull <T> F fluentUse(T ctx, @Nonnull BiConsumer<F, T> interjection) {
         Null.nonNull(interjection);
-        final SELF self = self();
+        final F self = fluentCtx();
         interjection.accept(self, ctx);
         return self;
     }
 
-    default @Nonnull <R> R fluentMap(@Nonnull Function<SELF, R> mapping) {
+    default @Nonnull <R> R fluentMap(@Nonnull Function<F, R> mapping) {
         Null.nonNull(mapping);
-        final SELF self = self();
+        final F self = fluentCtx();
         return Null.nonNull(mapping.apply(self));
     }
 
-    default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull BiFunction<SELF, T, R> mapping) {
+    default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull BiFunction<F, T, R> mapping) {
         Null.nonNull(mapping);
-        final SELF self = self();
+        final F self = fluentCtx();
         return Null.nonNull(mapping.apply(self, ctx));
     }
 
-    default @Nullable <R> R fluentNullableMap(@Nonnull Function<SELF, R> mapping) {
+    default @Nullable <R> R fluentNullableMap(@Nonnull Function<F, R> mapping) {
         Null.nonNull(mapping);
-        final SELF self = self();
+        final F self = fluentCtx();
         return mapping.apply(self);
     }
 
-    default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull BiFunction<SELF, T, R> mapping) {
+    default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull BiFunction<F, T, R> mapping) {
         Null.nonNull(mapping);
-        final SELF self = self();
+        final F self = fluentCtx();
         return mapping.apply(self, ctx);
     }
 

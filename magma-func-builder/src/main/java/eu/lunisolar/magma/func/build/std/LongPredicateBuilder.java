@@ -100,7 +100,7 @@ public final class LongPredicateBuilder extends PerCaseBuilderWithBoolProduct.Ba
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
-		return self();
+		return fluentCtx();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

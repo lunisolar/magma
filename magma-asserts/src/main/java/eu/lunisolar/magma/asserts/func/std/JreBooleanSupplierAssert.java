@@ -91,7 +91,7 @@ public interface JreBooleanSupplierAssert<S extends JreBooleanSupplierAssert<S, 
 		@Nonnull
 		public S doesReturn(boolean value) {
 			doesGetAsBool().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

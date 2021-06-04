@@ -62,19 +62,19 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull SELF doIf(@Nonnull LLogicalOperator operator, @Nonnull LBoolConsumer action) {
 		if (is(operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF doIfNot(@Nonnull LLogicalOperator operator, @Nonnull LBoolConsumer action) {
 		if (isNot(operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	default @Nonnull SELF doIf(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull LBoolConsumer action) {
 		if (is(a2, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -85,7 +85,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfNot(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull LBoolConsumer action) {
 		if (isNot(a2, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -96,7 +96,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull SELF doIf(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull LBoolConsumer action) {
 		if (is(a2, a3, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -107,7 +107,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull LBoolConsumer action) {
 		if (isNot(a2, a3, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -118,7 +118,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfInt(int v, @Nonnull LBoolIntPredicate operator, @Nonnull LBoolConsumer action) {
 		if (isInt(v, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -129,7 +129,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull SELF doIfNotInt(int v, @Nonnull LBoolIntPredicate operator, @Nonnull LBoolConsumer action) {
 		if (isNotInt(v, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -140,7 +140,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LBoolConsumer action) {
 		if (is_(v, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -151,7 +151,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LBoolConsumer action) {
 		if (isNot_(v, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -162,7 +162,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull <V1> SELF doIfWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
 		if (isWithBool(with1, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -173,7 +173,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull <V1> SELF doIfNotWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
 		if (isNotWithBool(with1, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -184,7 +184,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull <V1, V2> SELF doIfWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBoolConsumer action) {
 		if (isWith(with1, with2, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */
@@ -195,7 +195,7 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 	default @Nonnull <V1, V2> SELF doIfNotWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBoolConsumer action) {
 		if (isNotWith(with1, with2, operator))
 			action.accept(value());
-		return self();
+		return fluentCtx();
 	}
 
 	/** Variant with reverse function-vs-arg order. */

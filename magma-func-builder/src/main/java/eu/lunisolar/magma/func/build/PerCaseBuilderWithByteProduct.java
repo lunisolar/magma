@@ -70,13 +70,13 @@ public abstract class PerCaseBuilderWithByteProduct<PCB extends PerCaseBuilderWi
 	/** Sets the function to evaluate _otherwise_ when input data do not match any case. */
 	public final PCB otherwiseProduce(byte directValue) {
 		otherwise = directToFunction.apply(directValue);
-		return self();
+		return fluentCtx();
 	}
 
 	// </editor-fold>
 
 	protected PC partialCaseFactoryMethod(P casePredicate) {
-		return (PC) new PartialCaseWithByteProduct(self(), casePredicate, subCasesFactory);
+		return (PC) new PartialCaseWithByteProduct(fluentCtx(), casePredicate, subCasesFactory);
 	}
 
 	public static abstract class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithByteProduct<SELF, P, F, PartialCaseWithByteProduct.The<SELF, P, F>> {

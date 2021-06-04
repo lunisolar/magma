@@ -93,7 +93,7 @@ public interface LLongSupplierAssert<S extends LLongSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public S doesReturn(long value) {
 			doesGetAsLong().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

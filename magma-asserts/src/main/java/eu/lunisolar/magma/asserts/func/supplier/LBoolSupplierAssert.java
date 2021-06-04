@@ -93,7 +93,7 @@ public interface LBoolSupplierAssert<S extends LBoolSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public S doesReturn(boolean value) {
 			doesGetAsBool().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

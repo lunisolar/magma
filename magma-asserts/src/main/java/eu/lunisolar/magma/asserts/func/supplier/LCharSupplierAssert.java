@@ -93,7 +93,7 @@ public interface LCharSupplierAssert<S extends LCharSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public S doesReturn(char value) {
 			doesGetAsChar().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

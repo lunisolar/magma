@@ -81,7 +81,7 @@ public final class AccessChar implements CharValueTrait<AccessChar>, CheckCharTr
 	@Override
 	public AccessChar value(char value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

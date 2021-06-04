@@ -268,7 +268,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	// </editor-fold>
 
 	default SELF butNot(int value) {
-		return isPresent() ? (value() == value ? voidValue() : self()) : voidValue();
+		return isPresent() ? (value() == value ? voidValue() : fluentCtx()) : voidValue();
 	}
 
 	// <editor-fold desc="map">
@@ -680,7 +680,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		if (isVoid()) {
 			action.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresent(@Nonnull LIntConsumer action) {
@@ -688,7 +688,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresent(@Nonnull LIntConsumer action, @Nonnull LAction emptyAction) {
@@ -698,7 +698,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresent_(K1 a2, @Nonnull LObjIntConsumer.LIntObjCons<? super K1> action) {
@@ -706,7 +706,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.acceptIntObj(get(), a2);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresent_(K1 a2, @Nonnull LObjIntConsumer.LIntObjCons<? super K1> action, @Nonnull LAction emptyAction) {
@@ -716,7 +716,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresent_(K1 a2, K2 a3, @Nonnull LBiObjIntConsumer.LInt2Obj0Obj1Cons<? super K1, ? super K2> action) {
@@ -724,7 +724,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.acceptInt2Obj0Obj1(get(), a2, a3);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresent_(K1 a2, K2 a3, @Nonnull LBiObjIntConsumer.LInt2Obj0Obj1Cons<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
@@ -734,7 +734,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresentWith(@Nonnull LIntConsumer action) {
@@ -742,7 +742,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifPresentWith(@Nonnull LIntConsumer action, @Nonnull LAction emptyAction) {
@@ -752,7 +752,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LObjIntConsumer<? super K1> action) {
@@ -760,7 +760,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(a1, get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LObjIntConsumer<? super K1> action, @Nonnull LAction emptyAction) {
@@ -770,7 +770,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LBiObjIntConsumer<? super K1, ? super K2> action) {
@@ -778,7 +778,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		if (isPresent()) {
 			action.accept(a1, a2, get());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LBiObjIntConsumer<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
@@ -788,39 +788,39 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		} else {
 			emptyAction.execute();
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default SELF ifExists(@Nonnull LConsumer<? super SELF> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self());
+			action.accept(fluentCtx());
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <T2> SELF ifExists(T2 a2, @Nonnull LBiConsumer<? super SELF, ? super T2> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self(), a2);
+			action.accept(fluentCtx(), a2);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <T2, T3> SELF ifExists(T2 a2, T3 a3, @Nonnull LTriConsumer<? super SELF, ? super T2, ? super T3> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self(), a2, a3);
+			action.accept(fluentCtx(), a2, a3);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	default <T2, T4, T5> SELF ifExists(T2 a2, T4 a3, T5 a4, @Nonnull LQuadConsumer<? super SELF, ? super T2, ? super T4, ? super T5> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
-			action.accept(self(), a2, a3, a4);
+			action.accept(fluentCtx(), a2, a3, a4);
 		}
-		return self();
+		return fluentCtx();
 	}
 
 	// </editor-fold>
@@ -829,14 +829,14 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	default @Nonnull SELF visit(@Nonnull LIntConsumer consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		consumer.accept(get());
-		return self();
+		return fluentCtx();
 	}
 
 	// <editor-fold desc="orElse">
 
 	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		throw Handling.create(X::noSuchElement);
@@ -844,7 +844,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExF<RuntimeException> fx) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -853,7 +853,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -862,7 +862,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -871,7 +871,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -880,7 +880,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default @Nonnull SELF orThrow(@Nonnull ExMF<RuntimeException> fx, @Nullable String msg, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		if (isPresent()) {
-			return self();
+			return fluentCtx();
 		}
 
 		Null.nonNullArg(fx, "fx");
@@ -951,26 +951,26 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default SELF orGet(@Nonnull LIntSupplier supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.getAsInt());
+		return isPresent() ? fluentCtx() : value(supplier.getAsInt());
 	}
 
 	default SELF orFlatGet(@Nonnull LSupplier<? extends OptIntTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.get());
+		return isPresent() ? fluentCtx() : valueFrom(supplier.get());
 	}
 
 	default SELF or(@Nullable int value) {
-		return isPresent() ? self() : value(value);
+		return isPresent() ? fluentCtx() : value(value);
 	}
 
 	default SELF orOpt(@Nonnull OptIntTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
-		return isPresent() ? self() : valueFrom(opt);
+		return isPresent() ? fluentCtx() : valueFrom(opt);
 	}
 
 	default SELF orValue(@Nonnull IntValueTrait<?> value) {
 		Null.nonNullArg(value, "value");
-		return isPresent() ? self() : value(value.value());
+		return isPresent() ? fluentCtx() : value(value.value());
 	}
 
 	default <K> int orElseApply(K a1, @Nonnull LToIntFunction<? super K> supplier) {
@@ -980,12 +980,12 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default <K> SELF orApply(K a1, @Nonnull LToIntFunction<? super K> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.applyAsInt(a1));
+		return isPresent() ? fluentCtx() : value(supplier.applyAsInt(a1));
 	}
 
 	default <K> SELF orFlatApply(K a1, @Nonnull LFunction<? super K, ? extends OptIntTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.apply(a1));
+		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1));
 	}
 
 	default <K1, K2> int orElseApply(K1 a1, K2 a2, @Nonnull LToIntBiFunction<? super K1, ? super K2> supplier) {
@@ -1000,22 +1000,22 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 
 	default <K1, K2> SELF orApply(K1 a1, K2 a2, @Nonnull LToIntBiFunction<? super K1, ? super K2> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.applyAsInt(a1, a2));
+		return isPresent() ? fluentCtx() : value(supplier.applyAsInt(a1, a2));
 	}
 
 	default <K1, K2, K3> SELF orApply(K1 a1, K2 a2, K3 a3, @Nonnull LToIntTriFunction<? super K1, ? super K2, ? super K3> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : value(supplier.applyAsInt(a1, a2, a3));
+		return isPresent() ? fluentCtx() : value(supplier.applyAsInt(a1, a2, a3));
 	}
 
 	default <K1, K2> SELF orFlatApply(K1 a1, K2 a2, @Nonnull LBiFunction<? super K1, ? super K2, ? extends OptIntTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2));
+		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2));
 	}
 
 	default <K1, K2, K3> SELF orFlatApply(K1 a1, K2 a2, K3 a3, @Nonnull LTriFunction<? super K1, ? super K2, ? super K3, ? extends OptIntTrait<?>> supplier) {
 		Null.nonNullArg(supplier, "supplier");
-		return isPresent() ? self() : valueFrom(supplier.apply(a1, a2, a3));
+		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
 	// </editor-fold>

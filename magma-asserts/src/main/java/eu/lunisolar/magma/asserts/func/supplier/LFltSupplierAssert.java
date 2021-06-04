@@ -93,7 +93,7 @@ public interface LFltSupplierAssert<S extends LFltSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public S doesReturn(float value) {
 			doesGetAsFlt().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

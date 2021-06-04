@@ -93,7 +93,7 @@ public interface LIntSupplierAssert<S extends LIntSupplierAssert<S, A, RS>, A ex
 		@Nonnull
 		public S doesReturn(int value) {
 			doesGetAsInt().asEqualTo(value);
-			return self();
+			return fluentCtx();
 		}
 
 	}

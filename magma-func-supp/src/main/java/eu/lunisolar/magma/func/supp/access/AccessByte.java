@@ -81,7 +81,7 @@ public final class AccessByte implements ByteValueTrait<AccessByte>, CheckByteTr
 	@Override
 	public AccessByte value(byte value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override

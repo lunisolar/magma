@@ -109,7 +109,7 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 		must(OptTrait::isPresent, "<%s> is expected to have value refer to the object <%s>, but is void.", actual(), expectedValue);
 		must(P.have(OptTrait::value, P::same, expectedValue), "Optional value <%s> should refer to the same object as <%s>, but is not.", actual().nullable(), expectedValue);
 
-		return self();
+		return fluentCtx();
 	}
 
 	public OptTraitAssert<T> hasSameValue(T expectedValue) {

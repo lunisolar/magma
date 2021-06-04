@@ -81,7 +81,7 @@ public final class Access<T> implements ValueTrait<T, Access<T>>, CheckTrait<T, 
 	@Override
 	public Access<T> value(T value) {
 		setter.accept(value);
-		return self();
+		return fluentCtx();
 	}
 
 	@Override
