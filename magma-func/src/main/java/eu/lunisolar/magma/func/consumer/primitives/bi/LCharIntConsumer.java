@@ -715,4 +715,18 @@ public interface LCharIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, char a1, int a2, LCharIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static char inlineAccept(char a1, int a2, LCharIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

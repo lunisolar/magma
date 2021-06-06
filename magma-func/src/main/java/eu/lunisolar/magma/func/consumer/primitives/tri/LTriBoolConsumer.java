@@ -807,4 +807,18 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, boolean a1, boolean a2, boolean a3, LTriBoolConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static boolean inlineAccept(boolean a1, boolean a2, boolean a3, LTriBoolConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

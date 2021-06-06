@@ -492,4 +492,18 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, long a, LLongConsumer consumer) {
+		consumer.accept(a);
+		return retval;
+	}
+
+	public static long inlineAccept(long a, LLongConsumer consumer) {
+		consumer.accept(a);
+		return a;
+	}
+
+	// </editor-fold>
+
 }

@@ -492,4 +492,18 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, int a, LIntConsumer consumer) {
+		consumer.accept(a);
+		return retval;
+	}
+
+	public static int inlineAccept(int a, LIntConsumer consumer) {
+		consumer.accept(a);
+		return a;
+	}
+
+	// </editor-fold>
+
 }

@@ -674,4 +674,18 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, char a1, char a2, LBiCharConsumer consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static char inlineAccept(char a1, char a2, LBiCharConsumer consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

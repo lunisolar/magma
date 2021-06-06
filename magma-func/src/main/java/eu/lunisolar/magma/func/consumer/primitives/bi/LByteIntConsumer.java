@@ -715,4 +715,18 @@ public interface LByteIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, byte a1, int a2, LByteIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static byte inlineAccept(byte a1, int a2, LByteIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

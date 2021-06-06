@@ -746,4 +746,18 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, long a1, long a2, LBiLongConsumer consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static long inlineAccept(long a1, long a2, LBiLongConsumer consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

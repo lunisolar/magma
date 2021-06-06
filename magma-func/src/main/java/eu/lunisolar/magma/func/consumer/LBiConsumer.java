@@ -738,4 +738,18 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return i / 2;
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T1, T2, R> R inlineAcceptR(R retval, T1 a1, T2 a2, LBiConsumer<T1, T2> consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static <T1, T2> T1 inlineAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

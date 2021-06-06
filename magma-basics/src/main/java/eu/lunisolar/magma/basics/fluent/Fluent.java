@@ -28,7 +28,6 @@ public interface Fluent<FLUENT> {
 
     default FLUENT fluentCtx() { return (FLUENT) this;}
 
-    /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
     default @Nonnull FLUENT fluentUse(@Nonnull Consumer<FLUENT> interjection) {
         Null.nonNull(interjection);
         final FLUENT self = fluentCtx();
@@ -36,7 +35,6 @@ public interface Fluent<FLUENT> {
         return self;
     }
 
-    /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
     default @Nonnull <T> FLUENT fluentUse(T ctx, @Nonnull BiConsumer<FLUENT, T> interjection) {
         Null.nonNull(interjection);
         final FLUENT self = fluentCtx();

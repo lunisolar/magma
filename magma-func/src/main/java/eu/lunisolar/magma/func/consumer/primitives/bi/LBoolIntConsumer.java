@@ -715,4 +715,18 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, boolean a1, int a2, LBoolIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static boolean inlineAccept(boolean a1, int a2, LBoolIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

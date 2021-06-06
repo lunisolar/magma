@@ -1292,4 +1292,18 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T, R> R inlineAcceptR(R retval, T a1, int a2, int a3, LTieIntConsumer<T> consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static <T> T inlineAccept(T a1, int a2, int a3, LTieIntConsumer<T> consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

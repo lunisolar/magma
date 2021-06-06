@@ -1225,4 +1225,18 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T1, T2, T3, T4, R> R inlineAcceptR(R retval, T1 a1, T2 a2, T3 a3, T4 a4, LQuadConsumer<T1, T2, T3, T4> consumer) {
+		consumer.accept(a1, a2, a3, a4);
+		return retval;
+	}
+
+	public static <T1, T2, T3, T4> T1 inlineAccept(T1 a1, T2 a2, T3 a3, T4 a4, LQuadConsumer<T1, T2, T3, T4> consumer) {
+		consumer.accept(a1, a2, a3, a4);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

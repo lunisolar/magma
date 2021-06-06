@@ -807,4 +807,18 @@ public interface LTriDblConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, double a1, double a2, double a3, LTriDblConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static double inlineAccept(double a1, double a2, double a3, LTriDblConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

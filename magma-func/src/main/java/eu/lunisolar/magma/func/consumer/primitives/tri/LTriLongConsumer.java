@@ -1068,4 +1068,18 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, long a1, long a2, long a3, LTriLongConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static long inlineAccept(long a1, long a2, long a3, LTriLongConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

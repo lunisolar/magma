@@ -2093,4 +2093,18 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T1, T2, T3, T4, T5, R> R inlineAcceptR(R retval, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> consumer) {
+		consumer.accept(a1, a2, a3, a4, a5);
+		return retval;
+	}
+
+	public static <T1, T2, T3, T4, T5> T1 inlineAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> consumer) {
+		consumer.accept(a1, a2, a3, a4, a5);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

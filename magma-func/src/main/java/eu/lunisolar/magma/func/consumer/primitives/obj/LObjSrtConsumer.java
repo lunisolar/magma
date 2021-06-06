@@ -713,4 +713,18 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return targetedIterate(a1, sa2, source2, (LObjSrtConsumer<T>) this);
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T, R> R inlineAcceptR(R retval, T a1, short a2, LObjSrtConsumer<T> consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static <T> T inlineAccept(T a1, short a2, LObjSrtConsumer<T> consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

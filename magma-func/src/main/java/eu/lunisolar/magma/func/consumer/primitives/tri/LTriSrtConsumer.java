@@ -807,4 +807,18 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, short a1, short a2, short a3, LTriSrtConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static short inlineAccept(short a1, short a2, short a3, LTriSrtConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

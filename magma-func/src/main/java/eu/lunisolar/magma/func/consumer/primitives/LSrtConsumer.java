@@ -487,4 +487,18 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, short a, LSrtConsumer consumer) {
+		consumer.accept(a);
+		return retval;
+	}
+
+	public static short inlineAccept(short a, LSrtConsumer consumer) {
+		consumer.accept(a);
+		return a;
+	}
+
+	// </editor-fold>
+
 }

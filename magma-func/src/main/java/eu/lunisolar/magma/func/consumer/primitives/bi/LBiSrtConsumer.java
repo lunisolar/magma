@@ -674,4 +674,18 @@ public interface LBiSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, short a1, short a2, LBiSrtConsumer consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static short inlineAccept(short a1, short a2, LBiSrtConsumer consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

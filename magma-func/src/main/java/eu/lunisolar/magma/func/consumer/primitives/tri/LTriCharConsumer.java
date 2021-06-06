@@ -807,4 +807,18 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, char a1, char a2, char a3, LTriCharConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static char inlineAccept(char a1, char a2, char a3, LTriCharConsumer consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

@@ -1019,4 +1019,18 @@ public interface LBiObjSrtConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T1, T2, R> R inlineAcceptR(R retval, T1 a1, T2 a2, short a3, LBiObjSrtConsumer<T1, T2> consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static <T1, T2> T1 inlineAccept(T1 a1, T2 a2, short a3, LBiObjSrtConsumer<T1, T2> consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

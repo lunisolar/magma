@@ -492,4 +492,18 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, double a, LDblConsumer consumer) {
+		consumer.accept(a);
+		return retval;
+	}
+
+	public static double inlineAccept(double a, LDblConsumer consumer) {
+		consumer.accept(a);
+		return a;
+	}
+
+	// </editor-fold>
+
 }

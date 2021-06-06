@@ -1200,4 +1200,18 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T, R> R inlineAcceptR(R retval, T a1, int a2, boolean a3, LTieBoolConsumer<T> consumer) {
+		consumer.accept(a1, a2, a3);
+		return retval;
+	}
+
+	public static <T> T inlineAccept(T a1, int a2, boolean a3, LTieBoolConsumer<T> consumer) {
+		consumer.accept(a1, a2, a3);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

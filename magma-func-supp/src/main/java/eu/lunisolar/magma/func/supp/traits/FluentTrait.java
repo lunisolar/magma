@@ -57,67 +57,63 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface FluentTrait<FLUENT> extends Fluent<FLUENT> {
 
-	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-	default @Nonnull FLUENT fluentUse(@Nonnull LConsumer<FLUENT> interjection) {
-		return Fluent.super.fluentUse(interjection);
-	}
-
-	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-	default @Nonnull <T> FLUENT fluentUse(T ctx, @Nonnull LBiConsumer<FLUENT, T> interjection) {
-		return Fluent.super.fluentUse(ctx, interjection);
-	}
-
-	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-	default @Nonnull <T1, T2> FLUENT fluentUse(T1 a1, T2 a2, @Nonnull LTriConsumer<FLUENT, T1, T2> interjection) {
+	public default @Nonnull FLUENT fluentUse(@Nonnull LConsumer<FLUENT> interjection) {
 		Null.nonNullArg(interjection, "interjection");
-		final FLUENT self = fluentCtx();
-		interjection.accept(self, a1, a2);
-		return self;
+		return LConsumer.inlineAccept(fluentCtx(), interjection);
 	}
 
-	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-	default @Nonnull <T1, T2, T3> FLUENT fluentUse(T1 a1, T2 a2, T3 a3, @Nonnull LQuadConsumer<FLUENT, T1, T2, T3> interjection) {
+	public default @Nonnull <T2> FLUENT fluentUse(T2 a2, @Nonnull LBiConsumer<FLUENT, T2> interjection) {
 		Null.nonNullArg(interjection, "interjection");
-		final FLUENT self = fluentCtx();
-		interjection.accept(self, a1, a2, a3);
-		return self;
+		return LBiConsumer.inlineAccept(fluentCtx(), a2, interjection);
 	}
 
-	default @Nonnull <R> R fluentMap(@Nonnull LFunction<FLUENT, R> mapping) {
-		return Fluent.super.fluentMap(mapping);
+	public default @Nonnull <T2, T3> FLUENT fluentUse(T2 a2, T3 a3, @Nonnull LTriConsumer<FLUENT, T2, T3> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return LTriConsumer.inlineAccept(fluentCtx(), a2, a3, interjection);
 	}
 
-	default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull LBiFunction<FLUENT, T, R> mapping) {
-		return Fluent.super.fluentMap(ctx, mapping);
+	public default @Nonnull <T2, T4, T5> FLUENT fluentUse(T2 a2, T4 a3, T5 a4, @Nonnull LQuadConsumer<FLUENT, T2, T4, T5> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return LQuadConsumer.inlineAccept(fluentCtx(), a2, a3, a4, interjection);
 	}
 
-	default @Nonnull <T1, T2, R> R fluentMap(T1 a1, T2 a2, @Nonnull LTriFunction<FLUENT, T1, T2, R> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return Null.nonNull(fluentNullableMap(a1, a2, mapping));
+	public default @Nonnull <R> R fluentNullableMap(@Nonnull LFunction<FLUENT, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return interjection.apply(fluentCtx());
 	}
 
-	default @Nonnull <T1, T2, T3, R> R fluentMap(T1 a1, T2 a2, T3 a3, @Nonnull LQuadFunction<FLUENT, T1, T2, T3, R> mapping) {
-		Null.nonNull(mapping);
-		return Null.nonNull(fluentNullableMap(a1, a2, a3, mapping));
+	public default @Nonnull <R> R fluentMap(@Nonnull LFunction<FLUENT, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return Null.nonNull(fluentNullableMap(interjection));
 	}
 
-	default @Nullable <R> R fluentNullableMap(@Nonnull LFunction<FLUENT, R> mapping) {
-		return Fluent.super.fluentNullableMap(mapping);
+	public default @Nonnull <H2, R> R fluentNullableMap(H2 a2, @Nonnull LBiFunction<FLUENT, H2, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return interjection.apply(fluentCtx(), a2);
 	}
 
-	default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull LBiFunction<FLUENT, T, R> mapping) {
-		return Fluent.super.fluentNullableMap(ctx, mapping);
+	public default @Nonnull <H2, R> R fluentMap(H2 a2, @Nonnull LBiFunction<FLUENT, H2, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return Null.nonNull(fluentNullableMap(a2, interjection));
 	}
 
-	default @Nullable <T1, T2, R> R fluentNullableMap(T1 a1, T2 a2, @Nonnull LTriFunction<FLUENT, T1, T2, R> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		final FLUENT self = fluentCtx();
-		return mapping.apply(self, a1, a2);
+	public default @Nonnull <H2, H3, R> R fluentNullableMap(H2 a2, H3 a3, @Nonnull LTriFunction<FLUENT, H2, H3, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return interjection.apply(fluentCtx(), a2, a3);
 	}
 
-	default @Nullable <T1, T2, T3, R> R fluentNullableMap(T1 a1, T2 a2, T3 a3, @Nonnull LQuadFunction<FLUENT, T1, T2, T3, R> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		final FLUENT self = fluentCtx();
-		return mapping.apply(self, a1, a2, a3);
+	public default @Nonnull <H2, H3, R> R fluentMap(H2 a2, H3 a3, @Nonnull LTriFunction<FLUENT, H2, H3, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return Null.nonNull(fluentNullableMap(a2, a3, interjection));
+	}
+
+	public default @Nonnull <H2, H4, H5, R> R fluentNullableMap(H2 a2, H4 a3, H5 a4, @Nonnull LQuadFunction<FLUENT, H2, H4, H5, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return interjection.apply(fluentCtx(), a2, a3, a4);
+	}
+
+	public default @Nonnull <H2, H4, H5, R> R fluentMap(H2 a2, H4 a3, H5 a4, @Nonnull LQuadFunction<FLUENT, H2, H4, H5, R> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return Null.nonNull(fluentNullableMap(a2, a3, a4, interjection));
 	}
 }

@@ -715,4 +715,18 @@ public interface LFltIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <R> R inlineAcceptR(R retval, float a1, int a2, LFltIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return retval;
+	}
+
+	public static float inlineAccept(float a1, int a2, LFltIntConsumer consumer) {
+		consumer.accept(a1, a2);
+		return a1;
+	}
+
+	// </editor-fold>
+
 }

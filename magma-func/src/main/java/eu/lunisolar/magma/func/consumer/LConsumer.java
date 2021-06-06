@@ -503,4 +503,18 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 
 	}
 
+	// <editor-fold desc="fluentUse">
+
+	public static <T, R> R inlineAcceptR(R retval, T a, LConsumer<T> consumer) {
+		consumer.accept(a);
+		return retval;
+	}
+
+	public static <T> T inlineAccept(T a, LConsumer<T> consumer) {
+		consumer.accept(a);
+		return a;
+	}
+
+	// </editor-fold>
+
 }
