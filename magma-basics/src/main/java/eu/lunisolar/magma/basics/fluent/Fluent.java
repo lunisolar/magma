@@ -24,47 +24,45 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.*;
 
-public interface Fluent<F> {
+public interface Fluent<FLUENT> {
 
-    default F fluentCtx() { return (F) this;}
+    default FLUENT fluentCtx() { return (FLUENT) this;}
 
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default @Nonnull F fluentUse(@Nonnull Consumer<F> interjection) {
+    default @Nonnull FLUENT fluentUse(@Nonnull Consumer<FLUENT> interjection) {
         Null.nonNull(interjection);
-        final F self = fluentCtx();
+        final FLUENT self = fluentCtx();
         interjection.accept(self);
         return self;
     }
 
     /** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-    default @Nonnull <T> F fluentUse(T ctx, @Nonnull BiConsumer<F, T> interjection) {
+    default @Nonnull <T> FLUENT fluentUse(T ctx, @Nonnull BiConsumer<FLUENT, T> interjection) {
         Null.nonNull(interjection);
-        final F self = fluentCtx();
+        final FLUENT self = fluentCtx();
         interjection.accept(self, ctx);
         return self;
     }
 
-    default @Nonnull <R> R fluentMap(@Nonnull Function<F, R> mapping) {
+    default @Nonnull <R> R fluentMap(@Nonnull Function<FLUENT, R> mapping) {
         Null.nonNull(mapping);
-        final F self = fluentCtx();
-        return Null.nonNull(mapping.apply(self));
+        return Null.nonNull(fluentNullableMap(mapping));
     }
 
-    default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull BiFunction<F, T, R> mapping) {
+    default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull BiFunction<FLUENT, T, R> mapping) {
         Null.nonNull(mapping);
-        final F self = fluentCtx();
-        return Null.nonNull(mapping.apply(self, ctx));
+        return Null.nonNull(fluentNullableMap(ctx, mapping));
     }
 
-    default @Nullable <R> R fluentNullableMap(@Nonnull Function<F, R> mapping) {
+    default @Nullable <R> R fluentNullableMap(@Nonnull Function<FLUENT, R> mapping) {
         Null.nonNull(mapping);
-        final F self = fluentCtx();
+        final FLUENT self = fluentCtx();
         return mapping.apply(self);
     }
 
-    default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull BiFunction<F, T, R> mapping) {
+    default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull BiFunction<FLUENT, T, R> mapping) {
         Null.nonNull(mapping);
-        final F self = fluentCtx();
+        final FLUENT self = fluentCtx();
         return mapping.apply(self, ctx);
     }
 

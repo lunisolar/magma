@@ -53,33 +53,71 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
  * Trait for any class that has fluent filter method.
- * Compared to {@link Fluent} forces to use exception handling from Magma functions. 
+ * Compared to {@link Fluent} forces to use exception handling from Magma functions.
  */
-public interface FluentTrait<SELF> extends Fluent<SELF> {
+public interface FluentTrait<FLUENT> extends Fluent<FLUENT> {
 
 	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-	default @Nonnull SELF fluentUse(@Nonnull LConsumer<SELF> interjection) {
+	default @Nonnull FLUENT fluentUse(@Nonnull LConsumer<FLUENT> interjection) {
 		return Fluent.super.fluentUse(interjection);
 	}
 
 	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
-	default @Nonnull <T> SELF fluentUse(T ctx, @Nonnull LBiConsumer<SELF, T> interjection) {
+	default @Nonnull <T> FLUENT fluentUse(T ctx, @Nonnull LBiConsumer<FLUENT, T> interjection) {
 		return Fluent.super.fluentUse(ctx, interjection);
 	}
 
-	default @Nonnull <R> R fluentMap(@Nonnull LFunction<SELF, R> mapping) {
+	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
+	default @Nonnull <T1, T2> FLUENT fluentUse(T1 a1, T2 a2, @Nonnull LTriConsumer<FLUENT, T1, T2> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		final FLUENT self = fluentCtx();
+		interjection.accept(self, a1, a2);
+		return self;
+	}
+
+	/** Non-capturing (if used properly) interjection in fluent calls. Please mind the boxing. */
+	default @Nonnull <T1, T2, T3> FLUENT fluentUse(T1 a1, T2 a2, T3 a3, @Nonnull LQuadConsumer<FLUENT, T1, T2, T3> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		final FLUENT self = fluentCtx();
+		interjection.accept(self, a1, a2, a3);
+		return self;
+	}
+
+	default @Nonnull <R> R fluentMap(@Nonnull LFunction<FLUENT, R> mapping) {
 		return Fluent.super.fluentMap(mapping);
 	}
 
-	default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull LBiFunction<SELF, T, R> mapping) {
+	default @Nonnull <T, R> R fluentMap(T ctx, @Nonnull LBiFunction<FLUENT, T, R> mapping) {
 		return Fluent.super.fluentMap(ctx, mapping);
 	}
 
-	default @Nullable <R> R fluentNullableMap(@Nonnull LFunction<SELF, R> mapping) {
+	default @Nonnull <T1, T2, R> R fluentMap(T1 a1, T2 a2, @Nonnull LTriFunction<FLUENT, T1, T2, R> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return Null.nonNull(fluentNullableMap(a1, a2, mapping));
+	}
+
+	default @Nonnull <T1, T2, T3, R> R fluentMap(T1 a1, T2 a2, T3 a3, @Nonnull LQuadFunction<FLUENT, T1, T2, T3, R> mapping) {
+		Null.nonNull(mapping);
+		return Null.nonNull(fluentNullableMap(a1, a2, a3, mapping));
+	}
+
+	default @Nullable <R> R fluentNullableMap(@Nonnull LFunction<FLUENT, R> mapping) {
 		return Fluent.super.fluentNullableMap(mapping);
 	}
 
-	default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull LBiFunction<SELF, T, R> mapping) {
+	default @Nullable <T, R> R fluentNullableMap(T ctx, @Nonnull LBiFunction<FLUENT, T, R> mapping) {
 		return Fluent.super.fluentNullableMap(ctx, mapping);
+	}
+
+	default @Nullable <T1, T2, R> R fluentNullableMap(T1 a1, T2 a2, @Nonnull LTriFunction<FLUENT, T1, T2, R> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		final FLUENT self = fluentCtx();
+		return mapping.apply(self, a1, a2);
+	}
+
+	default @Nullable <T1, T2, T3, R> R fluentNullableMap(T1 a1, T2 a2, T3 a3, @Nonnull LQuadFunction<FLUENT, T1, T2, T3, R> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		final FLUENT self = fluentCtx();
+		return mapping.apply(self, a1, a2, a3);
 	}
 }
