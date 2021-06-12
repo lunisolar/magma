@@ -97,6 +97,10 @@ public final class OptChar extends OptCharBase<OptChar> {
 		return Clazz.assuredClass(OptChar.class, opt, o -> o.isPresent() ? OptChar.of(o.get()) : OptChar.empty());
 	}
 
+	public static OptChar from(Character value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptChar of(char value) {
 		return new OptChar(value);
 	}

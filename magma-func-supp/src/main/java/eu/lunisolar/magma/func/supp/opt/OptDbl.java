@@ -97,6 +97,10 @@ public final class OptDbl extends OptDblBase<OptDbl> {
 		return Clazz.assuredClass(OptDbl.class, opt, o -> o.isPresent() ? OptDbl.of(o.get()) : OptDbl.empty());
 	}
 
+	public static OptDbl from(Double value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptDbl of(double value) {
 		return new OptDbl(value);
 	}

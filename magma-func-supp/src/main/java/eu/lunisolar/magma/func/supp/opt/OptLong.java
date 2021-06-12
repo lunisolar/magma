@@ -97,6 +97,10 @@ public final class OptLong extends OptLongBase<OptLong> {
 		return Clazz.assuredClass(OptLong.class, opt, o -> o.isPresent() ? OptLong.of(o.get()) : OptLong.empty());
 	}
 
+	public static OptLong from(Long value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptLong of(long value) {
 		return new OptLong(value);
 	}

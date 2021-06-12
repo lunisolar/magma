@@ -97,6 +97,10 @@ public final class OptInt extends OptIntBase<OptInt> {
 		return Clazz.assuredClass(OptInt.class, opt, o -> o.isPresent() ? OptInt.of(o.get()) : OptInt.empty());
 	}
 
+	public static OptInt from(Integer value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptInt of(int value) {
 		return new OptInt(value);
 	}

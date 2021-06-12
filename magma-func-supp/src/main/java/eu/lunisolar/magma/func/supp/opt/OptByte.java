@@ -97,6 +97,10 @@ public final class OptByte extends OptByteBase<OptByte> {
 		return Clazz.assuredClass(OptByte.class, opt, o -> o.isPresent() ? OptByte.of(o.get()) : OptByte.empty());
 	}
 
+	public static OptByte from(Byte value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptByte of(byte value) {
 		return new OptByte(value);
 	}

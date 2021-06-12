@@ -97,6 +97,10 @@ public final class OptSrt extends OptSrtBase<OptSrt> {
 		return Clazz.assuredClass(OptSrt.class, opt, o -> o.isPresent() ? OptSrt.of(o.get()) : OptSrt.empty());
 	}
 
+	public static OptSrt from(Short value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptSrt of(short value) {
 		return new OptSrt(value);
 	}

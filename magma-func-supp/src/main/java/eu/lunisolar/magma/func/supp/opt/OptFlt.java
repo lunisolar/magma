@@ -97,6 +97,10 @@ public final class OptFlt extends OptFltBase<OptFlt> {
 		return Clazz.assuredClass(OptFlt.class, opt, o -> o.isPresent() ? OptFlt.of(o.get()) : OptFlt.empty());
 	}
 
+	public static OptFlt from(Float value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptFlt of(float value) {
 		return new OptFlt(value);
 	}

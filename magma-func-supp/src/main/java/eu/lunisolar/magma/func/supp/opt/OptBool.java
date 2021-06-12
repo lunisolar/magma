@@ -97,6 +97,10 @@ public final class OptBool extends OptBoolBase<OptBool> {
 		return Clazz.assuredClass(OptBool.class, opt, o -> o.isPresent() ? OptBool.of(o.get()) : OptBool.empty());
 	}
 
+	public static OptBool from(Boolean value) {
+		return value == null ? empty() : valueOf(value);
+	}
+
 	public static OptBool of(boolean value) {
 		return new OptBool(value);
 	}
