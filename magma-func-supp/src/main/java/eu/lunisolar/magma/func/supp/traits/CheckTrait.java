@@ -6720,6 +6720,14 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		return fluentCtx();
 	}
 
+	default @Nonnull <R, C extends CheckTrait<? super R, C>> SELF check(@Nonnull LFunction<T, R> func, @Nonnull LFunction<R, C> factory, LConsumer<C> checks) {
+		Null.nonNullArg(func, "func");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(checks, "checks");
+		checks.accept(factory.apply(func.apply(get())));
+		return fluentCtx();
+	}
+
 	default @Nonnull SELF fails(@Nonnull String newMessage) {
 		throw Handling.create(checkTraitFactory(), newMessage);
 	}
