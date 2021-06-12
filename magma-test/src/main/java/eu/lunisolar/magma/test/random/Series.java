@@ -5,6 +5,7 @@
 
 package eu.lunisolar.magma.test.random;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.*;
 import java.util.logging.*;
@@ -25,7 +26,7 @@ public class Series<T> {
 
     private SeriesParams<T> params;
 
-    private Series(SeriesParams<T> params, boolean useAltPathEnforcer, @Nullable T altPathEnforcer) {
+    private Series(boolean parallel, SeriesParams<T> params, boolean useAltPathEnforcer, @Nullable T altPathEnforcer) {
 
         this.params = params.validate();
 
@@ -36,24 +37,37 @@ public class Series<T> {
         fromTill(0, poolA.length, i -> poolA[i] = params.poolAProducer().get());
         fromTill(0, poolB.length, i -> poolB[i] = params.poolBProducer().get());
 
-//        fromTill(0, series.length, i -> series[i] = createSampleValue());
-
         if (useAltPathEnforcer) {
-            rangeClosed(0, series.length - 1).parallel()
-                                             .mapToObj(i -> i == 0 ? altPathEnforcer : createSampleValue()).collect(toList()).toArray(series);
+            intStream(parallel).mapToObj(i -> i == 0 ? altPathEnforcer : createSampleValue()).collect(toList()).toArray(series);
         } else {
-            rangeClosed(0, series.length - 1).parallel().mapToObj(i -> createSampleValue()).collect(toList()).toArray(series);
+            intStream(parallel).mapToObj(i -> createSampleValue()).collect(toList()).toArray(series);
         }
 
         LOGGER.log(Level.INFO, String.format("Series '%s' prepared: %s", params.name(), params));
     }
 
+    @Nonnull private IntStream intStream(boolean parallel) {
+        IntStream intStream = rangeClosed(0, series.length - 1);
+        if (parallel) {
+            intStream = intStream.parallel();
+        }
+        return intStream;
+    }
+
     public static <T> Series<T> series(SeriesParams<T> params) {
-        return new Series<>(params, false, null);
+        return new Series<>(true, params, false, null);
     }
 
     public static <T> Series<T> series(SeriesParams<T> params, @Nullable T altPathEnforcer) {
-        return new Series<>(params, true, altPathEnforcer);
+        return new Series<>(true, params, true, altPathEnforcer);
+    }
+
+    public static <T> Series<T> series(boolean parallel, SeriesParams<T> params) {
+        return new Series<>(parallel, params, false, null);
+    }
+
+    public static <T> Series<T> series(boolean parallel, SeriesParams<T> params, @Nullable T altPathEnforcer) {
+        return new Series<>(parallel, params, true, altPathEnforcer);
     }
 
     private Object createSampleValue() {
