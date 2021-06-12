@@ -109,6 +109,10 @@ public final class OptInt extends OptIntBase<OptInt> {
 		return of(value);
 	}
 
+	public static OptInt valueOf(int value, LIntPredicate predicate) {
+		return predicate.test(value) ? of(value) : empty();
+	}
+
 	public static OptInt from(@Nonnull OptionalInt optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptInt.of(optional.getAsInt()) : empty();

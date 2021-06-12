@@ -109,6 +109,10 @@ public final class OptLong extends OptLongBase<OptLong> {
 		return of(value);
 	}
 
+	public static OptLong valueOf(long value, LLongPredicate predicate) {
+		return predicate.test(value) ? of(value) : empty();
+	}
+
 	public static OptLong from(@Nonnull OptionalLong optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptLong.of(optional.getAsLong()) : empty();

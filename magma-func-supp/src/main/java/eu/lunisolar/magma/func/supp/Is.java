@@ -385,6 +385,46 @@ public final class Is implements FluentSyntax {
 		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
+	/** Predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonNegative(byte n) {
+		return n >= 0;
+	}
+
+	/** "Special" predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonNegativeEx(byte n) {
+		return (n >= 0) ? null : String.format("%s must be >= 0", n);
+	}
+
+	/** Predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean negative(byte n) {
+		return !(n >= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String negativeEx(byte n) {
+		return !(n >= 0) ? null : String.format("%s must NOT be >= 0", n);
+	}
+
+	/** Predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonPositive(byte n) {
+		return n <= 0;
+	}
+
+	/** "Special" predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonPositiveEx(byte n) {
+		return (n <= 0) ? null : String.format("%s must be <= 0", n);
+	}
+
+	/** Predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean positive(byte n) {
+		return !(n <= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String positiveEx(byte n) {
+		return !(n <= 0) ? null : String.format("%s must NOT be <= 0", n);
+	}
+
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean equal(short n, short a1) {
 		return n == a1;
@@ -483,6 +523,46 @@ public final class Is implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notLtEqEx(short n, short a1) {
 		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonNegative(short n) {
+		return n >= 0;
+	}
+
+	/** "Special" predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonNegativeEx(short n) {
+		return (n >= 0) ? null : String.format("%s must be >= 0", n);
+	}
+
+	/** Predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean negative(short n) {
+		return !(n >= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String negativeEx(short n) {
+		return !(n >= 0) ? null : String.format("%s must NOT be >= 0", n);
+	}
+
+	/** Predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonPositive(short n) {
+		return n <= 0;
+	}
+
+	/** "Special" predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonPositiveEx(short n) {
+		return (n <= 0) ? null : String.format("%s must be <= 0", n);
+	}
+
+	/** Predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean positive(short n) {
+		return !(n <= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String positiveEx(short n) {
+		return !(n <= 0) ? null : String.format("%s must NOT be <= 0", n);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -585,6 +665,46 @@ public final class Is implements FluentSyntax {
 		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
+	/** Predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonNegative(int n) {
+		return n >= 0;
+	}
+
+	/** "Special" predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonNegativeEx(int n) {
+		return (n >= 0) ? null : String.format("%s must be >= 0", n);
+	}
+
+	/** Predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean negative(int n) {
+		return !(n >= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String negativeEx(int n) {
+		return !(n >= 0) ? null : String.format("%s must NOT be >= 0", n);
+	}
+
+	/** Predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonPositive(int n) {
+		return n <= 0;
+	}
+
+	/** "Special" predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonPositiveEx(int n) {
+		return (n <= 0) ? null : String.format("%s must be <= 0", n);
+	}
+
+	/** Predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean positive(int n) {
+		return !(n <= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String positiveEx(int n) {
+		return !(n <= 0) ? null : String.format("%s must NOT be <= 0", n);
+	}
+
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean equal(long n, long a1) {
 		return n == a1;
@@ -683,6 +803,46 @@ public final class Is implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notLtEqEx(long n, long a1) {
 		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonNegative(long n) {
+		return n >= 0;
+	}
+
+	/** "Special" predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonNegativeEx(long n) {
+		return (n >= 0) ? null : String.format("%s must be >= 0", n);
+	}
+
+	/** Predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean negative(long n) {
+		return !(n >= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String negativeEx(long n) {
+		return !(n >= 0) ? null : String.format("%s must NOT be >= 0", n);
+	}
+
+	/** Predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonPositive(long n) {
+		return n <= 0;
+	}
+
+	/** "Special" predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonPositiveEx(long n) {
+		return (n <= 0) ? null : String.format("%s must be <= 0", n);
+	}
+
+	/** Predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean positive(long n) {
+		return !(n <= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String positiveEx(long n) {
+		return !(n <= 0) ? null : String.format("%s must NOT be <= 0", n);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -785,6 +945,46 @@ public final class Is implements FluentSyntax {
 		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
+	/** Predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonNegative(float n) {
+		return n >= 0;
+	}
+
+	/** "Special" predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonNegativeEx(float n) {
+		return (n >= 0) ? null : String.format("%s must be >= 0", n);
+	}
+
+	/** Predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean negative(float n) {
+		return !(n >= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String negativeEx(float n) {
+		return !(n >= 0) ? null : String.format("%s must NOT be >= 0", n);
+	}
+
+	/** Predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonPositive(float n) {
+		return n <= 0;
+	}
+
+	/** "Special" predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonPositiveEx(float n) {
+		return (n <= 0) ? null : String.format("%s must be <= 0", n);
+	}
+
+	/** Predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean positive(float n) {
+		return !(n <= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String positiveEx(float n) {
+		return !(n <= 0) ? null : String.format("%s must NOT be <= 0", n);
+	}
+
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean equal(double n, double a1) {
 		return n == a1;
@@ -885,6 +1085,46 @@ public final class Is implements FluentSyntax {
 		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
+	/** Predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonNegative(double n) {
+		return n >= 0;
+	}
+
+	/** "Special" predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonNegativeEx(double n) {
+		return (n >= 0) ? null : String.format("%s must be >= 0", n);
+	}
+
+	/** Predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean negative(double n) {
+		return !(n >= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String negativeEx(double n) {
+		return !(n >= 0) ? null : String.format("%s must NOT be >= 0", n);
+	}
+
+	/** Predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonPositive(double n) {
+		return n <= 0;
+	}
+
+	/** "Special" predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonPositiveEx(double n) {
+		return (n <= 0) ? null : String.format("%s must be <= 0", n);
+	}
+
+	/** Predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean positive(double n) {
+		return !(n <= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String positiveEx(double n) {
+		return !(n <= 0) ? null : String.format("%s must NOT be <= 0", n);
+	}
+
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean equal(char n, char a1) {
 		return n == a1;
@@ -983,6 +1223,46 @@ public final class Is implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= %s. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notLtEqEx(char n, char a1) {
 		return !(n <= a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
+	}
+
+	/** Predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonNegative(char n) {
+		return n >= 0;
+	}
+
+	/** "Special" predicate: %s must be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonNegativeEx(char n) {
+		return (n >= 0) ? null : String.format("%s must be >= 0", n);
+	}
+
+	/** Predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean negative(char n) {
+		return !(n >= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be >= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String negativeEx(char n) {
+		return !(n >= 0) ? null : String.format("%s must NOT be >= 0", n);
+	}
+
+	/** Predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean nonPositive(char n) {
+		return n <= 0;
+	}
+
+	/** "Special" predicate: %s must be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String nonPositiveEx(char n) {
+		return (n <= 0) ? null : String.format("%s must be <= 0", n);
+	}
+
+	/** Predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static boolean positive(char n) {
+		return !(n <= 0);
+	}
+
+	/** "Special" predicate: %s must NOT be <= 0 Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static String positiveEx(char n) {
+		return !(n <= 0) ? null : String.format("%s must NOT be <= 0", n);
 	}
 
 	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/

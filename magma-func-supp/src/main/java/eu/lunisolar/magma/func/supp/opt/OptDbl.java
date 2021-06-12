@@ -109,6 +109,10 @@ public final class OptDbl extends OptDblBase<OptDbl> {
 		return of(value);
 	}
 
+	public static OptDbl valueOf(double value, LDblPredicate predicate) {
+		return predicate.test(value) ? of(value) : empty();
+	}
+
 	public static OptDbl from(@Nonnull OptionalDouble optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? OptDbl.of(optional.getAsDouble()) : empty();

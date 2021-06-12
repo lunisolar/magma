@@ -109,6 +109,10 @@ public final class OptFlt extends OptFltBase<OptFlt> {
 		return of(value);
 	}
 
+	public static OptFlt valueOf(float value, LFltPredicate predicate) {
+		return predicate.test(value) ? of(value) : empty();
+	}
+
 	// </editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */

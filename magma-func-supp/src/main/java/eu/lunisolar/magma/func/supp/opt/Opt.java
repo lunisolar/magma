@@ -259,6 +259,10 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		return optional.get();
 	}
 
+	public static <T> Opt<T> valueOf(@Nonnull T value, LPredicate<T> predicate) {
+		return predicate.test(value) ? of(value) : empty();
+	}
+
 	public static <T> Opt<T> from(@Nonnull Optional<T> optional) {
 		Null.nonNullArg(optional, "optional");
 		return optional.isPresent() ? Opt.of(optional.get()) : empty();
