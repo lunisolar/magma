@@ -224,14 +224,22 @@ public class Example_Validations_Fluent_Test {
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null.")
-    public void specialPredicates() {
+    public void specialPredicates_allNull1() {
         Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx);
-        Checks.value(new Object[]{1, 2}).must(Be::allNull, "aaaaa", "a");
-//        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx, "aaaaa");    // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Message: not really.")
+    public void specialPredicates_allNull2() {
+        Checks.value(new Object[]{1, 2}).must(Be::allNull, "Message: %s.", "not really");
+    }
+
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null. - Array contains non-null elements")
+    public void specialPredicates_allNull3() {
+        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx, "Array contains non-null elements");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")
-    public void specialPredicates2() {
+    public void specialPredicates() {
         var e = new Exception("Message1!", new RuntimeException("Message2!"));
 
         Checks.value(e).mustEx(P.haveEx(Exception::getCause, Have::msgContainEx, "I'm Expecting this"));
