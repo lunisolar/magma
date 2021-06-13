@@ -237,6 +237,11 @@ public class Example_Validations_Fluent_Test {
         Checks.value(e).mustEx(P.haveEx(Exception::getCause, Have::msgContainEx, "I'm Expecting this"));
     }
 
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: 1 must be: 5 <= 1 <= 10.")
+    public void between() {
+        Checks.value(1L).must3Ex(Be::inRangeEx, 5L, 10l);
+    }
+
     /**
      * Alternatively you can build predicate with P.have (or Does.have) methods.
      */
