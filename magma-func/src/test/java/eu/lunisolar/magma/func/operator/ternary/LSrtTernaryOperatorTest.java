@@ -202,7 +202,43 @@ public class LSrtTernaryOperatorTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThenToSrt0() throws Throwable  {
+    public void testThen0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LSrtTernaryOperator sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((short)80);
+                assertThat(a2).isEqualTo((short)81);
+                assertThat(a3).isEqualTo((short)82);
+                return (short)90;
+        };
+
+        LSrtFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // short
+                assertThat(p).isEqualTo((short)90);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriSrtFunction<Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.apply((short)80,(short)81,(short)82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToSrt1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -238,7 +274,7 @@ public class LSrtTernaryOperatorTest {
 
 
     @Test
-    public void testThenToBool1() throws Throwable  {
+    public void testThenToBool2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

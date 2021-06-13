@@ -573,6 +573,13 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	/** Combines two functions together in a order. */
 	@Nonnull
+	default <V> LTriSrtFunction<V> then(@Nonnull LSrtFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.applyAsSrt(a1, a2, a3));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
 	default LSrtTernaryOperator thenToSrt(@Nonnull LSrtUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.applyAsSrt(this.applyAsSrt(a1, a2, a3));

@@ -573,6 +573,13 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	/** Combines two functions together in a order. */
 	@Nonnull
+	default <V> LTriLongFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.applyAsLong(a1, a2, a3));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
 	default LLongTernaryOperator thenToLong(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.applyAsLong(this.applyAsLong(a1, a2, a3));

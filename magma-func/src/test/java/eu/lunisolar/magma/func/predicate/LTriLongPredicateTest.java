@@ -303,7 +303,43 @@ public class LTriLongPredicateTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToLongTernaryOp0() throws Throwable  {
+    public void testBoolToTriLongFunc0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriLongPredicate sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80L);
+                assertThat(a2).isEqualTo(81L);
+                assertThat(a3).isEqualTo(82L);
+                return true;
+        };
+
+        LBoolFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriLongFunction<Integer> function = sutO.boolToTriLongFunc(thenFunction);
+        Integer finalValue = function.apply(80L,81L,82L);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testBoolToLongTernaryOp1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -339,7 +375,7 @@ public class LTriLongPredicateTest {
 
 
     @Test
-    public void testBoolToTriLongPred1() throws Throwable  {
+    public void testBoolToTriLongPred2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

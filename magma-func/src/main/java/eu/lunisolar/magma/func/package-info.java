@@ -207,6 +207,13 @@
  * | {@link eu.lunisolar.magma.func.function.from.LOiFunction}                        | T a1,int a2                              | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LSrtFunction}                       | short a                                  | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LTriBoolFunction}                   | boolean a1,boolean a2,boolean a3         | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriByteFunction}                   | byte a1,byte a2,byte a3                  | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriCharFunction}                   | char a1,char a2,char a3                  | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriDblFunction}                    | double a1,double a2,double a3            | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriFltFunction}                    | float a1,float a2,float a3               | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriIntFunction}                    | int a1,int a2,int a3                     | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriLongFunction}                   | long a1,long a2,long a3                  | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriSrtFunction}                    | short a1,short a2,short a3               | R          |
  * | {@link eu.lunisolar.magma.func.function.to.LOiToByteFunction}                    | T a1,int a2                              | byte       |
  * | {@link eu.lunisolar.magma.func.function.to.LOiToCharFunction}                    | T a1,int a2                              | char       |
  * | {@link eu.lunisolar.magma.func.function.to.LOiToDblFunction}                     | T a1,int a2                              | double     |

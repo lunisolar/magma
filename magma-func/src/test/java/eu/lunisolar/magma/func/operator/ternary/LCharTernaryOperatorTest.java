@@ -202,7 +202,43 @@ public class LCharTernaryOperatorTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThenToChar0() throws Throwable  {
+    public void testThen0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LCharTernaryOperator sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo('\u0080');
+                assertThat(a2).isEqualTo('\u0081');
+                assertThat(a3).isEqualTo('\u0082');
+                return '\u0090';
+        };
+
+        LCharFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // char
+                assertThat(p).isEqualTo('\u0090');
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriCharFunction<Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.apply('\u0080','\u0081','\u0082');
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToChar1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -238,7 +274,7 @@ public class LCharTernaryOperatorTest {
 
 
     @Test
-    public void testThenToBool1() throws Throwable  {
+    public void testThenToBool2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

@@ -1059,9 +1059,27 @@ public final class Does implements FluentSyntax {
 		return k -> predicate.test(extractor.applyAsByte(k), a2, a3);
 	}
 
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, byte a2, byte a3, @Nonnull LTriByteFunction<String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.applyAsByte(k), a2, a3);
+	}
+
 	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
 	public static @Nonnull <K> LPredicate<K> haveToByte(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriBytePredicate predicate, byte a2, byte a3) {
 		return haveToByte(extractor, a2, a3, predicate);
+	}
+
+	/**
+	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriByteFunction<String> specialPredicate, byte a2, byte a3) {
+		return haveToByteEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -1244,9 +1262,27 @@ public final class Does implements FluentSyntax {
 		return k -> predicate.test(extractor.applyAsDbl(k), a2, a3);
 	}
 
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, double a2, double a3, @Nonnull LTriDblFunction<String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.applyAsDbl(k), a2, a3);
+	}
+
 	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
 	public static @Nonnull <K> LPredicate<K> haveToDbl(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblPredicate predicate, double a2, double a3) {
 		return haveToDbl(extractor, a2, a3, predicate);
+	}
+
+	/**
+	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblFunction<String> specialPredicate, double a2, double a3) {
+		return haveToDblEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -1429,9 +1465,27 @@ public final class Does implements FluentSyntax {
 		return k -> predicate.test(extractor.applyAsChar(k), a2, a3);
 	}
 
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, char a2, char a3, @Nonnull LTriCharFunction<String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.applyAsChar(k), a2, a3);
+	}
+
 	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
 	public static @Nonnull <K> LPredicate<K> haveToChar(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharPredicate predicate, char a2, char a3) {
 		return haveToChar(extractor, a2, a3, predicate);
+	}
+
+	/**
+	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharFunction<String> specialPredicate, char a2, char a3) {
+		return haveToCharEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -1614,9 +1668,27 @@ public final class Does implements FluentSyntax {
 		return k -> predicate.test(extractor.applyAsSrt(k), a2, a3);
 	}
 
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, short a2, short a3, @Nonnull LTriSrtFunction<String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.applyAsSrt(k), a2, a3);
+	}
+
 	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
 	public static @Nonnull <K> LPredicate<K> haveToSrt(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtPredicate predicate, short a2, short a3) {
 		return haveToSrt(extractor, a2, a3, predicate);
+	}
+
+	/**
+	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtFunction<String> specialPredicate, short a2, short a3) {
+		return haveToSrtEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -1799,9 +1871,27 @@ public final class Does implements FluentSyntax {
 		return k -> predicate.test(extractor.applyAsFlt(k), a2, a3);
 	}
 
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, float a2, float a3, @Nonnull LTriFltFunction<String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.applyAsFlt(k), a2, a3);
+	}
+
 	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
 	public static @Nonnull <K> LPredicate<K> haveToFlt(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltPredicate predicate, float a2, float a3) {
 		return haveToFlt(extractor, a2, a3, predicate);
+	}
+
+	/**
+	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltFunction<String> specialPredicate, float a2, float a3) {
+		return haveToFltEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -1984,9 +2074,27 @@ public final class Does implements FluentSyntax {
 		return k -> predicate.test(extractor.applyAsInt(k), a2, a3);
 	}
 
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, int a2, int a3, @Nonnull LTriIntFunction<String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.applyAsInt(k), a2, a3);
+	}
+
 	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
 	public static @Nonnull <K> LPredicate<K> haveToInt(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntPredicate predicate, int a2, int a3) {
 		return haveToInt(extractor, a2, a3, predicate);
+	}
+
+	/**
+	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntFunction<String> specialPredicate, int a2, int a3) {
+		return haveToIntEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/**
@@ -2283,9 +2391,27 @@ public final class Does implements FluentSyntax {
 		return k -> predicate.test(extractor.applyAsLong(k), a2, a3);
 	}
 
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, long a2, long a3, @Nonnull LTriLongFunction<String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.applyAsLong(k), a2, a3);
+	}
+
 	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
 	public static @Nonnull <K> LPredicate<K> haveToLong(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongPredicate predicate, long a2, long a3) {
 		return haveToLong(extractor, a2, a3, predicate);
+	}
+
+	/**
+	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	*/
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongFunction<String> specialPredicate, long a2, long a3) {
+		return haveToLongEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */

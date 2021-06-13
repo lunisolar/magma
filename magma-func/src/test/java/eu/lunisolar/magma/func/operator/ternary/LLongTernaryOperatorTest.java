@@ -202,7 +202,43 @@ public class LLongTernaryOperatorTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThenToLong0() throws Throwable  {
+    public void testThen0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LLongTernaryOperator sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80L);
+                assertThat(a2).isEqualTo(81L);
+                assertThat(a3).isEqualTo(82L);
+                return 90L;
+        };
+
+        LLongFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // long
+                assertThat(p).isEqualTo(90L);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriLongFunction<Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.apply(80L,81L,82L);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToLong1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -238,7 +274,7 @@ public class LLongTernaryOperatorTest {
 
 
     @Test
-    public void testThenToBool1() throws Throwable  {
+    public void testThenToBool2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

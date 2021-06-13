@@ -573,6 +573,13 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	/** Combines two functions together in a order. */
 	@Nonnull
+	default <V> LTriCharFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.applyAsChar(a1, a2, a3));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
 	default LCharTernaryOperator thenToChar(@Nonnull LCharUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.applyAsChar(this.applyAsChar(a1, a2, a3));

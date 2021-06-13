@@ -202,7 +202,43 @@ public class LDblTernaryOperatorTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThenToDbl0() throws Throwable  {
+    public void testThen0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LDblTernaryOperator sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80d);
+                assertThat(a2).isEqualTo(81d);
+                assertThat(a3).isEqualTo(82d);
+                return 90d;
+        };
+
+        LDblFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // double
+                assertThat(p).isEqualTo(90d);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriDblFunction<Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.apply(80d,81d,82d);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToDbl1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -238,7 +274,7 @@ public class LDblTernaryOperatorTest {
 
 
     @Test
-    public void testThenToBool1() throws Throwable  {
+    public void testThenToBool2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

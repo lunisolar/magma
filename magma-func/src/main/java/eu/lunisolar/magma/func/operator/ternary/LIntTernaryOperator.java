@@ -586,6 +586,13 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	/** Combines two functions together in a order. */
 	@Nonnull
+	default <V> LTriIntFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.applyAsInt(a1, a2, a3));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
 	default LIntTernaryOperator thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.applyAsInt(this.applyAsInt(a1, a2, a3));

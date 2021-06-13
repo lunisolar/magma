@@ -573,6 +573,13 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	/** Combines two functions together in a order. */
 	@Nonnull
+	default <V> LTriDblFunction<V> then(@Nonnull LDblFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.applyAsDbl(a1, a2, a3));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
 	default LDblTernaryOperator thenToDbl(@Nonnull LDblUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.applyAsDbl(this.applyAsDbl(a1, a2, a3));

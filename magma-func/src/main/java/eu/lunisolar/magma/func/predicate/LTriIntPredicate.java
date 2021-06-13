@@ -415,6 +415,17 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> int throwIf(int a1, int a2, int a3, @Nonnull LTriIntPredicate pred, @Nonnull ExMF<X> factory, @Nonnull LTriIntFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> int throwIf(int a1, int a2, int a3, @Nonnull LTriIntPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
@@ -454,6 +465,17 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		Null.nonNullArg(message, "message");
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> int throwIfNot(int a1, int a2, int a3, @Nonnull LTriIntPredicate pred, @Nonnull ExMF<X> factory, @Nonnull LTriIntFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3));
 		}
 		return a1;
 	}
@@ -523,6 +545,17 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
+	public static <X extends Throwable> int throwIf(int a1, @Nonnull LTriIntPredicate pred, int a2, int a3, @Nonnull ExMF<X> factory, @Nonnull LTriIntFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is met. */
 	public static <X extends Throwable> int throwIf(int a1, @Nonnull LTriIntPredicate pred, int a2, int a3, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
@@ -562,6 +595,17 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		Null.nonNullArg(message, "message");
 		if (pred.test(a1, a2, a3)) {
 			throw Handling.create(factory, String.format(message, param1, param2, param3));
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is NOT met. */
+	public static <X extends Throwable> int throwIfNot(int a1, @Nonnull LTriIntPredicate pred, int a2, int a3, @Nonnull ExMF<X> factory, @Nonnull LTriIntFunction<? extends String> msgFunc) throws X {
+		Null.nonNullArg(pred, "pred");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (!pred.test(a1, a2, a3)) {
+			throw Handling.create(factory, msgFunc.apply(a1, a2, a3));
 		}
 		return a1;
 	}
@@ -626,6 +670,126 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		Null.nonNullArg(noArgFactory, "noArgFactory");
 		if (!pred.test(a1, a2, a3)) {
 			throw Handling.create(noArgFactory);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, int a2, int a3, @Nonnull LTriIntFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, int a2, int a3, @Nonnull LTriIntFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(msg, a1, a2, a3) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, int a2, int a3, @Nonnull LTriIntFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, int a2, int a3, @Nonnull LTriIntFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, int a2, int a3, @Nonnull LTriIntFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, @Nonnull LTriIntFunction<? extends String> specialPredicate, int a2, int a3, @Nonnull ExMF<X> factory) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, @Nonnull LTriIntFunction<? extends String> specialPredicate, int a2, int a3, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(msg, "msg");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(msg, a1, a2, a3) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, @Nonnull LTriIntFunction<? extends String> specialPredicate, int a2, int a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, @Nonnull LTriIntFunction<? extends String> specialPredicate, int a2, int a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2) + ' ' + m);
+		}
+		return a1;
+	}
+
+	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
+	public static <X extends Throwable> int throwIfNotEx(int a1, @Nonnull LTriIntFunction<? extends String> specialPredicate, int a2, int a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) throws X {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(factory, "factory");
+		Null.nonNullArg(message, "message");
+		var m = specialPredicate.apply(a1, a2, a3);
+		if (m != null) {
+			throw Handling.create(factory, String.format(message, param1, param2, param3) + ' ' + m);
 		}
 		return a1;
 	}
@@ -919,6 +1083,13 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">
+
+	/** Combines two functions together in a order. */
+	@Nonnull
+	default <V> LTriIntFunction<V> boolToTriIntFunc(@Nonnull LBoolFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.test(a1, a2, a3));
+	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull

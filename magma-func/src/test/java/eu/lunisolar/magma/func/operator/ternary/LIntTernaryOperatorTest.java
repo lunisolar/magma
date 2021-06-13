@@ -243,7 +243,43 @@ public class LIntTernaryOperatorTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThenToInt0() throws Throwable  {
+    public void testThen0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LIntTernaryOperator sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80);
+                assertThat(a2).isEqualTo(81);
+                assertThat(a3).isEqualTo(82);
+                return 90;
+        };
+
+        LIntFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // int
+                assertThat(p).isEqualTo(90);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriIntFunction<Integer> function = sutO.then(thenFunction);
+        Integer finalValue = function.apply(80,81,82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testThenToInt1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -279,7 +315,7 @@ public class LIntTernaryOperatorTest {
 
 
     @Test
-    public void testThenToBool1() throws Throwable  {
+    public void testThenToBool2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

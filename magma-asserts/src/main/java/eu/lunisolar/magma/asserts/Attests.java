@@ -2065,6 +2065,41 @@ public interface Attests {
 	}
 
 	@Nonnull
+	public static <A extends LTriByteFunction<R>, RS extends Assert<RS, R>, R> LTriByteFunctionAssert.The<A, RS, R> attestTriByteFunc(LTriByteFunction<R> func) {
+		return new LTriByteFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriCharFunction<R>, RS extends Assert<RS, R>, R> LTriCharFunctionAssert.The<A, RS, R> attestTriCharFunc(LTriCharFunction<R> func) {
+		return new LTriCharFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriDblFunction<R>, RS extends Assert<RS, R>, R> LTriDblFunctionAssert.The<A, RS, R> attestTriDblFunc(LTriDblFunction<R> func) {
+		return new LTriDblFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriFltFunction<R>, RS extends Assert<RS, R>, R> LTriFltFunctionAssert.The<A, RS, R> attestTriFltFunc(LTriFltFunction<R> func) {
+		return new LTriFltFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriIntFunction<R>, RS extends Assert<RS, R>, R> LTriIntFunctionAssert.The<A, RS, R> attestTriIntFunc(LTriIntFunction<R> func) {
+		return new LTriIntFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriLongFunction<R>, RS extends Assert<RS, R>, R> LTriLongFunctionAssert.The<A, RS, R> attestTriLongFunc(LTriLongFunction<R> func) {
+		return new LTriLongFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
+	public static <A extends LTriSrtFunction<R>, RS extends Assert<RS, R>, R> LTriSrtFunctionAssert.The<A, RS, R> attestTriSrtFunc(LTriSrtFunction<R> func) {
+		return new LTriSrtFunctionAssert.The(func, Assertions::assertThat);
+	}
+
+	@Nonnull
 	public static <A extends LOiToByteFunction<T>, RS extends AbstractByteAssert<RS>, T> LOiToByteFunctionAssert.The<A, RS, T> attestOiToByteFunc(LOiToByteFunction<T> func) {
 		return new LOiToByteFunctionAssert.The(func, Assertions::assertThat);
 	}

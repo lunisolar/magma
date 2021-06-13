@@ -303,7 +303,43 @@ public class LTriSrtPredicateTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToSrtTernaryOp0() throws Throwable  {
+    public void testBoolToTriSrtFunc0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriSrtPredicate sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((short)80);
+                assertThat(a2).isEqualTo((short)81);
+                assertThat(a3).isEqualTo((short)82);
+                return true;
+        };
+
+        LBoolFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriSrtFunction<Integer> function = sutO.boolToTriSrtFunc(thenFunction);
+        Integer finalValue = function.apply((short)80,(short)81,(short)82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testBoolToSrtTernaryOp1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -339,7 +375,7 @@ public class LTriSrtPredicateTest {
 
 
     @Test
-    public void testBoolToTriSrtPred1() throws Throwable  {
+    public void testBoolToTriSrtPred2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

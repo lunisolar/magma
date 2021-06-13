@@ -303,7 +303,43 @@ public class LTriBytePredicateTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToByteTernaryOp0() throws Throwable  {
+    public void testBoolToTriByteFunc0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriBytePredicate sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo((byte)80);
+                assertThat(a2).isEqualTo((byte)81);
+                assertThat(a3).isEqualTo((byte)82);
+                return true;
+        };
+
+        LBoolFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriByteFunction<Integer> function = sutO.boolToTriByteFunc(thenFunction);
+        Integer finalValue = function.apply((byte)80,(byte)81,(byte)82);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testBoolToByteTernaryOp1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -339,7 +375,7 @@ public class LTriBytePredicateTest {
 
 
     @Test
-    public void testBoolToTriBytePred1() throws Throwable  {
+    public void testBoolToTriBytePred2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);

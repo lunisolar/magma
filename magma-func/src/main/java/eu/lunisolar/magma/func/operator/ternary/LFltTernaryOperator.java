@@ -573,6 +573,13 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	/** Combines two functions together in a order. */
 	@Nonnull
+	default <V> LTriFltFunction<V> then(@Nonnull LFltFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.applyAsFlt(a1, a2, a3));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
 	default LFltTernaryOperator thenToFlt(@Nonnull LFltUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.applyAsFlt(this.applyAsFlt(a1, a2, a3));

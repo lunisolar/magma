@@ -573,6 +573,13 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	/** Combines two functions together in a order. */
 	@Nonnull
+	default <V> LTriByteFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
+		Null.nonNullArg(after, "after");
+		return (a1, a2, a3) -> after.apply(this.applyAsByte(a1, a2, a3));
+	}
+
+	/** Combines two functions together in a order. */
+	@Nonnull
 	default LByteTernaryOperator thenToByte(@Nonnull LByteUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return (a1, a2, a3) -> after.applyAsByte(this.applyAsByte(a1, a2, a3));

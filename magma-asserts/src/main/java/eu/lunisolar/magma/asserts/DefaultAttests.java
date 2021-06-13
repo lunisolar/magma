@@ -2775,6 +2775,55 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 	}
 
 	@Nonnull
+	default <A extends LTriByteFunction<R>, R> LTriByteFunctionAssert.The<A, ? extends OS, R> attestTriByteFunc(LTriByteFunction<R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LTriByteFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriCharFunction<R>, R> LTriCharFunctionAssert.The<A, ? extends OS, R> attestTriCharFunc(LTriCharFunction<R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LTriCharFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriDblFunction<R>, R> LTriDblFunctionAssert.The<A, ? extends OS, R> attestTriDblFunc(LTriDblFunction<R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LTriDblFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriFltFunction<R>, R> LTriFltFunctionAssert.The<A, ? extends OS, R> attestTriFltFunc(LTriFltFunction<R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LTriFltFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriIntFunction<R>, R> LTriIntFunctionAssert.The<A, ? extends OS, R> attestTriIntFunc(LTriIntFunction<R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LTriIntFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriLongFunction<R>, R> LTriLongFunctionAssert.The<A, ? extends OS, R> attestTriLongFunc(LTriLongFunction<R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LTriLongFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LTriSrtFunction<R>, R> LTriSrtFunctionAssert.The<A, ? extends OS, R> attestTriSrtFunc(LTriSrtFunction<R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LTriSrtFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
 	default <A extends LOiToByteFunction<T>, T> LOiToByteFunctionAssert.The<A, ? extends AbstractByteAssert, T> attestOiToByteFunc(LOiToByteFunction<T> func) {
 		LByteFunction<AbstractByteAssert> assertFunc = this::attestThatByte;
 		return new LOiToByteFunctionAssert.The(func, assertFunc);

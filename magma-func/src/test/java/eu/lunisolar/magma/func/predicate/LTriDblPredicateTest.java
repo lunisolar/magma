@@ -303,7 +303,43 @@ public class LTriDblPredicateTest {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testBoolToDblTernaryOp0() throws Throwable  {
+    public void testBoolToTriDblFunc0() throws Throwable  {
+
+        final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
+        final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
+
+        //given (+ some assertions)
+        LTriDblPredicate sutO = (a1,a2,a3) -> {
+                mainFunctionCalled.set(true);
+                assertThat(a1).isEqualTo(80d);
+                assertThat(a2).isEqualTo(81d);
+                assertThat(a3).isEqualTo(82d);
+                return true;
+        };
+
+        LBoolFunction<Integer> thenFunction = p -> {
+                thenFunctionCalled.set(true);
+                // boolean
+                assertThat(p).isEqualTo(true);
+                // Integer
+                return 100;
+        };
+
+        //when
+        LTriDblFunction<Integer> function = sutO.boolToTriDblFunc(thenFunction);
+        Integer finalValue = function.apply(80d,81d,82d);
+
+        //then - finals
+        assertThat(finalValue).isEqualTo(100);
+        assertThat(mainFunctionCalled.get()).isEqualTo(true);
+        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+
+    }
+
+
+
+    @Test
+    public void testBoolToDblTernaryOp1() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -339,7 +375,7 @@ public class LTriDblPredicateTest {
 
 
     @Test
-    public void testBoolToTriDblPred1() throws Throwable  {
+    public void testBoolToTriDblPred2() throws Throwable  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
