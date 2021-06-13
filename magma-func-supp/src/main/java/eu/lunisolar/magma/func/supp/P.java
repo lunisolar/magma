@@ -1378,284 +1378,284 @@ public final class P implements FluentSyntax {
 		return !(n <= 0) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
-	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean between(byte n, byte a1, byte a2) {
 		return a1 < n && n < a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String betweenEx(byte n, byte a1, byte a2) {
-		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
+		return (a1 < n && n < a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notBetween(byte n, byte a1, byte a2) {
 		return !(a1 < n && n < a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notBetweenEx(byte n, byte a1, byte a2) {
-		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
+		return !(a1 < n && n < a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean inRange(byte n, byte a1, byte a2) {
 		return a1 <= n && n <= a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String inRangeEx(byte n, byte a1, byte a2) {
-		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return (a1 <= n && n <= a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notInRange(byte n, byte a1, byte a2) {
 		return !(a1 <= n && n <= a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notInRangeEx(byte n, byte a1, byte a2) {
-		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return !(a1 <= n && n <= a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean between(short n, short a1, short a2) {
 		return a1 < n && n < a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String betweenEx(short n, short a1, short a2) {
-		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
+		return (a1 < n && n < a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notBetween(short n, short a1, short a2) {
 		return !(a1 < n && n < a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notBetweenEx(short n, short a1, short a2) {
-		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
+		return !(a1 < n && n < a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean inRange(short n, short a1, short a2) {
 		return a1 <= n && n <= a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String inRangeEx(short n, short a1, short a2) {
-		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return (a1 <= n && n <= a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notInRange(short n, short a1, short a2) {
 		return !(a1 <= n && n <= a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notInRangeEx(short n, short a1, short a2) {
-		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return !(a1 <= n && n <= a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean between(int n, int a1, int a2) {
 		return a1 < n && n < a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String betweenEx(int n, int a1, int a2) {
-		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
+		return (a1 < n && n < a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notBetween(int n, int a1, int a2) {
 		return !(a1 < n && n < a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notBetweenEx(int n, int a1, int a2) {
-		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
+		return !(a1 < n && n < a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean inRange(int n, int a1, int a2) {
 		return a1 <= n && n <= a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String inRangeEx(int n, int a1, int a2) {
-		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return (a1 <= n && n <= a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notInRange(int n, int a1, int a2) {
 		return !(a1 <= n && n <= a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notInRangeEx(int n, int a1, int a2) {
-		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return !(a1 <= n && n <= a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean between(long n, long a1, long a2) {
 		return a1 < n && n < a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String betweenEx(long n, long a1, long a2) {
-		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
+		return (a1 < n && n < a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notBetween(long n, long a1, long a2) {
 		return !(a1 < n && n < a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notBetweenEx(long n, long a1, long a2) {
-		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
+		return !(a1 < n && n < a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean inRange(long n, long a1, long a2) {
 		return a1 <= n && n <= a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String inRangeEx(long n, long a1, long a2) {
-		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return (a1 <= n && n <= a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notInRange(long n, long a1, long a2) {
 		return !(a1 <= n && n <= a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notInRangeEx(long n, long a1, long a2) {
-		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return !(a1 <= n && n <= a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean between(float n, float a1, float a2) {
 		return a1 < n && n < a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String betweenEx(float n, float a1, float a2) {
-		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
+		return (a1 < n && n < a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notBetween(float n, float a1, float a2) {
 		return !(a1 < n && n < a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notBetweenEx(float n, float a1, float a2) {
-		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
+		return !(a1 < n && n < a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean inRange(float n, float a1, float a2) {
 		return a1 <= n && n <= a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String inRangeEx(float n, float a1, float a2) {
-		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return (a1 <= n && n <= a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notInRange(float n, float a1, float a2) {
 		return !(a1 <= n && n <= a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notInRangeEx(float n, float a1, float a2) {
-		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return !(a1 <= n && n <= a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean between(double n, double a1, double a2) {
 		return a1 < n && n < a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String betweenEx(double n, double a1, double a2) {
-		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
+		return (a1 < n && n < a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notBetween(double n, double a1, double a2) {
 		return !(a1 < n && n < a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notBetweenEx(double n, double a1, double a2) {
-		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
+		return !(a1 < n && n < a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean inRange(double n, double a1, double a2) {
 		return a1 <= n && n <= a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String inRangeEx(double n, double a1, double a2) {
-		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return (a1 <= n && n <= a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notInRange(double n, double a1, double a2) {
 		return !(a1 <= n && n <= a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notInRangeEx(double n, double a1, double a2) {
-		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return !(a1 <= n && n <= a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean between(char n, char a1, char a2) {
 		return a1 < n && n < a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String betweenEx(char n, char a1, char a2) {
-		return (a1 < n && n < a2) ? null : String.format("%0$s must be: %1$s < %0$s < %2$s", n, a1, a2);
+		return (a1 < n && n < a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notBetween(char n, char a1, char a2) {
 		return !(a1 < n && n < a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s < %0$s < %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notBetweenEx(char n, char a1, char a2) {
-		return !(a1 < n && n < a2) ? null : String.format("%0$s must NOT be: %1$s < %0$s < %2$s", n, a1, a2);
+		return !(a1 < n && n < a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean inRange(char n, char a1, char a2) {
 		return a1 <= n && n <= a2;
 	}
 
-	/** "Special" predicate: %0$s must be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String inRangeEx(char n, char a1, char a2) {
-		return (a1 <= n && n <= a2) ? null : String.format("%0$s must be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return (a1 <= n && n <= a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
-	/** Predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static boolean notInRange(char n, char a1, char a2) {
 		return !(a1 <= n && n <= a2);
 	}
 
-	/** "Special" predicate: %0$s must NOT be: %1$s <= %0$s <= %2$s Available in {@link P}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static String notInRangeEx(char n, char a1, char a2) {
-		return !(a1 <= n && n <= a2) ? null : String.format("%0$s must NOT be: %1$s <= %0$s <= %2$s", n, a1, a2);
+		return !(a1 <= n && n <= a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s", n, a1, a2);
 	}
 
 	/** Predicate: <%s> must be true. Available in {@link P}, {@link Is}, {@link Be}.*/
