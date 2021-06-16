@@ -575,6 +575,24 @@ public final class Tuple4U {
 		return LBiObjSrtTriple.immutableComparableOf(a1, a2, a3);
 	}
 
+	public static <T> LObjBiLongTriple.MutObjBiLongTriple<T> tuple(T a1, long a2, long a3) {
+		return LObjBiLongTriple.of(a1, a2, a3);
+	}
+
+	public static <T> LObjBiLongTriple.MutObjBiLongTriple<T> objBiLongTriple(T a1, long a2, long a3) {
+		return LObjBiLongTriple.of(a1, a2, a3);
+	}
+	public static <T extends Comparable<T>> LObjBiLongTriple.MutCompObjBiLongTriple<T> comparable(T a1, long a2, long a3) {
+		return LObjBiLongTriple.comparableOf(a1, a2, a3);
+	}
+
+	public static <T> LObjBiLongTriple<T> immutable(T a1, long a2, long a3) {
+		return LObjBiLongTriple.immutableOf(a1, a2, a3);
+	}
+	public static <T extends Comparable<T>> LObjBiLongTriple.ComparableObjBiLongTriple immComp(T a1, long a2, long a3) {
+		return LObjBiLongTriple.immutableComparableOf(a1, a2, a3);
+	}
+
 	public static <T> LObjBoolPair.MutObjBoolPair<T> tuple(T a1, boolean a2) {
 		return LObjBoolPair.of(a1, a2);
 	}

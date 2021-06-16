@@ -886,6 +886,36 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 	}
 
 	@Nonnull
+	default <A extends LObjBiLongConsumer<T>, T> LObjBiLongConsumerAssert.The<A, T> attestObjBiLongCons(LObjBiLongConsumer<T> func) {
+		return new LObjBiLongConsumerAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongConsumer.LObj0Long2Long1Cons<T>, T> LObj0Long2Long1ConsAssert.The<A, T> attestObj0Long2Long1Cons(LObjBiLongConsumer.LObj0Long2Long1Cons<T> func) {
+		return new LObj0Long2Long1ConsAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongConsumer.LLong1Obj0Long2Cons<T>, T> LLong1Obj0Long2ConsAssert.The<A, T> attestLong1Obj0Long2Cons(LObjBiLongConsumer.LLong1Obj0Long2Cons<T> func) {
+		return new LLong1Obj0Long2ConsAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongConsumer.LLong1Long2Obj0Cons<T>, T> LLong1Long2Obj0ConsAssert.The<A, T> attestLong1Long2Obj0Cons(LObjBiLongConsumer.LLong1Long2Obj0Cons<T> func) {
+		return new LLong1Long2Obj0ConsAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongConsumer.LLong2Obj0Long1Cons<T>, T> LLong2Obj0Long1ConsAssert.The<A, T> attestLong2Obj0Long1Cons(LObjBiLongConsumer.LLong2Obj0Long1Cons<T> func) {
+		return new LLong2Obj0Long1ConsAssert.The(func);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongConsumer.LBiLong1Obj0Cons<T>, T> LBiLong1Obj0ConsAssert.The<A, T> attestBiLong1Obj0Cons(LObjBiLongConsumer.LBiLong1Obj0Cons<T> func) {
+		return new LBiLong1Obj0ConsAssert.The(func);
+	}
+
+	@Nonnull
 	default <A extends LObjBoolConsumer<T>, T> LObjBoolConsumerAssert.The<A, T> attestObjBoolCons(LObjBoolConsumer<T> func) {
 		return new LObjBoolConsumerAssert.The(func);
 	}
@@ -2324,6 +2354,48 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::attestThatObj;
 		return new LBiInt1Obj0FuncAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongFunction<T, R>, T, R> LObjBiLongFunctionAssert.The<A, ? extends OS, T, R> attestObjBiLongFunc(LObjBiLongFunction<T, R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LObjBiLongFunctionAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongFunction.LObj0Long2Long1Func<T, R>, T, R> LObj0Long2Long1FuncAssert.The<A, ? extends OS, T, R> attestObj0Long2Long1Func(LObjBiLongFunction.LObj0Long2Long1Func<T, R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LObj0Long2Long1FuncAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongFunction.LLong1Obj0Long2Func<T, R>, T, R> LLong1Obj0Long2FuncAssert.The<A, ? extends OS, T, R> attestLong1Obj0Long2Func(LObjBiLongFunction.LLong1Obj0Long2Func<T, R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LLong1Obj0Long2FuncAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongFunction.LLong1Long2Obj0Func<T, R>, T, R> LLong1Long2Obj0FuncAssert.The<A, ? extends OS, T, R> attestLong1Long2Obj0Func(LObjBiLongFunction.LLong1Long2Obj0Func<T, R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LLong1Long2Obj0FuncAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongFunction.LLong2Obj0Long1Func<T, R>, T, R> LLong2Obj0Long1FuncAssert.The<A, ? extends OS, T, R> attestLong2Obj0Long1Func(LObjBiLongFunction.LLong2Obj0Long1Func<T, R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LLong2Obj0Long1FuncAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongFunction.LBiLong1Obj0Func<T, R>, T, R> LBiLong1Obj0FuncAssert.The<A, ? extends OS, T, R> attestBiLong1Obj0Func(LObjBiLongFunction.LBiLong1Obj0Func<T, R> func) { // NOSONAR
+		// ?: makes possible to merge captures OS & RS
+		LFunction<Object, OS> assertFunc = this::attestThatObj;
+		return new LBiLong1Obj0FuncAssert.The(func, assertFunc);
 	}
 
 	@Nonnull
@@ -3907,6 +3979,42 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 	default <A extends LObjBiIntPredicate.LBiInt1Obj0Pred<T>, T> LBiInt1Obj0PredAssert.The<A, ? extends AbstractBooleanAssert, T> attestBiInt1Obj0Pred(LObjBiIntPredicate.LBiInt1Obj0Pred<T> func) {
 		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
 		return new LBiInt1Obj0PredAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongPredicate<T>, T> LObjBiLongPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> attestObjBiLongPred(LObjBiLongPredicate<T> func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
+		return new LObjBiLongPredicateAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongPredicate.LObj0Long2Long1Pred<T>, T> LObj0Long2Long1PredAssert.The<A, ? extends AbstractBooleanAssert, T> attestObj0Long2Long1Pred(LObjBiLongPredicate.LObj0Long2Long1Pred<T> func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
+		return new LObj0Long2Long1PredAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongPredicate.LLong1Obj0Long2Pred<T>, T> LLong1Obj0Long2PredAssert.The<A, ? extends AbstractBooleanAssert, T> attestLong1Obj0Long2Pred(LObjBiLongPredicate.LLong1Obj0Long2Pred<T> func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
+		return new LLong1Obj0Long2PredAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongPredicate.LLong1Long2Obj0Pred<T>, T> LLong1Long2Obj0PredAssert.The<A, ? extends AbstractBooleanAssert, T> attestLong1Long2Obj0Pred(LObjBiLongPredicate.LLong1Long2Obj0Pred<T> func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
+		return new LLong1Long2Obj0PredAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongPredicate.LLong2Obj0Long1Pred<T>, T> LLong2Obj0Long1PredAssert.The<A, ? extends AbstractBooleanAssert, T> attestLong2Obj0Long1Pred(LObjBiLongPredicate.LLong2Obj0Long1Pred<T> func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
+		return new LLong2Obj0Long1PredAssert.The(func, assertFunc);
+	}
+
+	@Nonnull
+	default <A extends LObjBiLongPredicate.LBiLong1Obj0Pred<T>, T> LBiLong1Obj0PredAssert.The<A, ? extends AbstractBooleanAssert, T> attestBiLong1Obj0Pred(LObjBiLongPredicate.LBiLong1Obj0Pred<T> func) {
+		LBoolFunction<AbstractBooleanAssert> assertFunc = this::attestThatBool;
+		return new LBiLong1Obj0PredAssert.The(func, assertFunc);
 	}
 
 	@Nonnull

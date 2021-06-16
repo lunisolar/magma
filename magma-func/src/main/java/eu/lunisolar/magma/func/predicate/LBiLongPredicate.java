@@ -309,6 +309,16 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return LBiLongPredicate.DESCRIPTION;
 	}
 
+	default <V> boolean doIf(V a1, long a2, long a3, @Nonnull LObjBiLongConsumer<V> consumer) {
+		Null.nonNullArg(consumer, "consumer");
+		if (test(a2, a3)) {
+			consumer.accept(a1, a2, a3);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/** From-To. Intended to be used with non-capturing lambda. */
 	public static void fromTo(int min_i, int max_i, long a1, long a2, @Nonnull LBiLongPredicate func) {
 		Null.nonNullArg(func, "func");

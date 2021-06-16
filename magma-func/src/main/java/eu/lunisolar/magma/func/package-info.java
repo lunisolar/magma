@@ -59,6 +59,7 @@
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer}        | T1 a1,T2 a2,int a3                       | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjLongConsumer}       | T1 a1,T2 a2,long a3                      | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjSrtConsumer}        | T1 a1,T2 a2,short a3                     | void       |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBiLongConsumer}       | T a1,long a2,long a3                     | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBoolConsumer}         | T a1,boolean a2                          | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjByteConsumer}         | T a1,byte a2                             | void       |
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjCharConsumer}         | T a1,char a2                             | void       |
@@ -189,6 +190,7 @@
  * | {@link eu.lunisolar.magma.func.function.from.LIntFunction}                       | int a                                    | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LLongFunction}                      | long a                                   | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjBiIntFunction}                  | T a1,int a2,int a3                       | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjBiLongFunction}                 | T a1,long a2,long a3                     | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjBoolFunction}                   | T a1,boolean a2                          | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjByteFunction}                   | T a1,byte a2                             | R          |
  * | {@link eu.lunisolar.magma.func.function.from.LObjCharFunction}                   | T a1,char a2                             | R          |
@@ -274,6 +276,7 @@
  * | {@link eu.lunisolar.magma.func.predicate.LLongIntPredicate}                      | long a1,int a2                           | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LLongPredicate}                         | long a                                   | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjBiIntPredicate}                     | T a1,int a2,int a3                       | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjBiLongPredicate}                    | T a1,long a2,long a3                     | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjBoolPredicate}                      | T a1,boolean a2                          | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjBytePredicate}                      | T a1,byte a2                             | boolean    |
  * | {@link eu.lunisolar.magma.func.predicate.LObjCharPredicate}                      | T a1,char a2                             | boolean    |
