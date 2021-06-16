@@ -42,6 +42,13 @@ public interface Fluent<FLUENT> {
         return self;
     }
 
+    default @Nonnull <T> FLUENT fluentUseWith(T ctx, @Nonnull BiConsumer<T, FLUENT> interjection) {
+        Null.nonNull(interjection);
+        final FLUENT self = fluentCtx();
+        interjection.accept(ctx, self);
+        return self;
+    }
+
     default @Nonnull <R> R fluentMap(@Nonnull Function<FLUENT, R> mapping) {
         Null.nonNull(mapping);
         return Null.nonNull(fluentNullableMap(mapping));

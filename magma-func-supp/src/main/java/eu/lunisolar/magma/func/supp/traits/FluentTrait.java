@@ -77,6 +77,26 @@ public interface FluentTrait<FLUENT> extends Fluent<FLUENT> {
 		return LQuadConsumer.inlineAccept(fluentCtx(), a2, a3, a4, interjection);
 	}
 
+	public default @Nonnull FLUENT fluentUseWith(@Nonnull LConsumer<FLUENT> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return LConsumer.inlineAcceptR(fluentCtx(), fluentCtx(), interjection);
+	}
+
+	public default @Nonnull <T1> FLUENT fluentUseWith(T1 a1, @Nonnull LBiConsumer<T1, FLUENT> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return LBiConsumer.inlineAcceptR(fluentCtx(), a1, fluentCtx(), interjection);
+	}
+
+	public default @Nonnull <T1, T2> FLUENT fluentUseWith(T1 a1, T2 a2, @Nonnull LTriConsumer<T1, T2, FLUENT> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return LTriConsumer.inlineAcceptR(fluentCtx(), a1, a2, fluentCtx(), interjection);
+	}
+
+	public default @Nonnull <T1, T2, T4> FLUENT fluentUseWith(T1 a1, T2 a2, T4 a3, @Nonnull LQuadConsumer<T1, T2, T4, FLUENT> interjection) {
+		Null.nonNullArg(interjection, "interjection");
+		return LQuadConsumer.inlineAcceptR(fluentCtx(), a1, a2, a3, fluentCtx(), interjection);
+	}
+
 	public default @Nonnull <R> R fluentNullableMap(@Nonnull LFunction<FLUENT, R> interjection) {
 		Null.nonNullArg(interjection, "interjection");
 		return interjection.apply(fluentCtx());
