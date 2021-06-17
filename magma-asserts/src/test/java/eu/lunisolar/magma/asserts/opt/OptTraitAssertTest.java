@@ -200,10 +200,15 @@ public class OptTraitAssertTest {
     }
 
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*Expecting:.*<.*>.*to be equal to:.*<.*>.*but was not.*")
-    public void testHasValue_OPT() {
+    @Test
+    public void testHasValue_OPT_positive() {
         var sut = new OptTraitAssert(OPT);
         sut.hasValueThat().isEqualTo(VALUE);
+    }
+
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = ".*expected:.*but was:.*")
+    public void testHasValue_OPT_negative() {
+        var sut = new OptTraitAssert(OPT);
         sut.hasValueThat().isEqualTo(OTHER_VALUE);
     }
 
