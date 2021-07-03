@@ -87,8 +87,30 @@ public interface IntValueTrait<SELF extends IntValueTrait<SELF>> extends FluentT
 		return add(1);
 	}
 
+	default int incAndGet() {
+		inc();
+		return value();
+	}
+
+	default int getAndInc() {
+		int v = value();
+		inc();
+		return v;
+	}
+
 	default SELF dec() {
 		return sub(1);
+	}
+
+	default int decAndGet() {
+		dec();
+		return value();
+	}
+
+	default int getAndDec() {
+		int v = value();
+		dec();
+		return v;
 	}
 
 }

@@ -87,8 +87,30 @@ public interface FltValueTrait<SELF extends FltValueTrait<SELF>> extends FluentT
 		return add(1f);
 	}
 
+	default float incAndGet() {
+		inc();
+		return value();
+	}
+
+	default float getAndInc() {
+		float v = value();
+		inc();
+		return v;
+	}
+
 	default SELF dec() {
 		return sub(1f);
+	}
+
+	default float decAndGet() {
+		dec();
+		return value();
+	}
+
+	default float getAndDec() {
+		float v = value();
+		dec();
+		return v;
 	}
 
 }

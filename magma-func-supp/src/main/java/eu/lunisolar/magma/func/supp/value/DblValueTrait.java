@@ -87,8 +87,30 @@ public interface DblValueTrait<SELF extends DblValueTrait<SELF>> extends FluentT
 		return add(1d);
 	}
 
+	default double incAndGet() {
+		inc();
+		return value();
+	}
+
+	default double getAndInc() {
+		double v = value();
+		inc();
+		return v;
+	}
+
 	default SELF dec() {
 		return sub(1d);
+	}
+
+	default double decAndGet() {
+		dec();
+		return value();
+	}
+
+	default double getAndDec() {
+		double v = value();
+		dec();
+		return v;
 	}
 
 }

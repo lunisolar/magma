@@ -87,8 +87,30 @@ public interface SrtValueTrait<SELF extends SrtValueTrait<SELF>> extends FluentT
 		return add((short) 1);
 	}
 
+	default short incAndGet() {
+		inc();
+		return value();
+	}
+
+	default short getAndInc() {
+		short v = value();
+		inc();
+		return v;
+	}
+
 	default SELF dec() {
 		return sub((short) 1);
+	}
+
+	default short decAndGet() {
+		dec();
+		return value();
+	}
+
+	default short getAndDec() {
+		short v = value();
+		dec();
+		return v;
 	}
 
 }

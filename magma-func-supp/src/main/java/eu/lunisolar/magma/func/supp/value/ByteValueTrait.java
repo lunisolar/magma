@@ -87,8 +87,30 @@ public interface ByteValueTrait<SELF extends ByteValueTrait<SELF>> extends Fluen
 		return add((byte) 1);
 	}
 
+	default byte incAndGet() {
+		inc();
+		return value();
+	}
+
+	default byte getAndInc() {
+		byte v = value();
+		inc();
+		return v;
+	}
+
 	default SELF dec() {
 		return sub((byte) 1);
+	}
+
+	default byte decAndGet() {
+		dec();
+		return value();
+	}
+
+	default byte getAndDec() {
+		byte v = value();
+		dec();
+		return v;
 	}
 
 }

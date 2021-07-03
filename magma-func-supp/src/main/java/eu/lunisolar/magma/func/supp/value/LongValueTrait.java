@@ -87,8 +87,30 @@ public interface LongValueTrait<SELF extends LongValueTrait<SELF>> extends Fluen
 		return add(1L);
 	}
 
+	default long incAndGet() {
+		inc();
+		return value();
+	}
+
+	default long getAndInc() {
+		long v = value();
+		inc();
+		return v;
+	}
+
 	default SELF dec() {
 		return sub(1L);
+	}
+
+	default long decAndGet() {
+		dec();
+		return value();
+	}
+
+	default long getAndDec() {
+		long v = value();
+		dec();
+		return v;
 	}
 
 }
