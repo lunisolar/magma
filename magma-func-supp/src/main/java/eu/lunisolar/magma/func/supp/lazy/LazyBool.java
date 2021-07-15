@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazyBool implements LBoolSupplier, LBoolSingle {
 
-	private boolean value;
-	private LBoolSupplier function;
+	protected boolean value;
+	protected LBoolSupplier function;
 
 	protected LazyBool(LBoolSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazyBool lazyValue(LBoolSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazyBool(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazyBool lazyTill(LLogicalOperator predicate, LBoolSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazyBool(supplier) {
+			@Override
+			public boolean getAsBoolX() {
+				if (function != null) {
+					value = function.getAsBool();
+
+					if (predicate.apply(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazyBool lazyValue(E e, LPredicate<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazyBool(() -> function.test(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazyBool lazyTill(E e, LLogicalOperator predicate, LPredicate<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.test(e));
 	}
 
 	@Override

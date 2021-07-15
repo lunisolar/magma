@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazyLong implements LLongSupplier, LLongSingle {
 
-	private long value;
-	private LLongSupplier function;
+	protected long value;
+	protected LLongSupplier function;
 
 	protected LazyLong(LLongSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazyLong lazyValue(LLongSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazyLong(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazyLong lazyTill(LLongPredicate predicate, LLongSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazyLong(supplier) {
+			@Override
+			public long getAsLongX() {
+				if (function != null) {
+					value = function.getAsLong();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazyLong lazyValue(E e, LToLongFunction<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazyLong(() -> function.applyAsLong(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazyLong lazyTill(E e, LLongPredicate predicate, LToLongFunction<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.applyAsLong(e));
 	}
 
 	@Override

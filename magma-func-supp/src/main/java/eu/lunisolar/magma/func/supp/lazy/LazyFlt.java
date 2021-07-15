@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazyFlt implements LFltSupplier, LFltSingle {
 
-	private float value;
-	private LFltSupplier function;
+	protected float value;
+	protected LFltSupplier function;
 
 	protected LazyFlt(LFltSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazyFlt lazyValue(LFltSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazyFlt(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazyFlt lazyTill(LFltPredicate predicate, LFltSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazyFlt(supplier) {
+			@Override
+			public float getAsFltX() {
+				if (function != null) {
+					value = function.getAsFlt();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazyFlt lazyValue(E e, LToFltFunction<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazyFlt(() -> function.applyAsFlt(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazyFlt lazyTill(E e, LFltPredicate predicate, LToFltFunction<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.applyAsFlt(e));
 	}
 
 	@Override

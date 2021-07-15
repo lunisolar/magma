@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazyChar implements LCharSupplier, LCharSingle {
 
-	private char value;
-	private LCharSupplier function;
+	protected char value;
+	protected LCharSupplier function;
 
 	protected LazyChar(LCharSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazyChar lazyValue(LCharSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazyChar(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazyChar lazyTill(LCharPredicate predicate, LCharSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazyChar(supplier) {
+			@Override
+			public char getAsCharX() {
+				if (function != null) {
+					value = function.getAsChar();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazyChar lazyValue(E e, LToCharFunction<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazyChar(() -> function.applyAsChar(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazyChar lazyTill(E e, LCharPredicate predicate, LToCharFunction<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.applyAsChar(e));
 	}
 
 	@Override

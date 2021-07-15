@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazyDbl implements LDblSupplier, LDblSingle {
 
-	private double value;
-	private LDblSupplier function;
+	protected double value;
+	protected LDblSupplier function;
 
 	protected LazyDbl(LDblSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazyDbl lazyValue(LDblSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazyDbl(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazyDbl lazyTill(LDblPredicate predicate, LDblSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazyDbl(supplier) {
+			@Override
+			public double getAsDblX() {
+				if (function != null) {
+					value = function.getAsDbl();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazyDbl lazyValue(E e, LToDblFunction<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazyDbl(() -> function.applyAsDbl(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazyDbl lazyTill(E e, LDblPredicate predicate, LToDblFunction<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.applyAsDbl(e));
 	}
 
 	@Override

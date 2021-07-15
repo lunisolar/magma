@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazyInt implements LIntSupplier, LIntSingle {
 
-	private int value;
-	private LIntSupplier function;
+	protected int value;
+	protected LIntSupplier function;
 
 	protected LazyInt(LIntSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazyInt lazyValue(LIntSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazyInt(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazyInt lazyTill(LIntPredicate predicate, LIntSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazyInt(supplier) {
+			@Override
+			public int getAsIntX() {
+				if (function != null) {
+					value = function.getAsInt();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazyInt lazyValue(E e, LToIntFunction<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazyInt(() -> function.applyAsInt(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazyInt lazyTill(E e, LIntPredicate predicate, LToIntFunction<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.applyAsInt(e));
 	}
 
 	@Override

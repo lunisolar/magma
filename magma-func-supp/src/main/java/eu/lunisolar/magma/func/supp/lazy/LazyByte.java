@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazyByte implements LByteSupplier, LByteSingle {
 
-	private byte value;
-	private LByteSupplier function;
+	protected byte value;
+	protected LByteSupplier function;
 
 	protected LazyByte(LByteSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazyByte lazyValue(LByteSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazyByte(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazyByte lazyTill(LBytePredicate predicate, LByteSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazyByte(supplier) {
+			@Override
+			public byte getAsByteX() {
+				if (function != null) {
+					value = function.getAsByte();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazyByte lazyValue(E e, LToByteFunction<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazyByte(() -> function.applyAsByte(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazyByte lazyTill(E e, LBytePredicate predicate, LToByteFunction<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.applyAsByte(e));
 	}
 
 	@Override

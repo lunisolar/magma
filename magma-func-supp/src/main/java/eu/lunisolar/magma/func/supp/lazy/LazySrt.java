@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class LazySrt implements LSrtSupplier, LSrtSingle {
 
-	private short value;
-	private LSrtSupplier function;
+	protected short value;
+	protected LSrtSupplier function;
 
 	protected LazySrt(LSrtSupplier function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static LazySrt lazyValue(LSrtSupplier supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new LazySrt(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static LazySrt lazyTill(LSrtPredicate predicate, LSrtSupplier supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new LazySrt(supplier) {
+			@Override
+			public short getAsSrtX() {
+				if (function != null) {
+					value = function.getAsSrt();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E> LazySrt lazyValue(E e, LToSrtFunction<E> function) {
+		Null.nonNullArg(function, "function");
 		return new LazySrt(() -> function.applyAsSrt(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E> LazySrt lazyTill(E e, LSrtPredicate predicate, LToSrtFunction<E> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.applyAsSrt(e));
 	}
 
 	@Override

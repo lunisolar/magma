@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -51,21 +52,51 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
+@NotThreadSafe
 public class Lazy<T> implements LSupplier<T>, LSingle<T> {
 
-	private T value;
-	private LSupplier<T> function;
+	protected T value;
+	protected LSupplier<T> function;
 
 	protected Lazy(LSupplier<T> function) {
+		Null.nonNullArg(function, "function");
 		this.function = function;
 	}
 
 	public static <T> Lazy<T> lazyValue(LSupplier<T> supplier) {
+		Null.nonNullArg(supplier, "supplier");
 		return new Lazy<T>(supplier);
 	}
 
+	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	public static <T> Lazy<T> lazyTill(LPredicate<T> predicate, LSupplier<T> supplier) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(supplier, "supplier");
+		return new Lazy<T>(supplier) {
+			@Override
+			public T getX() {
+				if (function != null) {
+					value = function.get();
+
+					if (predicate.test(value)) {
+						function = null;
+					}
+				}
+				return value;
+			}
+		};
+	}
+
 	public static <E, T> Lazy<T> lazyValue(E e, LFunction<E, T> function) {
+		Null.nonNullArg(function, "function");
 		return new Lazy<T>(() -> function.apply(e));
+	}
+
+	/** Calls function and returns the result until predicate tells to accepts value as permanent. */
+	public static <E, T> Lazy<T> lazyTill(E e, LPredicate<T> predicate, LFunction<E, T> func) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(func, "func");
+		return lazyTill(predicate, () -> func.apply(e));
 	}
 
 	@Override
