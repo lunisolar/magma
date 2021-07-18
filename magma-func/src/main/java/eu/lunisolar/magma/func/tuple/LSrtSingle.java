@@ -21,317 +21,365 @@ package eu.lunisolar.magma.func.tuple;
 import eu.lunisolar.magma.basics.meta.LTuple;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
-import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.basics.meta.aType;
+import eu.lunisolar.magma.basics.meta.aType.*;
+import eu.lunisolar.magma.basics.meta.functional.*;
+import eu.lunisolar.magma.func.*;
+import eu.lunisolar.magma.func.consumer.*;  ;
+import eu.lunisolar.magma.func.consumer.primitives.bi.*;
+import eu.lunisolar.magma.func.consumer.primitives.tri.*;
+import eu.lunisolar.magma.func.function.*;
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.func.operator.unary.*;
 import eu.lunisolar.magma.func.operator.binary.*;
 import eu.lunisolar.magma.func.predicate.*;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
+import java.util.stream.*;
+
+
 
 /**
  * Exact equivalent of input parameters used in LSrtConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
+public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle> 
+  {
 
-	int SIZE = 1;
+    int SIZE = 1;
 
-	short value();
 
-	default short first() {
-		return value();
-	}
+    short value();
 
-	@Override
-	default Short get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
+    default short first() {
+        return value();
+    }
 
-	default short getShort(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
 
-	/** Tuple size */
-	@Override
-	default int tupleSize() {
-		return SIZE;
-	}
 
-	/** Static hashCode() implementation method that takes same arguments as fields of the LSrtSingle and calculates hash from it. */
-	static int argHashCode(short a) {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Short.hashCode(a);
-		return result;
-	}
+    @Override default Short get(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/** Static equals() implementation that takes same arguments (doubled) as fields of the LSrtSingle and checks if all values are equal. */
-	static boolean argEquals(short a, short b) {
-		return a == b; //
-	}
+    default short getShort(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 * Tuples are considered equal if are implementing LSrtSingle interface (among others) and their LSrtSingle values are equal regardless of the implementing class
-	 * and how many more values there are.
-	 */
-	static boolean argEquals(LSrtSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LSrtSingle are allowed.
-				if (!(two instanceof LSrtSingle)) {
-					return false;
-				}
+    /** Tuple size */
+    @Override default int tupleSize() {
+        return SIZE;
+    }
 
-				LSrtSingle other = (LSrtSingle) two;
+    
 
-				return argEquals(one.value(), other.value());
-			});
-	}
+    /** Static hashCode() implementation method that takes same arguments as fields of the LSrtSingle and calculates hash from it. */
+    static  int argHashCode(short a) {
+        final int prime = 31;
+        int result = 1;
+            result = prime * result + Short.hashCode(a);
+        return result;
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 */
-	public static boolean tupleEquals(LSrtSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LSrtSingle are allowed.
-				if (!(two instanceof LSrtSingle)) {
-					return false;
-				}
+    /** Static equals() implementation that takes same arguments (doubled) as fields of the LSrtSingle and checks if all values are equal. */
+    static  boolean argEquals(short a, short b) {
+        return
+            a==b;  //
+    }
 
-				LSrtSingle other = (LSrtSingle) two;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     * Tuples are considered equal if are implementing LSrtSingle interface (among others) and their LSrtSingle values are equal regardless of the implementing class
+     * and how many more values there are.
+     */
+    static  boolean argEquals(LSrtSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LSrtSingle are allowed.
+            if (!(two instanceof LSrtSingle)) {
+                return false;
+            }
 
-				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
-			});
-	}
+            LSrtSingle other = (LSrtSingle) two;
 
-	@Override
-	default Iterator<Short> iterator() {
-		return new Iterator<Short>() {
+            return argEquals(one.value(), other.value());
+        });
+    }
 
-			private int index;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     */
+    public static  boolean tupleEquals(LSrtSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LSrtSingle are allowed.
+            if (!(two instanceof LSrtSingle)) {
+                return false;
+            }
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+            LSrtSingle other = (LSrtSingle) two;
 
-			@Override
-			public Short next() {
-				index++;
-				return get(index);
-			}
-		};
-	}
+            return  one.tupleSize() == other.tupleSize() &&
+                    argEquals(one.value(), other.value());
+        });
+    }
 
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
 
-			private int index;
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+        
+    @Override default Iterator<Short> iterator() {
+        return new Iterator<Short>() {
 
-			@Override
-			public int nextInt() {
-				index++;
-				return getShort(index);
-			}
-		};
-	}
-	@Override
-	default int compareTo(LSrtSingle that) {
-		return Null.compare(this, that, (one, two) -> {
-			int retval = 0;
+            private int index;
 
-			return (retval = Short.compare(one.value(), two.value())) != 0 ? retval : 0; //
-			});
-	}
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
 
-	abstract class AbstractSrtSingle extends Number implements LSrtSingle {
+            @Override public Short next() {
+                index++;
+                return get(index);
+            }
+        };
+    }
 
-		@Override
-		public boolean equals(Object that) {
-			return LSrtSingle.tupleEquals(this, that);
-		}
 
-		@Override
-		public int hashCode() {
-			return LSrtSingle.argHashCode(value());
-		}
+    default PrimitiveIterator.OfInt intIterator() {
+        return new PrimitiveIterator.OfInt() {
 
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append('(');
-			sb.append(value());
-			sb.append(')');
-			return sb.toString();
-		}
+            private int index;
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
 
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
+            @Override public int nextInt() {
+                index++;
+                return getShort(index);
+            }
+        };
+    }
+        @Override
+        default int compareTo(LSrtSingle that) {
+            return Null.compare(this, that, (one, two) -> {
+                int retval = 0;
 
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
+                return
+                    (retval = Short.compare(one.value(), two.value())) != 0 ? retval : 0; //
+            });
+        }
 
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
+    
 
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
+    abstract class AbstractSrtSingle extends Number  implements LSrtSingle {
 
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
-	}
+        @Override
+        public boolean equals(Object that) {
+            return LSrtSingle.tupleEquals(this, that);
+        }
 
-	/**
-	 * Mutable tuple.
-	 */
+        @Override
+        public int hashCode() {
+            return LSrtSingle.argHashCode(value());
+        }
 
-	interface Mut<SELF extends Mut<SELF>> extends LSrtSingle {
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append('(');
+                sb.append(value());
+            sb.append(')');
+            return sb.toString();
+        }
 
-		SELF value(short value);
 
-		default SELF setValue(short value) {
-			this.value(value);
-			return (SELF) this;
-		}
+        @Override public byte byteValue() {
+            return (byte)value();
+        }
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		default SELF setValueIfArg(short value, LSrtPredicate predicate) {
-			if (predicate.test(value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public short shortValue() {
+            return (short)value();
+        }
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		default <R> SELF setValueIfArgNotNull(R arg, LToSrtFunction<R> func) {
-			if (arg != null) {
-				return this.value(func.applyAsSrt(arg));
-			}
-			return (SELF) this;
-		}
+        @Override public int intValue() {
+            return (int)value();
+        }
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		default SELF setValueIf(LSrtPredicate predicate, short value) {
-			if (predicate.test(this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public long longValue() {
+            return (long)value();
+        }
 
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		default SELF setValueIf(short value, LBiSrtPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public float floatValue() {
+            return (float)value();
+        }
 
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		default SELF setValueIf(LBiSrtPredicate predicate, short value) {
-			if (predicate.test(this.value(), value)) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public double doubleValue() {
+            return (double)value();
+        }
+    }
 
-		default SELF reset() {
-			this.value((short) 0);
-			return (SELF) this;
-		}
-	}
 
-	public static MutSrtSingle of() {
-		return of((short) 0);
-	}
 
-	public static MutSrtSingle of(short a) {
-		return new MutSrtSingle(a);
-	}
 
-	public static MutSrtSingle copyOf(LSrtSingle tuple) {
-		return of(tuple.value());
-	}
 
-	/**
-	 * Mutable, non-comparable tuple.
-	 */
+    /**
+     * Mutable tuple.
+     */
 
-	class MutSrtSingle extends AbstractSrtSingle implements Mut<MutSrtSingle> {
+     interface  Mut<SELF extends Mut<SELF>>  extends LSrtSingle   {
 
-		private short value;
 
-		public MutSrtSingle(short a) {
-			this.value = a;
-		}
 
-		public @Override short value() {
-			return value;
-		}
+        SELF value(short value) ; 
 
-		public @Override MutSrtSingle value(short value) {
-			this.value = value;
-			return this;
-		}
+        default SELF setValue(short value) {
+            this.value(value);
+            return (SELF) this;
+        }
 
-	}
+        /** Sets value if predicate(newValue) OR newValue::predicate is true */
+        default SELF setValueIfArg(short value, LSrtPredicate predicate) {
+            if (predicate.test(value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	public static ImmSrtSingle immutableOf(short a) {
-		return new ImmSrtSingle(a);
-	}
+        /** Sets value derived from non-null argument, only if argument is not null. */
+        default <R> SELF setValueIfArgNotNull(R arg, LToSrtFunction<R> func) {
+            if ( arg != null ) {
+                return this.value(func.applyAsSrt(arg));
+            }
+            return (SELF) this;
+        }
 
-	public static ImmSrtSingle immutableCopyOf(LSrtSingle tuple) {
-		return immutableOf(tuple.value());
-	}
+        /** Sets value if predicate(current) OR current::predicate is true */
+        default SELF setValueIf(LSrtPredicate predicate, short value) {
+            if (predicate.test(this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	/**
-	 * Immutable, non-comparable tuple.
-	 */
-	@Immutable
-	final class ImmSrtSingle extends AbstractSrtSingle {
+        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        default SELF setValueIf(short value, LBiSrtPredicate predicate) {
+            // the order of arguments is intentional, to allow predicate:
+            if (predicate.test(value, this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-		private final short value;
+        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        default SELF setValueIf(LBiSrtPredicate predicate, short value) {
+            if (predicate.test(this.value(), value)) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
+            
 
-		public ImmSrtSingle(short a) {
-			this.value = a;
-		}
 
-		public @Override short value() {
-			return value;
-		}
+        default SELF reset()   {
+                this.value((short)0);
+            return (SELF) this;
+        }
+    }
 
-	}
+
+
+
+
+
+  public static  MutSrtSingle of() { 
+      return of(  (short)0 );
+  }
+      
+
+  public static  MutSrtSingle of(short a){
+        return new MutSrtSingle(a);
+  }
+
+  public static  MutSrtSingle copyOf(LSrtSingle tuple) {
+        return of(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+     class  MutSrtSingle  extends AbstractSrtSingle implements Mut<MutSrtSingle>   {
+
+        private  short value;
+
+        public MutSrtSingle(short a){
+            this.value = a;
+        }
+
+
+        public @Override short value() {
+            return value;
+        }
+
+        public @Override MutSrtSingle value(short value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+  public static  ImmSrtSingle immutableOf(short a){
+        return new ImmSrtSingle(a);
+  }
+
+  public static  ImmSrtSingle immutableCopyOf(LSrtSingle tuple) {
+        return immutableOf(tuple.value());
+  }
+
+
+    /**
+     * Immutable, non-comparable tuple.
+     */
+@Immutable
+    final  class  ImmSrtSingle  extends AbstractSrtSingle    {
+
+        private final short value;
+
+        public ImmSrtSingle(short a){
+            this.value = a;
+        }
+
+
+        public @Override short value() {
+            return value;
+        }
+
+
+
+    }
+
+
 
 }
+
+

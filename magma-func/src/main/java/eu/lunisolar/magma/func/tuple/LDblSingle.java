@@ -21,317 +21,365 @@ package eu.lunisolar.magma.func.tuple;
 import eu.lunisolar.magma.basics.meta.LTuple;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
-import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.basics.meta.aType;
+import eu.lunisolar.magma.basics.meta.aType.*;
+import eu.lunisolar.magma.basics.meta.functional.*;
+import eu.lunisolar.magma.func.*;
+import eu.lunisolar.magma.func.consumer.*;  ;
+import eu.lunisolar.magma.func.consumer.primitives.bi.*;
+import eu.lunisolar.magma.func.consumer.primitives.tri.*;
+import eu.lunisolar.magma.func.function.*;
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.func.operator.unary.*;
 import eu.lunisolar.magma.func.operator.binary.*;
 import eu.lunisolar.magma.func.predicate.*;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
+import java.util.stream.*;
+
+
 
 /**
  * Exact equivalent of input parameters used in LDblConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
+public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle> 
+  {
 
-	int SIZE = 1;
+    int SIZE = 1;
 
-	double value();
 
-	default double first() {
-		return value();
-	}
+    double value();
 
-	@Override
-	default Double get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
+    default double first() {
+        return value();
+    }
 
-	default double getDouble(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
 
-	/** Tuple size */
-	@Override
-	default int tupleSize() {
-		return SIZE;
-	}
 
-	/** Static hashCode() implementation method that takes same arguments as fields of the LDblSingle and calculates hash from it. */
-	static int argHashCode(double a) {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Double.hashCode(a);
-		return result;
-	}
+    @Override default Double get(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/** Static equals() implementation that takes same arguments (doubled) as fields of the LDblSingle and checks if all values are equal. */
-	static boolean argEquals(double a, double b) {
-		return a == b; //
-	}
+    default double getDouble(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 * Tuples are considered equal if are implementing LDblSingle interface (among others) and their LDblSingle values are equal regardless of the implementing class
-	 * and how many more values there are.
-	 */
-	static boolean argEquals(LDblSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LDblSingle are allowed.
-				if (!(two instanceof LDblSingle)) {
-					return false;
-				}
+    /** Tuple size */
+    @Override default int tupleSize() {
+        return SIZE;
+    }
 
-				LDblSingle other = (LDblSingle) two;
+    
 
-				return argEquals(one.value(), other.value());
-			});
-	}
+    /** Static hashCode() implementation method that takes same arguments as fields of the LDblSingle and calculates hash from it. */
+    static  int argHashCode(double a) {
+        final int prime = 31;
+        int result = 1;
+            result = prime * result + Double.hashCode(a);
+        return result;
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 */
-	public static boolean tupleEquals(LDblSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LDblSingle are allowed.
-				if (!(two instanceof LDblSingle)) {
-					return false;
-				}
+    /** Static equals() implementation that takes same arguments (doubled) as fields of the LDblSingle and checks if all values are equal. */
+    static  boolean argEquals(double a, double b) {
+        return
+            a==b;  //
+    }
 
-				LDblSingle other = (LDblSingle) two;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     * Tuples are considered equal if are implementing LDblSingle interface (among others) and their LDblSingle values are equal regardless of the implementing class
+     * and how many more values there are.
+     */
+    static  boolean argEquals(LDblSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LDblSingle are allowed.
+            if (!(two instanceof LDblSingle)) {
+                return false;
+            }
 
-				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
-			});
-	}
+            LDblSingle other = (LDblSingle) two;
 
-	@Override
-	default Iterator<Double> iterator() {
-		return new Iterator<Double>() {
+            return argEquals(one.value(), other.value());
+        });
+    }
 
-			private int index;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     */
+    public static  boolean tupleEquals(LDblSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LDblSingle are allowed.
+            if (!(two instanceof LDblSingle)) {
+                return false;
+            }
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+            LDblSingle other = (LDblSingle) two;
 
-			@Override
-			public Double next() {
-				index++;
-				return get(index);
-			}
-		};
-	}
+            return  one.tupleSize() == other.tupleSize() &&
+                    argEquals(one.value(), other.value());
+        });
+    }
 
-	default PrimitiveIterator.OfDouble doubleIterator() {
-		return new PrimitiveIterator.OfDouble() {
 
-			private int index;
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+        
+    @Override default Iterator<Double> iterator() {
+        return new Iterator<Double>() {
 
-			@Override
-			public double nextDouble() {
-				index++;
-				return getDouble(index);
-			}
-		};
-	}
-	@Override
-	default int compareTo(LDblSingle that) {
-		return Null.compare(this, that, (one, two) -> {
-			int retval = 0;
+            private int index;
 
-			return (retval = Double.compare(one.value(), two.value())) != 0 ? retval : 0; //
-			});
-	}
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
 
-	abstract class AbstractDblSingle extends Number implements LDblSingle {
+            @Override public Double next() {
+                index++;
+                return get(index);
+            }
+        };
+    }
 
-		@Override
-		public boolean equals(Object that) {
-			return LDblSingle.tupleEquals(this, that);
-		}
 
-		@Override
-		public int hashCode() {
-			return LDblSingle.argHashCode(value());
-		}
+    default PrimitiveIterator.OfDouble doubleIterator() {
+        return new PrimitiveIterator.OfDouble() {
 
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append('(');
-			sb.append(value());
-			sb.append(')');
-			return sb.toString();
-		}
+            private int index;
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
 
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
+            @Override public double nextDouble() {
+                index++;
+                return getDouble(index);
+            }
+        };
+    }
+        @Override
+        default int compareTo(LDblSingle that) {
+            return Null.compare(this, that, (one, two) -> {
+                int retval = 0;
 
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
+                return
+                    (retval = Double.compare(one.value(), two.value())) != 0 ? retval : 0; //
+            });
+        }
 
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
+    
 
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
+    abstract class AbstractDblSingle extends Number  implements LDblSingle {
 
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
-	}
+        @Override
+        public boolean equals(Object that) {
+            return LDblSingle.tupleEquals(this, that);
+        }
 
-	/**
-	 * Mutable tuple.
-	 */
+        @Override
+        public int hashCode() {
+            return LDblSingle.argHashCode(value());
+        }
 
-	interface Mut<SELF extends Mut<SELF>> extends LDblSingle {
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append('(');
+                sb.append(value());
+            sb.append(')');
+            return sb.toString();
+        }
 
-		SELF value(double value);
 
-		default SELF setValue(double value) {
-			this.value(value);
-			return (SELF) this;
-		}
+        @Override public byte byteValue() {
+            return (byte)value();
+        }
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		default SELF setValueIfArg(double value, LDblPredicate predicate) {
-			if (predicate.test(value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public short shortValue() {
+            return (short)value();
+        }
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		default <R> SELF setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
-			if (arg != null) {
-				return this.value(func.applyAsDbl(arg));
-			}
-			return (SELF) this;
-		}
+        @Override public int intValue() {
+            return (int)value();
+        }
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		default SELF setValueIf(LDblPredicate predicate, double value) {
-			if (predicate.test(this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public long longValue() {
+            return (long)value();
+        }
 
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		default SELF setValueIf(double value, LBiDblPredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public float floatValue() {
+            return (float)value();
+        }
 
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		default SELF setValueIf(LBiDblPredicate predicate, double value) {
-			if (predicate.test(this.value(), value)) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public double doubleValue() {
+            return (double)value();
+        }
+    }
 
-		default SELF reset() {
-			this.value(0d);
-			return (SELF) this;
-		}
-	}
 
-	public static MutDblSingle of() {
-		return of(0d);
-	}
 
-	public static MutDblSingle of(double a) {
-		return new MutDblSingle(a);
-	}
 
-	public static MutDblSingle copyOf(LDblSingle tuple) {
-		return of(tuple.value());
-	}
 
-	/**
-	 * Mutable, non-comparable tuple.
-	 */
+    /**
+     * Mutable tuple.
+     */
 
-	class MutDblSingle extends AbstractDblSingle implements Mut<MutDblSingle> {
+     interface  Mut<SELF extends Mut<SELF>>  extends LDblSingle   {
 
-		private double value;
 
-		public MutDblSingle(double a) {
-			this.value = a;
-		}
 
-		public @Override double value() {
-			return value;
-		}
+        SELF value(double value) ; 
 
-		public @Override MutDblSingle value(double value) {
-			this.value = value;
-			return this;
-		}
+        default SELF setValue(double value) {
+            this.value(value);
+            return (SELF) this;
+        }
 
-	}
+        /** Sets value if predicate(newValue) OR newValue::predicate is true */
+        default SELF setValueIfArg(double value, LDblPredicate predicate) {
+            if (predicate.test(value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	public static ImmDblSingle immutableOf(double a) {
-		return new ImmDblSingle(a);
-	}
+        /** Sets value derived from non-null argument, only if argument is not null. */
+        default <R> SELF setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
+            if ( arg != null ) {
+                return this.value(func.applyAsDbl(arg));
+            }
+            return (SELF) this;
+        }
 
-	public static ImmDblSingle immutableCopyOf(LDblSingle tuple) {
-		return immutableOf(tuple.value());
-	}
+        /** Sets value if predicate(current) OR current::predicate is true */
+        default SELF setValueIf(LDblPredicate predicate, double value) {
+            if (predicate.test(this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	/**
-	 * Immutable, non-comparable tuple.
-	 */
-	@Immutable
-	final class ImmDblSingle extends AbstractDblSingle {
+        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        default SELF setValueIf(double value, LBiDblPredicate predicate) {
+            // the order of arguments is intentional, to allow predicate:
+            if (predicate.test(value, this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-		private final double value;
+        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        default SELF setValueIf(LBiDblPredicate predicate, double value) {
+            if (predicate.test(this.value(), value)) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
+            
 
-		public ImmDblSingle(double a) {
-			this.value = a;
-		}
 
-		public @Override double value() {
-			return value;
-		}
+        default SELF reset()   {
+                this.value(0d);
+            return (SELF) this;
+        }
+    }
 
-	}
+
+
+
+
+
+  public static  MutDblSingle of() { 
+      return of(  0d );
+  }
+      
+
+  public static  MutDblSingle of(double a){
+        return new MutDblSingle(a);
+  }
+
+  public static  MutDblSingle copyOf(LDblSingle tuple) {
+        return of(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+     class  MutDblSingle  extends AbstractDblSingle implements Mut<MutDblSingle>   {
+
+        private  double value;
+
+        public MutDblSingle(double a){
+            this.value = a;
+        }
+
+
+        public @Override double value() {
+            return value;
+        }
+
+        public @Override MutDblSingle value(double value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+  public static  ImmDblSingle immutableOf(double a){
+        return new ImmDblSingle(a);
+  }
+
+  public static  ImmDblSingle immutableCopyOf(LDblSingle tuple) {
+        return immutableOf(tuple.value());
+  }
+
+
+    /**
+     * Immutable, non-comparable tuple.
+     */
+@Immutable
+    final  class  ImmDblSingle  extends AbstractDblSingle    {
+
+        private final double value;
+
+        public ImmDblSingle(double a){
+            this.value = a;
+        }
+
+
+        public @Override double value() {
+            return value;
+        }
+
+
+
+    }
+
+
 
 }
+
+

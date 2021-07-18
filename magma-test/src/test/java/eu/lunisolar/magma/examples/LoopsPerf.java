@@ -89,40 +89,40 @@ public class LoopsPerf {
 
     }
 
-    @Benchmark
-    @Threads(1)
-    public void copyOfPairsReferencePerf(MyState state) {
-        LTriConsumer.pairForEach(state.target3, (IA) IA.list(), input, (String[] t, String k, String v) -> {
-            int index = 0;
-            t[index++] = k;
-            t[index++] = v;
-        });
-    }
-
-    @Benchmark
-    @Threads(1)
-    public void copyOfPairsReferencePerf2(MyState state) {
-        state.i.setValue(0);
-        LTriConsumer.pairForEach(state.target3, (IA) IA.list(), input, (String[] t, String k, String v) -> {
-            MutIntSingle i = state.i;
-            int index = i.value();
-            t[index++] = k;
-            t[index++] = v;
-            i.setValue(index);
-        });
-    }
-
-    @Benchmark
-    @Threads(1)
-    public void copyOfPairs(MyState state) {
-        final MutIntSingle i = Tuple4U.intSingle(0);
-        LTriConsumer.pairForEach(state.target3, (IA) IA.list(), input, (String[] t, String k, String v) -> {
-            int index = i.value();
-            t[index++] = k;
-            t[index++] = v;
-            i.setValue(index);
-        });
-    }
+//    @Benchmark
+//    @Threads(1)
+//    public void copyOfPairsReferencePerf(MyState state) {
+//        LTriConsumer.pairForEach(state.target3, (IA) IA.list(), input, (String[] t, String k, String v) -> {
+//            int index = 0;
+//            t[index++] = k;
+//            t[index++] = v;
+//        });
+//    }
+//
+//    @Benchmark
+//    @Threads(1)
+//    public void copyOfPairsReferencePerf2(MyState state) {
+//        state.i.setValue(0);
+//        LTriConsumer.pairForEach(state.target3, (IA) IA.list(), input, (String[] t, String k, String v) -> {
+//            MutIntSingle i = state.i;
+//            int index = i.value();
+//            t[index++] = k;
+//            t[index++] = v;
+//            i.setValue(index);
+//        });
+//    }
+//
+//    @Benchmark
+//    @Threads(1)
+//    public void copyOfPairs(MyState state) {
+//        final MutIntSingle i = Tuple4U.intSingle(0);
+//        LTriConsumer.pairForEach(state.target3, (IA) IA.list(), input, (String[] t, String k, String v) -> {
+//            int index = i.value();
+//            t[index++] = k;
+//            t[index++] = v;
+//            i.setValue(index);
+//        });
+//    }
 
     @Benchmark
     @Threads(1)

@@ -19,15 +19,16 @@
 package eu.lunisolar.magma.func;
 
 import eu.lunisolar.magma.basics.meta.aType;
-import eu.lunisolar.magma.basics.meta.aType.a;
+import eu.lunisolar.magma.basics.meta.aType.*;
 import eu.lunisolar.magma.basics.meta.functional.SequentialRead;
 import eu.lunisolar.magma.basics.meta.functional.SequentialWrite;
 import eu.lunisolar.magma.basics.meta.functional.type.OFunction;
 import eu.lunisolar.magma.basics.meta.functional.type.TeConsumer;
-import eu.lunisolar.magma.func.consumer.LBiConsumer;
-import eu.lunisolar.magma.func.function.LFunction;
-import eu.lunisolar.magma.func.function.to.LToIntFunction;
-import eu.lunisolar.magma.func.predicate.LPredicate;
+import eu.lunisolar.magma.func.consumer.*;
+import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+import eu.lunisolar.magma.func.function.*;
+import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.predicate.*;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.*;
@@ -77,6 +78,78 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		private static final SA<byte[], Iterator, a<Object>> BYTE_ARRAY_OBJ = sA(Array::getLength, (byte[] c) -> IntStream.range(0, c.length).map(idx -> c[idx]).iterator(), Iterator::hasNext, func(Iterator::next),
 				biConsThrowing(UnsupportedOperationException::new));
 
+		private static final SA<byte[], PrimitiveIterator.OfInt, aByte> BYTE_ARRAY = sA(Array::getLength, (byte[] c) -> (PrimitiveIterator.OfInt) IntStream.range(0, c.length).map(idx -> c[idx]).iterator(), PrimitiveIterator.OfInt::hasNext,
+				LToByteFunction.toByteFunc(i -> (byte) i.nextInt()), LObjByteConsumer.objByteConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aByte> BYTE_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfInt::hasNext, LToByteFunction.toByteFunc(i -> (byte) i.nextInt()),
+				LObjByteConsumer.objByteConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<IntStream, PrimitiveIterator.OfInt, aByte> BYTE_STREAM = sA(unknownSize(), IntStream::iterator, PrimitiveIterator.OfInt::hasNext, LToByteFunction.toByteFunc(i -> (byte) i.nextInt()),
+				LObjByteConsumer.objByteConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<short[], PrimitiveIterator.OfInt, aShort> SHORT_ARRAY = sA(Array::getLength, (short[] c) -> (PrimitiveIterator.OfInt) IntStream.range(0, c.length).map(idx -> c[idx]).iterator(), PrimitiveIterator.OfInt::hasNext,
+				LToSrtFunction.toSrtFunc(i -> (short) i.nextInt()), LObjSrtConsumer.objSrtConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aShort> SHORT_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfInt::hasNext, LToSrtFunction.toSrtFunc(i -> (short) i.nextInt()),
+				LObjSrtConsumer.objSrtConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<IntStream, PrimitiveIterator.OfInt, aShort> SHORT_STREAM = sA(unknownSize(), IntStream::iterator, PrimitiveIterator.OfInt::hasNext, LToSrtFunction.toSrtFunc(i -> (short) i.nextInt()),
+				LObjSrtConsumer.objSrtConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<int[], PrimitiveIterator.OfInt, aInt> INT_ARRAY = sA(Array::getLength, (int[] c) -> (PrimitiveIterator.OfInt) IntStream.range(0, c.length).map(idx -> c[idx]).iterator(), PrimitiveIterator.OfInt::hasNext,
+				LToIntFunction.toIntFunc(i -> (int) i.nextInt()), LObjIntConsumer.objIntConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aInt> INT_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfInt::hasNext, LToIntFunction.toIntFunc(i -> (int) i.nextInt()),
+				LObjIntConsumer.objIntConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<IntStream, PrimitiveIterator.OfInt, aInt> INT_STREAM = sA(unknownSize(), IntStream::iterator, PrimitiveIterator.OfInt::hasNext, LToIntFunction.toIntFunc(i -> (int) i.nextInt()),
+				LObjIntConsumer.objIntConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<long[], PrimitiveIterator.OfLong, aLong> LONG_ARRAY = sA(Array::getLength, (long[] c) -> (PrimitiveIterator.OfLong) IntStream.range(0, c.length).mapToLong(idx -> c[idx]).iterator(), PrimitiveIterator.OfLong::hasNext,
+				LToLongFunction.toLongFunc(i -> (long) i.nextLong()), LObjLongConsumer.objLongConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfLong, PrimitiveIterator.OfLong, aLong> LONG_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfLong::hasNext, LToLongFunction.toLongFunc(i -> (long) i.nextLong()),
+				LObjLongConsumer.objLongConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<LongStream, PrimitiveIterator.OfLong, aLong> LONG_STREAM = sA(unknownSize(), LongStream::iterator, PrimitiveIterator.OfLong::hasNext, LToLongFunction.toLongFunc(i -> (long) i.nextLong()),
+				LObjLongConsumer.objLongConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<float[], PrimitiveIterator.OfDouble, aFloat> FLOAT_ARRAY = sA(Array::getLength, (float[] c) -> (PrimitiveIterator.OfDouble) IntStream.range(0, c.length).mapToDouble(idx -> c[idx]).iterator(),
+				PrimitiveIterator.OfDouble::hasNext, LToFltFunction.toFltFunc(i -> (float) i.nextDouble()), LObjFltConsumer.objFltConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfDouble, PrimitiveIterator.OfDouble, aFloat> FLOAT_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfDouble::hasNext, LToFltFunction.toFltFunc(i -> (float) i.nextDouble()),
+				LObjFltConsumer.objFltConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<DoubleStream, PrimitiveIterator.OfDouble, aFloat> FLOAT_STREAM = sA(unknownSize(), DoubleStream::iterator, PrimitiveIterator.OfDouble::hasNext, LToFltFunction.toFltFunc(i -> (float) i.nextDouble()),
+				LObjFltConsumer.objFltConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<double[], PrimitiveIterator.OfDouble, aDouble> DOUBLE_ARRAY = sA(Array::getLength, (double[] c) -> (PrimitiveIterator.OfDouble) IntStream.range(0, c.length).mapToDouble(idx -> c[idx]).iterator(),
+				PrimitiveIterator.OfDouble::hasNext, LToDblFunction.toDblFunc(i -> (double) i.nextDouble()), LObjDblConsumer.objDblConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfDouble, PrimitiveIterator.OfDouble, aDouble> DOUBLE_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfDouble::hasNext, LToDblFunction.toDblFunc(i -> (double) i.nextDouble()),
+				LObjDblConsumer.objDblConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<DoubleStream, PrimitiveIterator.OfDouble, aDouble> DOUBLE_STREAM = sA(unknownSize(), DoubleStream::iterator, PrimitiveIterator.OfDouble::hasNext, LToDblFunction.toDblFunc(i -> (double) i.nextDouble()),
+				LObjDblConsumer.objDblConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<char[], PrimitiveIterator.OfInt, aChar> CHAR_ARRAY = sA(Array::getLength, (char[] c) -> (PrimitiveIterator.OfInt) IntStream.range(0, c.length).map(idx -> c[idx]).iterator(), PrimitiveIterator.OfInt::hasNext,
+				LToCharFunction.toCharFunc(i -> (char) i.nextInt()), LObjCharConsumer.objCharConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aChar> CHAR_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfInt::hasNext, LToCharFunction.toCharFunc(i -> (char) i.nextInt()),
+				LObjCharConsumer.objCharConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<IntStream, PrimitiveIterator.OfInt, aChar> CHAR_STREAM = sA(unknownSize(), IntStream::iterator, PrimitiveIterator.OfInt::hasNext, LToCharFunction.toCharFunc(i -> (char) i.nextInt()),
+				LObjCharConsumer.objCharConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<boolean[], PrimitiveIterator.OfInt, aBool> BOOLEAN_ARRAY = sA(Array::getLength, (boolean[] c) -> (PrimitiveIterator.OfInt) IntStream.range(0, c.length).map(idx -> c[idx] ? 1 : 0).iterator(),
+				PrimitiveIterator.OfInt::hasNext, LPredicate.pred(i -> (boolean) (i.nextInt() > 0)), LObjBoolConsumer.objBoolConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aBool> BOOLEAN_ITERATOR = sA(unknownSize(), identity(), PrimitiveIterator.OfInt::hasNext, LPredicate.pred(i -> (boolean) (i.nextInt() > 0)),
+				LObjBoolConsumer.objBoolConsThrowing(UnsupportedOperationException::new));
+
+		private static final SA<IntStream, PrimitiveIterator.OfInt, aBool> BOOLEAN_STREAM = sA(unknownSize(), IntStream::iterator, PrimitiveIterator.OfInt::hasNext, LPredicate.pred(i -> (boolean) (i.nextInt() > 0)),
+				LObjBoolConsumer.objBoolConsThrowing(UnsupportedOperationException::new));
+
 		private final LToIntFunction<C> sizeFunc;
 
 		private final LFunction<C, I> adapter;
@@ -121,51 +194,51 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		return new The<>(sizeFunc, adapter, tester, getter, consumer);
 	}
 
-	public static <E, C extends Collection<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> collection() {
+	public static <E, C extends Collection<? extends E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> collection() {
 		return (SA) The.COLLECTION;
 	}
 
-	public static <E, C extends Collection<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> sa(Collection ignored) {
+	public static <E, C extends Collection<? extends E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> sa(Collection ignored) {
 		return collection();
 	}
 
-	public static <E, C extends Iterable<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> iterable() {
+	public static <E, C extends Iterable<? extends E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> iterable() {
 		return (SA) The.ITERABLE;
 	}
 
-	public static <E, C extends Iterable<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> sa(Iterable ignored) {
+	public static <E, C extends Iterable<? extends E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> sa(Iterable ignored) {
 		return iterable();
 	}
 
-	public static <E, C extends Stream<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> stream() {
+	public static <E, C extends Stream<? extends E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> stream() {
 		return (SA) The.STREAM;
 	}
 
-	public static <E, C extends Stream<E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> sa(Stream ignored) {
+	public static <E, C extends Stream<? extends E>, I extends Iterator<E>, A extends a<E>> SA<C, I, A> sa(Stream ignored) {
 		return stream();
 	}
 
-	public static <E, C extends Iterator<E>, A extends a<E>> SA<C, C, A> iterator() {
+	public static <E, C extends Iterator<? extends E>, A extends a<E>> SA<C, C, A> iterator() {
 		return (SA) The.ITERATOR;
 	}
 
-	public static <E, C extends Iterator<E>, A extends a<E>> SA<C, C, A> sa(Iterator ignored) {
+	public static <E, C extends Iterator<? extends E>, A extends a<E>> SA<C, C, A> sa(Iterator ignored) {
 		return iterator();
 	}
 
-	public static <E, C extends Enumeration<E>, A extends a<E>> SA<C, C, A> enumeration() {
+	public static <E, C extends Enumeration<? extends E>, A extends a<E>> SA<C, C, A> enumeration() {
 		return (SA) The.ENUMERATION;
 	}
 
-	public static <E, C extends Enumeration<E>, A extends a<E>> SA<C, C, A> sa(Enumeration ignored) {
+	public static <E, C extends Enumeration<? extends E>, A extends a<E>> SA<C, C, A> sa(Enumeration ignored) {
 		return enumeration();
 	}
 
-	public static <E, C extends ListIterator<E>, A extends a<E>> SA<C, C, A> listIterator() {
+	public static <E, C extends ListIterator<? extends E>, A extends a<E>> SA<C, C, A> listIterator() {
 		return (SA) The.LIST_ITERATOR;
 	}
 
-	public static <E, C extends ListIterator<E>, A extends a<E>> SA<C, C, A> sa(ListIterator ignored) {
+	public static <E, C extends ListIterator<? extends E>, A extends a<E>> SA<C, C, A> sa(ListIterator ignored) {
 		return listIterator();
 	}
 
@@ -185,31 +258,171 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		return array();
 	}
 
-	/** Sequential access to int[] (Element are boxed/unboxed) */
-	public static <Integer, I extends Iterator<Integer>, A extends a<Integer>> SA<int[], I, A> intArrayObj() {
+	public static SA<byte[], PrimitiveIterator.OfInt, aByte> byteArray() {
+		return (SA) The.BYTE_ARRAY;
+	}
+
+	public static SA<byte[], PrimitiveIterator.OfInt, aByte> sa(byte[] ignored) {
+		return byteArray();
+	}
+
+	public static SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aByte> byteIterator() {
+		return (SA) The.BYTE_ITERATOR;
+	}
+
+	public static SA<IntStream, PrimitiveIterator.OfInt, aByte> byteStream() {
+		return (SA) The.BYTE_STREAM;
+	}
+
+	public static SA<short[], PrimitiveIterator.OfInt, aShort> shortArray() {
+		return (SA) The.SHORT_ARRAY;
+	}
+
+	public static SA<short[], PrimitiveIterator.OfInt, aShort> sa(short[] ignored) {
+		return shortArray();
+	}
+
+	public static SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aShort> shortIterator() {
+		return (SA) The.SHORT_ITERATOR;
+	}
+
+	public static SA<IntStream, PrimitiveIterator.OfInt, aShort> shortStream() {
+		return (SA) The.SHORT_STREAM;
+	}
+
+	public static SA<int[], PrimitiveIterator.OfInt, aInt> intArray() {
+		return (SA) The.INT_ARRAY;
+	}
+
+	public static SA<int[], PrimitiveIterator.OfInt, aInt> sa(int[] ignored) {
+		return intArray();
+	}
+
+	public static SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aInt> intIterator() {
+		return (SA) The.INT_ITERATOR;
+	}
+
+	public static SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aInt> sa(PrimitiveIterator.OfInt ignored) {
+		return intIterator();
+	}
+
+	public static SA<IntStream, PrimitiveIterator.OfInt, aInt> intStream() {
+		return (SA) The.INT_STREAM;
+	}
+
+	public static SA<IntStream, PrimitiveIterator.OfInt, aInt> sa(IntStream ignored) {
+		return intStream();
+	}
+
+	public static SA<long[], PrimitiveIterator.OfLong, aLong> longArray() {
+		return (SA) The.LONG_ARRAY;
+	}
+
+	public static SA<long[], PrimitiveIterator.OfLong, aLong> sa(long[] ignored) {
+		return longArray();
+	}
+
+	public static SA<PrimitiveIterator.OfLong, PrimitiveIterator.OfLong, aLong> longIterator() {
+		return (SA) The.LONG_ITERATOR;
+	}
+
+	public static SA<PrimitiveIterator.OfLong, PrimitiveIterator.OfLong, aLong> sa(PrimitiveIterator.OfLong ignored) {
+		return longIterator();
+	}
+
+	public static SA<LongStream, PrimitiveIterator.OfLong, aLong> longStream() {
+		return (SA) The.LONG_STREAM;
+	}
+
+	public static SA<LongStream, PrimitiveIterator.OfLong, aLong> sa(LongStream ignored) {
+		return longStream();
+	}
+
+	public static SA<float[], PrimitiveIterator.OfDouble, aFloat> floatArray() {
+		return (SA) The.FLOAT_ARRAY;
+	}
+
+	public static SA<float[], PrimitiveIterator.OfDouble, aFloat> sa(float[] ignored) {
+		return floatArray();
+	}
+
+	public static SA<PrimitiveIterator.OfDouble, PrimitiveIterator.OfDouble, aFloat> floatIterator() {
+		return (SA) The.FLOAT_ITERATOR;
+	}
+
+	public static SA<DoubleStream, PrimitiveIterator.OfDouble, aFloat> floatStream() {
+		return (SA) The.FLOAT_STREAM;
+	}
+
+	public static SA<double[], PrimitiveIterator.OfDouble, aDouble> doubleArray() {
+		return (SA) The.DOUBLE_ARRAY;
+	}
+
+	public static SA<double[], PrimitiveIterator.OfDouble, aDouble> sa(double[] ignored) {
+		return doubleArray();
+	}
+
+	public static SA<PrimitiveIterator.OfDouble, PrimitiveIterator.OfDouble, aDouble> doubleIterator() {
+		return (SA) The.DOUBLE_ITERATOR;
+	}
+
+	public static SA<PrimitiveIterator.OfDouble, PrimitiveIterator.OfDouble, aDouble> sa(PrimitiveIterator.OfDouble ignored) {
+		return doubleIterator();
+	}
+
+	public static SA<DoubleStream, PrimitiveIterator.OfDouble, aDouble> doubleStream() {
+		return (SA) The.DOUBLE_STREAM;
+	}
+
+	public static SA<DoubleStream, PrimitiveIterator.OfDouble, aDouble> sa(DoubleStream ignored) {
+		return doubleStream();
+	}
+
+	public static SA<char[], PrimitiveIterator.OfInt, aChar> charArray() {
+		return (SA) The.CHAR_ARRAY;
+	}
+
+	public static SA<char[], PrimitiveIterator.OfInt, aChar> sa(char[] ignored) {
+		return charArray();
+	}
+
+	public static SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aChar> charIterator() {
+		return (SA) The.CHAR_ITERATOR;
+	}
+
+	public static SA<IntStream, PrimitiveIterator.OfInt, aChar> charStream() {
+		return (SA) The.CHAR_STREAM;
+	}
+
+	public static SA<boolean[], PrimitiveIterator.OfInt, aBool> booleanArray() {
+		return (SA) The.BOOLEAN_ARRAY;
+	}
+
+	public static SA<boolean[], PrimitiveIterator.OfInt, aBool> sa(boolean[] ignored) {
+		return booleanArray();
+	}
+
+	public static SA<PrimitiveIterator.OfInt, PrimitiveIterator.OfInt, aBool> booleanIterator() {
+		return (SA) The.BOOLEAN_ITERATOR;
+	}
+
+	public static SA<IntStream, PrimitiveIterator.OfInt, aBool> booleanStream() {
+		return (SA) The.BOOLEAN_STREAM;
+	}
+
+	/** Sequential access to int[] (Elements are boxed/unboxed) */
+	public static <I extends Iterator<Integer>, A extends a<Integer>> SA<int[], I, A> intArrayObj() {
 		return (SA) The.INT_ARRAY_OBJ;
 	}
 
-	public static <Integer, I extends Iterator<Integer>, A extends a<Integer>> SA<int[], I, A> sa(int[] ignored) {
-		return intArrayObj();
-	}
-
-	/** Sequential access to long[] (Element are boxed/unboxed) */
-	public static <Integer, I extends Iterator<Long>, A extends a<Long>> SA<long[], I, A> longArrayObj() {
+	/** Sequential access to long[] (Elements are boxed/unboxed) */
+	public static <I extends Iterator<Long>, A extends a<Long>> SA<long[], I, A> longArrayObj() {
 		return (SA) The.LONG_ARRAY_OBJ;
 	}
 
-	public static <Integer, I extends Iterator<Long>, A extends a<Long>> SA<long[], I, A> sa(long[] ignored) {
-		return longArrayObj();
-	}
-
-	/** Sequential access to byte[] (Element are boxed/unboxed) */
-	public static <Integer, I extends Iterator<Byte>, A extends a<Byte>> SA<byte[], I, A> byteArrayObj() {
+	/** Sequential access to byte[] (Elements are boxed/unboxed) */
+	public static <I extends Iterator<Byte>, A extends a<Byte>> SA<byte[], I, A> byteArrayObj() {
 		return (SA) The.BYTE_ARRAY_OBJ;
-	}
-
-	public static <Integer, I extends Iterator<Byte>, A extends a<Byte>> SA<byte[], I, A> sa(byte[] ignored) {
-		return byteArrayObj();
 	}
 
 }

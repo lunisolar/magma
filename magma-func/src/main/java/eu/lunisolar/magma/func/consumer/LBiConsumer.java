@@ -701,43 +701,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return targetedIterate(a1, sa2, source2, (LBiConsumer<T1, T2>) this);
 	}
 
-	public static <C, T1, T2> int pairForEach(IndexedRead<C, a<? extends Object>> ia, C s, LBiConsumer<T1, T2> consumer) {
-		int size = ia.size(s);
-
-		if (size % 2 != 0) {
-			throw new IllegalArgumentException("Size of container is not multiplication of 2.");
-		}
-
-		LOiFunction<C, T1> g1 = (LOiFunction) ia.getter();
-		LOiFunction<C, T2> g2 = (LOiFunction) ia.getter();
-		int i = 0;
-		for (; i < size;) {
-			T1 v1 = g1.apply(s, i++);
-			T2 v2 = g2.apply(s, i++);
-			consumer.accept(v1, v2);
-		}
-		return i / 2;
-	}
-
-	public static <C, I, T1, T2> int pairIterate(SequentialRead<C, I, a<? extends Object>> sa, C s, LBiConsumer<T1, T2> consumer) {
-
-		LFunction<C, I> adapter = sa.adapter();
-		I a = adapter.apply(s);
-
-		LFunction<I, T1> g1 = (LFunction) sa.supplier();
-		LFunction<I, T2> g2 = (LFunction) sa.supplier();
-		LPredicate<I> tester = (LPredicate) sa.tester();
-		int i = 0;
-		while (tester.test(a)) {
-			T1 v1 = g1.apply(a);
-			T2 v2 = g2.apply(a);
-			consumer.accept(v1, v2);
-			i += 2;
-		}
-
-		return i / 2;
-	}
-
 	// <editor-fold desc="fluentUse">
 
 	public static <T1, T2, R> R inlineAcceptR(R retval, T1 a1, T2 a2, LBiConsumer<T1, T2> consumer) {

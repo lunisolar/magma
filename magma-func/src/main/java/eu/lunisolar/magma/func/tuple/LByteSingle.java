@@ -21,317 +21,365 @@ package eu.lunisolar.magma.func.tuple;
 import eu.lunisolar.magma.basics.meta.LTuple;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
-import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.basics.meta.aType;
+import eu.lunisolar.magma.basics.meta.aType.*;
+import eu.lunisolar.magma.basics.meta.functional.*;
+import eu.lunisolar.magma.func.*;
+import eu.lunisolar.magma.func.consumer.*;  ;
+import eu.lunisolar.magma.func.consumer.primitives.bi.*;
+import eu.lunisolar.magma.func.consumer.primitives.tri.*;
+import eu.lunisolar.magma.func.function.*;
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.func.operator.unary.*;
 import eu.lunisolar.magma.func.operator.binary.*;
 import eu.lunisolar.magma.func.predicate.*;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
+import java.util.stream.*;
+
+
 
 /**
  * Exact equivalent of input parameters used in LByteConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteSingle extends LTuple<Byte>, Comparable<LByteSingle> {
+public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle> 
+  {
 
-	int SIZE = 1;
+    int SIZE = 1;
 
-	byte value();
 
-	default byte first() {
-		return value();
-	}
+    byte value();
 
-	@Override
-	default Byte get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
+    default byte first() {
+        return value();
+    }
 
-	default byte getByte(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
 
-	/** Tuple size */
-	@Override
-	default int tupleSize() {
-		return SIZE;
-	}
 
-	/** Static hashCode() implementation method that takes same arguments as fields of the LByteSingle and calculates hash from it. */
-	static int argHashCode(byte a) {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Byte.hashCode(a);
-		return result;
-	}
+    @Override default Byte get(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/** Static equals() implementation that takes same arguments (doubled) as fields of the LByteSingle and checks if all values are equal. */
-	static boolean argEquals(byte a, byte b) {
-		return a == b; //
-	}
+    default byte getByte(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 * Tuples are considered equal if are implementing LByteSingle interface (among others) and their LByteSingle values are equal regardless of the implementing class
-	 * and how many more values there are.
-	 */
-	static boolean argEquals(LByteSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LByteSingle are allowed.
-				if (!(two instanceof LByteSingle)) {
-					return false;
-				}
+    /** Tuple size */
+    @Override default int tupleSize() {
+        return SIZE;
+    }
 
-				LByteSingle other = (LByteSingle) two;
+    
 
-				return argEquals(one.value(), other.value());
-			});
-	}
+    /** Static hashCode() implementation method that takes same arguments as fields of the LByteSingle and calculates hash from it. */
+    static  int argHashCode(byte a) {
+        final int prime = 31;
+        int result = 1;
+            result = prime * result + Byte.hashCode(a);
+        return result;
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 */
-	public static boolean tupleEquals(LByteSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LByteSingle are allowed.
-				if (!(two instanceof LByteSingle)) {
-					return false;
-				}
+    /** Static equals() implementation that takes same arguments (doubled) as fields of the LByteSingle and checks if all values are equal. */
+    static  boolean argEquals(byte a, byte b) {
+        return
+            a==b;  //
+    }
 
-				LByteSingle other = (LByteSingle) two;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     * Tuples are considered equal if are implementing LByteSingle interface (among others) and their LByteSingle values are equal regardless of the implementing class
+     * and how many more values there are.
+     */
+    static  boolean argEquals(LByteSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LByteSingle are allowed.
+            if (!(two instanceof LByteSingle)) {
+                return false;
+            }
 
-				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
-			});
-	}
+            LByteSingle other = (LByteSingle) two;
 
-	@Override
-	default Iterator<Byte> iterator() {
-		return new Iterator<Byte>() {
+            return argEquals(one.value(), other.value());
+        });
+    }
 
-			private int index;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     */
+    public static  boolean tupleEquals(LByteSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LByteSingle are allowed.
+            if (!(two instanceof LByteSingle)) {
+                return false;
+            }
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+            LByteSingle other = (LByteSingle) two;
 
-			@Override
-			public Byte next() {
-				index++;
-				return get(index);
-			}
-		};
-	}
+            return  one.tupleSize() == other.tupleSize() &&
+                    argEquals(one.value(), other.value());
+        });
+    }
 
-	default PrimitiveIterator.OfInt intIterator() {
-		return new PrimitiveIterator.OfInt() {
 
-			private int index;
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+        
+    @Override default Iterator<Byte> iterator() {
+        return new Iterator<Byte>() {
 
-			@Override
-			public int nextInt() {
-				index++;
-				return getByte(index);
-			}
-		};
-	}
-	@Override
-	default int compareTo(LByteSingle that) {
-		return Null.compare(this, that, (one, two) -> {
-			int retval = 0;
+            private int index;
 
-			return (retval = Byte.compare(one.value(), two.value())) != 0 ? retval : 0; //
-			});
-	}
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
 
-	abstract class AbstractByteSingle extends Number implements LByteSingle {
+            @Override public Byte next() {
+                index++;
+                return get(index);
+            }
+        };
+    }
 
-		@Override
-		public boolean equals(Object that) {
-			return LByteSingle.tupleEquals(this, that);
-		}
 
-		@Override
-		public int hashCode() {
-			return LByteSingle.argHashCode(value());
-		}
+    default PrimitiveIterator.OfInt intIterator() {
+        return new PrimitiveIterator.OfInt() {
 
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append('(');
-			sb.append(value());
-			sb.append(')');
-			return sb.toString();
-		}
+            private int index;
 
-		@Override
-		public byte byteValue() {
-			return (byte) value();
-		}
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
 
-		@Override
-		public short shortValue() {
-			return (short) value();
-		}
+            @Override public int nextInt() {
+                index++;
+                return getByte(index);
+            }
+        };
+    }
+        @Override
+        default int compareTo(LByteSingle that) {
+            return Null.compare(this, that, (one, two) -> {
+                int retval = 0;
 
-		@Override
-		public int intValue() {
-			return (int) value();
-		}
+                return
+                    (retval = Byte.compare(one.value(), two.value())) != 0 ? retval : 0; //
+            });
+        }
 
-		@Override
-		public long longValue() {
-			return (long) value();
-		}
+    
 
-		@Override
-		public float floatValue() {
-			return (float) value();
-		}
+    abstract class AbstractByteSingle extends Number  implements LByteSingle {
 
-		@Override
-		public double doubleValue() {
-			return (double) value();
-		}
-	}
+        @Override
+        public boolean equals(Object that) {
+            return LByteSingle.tupleEquals(this, that);
+        }
 
-	/**
-	 * Mutable tuple.
-	 */
+        @Override
+        public int hashCode() {
+            return LByteSingle.argHashCode(value());
+        }
 
-	interface Mut<SELF extends Mut<SELF>> extends LByteSingle {
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append('(');
+                sb.append(value());
+            sb.append(')');
+            return sb.toString();
+        }
 
-		SELF value(byte value);
 
-		default SELF setValue(byte value) {
-			this.value(value);
-			return (SELF) this;
-		}
+        @Override public byte byteValue() {
+            return (byte)value();
+        }
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		default SELF setValueIfArg(byte value, LBytePredicate predicate) {
-			if (predicate.test(value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public short shortValue() {
+            return (short)value();
+        }
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		default <R> SELF setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
-			if (arg != null) {
-				return this.value(func.applyAsByte(arg));
-			}
-			return (SELF) this;
-		}
+        @Override public int intValue() {
+            return (int)value();
+        }
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		default SELF setValueIf(LBytePredicate predicate, byte value) {
-			if (predicate.test(this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public long longValue() {
+            return (long)value();
+        }
 
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		default SELF setValueIf(byte value, LBiBytePredicate predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.test(value, this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public float floatValue() {
+            return (float)value();
+        }
 
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		default SELF setValueIf(LBiBytePredicate predicate, byte value) {
-			if (predicate.test(this.value(), value)) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override public double doubleValue() {
+            return (double)value();
+        }
+    }
 
-		default SELF reset() {
-			this.value((byte) 0);
-			return (SELF) this;
-		}
-	}
 
-	public static MutByteSingle of() {
-		return of((byte) 0);
-	}
 
-	public static MutByteSingle of(byte a) {
-		return new MutByteSingle(a);
-	}
 
-	public static MutByteSingle copyOf(LByteSingle tuple) {
-		return of(tuple.value());
-	}
 
-	/**
-	 * Mutable, non-comparable tuple.
-	 */
+    /**
+     * Mutable tuple.
+     */
 
-	class MutByteSingle extends AbstractByteSingle implements Mut<MutByteSingle> {
+     interface  Mut<SELF extends Mut<SELF>>  extends LByteSingle   {
 
-		private byte value;
 
-		public MutByteSingle(byte a) {
-			this.value = a;
-		}
 
-		public @Override byte value() {
-			return value;
-		}
+        SELF value(byte value) ; 
 
-		public @Override MutByteSingle value(byte value) {
-			this.value = value;
-			return this;
-		}
+        default SELF setValue(byte value) {
+            this.value(value);
+            return (SELF) this;
+        }
 
-	}
+        /** Sets value if predicate(newValue) OR newValue::predicate is true */
+        default SELF setValueIfArg(byte value, LBytePredicate predicate) {
+            if (predicate.test(value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	public static ImmByteSingle immutableOf(byte a) {
-		return new ImmByteSingle(a);
-	}
+        /** Sets value derived from non-null argument, only if argument is not null. */
+        default <R> SELF setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
+            if ( arg != null ) {
+                return this.value(func.applyAsByte(arg));
+            }
+            return (SELF) this;
+        }
 
-	public static ImmByteSingle immutableCopyOf(LByteSingle tuple) {
-		return immutableOf(tuple.value());
-	}
+        /** Sets value if predicate(current) OR current::predicate is true */
+        default SELF setValueIf(LBytePredicate predicate, byte value) {
+            if (predicate.test(this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	/**
-	 * Immutable, non-comparable tuple.
-	 */
-	@Immutable
-	final class ImmByteSingle extends AbstractByteSingle {
+        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        default SELF setValueIf(byte value, LBiBytePredicate predicate) {
+            // the order of arguments is intentional, to allow predicate:
+            if (predicate.test(value, this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-		private final byte value;
+        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        default SELF setValueIf(LBiBytePredicate predicate, byte value) {
+            if (predicate.test(this.value(), value)) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
+            
 
-		public ImmByteSingle(byte a) {
-			this.value = a;
-		}
 
-		public @Override byte value() {
-			return value;
-		}
+        default SELF reset()   {
+                this.value((byte)0);
+            return (SELF) this;
+        }
+    }
 
-	}
+
+
+
+
+
+  public static  MutByteSingle of() { 
+      return of(  (byte)0 );
+  }
+      
+
+  public static  MutByteSingle of(byte a){
+        return new MutByteSingle(a);
+  }
+
+  public static  MutByteSingle copyOf(LByteSingle tuple) {
+        return of(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+     class  MutByteSingle  extends AbstractByteSingle implements Mut<MutByteSingle>   {
+
+        private  byte value;
+
+        public MutByteSingle(byte a){
+            this.value = a;
+        }
+
+
+        public @Override byte value() {
+            return value;
+        }
+
+        public @Override MutByteSingle value(byte value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+  public static  ImmByteSingle immutableOf(byte a){
+        return new ImmByteSingle(a);
+  }
+
+  public static  ImmByteSingle immutableCopyOf(LByteSingle tuple) {
+        return immutableOf(tuple.value());
+  }
+
+
+    /**
+     * Immutable, non-comparable tuple.
+     */
+@Immutable
+    final  class  ImmByteSingle  extends AbstractByteSingle    {
+
+        private final byte value;
+
+        public ImmByteSingle(byte a){
+            this.value = a;
+        }
+
+
+        public @Override byte value() {
+            return value;
+        }
+
+
+
+    }
+
+
 
 }
+
+

@@ -21,271 +21,325 @@ package eu.lunisolar.magma.func.tuple;
 import eu.lunisolar.magma.basics.meta.LTuple;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
-import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.basics.meta.aType;
+import eu.lunisolar.magma.basics.meta.aType.*;
+import eu.lunisolar.magma.basics.meta.functional.*;
+import eu.lunisolar.magma.func.*;
+import eu.lunisolar.magma.func.consumer.*;  ;
+import eu.lunisolar.magma.func.consumer.primitives.bi.*;
+import eu.lunisolar.magma.func.consumer.primitives.tri.*;
+import eu.lunisolar.magma.func.function.*;
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.func.operator.unary.*;
 import eu.lunisolar.magma.func.operator.binary.*;
 import eu.lunisolar.magma.func.predicate.*;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
+import java.util.stream.*;
+
+
 
 /**
  * Exact equivalent of input parameters used in LBoolConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolSingle extends LTuple<Boolean>, Comparable<LBoolSingle> {
+public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle> 
+  {
 
-	int SIZE = 1;
+    int SIZE = 1;
 
-	boolean value();
 
-	default boolean first() {
-		return value();
-	}
+    boolean value();
 
-	@Override
-	default Boolean get(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
+    default boolean first() {
+        return value();
+    }
 
-	default boolean getBoolean(int index) {
-		switch (index) {
-			case 1 :
-				return value();
-			default :
-				throw new NoSuchElementException();
-		}
-	}
 
-	/** Tuple size */
-	@Override
-	default int tupleSize() {
-		return SIZE;
-	}
 
-	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolSingle and calculates hash from it. */
-	static int argHashCode(boolean a) {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Boolean.hashCode(a);
-		return result;
-	}
+    @Override default Boolean get(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolSingle and checks if all values are equal. */
-	static boolean argEquals(boolean a, boolean b) {
-		return a == b; //
-	}
+    default boolean getBoolean(int index) {
+        switch(index) {
+            case 1: return value();
+            default: throw new NoSuchElementException();
+        }
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 * Tuples are considered equal if are implementing LBoolSingle interface (among others) and their LBoolSingle values are equal regardless of the implementing class
-	 * and how many more values there are.
-	 */
-	static boolean argEquals(LBoolSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LBoolSingle are allowed.
-				if (!(two instanceof LBoolSingle)) {
-					return false;
-				}
+    /** Tuple size */
+    @Override default int tupleSize() {
+        return SIZE;
+    }
 
-				LBoolSingle other = (LBoolSingle) two;
+    
 
-				return argEquals(one.value(), other.value());
-			});
-	}
+    /** Static hashCode() implementation method that takes same arguments as fields of the LBoolSingle and calculates hash from it. */
+    static  int argHashCode(boolean a) {
+        final int prime = 31;
+        int result = 1;
+            result = prime * result + Boolean.hashCode(a);
+        return result;
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 */
-	public static boolean tupleEquals(LBoolSingle the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LBoolSingle are allowed.
-				if (!(two instanceof LBoolSingle)) {
-					return false;
-				}
+    /** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolSingle and checks if all values are equal. */
+    static  boolean argEquals(boolean a, boolean b) {
+        return
+            a==b;  //
+    }
 
-				LBoolSingle other = (LBoolSingle) two;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     * Tuples are considered equal if are implementing LBoolSingle interface (among others) and their LBoolSingle values are equal regardless of the implementing class
+     * and how many more values there are.
+     */
+    static  boolean argEquals(LBoolSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LBoolSingle are allowed.
+            if (!(two instanceof LBoolSingle)) {
+                return false;
+            }
 
-				return one.tupleSize() == other.tupleSize() && argEquals(one.value(), other.value());
-			});
-	}
+            LBoolSingle other = (LBoolSingle) two;
 
-	@Override
-	default Iterator<Boolean> iterator() {
-		return new Iterator<Boolean>() {
+            return argEquals(one.value(), other.value());
+        });
+    }
 
-			private int index;
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     */
+    public static  boolean tupleEquals(LBoolSingle the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LBoolSingle are allowed.
+            if (!(two instanceof LBoolSingle)) {
+                return false;
+            }
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+            LBoolSingle other = (LBoolSingle) two;
 
-			@Override
-			public Boolean next() {
-				index++;
-				return get(index);
-			}
-		};
-	}
+            return  one.tupleSize() == other.tupleSize() &&
+                    argEquals(one.value(), other.value());
+        });
+    }
 
-	@Override
-	default int compareTo(LBoolSingle that) {
-		return Null.compare(this, that, (one, two) -> {
-			int retval = 0;
 
-			return (retval = Boolean.compare(one.value(), two.value())) != 0 ? retval : 0; //
-			});
-	}
 
-	abstract class AbstractBoolSingle implements LBoolSingle {
+        
+    @Override default Iterator<Boolean> iterator() {
+        return new Iterator<Boolean>() {
 
-		@Override
-		public boolean equals(Object that) {
-			return LBoolSingle.tupleEquals(this, that);
-		}
+            private int index;
 
-		@Override
-		public int hashCode() {
-			return LBoolSingle.argHashCode(value());
-		}
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
 
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append('(');
-			sb.append(value());
-			sb.append(')');
-			return sb.toString();
-		}
+            @Override public Boolean next() {
+                index++;
+                return get(index);
+            }
+        };
+    }
 
-	}
+        @Override
+        default int compareTo(LBoolSingle that) {
+            return Null.compare(this, that, (one, two) -> {
+                int retval = 0;
 
-	/**
-	 * Mutable tuple.
-	 */
+                return
+                    (retval = Boolean.compare(one.value(), two.value())) != 0 ? retval : 0; //
+            });
+        }
 
-	interface Mut<SELF extends Mut<SELF>> extends LBoolSingle {
+    
 
-		SELF value(boolean value);
+    abstract class AbstractBoolSingle implements LBoolSingle {
 
-		default SELF setValue(boolean value) {
-			this.value(value);
-			return (SELF) this;
-		}
+        @Override
+        public boolean equals(Object that) {
+            return LBoolSingle.tupleEquals(this, that);
+        }
 
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		default SELF setValueIfArg(boolean value, LLogicalOperator predicate) {
-			if (predicate.apply(value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+        @Override
+        public int hashCode() {
+            return LBoolSingle.argHashCode(value());
+        }
 
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		default <R> SELF setValueIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				return this.value(func.test(arg));
-			}
-			return (SELF) this;
-		}
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append('(');
+                sb.append(value());
+            sb.append(')');
+            return sb.toString();
+        }
 
-		/** Sets value if predicate(current) OR current::predicate is true */
-		default SELF setValueIf(LLogicalOperator predicate, boolean value) {
-			if (predicate.apply(this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
+    }
 
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		default SELF setValueIf(boolean value, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(value, this.value())) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
 
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		default SELF setValueIf(LLogicalBinaryOperator predicate, boolean value) {
-			if (predicate.apply(this.value(), value)) {
-				return this.value(value);
-			}
-			return (SELF) this;
-		}
 
-		default SELF reset() {
-			this.value(false);
-			return (SELF) this;
-		}
-	}
 
-	public static MutBoolSingle of() {
-		return of(false);
-	}
 
-	public static MutBoolSingle of(boolean a) {
-		return new MutBoolSingle(a);
-	}
+    /**
+     * Mutable tuple.
+     */
 
-	public static MutBoolSingle copyOf(LBoolSingle tuple) {
-		return of(tuple.value());
-	}
+     interface  Mut<SELF extends Mut<SELF>>  extends LBoolSingle   {
 
-	/**
-	 * Mutable, non-comparable tuple.
-	 */
 
-	class MutBoolSingle extends AbstractBoolSingle implements Mut<MutBoolSingle> {
 
-		private boolean value;
+        SELF value(boolean value) ; 
 
-		public MutBoolSingle(boolean a) {
-			this.value = a;
-		}
+        default SELF setValue(boolean value) {
+            this.value(value);
+            return (SELF) this;
+        }
 
-		public @Override boolean value() {
-			return value;
-		}
+        /** Sets value if predicate(newValue) OR newValue::predicate is true */
+        default SELF setValueIfArg(boolean value, LLogicalOperator predicate) {
+            if (predicate.apply(value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-		public @Override MutBoolSingle value(boolean value) {
-			this.value = value;
-			return this;
-		}
+        /** Sets value derived from non-null argument, only if argument is not null. */
+        default <R> SELF setValueIfArgNotNull(R arg, LPredicate<R> func) {
+            if ( arg != null ) {
+                return this.value(func.test(arg));
+            }
+            return (SELF) this;
+        }
 
-	}
+        /** Sets value if predicate(current) OR current::predicate is true */
+        default SELF setValueIf(LLogicalOperator predicate, boolean value) {
+            if (predicate.apply(this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	public static ImmBoolSingle immutableOf(boolean a) {
-		return new ImmBoolSingle(a);
-	}
+        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        default SELF setValueIf(boolean value, LLogicalBinaryOperator predicate) {
+            // the order of arguments is intentional, to allow predicate:
+            if (predicate.apply(value, this.value())) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
 
-	public static ImmBoolSingle immutableCopyOf(LBoolSingle tuple) {
-		return immutableOf(tuple.value());
-	}
+        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        default SELF setValueIf(LLogicalBinaryOperator predicate, boolean value) {
+            if (predicate.apply(this.value(), value)) {
+                return this.value(value);
+            }
+            return (SELF) this;
+        }
+            
 
-	/**
-	 * Immutable, non-comparable tuple.
-	 */
-	@Immutable
-	final class ImmBoolSingle extends AbstractBoolSingle {
 
-		private final boolean value;
+        default SELF reset()   {
+                this.value(false);
+            return (SELF) this;
+        }
+    }
 
-		public ImmBoolSingle(boolean a) {
-			this.value = a;
-		}
 
-		public @Override boolean value() {
-			return value;
-		}
 
-	}
+
+
+
+  public static  MutBoolSingle of() { 
+      return of(  false );
+  }
+      
+
+  public static  MutBoolSingle of(boolean a){
+        return new MutBoolSingle(a);
+  }
+
+  public static  MutBoolSingle copyOf(LBoolSingle tuple) {
+        return of(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+     class  MutBoolSingle  extends AbstractBoolSingle implements Mut<MutBoolSingle>   {
+
+        private  boolean value;
+
+        public MutBoolSingle(boolean a){
+            this.value = a;
+        }
+
+
+        public @Override boolean value() {
+            return value;
+        }
+
+        public @Override MutBoolSingle value(boolean value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+  public static  ImmBoolSingle immutableOf(boolean a){
+        return new ImmBoolSingle(a);
+  }
+
+  public static  ImmBoolSingle immutableCopyOf(LBoolSingle tuple) {
+        return immutableOf(tuple.value());
+  }
+
+
+    /**
+     * Immutable, non-comparable tuple.
+     */
+@Immutable
+    final  class  ImmBoolSingle  extends AbstractBoolSingle    {
+
+        private final boolean value;
+
+        public ImmBoolSingle(boolean a){
+            this.value = a;
+        }
+
+
+        public @Override boolean value() {
+            return value;
+        }
+
+
+
+    }
+
+
 
 }
+
+

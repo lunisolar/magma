@@ -21,347 +21,489 @@ package eu.lunisolar.magma.func.tuple;
 import eu.lunisolar.magma.basics.meta.LTuple;
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
-import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.basics.meta.aType;
+import eu.lunisolar.magma.basics.meta.aType.*;
+import eu.lunisolar.magma.basics.meta.functional.*;
+import eu.lunisolar.magma.func.*;
+import eu.lunisolar.magma.func.consumer.*;  ;
+import eu.lunisolar.magma.func.consumer.primitives.bi.*;
+import eu.lunisolar.magma.func.consumer.primitives.tri.*;
+import eu.lunisolar.magma.func.function.*;
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.function.from.*;
 import eu.lunisolar.magma.func.operator.unary.*;
 import eu.lunisolar.magma.func.operator.binary.*;
 import eu.lunisolar.magma.func.predicate.*;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
+import java.util.stream.*;
+
+
 
 /**
  * Exact equivalent of input parameters used in LBiBoolConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolPair extends LTuple<Boolean>, Comparable<LBoolPair> {
+public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair> 
+  {
 
-	int SIZE = 2;
+    int SIZE = 2;
 
-	boolean first();
 
-	default boolean value() {
-		return first();
+    boolean first();
+
+    default boolean value() {
+        return first();
+    }
+
+    boolean second();
+
+
+
+    @Override default Boolean get(int index) {
+        switch(index) {
+            case 1: return first();
+            case 2: return second();
+            default: throw new NoSuchElementException();
+        }
+    }
+
+    default boolean getBoolean(int index) {
+        switch(index) {
+            case 1: return first();
+            case 2: return second();
+            default: throw new NoSuchElementException();
+        }
+    }
+
+    /** Tuple size */
+    @Override default int tupleSize() {
+        return SIZE;
+    }
+
+    
+
+    /** Static hashCode() implementation method that takes same arguments as fields of the LBoolPair and calculates hash from it. */
+    static  int argHashCode(boolean a1,boolean a2) {
+        final int prime = 31;
+        int result = 1;
+            result = prime * result + Boolean.hashCode(a1);
+            result = prime * result + Boolean.hashCode(a2);
+        return result;
+    }
+
+    /** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolPair and checks if all values are equal. */
+    static  boolean argEquals(boolean a1,boolean a2, boolean b1,boolean b2) {
+        return
+            a1==b1 &&  //
+            a2==b2;  //
+    }
+
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     * Tuples are considered equal if are implementing LBoolPair interface (among others) and their LBoolPair values are equal regardless of the implementing class
+     * and how many more values there are.
+     */
+    static  boolean argEquals(LBoolPair the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LBoolPair are allowed.
+            if (!(two instanceof LBoolPair)) {
+                return false;
+            }
+
+            LBoolPair other = (LBoolPair) two;
+
+            return argEquals(one.first(), one.second(), other.first(), other.second());
+        });
+    }
+
+    /**
+     * Static equals() implementation that takes two tuples and checks if they are equal.
+     */
+    public static  boolean tupleEquals(LBoolPair the, Object that) {
+        return Null.equals(the, that, (one, two) -> {
+                // Intentionally all implementations of LBoolPair are allowed.
+            if (!(two instanceof LBoolPair)) {
+                return false;
+            }
+
+            LBoolPair other = (LBoolPair) two;
+
+            return  one.tupleSize() == other.tupleSize() &&
+                    argEquals(one.first(), one.second(), other.first(), other.second());
+        });
+    }
+
+
+
+        
+    @Override default Iterator<Boolean> iterator() {
+        return new Iterator<Boolean>() {
+
+            private int index;
+
+            @Override public boolean hasNext() {
+                return index<SIZE;
+            }
+
+            @Override public Boolean next() {
+                index++;
+                return get(index);
+            }
+        };
+    }
+
+        @Override
+        default int compareTo(LBoolPair that) {
+            return Null.compare(this, that, (one, two) -> {
+                int retval = 0;
+
+                return
+                    (retval = Boolean.compare(one.first(), two.first())) != 0 ? retval : //
+                    (retval = Boolean.compare(one.second(), two.second())) != 0 ? retval : 0; //
+            });
+        }
+
+    
+
+    abstract class AbstractBoolPair implements LBoolPair {
+
+        @Override
+        public boolean equals(Object that) {
+            return LBoolPair.tupleEquals(this, that);
+        }
+
+        @Override
+        public int hashCode() {
+            return LBoolPair.argHashCode(first(),second());
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append('(');
+                sb.append(first());
+                sb.append(',');
+                sb.append(second());
+            sb.append(')');
+            return sb.toString();
+        }
+
+    }
+
+
+
+
+
+    /**
+     * Mutable tuple.
+     */
+
+     interface  Mut<SELF extends Mut<SELF>>  extends LBoolPair   {
+
+
+
+        SELF first(boolean first) ; 
+        SELF second(boolean second) ; 
+
+        default SELF setFirst(boolean first) {
+            this.first(first);
+            return (SELF) this;
+        }
+
+        /** Sets value if predicate(newValue) OR newValue::predicate is true */
+        default SELF setFirstIfArg(boolean first, LLogicalOperator predicate) {
+            if (predicate.apply(first())) {
+                return this.first(first);
+            }
+            return (SELF) this;
+        }
+
+        /** Sets value derived from non-null argument, only if argument is not null. */
+        default <R> SELF setFirstIfArgNotNull(R arg, LPredicate<R> func) {
+            if ( arg != null ) {
+                return this.first(func.test(arg));
+            }
+            return (SELF) this;
+        }
+
+        /** Sets value if predicate(current) OR current::predicate is true */
+        default SELF setFirstIf(LLogicalOperator predicate, boolean first) {
+            if (predicate.apply(this.first())) {
+                return this.first(first);
+            }
+            return (SELF) this;
+        }
+
+        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        default SELF setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
+            // the order of arguments is intentional, to allow predicate:
+            if (predicate.apply(first, this.first())) {
+                return this.first(first);
+            }
+            return (SELF) this;
+        }
+
+        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        default SELF setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
+            if (predicate.apply(this.first(), first)) {
+                return this.first(first);
+            }
+            return (SELF) this;
+        }
+            
+
+
+        default SELF setSecond(boolean second) {
+            this.second(second);
+            return (SELF) this;
+        }
+
+        /** Sets value if predicate(newValue) OR newValue::predicate is true */
+        default SELF setSecondIfArg(boolean second, LLogicalOperator predicate) {
+            if (predicate.apply(second())) {
+                return this.second(second);
+            }
+            return (SELF) this;
+        }
+
+        /** Sets value derived from non-null argument, only if argument is not null. */
+        default <R> SELF setSecondIfArgNotNull(R arg, LPredicate<R> func) {
+            if ( arg != null ) {
+                return this.second(func.test(arg));
+            }
+            return (SELF) this;
+        }
+
+        /** Sets value if predicate(current) OR current::predicate is true */
+        default SELF setSecondIf(LLogicalOperator predicate, boolean second) {
+            if (predicate.apply(this.second())) {
+                return this.second(second);
+            }
+            return (SELF) this;
+        }
+
+        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        default SELF setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
+            // the order of arguments is intentional, to allow predicate:
+            if (predicate.apply(second, this.second())) {
+                return this.second(second);
+            }
+            return (SELF) this;
+        }
+
+        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        default SELF setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
+            if (predicate.apply(this.second(), second)) {
+                return this.second(second);
+            }
+            return (SELF) this;
+        }
+            
+
+
+        default SELF reset()   {
+                this.first(false);
+                this.second(false);
+            return (SELF) this;
+        }
+    }
+
+
+
+
+
+
+  public static  MutBoolPair of() { 
+      return of(  false ,  false );
+  }
+      
+
+  public static  MutBoolPair of(boolean a1,boolean a2){
+        return new MutBoolPair(a1,a2);
+  }
+
+  public static  MutBoolPair copyOf(LBoolPair tuple) {
+        return of(tuple.first(), tuple.second());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+     class  MutBoolPair  extends AbstractBoolPair implements Mut<MutBoolPair>   {
+
+        private  boolean first;
+        private  boolean second;
+
+        public MutBoolPair(boolean a1,boolean a2){
+            this.first = a1;
+            this.second = a2;
+        }
+
+
+        public @Override boolean first() {
+            return first;
+        }
+
+        public @Override MutBoolPair first(boolean first)    {
+            this.first = first;
+            return this;
+        }
+            
+        public @Override boolean second() {
+            return second;
+        }
+
+        public @Override MutBoolPair second(boolean second)    {
+            this.second = second;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+  public static  ImmBoolPair immutableOf(boolean a1,boolean a2){
+        return new ImmBoolPair(a1,a2);
+  }
+
+  public static  ImmBoolPair immutableCopyOf(LBoolPair tuple) {
+        return immutableOf(tuple.first(), tuple.second());
+  }
+
+
+    /**
+     * Immutable, non-comparable tuple.
+     */
+@Immutable
+    final  class  ImmBoolPair  extends AbstractBoolPair    {
+
+        private final boolean first;
+        private final boolean second;
+
+        public ImmBoolPair(boolean a1,boolean a2){
+            this.first = a1;
+            this.second = a2;
+        }
+
+
+        public @Override boolean first() {
+            return first;
+        }
+
+        public @Override boolean second() {
+            return second;
+        }
+
+
+
+    }
+
+
+
+
+    public static  Iterator<LBoolPair.MutBoolPair> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolPair::of);}
+    public static  Iterator<LBoolPair.ImmBoolPair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolPair::immutableOf);}
+
+   	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LBiBoolFunction<R> factory) {
+		return iterator(SA.booleanIterator(), items, factory);
 	}
 
-	boolean second();
+    public static  Stream<LBoolPair.MutBoolPair> mutStream(IntStream items) { return stream(items, LBoolPair::of);}
+    public static  Stream<LBoolPair.ImmBoolPair> immStream(IntStream items) { return stream(items, LBoolPair::immutableOf);}
 
-	@Override
-	default Boolean get(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
+	public static <R> Stream<R> stream(IntStream items, LBiBoolFunction<R> factory) {
+       var pairs =  iterator(items.iterator(), factory);
+       return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-	default boolean getBoolean(int index) {
-		switch (index) {
-			case 1 :
-				return first();
-			case 2 :
-				return second();
-			default :
-				throw new NoSuchElementException();
-		}
+    public static <C,R> Stream<R> stream(SequentialRead<C, ?, aBool> sa, C source, LBiBoolFunction<R> factory) {
+       var pairs =  iterator(sa, source, factory);
+       return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-	/** Tuple size */
-	@Override
-	default int tupleSize() {
-		return SIZE;
+    public static <C,R> Stream<R> stream(IndexedRead<C, aBool> ia, C source, LBiBoolFunction<R> factory) {
+       var pairs =  iterator(ia, source, factory);
+       return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolPair and calculates hash from it. */
-	static int argHashCode(boolean a1, boolean a2) {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Boolean.hashCode(a1);
-		result = prime * result + Boolean.hashCode(a2);
-		return result;
-	}
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aBool> sa, C source, LBiBoolFunction<R> factory) {
 
-	/** Static equals() implementation that takes same arguments (doubled) as fields of the LBoolPair and checks if all values are equal. */
-	static boolean argEquals(boolean a1, boolean a2, boolean b1, boolean b2) {
-		return a1 == b1 && //
-				a2 == b2; //
-	}
+        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
+        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
+        LPredicate<C> nextFunc = (LPredicate<C>) sa.supplier();
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 * Tuples are considered equal if are implementing LBoolPair interface (among others) and their LBoolPair values are equal regardless of the implementing class
-	 * and how many more values there are.
-	 */
-	static boolean argEquals(LBoolPair the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LBoolPair are allowed.
-				if (!(two instanceof LBoolPair)) {
-					return false;
-				}
+        return new Iterator<R>() {
 
-				LBoolPair other = (LBoolPair) two;
+            @Override public boolean hasNext() { return testFunc.doApplyAsBoolean(iterator);}
 
-				return argEquals(one.first(), one.second(), other.first(), other.second());
-			});
-	}
+            @Override public R next() {
+                var a1 = nextFunc.test(iterator);
+                var a2 = nextFunc.test(iterator);
+				return factory.apply(a1,a2);
+            }
+        };
+    }
 
-	/**
-	 * Static equals() implementation that takes two tuples and checks if they are equal.
-	 */
-	public static boolean tupleEquals(LBoolPair the, Object that) {
-		return Null.equals(the, that, (one, two) -> {
-			// Intentionally all implementations of LBoolPair are allowed.
-				if (!(two instanceof LBoolPair)) {
-					return false;
-				}
+    public static <C,R> Iterator<R> iterator(IndexedRead<C, aBool> ia, C source, LBiBoolFunction<R> factory) {
 
-				LBoolPair other = (LBoolPair) two;
+        int size = ia.size(source);
+        LObjIntPredicate<C> oiFunc = (LObjIntPredicate<C>) ia.getter();
 
-				return one.tupleSize() == other.tupleSize() && argEquals(one.first(), one.second(), other.first(), other.second());
-			});
-	}
+        return new Iterator<R>() {
 
-	@Override
-	default Iterator<Boolean> iterator() {
-		return new Iterator<Boolean>() {
+            private int index = 0;
 
-			private int index;
+            @Override public boolean hasNext() { return index < size;}
 
-			@Override
-			public boolean hasNext() {
-				return index < SIZE;
-			}
+            @Override public R next() {
+                var a1 = oiFunc.test(source, index++);
+                var a2 = oiFunc.test(source, index++);
+				return factory.apply(a1,a2);
+            }
+        };
+    }
 
-			@Override
-			public Boolean next() {
-				index++;
-				return get(index);
-			}
-		};
-	}
 
-	@Override
-	default int compareTo(LBoolPair that) {
-		return Null.compare(this, that, (one, two) -> {
-			int retval = 0;
 
-			return (retval = Boolean.compare(one.first(), two.first())) != 0 ? retval : //
-					(retval = Boolean.compare(one.second(), two.second())) != 0 ? retval : 0; //
-			});
-	}
 
-	abstract class AbstractBoolPair implements LBoolPair {
+    public static  void forEach(IntStream items, LBiBoolConsumer consumer) {
+        forEach(items.iterator(), consumer);
+    }
 
-		@Override
-		public boolean equals(Object that) {
-			return LBoolPair.tupleEquals(this, that);
-		}
+    public static  void forEach(PrimitiveIterator.OfInt items, LBiBoolConsumer consumer) {
+        var emptyTuples = iterator(items, (a1,a2) -> {
+            consumer.accept(a1,a2);
+            return null;
+        });
 
-		@Override
-		public int hashCode() {
-			return LBoolPair.argHashCode(first(), second());
-		}
+        while (emptyTuples.hasNext()) {
+            emptyTuples.next();
+        }
+    }
 
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append('(');
-			sb.append(first());
-			sb.append(',');
-			sb.append(second());
-			sb.append(')');
-			return sb.toString();
-		}
-
-	}
-
-	/**
-	 * Mutable tuple.
-	 */
-
-	interface Mut<SELF extends Mut<SELF>> extends LBoolPair {
-
-		SELF first(boolean first);
-		SELF second(boolean second);
-
-		default SELF setFirst(boolean first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		default SELF setFirstIfArg(boolean first, LLogicalOperator predicate) {
-			if (predicate.apply(first())) {
-				return this.first(first);
-			}
-			return (SELF) this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		default <R> SELF setFirstIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				return this.first(func.test(arg));
-			}
-			return (SELF) this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		default SELF setFirstIf(LLogicalOperator predicate, boolean first) {
-			if (predicate.apply(this.first())) {
-				return this.first(first);
-			}
-			return (SELF) this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		default SELF setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(first, this.first())) {
-				return this.first(first);
-			}
-			return (SELF) this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		default SELF setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
-			if (predicate.apply(this.first(), first)) {
-				return this.first(first);
-			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(boolean second) {
-			this.second(second);
-			return (SELF) this;
-		}
-
-		/** Sets value if predicate(newValue) OR newValue::predicate is true */
-		default SELF setSecondIfArg(boolean second, LLogicalOperator predicate) {
-			if (predicate.apply(second())) {
-				return this.second(second);
-			}
-			return (SELF) this;
-		}
-
-		/** Sets value derived from non-null argument, only if argument is not null. */
-		default <R> SELF setSecondIfArgNotNull(R arg, LPredicate<R> func) {
-			if (arg != null) {
-				return this.second(func.test(arg));
-			}
-			return (SELF) this;
-		}
-
-		/** Sets value if predicate(current) OR current::predicate is true */
-		default SELF setSecondIf(LLogicalOperator predicate, boolean second) {
-			if (predicate.apply(this.second())) {
-				return this.second(second);
-			}
-			return (SELF) this;
-		}
-
-		/** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
-		default SELF setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
-			// the order of arguments is intentional, to allow predicate:
-			if (predicate.apply(second, this.second())) {
-				return this.second(second);
-			}
-			return (SELF) this;
-		}
-
-		/** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
-		default SELF setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
-			if (predicate.apply(this.second(), second)) {
-				return this.second(second);
-			}
-			return (SELF) this;
-		}
-
-		default SELF reset() {
-			this.first(false);
-			this.second(false);
-			return (SELF) this;
-		}
-	}
-
-	public static MutBoolPair of() {
-		return of(false, false);
-	}
-
-	public static MutBoolPair of(boolean a1, boolean a2) {
-		return new MutBoolPair(a1, a2);
-	}
-
-	public static MutBoolPair copyOf(LBoolPair tuple) {
-		return of(tuple.first(), tuple.second());
-	}
-
-	/**
-	 * Mutable, non-comparable tuple.
-	 */
-
-	class MutBoolPair extends AbstractBoolPair implements Mut<MutBoolPair> {
-
-		private boolean first;
-		private boolean second;
-
-		public MutBoolPair(boolean a1, boolean a2) {
-			this.first = a1;
-			this.second = a2;
-		}
-
-		public @Override boolean first() {
-			return first;
-		}
-
-		public @Override MutBoolPair first(boolean first) {
-			this.first = first;
-			return this;
-		}
-
-		public @Override boolean second() {
-			return second;
-		}
-
-		public @Override MutBoolPair second(boolean second) {
-			this.second = second;
-			return this;
-		}
-
-	}
-
-	public static ImmBoolPair immutableOf(boolean a1, boolean a2) {
-		return new ImmBoolPair(a1, a2);
-	}
-
-	public static ImmBoolPair immutableCopyOf(LBoolPair tuple) {
-		return immutableOf(tuple.first(), tuple.second());
-	}
-
-	/**
-	 * Immutable, non-comparable tuple.
-	 */
-	@Immutable
-	final class ImmBoolPair extends AbstractBoolPair {
-
-		private final boolean first;
-		private final boolean second;
-
-		public ImmBoolPair(boolean a1, boolean a2) {
-			this.first = a1;
-			this.second = a2;
-		}
-
-		public @Override boolean first() {
-			return first;
-		}
-
-		public @Override boolean second() {
-			return second;
-		}
-
-	}
 
 }
+
+

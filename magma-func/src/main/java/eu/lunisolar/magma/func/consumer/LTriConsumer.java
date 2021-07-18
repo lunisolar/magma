@@ -996,43 +996,6 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	}
 
-	public static <C, T, T1, T2> T pairForEach(T target, IndexedRead<C, a<? extends Object>> ia, C s, LTriConsumer<T, T1, T2> consumer) {
-		int size = ia.size(s);
-
-		if (size % 2 != 0) {
-			throw new IllegalArgumentException("Size of container is not multiplication of 2.");
-		}
-
-		LOiFunction<C, T1> g1 = (LOiFunction) ia.getter();
-		LOiFunction<C, T2> g2 = (LOiFunction) ia.getter();
-		int i = 0;
-		for (; i < size;) {
-			T1 v1 = g1.apply(s, i++);
-			T2 v2 = g2.apply(s, i++);
-			consumer.accept(target, v1, v2);
-		}
-		return target;
-	}
-
-	public static <C, I, T, T1, T2> T pairIterate(T target, SequentialRead<C, I, a<? extends Object>> sa, C s, LTriConsumer<T, T1, T2> consumer) {
-
-		LFunction<C, I> adapter = sa.adapter();
-		I a = adapter.apply(s);
-
-		LFunction<I, T1> g1 = (LFunction) sa.supplier();
-		LFunction<I, T2> g2 = (LFunction) sa.supplier();
-		LPredicate<I> tester = (LPredicate) sa.tester();
-		int i = 0;
-		while (tester.test(a)) {
-			T1 v1 = g1.apply(a);
-			T2 v2 = g2.apply(a);
-			consumer.accept(target, v1, v2);
-			i += 2;
-		}
-
-		return target;
-	}
-
 	// <editor-fold desc="fluentUse">
 
 	public static <T1, T2, T3, R> R inlineAcceptR(R retval, T1 a1, T2 a2, T3 a3, LTriConsumer<T1, T2, T3> consumer) {
