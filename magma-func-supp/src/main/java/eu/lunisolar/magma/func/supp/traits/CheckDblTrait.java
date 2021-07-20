@@ -2365,11 +2365,11 @@ public interface CheckDblTrait<SELF extends CheckDblTrait<SELF>> extends FluentT
 	// </editor-fold>
 
 	default @Nonnull SELF fails(@Nonnull String newMessage) {
-		throw Handling.create(checkTraitFactory(), newMessage);
+		return this.must(__ -> false, newMessage);
 	}
 
 	default @Nonnull SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
-		throw Handling.create(checkTraitFactory(), newMessage, messageParams);
+		return this.must(__ -> false, newMessage, messageParams);
 	}
 
 }
