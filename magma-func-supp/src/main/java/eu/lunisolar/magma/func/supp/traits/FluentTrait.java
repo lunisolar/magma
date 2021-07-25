@@ -77,11 +77,6 @@ public interface FluentTrait<FLUENT> extends Fluent<FLUENT> {
 		return LQuadConsumer.inlineAccept(fluentCtx(), a2, a3, a4, interjection);
 	}
 
-	public default @Nonnull FLUENT fluentUseWith(@Nonnull LConsumer<FLUENT> interjection) {
-		Null.nonNullArg(interjection, "interjection");
-		return LConsumer.inlineAcceptR(fluentCtx(), fluentCtx(), interjection);
-	}
-
 	public default @Nonnull <T1> FLUENT fluentUseWith(T1 a1, @Nonnull LBiConsumer<T1, FLUENT> interjection) {
 		Null.nonNullArg(interjection, "interjection");
 		return LBiConsumer.inlineAcceptR(fluentCtx(), a1, fluentCtx(), interjection);
