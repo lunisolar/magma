@@ -75,7 +75,7 @@ public final class LValue<T>
 		value(value);
 	}
 
-	public static <T> LValue objValue(T value) {
+	public static <T> LValue<T> objValue(T value) {
 		return new LValue(value);
 	}
 
