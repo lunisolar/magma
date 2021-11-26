@@ -50,62 +50,6 @@ public final class Handler<X extends Throwable> implements SelfReferencing<Handl
         return e;
     }
 
-    /**
-     * Executes instructions, if none of them wil throw or rethrow exception this method will fail with exception that throwable was not handled.
-     * Errors will be rethrow immediately.
-     *
-     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
-     */
-    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
-            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
-
-        handleErrors(throwable);
-
-        if (instructions != null) {
-            handleInstructions(throwable, instructions);
-        }
-
-        throwFailure(throwable);
-        throw shouldNeverBeenHere();
-    }
-
-    /**
-     * Executes instructions, if none of them wil throw or rethrow exception this method will rethrow RuntimeExceptions and nest checked exceptions.
-     * Errors will be rethrow immediately.
-     *
-     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
-     */
-    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
-            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
-
-        handleErrors(throwable);
-
-        if (instructions != null) {
-            handleInstructions(throwable, instructions);
-        }
-
-        nestCheckedAndThrow(throwable);
-        throw shouldNeverBeenHere();
-    }
-
-    /**
-     * Executes instructions, if none of them wil throw or rethrow exception this method will rethrow original exception regardless it is checked or not.
-     * Errors will be rethrow immediately.
-     *
-     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
-     */
-    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
-            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
-
-        handleErrors(throwable);
-
-        if (instructions != null) {
-            handleInstructions(throwable, instructions);
-        }
-
-        throw shoveIt(throwable);
-    }
-
     public <Z extends Throwable> Handler<X> rethrowIf(Class<Z> yClass) throws Z {
         X throwable = target();
         if (yClass.isInstance(throwable)) {
@@ -179,8 +123,23 @@ public final class Handler<X extends Throwable> implements SelfReferencing<Handl
         throwFailure(target());
     }
 
-    public static void throwFailure(Throwable throwable) {
-        throw new ExceptionNotHandled("Exception has not been handled.", throwable);
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+        return Handling.handleOrFail(throwable, instructions);
+    }
+
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+        return Handling.handleOrNest(throwable, instructions);
+    }
+
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+        return Handling.handleOrPropagate(throwable, instructions);
+    }
+
+    public static Throwable throwFailure(Throwable throwable) {
+        return Handling.throwHandlingFailure(throwable);
     }
 
     public void throwAsIs() {

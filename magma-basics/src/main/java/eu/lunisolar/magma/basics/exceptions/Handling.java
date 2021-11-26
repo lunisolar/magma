@@ -300,6 +300,10 @@ public final class Handling implements Serializable {
     }
 
     public static <X extends Throwable> RuntimeException shoveIt(Throwable e) {
+        return throwIt(e);
+    }
+
+    public static <X extends Throwable> RuntimeException throwIt(Throwable e) {
         Thrower<RuntimeException> thrower = (Thrower) THROWER;
         thrower.throwThe(e);
         throw shouldNeverBeenHere();
@@ -410,4 +414,68 @@ public final class Handling implements Serializable {
     public static void ignore(@Nullable Throwable e) {
         // noop
     }
+
+    //<editor-fold desc="handleOr...">
+
+    /**
+     * Executes instructions, if none of them wil throw or rethrow exception this method will fail with exception that throwable was not handled.
+     * Errors will be rethrow immediately.
+     *
+     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
+     */
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+
+        handleErrors(throwable);
+
+        if (instructions != null) {
+            handleInstructions(throwable, instructions);
+        }
+
+        throwHandlingFailure(throwable);
+        throw shouldNeverBeenHere();
+    }
+
+    /**
+     * Executes instructions, if none of them wil throw or rethrow exception this method will rethrow RuntimeExceptions and nest checked exceptions.
+     * Errors will be rethrow immediately.
+     *
+     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
+     */
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+
+        handleErrors(throwable);
+
+        if (instructions != null) {
+            handleInstructions(throwable, instructions);
+        }
+
+        nestCheckedAndThrow(throwable);
+        throw shouldNeverBeenHere();
+    }
+
+    /**
+     * Executes instructions, if none of them wil throw or rethrow exception this method will rethrow original exception regardless it is checked or not.
+     * Errors will be rethrow immediately.
+     *
+     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
+     */
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+
+        handleErrors(throwable);
+
+        if (instructions != null) {
+            handleInstructions(throwable, instructions);
+        }
+
+        throw shoveIt(throwable);
+    }
+
+    static Throwable throwHandlingFailure(Throwable throwable) {
+        throw new ExceptionNotHandled("Exception has not been handled.", throwable);
+    }
+    
+    //</editor-fold>
 }

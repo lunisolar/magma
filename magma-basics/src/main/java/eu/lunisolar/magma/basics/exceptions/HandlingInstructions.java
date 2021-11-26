@@ -18,7 +18,27 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @FunctionalInterface
 public interface HandlingInstructions<X extends Throwable, Y extends Throwable> {
+
     void processWith(Handler<X> handler) throws Y;
+
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+        return Handling.handleOrFail(throwable, instructions);
+    }
+
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+        return Handling.handleOrNest(throwable, instructions);
+    }
+
+    public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+        return Handling.handleOrPropagate(throwable, instructions);
+    }
+
 }
