@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class HandlerTest {
 
     public static final String    ORIGINAL_MESSAGE = "OriginalMessage";
+    public static final String    WRAP_ME          = "WRAP_ME";
     public static final Throwable RUNTIME          = new OriginalRuntimeException(ORIGINAL_MESSAGE);
     public static final Throwable CHECKED          = new OriginalException(ORIGINAL_MESSAGE);
 
@@ -258,6 +259,48 @@ public class HandlerTest {
                 .isInstanceOf(OriginalRuntimeException.class)
                 .hasMessage(ORIGINAL_MESSAGE)
                 .hasNoCause();
+    }
+
+    public interface Interface {
+        default int returnOrThrow(int arg, Throwable e) {
+            if (e != null) {
+                throw Handling.throwIt(e);
+            }
+
+            return arg;
+        }
+    }
+
+    @Test
+    public void proxy() throws Exception {
+
+        // GIVEN
+        HandlingInstructions<Throwable, RuntimeException> handlingInstructions = h -> h
+                .rethrowIf(IllegalArgumentException.class)
+                .wrapIf(e -> WRAP_ME.equals(e.getMessage()), IllegalStateException::new);
+
+        Interface proxy = Handling.proxy(this.getClass().getClassLoader(), new Interface() {}, handlingInstructions, Interface.class);
+
+        // WHEN/THEN
+        assertThatThrownBy(() -> proxy.returnOrThrow(0, new RuntimeException(WRAP_ME)))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("java.lang.RuntimeException: " + WRAP_ME)
+                .hasCauseExactlyInstanceOf(RuntimeException.class)
+                .hasRootCauseMessage(WRAP_ME);
+
+        // WHEN/THEN
+        assertThatThrownBy(() -> proxy.returnOrThrow(0, new IllegalArgumentException(ORIGINAL_MESSAGE)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ORIGINAL_MESSAGE)
+                .hasNoCause();
+
+        // WHEN/THEN
+        assertThatThrownBy(() -> proxy.returnOrThrow(0, new RuntimeException(ORIGINAL_MESSAGE)))
+                .isInstanceOf(ExceptionNotHandled.class)
+                .hasMessage("Exception has not been handled.")
+                .hasCauseExactlyInstanceOf(RuntimeException.class)
+                .hasRootCauseMessage(ORIGINAL_MESSAGE);
+
     }
 
 }

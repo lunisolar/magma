@@ -23,6 +23,7 @@ import eu.lunisolar.magma.basics.Null;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
+import java.lang.reflect.*;
 import java.util.function.*;
 
 import static eu.lunisolar.magma.basics.Null.nonNullArg;
@@ -136,8 +137,9 @@ public final class Handling implements Serializable {
         return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg, args));
     }
 
-    public static <X extends Throwable> X create(@Nonnull ExMF<X> fx, @Nullable String msg1, @Nullable Object[] args1, @Nullable String msg2, @Nullable Object... args2) {
-        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg1, args1) +' ' + constructMessage(null, msg2, args2));
+    public static <X extends Throwable> X create(
+            @Nonnull ExMF<X> fx, @Nullable String msg1, @Nullable Object[] args1, @Nullable String msg2, @Nullable Object... args2) {
+        return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg1, args1) + ' ' + constructMessage(null, msg2, args2));
     }
 
     //</editor-fold>
@@ -476,6 +478,33 @@ public final class Handling implements Serializable {
     static Throwable throwHandlingFailure(Throwable throwable) {
         throw new ExceptionNotHandled("Exception has not been handled.", throwable);
     }
-    
+
     //</editor-fold>
+
+    /** At the cost of dynamic proxy (so not for nano-operations) adds exception handling. */
+    public static <C> C proxy(ClassLoader cl, C target, HandlingInstructions<Throwable, RuntimeException> handlingInstructions, Class<?>... classes) {
+
+        nonNullArg(cl, "cl");
+        nonNullArg(target, "target");
+        nonNullArg(handlingInstructions, "handlingInstructions");
+        nonNullArg(classes, "classes");
+
+        if (classes.length == 0) {
+            throw new IllegalArgumentException("Proxy must be created for at least one interface.");
+        }
+
+        for (Class<?> aClass : classes) {
+            if (aClass == null) {
+                throw new IllegalArgumentException("Interfaces in array cannot be null.");
+            }
+        }
+
+        return (C) Proxy.newProxyInstance(cl, classes, (Object proxy, Method method, Object[] args) -> {
+            try {
+                return method.invoke(target, args);
+            } catch (InvocationTargetException e) {
+                throw handleOrFail(e.getTargetException(), handlingInstructions);
+            }
+        });
+    }
 }
