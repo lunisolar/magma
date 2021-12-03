@@ -246,6 +246,30 @@ public final class P1 implements FluentSyntax {
 		return !(clazz.isInstance(object)) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
+	/** Predicate: Object <%s> of class <%s> must be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	public static <MP1> boolean exactlyInstanceOf(Object object, Class<?> clazz, MP1 msgParamOnly) {
+		Null.nonNullArg(clazz, "clazz");
+		return clazz.equals(object.getClass());
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	public static <MP1> String exactlyInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
+		Null.nonNullArg(clazz, "clazz");
+		return (clazz.equals(object.getClass())) ? null : String.format("Object <%s> of class <%s> must be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
+	}
+
+	/** Predicate: Object <%s> of class <%s> must NOT be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	public static <MP1> boolean notExactlyInstanceOf(Object object, Class<?> clazz, MP1 msgParamOnly) {
+		Null.nonNullArg(clazz, "clazz");
+		return !(clazz.equals(object.getClass()));
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
+	public static <MP1> String notExactlyInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
+		Null.nonNullArg(clazz, "clazz");
+		return !(clazz.equals(object.getClass())) ? null : String.format("Object <%s> of class <%s> must NOT be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
+	}
+
 	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean assignableFrom(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
