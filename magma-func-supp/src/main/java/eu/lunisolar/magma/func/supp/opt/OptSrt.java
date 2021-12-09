@@ -208,4 +208,11 @@ public final class OptSrt extends OptSrtBase<OptSrt> {
 		return safelyFrom(a1, a2, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
 	}
 
+	public static OptSrt safelyParse(String str) {
+		if (str == null) {
+			return OptSrt.empty();
+		}
+		return OptSrt.safelyFrom(str, x -> x instanceof NumberFormatException, Short::parseShort);
+	}
+
 }

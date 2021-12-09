@@ -213,4 +213,11 @@ public final class OptDbl extends OptDblBase<OptDbl> {
 		return safelyFrom(a1, a2, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
 	}
 
+	public static OptDbl safelyParse(String str) {
+		if (str == null) {
+			return OptDbl.empty();
+		}
+		return OptDbl.safelyFrom(str, x -> x instanceof NumberFormatException, Double::parseDouble);
+	}
+
 }

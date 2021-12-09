@@ -213,4 +213,11 @@ public final class OptLong extends OptLongBase<OptLong> {
 		return safelyFrom(a1, a2, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
 	}
 
+	public static OptLong safelyParse(String str) {
+		if (str == null) {
+			return OptLong.empty();
+		}
+		return OptLong.safelyFrom(str, x -> x instanceof NumberFormatException, Long::parseLong);
+	}
+
 }

@@ -239,4 +239,20 @@ public final class OptBool extends OptBoolBase<OptBool> {
 		return safelyFrom(a1, a2, a3, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
 	}
 
+	public static OptBool safelyParse(String str) {
+		if (str == null) {
+			return OptBool.empty();
+		}
+
+		if ("true".equalsIgnoreCase(str)) {
+			return OptBool.of(true);
+		}
+
+		if ("false".equalsIgnoreCase(str)) {
+			return OptBool.of(false);
+		}
+
+		return OptBool.empty();
+	}
+
 }

@@ -208,4 +208,11 @@ public final class OptFlt extends OptFltBase<OptFlt> {
 		return safelyFrom(a1, a2, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
 	}
 
+	public static OptFlt safelyParse(String str) {
+		if (str == null) {
+			return OptFlt.empty();
+		}
+		return OptFlt.safelyFrom(str, x -> x instanceof NumberFormatException, Float::parseFloat);
+	}
+
 }

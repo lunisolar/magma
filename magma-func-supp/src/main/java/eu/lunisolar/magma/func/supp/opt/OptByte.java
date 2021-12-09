@@ -208,4 +208,11 @@ public final class OptByte extends OptByteBase<OptByte> {
 		return safelyFrom(a1, a2, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
 	}
 
+	public static OptByte safelyParse(String str) {
+		if (str == null) {
+			return OptByte.empty();
+		}
+		return OptByte.safelyFrom(str, x -> x instanceof NumberFormatException, Byte::parseByte);
+	}
+
 }

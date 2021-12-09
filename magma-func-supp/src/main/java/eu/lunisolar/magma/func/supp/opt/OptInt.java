@@ -244,4 +244,11 @@ public final class OptInt extends OptIntBase<OptInt> {
 		return safelyFrom(a1, a2, a3, produceEmpty, (s, e) -> Handling.shoveIt(e), producer);
 	}
 
+	public static OptInt safelyParse(String str) {
+		if (str == null) {
+			return OptInt.empty();
+		}
+		return OptInt.safelyFrom(str, x -> x instanceof NumberFormatException, Integer::parseInt);
+	}
+
 }
