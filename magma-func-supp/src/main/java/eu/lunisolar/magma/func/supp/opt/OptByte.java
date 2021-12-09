@@ -69,6 +69,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 public final class OptByte extends OptByteBase<OptByte> {
 
 	private static final OptByte EMPTY = new OptByte();
+	private static final int BYTE_INTERN_SIZE = 256;
+	private static final int BYTE_OFFSET = 128;
+	private static final OptByte[] INTERN_POOL = new OptByte[BYTE_INTERN_SIZE];
+
+	static {
+		LIntConsumer.fromTill(0, BYTE_INTERN_SIZE, i -> INTERN_POOL[i] = new OptByte((byte) ((-BYTE_OFFSET) + i)));
+	}
 
 	// <editor-fold desc="factories">
 
@@ -98,11 +105,11 @@ public final class OptByte extends OptByteBase<OptByte> {
 	}
 
 	public static OptByte from(Byte value) {
-		return value == null ? empty() : valueOf(value);
+		return value == null ? empty() : INTERN_POOL[value + BYTE_OFFSET];
 	}
 
 	public static OptByte of(byte value) {
-		return new OptByte(value);
+		return INTERN_POOL[value + BYTE_OFFSET];
 	}
 
 	public static OptByte valueOf(byte value) {

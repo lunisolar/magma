@@ -69,6 +69,8 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 public final class OptBool extends OptBoolBase<OptBool> {
 
 	private static final OptBool EMPTY = new OptBool();
+	private static final OptBool TRUE = new OptBool(true);
+	private static final OptBool FALSE = new OptBool(false);
 
 	// <editor-fold desc="factories">
 
@@ -98,11 +100,11 @@ public final class OptBool extends OptBoolBase<OptBool> {
 	}
 
 	public static OptBool from(Boolean value) {
-		return value == null ? empty() : valueOf(value);
+		return value == null ? empty() : value ? TRUE : FALSE;
 	}
 
 	public static OptBool of(boolean value) {
-		return new OptBool(value);
+		return value ? TRUE : FALSE;
 	}
 
 	public static OptBool valueOf(boolean value) {
