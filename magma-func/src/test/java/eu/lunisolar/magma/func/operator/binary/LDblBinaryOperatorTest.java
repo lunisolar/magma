@@ -438,35 +438,4 @@ public class LDblBinaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblBinaryOperator r1 = LDblBinaryOperator.safe(sut); //NOSONAR
-        DoubleBinaryOperator r3 = LDblBinaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblBinaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblBinaryOperator.safe(null);
-        assertThat(result).isSameAs(LDblBinaryOperator.dblBinaryOp(LDblBinaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblBinaryOperator> supplier = ()->sut;
-        Object result = LDblBinaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblBinaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LDblBinaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblBinaryOperator> r1 = LDblBinaryOperator.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LDblBinaryOperator> r2 = LDblBinaryOperator.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

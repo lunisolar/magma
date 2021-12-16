@@ -346,33 +346,4 @@ public class LTieByteConsumerTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieByteConsumer r1 = LTieByteConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieByteConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieByteConsumer.safe(null);
-        assertThat(result).isSameAs(LTieByteConsumer.tieByteCons(LTieByteConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieByteConsumer<Integer>> supplier = ()->sut;
-        Object result = LTieByteConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieByteConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTieByteConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieByteConsumer<Integer>> r1 = LTieByteConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

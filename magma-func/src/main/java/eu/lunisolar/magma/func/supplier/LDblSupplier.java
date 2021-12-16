@@ -451,42 +451,6 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 	}
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static LDblSupplier safe() {
-		return LDblSupplier::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LDblSupplier> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LDblSupplier safe(final @Nullable LDblSupplier other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LDblSupplier> safeSupplier(final @Nullable LSupplier<LDblSupplier> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="then (functional)">
 
 	/** Combines two functions together in a order. */

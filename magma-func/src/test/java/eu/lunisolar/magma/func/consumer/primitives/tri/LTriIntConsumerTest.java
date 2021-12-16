@@ -287,33 +287,4 @@ public class LTriIntConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriIntConsumer r1 = LTriIntConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriIntConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriIntConsumer.safe(null);
-        assertThat(result).isSameAs(LTriIntConsumer.triIntCons(LTriIntConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriIntConsumer> supplier = ()->sut;
-        Object result = LTriIntConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriIntConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTriIntConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriIntConsumer> r1 = LTriIntConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -452,42 +452,6 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static LDblToByteFunction safe() {
-		return LDblToByteFunction::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LDblToByteFunction> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LDblToByteFunction safe(final @Nullable LDblToByteFunction other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LDblToByteFunction> safeSupplier(final @Nullable LSupplier<LDblToByteFunction> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

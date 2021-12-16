@@ -627,35 +627,4 @@ public class LDblPredicateTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblPredicate r1 = LDblPredicate.safe(sut); //NOSONAR
-        DoublePredicate r3 = LDblPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblPredicate.safe(null);
-        assertThat(result).isSameAs(LDblPredicate.dblPred(LDblPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblPredicate> supplier = ()->sut;
-        Object result = LDblPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LDblPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblPredicate> r1 = LDblPredicate.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LDblPredicate> r2 = LDblPredicate.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

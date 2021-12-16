@@ -346,33 +346,4 @@ public class LTieBoolConsumerTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieBoolConsumer r1 = LTieBoolConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieBoolConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieBoolConsumer.safe(null);
-        assertThat(result).isSameAs(LTieBoolConsumer.tieBoolCons(LTieBoolConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieBoolConsumer<Integer>> supplier = ()->sut;
-        Object result = LTieBoolConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieBoolConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTieBoolConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieBoolConsumer<Integer>> r1 = LTieBoolConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

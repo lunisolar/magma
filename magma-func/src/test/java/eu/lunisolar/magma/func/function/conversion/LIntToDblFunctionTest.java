@@ -567,35 +567,4 @@ public class LIntToDblFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LIntToDblFunction r1 = LIntToDblFunction.safe(sut); //NOSONAR
-        IntToDoubleFunction r3 = LIntToDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LIntToDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LIntToDblFunction.safe(null);
-        assertThat(result).isSameAs(LIntToDblFunction.intToDblFunc(LIntToDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LIntToDblFunction> supplier = ()->sut;
-        Object result = LIntToDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LIntToDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LIntToDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LIntToDblFunction> r1 = LIntToDblFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LIntToDblFunction> r2 = LIntToDblFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

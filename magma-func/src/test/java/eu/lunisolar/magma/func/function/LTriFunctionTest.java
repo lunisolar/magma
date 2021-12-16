@@ -452,33 +452,4 @@ public class LTriFunctionTest<T1,T2,T3,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTriFunction r1 = LTriFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriFunction.safe(null);
-        assertThat(result).isSameAs(LTriFunction.triFunc(LTriFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriFunction<Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LTriFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTriFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriFunction<Integer,Integer,Integer,Integer>> r1 = LTriFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

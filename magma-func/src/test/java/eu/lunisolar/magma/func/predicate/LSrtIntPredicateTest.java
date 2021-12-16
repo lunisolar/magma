@@ -376,33 +376,4 @@ public class LSrtIntPredicateTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LSrtIntPredicate r1 = LSrtIntPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtIntPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtIntPredicate.safe(null);
-        assertThat(result).isSameAs(LSrtIntPredicate.srtIntPred(LSrtIntPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtIntPredicate> supplier = ()->sut;
-        Object result = LSrtIntPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtIntPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtIntPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtIntPredicate> r1 = LSrtIntPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

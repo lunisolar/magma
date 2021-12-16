@@ -489,42 +489,6 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static <T> LToSrtFunction<T> safe() {
-		return LToSrtFunction::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LToSrtFunction<T>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T> LToSrtFunction<T> safe(final @Nullable LToSrtFunction<T> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LToSrtFunction<T>> safeSupplier(final @Nullable LSupplier<LToSrtFunction<T>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

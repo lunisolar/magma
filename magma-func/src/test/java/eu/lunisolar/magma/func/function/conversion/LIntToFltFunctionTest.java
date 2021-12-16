@@ -559,33 +559,4 @@ public class LIntToFltFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LIntToFltFunction r1 = LIntToFltFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LIntToFltFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LIntToFltFunction.safe(null);
-        assertThat(result).isSameAs(LIntToFltFunction.intToFltFunc(LIntToFltFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LIntToFltFunction> supplier = ()->sut;
-        Object result = LIntToFltFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LIntToFltFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LIntToFltFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LIntToFltFunction> r1 = LIntToFltFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

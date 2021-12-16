@@ -537,35 +537,4 @@ public class LSupplierTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSupplier r1 = LSupplier.safe(sut); //NOSONAR
-        Supplier r3 = LSupplier.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSupplier.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSupplier.safe(null);
-        assertThat(result).isSameAs(LSupplier.sup(LSupplier.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSupplier<Integer>> supplier = ()->sut;
-        Object result = LSupplier.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSupplier.safeSupplier(null);
-        assertThat(result).isSameAs(LSupplier.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSupplier<Integer>> r1 = LSupplier.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LSupplier<Integer>> r2 = LSupplier.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

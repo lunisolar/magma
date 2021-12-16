@@ -288,33 +288,4 @@ public class LFltIntConsumerTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LFltIntConsumer r1 = LFltIntConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltIntConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltIntConsumer.safe(null);
-        assertThat(result).isSameAs(LFltIntConsumer.fltIntCons(LFltIntConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltIntConsumer> supplier = ()->sut;
-        Object result = LFltIntConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltIntConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LFltIntConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltIntConsumer> r1 = LFltIntConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

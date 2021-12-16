@@ -446,33 +446,4 @@ public class LBiSrtPredicateTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiSrtPredicate r1 = LBiSrtPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiSrtPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiSrtPredicate.safe(null);
-        assertThat(result).isSameAs(LBiSrtPredicate.biSrtPred(LBiSrtPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiSrtPredicate> supplier = ()->sut;
-        Object result = LBiSrtPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiSrtPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LBiSrtPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiSrtPredicate> r1 = LBiSrtPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

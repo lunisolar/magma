@@ -516,42 +516,6 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static LSrtTernaryOperator safe() {
-		return LSrtTernaryOperator::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LSrtTernaryOperator> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LSrtTernaryOperator safe(final @Nullable LSrtTernaryOperator other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LSrtTernaryOperator> safeSupplier(final @Nullable LSupplier<LSrtTernaryOperator> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

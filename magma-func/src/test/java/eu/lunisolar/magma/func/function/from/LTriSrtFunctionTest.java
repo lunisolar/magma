@@ -429,33 +429,4 @@ public class LTriSrtFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriSrtFunction r1 = LTriSrtFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriSrtFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriSrtFunction.safe(null);
-        assertThat(result).isSameAs(LTriSrtFunction.triSrtFunc(LTriSrtFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriSrtFunction<Integer>> supplier = ()->sut;
-        Object result = LTriSrtFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriSrtFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTriSrtFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriSrtFunction<Integer>> r1 = LTriSrtFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

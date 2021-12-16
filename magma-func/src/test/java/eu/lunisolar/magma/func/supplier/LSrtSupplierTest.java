@@ -488,33 +488,4 @@ public class LSrtSupplierTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtSupplier r1 = LSrtSupplier.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtSupplier.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtSupplier.safe(null);
-        assertThat(result).isSameAs(LSrtSupplier.srtSup(LSrtSupplier.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtSupplier> supplier = ()->sut;
-        Object result = LSrtSupplier.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtSupplier.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtSupplier.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtSupplier> r1 = LSrtSupplier.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

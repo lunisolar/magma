@@ -559,33 +559,4 @@ public class LByteToDblFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LByteToDblFunction r1 = LByteToDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LByteToDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LByteToDblFunction.safe(null);
-        assertThat(result).isSameAs(LByteToDblFunction.byteToDblFunc(LByteToDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LByteToDblFunction> supplier = ()->sut;
-        Object result = LByteToDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LByteToDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LByteToDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LByteToDblFunction> r1 = LByteToDblFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

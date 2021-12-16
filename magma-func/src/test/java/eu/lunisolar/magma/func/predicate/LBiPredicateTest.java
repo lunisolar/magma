@@ -629,35 +629,4 @@ public class LBiPredicateTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiPredicate r1 = LBiPredicate.safe(sut); //NOSONAR
-        BiPredicate r3 = LBiPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiPredicate.safe(null);
-        assertThat(result).isSameAs(LBiPredicate.biPred(LBiPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiPredicate<Integer,Integer>> supplier = ()->sut;
-        Object result = LBiPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LBiPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiPredicate<Integer,Integer>> r1 = LBiPredicate.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LBiPredicate<Integer,Integer>> r2 = LBiPredicate.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

@@ -567,35 +567,4 @@ public class LLongToIntFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LLongToIntFunction r1 = LLongToIntFunction.safe(sut); //NOSONAR
-        LongToIntFunction r3 = LLongToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLongToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLongToIntFunction.safe(null);
-        assertThat(result).isSameAs(LLongToIntFunction.longToIntFunc(LLongToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLongToIntFunction> supplier = ()->sut;
-        Object result = LLongToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLongToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LLongToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLongToIntFunction> r1 = LLongToIntFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LLongToIntFunction> r2 = LLongToIntFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

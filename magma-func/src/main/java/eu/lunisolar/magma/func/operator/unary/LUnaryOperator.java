@@ -477,42 +477,6 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	}
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static <T> LUnaryOperator<T> safe() {
-		return LUnaryOperator::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LUnaryOperator<T>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T> LUnaryOperator<T> safe(final @Nullable LUnaryOperator<T> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LUnaryOperator<T>> safeSupplier(final @Nullable LSupplier<LUnaryOperator<T>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="then (functional)">
 
 	/** Combines two functions together in a order. */

@@ -561,33 +561,4 @@ public class LToByteBiFunctionTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LToByteBiFunction r1 = LToByteBiFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToByteBiFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToByteBiFunction.safe(null);
-        assertThat(result).isSameAs(LToByteBiFunction.toByteBiFunc(LToByteBiFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToByteBiFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LToByteBiFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToByteBiFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToByteBiFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToByteBiFunction<Integer,Integer>> r1 = LToByteBiFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

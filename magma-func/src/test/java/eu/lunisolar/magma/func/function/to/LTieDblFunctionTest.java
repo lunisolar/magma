@@ -449,33 +449,4 @@ public class LTieDblFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieDblFunction r1 = LTieDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieDblFunction.safe(null);
-        assertThat(result).isSameAs(LTieDblFunction.tieDblFunc(LTieDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieDblFunction<Integer>> supplier = ()->sut;
-        Object result = LTieDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTieDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieDblFunction<Integer>> r1 = LTieDblFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -488,33 +488,4 @@ public class LByteSupplierTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LByteSupplier r1 = LByteSupplier.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LByteSupplier.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LByteSupplier.safe(null);
-        assertThat(result).isSameAs(LByteSupplier.byteSup(LByteSupplier.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LByteSupplier> supplier = ()->sut;
-        Object result = LByteSupplier.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LByteSupplier.safeSupplier(null);
-        assertThat(result).isSameAs(LByteSupplier.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LByteSupplier> r1 = LByteSupplier.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

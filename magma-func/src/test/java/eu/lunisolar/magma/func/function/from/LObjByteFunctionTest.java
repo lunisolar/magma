@@ -394,33 +394,4 @@ public class LObjByteFunctionTest<T,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjByteFunction r1 = LObjByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjByteFunction.safe(null);
-        assertThat(result).isSameAs(LObjByteFunction.objByteFunc(LObjByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjByteFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LObjByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LObjByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjByteFunction<Integer,Integer>> r1 = LObjByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

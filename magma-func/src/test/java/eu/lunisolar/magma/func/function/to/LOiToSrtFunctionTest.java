@@ -596,33 +596,4 @@ public class LOiToSrtFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LOiToSrtFunction r1 = LOiToSrtFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LOiToSrtFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LOiToSrtFunction.safe(null);
-        assertThat(result).isSameAs(LOiToSrtFunction.oiToSrtFunc(LOiToSrtFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LOiToSrtFunction<Integer>> supplier = ()->sut;
-        Object result = LOiToSrtFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LOiToSrtFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LOiToSrtFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LOiToSrtFunction<Integer>> r1 = LOiToSrtFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

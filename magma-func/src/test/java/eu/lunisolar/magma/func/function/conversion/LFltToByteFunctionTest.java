@@ -559,33 +559,4 @@ public class LFltToByteFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltToByteFunction r1 = LFltToByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltToByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltToByteFunction.safe(null);
-        assertThat(result).isSameAs(LFltToByteFunction.fltToByteFunc(LFltToByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltToByteFunction> supplier = ()->sut;
-        Object result = LFltToByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltToByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LFltToByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltToByteFunction> r1 = LFltToByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

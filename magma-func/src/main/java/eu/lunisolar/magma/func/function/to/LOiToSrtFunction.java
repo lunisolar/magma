@@ -558,42 +558,6 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static <T> LOiToSrtFunction<T> safe() {
-		return LOiToSrtFunction::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LOiToSrtFunction<T>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T> LOiToSrtFunction<T> safe(final @Nullable LOiToSrtFunction<T> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LOiToSrtFunction<T>> safeSupplier(final @Nullable LSupplier<LOiToSrtFunction<T>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

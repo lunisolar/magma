@@ -376,33 +376,4 @@ public class LBoolIntPredicateTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBoolIntPredicate r1 = LBoolIntPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBoolIntPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBoolIntPredicate.safe(null);
-        assertThat(result).isSameAs(LBoolIntPredicate.boolIntPred(LBoolIntPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBoolIntPredicate> supplier = ()->sut;
-        Object result = LBoolIntPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBoolIntPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LBoolIntPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolIntPredicate> r1 = LBoolIntPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

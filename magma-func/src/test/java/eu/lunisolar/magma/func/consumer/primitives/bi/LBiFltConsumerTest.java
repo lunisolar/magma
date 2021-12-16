@@ -288,33 +288,4 @@ public class LBiFltConsumerTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiFltConsumer r1 = LBiFltConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiFltConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiFltConsumer.safe(null);
-        assertThat(result).isSameAs(LBiFltConsumer.biFltCons(LBiFltConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiFltConsumer> supplier = ()->sut;
-        Object result = LBiFltConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiFltConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LBiFltConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiFltConsumer> r1 = LBiFltConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

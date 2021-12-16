@@ -310,33 +310,4 @@ public class LTernaryOperatorTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTernaryOperator r1 = LTernaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTernaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LTernaryOperator.ternaryOp(LTernaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTernaryOperator<Integer>> supplier = ()->sut;
-        Object result = LTernaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTernaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LTernaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTernaryOperator<Integer>> r1 = LTernaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -559,33 +559,4 @@ public class LFltToLongFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltToLongFunction r1 = LFltToLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltToLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltToLongFunction.safe(null);
-        assertThat(result).isSameAs(LFltToLongFunction.fltToLongFunc(LFltToLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltToLongFunction> supplier = ()->sut;
-        Object result = LFltToLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltToLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LFltToLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltToLongFunction> r1 = LFltToLongFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

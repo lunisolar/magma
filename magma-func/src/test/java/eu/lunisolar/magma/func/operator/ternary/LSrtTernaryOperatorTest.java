@@ -344,33 +344,4 @@ public class LSrtTernaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtTernaryOperator r1 = LSrtTernaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtTernaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LSrtTernaryOperator.srtTernaryOp(LSrtTernaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtTernaryOperator> supplier = ()->sut;
-        Object result = LSrtTernaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtTernaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtTernaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtTernaryOperator> r1 = LSrtTernaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

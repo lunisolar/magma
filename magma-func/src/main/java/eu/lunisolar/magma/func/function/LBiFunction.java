@@ -560,42 +560,6 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static <T1, T2, R> LBiFunction<T1, T2, R> safe() {
-		return LBiFunction::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2, R> LSupplier<LBiFunction<T1, T2, R>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T1, T2, R> LBiFunction<T1, T2, R> safe(final @Nullable LBiFunction<T1, T2, R> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2, R> LSupplier<LBiFunction<T1, T2, R>> safeSupplier(final @Nullable LSupplier<LBiFunction<T1, T2, R>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

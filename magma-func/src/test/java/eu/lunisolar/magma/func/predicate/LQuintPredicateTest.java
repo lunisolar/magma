@@ -346,33 +346,4 @@ public class LQuintPredicateTest<T1,T2,T3,T4,T5> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LQuintPredicate r1 = LQuintPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LQuintPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LQuintPredicate.safe(null);
-        assertThat(result).isSameAs(LQuintPredicate.quintPred(LQuintPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LQuintPredicate<Integer,Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LQuintPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LQuintPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LQuintPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LQuintPredicate<Integer,Integer,Integer,Integer,Integer>> r1 = LQuintPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

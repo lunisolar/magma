@@ -385,33 +385,4 @@ public class LIntTernaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LIntTernaryOperator r1 = LIntTernaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LIntTernaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LIntTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LIntTernaryOperator.intTernaryOp(LIntTernaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LIntTernaryOperator> supplier = ()->sut;
-        Object result = LIntTernaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LIntTernaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LIntTernaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LIntTernaryOperator> r1 = LIntTernaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

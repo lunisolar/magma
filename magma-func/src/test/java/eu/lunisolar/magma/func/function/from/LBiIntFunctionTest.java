@@ -429,33 +429,4 @@ public class LBiIntFunctionTest<R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiIntFunction r1 = LBiIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiIntFunction.safe(null);
-        assertThat(result).isSameAs(LBiIntFunction.biIntFunc(LBiIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiIntFunction<Integer>> supplier = ()->sut;
-        Object result = LBiIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBiIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiIntFunction<Integer>> r1 = LBiIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -530,33 +530,4 @@ public class LToCharFunctionTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LToCharFunction r1 = LToCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToCharFunction.safe(null);
-        assertThat(result).isSameAs(LToCharFunction.toCharFunc(LToCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToCharFunction<Integer>> supplier = ()->sut;
-        Object result = LToCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToCharFunction<Integer>> r1 = LToCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

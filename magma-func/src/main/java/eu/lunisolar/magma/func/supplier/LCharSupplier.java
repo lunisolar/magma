@@ -436,42 +436,6 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static LCharSupplier safe() {
-		return LCharSupplier::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LCharSupplier> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LCharSupplier safe(final @Nullable LCharSupplier other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LCharSupplier> safeSupplier(final @Nullable LSupplier<LCharSupplier> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="then (functional)">
 
 	/** Combines two functions together in a order. */

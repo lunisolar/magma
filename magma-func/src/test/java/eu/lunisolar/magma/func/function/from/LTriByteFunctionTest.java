@@ -429,33 +429,4 @@ public class LTriByteFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriByteFunction r1 = LTriByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriByteFunction.safe(null);
-        assertThat(result).isSameAs(LTriByteFunction.triByteFunc(LTriByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriByteFunction<Integer>> supplier = ()->sut;
-        Object result = LTriByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTriByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriByteFunction<Integer>> r1 = LTriByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

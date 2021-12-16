@@ -430,33 +430,4 @@ public class LFltBinaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltBinaryOperator r1 = LFltBinaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltBinaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltBinaryOperator.safe(null);
-        assertThat(result).isSameAs(LFltBinaryOperator.fltBinaryOp(LFltBinaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltBinaryOperator> supplier = ()->sut;
-        Object result = LFltBinaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltBinaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LFltBinaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltBinaryOperator> r1 = LFltBinaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

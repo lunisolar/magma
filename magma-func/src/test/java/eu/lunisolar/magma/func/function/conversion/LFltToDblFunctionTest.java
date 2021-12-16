@@ -559,33 +559,4 @@ public class LFltToDblFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltToDblFunction r1 = LFltToDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltToDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltToDblFunction.safe(null);
-        assertThat(result).isSameAs(LFltToDblFunction.fltToDblFunc(LFltToDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltToDblFunction> supplier = ()->sut;
-        Object result = LFltToDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltToDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LFltToDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltToDblFunction> r1 = LFltToDblFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -542,42 +542,6 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static <R> LBiBoolFunction<R> safe() {
-		return LBiBoolFunction::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <R> LSupplier<LBiBoolFunction<R>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <R> LBiBoolFunction<R> safe(final @Nullable LBiBoolFunction<R> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <R> LSupplier<LBiBoolFunction<R>> safeSupplier(final @Nullable LSupplier<LBiBoolFunction<R>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

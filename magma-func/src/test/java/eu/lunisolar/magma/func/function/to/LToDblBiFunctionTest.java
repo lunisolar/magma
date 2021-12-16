@@ -569,35 +569,4 @@ public class LToDblBiFunctionTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LToDblBiFunction r1 = LToDblBiFunction.safe(sut); //NOSONAR
-        ToDoubleBiFunction r3 = LToDblBiFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToDblBiFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToDblBiFunction.safe(null);
-        assertThat(result).isSameAs(LToDblBiFunction.toDblBiFunc(LToDblBiFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToDblBiFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LToDblBiFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToDblBiFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToDblBiFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToDblBiFunction<Integer,Integer>> r1 = LToDblBiFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LToDblBiFunction<Integer,Integer>> r2 = LToDblBiFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

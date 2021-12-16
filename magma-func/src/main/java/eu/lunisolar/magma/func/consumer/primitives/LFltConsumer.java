@@ -366,42 +366,6 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. */
-	@Nonnull
-	static LFltConsumer safe() {
-		return LFltConsumer::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LFltConsumer> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LFltConsumer safe(final @Nullable LFltConsumer other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LFltConsumer> safeSupplier(final @Nullable LSupplier<LFltConsumer> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

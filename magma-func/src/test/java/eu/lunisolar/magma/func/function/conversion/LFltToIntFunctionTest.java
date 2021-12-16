@@ -559,33 +559,4 @@ public class LFltToIntFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltToIntFunction r1 = LFltToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltToIntFunction.safe(null);
-        assertThat(result).isSameAs(LFltToIntFunction.fltToIntFunc(LFltToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltToIntFunction> supplier = ()->sut;
-        Object result = LFltToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LFltToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltToIntFunction> r1 = LFltToIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

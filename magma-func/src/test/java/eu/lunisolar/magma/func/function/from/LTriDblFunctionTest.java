@@ -429,33 +429,4 @@ public class LTriDblFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriDblFunction r1 = LTriDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriDblFunction.safe(null);
-        assertThat(result).isSameAs(LTriDblFunction.triDblFunc(LTriDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriDblFunction<Integer>> supplier = ()->sut;
-        Object result = LTriDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTriDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriDblFunction<Integer>> r1 = LTriDblFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -332,33 +332,4 @@ public class LQuintFunctionTest<T1,T2,T3,T4,T5,R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LQuintFunction r1 = LQuintFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LQuintFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LQuintFunction.safe(null);
-        assertThat(result).isSameAs(LQuintFunction.quintFunc(LQuintFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LQuintFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LQuintFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LQuintFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LQuintFunction<Integer,Integer,Integer,Integer,Integer,Integer>> r1 = LQuintFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

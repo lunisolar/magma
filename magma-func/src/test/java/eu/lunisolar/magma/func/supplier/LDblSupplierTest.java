@@ -496,35 +496,4 @@ public class LDblSupplierTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblSupplier r1 = LDblSupplier.safe(sut); //NOSONAR
-        DoubleSupplier r3 = LDblSupplier.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblSupplier.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblSupplier.safe(null);
-        assertThat(result).isSameAs(LDblSupplier.dblSup(LDblSupplier.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblSupplier> supplier = ()->sut;
-        Object result = LDblSupplier.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblSupplier.safeSupplier(null);
-        assertThat(result).isSameAs(LDblSupplier.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblSupplier> r1 = LDblSupplier.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LDblSupplier> r2 = LDblSupplier.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

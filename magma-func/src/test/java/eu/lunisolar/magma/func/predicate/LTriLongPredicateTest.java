@@ -445,33 +445,4 @@ public class LTriLongPredicateTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriLongPredicate r1 = LTriLongPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriLongPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriLongPredicate.safe(null);
-        assertThat(result).isSameAs(LTriLongPredicate.triLongPred(LTriLongPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriLongPredicate> supplier = ()->sut;
-        Object result = LTriLongPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriLongPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LTriLongPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriLongPredicate> r1 = LTriLongPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

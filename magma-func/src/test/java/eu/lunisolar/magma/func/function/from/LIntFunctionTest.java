@@ -609,35 +609,4 @@ public class LIntFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LIntFunction r1 = LIntFunction.safe(sut); //NOSONAR
-        IntFunction r3 = LIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LIntFunction.safe(null);
-        assertThat(result).isSameAs(LIntFunction.intFunc(LIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LIntFunction<Integer>> supplier = ()->sut;
-        Object result = LIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LIntFunction<Integer>> r1 = LIntFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LIntFunction<Integer>> r2 = LIntFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

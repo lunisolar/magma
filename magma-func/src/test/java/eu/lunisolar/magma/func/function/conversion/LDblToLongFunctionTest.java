@@ -567,35 +567,4 @@ public class LDblToLongFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblToLongFunction r1 = LDblToLongFunction.safe(sut); //NOSONAR
-        DoubleToLongFunction r3 = LDblToLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblToLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblToLongFunction.safe(null);
-        assertThat(result).isSameAs(LDblToLongFunction.dblToLongFunc(LDblToLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblToLongFunction> supplier = ()->sut;
-        Object result = LDblToLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblToLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LDblToLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblToLongFunction> r1 = LDblToLongFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LDblToLongFunction> r2 = LDblToLongFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

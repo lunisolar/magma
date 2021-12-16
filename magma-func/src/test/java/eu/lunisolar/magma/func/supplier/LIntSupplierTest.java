@@ -496,35 +496,4 @@ public class LIntSupplierTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LIntSupplier r1 = LIntSupplier.safe(sut); //NOSONAR
-        IntSupplier r3 = LIntSupplier.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LIntSupplier.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LIntSupplier.safe(null);
-        assertThat(result).isSameAs(LIntSupplier.intSup(LIntSupplier.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LIntSupplier> supplier = ()->sut;
-        Object result = LIntSupplier.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LIntSupplier.safeSupplier(null);
-        assertThat(result).isSameAs(LIntSupplier.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LIntSupplier> r1 = LIntSupplier.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LIntSupplier> r2 = LIntSupplier.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

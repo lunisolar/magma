@@ -376,33 +376,4 @@ public class LFltIntPredicateTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LFltIntPredicate r1 = LFltIntPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltIntPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltIntPredicate.safe(null);
-        assertThat(result).isSameAs(LFltIntPredicate.fltIntPred(LFltIntPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltIntPredicate> supplier = ()->sut;
-        Object result = LFltIntPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltIntPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LFltIntPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltIntPredicate> r1 = LFltIntPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

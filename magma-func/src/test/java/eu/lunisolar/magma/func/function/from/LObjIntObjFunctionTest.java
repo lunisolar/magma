@@ -469,33 +469,4 @@ public class LObjIntObjFunctionTest<T1,T2,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjIntObjFunction r1 = LObjIntObjFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjIntObjFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjIntObjFunction.safe(null);
-        assertThat(result).isSameAs(LObjIntObjFunction.objIntObjFunc(LObjIntObjFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjIntObjFunction<Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LObjIntObjFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjIntObjFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LObjIntObjFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjIntObjFunction<Integer,Integer,Integer>> r1 = LObjIntObjFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

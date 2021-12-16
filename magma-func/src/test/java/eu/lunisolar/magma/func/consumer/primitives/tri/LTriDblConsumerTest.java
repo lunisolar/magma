@@ -287,33 +287,4 @@ public class LTriDblConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriDblConsumer r1 = LTriDblConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriDblConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriDblConsumer.safe(null);
-        assertThat(result).isSameAs(LTriDblConsumer.triDblCons(LTriDblConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriDblConsumer> supplier = ()->sut;
-        Object result = LTriDblConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriDblConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTriDblConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriDblConsumer> r1 = LTriDblConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

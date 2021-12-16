@@ -509,33 +509,4 @@ public class LObjIntLongPredicateTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjIntLongPredicate r1 = LObjIntLongPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjIntLongPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjIntLongPredicate.safe(null);
-        assertThat(result).isSameAs(LObjIntLongPredicate.objIntLongPred(LObjIntLongPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjIntLongPredicate<Integer>> supplier = ()->sut;
-        Object result = LObjIntLongPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjIntLongPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LObjIntLongPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjIntLongPredicate<Integer>> r1 = LObjIntLongPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

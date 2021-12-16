@@ -438,35 +438,4 @@ public class LLongBinaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LLongBinaryOperator r1 = LLongBinaryOperator.safe(sut); //NOSONAR
-        LongBinaryOperator r3 = LLongBinaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLongBinaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLongBinaryOperator.safe(null);
-        assertThat(result).isSameAs(LLongBinaryOperator.longBinaryOp(LLongBinaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLongBinaryOperator> supplier = ()->sut;
-        Object result = LLongBinaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLongBinaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LLongBinaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLongBinaryOperator> r1 = LLongBinaryOperator.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LLongBinaryOperator> r2 = LLongBinaryOperator.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

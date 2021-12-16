@@ -344,33 +344,4 @@ public class LLongTernaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LLongTernaryOperator r1 = LLongTernaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLongTernaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLongTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LLongTernaryOperator.longTernaryOp(LLongTernaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLongTernaryOperator> supplier = ()->sut;
-        Object result = LLongTernaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLongTernaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LLongTernaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLongTernaryOperator> r1 = LLongTernaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

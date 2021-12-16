@@ -601,33 +601,4 @@ public class LFltFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltFunction r1 = LFltFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltFunction.safe(null);
-        assertThat(result).isSameAs(LFltFunction.fltFunc(LFltFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltFunction<Integer>> supplier = ()->sut;
-        Object result = LFltFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LFltFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltFunction<Integer>> r1 = LFltFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

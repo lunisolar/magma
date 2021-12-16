@@ -534,42 +534,6 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static <T> LTernaryOperator<T> safe() {
-		return LTernaryOperator::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LTernaryOperator<T>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T> LTernaryOperator<T> safe(final @Nullable LTernaryOperator<T> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LTernaryOperator<T>> safeSupplier(final @Nullable LSupplier<LTernaryOperator<T>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="then (functional)">
 
 	/** Combines two functions together in a order. */

@@ -449,33 +449,4 @@ public class LTieCharFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieCharFunction r1 = LTieCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieCharFunction.safe(null);
-        assertThat(result).isSameAs(LTieCharFunction.tieCharFunc(LTieCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieCharFunction<Integer>> supplier = ()->sut;
-        Object result = LTieCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTieCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieCharFunction<Integer>> r1 = LTieCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

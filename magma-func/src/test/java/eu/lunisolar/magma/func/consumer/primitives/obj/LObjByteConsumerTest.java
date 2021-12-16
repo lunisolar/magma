@@ -288,33 +288,4 @@ public class LObjByteConsumerTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjByteConsumer r1 = LObjByteConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjByteConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjByteConsumer.safe(null);
-        assertThat(result).isSameAs(LObjByteConsumer.objByteCons(LObjByteConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjByteConsumer<Integer>> supplier = ()->sut;
-        Object result = LObjByteConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjByteConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LObjByteConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjByteConsumer<Integer>> r1 = LObjByteConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

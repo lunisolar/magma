@@ -394,33 +394,4 @@ public class LObjDblFunctionTest<T,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjDblFunction r1 = LObjDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjDblFunction.safe(null);
-        assertThat(result).isSameAs(LObjDblFunction.objDblFunc(LObjDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjDblFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LObjDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LObjDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjDblFunction<Integer,Integer>> r1 = LObjDblFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

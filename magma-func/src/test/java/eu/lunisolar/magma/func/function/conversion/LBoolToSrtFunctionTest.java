@@ -559,33 +559,4 @@ public class LBoolToSrtFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LBoolToSrtFunction r1 = LBoolToSrtFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBoolToSrtFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBoolToSrtFunction.safe(null);
-        assertThat(result).isSameAs(LBoolToSrtFunction.boolToSrtFunc(LBoolToSrtFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBoolToSrtFunction> supplier = ()->sut;
-        Object result = LBoolToSrtFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBoolToSrtFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBoolToSrtFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolToSrtFunction> r1 = LBoolToSrtFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

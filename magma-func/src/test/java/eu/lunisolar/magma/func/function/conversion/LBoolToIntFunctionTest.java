@@ -559,33 +559,4 @@ public class LBoolToIntFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LBoolToIntFunction r1 = LBoolToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBoolToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBoolToIntFunction.safe(null);
-        assertThat(result).isSameAs(LBoolToIntFunction.boolToIntFunc(LBoolToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBoolToIntFunction> supplier = ()->sut;
-        Object result = LBoolToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBoolToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBoolToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolToIntFunction> r1 = LBoolToIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -491,42 +491,6 @@ public interface LBiObjBoolConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. */
-	@Nonnull
-	static <T1, T2> LBiObjBoolConsumer<T1, T2> safe() {
-		return LBiObjBoolConsumer::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2> LSupplier<LBiObjBoolConsumer<T1, T2>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T1, T2> LBiObjBoolConsumer<T1, T2> safe(final @Nullable LBiObjBoolConsumer<T1, T2> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2> LSupplier<LBiObjBoolConsumer<T1, T2>> safeSupplier(final @Nullable LSupplier<LBiObjBoolConsumer<T1, T2>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

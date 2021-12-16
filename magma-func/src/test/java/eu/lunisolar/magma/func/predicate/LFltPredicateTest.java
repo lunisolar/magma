@@ -619,33 +619,4 @@ public class LFltPredicateTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltPredicate r1 = LFltPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltPredicate.safe(null);
-        assertThat(result).isSameAs(LFltPredicate.fltPred(LFltPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltPredicate> supplier = ()->sut;
-        Object result = LFltPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LFltPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltPredicate> r1 = LFltPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -429,33 +429,4 @@ public class LTriLongFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriLongFunction r1 = LTriLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriLongFunction.safe(null);
-        assertThat(result).isSameAs(LTriLongFunction.triLongFunc(LTriLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriLongFunction<Integer>> supplier = ()->sut;
-        Object result = LTriLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTriLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriLongFunction<Integer>> r1 = LTriLongFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

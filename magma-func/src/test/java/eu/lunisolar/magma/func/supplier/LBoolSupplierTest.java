@@ -496,35 +496,4 @@ public class LBoolSupplierTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LBoolSupplier r1 = LBoolSupplier.safe(sut); //NOSONAR
-        BooleanSupplier r3 = LBoolSupplier.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBoolSupplier.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBoolSupplier.safe(null);
-        assertThat(result).isSameAs(LBoolSupplier.boolSup(LBoolSupplier.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBoolSupplier> supplier = ()->sut;
-        Object result = LBoolSupplier.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBoolSupplier.safeSupplier(null);
-        assertThat(result).isSameAs(LBoolSupplier.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolSupplier> r1 = LBoolSupplier.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LBoolSupplier> r2 = LBoolSupplier.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

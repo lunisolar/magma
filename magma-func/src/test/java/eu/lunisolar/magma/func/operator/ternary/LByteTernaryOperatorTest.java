@@ -344,33 +344,4 @@ public class LByteTernaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LByteTernaryOperator r1 = LByteTernaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LByteTernaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LByteTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LByteTernaryOperator.byteTernaryOp(LByteTernaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LByteTernaryOperator> supplier = ()->sut;
-        Object result = LByteTernaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LByteTernaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LByteTernaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LByteTernaryOperator> r1 = LByteTernaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

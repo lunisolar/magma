@@ -429,33 +429,4 @@ public class LBiLongFunctionTest<R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiLongFunction r1 = LBiLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiLongFunction.safe(null);
-        assertThat(result).isSameAs(LBiLongFunction.biLongFunc(LBiLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiLongFunction<Integer>> supplier = ()->sut;
-        Object result = LBiLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBiLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiLongFunction<Integer>> r1 = LBiLongFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

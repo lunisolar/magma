@@ -263,33 +263,4 @@ public class LQuintConsumerTest<T1,T2,T3,T4,T5> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LQuintConsumer r1 = LQuintConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LQuintConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LQuintConsumer.safe(null);
-        assertThat(result).isSameAs(LQuintConsumer.quintCons(LQuintConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LQuintConsumer<Integer,Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LQuintConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LQuintConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LQuintConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LQuintConsumer<Integer,Integer,Integer,Integer,Integer>> r1 = LQuintConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

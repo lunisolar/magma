@@ -609,35 +609,4 @@ public class LDblFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblFunction r1 = LDblFunction.safe(sut); //NOSONAR
-        DoubleFunction r3 = LDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblFunction.safe(null);
-        assertThat(result).isSameAs(LDblFunction.dblFunc(LDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblFunction<Integer>> supplier = ()->sut;
-        Object result = LDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblFunction<Integer>> r1 = LDblFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LDblFunction<Integer>> r2 = LDblFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

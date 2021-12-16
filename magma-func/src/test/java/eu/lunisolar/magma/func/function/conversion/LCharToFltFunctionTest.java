@@ -559,33 +559,4 @@ public class LCharToFltFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharToFltFunction r1 = LCharToFltFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharToFltFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharToFltFunction.safe(null);
-        assertThat(result).isSameAs(LCharToFltFunction.charToFltFunc(LCharToFltFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharToFltFunction> supplier = ()->sut;
-        Object result = LCharToFltFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharToFltFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LCharToFltFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharToFltFunction> r1 = LCharToFltFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

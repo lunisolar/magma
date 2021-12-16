@@ -406,33 +406,4 @@ public class LLogicalBinaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LLogicalBinaryOperator r1 = LLogicalBinaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLogicalBinaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLogicalBinaryOperator.safe(null);
-        assertThat(result).isSameAs(LLogicalBinaryOperator.logicalBinaryOp(LLogicalBinaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLogicalBinaryOperator> supplier = ()->sut;
-        Object result = LLogicalBinaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLogicalBinaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LLogicalBinaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLogicalBinaryOperator> r1 = LLogicalBinaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

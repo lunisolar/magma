@@ -449,33 +449,4 @@ public class LTieIntFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieIntFunction r1 = LTieIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieIntFunction.safe(null);
-        assertThat(result).isSameAs(LTieIntFunction.tieIntFunc(LTieIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieIntFunction<Integer>> supplier = ()->sut;
-        Object result = LTieIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTieIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieIntFunction<Integer>> r1 = LTieIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

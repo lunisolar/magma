@@ -525,42 +525,6 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	}
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static LDblBinaryOperator safe() {
-		return LDblBinaryOperator::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LDblBinaryOperator> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LDblBinaryOperator safe(final @Nullable LDblBinaryOperator other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LDblBinaryOperator> safeSupplier(final @Nullable LSupplier<LDblBinaryOperator> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	/**
 	 * Creates function that returns the lesser value according to the comparator.
 	 * @see {@link java.util.function.BinaryOperator#minBy}

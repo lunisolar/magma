@@ -288,33 +288,4 @@ public class LDblIntConsumerTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LDblIntConsumer r1 = LDblIntConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblIntConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblIntConsumer.safe(null);
-        assertThat(result).isSameAs(LDblIntConsumer.dblIntCons(LDblIntConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblIntConsumer> supplier = ()->sut;
-        Object result = LDblIntConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblIntConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LDblIntConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblIntConsumer> r1 = LDblIntConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

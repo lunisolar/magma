@@ -609,35 +609,4 @@ public class LLongFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LLongFunction r1 = LLongFunction.safe(sut); //NOSONAR
-        LongFunction r3 = LLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLongFunction.safe(null);
-        assertThat(result).isSameAs(LLongFunction.longFunc(LLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLongFunction<Integer>> supplier = ()->sut;
-        Object result = LLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLongFunction<Integer>> r1 = LLongFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LLongFunction<Integer>> r2 = LLongFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

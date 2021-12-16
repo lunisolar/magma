@@ -574,35 +574,4 @@ public class LDblUnaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblUnaryOperator r1 = LDblUnaryOperator.safe(sut); //NOSONAR
-        DoubleUnaryOperator r3 = LDblUnaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblUnaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblUnaryOperator.safe(null);
-        assertThat(result).isSameAs(LDblUnaryOperator.dblUnaryOp(LDblUnaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblUnaryOperator> supplier = ()->sut;
-        Object result = LDblUnaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblUnaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LDblUnaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblUnaryOperator> r1 = LDblUnaryOperator.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LDblUnaryOperator> r2 = LDblUnaryOperator.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

@@ -559,33 +559,4 @@ public class LCharToIntFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharToIntFunction r1 = LCharToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharToIntFunction.safe(null);
-        assertThat(result).isSameAs(LCharToIntFunction.charToIntFunc(LCharToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharToIntFunction> supplier = ()->sut;
-        Object result = LCharToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LCharToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharToIntFunction> r1 = LCharToIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

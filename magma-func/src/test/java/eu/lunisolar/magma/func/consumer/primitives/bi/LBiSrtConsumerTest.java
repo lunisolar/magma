@@ -288,33 +288,4 @@ public class LBiSrtConsumerTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiSrtConsumer r1 = LBiSrtConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiSrtConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiSrtConsumer.safe(null);
-        assertThat(result).isSameAs(LBiSrtConsumer.biSrtCons(LBiSrtConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiSrtConsumer> supplier = ()->sut;
-        Object result = LBiSrtConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiSrtConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LBiSrtConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiSrtConsumer> r1 = LBiSrtConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

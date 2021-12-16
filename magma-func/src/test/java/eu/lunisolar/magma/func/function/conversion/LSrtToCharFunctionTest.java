@@ -559,33 +559,4 @@ public class LSrtToCharFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtToCharFunction r1 = LSrtToCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtToCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtToCharFunction.safe(null);
-        assertThat(result).isSameAs(LSrtToCharFunction.srtToCharFunc(LSrtToCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtToCharFunction> supplier = ()->sut;
-        Object result = LSrtToCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtToCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtToCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtToCharFunction> r1 = LSrtToCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

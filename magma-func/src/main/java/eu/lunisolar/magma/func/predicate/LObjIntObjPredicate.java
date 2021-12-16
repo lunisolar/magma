@@ -982,41 +982,6 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as alwaysFalse). */
-	@Nonnull
-	static <T1, T2> LObjIntObjPredicate<T1, T2> safe() {
-		return LObjIntObjPredicate::alwaysFalse;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2> LSupplier<LObjIntObjPredicate<T1, T2>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T1, T2> LObjIntObjPredicate<T1, T2> safe(final @Nullable LObjIntObjPredicate<T1, T2> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2> LSupplier<LObjIntObjPredicate<T1, T2>> safeSupplier(final @Nullable LSupplier<LObjIntObjPredicate<T1, T2>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
 	// <editor-fold desc="predicate">
 
 	/**

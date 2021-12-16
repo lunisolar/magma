@@ -376,33 +376,4 @@ public class LLongIntPredicateTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LLongIntPredicate r1 = LLongIntPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLongIntPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLongIntPredicate.safe(null);
-        assertThat(result).isSameAs(LLongIntPredicate.longIntPred(LLongIntPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLongIntPredicate> supplier = ()->sut;
-        Object result = LLongIntPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLongIntPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LLongIntPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLongIntPredicate> r1 = LLongIntPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

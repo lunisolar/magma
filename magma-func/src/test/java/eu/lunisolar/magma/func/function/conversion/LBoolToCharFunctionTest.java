@@ -559,33 +559,4 @@ public class LBoolToCharFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LBoolToCharFunction r1 = LBoolToCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBoolToCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBoolToCharFunction.safe(null);
-        assertThat(result).isSameAs(LBoolToCharFunction.boolToCharFunc(LBoolToCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBoolToCharFunction> supplier = ()->sut;
-        Object result = LBoolToCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBoolToCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBoolToCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolToCharFunction> r1 = LBoolToCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -509,33 +509,4 @@ public class LObjBiIntPredicateTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjBiIntPredicate r1 = LObjBiIntPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjBiIntPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjBiIntPredicate.safe(null);
-        assertThat(result).isSameAs(LObjBiIntPredicate.objBiIntPred(LObjBiIntPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjBiIntPredicate<Integer>> supplier = ()->sut;
-        Object result = LObjBiIntPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjBiIntPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LObjBiIntPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjBiIntPredicate<Integer>> r1 = LObjBiIntPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

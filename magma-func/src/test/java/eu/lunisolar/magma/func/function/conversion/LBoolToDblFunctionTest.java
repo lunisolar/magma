@@ -559,33 +559,4 @@ public class LBoolToDblFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LBoolToDblFunction r1 = LBoolToDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBoolToDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBoolToDblFunction.safe(null);
-        assertThat(result).isSameAs(LBoolToDblFunction.boolToDblFunc(LBoolToDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBoolToDblFunction> supplier = ()->sut;
-        Object result = LBoolToDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBoolToDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBoolToDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolToDblFunction> r1 = LBoolToDblFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

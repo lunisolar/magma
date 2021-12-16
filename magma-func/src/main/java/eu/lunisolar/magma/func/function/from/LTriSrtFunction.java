@@ -537,42 +537,6 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static <R> LTriSrtFunction<R> safe() {
-		return LTriSrtFunction::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <R> LSupplier<LTriSrtFunction<R>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <R> LTriSrtFunction<R> safe(final @Nullable LTriSrtFunction<R> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <R> LSupplier<LTriSrtFunction<R>> safeSupplier(final @Nullable LSupplier<LTriSrtFunction<R>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

@@ -559,33 +559,4 @@ public class LCharToLongFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharToLongFunction r1 = LCharToLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharToLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharToLongFunction.safe(null);
-        assertThat(result).isSameAs(LCharToLongFunction.charToLongFunc(LCharToLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharToLongFunction> supplier = ()->sut;
-        Object result = LCharToLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharToLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LCharToLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharToLongFunction> r1 = LCharToLongFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -510,42 +510,6 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as doNothing). */
-	@Nonnull
-	static LByteBinaryOperator safe() {
-		return LByteBinaryOperator::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LByteBinaryOperator> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LByteBinaryOperator safe(final @Nullable LByteBinaryOperator other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LByteBinaryOperator> safeSupplier(final @Nullable LSupplier<LByteBinaryOperator> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	/**
 	 * Creates function that returns the lesser value according to the comparator.
 	 * @see {@link java.util.function.BinaryOperator#minBy}

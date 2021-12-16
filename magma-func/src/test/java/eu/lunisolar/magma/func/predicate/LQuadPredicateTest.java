@@ -339,33 +339,4 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LQuadPredicate r1 = LQuadPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LQuadPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LQuadPredicate.safe(null);
-        assertThat(result).isSameAs(LQuadPredicate.quadPred(LQuadPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LQuadPredicate<Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LQuadPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LQuadPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LQuadPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LQuadPredicate<Integer,Integer,Integer,Integer>> r1 = LQuadPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

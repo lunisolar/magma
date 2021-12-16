@@ -394,33 +394,4 @@ public class LObjBoolFunctionTest<T,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjBoolFunction r1 = LObjBoolFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjBoolFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjBoolFunction.safe(null);
-        assertThat(result).isSameAs(LObjBoolFunction.objBoolFunc(LObjBoolFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjBoolFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LObjBoolFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjBoolFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LObjBoolFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjBoolFunction<Integer,Integer>> r1 = LObjBoolFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

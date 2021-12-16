@@ -538,35 +538,4 @@ public class LToIntFunctionTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LToIntFunction r1 = LToIntFunction.safe(sut); //NOSONAR
-        ToIntFunction r3 = LToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToIntFunction.safe(null);
-        assertThat(result).isSameAs(LToIntFunction.toIntFunc(LToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToIntFunction<Integer>> supplier = ()->sut;
-        Object result = LToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToIntFunction<Integer>> r1 = LToIntFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LToIntFunction<Integer>> r2 = LToIntFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

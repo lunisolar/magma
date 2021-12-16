@@ -493,33 +493,4 @@ public class LObjBiIntFunctionTest<T,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjBiIntFunction r1 = LObjBiIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjBiIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjBiIntFunction.safe(null);
-        assertThat(result).isSameAs(LObjBiIntFunction.objBiIntFunc(LObjBiIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjBiIntFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LObjBiIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjBiIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LObjBiIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjBiIntFunction<Integer,Integer>> r1 = LObjBiIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

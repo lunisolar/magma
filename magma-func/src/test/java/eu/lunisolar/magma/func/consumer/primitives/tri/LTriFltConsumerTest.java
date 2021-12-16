@@ -287,33 +287,4 @@ public class LTriFltConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriFltConsumer r1 = LTriFltConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriFltConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriFltConsumer.safe(null);
-        assertThat(result).isSameAs(LTriFltConsumer.triFltCons(LTriFltConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriFltConsumer> supplier = ()->sut;
-        Object result = LTriFltConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriFltConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTriFltConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriFltConsumer> r1 = LTriFltConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

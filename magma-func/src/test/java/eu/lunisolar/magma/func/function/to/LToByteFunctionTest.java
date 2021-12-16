@@ -530,33 +530,4 @@ public class LToByteFunctionTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LToByteFunction r1 = LToByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToByteFunction.safe(null);
-        assertThat(result).isSameAs(LToByteFunction.toByteFunc(LToByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToByteFunction<Integer>> supplier = ()->sut;
-        Object result = LToByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToByteFunction<Integer>> r1 = LToByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

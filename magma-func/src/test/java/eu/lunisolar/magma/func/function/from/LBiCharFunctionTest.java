@@ -429,33 +429,4 @@ public class LBiCharFunctionTest<R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiCharFunction r1 = LBiCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiCharFunction.safe(null);
-        assertThat(result).isSameAs(LBiCharFunction.biCharFunc(LBiCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiCharFunction<Integer>> supplier = ()->sut;
-        Object result = LBiCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBiCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiCharFunction<Integer>> r1 = LBiCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

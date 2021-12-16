@@ -1032,41 +1032,6 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as alwaysFalse). */
-	@Nonnull
-	static <T1, T2, T3> LTriPredicate<T1, T2, T3> safe() {
-		return LTriPredicate::alwaysFalse;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2, T3> LSupplier<LTriPredicate<T1, T2, T3>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T1, T2, T3> LTriPredicate<T1, T2, T3> safe(final @Nullable LTriPredicate<T1, T2, T3> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2, T3> LSupplier<LTriPredicate<T1, T2, T3>> safeSupplier(final @Nullable LSupplier<LTriPredicate<T1, T2, T3>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
 	// <editor-fold desc="predicate">
 
 	/**

@@ -566,33 +566,4 @@ public class LSrtUnaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtUnaryOperator r1 = LSrtUnaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtUnaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtUnaryOperator.safe(null);
-        assertThat(result).isSameAs(LSrtUnaryOperator.srtUnaryOp(LSrtUnaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtUnaryOperator> supplier = ()->sut;
-        Object result = LSrtUnaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtUnaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtUnaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtUnaryOperator> r1 = LSrtUnaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

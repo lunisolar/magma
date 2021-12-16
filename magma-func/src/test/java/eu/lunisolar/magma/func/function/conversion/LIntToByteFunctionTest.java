@@ -559,33 +559,4 @@ public class LIntToByteFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LIntToByteFunction r1 = LIntToByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LIntToByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LIntToByteFunction.safe(null);
-        assertThat(result).isSameAs(LIntToByteFunction.intToByteFunc(LIntToByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LIntToByteFunction> supplier = ()->sut;
-        Object result = LIntToByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LIntToByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LIntToByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LIntToByteFunction> r1 = LIntToByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

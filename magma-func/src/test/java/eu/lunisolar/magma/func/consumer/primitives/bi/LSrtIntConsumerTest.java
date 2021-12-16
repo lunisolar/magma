@@ -288,33 +288,4 @@ public class LSrtIntConsumerTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LSrtIntConsumer r1 = LSrtIntConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtIntConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtIntConsumer.safe(null);
-        assertThat(result).isSameAs(LSrtIntConsumer.srtIntCons(LSrtIntConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtIntConsumer> supplier = ()->sut;
-        Object result = LSrtIntConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtIntConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtIntConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtIntConsumer> r1 = LSrtIntConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

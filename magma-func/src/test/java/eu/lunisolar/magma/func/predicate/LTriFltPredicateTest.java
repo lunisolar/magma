@@ -445,33 +445,4 @@ public class LTriFltPredicateTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriFltPredicate r1 = LTriFltPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriFltPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriFltPredicate.safe(null);
-        assertThat(result).isSameAs(LTriFltPredicate.triFltPred(LTriFltPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriFltPredicate> supplier = ()->sut;
-        Object result = LTriFltPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriFltPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LTriFltPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriFltPredicate> r1 = LTriFltPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

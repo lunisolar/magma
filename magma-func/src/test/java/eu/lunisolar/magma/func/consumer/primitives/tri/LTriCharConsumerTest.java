@@ -287,33 +287,4 @@ public class LTriCharConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriCharConsumer r1 = LTriCharConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriCharConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriCharConsumer.safe(null);
-        assertThat(result).isSameAs(LTriCharConsumer.triCharCons(LTriCharConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriCharConsumer> supplier = ()->sut;
-        Object result = LTriCharConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriCharConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTriCharConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriCharConsumer> r1 = LTriCharConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

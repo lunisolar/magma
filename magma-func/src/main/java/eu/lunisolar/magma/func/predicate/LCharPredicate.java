@@ -707,41 +707,6 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as alwaysFalse). */
-	@Nonnull
-	static LCharPredicate safe() {
-		return LCharPredicate::alwaysFalse;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LCharPredicate> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LCharPredicate safe(final @Nullable LCharPredicate other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LCharPredicate> safeSupplier(final @Nullable LSupplier<LCharPredicate> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
 	// <editor-fold desc="predicate">
 
 	/**

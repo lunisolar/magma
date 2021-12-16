@@ -287,33 +287,4 @@ public class LTriSrtConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriSrtConsumer r1 = LTriSrtConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriSrtConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriSrtConsumer.safe(null);
-        assertThat(result).isSameAs(LTriSrtConsumer.triSrtCons(LTriSrtConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriSrtConsumer> supplier = ()->sut;
-        Object result = LTriSrtConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriSrtConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTriSrtConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriSrtConsumer> r1 = LTriSrtConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

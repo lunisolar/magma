@@ -344,33 +344,4 @@ public class LDblTernaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblTernaryOperator r1 = LDblTernaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblTernaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LDblTernaryOperator.dblTernaryOp(LDblTernaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblTernaryOperator> supplier = ()->sut;
-        Object result = LDblTernaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblTernaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LDblTernaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblTernaryOperator> r1 = LDblTernaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

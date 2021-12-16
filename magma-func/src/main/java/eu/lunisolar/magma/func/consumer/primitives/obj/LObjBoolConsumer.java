@@ -459,42 +459,6 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. */
-	@Nonnull
-	static <T> LObjBoolConsumer<T> safe() {
-		return LObjBoolConsumer::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LObjBoolConsumer<T>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T> LObjBoolConsumer<T> safe(final @Nullable LObjBoolConsumer<T> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LObjBoolConsumer<T>> safeSupplier(final @Nullable LSupplier<LObjBoolConsumer<T>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

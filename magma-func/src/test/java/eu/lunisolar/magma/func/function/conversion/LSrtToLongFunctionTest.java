@@ -559,33 +559,4 @@ public class LSrtToLongFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtToLongFunction r1 = LSrtToLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtToLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtToLongFunction.safe(null);
-        assertThat(result).isSameAs(LSrtToLongFunction.srtToLongFunc(LSrtToLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtToLongFunction> supplier = ()->sut;
-        Object result = LSrtToLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtToLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtToLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtToLongFunction> r1 = LSrtToLongFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

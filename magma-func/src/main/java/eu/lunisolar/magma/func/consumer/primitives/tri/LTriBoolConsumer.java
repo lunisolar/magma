@@ -430,42 +430,6 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. */
-	@Nonnull
-	static LTriBoolConsumer safe() {
-		return LTriBoolConsumer::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LTriBoolConsumer> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static LTriBoolConsumer safe(final @Nullable LTriBoolConsumer other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static LSupplier<LTriBoolConsumer> safeSupplier(final @Nullable LSupplier<LTriBoolConsumer> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

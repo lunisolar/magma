@@ -559,33 +559,4 @@ public class LCharToByteFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharToByteFunction r1 = LCharToByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharToByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharToByteFunction.safe(null);
-        assertThat(result).isSameAs(LCharToByteFunction.charToByteFunc(LCharToByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharToByteFunction> supplier = ()->sut;
-        Object result = LCharToByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharToByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LCharToByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharToByteFunction> r1 = LCharToByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -992,41 +992,6 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. That always returns the same value (as alwaysFalse). */
-	@Nonnull
-	static <T> LObjIntCharPredicate<T> safe() {
-		return LObjIntCharPredicate::alwaysFalse;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LObjIntCharPredicate<T>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T> LObjIntCharPredicate<T> safe(final @Nullable LObjIntCharPredicate<T> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T> LSupplier<LObjIntCharPredicate<T>> safeSupplier(final @Nullable LSupplier<LObjIntCharPredicate<T>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
 	// <editor-fold desc="predicate">
 
 	/**

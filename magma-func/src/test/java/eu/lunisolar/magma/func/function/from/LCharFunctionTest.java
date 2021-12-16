@@ -601,33 +601,4 @@ public class LCharFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharFunction r1 = LCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharFunction.safe(null);
-        assertThat(result).isSameAs(LCharFunction.charFunc(LCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharFunction<Integer>> supplier = ()->sut;
-        Object result = LCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharFunction<Integer>> r1 = LCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

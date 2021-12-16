@@ -429,33 +429,4 @@ public class LBiByteFunctionTest<R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiByteFunction r1 = LBiByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiByteFunction.safe(null);
-        assertThat(result).isSameAs(LBiByteFunction.biByteFunc(LBiByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiByteFunction<Integer>> supplier = ()->sut;
-        Object result = LBiByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBiByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiByteFunction<Integer>> r1 = LBiByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

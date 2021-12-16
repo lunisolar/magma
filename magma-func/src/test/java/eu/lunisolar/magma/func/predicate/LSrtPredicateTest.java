@@ -619,33 +619,4 @@ public class LSrtPredicateTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtPredicate r1 = LSrtPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtPredicate.safe(null);
-        assertThat(result).isSameAs(LSrtPredicate.srtPred(LSrtPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtPredicate> supplier = ()->sut;
-        Object result = LSrtPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtPredicate> r1 = LSrtPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

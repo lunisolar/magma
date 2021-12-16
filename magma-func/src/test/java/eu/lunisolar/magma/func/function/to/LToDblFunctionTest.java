@@ -538,35 +538,4 @@ public class LToDblFunctionTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LToDblFunction r1 = LToDblFunction.safe(sut); //NOSONAR
-        ToDoubleFunction r3 = LToDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToDblFunction.safe(null);
-        assertThat(result).isSameAs(LToDblFunction.toDblFunc(LToDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToDblFunction<Integer>> supplier = ()->sut;
-        Object result = LToDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToDblFunction<Integer>> r1 = LToDblFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LToDblFunction<Integer>> r2 = LToDblFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

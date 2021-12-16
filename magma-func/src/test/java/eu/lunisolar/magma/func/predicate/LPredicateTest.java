@@ -598,35 +598,4 @@ public class LPredicateTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LPredicate r1 = LPredicate.safe(sut); //NOSONAR
-        Predicate r3 = LPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LPredicate.safe(null);
-        assertThat(result).isSameAs(LPredicate.pred(LPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LPredicate<Integer>> supplier = ()->sut;
-        Object result = LPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LPredicate<Integer>> r1 = LPredicate.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LPredicate<Integer>> r2 = LPredicate.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

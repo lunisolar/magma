@@ -465,42 +465,6 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 
 	// </editor-fold>
 
-	// <editor-fold desc="safe">
-
-	/** Safe instance. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> safe() {
-		return LQuintConsumer::doNothing;
-	}
-
-	/** Safe instance supplier. Returns supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LSupplier<LQuintConsumer<T1, T2, T3, T4, T5>> safeSupplier() {
-		return () -> safe();
-	}
-
-	/** Safe wrapping. Either argument function is returned (if it is not null) or safe() instance. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> safe(final @Nullable LQuintConsumer<T1, T2, T3, T4, T5> other) {
-		if (other == null) {
-			return safe();
-		} else {
-			return other;
-		}
-	}
-
-	/** Safe supplier. Either argument supplier is returned (if it is not null) or supplier of safe() instance. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LSupplier<LQuintConsumer<T1, T2, T3, T4, T5>> safeSupplier(final @Nullable LSupplier<LQuintConsumer<T1, T2, T3, T4, T5>> supplier) {
-		if (supplier == null) {
-			return safeSupplier();
-		} else {
-			return supplier;
-		}
-	}
-
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
 	/** Allows to manipulate the domain of the function. */

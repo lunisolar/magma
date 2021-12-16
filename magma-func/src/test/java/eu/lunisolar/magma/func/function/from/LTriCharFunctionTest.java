@@ -429,33 +429,4 @@ public class LTriCharFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriCharFunction r1 = LTriCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriCharFunction.safe(null);
-        assertThat(result).isSameAs(LTriCharFunction.triCharFunc(LTriCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriCharFunction<Integer>> supplier = ()->sut;
-        Object result = LTriCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTriCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriCharFunction<Integer>> r1 = LTriCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -639,33 +639,4 @@ public class LOiFunctionTest<T,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LOiFunction r1 = LOiFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LOiFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LOiFunction.safe(null);
-        assertThat(result).isSameAs(LOiFunction.oiFunc(LOiFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LOiFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LOiFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LOiFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LOiFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LOiFunction<Integer,Integer>> r1 = LOiFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

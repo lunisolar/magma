@@ -468,33 +468,4 @@ public class LTriPredicateTest<T1,T2,T3> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTriPredicate r1 = LTriPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriPredicate.safe(null);
-        assertThat(result).isSameAs(LTriPredicate.triPred(LTriPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriPredicate<Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LTriPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LTriPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriPredicate<Integer,Integer,Integer>> r1 = LTriPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

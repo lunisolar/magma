@@ -430,33 +430,4 @@ public class LSrtBinaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtBinaryOperator r1 = LSrtBinaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtBinaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtBinaryOperator.safe(null);
-        assertThat(result).isSameAs(LSrtBinaryOperator.srtBinaryOp(LSrtBinaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtBinaryOperator> supplier = ()->sut;
-        Object result = LSrtBinaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtBinaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtBinaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtBinaryOperator> r1 = LSrtBinaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

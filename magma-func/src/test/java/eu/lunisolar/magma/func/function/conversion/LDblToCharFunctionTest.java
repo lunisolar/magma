@@ -559,33 +559,4 @@ public class LDblToCharFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblToCharFunction r1 = LDblToCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblToCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblToCharFunction.safe(null);
-        assertThat(result).isSameAs(LDblToCharFunction.dblToCharFunc(LDblToCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblToCharFunction> supplier = ()->sut;
-        Object result = LDblToCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblToCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LDblToCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblToCharFunction> r1 = LDblToCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

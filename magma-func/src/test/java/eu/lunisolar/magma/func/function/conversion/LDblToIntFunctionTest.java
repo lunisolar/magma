@@ -567,35 +567,4 @@ public class LDblToIntFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LDblToIntFunction r1 = LDblToIntFunction.safe(sut); //NOSONAR
-        DoubleToIntFunction r3 = LDblToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LDblToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LDblToIntFunction.safe(null);
-        assertThat(result).isSameAs(LDblToIntFunction.dblToIntFunc(LDblToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LDblToIntFunction> supplier = ()->sut;
-        Object result = LDblToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LDblToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LDblToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LDblToIntFunction> r1 = LDblToIntFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LDblToIntFunction> r2 = LDblToIntFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

@@ -344,33 +344,4 @@ public class LCharTernaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharTernaryOperator r1 = LCharTernaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharTernaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharTernaryOperator.safe(null);
-        assertThat(result).isSameAs(LCharTernaryOperator.charTernaryOp(LCharTernaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharTernaryOperator> supplier = ()->sut;
-        Object result = LCharTernaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharTernaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LCharTernaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharTernaryOperator> r1 = LCharTernaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

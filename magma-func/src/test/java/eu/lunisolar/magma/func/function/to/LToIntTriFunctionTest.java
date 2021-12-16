@@ -408,33 +408,4 @@ public class LToIntTriFunctionTest<T1,T2,T3> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LToIntTriFunction r1 = LToIntTriFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToIntTriFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToIntTriFunction.safe(null);
-        assertThat(result).isSameAs(LToIntTriFunction.toIntTriFunc(LToIntTriFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToIntTriFunction<Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LToIntTriFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToIntTriFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToIntTriFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToIntTriFunction<Integer,Integer,Integer>> r1 = LToIntTriFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

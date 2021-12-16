@@ -596,33 +596,4 @@ public class LOiToLongFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LOiToLongFunction r1 = LOiToLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LOiToLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LOiToLongFunction.safe(null);
-        assertThat(result).isSameAs(LOiToLongFunction.oiToLongFunc(LOiToLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LOiToLongFunction<Integer>> supplier = ()->sut;
-        Object result = LOiToLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LOiToLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LOiToLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LOiToLongFunction<Integer>> r1 = LOiToLongFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

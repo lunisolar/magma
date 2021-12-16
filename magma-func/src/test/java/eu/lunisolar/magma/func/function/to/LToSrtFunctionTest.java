@@ -530,33 +530,4 @@ public class LToSrtFunctionTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LToSrtFunction r1 = LToSrtFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToSrtFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToSrtFunction.safe(null);
-        assertThat(result).isSameAs(LToSrtFunction.toSrtFunc(LToSrtFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToSrtFunction<Integer>> supplier = ()->sut;
-        Object result = LToSrtFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToSrtFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToSrtFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToSrtFunction<Integer>> r1 = LToSrtFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

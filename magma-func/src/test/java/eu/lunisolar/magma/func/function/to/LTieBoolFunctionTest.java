@@ -449,33 +449,4 @@ public class LTieBoolFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieBoolFunction r1 = LTieBoolFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieBoolFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieBoolFunction.safe(null);
-        assertThat(result).isSameAs(LTieBoolFunction.tieBoolFunc(LTieBoolFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieBoolFunction<Integer>> supplier = ()->sut;
-        Object result = LTieBoolFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieBoolFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTieBoolFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieBoolFunction<Integer>> r1 = LTieBoolFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

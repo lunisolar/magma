@@ -324,33 +324,4 @@ public class LTieConsumerTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieConsumer r1 = LTieConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieConsumer.safe(null);
-        assertThat(result).isSameAs(LTieConsumer.tieCons(LTieConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieConsumer<Integer,Integer>> supplier = ()->sut;
-        Object result = LTieConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTieConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieConsumer<Integer,Integer>> r1 = LTieConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

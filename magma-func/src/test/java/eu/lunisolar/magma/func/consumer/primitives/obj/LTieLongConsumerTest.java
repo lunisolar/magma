@@ -346,33 +346,4 @@ public class LTieLongConsumerTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieLongConsumer r1 = LTieLongConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieLongConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieLongConsumer.safe(null);
-        assertThat(result).isSameAs(LTieLongConsumer.tieLongCons(LTieLongConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieLongConsumer<Integer>> supplier = ()->sut;
-        Object result = LTieLongConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieLongConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTieLongConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieLongConsumer<Integer>> r1 = LTieLongConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

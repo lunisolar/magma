@@ -259,33 +259,4 @@ public class LByteConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LByteConsumer r1 = LByteConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LByteConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LByteConsumer.safe(null);
-        assertThat(result).isSameAs(LByteConsumer.byteCons(LByteConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LByteConsumer> supplier = ()->sut;
-        Object result = LByteConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LByteConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LByteConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LByteConsumer> r1 = LByteConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

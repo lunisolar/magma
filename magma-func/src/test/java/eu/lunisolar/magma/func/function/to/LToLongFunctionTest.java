@@ -538,35 +538,4 @@ public class LToLongFunctionTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LToLongFunction r1 = LToLongFunction.safe(sut); //NOSONAR
-        ToLongFunction r3 = LToLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToLongFunction.safe(null);
-        assertThat(result).isSameAs(LToLongFunction.toLongFunc(LToLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToLongFunction<Integer>> supplier = ()->sut;
-        Object result = LToLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToLongFunction<Integer>> r1 = LToLongFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LToLongFunction<Integer>> r2 = LToLongFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

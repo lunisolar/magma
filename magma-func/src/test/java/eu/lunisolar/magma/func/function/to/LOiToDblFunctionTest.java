@@ -596,33 +596,4 @@ public class LOiToDblFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LOiToDblFunction r1 = LOiToDblFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LOiToDblFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LOiToDblFunction.safe(null);
-        assertThat(result).isSameAs(LOiToDblFunction.oiToDblFunc(LOiToDblFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LOiToDblFunction<Integer>> supplier = ()->sut;
-        Object result = LOiToDblFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LOiToDblFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LOiToDblFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LOiToDblFunction<Integer>> r1 = LOiToDblFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

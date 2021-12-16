@@ -569,35 +569,4 @@ public class LToLongBiFunctionTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LToLongBiFunction r1 = LToLongBiFunction.safe(sut); //NOSONAR
-        ToLongBiFunction r3 = LToLongBiFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LToLongBiFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LToLongBiFunction.safe(null);
-        assertThat(result).isSameAs(LToLongBiFunction.toLongBiFunc(LToLongBiFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LToLongBiFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LToLongBiFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LToLongBiFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LToLongBiFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LToLongBiFunction<Integer,Integer>> r1 = LToLongBiFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LToLongBiFunction<Integer,Integer>> r2 = LToLongBiFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

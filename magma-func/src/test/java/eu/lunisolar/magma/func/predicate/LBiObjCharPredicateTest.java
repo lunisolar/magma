@@ -473,33 +473,4 @@ public class LBiObjCharPredicateTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiObjCharPredicate r1 = LBiObjCharPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiObjCharPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiObjCharPredicate.safe(null);
-        assertThat(result).isSameAs(LBiObjCharPredicate.biObjCharPred(LBiObjCharPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiObjCharPredicate<Integer,Integer>> supplier = ()->sut;
-        Object result = LBiObjCharPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiObjCharPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LBiObjCharPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiObjCharPredicate<Integer,Integer>> r1 = LBiObjCharPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

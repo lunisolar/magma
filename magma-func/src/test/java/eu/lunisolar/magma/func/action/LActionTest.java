@@ -205,35 +205,4 @@ public class LActionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LAction r1 = LAction.safe(sut); //NOSONAR
-        Runnable r3 = LAction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LAction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LAction.safe(null);
-        assertThat(result).isSameAs(LAction.act(LAction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LAction> supplier = ()->sut;
-        Object result = LAction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LAction.safeSupplier(null);
-        assertThat(result).isSameAs(LAction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LAction> r1 = LAction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LAction> r2 = LAction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

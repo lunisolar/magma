@@ -288,33 +288,4 @@ public class LObjCharConsumerTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjCharConsumer r1 = LObjCharConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjCharConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjCharConsumer.safe(null);
-        assertThat(result).isSameAs(LObjCharConsumer.objCharCons(LObjCharConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjCharConsumer<Integer>> supplier = ()->sut;
-        Object result = LObjCharConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjCharConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LObjCharConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjCharConsumer<Integer>> r1 = LObjCharConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

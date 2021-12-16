@@ -288,33 +288,4 @@ public class LCharIntConsumerTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LCharIntConsumer r1 = LCharIntConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharIntConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharIntConsumer.safe(null);
-        assertThat(result).isSameAs(LCharIntConsumer.charIntCons(LCharIntConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharIntConsumer> supplier = ()->sut;
-        Object result = LCharIntConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharIntConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LCharIntConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharIntConsumer> r1 = LCharIntConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

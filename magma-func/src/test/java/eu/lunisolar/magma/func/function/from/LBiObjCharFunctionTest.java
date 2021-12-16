@@ -457,33 +457,4 @@ public class LBiObjCharFunctionTest<T1,T2,R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiObjCharFunction r1 = LBiObjCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiObjCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiObjCharFunction.safe(null);
-        assertThat(result).isSameAs(LBiObjCharFunction.biObjCharFunc(LBiObjCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiObjCharFunction<Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LBiObjCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiObjCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBiObjCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiObjCharFunction<Integer,Integer,Integer>> r1 = LBiObjCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -449,33 +449,4 @@ public class LTieByteFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LTieByteFunction r1 = LTieByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTieByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTieByteFunction.safe(null);
-        assertThat(result).isSameAs(LTieByteFunction.tieByteFunc(LTieByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTieByteFunction<Integer>> supplier = ()->sut;
-        Object result = LTieByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTieByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTieByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTieByteFunction<Integer>> r1 = LTieByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

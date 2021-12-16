@@ -559,33 +559,4 @@ public class LByteToLongFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LByteToLongFunction r1 = LByteToLongFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LByteToLongFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LByteToLongFunction.safe(null);
-        assertThat(result).isSameAs(LByteToLongFunction.byteToLongFunc(LByteToLongFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LByteToLongFunction> supplier = ()->sut;
-        Object result = LByteToLongFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LByteToLongFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LByteToLongFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LByteToLongFunction> r1 = LByteToLongFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

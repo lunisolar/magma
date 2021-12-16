@@ -324,33 +324,4 @@ public class LQuadFunctionTest<T1,T2,T3,T4,R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LQuadFunction r1 = LQuadFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LQuadFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LQuadFunction.safe(null);
-        assertThat(result).isSameAs(LQuadFunction.quadFunc(LQuadFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LQuadFunction<Integer,Integer,Integer,Integer,Integer>> supplier = ()->sut;
-        Object result = LQuadFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LQuadFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LQuadFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LQuadFunction<Integer,Integer,Integer,Integer,Integer>> r1 = LQuadFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

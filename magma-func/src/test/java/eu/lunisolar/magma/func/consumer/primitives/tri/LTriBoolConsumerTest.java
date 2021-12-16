@@ -287,33 +287,4 @@ public class LTriBoolConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriBoolConsumer r1 = LTriBoolConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriBoolConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriBoolConsumer.safe(null);
-        assertThat(result).isSameAs(LTriBoolConsumer.triBoolCons(LTriBoolConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriBoolConsumer> supplier = ()->sut;
-        Object result = LTriBoolConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriBoolConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTriBoolConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriBoolConsumer> r1 = LTriBoolConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

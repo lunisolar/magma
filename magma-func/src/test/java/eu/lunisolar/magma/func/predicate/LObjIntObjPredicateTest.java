@@ -485,33 +485,4 @@ public class LObjIntObjPredicateTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LObjIntObjPredicate r1 = LObjIntObjPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LObjIntObjPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LObjIntObjPredicate.safe(null);
-        assertThat(result).isSameAs(LObjIntObjPredicate.objIntObjPred(LObjIntObjPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LObjIntObjPredicate<Integer,Integer>> supplier = ()->sut;
-        Object result = LObjIntObjPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LObjIntObjPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LObjIntObjPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LObjIntObjPredicate<Integer,Integer>> r1 = LObjIntObjPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -619,33 +619,4 @@ public class LCharPredicateTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharPredicate r1 = LCharPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharPredicate.safe(null);
-        assertThat(result).isSameAs(LCharPredicate.charPred(LCharPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharPredicate> supplier = ()->sut;
-        Object result = LCharPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LCharPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharPredicate> r1 = LCharPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

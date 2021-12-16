@@ -346,33 +346,4 @@ public class LBiObjLongConsumerTest<T1,T2> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiObjLongConsumer r1 = LBiObjLongConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiObjLongConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiObjLongConsumer.safe(null);
-        assertThat(result).isSameAs(LBiObjLongConsumer.biObjLongCons(LBiObjLongConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiObjLongConsumer<Integer,Integer>> supplier = ()->sut;
-        Object result = LBiObjLongConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiObjLongConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LBiObjLongConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiObjLongConsumer<Integer,Integer>> r1 = LBiObjLongConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

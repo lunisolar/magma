@@ -601,33 +601,4 @@ public class LBoolFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LBoolFunction r1 = LBoolFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBoolFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBoolFunction.safe(null);
-        assertThat(result).isSameAs(LBoolFunction.boolFunc(LBoolFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBoolFunction<Integer>> supplier = ()->sut;
-        Object result = LBoolFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBoolFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBoolFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBoolFunction<Integer>> r1 = LBoolFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

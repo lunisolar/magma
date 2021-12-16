@@ -287,33 +287,4 @@ public class LTriByteConsumerTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriByteConsumer r1 = LTriByteConsumer.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriByteConsumer.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriByteConsumer.safe(null);
-        assertThat(result).isSameAs(LTriByteConsumer.triByteCons(LTriByteConsumer.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriByteConsumer> supplier = ()->sut;
-        Object result = LTriByteConsumer.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriByteConsumer.safeSupplier(null);
-        assertThat(result).isSameAs(LTriByteConsumer.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriByteConsumer> r1 = LTriByteConsumer.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

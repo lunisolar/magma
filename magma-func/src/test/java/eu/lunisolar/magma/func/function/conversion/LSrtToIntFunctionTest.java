@@ -559,33 +559,4 @@ public class LSrtToIntFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtToIntFunction r1 = LSrtToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtToIntFunction.safe(null);
-        assertThat(result).isSameAs(LSrtToIntFunction.srtToIntFunc(LSrtToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtToIntFunction> supplier = ()->sut;
-        Object result = LSrtToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtToIntFunction> r1 = LSrtToIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

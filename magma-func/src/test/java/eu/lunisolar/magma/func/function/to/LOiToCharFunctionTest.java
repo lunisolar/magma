@@ -596,33 +596,4 @@ public class LOiToCharFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LOiToCharFunction r1 = LOiToCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LOiToCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LOiToCharFunction.safe(null);
-        assertThat(result).isSameAs(LOiToCharFunction.oiToCharFunc(LOiToCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LOiToCharFunction<Integer>> supplier = ()->sut;
-        Object result = LOiToCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LOiToCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LOiToCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LOiToCharFunction<Integer>> r1 = LOiToCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

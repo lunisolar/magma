@@ -587,35 +587,4 @@ public class LFunctionTest<T,R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFunction r1 = LFunction.safe(sut); //NOSONAR
-        Function r3 = LFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFunction.safe(null);
-        assertThat(result).isSameAs(LFunction.func(LFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFunction<Integer,Integer>> supplier = ()->sut;
-        Object result = LFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFunction<Integer,Integer>> r1 = LFunction.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LFunction<Integer,Integer>> r2 = LFunction.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

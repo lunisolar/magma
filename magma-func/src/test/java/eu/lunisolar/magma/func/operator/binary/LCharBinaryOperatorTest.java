@@ -430,33 +430,4 @@ public class LCharBinaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LCharBinaryOperator r1 = LCharBinaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LCharBinaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LCharBinaryOperator.safe(null);
-        assertThat(result).isSameAs(LCharBinaryOperator.charBinaryOp(LCharBinaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LCharBinaryOperator> supplier = ()->sut;
-        Object result = LCharBinaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LCharBinaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LCharBinaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LCharBinaryOperator> r1 = LCharBinaryOperator.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

@@ -446,33 +446,4 @@ public class LBiCharPredicateTest {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiCharPredicate r1 = LBiCharPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiCharPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiCharPredicate.safe(null);
-        assertThat(result).isSameAs(LBiCharPredicate.biCharPred(LBiCharPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiCharPredicate> supplier = ()->sut;
-        Object result = LBiCharPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiCharPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LBiCharPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiCharPredicate> r1 = LBiCharPredicate.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

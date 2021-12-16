@@ -601,33 +601,4 @@ public class LByteFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LByteFunction r1 = LByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LByteFunction.safe(null);
-        assertThat(result).isSameAs(LByteFunction.byteFunc(LByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LByteFunction<Integer>> supplier = ()->sut;
-        Object result = LByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LByteFunction<Integer>> r1 = LByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

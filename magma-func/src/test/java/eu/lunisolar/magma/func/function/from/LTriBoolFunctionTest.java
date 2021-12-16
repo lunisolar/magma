@@ -393,33 +393,4 @@ public class LTriBoolFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LTriBoolFunction r1 = LTriBoolFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LTriBoolFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LTriBoolFunction.safe(null);
-        assertThat(result).isSameAs(LTriBoolFunction.triBoolFunc(LTriBoolFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LTriBoolFunction<Integer>> supplier = ()->sut;
-        Object result = LTriBoolFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LTriBoolFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LTriBoolFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LTriBoolFunction<Integer>> r1 = LTriBoolFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

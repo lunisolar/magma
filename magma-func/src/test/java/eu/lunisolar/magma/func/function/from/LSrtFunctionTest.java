@@ -601,33 +601,4 @@ public class LSrtFunctionTest<R> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LSrtFunction r1 = LSrtFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LSrtFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LSrtFunction.safe(null);
-        assertThat(result).isSameAs(LSrtFunction.srtFunc(LSrtFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LSrtFunction<Integer>> supplier = ()->sut;
-        Object result = LSrtFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LSrtFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LSrtFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LSrtFunction<Integer>> r1 = LSrtFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

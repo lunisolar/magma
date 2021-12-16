@@ -559,33 +559,4 @@ public class LFltToCharFunctionTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LFltToCharFunction r1 = LFltToCharFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LFltToCharFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LFltToCharFunction.safe(null);
-        assertThat(result).isSameAs(LFltToCharFunction.fltToCharFunc(LFltToCharFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LFltToCharFunction> supplier = ()->sut;
-        Object result = LFltToCharFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LFltToCharFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LFltToCharFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LFltToCharFunction> r1 = LFltToCharFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

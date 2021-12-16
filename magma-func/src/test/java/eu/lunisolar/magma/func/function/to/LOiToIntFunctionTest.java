@@ -596,33 +596,4 @@ public class LOiToIntFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LOiToIntFunction r1 = LOiToIntFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LOiToIntFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LOiToIntFunction.safe(null);
-        assertThat(result).isSameAs(LOiToIntFunction.oiToIntFunc(LOiToIntFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LOiToIntFunction<Integer>> supplier = ()->sut;
-        Object result = LOiToIntFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LOiToIntFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LOiToIntFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LOiToIntFunction<Integer>> r1 = LOiToIntFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

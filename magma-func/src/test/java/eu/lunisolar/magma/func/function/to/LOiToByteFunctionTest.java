@@ -596,33 +596,4 @@ public class LOiToByteFunctionTest<T> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LOiToByteFunction r1 = LOiToByteFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LOiToByteFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LOiToByteFunction.safe(null);
-        assertThat(result).isSameAs(LOiToByteFunction.oiToByteFunc(LOiToByteFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LOiToByteFunction<Integer>> supplier = ()->sut;
-        Object result = LOiToByteFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LOiToByteFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LOiToByteFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LOiToByteFunction<Integer>> r1 = LOiToByteFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

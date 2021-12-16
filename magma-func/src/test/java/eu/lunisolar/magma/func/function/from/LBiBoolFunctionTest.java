@@ -394,33 +394,4 @@ public class LBiBoolFunctionTest<R> {
     //</editor-fold>
 
 
-    @Test void safeCompiles() {
-        LBiBoolFunction r1 = LBiBoolFunction.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LBiBoolFunction.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LBiBoolFunction.safe(null);
-        assertThat(result).isSameAs(LBiBoolFunction.biBoolFunc(LBiBoolFunction.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LBiBoolFunction<Integer>> supplier = ()->sut;
-        Object result = LBiBoolFunction.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LBiBoolFunction.safeSupplier(null);
-        assertThat(result).isSameAs(LBiBoolFunction.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LBiBoolFunction<Integer>> r1 = LBiBoolFunction.safeSupplier(()->sut);  //NOSONAR
-    }
-
 }

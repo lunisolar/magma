@@ -627,35 +627,4 @@ public class LLongPredicateTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LLongPredicate r1 = LLongPredicate.safe(sut); //NOSONAR
-        LongPredicate r3 = LLongPredicate.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLongPredicate.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLongPredicate.safe(null);
-        assertThat(result).isSameAs(LLongPredicate.longPred(LLongPredicate.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLongPredicate> supplier = ()->sut;
-        Object result = LLongPredicate.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLongPredicate.safeSupplier(null);
-        assertThat(result).isSameAs(LLongPredicate.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLongPredicate> r1 = LLongPredicate.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LLongPredicate> r2 = LLongPredicate.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

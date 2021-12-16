@@ -523,35 +523,4 @@ public class LUnaryOperatorTest<T> {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LUnaryOperator r1 = LUnaryOperator.safe(sut); //NOSONAR
-        UnaryOperator r3 = LUnaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LUnaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LUnaryOperator.safe(null);
-        assertThat(result).isSameAs(LUnaryOperator.unaryOp(LUnaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LUnaryOperator<Integer>> supplier = ()->sut;
-        Object result = LUnaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LUnaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LUnaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LUnaryOperator<Integer>> r1 = LUnaryOperator.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LUnaryOperator<Integer>> r2 = LUnaryOperator.safeSupplier(()->sut); //NOSONAR
-    }
-
 }

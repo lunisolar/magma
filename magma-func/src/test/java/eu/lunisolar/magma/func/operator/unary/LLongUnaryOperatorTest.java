@@ -574,35 +574,4 @@ public class LLongUnaryOperatorTest {
             .isFalse();
     }
 
-    @Test void safeCompiles() {
-        LLongUnaryOperator r1 = LLongUnaryOperator.safe(sut); //NOSONAR
-        LongUnaryOperator r3 = LLongUnaryOperator.safe(sut); //NOSONAR
-    }
-
-    @Test void safePropagates() {
-        Object result = LLongUnaryOperator.safe(sut);
-        assertThat(result).isSameAs(sut);
-    }
-
-    @Test void safeProtectsAgainstNpe() {
-        Object result = LLongUnaryOperator.safe(null);
-        assertThat(result).isSameAs(LLongUnaryOperator.longUnaryOp(LLongUnaryOperator.safe()));
-    }
-
-    @Test  void safeSupplierPropagates() {
-        LSupplier<LLongUnaryOperator> supplier = ()->sut;
-        Object result = LLongUnaryOperator.safeSupplier(supplier);
-        assertThat(result).isSameAs(supplier);
-    }
-
-    @Test  void safeSupplierProtectsAgainstNpe() {
-        Object result = LLongUnaryOperator.safeSupplier(null);
-        assertThat(result).isSameAs(LLongUnaryOperator.safeSupplier());
-    }
-
-    @Test  void safeSupplierCompiles() {
-        LSupplier<LLongUnaryOperator> r1 = LLongUnaryOperator.safeSupplier(()->sut);  //NOSONAR
-        Supplier<LLongUnaryOperator> r2 = LLongUnaryOperator.safeSupplier(()->sut); //NOSONAR
-    }
-
 }
