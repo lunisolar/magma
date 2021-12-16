@@ -304,6 +304,14 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LIntFunction<T> returning(T value) {
+		return a -> {
+			LIntConsumer.this.accept(a);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LIntConsumer beforeDo(@Nonnull LIntConsumer before) {
 		Null.nonNullArg(before, "before");

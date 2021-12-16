@@ -367,6 +367,14 @@ public interface LObjCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return (LObjCharConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default LObjCharFunction<T, T> returning(T value) {
+		return (a1, a2) -> {
+			LObjCharConsumer.this.accept(a1, a2);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LObjCharConsumer<T> beforeDo(@Nonnull LObjCharConsumer<T> before) {
 		Null.nonNullArg(before, "before");

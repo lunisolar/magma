@@ -354,6 +354,14 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 		return (LTieConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LObjIntObjFunction<T1, T2, T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTieConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTieConsumer<T1, T2> beforeDo(@Nonnull LTieConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");

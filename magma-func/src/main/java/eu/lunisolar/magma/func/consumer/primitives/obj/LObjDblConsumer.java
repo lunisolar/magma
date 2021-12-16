@@ -367,6 +367,14 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 		return (LObjDblConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default LObjDblFunction<T, T> returning(T value) {
+		return (a1, a2) -> {
+			LObjDblConsumer.this.accept(a1, a2);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LObjDblConsumer<T> beforeDo(@Nonnull LObjDblConsumer<T> before) {
 		Null.nonNullArg(before, "before");

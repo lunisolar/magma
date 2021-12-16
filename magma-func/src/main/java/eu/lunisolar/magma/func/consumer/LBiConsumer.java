@@ -367,6 +367,14 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return (LBiConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LBiFunction<T1, T2, T> returning(T value) {
+		return (a1, a2) -> {
+			LBiConsumer.this.accept(a1, a2);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LBiConsumer<T1, T2> beforeDo(@Nonnull LBiConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");

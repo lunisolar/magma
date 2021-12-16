@@ -367,6 +367,14 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return (LObjFltConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default LObjFltFunction<T, T> returning(T value) {
+		return (a1, a2) -> {
+			LObjFltConsumer.this.accept(a1, a2);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LObjFltConsumer<T> beforeDo(@Nonnull LObjFltConsumer<T> before) {
 		Null.nonNullArg(before, "before");

@@ -367,6 +367,14 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		return (LObjLongConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default LObjLongFunction<T, T> returning(T value) {
+		return (a1, a2) -> {
+			LObjLongConsumer.this.accept(a1, a2);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LObjLongConsumer<T> beforeDo(@Nonnull LObjLongConsumer<T> before) {
 		Null.nonNullArg(before, "before");

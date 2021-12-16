@@ -350,6 +350,14 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (float a1, float a2, float a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriFltFunction<T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriFltConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriFltConsumer beforeDo(@Nonnull LTriFltConsumer before) {
 		Null.nonNullArg(before, "before");

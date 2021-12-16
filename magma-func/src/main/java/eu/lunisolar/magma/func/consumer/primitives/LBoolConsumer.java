@@ -304,6 +304,14 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LBoolFunction<T> returning(T value) {
+		return a -> {
+			LBoolConsumer.this.accept(a);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LBoolConsumer beforeDo(@Nonnull LBoolConsumer before) {
 		Null.nonNullArg(before, "before");

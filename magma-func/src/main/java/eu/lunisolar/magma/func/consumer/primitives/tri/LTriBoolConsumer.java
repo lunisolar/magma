@@ -350,6 +350,14 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return (boolean a1, boolean a2, boolean a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriBoolFunction<T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriBoolConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriBoolConsumer beforeDo(@Nonnull LTriBoolConsumer before) {
 		Null.nonNullArg(before, "before");

@@ -365,6 +365,14 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return (LTriConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriFunction<T1, T2, T3, T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriConsumer<T1, T2, T3> beforeDo(@Nonnull LTriConsumer<T1, T2, T3> before) {
 		Null.nonNullArg(before, "before");

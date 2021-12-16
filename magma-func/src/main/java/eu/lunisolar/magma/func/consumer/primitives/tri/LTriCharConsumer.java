@@ -350,6 +350,14 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return (char a1, char a2, char a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriCharFunction<T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriCharConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriCharConsumer beforeDo(@Nonnull LTriCharConsumer before) {
 		Null.nonNullArg(before, "before");

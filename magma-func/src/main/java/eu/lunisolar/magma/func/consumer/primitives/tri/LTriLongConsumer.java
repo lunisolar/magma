@@ -350,6 +350,14 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return (long a1, long a2, long a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriLongFunction<T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriLongConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriLongConsumer beforeDo(@Nonnull LTriLongConsumer before) {
 		Null.nonNullArg(before, "before");

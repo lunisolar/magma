@@ -304,6 +304,14 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		fromTill(0, max_a, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LLongFunction<T> returning(T value) {
+		return a -> {
+			LLongConsumer.this.accept(a);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LLongConsumer beforeDo(@Nonnull LLongConsumer before) {
 		Null.nonNullArg(before, "before");

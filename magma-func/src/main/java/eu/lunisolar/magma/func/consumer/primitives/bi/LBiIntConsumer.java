@@ -350,6 +350,14 @@ public interface LBiIntConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		return (int a1, int a2) -> func.apply(a1).accept(a2);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LBiIntFunction<T> returning(T value) {
+		return (a1, a2) -> {
+			LBiIntConsumer.this.accept(a1, a2);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LBiIntConsumer beforeDo(@Nonnull LBiIntConsumer before) {
 		Null.nonNullArg(before, "before");

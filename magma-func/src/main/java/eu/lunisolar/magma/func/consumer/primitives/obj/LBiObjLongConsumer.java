@@ -365,6 +365,14 @@ public interface LBiObjLongConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 		return (LBiObjLongConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LBiObjLongFunction<T1, T2, T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LBiObjLongConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LBiObjLongConsumer<T1, T2> beforeDo(@Nonnull LBiObjLongConsumer<T1, T2> before) {
 		Null.nonNullArg(before, "before");

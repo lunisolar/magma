@@ -366,6 +366,14 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return (LQuintConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LQuintFunction<T1, T2, T3, T4, T5, T> returning(T value) {
+		return (a1, a2, a3, a4, a5) -> {
+			LQuintConsumer.this.accept(a1, a2, a3, a4, a5);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LQuintConsumer<T1, T2, T3, T4, T5> beforeDo(@Nonnull LQuintConsumer<T1, T2, T3, T4, T5> before) {
 		Null.nonNullArg(before, "before");

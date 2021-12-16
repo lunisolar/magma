@@ -304,6 +304,14 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LCharFunction<T> returning(T value) {
+		return a -> {
+			LCharConsumer.this.accept(a);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LCharConsumer beforeDo(@Nonnull LCharConsumer before) {
 		Null.nonNullArg(before, "before");

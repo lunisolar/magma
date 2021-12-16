@@ -350,6 +350,14 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return (byte a1, byte a2, byte a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriByteFunction<T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriByteConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriByteConsumer beforeDo(@Nonnull LTriByteConsumer before) {
 		Null.nonNullArg(before, "before");

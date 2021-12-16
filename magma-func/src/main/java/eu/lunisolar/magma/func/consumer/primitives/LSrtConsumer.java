@@ -304,6 +304,14 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LSrtFunction<T> returning(T value) {
+		return a -> {
+			LSrtConsumer.this.accept(a);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LSrtConsumer beforeDo(@Nonnull LSrtConsumer before) {
 		Null.nonNullArg(before, "before");

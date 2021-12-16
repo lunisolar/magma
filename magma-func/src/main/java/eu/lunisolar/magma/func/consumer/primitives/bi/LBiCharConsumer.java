@@ -350,6 +350,14 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (char a1, char a2) -> func.apply(a1).accept(a2);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LBiCharFunction<T> returning(T value) {
+		return (a1, a2) -> {
+			LBiCharConsumer.this.accept(a1, a2);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LBiCharConsumer beforeDo(@Nonnull LBiCharConsumer before) {
 		Null.nonNullArg(before, "before");

@@ -350,6 +350,14 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (short a1, short a2, short a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriSrtFunction<T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriSrtConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriSrtConsumer beforeDo(@Nonnull LTriSrtConsumer before) {
 		Null.nonNullArg(before, "before");

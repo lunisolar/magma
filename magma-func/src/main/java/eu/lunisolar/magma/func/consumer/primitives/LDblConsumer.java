@@ -304,6 +304,14 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LDblFunction<T> returning(T value) {
+		return a -> {
+			LDblConsumer.this.accept(a);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LDblConsumer beforeDo(@Nonnull LDblConsumer before) {
 		Null.nonNullArg(before, "before");

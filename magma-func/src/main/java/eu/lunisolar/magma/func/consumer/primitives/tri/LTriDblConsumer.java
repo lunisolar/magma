@@ -350,6 +350,14 @@ public interface LTriDblConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (double a1, double a2, double a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LTriDblFunction<T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LTriDblConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LTriDblConsumer beforeDo(@Nonnull LTriDblConsumer before) {
 		Null.nonNullArg(before, "before");

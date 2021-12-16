@@ -304,6 +304,14 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		fromTill(0, max_i, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LSupplier<T> returning(T value) {
+		return () -> {
+			LAction.this.execute();
+			return value;
+		};
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LAction act(final @Nonnull LAction lambda) {

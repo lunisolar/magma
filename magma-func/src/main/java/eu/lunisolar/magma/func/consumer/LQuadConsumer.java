@@ -365,6 +365,14 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		return (LQuadConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LQuadFunction<T1, T2, T3, T4, T> returning(T value) {
+		return (a1, a2, a3, a4) -> {
+			LQuadConsumer.this.accept(a1, a2, a3, a4);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LQuadConsumer<T1, T2, T3, T4> beforeDo(@Nonnull LQuadConsumer<T1, T2, T3, T4> before) {
 		Null.nonNullArg(before, "before");

@@ -304,6 +304,14 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		fromTill(0, max_i, a, func);
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default <T> LFltFunction<T> returning(T value) {
+		return a -> {
+			LFltConsumer.this.accept(a);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LFltConsumer beforeDo(@Nonnull LFltConsumer before) {
 		Null.nonNullArg(before, "before");

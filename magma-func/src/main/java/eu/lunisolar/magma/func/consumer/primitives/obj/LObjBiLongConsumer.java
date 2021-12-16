@@ -354,6 +354,14 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 		return (LObjBiLongConsumer) function;
 	}
 
+	/** Change function to one with codomain (always returning same value provided in argument). */
+	default LObjBiLongFunction<T, T> returning(T value) {
+		return (a1, a2, a3) -> {
+			LObjBiLongConsumer.this.accept(a1, a2, a3);
+			return value;
+		};
+	}
+
 	/** Calls domain consumer before main function. */
 	default LObjBiLongConsumer<T> beforeDo(@Nonnull LObjBiLongConsumer<T> before) {
 		Null.nonNullArg(before, "before");
