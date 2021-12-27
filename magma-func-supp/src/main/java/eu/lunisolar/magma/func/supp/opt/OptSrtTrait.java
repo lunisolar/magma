@@ -539,7 +539,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	default SELF ifPresent(@Nonnull LSrtConsumer action, @Nonnull LAction emptyAction) {
+	default SELF ifPresentOr(@Nonnull LSrtConsumer action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(get());
@@ -557,7 +557,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	default <K1> SELF ifPresent_(K1 a2, @Nonnull LObjSrtConsumer.LSrtObjCons<? super K1> action, @Nonnull LAction emptyAction) {
+	default <K1> SELF ifPresentOr_(K1 a2, @Nonnull LObjSrtConsumer.LSrtObjCons<? super K1> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.acceptSrtObj(get(), a2);
@@ -575,7 +575,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	default <K1, K2> SELF ifPresent_(K1 a2, K2 a3, @Nonnull LBiObjSrtConsumer.LSrt2Obj0Obj1Cons<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
+	default <K1, K2> SELF ifPresentOr_(K1 a2, K2 a3, @Nonnull LBiObjSrtConsumer.LSrt2Obj0Obj1Cons<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.acceptSrt2Obj0Obj1(get(), a2, a3);
@@ -593,7 +593,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	default SELF ifPresentWith(@Nonnull LSrtConsumer action, @Nonnull LAction emptyAction) {
+	default SELF ifPresentOrWith(@Nonnull LSrtConsumer action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(get());
@@ -611,7 +611,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LObjSrtConsumer<? super K1> action, @Nonnull LAction emptyAction) {
+	default <K1> SELF ifPresentOrWith(K1 a1, @Nonnull LObjSrtConsumer<? super K1> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(a1, get());
@@ -629,7 +629,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LBiObjSrtConsumer<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
+	default <K1, K2> SELF ifPresentOrWith(K1 a1, K2 a2, @Nonnull LBiObjSrtConsumer<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(a1, a2, get());

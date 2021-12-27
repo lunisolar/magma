@@ -539,7 +539,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	default SELF ifPresent(@Nonnull LByteConsumer action, @Nonnull LAction emptyAction) {
+	default SELF ifPresentOr(@Nonnull LByteConsumer action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(get());
@@ -557,7 +557,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	default <K1> SELF ifPresent_(K1 a2, @Nonnull LObjByteConsumer.LByteObjCons<? super K1> action, @Nonnull LAction emptyAction) {
+	default <K1> SELF ifPresentOr_(K1 a2, @Nonnull LObjByteConsumer.LByteObjCons<? super K1> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.acceptByteObj(get(), a2);
@@ -575,7 +575,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	default <K1, K2> SELF ifPresent_(K1 a2, K2 a3, @Nonnull LBiObjByteConsumer.LByte2Obj0Obj1Cons<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
+	default <K1, K2> SELF ifPresentOr_(K1 a2, K2 a3, @Nonnull LBiObjByteConsumer.LByte2Obj0Obj1Cons<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.acceptByte2Obj0Obj1(get(), a2, a3);
@@ -593,7 +593,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	default SELF ifPresentWith(@Nonnull LByteConsumer action, @Nonnull LAction emptyAction) {
+	default SELF ifPresentOrWith(@Nonnull LByteConsumer action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(get());
@@ -611,7 +611,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	default <K1> SELF ifPresentWith(K1 a1, @Nonnull LObjByteConsumer<? super K1> action, @Nonnull LAction emptyAction) {
+	default <K1> SELF ifPresentOrWith(K1 a1, @Nonnull LObjByteConsumer<? super K1> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(a1, get());
@@ -629,7 +629,7 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LBiObjByteConsumer<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
+	default <K1, K2> SELF ifPresentOrWith(K1 a1, K2 a2, @Nonnull LBiObjByteConsumer<? super K1, ? super K2> action, @Nonnull LAction emptyAction) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
 			action.accept(a1, a2, get());
