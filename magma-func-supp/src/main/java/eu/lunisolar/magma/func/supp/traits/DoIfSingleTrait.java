@@ -147,6 +147,28 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 		return uniDoIfNot(a2, a3, a4, predicate, action);
 	}
 
+	default @Nonnull <V> SELF doIfA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull LConsumer<? super T> action) {
+		if (isA(a2, predicate))
+			action.accept(value());
+		return fluentCtx();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF doIfA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull LConsumer<? super T> action) {
+		return doIfA(a2, predicate, action);
+	}
+
+	default @Nonnull <V> SELF doIfNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull LConsumer<? super T> action) {
+		if (isNotA(a2, predicate))
+			action.accept(value());
+		return fluentCtx();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF doIfNotA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull LConsumer<? super T> action) {
+		return doIfNotA(a2, predicate, action);
+	}
+
 	default @Nonnull SELF doIfBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (isBool(v, predicate))
 			action.accept(value());

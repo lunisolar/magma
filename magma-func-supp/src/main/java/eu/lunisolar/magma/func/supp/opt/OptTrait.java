@@ -163,6 +163,18 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	}
 
 	@Override
+	default <V> boolean isA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterSingleTrait.super.isA(a2, predicate);
+	}
+
+	@Override
+	default <V> boolean isNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return isPresent() && FilterSingleTrait.super.isNotA(a2, predicate);
+	}
+
+	@Override
 	default boolean isBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return isPresent() && FilterSingleTrait.super.isBool(v, predicate);

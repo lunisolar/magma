@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.examples;
+package eu.lunisolar.magma;
 
 import eu.lunisolar.magma.func.supp.opt.OptBool;
 import eu.lunisolar.magma.func.supp.opt.OptByte;

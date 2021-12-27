@@ -84,6 +84,12 @@ public interface FilterSingleTrait<T, SELF extends FilterSingleTrait<T, SELF>> e
 	}
 
 	@Override
+	default @Nonnull <V> SELF filterA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return this.isA(a2, predicate) ? fluentCtx() : voidValue();
+	}
+
+	@Override
 	default @Nonnull SELF filterBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.isBool(v, predicate) ? fluentCtx() : voidValue();

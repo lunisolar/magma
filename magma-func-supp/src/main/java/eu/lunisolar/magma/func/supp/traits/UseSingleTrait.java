@@ -94,6 +94,16 @@ public interface UseSingleTrait<T, SELF extends UseSingleTrait<T, SELF>> extends
 		return uniUse(a2, a3, a4, consumer);
 	}
 
+	default @Nonnull <V> SELF useA(V[] a2, @Nonnull LBiConsumer<T, V[]> consumer) {
+		consumer.accept(value(), a2);
+		return fluentCtx();
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF useA(@Nonnull LBiConsumer<T, V[]> consumer, V... a2) {
+		return useA(a2, consumer);
+	}
+
 	default @Nonnull SELF useBool(boolean v, @Nonnull LObjBoolConsumer<? super T> consumer) {
 		consumer.accept(value(), v);
 		return fluentCtx();

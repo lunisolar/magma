@@ -1383,6 +1383,374 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 	}
 
 	/**   */
+	default @Nonnull <V> SELF mustA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull LBiFunction<T, V[], String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (!predicate.test(get(), a2)) {
+			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, params);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message, @Nullable Object param1) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2, param3);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull LBiFunction<T, V[], String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (!predicate.test(get(), a2)) {
+			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, params);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message, @Nullable Object param1) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (!predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2, param3);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull LBiFunction<T, V[], String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (predicate.test(get(), a2)) {
+			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, params);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message, @Nullable Object param1) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2, param3);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull LBiFunction<T, V[], String> msgFunc) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(msgFunc, "msgFunc");
+		if (predicate.test(get(), a2)) {
+			throw Handling.create(checkTraitFactory(), msgFunc.apply(get(), a2));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, params);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message, @Nullable Object param1) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(predicate, "predicate");
+		Null.nonNullArg(message, "message");
+		if (predicate.test(get(), a2)) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), null, null};
+			params[params.length - 1] = format(message, param1, param2, param3);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2UM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(@Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, V... a2) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(@Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, V[] a2, @Nonnull String message) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, params);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(@Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, V[] a2, @Nonnull String message, @Nullable Object param1) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, param1);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(@Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, V[] a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, param1, param2);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(@Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, V[] a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, param1, param2, param3);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(V[] a2, @Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2M(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(V[] a2, @Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, @Nonnull String message) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, params);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(V[] a2, @Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, param1);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(V[] a2, @Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, param1, param2);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
+	default @Nonnull <V> SELF mustAEx(V[] a2, @Nonnull LBiFunction<? super T, V[], ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		Null.nonNullArg(message, "message");
+		@Nonnull
+		String msg = specialPredicate.apply(get(), a2);
+		if (msg != null) {
+			var params = new Object[]{get(), a2, null, null, checkTraitType(), checkTraitName(), msg, null};
+			params[params.length - 1] = format(message, param1, param2, param3);
+			throw Handling.shoveIt(Handling.create(checkTraitFactory(), format(verbosity().format2MUM(), params)));
+		}
+		return fluentCtx();
+	}
+
+	/**   */
 	default @Nonnull SELF mustBool2(@Nonnull LObjBoolPredicate<? super T> predicate, boolean v, @Nonnull LObjBoolFunction<? super T, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");

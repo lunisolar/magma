@@ -87,6 +87,15 @@ public interface UseTrait<T, SELF extends UseTrait<T, SELF>> extends FluentTrait
 		return uniUse(a2, a3, a4, consumer);
 	}
 
+	default @Nonnull <V> SELF useA(V[] a2, @Nonnull LBiConsumer<T, V[]> consumer) {
+		return use(a -> consumer.accept(a, a2));
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF useA(@Nonnull LBiConsumer<T, V[]> consumer, V... a2) {
+		return useA(a2, consumer);
+	}
+
 	default @Nonnull SELF useBool(boolean v, @Nonnull LObjBoolConsumer<? super T> consumer) {
 		return use(a -> consumer.accept(a, v));
 	}

@@ -138,6 +138,28 @@ public interface IsTrait<T, SELF extends IsTrait<T, SELF>> extends ValueTrait<T,
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V> boolean isA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return predicate.test(value(), a2);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V> boolean isA(@Nonnull LBiPredicate<T, V[]> predicate, V... a2) {
+		return isA(a2, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
+	default <V> boolean isNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
+		Null.nonNullArg(predicate, "predicate");
+		return !predicate.test(value(), a2);
+	}
+
+	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
+	default <V> boolean isNotA(@Nonnull LBiPredicate<T, V[]> predicate, V... a2) {
+		return isNotA(a2, predicate);
+	}
+
+	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default boolean isBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(value(), v);

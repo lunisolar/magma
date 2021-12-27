@@ -91,6 +91,16 @@ public interface FilterTrait<T, SELF extends FilterTrait<T, SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
+	default @Nonnull <V> SELF filterA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
+		return filter(a -> predicate.test(a, a2));
+	}
+
+	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
+	default @Nonnull <V> SELF filterA(@Nonnull LBiPredicate<T, V[]> predicate, V... a2) {
+		return filterA(a2, predicate);
+	}
+
+	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default @Nonnull SELF filterBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
 		return filter(a -> predicate.test(a, v));
 	}

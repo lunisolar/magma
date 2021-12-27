@@ -122,6 +122,24 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 		return uniDoIfNot(a2, a3, a4, predicate, action);
 	}
 
+	default @Nonnull <V> SELF doIfA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull LConsumer<? super T> action) {
+		return doIf(a -> predicate.test(a, a2), action);
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF doIfA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull LConsumer<? super T> action) {
+		return doIfA(a2, predicate, action);
+	}
+
+	default @Nonnull <V> SELF doIfNotA(V[] a2, @Nonnull LBiPredicate<T, V[]> predicate, @Nonnull LConsumer<? super T> action) {
+		return doIfNot(a -> predicate.test(a, a2), action);
+	}
+
+	/** Variant with reverse function-vs-arg order. */
+	default @Nonnull <V> SELF doIfNotA(@Nonnull LBiPredicate<T, V[]> predicate, V[] a2, @Nonnull LConsumer<? super T> action) {
+		return doIfNotA(a2, predicate, action);
+	}
+
 	default @Nonnull SELF doIfBool(boolean v, @Nonnull LObjBoolPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		return doIf(a -> predicate.test(a, v), action);
 	}

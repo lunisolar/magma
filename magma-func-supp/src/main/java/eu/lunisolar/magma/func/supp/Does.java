@@ -355,6 +355,34 @@ public final class Does implements FluentSyntax {
 		return !(collection.contains(element)) ? null : String.format("Collection <%s> must NOT contain element <%s>.", collection, element);
 	}
 
+	/** Predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
+	public static <T> boolean containExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
+		Null.nonNullArg(collection, "collection");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return P.containsExactly_privately(collection, elementsInOrder);
+	}
+
+	/** "Special" predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
+	public static <T> String containExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
+		Null.nonNullArg(collection, "collection");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return (P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, elementsInOrder);
+	}
+
+	/** Predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
+	public static <T> boolean notContainExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
+		Null.nonNullArg(collection, "collection");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !(P.containsExactly_privately(collection, elementsInOrder));
+	}
+
+	/** "Special" predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
+	public static <T> String notContainExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
+		Null.nonNullArg(collection, "collection");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !(P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, elementsInOrder);
+	}
+
 	/** Predicate: Map <%s> must contain key <%s>. Available in {@link P}, {@link Does}.*/
 	public static <K> boolean containKey(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
@@ -671,6 +699,28 @@ public final class Does implements FluentSyntax {
 	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
 	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3, T a4) {
 		return uniHaveEx(extractor, a2, a3, a4, specialPredicate);
+	}
+
+	public static @Nonnull <K, T, V> LPredicate<K> haveA(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(predicate, "predicate");
+		return k -> predicate.test(extractor.apply(k), a2);
+	}
+
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveAEx(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiFunction<T, V[], String> specialPredicate) {
+		Null.nonNullArg(extractor, "extractor");
+		Null.nonNullArg(specialPredicate, "specialPredicate");
+		return k -> specialPredicate.apply(extractor.apply(k), a2);
+	}
+
+	public static @Nonnull <K, T, V> LPredicate<K> haveA(@Nonnull LFunction<K, T> extractor, @Nonnull LBiPredicate<T, V[]> predicate, V... a2) {
+		return haveA(extractor, a2, predicate);
+	}
+
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveAEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<T, V[], String> specialPredicate, V... a2) {
+		return haveAEx(extractor, a2, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveBool(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
