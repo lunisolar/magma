@@ -270,15 +270,48 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 
 	// </editor-fold>
 
+	/**
+	 * Must-be-instance-of - must be present and be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
 		Null.nonNullArg(clazz, "clazz");
 		return (Opt) must2(Be::instanceOf, clazz, message);
 	}
 
+	/**
+	 * Must-be-instance-of - must be present and be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
-		var nullable = nullable();
 		return (Opt) must2(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+	}
+
+	/**
+	 * Should-be-instance-of - if is present then must be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
+	public @Nonnull <R> Opt<R> shouldBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
+		Null.nonNullArg(clazz, "clazz");
+		if (isPresent()) {
+			return (Opt) must2(Be::instanceOf, clazz, message);
+		} else {
+			return (Opt) this;
+		}
+	}
+
+	/**
+	 * Should-be-instance-of - if is present then must be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
+	public @Nonnull <R> Opt<R> shouldBeInstanceOf(@Nonnull Class<R> clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		if (isPresent()) {
+			return (Opt) must2(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+		} else {
+			return (Opt) this;
+		}
 	}
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */

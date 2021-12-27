@@ -271,14 +271,21 @@ public final class Checks implements FluentSyntax {
 			return verbosity(ALL);
 		}
 
+		/**
+		 * Must-be-instance-of - must be present and be instance of.
+		 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+		 */
 		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
 			Null.nonNullArg(clazz, "clazz");
 			return (Check) must2(Be::instanceOf, clazz, message);
 		}
 
+		/**
+		 * Must-be-instance-of - must be present and be instance of.
+		 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+		 */
 		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 			Null.nonNullArg(clazz, "clazz");
-			var nullable = nullable();
 			return (Check) must2(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
 		}
 
