@@ -2934,15 +2934,15 @@ public final class P implements FluentSyntax {
 		return !(collection.contains(element)) ? null : String.format("Collection <%s> must NOT contain element <%s>.", collection, element);
 	}
 
-	static <T> boolean containsExactly_privately(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	static boolean containsExactly_privately(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 
 		if (collection.size() != elementsInOrder.length) { // fast track
 			return false;
 		}
 
-		Iterator<T> iterator = collection.iterator();
+		Iterator<?> iterator = collection.iterator();
 
-		for (T element : elementsInOrder) {
+		for (Object element : elementsInOrder) {
 			if (!iterator.hasNext()) {
 				return false; // lets not fail because of that (concurrent modification, how iterator not failed?)
 			}
@@ -2957,28 +2957,28 @@ public final class P implements FluentSyntax {
 	}
 
 	/** Predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> boolean containExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> boolean containExactly(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return P.containsExactly_privately(collection, elementsInOrder);
 	}
 
 	/** "Special" predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String containExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> String containExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return (P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
 	}
 
 	/** Predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> boolean notContainExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> boolean notContainExactly(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return !(P.containsExactly_privately(collection, elementsInOrder));
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String notContainExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> String notContainExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return !(P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));

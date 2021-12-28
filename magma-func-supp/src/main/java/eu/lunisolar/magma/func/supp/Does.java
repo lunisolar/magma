@@ -356,28 +356,28 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** Predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> boolean containExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> boolean containExactly(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return P.containsExactly_privately(collection, elementsInOrder);
 	}
 
 	/** "Special" predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String containExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> String containExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return (P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
 	}
 
 	/** Predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> boolean notContainExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> boolean notContainExactly(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return !(P.containsExactly_privately(collection, elementsInOrder));
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String notContainExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
+	public static <T> String notContainExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return !(P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
