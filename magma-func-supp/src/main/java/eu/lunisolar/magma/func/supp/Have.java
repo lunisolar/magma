@@ -116,7 +116,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -128,7 +128,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -140,7 +140,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -152,7 +152,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -164,7 +164,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -176,7 +176,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -188,7 +188,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -200,7 +200,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -212,7 +212,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -224,7 +224,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -236,7 +236,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -248,7 +248,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -260,7 +260,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -272,7 +272,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -284,7 +284,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -296,7 +296,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static String lengthOtherThanEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -308,7 +308,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static <T> String lengthEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", array, i);
+		return (Array.getLength(array) == i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
 
 	/** Predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
@@ -320,7 +320,7 @@ public final class Have implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be of size %s. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static <T> String lengthOtherThanEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
-		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", array, i);
+		return !(Array.getLength(array) == i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
 
 	// </editor-fold>

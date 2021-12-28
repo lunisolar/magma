@@ -366,7 +366,7 @@ public final class Does implements FluentSyntax {
 	public static <T> String containExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
-		return (P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, elementsInOrder);
+		return (P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
 	}
 
 	/** Predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
@@ -380,7 +380,7 @@ public final class Does implements FluentSyntax {
 	public static <T> String notContainExactlyEx(@Nonnull Collection<T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
-		return !(P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, elementsInOrder);
+		return !(P.containsExactly_privately(collection, elementsInOrder)) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
 	}
 
 	/** Predicate: Map <%s> must contain key <%s>. Available in {@link P}, {@link Does}.*/
