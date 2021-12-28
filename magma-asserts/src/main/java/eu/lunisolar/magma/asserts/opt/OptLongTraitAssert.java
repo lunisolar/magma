@@ -92,8 +92,8 @@ public class OptLongTraitAssert extends AbstractObjectAssert<OptLongTraitAssert,
 	public OptLongTraitAssert contains(long expectedValue) {
 		isNotNull();
 
-		must(OptLongTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
-		must(P.haveToLong(OptLongTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
+		mustM2(OptLongTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
+		mustM2(P.haveToLong(OptLongTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

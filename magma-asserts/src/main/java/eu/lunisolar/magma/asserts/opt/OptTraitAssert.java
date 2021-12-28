@@ -93,8 +93,8 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 		isNotNull();
 		arg(expectedValue, "expectedValue").must(Be::notNull, "The expected value should not be null.");
 
-		must(OptTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
-		must(P.have(OptTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
+		mustM2(OptTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
+		mustM2(P.have(OptTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 
@@ -106,8 +106,8 @@ public class OptTraitAssert<T> extends AbstractObjectAssert<OptTraitAssert<T>, O
 		isNotNull();
 		arg(expectedValue, "expectedValue").must(Be::notNull, "The expected value should not be null.");
 
-		must(OptTrait::isPresent, "<%s> is expected to have value refer to the object <%s>, but is void.", actual(), expectedValue);
-		must(P.have(OptTrait::value, P::same, expectedValue), "Optional value <%s> should refer to the same object as <%s>, but is not.", actual().nullable(), expectedValue);
+		mustM2(OptTrait::isPresent, "<%s> is expected to have value refer to the object <%s>, but is void.", actual(), expectedValue);
+		mustM2(P.have(OptTrait::value, P::same, expectedValue), "Optional value <%s> should refer to the same object as <%s>, but is not.", actual().nullable(), expectedValue);
 
 		return fluentCtx();
 	}

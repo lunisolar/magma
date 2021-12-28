@@ -277,7 +277,7 @@ public final class Checks implements FluentSyntax {
 		 */
 		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
 			Null.nonNullArg(clazz, "clazz");
-			return (Check) must2(Be::instanceOf, clazz, message);
+			return (Check) must(Be::instanceOf, clazz, message);
 		}
 
 		/**
@@ -286,7 +286,7 @@ public final class Checks implements FluentSyntax {
 		 */
 		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 			Null.nonNullArg(clazz, "clazz");
-			return (Check) must2(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+			return (Check) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
 		}
 
 		public String toString() {

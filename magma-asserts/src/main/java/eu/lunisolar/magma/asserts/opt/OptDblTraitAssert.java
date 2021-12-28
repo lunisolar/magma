@@ -92,8 +92,8 @@ public class OptDblTraitAssert extends AbstractObjectAssert<OptDblTraitAssert, O
 	public OptDblTraitAssert contains(double expectedValue) {
 		isNotNull();
 
-		must(OptDblTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
-		must(P.haveToDbl(OptDblTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
+		mustM2(OptDblTrait::isPresent, "<%s> is expected to have value <%s>, but is void.", actual(), expectedValue);
+		mustM2(P.haveToDbl(OptDblTrait::value, P::equal, expectedValue), "Optional value <%s> should be equal to <%s>.", actual().nullable(), expectedValue);
 		return this;
 	}
 

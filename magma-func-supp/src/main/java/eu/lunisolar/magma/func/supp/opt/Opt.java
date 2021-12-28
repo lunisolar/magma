@@ -276,7 +276,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	 */
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
 		Null.nonNullArg(clazz, "clazz");
-		return (Opt) must2(Be::instanceOf, clazz, message);
+		return (Opt) must(Be::instanceOf, clazz, message);
 	}
 
 	/**
@@ -285,7 +285,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	 */
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
-		return (Opt) must2(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+		return (Opt) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
 	}
 
 	/**
@@ -295,7 +295,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	public @Nonnull <R> Opt<R> shouldBeInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
 		Null.nonNullArg(clazz, "clazz");
 		if (isPresent()) {
-			return (Opt) must2(Be::instanceOf, clazz, message);
+			return (Opt) must(Be::instanceOf, clazz, message);
 		} else {
 			return (Opt) this;
 		}
@@ -308,7 +308,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	public @Nonnull <R> Opt<R> shouldBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		if (isPresent()) {
-			return (Opt) must2(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+			return (Opt) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
 		} else {
 			return (Opt) this;
 		}

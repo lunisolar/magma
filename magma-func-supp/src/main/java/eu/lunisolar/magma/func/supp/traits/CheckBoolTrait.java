@@ -93,7 +93,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	// <editor-fold desc="main methods">
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LLogicalOperator operator, @Nonnull LBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustF(@Nonnull LLogicalOperator operator, @Nonnull LBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.apply(get())) {
@@ -115,7 +115,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustM1(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get())) {
@@ -127,7 +127,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustM2(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get())) {
@@ -139,7 +139,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustM3(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get())) {
@@ -151,7 +151,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator operator, @Nonnull LBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustNotF(@Nonnull LLogicalOperator operator, @Nonnull LBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.apply(get())) {
@@ -173,7 +173,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotM1(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get())) {
@@ -185,7 +185,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotM2(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get())) {
@@ -197,7 +197,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotM3(@Nonnull LLogicalOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get())) {
@@ -221,7 +221,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustExM(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -235,7 +235,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustExM1(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -249,7 +249,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustExM2(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -263,7 +263,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustExM3(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -277,7 +277,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull LBiBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustF(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull LBiBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.apply(get(), a2)) {
@@ -287,7 +287,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message) {
+	default @Nonnull SELF must(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -299,7 +299,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustM1(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -311,7 +311,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustM2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -323,7 +323,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustM3(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -335,7 +335,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull LBiBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustF(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull LBiBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.apply(get(), a2)) {
@@ -345,7 +345,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message) {
+	default @Nonnull SELF must(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -357,7 +357,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustM1(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -369,7 +369,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustM2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -381,7 +381,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustM3(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2)) {
@@ -393,7 +393,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull LBiBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustNotF(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull LBiBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.apply(get(), a2)) {
@@ -403,7 +403,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message) {
+	default @Nonnull SELF mustNot(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -415,7 +415,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotM1(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -427,7 +427,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotM2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -439,7 +439,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotM3(@Nonnull LLogicalBinaryOperator operator, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -451,7 +451,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull LBiBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustNotF(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull LBiBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.apply(get(), a2)) {
@@ -461,7 +461,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message) {
+	default @Nonnull SELF mustNot(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -473,7 +473,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotM1(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -485,7 +485,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotM2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -497,7 +497,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot2(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotM3(boolean a2, @Nonnull LLogicalBinaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2)) {
@@ -509,7 +509,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2) {
+	default @Nonnull SELF mustEx(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -521,7 +521,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message) {
+	default @Nonnull SELF mustExM(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -535,7 +535,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustExM1(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -549,7 +549,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustExM2(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -563,7 +563,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustExM3(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -577,7 +577,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustEx(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -589,7 +589,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustExM(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -603,7 +603,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustExM1(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -617,7 +617,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustExM2(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -631,7 +631,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must2Ex(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustExM3(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -645,7 +645,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustF(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.apply(get(), a2, a3)) {
@@ -655,7 +655,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message) {
+	default @Nonnull SELF must(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -667,7 +667,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustM1(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -679,7 +679,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustM2(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -691,7 +691,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustM3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -703,7 +703,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull LTriBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustF(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull LTriBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.apply(get(), a2, a3)) {
@@ -713,7 +713,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message) {
+	default @Nonnull SELF must(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -725,7 +725,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustM1(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -737,7 +737,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustM2(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -749,7 +749,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustM3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.apply(get(), a2, a3)) {
@@ -761,7 +761,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustNotF(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.apply(get(), a2, a3)) {
@@ -771,7 +771,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message) {
+	default @Nonnull SELF mustNot(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -783,7 +783,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotM1(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -795,7 +795,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotM2(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -807,7 +807,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotM3(@Nonnull LLogicalTernaryOperator operator, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -819,7 +819,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull LTriBoolFunction<String> msgFunc) {
+	default @Nonnull SELF mustNotF(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull LTriBoolFunction<String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.apply(get(), a2, a3)) {
@@ -829,7 +829,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message) {
+	default @Nonnull SELF mustNot(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -841,7 +841,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotM1(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -853,7 +853,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotM2(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -865,7 +865,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNot3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotM3(boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.apply(get(), a2, a3)) {
@@ -877,7 +877,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3) {
+	default @Nonnull SELF mustEx(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2, a3);
@@ -889,7 +889,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message) {
+	default @Nonnull SELF mustExM(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -903,7 +903,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustExM1(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -917,7 +917,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustExM2(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -931,7 +931,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustExM3(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -945,7 +945,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustEx(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2, a3);
@@ -957,7 +957,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustExM(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -971,7 +971,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustExM1(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -985,7 +985,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustExM2(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -999,7 +999,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF must3Ex(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustExM3(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1013,7 +1013,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message) {
+	default @Nonnull SELF mustInt(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1025,7 +1025,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustIntM1(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1037,7 +1037,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustIntM2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1049,7 +1049,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustIntM3(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1061,7 +1061,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message) {
+	default @Nonnull SELF mustInt(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1073,7 +1073,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustIntM1(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1085,7 +1085,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustIntM2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1097,7 +1097,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustIntM3(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(get(), v)) {
@@ -1109,7 +1109,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message) {
+	default @Nonnull SELF mustNotInt(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1121,7 +1121,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotIntM1(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1133,7 +1133,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotIntM2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1145,7 +1145,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotIntM3(@Nonnull LBoolIntPredicate operator, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1157,7 +1157,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message) {
+	default @Nonnull SELF mustNotInt(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1169,7 +1169,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotIntM1(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1181,7 +1181,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotIntM2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1193,7 +1193,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotInt2(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotIntM3(int v, @Nonnull LBoolIntPredicate operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(get(), v)) {
@@ -1205,7 +1205,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF must_F(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1215,7 +1215,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF must_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1227,7 +1227,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_M1(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1239,7 +1239,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_M2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1251,7 +1251,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_M3(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1263,7 +1263,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF must_F(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1273,7 +1273,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message) {
+	default @Nonnull <V> SELF must_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1285,7 +1285,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_M1(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1297,7 +1297,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_M2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1309,7 +1309,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_M3(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.testBoolObj(get(), v)) {
@@ -1321,7 +1321,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF mustNot_F(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.testBoolObj(get(), v)) {
@@ -1331,7 +1331,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF mustNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1343,7 +1343,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_M1(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1355,7 +1355,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_M2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1367,7 +1367,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_M3(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1379,7 +1379,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF mustNot_F(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.testBoolObj(get(), v)) {
@@ -1389,7 +1389,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message) {
+	default @Nonnull <V> SELF mustNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1401,7 +1401,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_M1(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1413,7 +1413,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_M2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1425,7 +1425,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_M3(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.testBoolObj(get(), v)) {
@@ -1437,7 +1437,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v) {
+	default @Nonnull <V> SELF must_Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applyBoolObj(get(), v);
@@ -1449,7 +1449,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF must_ExM(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1463,7 +1463,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_ExM1(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1477,7 +1477,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_ExM2(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1491,7 +1491,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_ExM3(@Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1505,7 +1505,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate) {
+	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applyBoolObj(get(), v);
@@ -1517,7 +1517,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V> SELF must_ExM(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1531,7 +1531,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_ExM1(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1545,7 +1545,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_ExM2(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1559,7 +1559,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_2Ex(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_ExM3(V v, @Nonnull LObjBoolFunction.LBoolObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1573,7 +1573,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustWithBoolF(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.test(with1, get())) {
@@ -1583,7 +1583,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1595,7 +1595,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithBoolM1(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1607,7 +1607,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithBoolM2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1619,7 +1619,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithBoolM3(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1631,7 +1631,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustWithBoolF(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.test(with1, get())) {
@@ -1641,7 +1641,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1653,7 +1653,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithBoolM1(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1665,7 +1665,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithBoolM2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1677,7 +1677,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithBoolM3(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, get())) {
@@ -1689,7 +1689,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustNotWithBoolF(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.test(with1, get())) {
@@ -1699,7 +1699,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithBool(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1711,7 +1711,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithBoolM1(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1723,7 +1723,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithBoolM2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1735,7 +1735,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithBoolM3(@Nonnull LObjBoolPredicate<? super V1> operator, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1747,7 +1747,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustNotWithBoolF(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LObjBoolFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.test(with1, get())) {
@@ -1757,7 +1757,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustNotWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1769,7 +1769,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithBoolM1(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1781,7 +1781,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithBoolM2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1793,7 +1793,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithBool2(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithBoolM3(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, get())) {
@@ -1805,7 +1805,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
+	default @Nonnull <V1> SELF mustWithBoolEx(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -1817,7 +1817,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithBoolExM(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1831,7 +1831,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithBoolExM1(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1845,7 +1845,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithBoolExM2(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1859,7 +1859,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithBoolExM3(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1873,7 +1873,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate) {
+	default @Nonnull <V1> SELF mustWithBoolEx(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -1885,7 +1885,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithBoolExM(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1899,7 +1899,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithBoolExM1(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1913,7 +1913,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithBoolExM2(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1927,7 +1927,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool2Ex(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithBoolExM3(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1941,7 +1941,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustWithF(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.test(with1, with2, get())) {
@@ -1951,7 +1951,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -1963,7 +1963,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithM1(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -1975,7 +1975,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithM2(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -1987,7 +1987,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithM3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -1999,7 +1999,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustWithF(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!operator.test(with1, with2, get())) {
@@ -2009,7 +2009,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -2021,7 +2021,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithM1(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -2033,7 +2033,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithM2(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -2045,7 +2045,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithM3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (!operator.test(with1, with2, get())) {
@@ -2057,7 +2057,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustNotWithF(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.test(with1, with2, get())) {
@@ -2067,7 +2067,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustNotWith(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2079,7 +2079,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWithM1(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2091,7 +2091,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWithM2(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2103,7 +2103,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWithM3(@Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2115,7 +2115,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustNotWithF(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (operator.test(with1, with2, get())) {
@@ -2125,7 +2125,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustNotWith(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2137,7 +2137,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWithM1(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2149,7 +2149,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWithM2(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2161,7 +2161,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWithM3(V1 with1, V2 with2, @Nonnull LBiObjBoolPredicate<? super V1, ? super V2> operator, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(operator, "operator");
 		Null.nonNullArg(message, "message");
 		if (operator.test(with1, with2, get())) {
@@ -2173,7 +2173,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
+	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2185,7 +2185,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWithExM(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2199,7 +2199,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithExM1(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2213,7 +2213,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithExM2(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2227,7 +2227,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithExM3(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2241,7 +2241,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
+	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2253,7 +2253,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWithExM(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2267,7 +2267,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithExM1(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2281,7 +2281,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithExM2(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2295,7 +2295,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith3Ex(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithExM3(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2369,7 +2369,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	default @Nonnull SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
-		return this.must(__ -> false, newMessage, messageParams);
+		return this.mustM1(__ -> false, newMessage, messageParams);
 	}
 
 }
