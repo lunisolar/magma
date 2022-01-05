@@ -56,7 +56,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public final class LByte implements FluentTrait<LByte>, aValue<aByte>, CheckByteTrait<LByte>, FilterByteSingleTrait<LByte>, IsByteTrait<LByte>, DoIfByteSingleTrait<LByte>, UseByteSingleTrait<LByte>, ByteValueTrait<LByte>, LByteSingle.Mut<LByte> {
+public final class LByte
+		implements
+			FluentTrait<LByte>,
+			aValue<aByte>,
+			CheckByteTrait<LByte>,
+			FilterByteSingleTrait<LByte>,
+			IsByteTrait<LByte>,
+			DoIfByteSingleTrait<LByte>,
+			UseByteSingleTrait<LByte>,
+			UniMapByteTrait<LByte>,
+			ByteValueTrait<LByte>,
+			LByteSingle.Mut<LByte> {
 
 	private byte value;
 

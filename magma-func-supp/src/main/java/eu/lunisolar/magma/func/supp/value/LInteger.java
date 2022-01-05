@@ -65,6 +65,7 @@ public final class LInteger
 			IsIntTrait<LInteger>,
 			DoIfIntSingleTrait<LInteger>,
 			UseIntSingleTrait<LInteger>,
+			UniMapIntTrait<LInteger>,
 			IntValueTrait<LInteger>,
 			LIntSingle.Mut<LInteger> {
 

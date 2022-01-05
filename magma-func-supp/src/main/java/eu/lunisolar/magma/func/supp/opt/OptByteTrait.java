@@ -64,7 +64,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTrait<SELF>, aValue<aByte>, CheckByteTrait<SELF>, FilterByteSingleTrait<SELF>, IsByteTrait<SELF>, DoIfByteSingleTrait<SELF>, UseByteSingleTrait<SELF> {
+public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTrait<SELF>, aValue<aByte>, CheckByteTrait<SELF>, FilterByteSingleTrait<SELF>, IsByteTrait<SELF>, DoIfByteSingleTrait<SELF>, UseByteSingleTrait<SELF>, UniMapByteTrait<SELF> {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
@@ -199,6 +199,25 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? (value() == value ? voidValue() : fluentCtx()) : voidValue();
 	}
 
+	// <editor-fold desc="uniMap">
+
+	default @Nonnull SELF map(@Nonnull LByteUnaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsByte(get())) : voidValue();
+	}
+
+	default @Nonnull SELF map(byte a1, @Nonnull LByteBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsByte(get(), a1)) : voidValue();
+	}
+
+	default @Nonnull SELF map(byte a1, byte a2, @Nonnull LByteTernaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.applyAsByte(get(), a1, a2)) : voidValue();
+	}
+
+	// </editor-fold>
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LBytePredicate mapping) {
@@ -226,9 +245,14 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? (OptBool.of(mapping.test(a1, a2, get()))) : OptBool.empty();
 	}
 
-	default @Nonnull OptByte map(@Nonnull LByteUnaryOperator mapping) {
+	default @Nonnull OptBool mapToBool(byte a1, @Nonnull LBiBytePredicate mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? (OptByte.of(mapping.applyAsByte(get()))) : OptByte.empty();
+		return isPresent() ? (OptBool.of(mapping.test(get(), a1))) : OptBool.empty();
+	}
+
+	default @Nonnull OptBool mapToBool(byte a1, byte a2, @Nonnull LTriBytePredicate mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? (OptBool.of(mapping.test(get(), a1, a2))) : OptBool.empty();
 	}
 
 	default @Nonnull OptDbl mapToDbl(@Nonnull LByteToDblFunction mapping) {
@@ -286,6 +310,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, get()))) : Opt.empty();
 	}
 
+	default @Nonnull <R> Opt<R> mapToObj(byte a1, @Nonnull LBiByteFunction<? extends R> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? (Opt.of(mapping.apply(get(), a1))) : Opt.empty();
+	}
+
+	default @Nonnull <R> Opt<R> mapToObj(byte a1, byte a2, @Nonnull LTriByteFunction<? extends R> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2))) : Opt.empty();
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="flatMap">
@@ -315,29 +349,49 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? OptBool.from(mapping.apply(a1, a2, get())) : OptBool.empty();
 	}
 
-	default @Nonnull OptByte flatMap(@Nonnull LByteFunction<? extends OptByteTrait<?>> mapping) {
+	default @Nonnull OptBool flatMapToBool(byte a1, @Nonnull LBiByteFunction<? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? OptByte.from(mapping.apply(get())) : OptByte.empty();
+		return isPresent() ? OptBool.from(mapping.apply(get(), a1)) : OptBool.empty();
 	}
 
-	default @Nonnull <K> OptByte flatMap_(K a1, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptByteTrait<?>> mapping) {
+	default @Nonnull OptBool flatMapToBool(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? OptByte.from(mapping.applyByteObj(get(), a1)) : OptByte.empty();
+		return isPresent() ? OptBool.from(mapping.apply(get(), a1, a2)) : OptBool.empty();
 	}
 
-	default @Nonnull <K> OptByte flatMapWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptByteTrait<?>> mapping) {
+	default @Nonnull SELF flatMap(@Nonnull LByteFunction<? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? OptByte.from(mapping.apply(a1, get())) : OptByte.empty();
+		return isPresent() ? valueFrom(mapping.apply(get())) : voidValue();
 	}
 
-	default @Nonnull <K1, K2> OptByte flatMap_(K1 a1, K2 a2, @Nonnull LBiObjByteFunction.LByte2Obj0Obj1Func<? super K1, ? super K2, ? extends OptByteTrait<?>> mapping) {
+	default @Nonnull <K> SELF flatMap_(K a1, @Nonnull LObjByteFunction.LByteObjFunc<? super K, ? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? OptByte.from(mapping.applyByte2Obj0Obj1(get(), a1, a2)) : OptByte.empty();
+		return isPresent() ? valueFrom(mapping.applyByteObj(get(), a1)) : voidValue();
 	}
 
-	default @Nonnull <K1, K2> OptByte flatMapWith(K1 a1, K2 a2, @Nonnull LBiObjByteFunction<? super K1, ? super K2, ? extends OptByteTrait<?>> mapping) {
+	default @Nonnull <K> SELF flatMapWith(K a1, @Nonnull LObjByteFunction<? super K, ? extends OptByteTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? OptByte.from(mapping.apply(a1, a2, get())) : OptByte.empty();
+		return isPresent() ? valueFrom(mapping.apply(a1, get())) : voidValue();
+	}
+
+	default @Nonnull <K1, K2> SELF flatMap_(K1 a1, K2 a2, @Nonnull LBiObjByteFunction.LByte2Obj0Obj1Func<? super K1, ? super K2, ? extends OptByteTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? valueFrom(mapping.applyByte2Obj0Obj1(get(), a1, a2)) : voidValue();
+	}
+
+	default @Nonnull <K1, K2> SELF flatMapWith(K1 a1, K2 a2, @Nonnull LBiObjByteFunction<? super K1, ? super K2, ? extends OptByteTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? valueFrom(mapping.apply(a1, a2, get())) : voidValue();
+	}
+
+	default @Nonnull SELF flatMap(byte a1, @Nonnull LBiByteFunction<? extends OptByteTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? valueFrom(mapping.apply(get(), a1)) : voidValue();
+	}
+
+	default @Nonnull SELF flatMap(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptByteTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? valueFrom(mapping.apply(get(), a1, a2)) : voidValue();
 	}
 
 	default @Nonnull OptDbl flatMapToDbl(@Nonnull LByteFunction<? extends OptDblTrait<?>> mapping) {
@@ -365,6 +419,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? OptDbl.from(mapping.apply(a1, a2, get())) : OptDbl.empty();
 	}
 
+	default @Nonnull OptDbl flatMapToDbl(byte a1, @Nonnull LBiByteFunction<? extends OptDblTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptDbl.from(mapping.apply(get(), a1)) : OptDbl.empty();
+	}
+
+	default @Nonnull OptDbl flatMapToDbl(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptDblTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptDbl.from(mapping.apply(get(), a1, a2)) : OptDbl.empty();
+	}
+
 	default @Nonnull OptChar flatMapToChar(@Nonnull LByteFunction<? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.from(mapping.apply(get())) : OptChar.empty();
@@ -388,6 +452,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	default @Nonnull <K1, K2> OptChar flatMapToCharWith(K1 a1, K2 a2, @Nonnull LBiObjByteFunction<? super K1, ? super K2, ? extends OptCharTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptChar.from(mapping.apply(a1, a2, get())) : OptChar.empty();
+	}
+
+	default @Nonnull OptChar flatMapToChar(byte a1, @Nonnull LBiByteFunction<? extends OptCharTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptChar.from(mapping.apply(get(), a1)) : OptChar.empty();
+	}
+
+	default @Nonnull OptChar flatMapToChar(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptCharTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptChar.from(mapping.apply(get(), a1, a2)) : OptChar.empty();
 	}
 
 	default @Nonnull OptSrt flatMapToSrt(@Nonnull LByteFunction<? extends OptSrtTrait<?>> mapping) {
@@ -415,6 +489,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? OptSrt.from(mapping.apply(a1, a2, get())) : OptSrt.empty();
 	}
 
+	default @Nonnull OptSrt flatMapToSrt(byte a1, @Nonnull LBiByteFunction<? extends OptSrtTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptSrt.from(mapping.apply(get(), a1)) : OptSrt.empty();
+	}
+
+	default @Nonnull OptSrt flatMapToSrt(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptSrtTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptSrt.from(mapping.apply(get(), a1, a2)) : OptSrt.empty();
+	}
+
 	default @Nonnull OptFlt flatMapToFlt(@Nonnull LByteFunction<? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.from(mapping.apply(get())) : OptFlt.empty();
@@ -438,6 +522,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	default @Nonnull <K1, K2> OptFlt flatMapToFltWith(K1 a1, K2 a2, @Nonnull LBiObjByteFunction<? super K1, ? super K2, ? extends OptFltTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptFlt.from(mapping.apply(a1, a2, get())) : OptFlt.empty();
+	}
+
+	default @Nonnull OptFlt flatMapToFlt(byte a1, @Nonnull LBiByteFunction<? extends OptFltTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptFlt.from(mapping.apply(get(), a1)) : OptFlt.empty();
+	}
+
+	default @Nonnull OptFlt flatMapToFlt(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptFltTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptFlt.from(mapping.apply(get(), a1, a2)) : OptFlt.empty();
 	}
 
 	default @Nonnull OptInt flatMapToInt(@Nonnull LByteFunction<? extends OptIntTrait<?>> mapping) {
@@ -465,6 +559,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? OptInt.from(mapping.apply(a1, a2, get())) : OptInt.empty();
 	}
 
+	default @Nonnull OptInt flatMapToInt(byte a1, @Nonnull LBiByteFunction<? extends OptIntTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptInt.from(mapping.apply(get(), a1)) : OptInt.empty();
+	}
+
+	default @Nonnull OptInt flatMapToInt(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptIntTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptInt.from(mapping.apply(get(), a1, a2)) : OptInt.empty();
+	}
+
 	default @Nonnull OptLong flatMapToLong(@Nonnull LByteFunction<? extends OptLongTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? OptLong.from(mapping.apply(get())) : OptLong.empty();
@@ -490,6 +594,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 		return isPresent() ? OptLong.from(mapping.apply(a1, a2, get())) : OptLong.empty();
 	}
 
+	default @Nonnull OptLong flatMapToLong(byte a1, @Nonnull LBiByteFunction<? extends OptLongTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptLong.from(mapping.apply(get(), a1)) : OptLong.empty();
+	}
+
+	default @Nonnull OptLong flatMapToLong(byte a1, byte a2, @Nonnull LTriByteFunction<? extends OptLongTrait<?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? OptLong.from(mapping.apply(get(), a1, a2)) : OptLong.empty();
+	}
+
 	default @Nonnull <R> Opt<R> flatMapToObj(@Nonnull LByteFunction<? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(get())) : Opt.empty();
@@ -513,6 +627,16 @@ public interface OptByteTrait<SELF extends OptByteTrait<SELF>> extends FluentTra
 	default @Nonnull <R, K1, K2> Opt<R> flatMapToObjWith(K1 a1, K2 a2, @Nonnull LBiObjByteFunction<? super K1, ? super K2, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, a2, get())) : Opt.empty();
+	}
+
+	default @Nonnull <R> Opt<R> flatMapToObj(byte a1, @Nonnull LBiByteFunction<? extends ValueTrait<? extends R, ?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? Opt.from(mapping.apply(get(), a1)) : Opt.empty();
+	}
+
+	default @Nonnull <R> Opt<R> flatMapToObj(byte a1, byte a2, @Nonnull LTriByteFunction<? extends ValueTrait<? extends R, ?>> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2)) : Opt.empty();
 	}
 
 	// </editor-fold>

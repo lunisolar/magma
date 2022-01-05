@@ -16,27 +16,26 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.value;
+package eu.lunisolar.magma.func.supp.traits;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.ThreadSafe; // NOSONAR
-import java.util.Objects; // NOSONAR
+import java.util.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.Fluent; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.Clazz; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.traits.FluentTrait; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -54,73 +53,57 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import eu.lunisolar.magma.func.supp.opt.*;
+/**
+ * Mapping where result is exactly the same type.
+ * Method's name part "uni" is actually only needed for object mappings (to resolve compile issues).
+ */
+public interface UniMapTrait<T, SELF extends UniMapTrait<T, SELF>> extends ValueTrait<T, SELF>, FluentTrait<SELF> {
 
-public final class LDouble
-		implements
-			FluentTrait<LDouble>,
-			aValue<aDouble>,
-			CheckDblTrait<LDouble>,
-			FilterDblSingleTrait<LDouble>,
-			IsDblTrait<LDouble>,
-			DoIfDblSingleTrait<LDouble>,
-			UseDblSingleTrait<LDouble>,
-			UniMapDblTrait<LDouble>,
-			DblValueTrait<LDouble>,
-			LDblSingle.Mut<LDouble> {
+	// <editor-fold desc="uniMap">
 
-	private double value;
-
-	public LDouble(double value) {
-		value(value);
+	default @Nonnull SELF uniMap(@Nonnull LUnaryOperator<T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value()));
 	}
 
-	public static LDouble dblValue(double value) {
-		return new LDouble(value);
+	default @Nonnull <K> SELF uniMap(K a1, @Nonnull LBiFunction<T, K, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value(), a1));
 	}
 
-	@Override
-	public double value() {
-		return value;
+	default @Nonnull <K> SELF uniMapWith(K a1, @Nonnull LBiFunction<K, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(a1, value()));
 	}
 
-	@Nonnull
-	@Override
-	public LDouble value(double value) {
-		this.value = value;
-		return this;
+	default @Nonnull <K1, K2> SELF uniMap(K1 a1, K2 a2, @Nonnull LTriFunction<T, K1, K2, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value(), a1, a2));
 	}
 
-	@Override
-	public double get() {
-		return value;
+	default @Nonnull <K1, K2> SELF uniMapWith(K1 a1, K2 a2, @Nonnull LTriFunction<K1, K2, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(a1, a2, value()));
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(this.getClass().isInstance(obj))) {
-			return false;
-		}
-
-		LDouble other = (LDouble) obj;
-		return value() == other.value();
-
+	default @Nonnull <K1, K2, K3> SELF uniMap(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<T, K1, K2, K3, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value(), a1, a2, a3));
 	}
 
-	public int hashCode() {
-		return Double.hashCode(value());
+	default @Nonnull <K1, K2, K3> SELF uniMapWith(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<K1, K2, K3, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(a1, a2, a3, value()));
 	}
 
-	public String toString() {
-		var v = value();
-		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
-		ToStr.toSb(sb, v);
-		return sb.append("]").toString();
+	default @Nonnull <K1, K2, K3, K4> SELF uniMap(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<T, K1, K2, K3, K4, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value(), a1, a2, a3, a4));
+	}
+
+	default @Nonnull <K1, K2, K3, K4> SELF uniMapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<K1, K2, K3, K4, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(a1, a2, a3, a4, value()));
 	}
 
 	// </editor-fold>

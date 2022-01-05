@@ -56,7 +56,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public final class LLong implements FluentTrait<LLong>, aValue<aLong>, CheckLongTrait<LLong>, FilterLongSingleTrait<LLong>, IsLongTrait<LLong>, DoIfLongSingleTrait<LLong>, UseLongSingleTrait<LLong>, LongValueTrait<LLong>, LLongSingle.Mut<LLong> {
+public final class LLong
+		implements
+			FluentTrait<LLong>,
+			aValue<aLong>,
+			CheckLongTrait<LLong>,
+			FilterLongSingleTrait<LLong>,
+			IsLongTrait<LLong>,
+			DoIfLongSingleTrait<LLong>,
+			UseLongSingleTrait<LLong>,
+			UniMapLongTrait<LLong>,
+			LongValueTrait<LLong>,
+			LLongSingle.Mut<LLong> {
 
 	private long value;
 

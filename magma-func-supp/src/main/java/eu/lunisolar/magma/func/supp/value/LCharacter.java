@@ -65,6 +65,7 @@ public final class LCharacter
 			IsCharTrait<LCharacter>,
 			DoIfCharSingleTrait<LCharacter>,
 			UseCharSingleTrait<LCharacter>,
+			UniMapCharTrait<LCharacter>,
 			CharValueTrait<LCharacter>,
 			LCharSingle.Mut<LCharacter> {
 

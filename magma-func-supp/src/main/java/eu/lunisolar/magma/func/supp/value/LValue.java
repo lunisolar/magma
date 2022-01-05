@@ -65,6 +65,7 @@ public final class LValue<T>
 			IsTrait<T, LValue<T>>,
 			DoIfSingleTrait<T, LValue<T>>,
 			UseSingleTrait<T, LValue<T>>,
+			UniMapTrait<T, LValue<T>>,
 			AutoCloseable,
 			ValueTrait<T, LValue<T>>,
 			LSingle.Mut<T, LValue<T>> {

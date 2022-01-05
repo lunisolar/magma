@@ -65,6 +65,7 @@ public final class LBoolean
 			IsBoolTrait<LBoolean>,
 			DoIfBoolSingleTrait<LBoolean>,
 			UseBoolSingleTrait<LBoolean>,
+			UniMapBoolTrait<LBoolean>,
 			BoolValueTrait<LBoolean>,
 			LBoolSingle.Mut<LBoolean> {
 

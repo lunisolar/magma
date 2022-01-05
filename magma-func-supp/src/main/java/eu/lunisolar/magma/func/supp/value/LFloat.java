@@ -56,7 +56,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public final class LFloat implements FluentTrait<LFloat>, aValue<aFloat>, CheckFltTrait<LFloat>, FilterFltSingleTrait<LFloat>, IsFltTrait<LFloat>, DoIfFltSingleTrait<LFloat>, UseFltSingleTrait<LFloat>, FltValueTrait<LFloat>, LFltSingle.Mut<LFloat> {
+public final class LFloat
+		implements
+			FluentTrait<LFloat>,
+			aValue<aFloat>,
+			CheckFltTrait<LFloat>,
+			FilterFltSingleTrait<LFloat>,
+			IsFltTrait<LFloat>,
+			DoIfFltSingleTrait<LFloat>,
+			UseFltSingleTrait<LFloat>,
+			UniMapFltTrait<LFloat>,
+			FltValueTrait<LFloat>,
+			LFltSingle.Mut<LFloat> {
 
 	private float value;
 

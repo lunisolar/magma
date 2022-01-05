@@ -16,27 +16,26 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.func.supp.value;
+package eu.lunisolar.magma.func.supp.traits;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.ThreadSafe; // NOSONAR
-import java.util.Objects; // NOSONAR
+import java.util.*; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.Fluent; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.aType.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.Clazz; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.traits.FluentTrait; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -54,73 +53,47 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import eu.lunisolar.magma.func.supp.opt.*;
+/**
+ * Mapping where result is exactly the same type.
+ * Method's name part "uni" is actually only needed for object mappings (to resolve compile issues).
+ */
+public interface UniMapBoolTrait<SELF extends UniMapBoolTrait<SELF>> extends BoolValueTrait<SELF>, FluentTrait<SELF> {
 
-public final class LDouble
-		implements
-			FluentTrait<LDouble>,
-			aValue<aDouble>,
-			CheckDblTrait<LDouble>,
-			FilterDblSingleTrait<LDouble>,
-			IsDblTrait<LDouble>,
-			DoIfDblSingleTrait<LDouble>,
-			UseDblSingleTrait<LDouble>,
-			UniMapDblTrait<LDouble>,
-			DblValueTrait<LDouble>,
-			LDblSingle.Mut<LDouble> {
+	// <editor-fold desc="uniMap">
 
-	private double value;
-
-	public LDouble(double value) {
-		value(value);
+	default @Nonnull SELF map(@Nonnull LLogicalOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value()));
 	}
 
-	public static LDouble dblValue(double value) {
-		return new LDouble(value);
+	default @Nonnull <K> SELF map_(K a1, @Nonnull LObjBoolPredicate.LBoolObjPred<? super K> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.testBoolObj(value(), a1));
 	}
 
-	@Override
-	public double value() {
-		return value;
+	default @Nonnull <K> SELF mapWith(K a1, @Nonnull LObjBoolPredicate<? super K> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.test(a1, value()));
 	}
 
-	@Nonnull
-	@Override
-	public LDouble value(double value) {
-		this.value = value;
-		return this;
+	default @Nonnull <K1, K2> SELF map_(K1 a1, K2 a2, @Nonnull LBiObjBoolPredicate.LBool2Obj0Obj1Pred<? super K1, ? super K2> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.testBool2Obj0Obj1(value(), a1, a2));
 	}
 
-	@Override
-	public double get() {
-		return value;
+	default @Nonnull <K1, K2> SELF mapWith(K1 a1, K2 a2, @Nonnull LBiObjBoolPredicate<? super K1, ? super K2> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.test(a1, a2, value()));
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
-
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if (!(this.getClass().isInstance(obj))) {
-			return false;
-		}
-
-		LDouble other = (LDouble) obj;
-		return value() == other.value();
-
+	default @Nonnull SELF map(boolean a1, @Nonnull LLogicalBinaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value(), a1));
 	}
 
-	public int hashCode() {
-		return Double.hashCode(value());
-	}
-
-	public String toString() {
-		var v = value();
-		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
-		ToStr.toSb(sb, v);
-		return sb.append("]").toString();
+	default @Nonnull SELF map(boolean a1, boolean a2, @Nonnull LLogicalTernaryOperator mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return value(mapping.apply(value(), a1, a2));
 	}
 
 	// </editor-fold>

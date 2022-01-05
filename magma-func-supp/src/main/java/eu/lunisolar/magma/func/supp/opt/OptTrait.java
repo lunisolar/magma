@@ -64,7 +64,17 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * blocked to provide full optimization, even capturing lambdas will be fully optimized by JVM. So 'allocating" and using Optional/Opt locally is not as much
  * costly as one would expected (in correct circumstances).
  */
-public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait<SELF>, aValue<a<T>>, CheckTrait<T, SELF>, FilterSingleTrait<T, SELF>, IsTrait<T, SELF>, DoIfSingleTrait<T, SELF>, UseSingleTrait<T, SELF>, AutoCloseable {
+public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
+		extends
+			FluentTrait<SELF>,
+			aValue<a<T>>,
+			CheckTrait<T, SELF>,
+			FilterSingleTrait<T, SELF>,
+			IsTrait<T, SELF>,
+			DoIfSingleTrait<T, SELF>,
+			UseSingleTrait<T, SELF>,
+			UniMapTrait<T, SELF>,
+			AutoCloseable {
 
 	// <editor-fold desc="forcing ValueTrait re-implementation">
 
@@ -393,6 +403,55 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return Objects.requireNonNull(result);
 	}
 
+	// <editor-fold desc="uniMap">
+
+	default @Nonnull SELF uniMap(@Nonnull LUnaryOperator<T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(get())) : voidValue();
+	}
+
+	default @Nonnull <K> SELF uniMap(K a1, @Nonnull LBiFunction<T, K, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(get(), a1)) : voidValue();
+	}
+
+	default @Nonnull <K> SELF uniMapWith(K a1, @Nonnull LBiFunction<K, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(a1, get())) : voidValue();
+	}
+
+	default @Nonnull <K1, K2> SELF uniMap(K1 a1, K2 a2, @Nonnull LTriFunction<T, K1, K2, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(get(), a1, a2)) : voidValue();
+	}
+
+	default @Nonnull <K1, K2> SELF uniMapWith(K1 a1, K2 a2, @Nonnull LTriFunction<K1, K2, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(a1, a2, get())) : voidValue();
+	}
+
+	default @Nonnull <K1, K2, K3> SELF uniMap(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<T, K1, K2, K3, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(get(), a1, a2, a3)) : voidValue();
+	}
+
+	default @Nonnull <K1, K2, K3> SELF uniMapWith(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<K1, K2, K3, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(a1, a2, a3, get())) : voidValue();
+	}
+
+	default @Nonnull <K1, K2, K3, K4> SELF uniMap(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<T, K1, K2, K3, K4, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(get(), a1, a2, a3, a4)) : voidValue();
+	}
+
+	default @Nonnull <K1, K2, K3, K4> SELF uniMapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<K1, K2, K3, K4, T, T> mapping) {
+		Null.nonNullArg(mapping, "mapping");
+		return isPresent() ? value(mapping.apply(a1, a2, a3, a4, get())) : voidValue();
+	}
+
+	// </editor-fold>
+
 	// <editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LPredicate<? super T> mapping) {
@@ -560,11 +619,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? (Opt.of(mapping.apply(get()))) : Opt.empty();
 	}
 
-	default @Nonnull SELF uniMap(@Nonnull LUnaryOperator<T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(get())) : voidValue();
-	}
-
 	default @Nonnull <R, K> Opt<R> map(K a1, @Nonnull LBiFunction<? super T, ? super K, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1))) : Opt.empty();
@@ -573,16 +627,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	default @Nonnull <R, K> Opt<R> mapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, get()))) : Opt.empty();
-	}
-
-	default @Nonnull <K> SELF uniMap(K a1, @Nonnull LBiFunction<T, K, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(get(), a1)) : voidValue();
-	}
-
-	default @Nonnull <K> SELF uniMapWith(K a1, @Nonnull LBiFunction<K, T, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(a1, get())) : voidValue();
 	}
 
 	default @Nonnull <R, K1, K2> Opt<R> map(K1 a1, K2 a2, @Nonnull LTriFunction<? super T, ? super K1, ? super K2, ? extends R> mapping) {
@@ -595,16 +639,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, get()))) : Opt.empty();
 	}
 
-	default @Nonnull <K1, K2> SELF uniMap(K1 a1, K2 a2, @Nonnull LTriFunction<T, K1, K2, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(get(), a1, a2)) : voidValue();
-	}
-
-	default @Nonnull <K1, K2> SELF uniMapWith(K1 a1, K2 a2, @Nonnull LTriFunction<K1, K2, T, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(a1, a2, get())) : voidValue();
-	}
-
 	default @Nonnull <R, K1, K2, K3> Opt<R> map(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super T, ? super K1, ? super K2, ? super K3, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2, a3))) : Opt.empty();
@@ -615,16 +649,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, a3, get()))) : Opt.empty();
 	}
 
-	default @Nonnull <K1, K2, K3> SELF uniMap(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<T, K1, K2, K3, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(get(), a1, a2, a3)) : voidValue();
-	}
-
-	default @Nonnull <K1, K2, K3> SELF uniMapWith(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<K1, K2, K3, T, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(a1, a2, a3, get())) : voidValue();
-	}
-
 	default @Nonnull <R, K1, K2, K3, K4> Opt<R> map(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super T, ? super K1, ? super K2, ? super K3, ? super K4, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2, a3, a4))) : Opt.empty();
@@ -633,16 +657,6 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>> extends FluentTrait
 	default @Nonnull <R, K1, K2, K3, K4> Opt<R> mapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super K1, ? super K2, ? super K3, ? super K4, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, a3, a4, get()))) : Opt.empty();
-	}
-
-	default @Nonnull <K1, K2, K3, K4> SELF uniMap(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<T, K1, K2, K3, K4, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(get(), a1, a2, a3, a4)) : voidValue();
-	}
-
-	default @Nonnull <K1, K2, K3, K4> SELF uniMapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<K1, K2, K3, K4, T, T> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return isPresent() ? value(mapping.apply(a1, a2, a3, a4, get())) : voidValue();
 	}
 
 	// </editor-fold>

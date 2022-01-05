@@ -56,7 +56,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
-public final class LShort implements FluentTrait<LShort>, aValue<aShort>, CheckSrtTrait<LShort>, FilterSrtSingleTrait<LShort>, IsSrtTrait<LShort>, DoIfSrtSingleTrait<LShort>, UseSrtSingleTrait<LShort>, SrtValueTrait<LShort>, LSrtSingle.Mut<LShort> {
+public final class LShort
+		implements
+			FluentTrait<LShort>,
+			aValue<aShort>,
+			CheckSrtTrait<LShort>,
+			FilterSrtSingleTrait<LShort>,
+			IsSrtTrait<LShort>,
+			DoIfSrtSingleTrait<LShort>,
+			UseSrtSingleTrait<LShort>,
+			UniMapSrtTrait<LShort>,
+			SrtValueTrait<LShort>,
+			LSrtSingle.Mut<LShort> {
 
 	private short value;
 
