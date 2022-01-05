@@ -85,4 +85,33 @@ public final class LShort implements FluentTrait<LShort>, aValue<aShort>, CheckS
 		return value;
 	}
 
+	// <editor-fold desc="equals/hashcode/toString">
+
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(this.getClass().isInstance(obj))) {
+			return false;
+		}
+
+		LShort other = (LShort) obj;
+		return value() == other.value();
+
+	}
+
+	public int hashCode() {
+		return Short.hashCode(value());
+	}
+
+	public String toString() {
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
+	}
+
+	// </editor-fold>
+
 }

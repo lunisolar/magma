@@ -85,4 +85,33 @@ public final class LByte implements FluentTrait<LByte>, aValue<aByte>, CheckByte
 		return value;
 	}
 
+	// <editor-fold desc="equals/hashcode/toString">
+
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(this.getClass().isInstance(obj))) {
+			return false;
+		}
+
+		LByte other = (LByte) obj;
+		return value() == other.value();
+
+	}
+
+	public int hashCode() {
+		return Byte.hashCode(value());
+	}
+
+	public String toString() {
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
+	}
+
+	// </editor-fold>
+
 }

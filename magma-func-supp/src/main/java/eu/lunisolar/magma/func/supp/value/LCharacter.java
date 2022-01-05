@@ -95,4 +95,33 @@ public final class LCharacter
 		return value;
 	}
 
+	// <editor-fold desc="equals/hashcode/toString">
+
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(this.getClass().isInstance(obj))) {
+			return false;
+		}
+
+		LCharacter other = (LCharacter) obj;
+		return value() == other.value();
+
+	}
+
+	public int hashCode() {
+		return Character.hashCode(value());
+	}
+
+	public String toString() {
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
+	}
+
+	// </editor-fold>
+
 }

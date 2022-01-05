@@ -85,4 +85,33 @@ public final class LFloat implements FluentTrait<LFloat>, aValue<aFloat>, CheckF
 		return value;
 	}
 
+	// <editor-fold desc="equals/hashcode/toString">
+
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(this.getClass().isInstance(obj))) {
+			return false;
+		}
+
+		LFloat other = (LFloat) obj;
+		return value() == other.value();
+
+	}
+
+	public int hashCode() {
+		return Float.hashCode(value());
+	}
+
+	public String toString() {
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
+	}
+
+	// </editor-fold>
+
 }

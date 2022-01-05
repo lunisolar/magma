@@ -95,4 +95,33 @@ public final class LDouble
 		return value;
 	}
 
+	// <editor-fold desc="equals/hashcode/toString">
+
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(this.getClass().isInstance(obj))) {
+			return false;
+		}
+
+		LDouble other = (LDouble) obj;
+		return value() == other.value();
+
+	}
+
+	public int hashCode() {
+		return Double.hashCode(value());
+	}
+
+	public String toString() {
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
+	}
+
+	// </editor-fold>
+
 }

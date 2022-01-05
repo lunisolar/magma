@@ -103,4 +103,33 @@ public final class LValue<T>
 		}
 	}
 
+	// <editor-fold desc="equals/hashcode/toString">
+
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(this.getClass().isInstance(obj))) {
+			return false;
+		}
+
+		LValue other = (LValue) obj;
+		return Objects.equals(nullable(), other.nullable());
+
+	}
+
+	public int hashCode() {
+		return Objects.hashCode(nullable());
+	}
+
+	public String toString() {
+		var v = value();
+		var sb = new StringBuilder().append(getClass().getSimpleName()).append("[");
+		ToStr.toSb(sb, v);
+		return sb.append("]").toString();
+	}
+
+	// </editor-fold>
+
 }
