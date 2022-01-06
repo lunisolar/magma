@@ -53,7 +53,7 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Trait for any class that has fluent filter method.
+ * Filter trait where there is at max just one value present and it could be voided or zeroed.
  */
 public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> extends FilterDblTrait<SELF>, IsDblTrait<SELF> {
 

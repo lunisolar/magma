@@ -37,6 +37,8 @@ import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.FluentTrait; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import javax.annotation.concurrent.NotThreadSafe;
+import java.util.concurrent.atomic.AtomicReference;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -56,6 +58,12 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 import eu.lunisolar.magma.func.supp.opt.*;
 
+/**
+ * Convenient value holder that allows mutation.
+ * Mutability is intended to be used in places where lambda captured values need to be "modified" in single-threaded use (or similar situations).
+ * Otherwise, use non-mutable {@link Opt}-like or synchronized {@link AtomicReference}-like solution.
+ */
+@NotThreadSafe
 public final class LShort
 		implements
 			FluentTrait<LShort>,
@@ -88,6 +96,13 @@ public final class LShort
 	@Override
 	public LShort value(short value) {
 		this.value = value;
+		return this;
+	}
+
+	@Nonnull
+	@Override
+	public LShort voidValue() {
+		this.value = (short) 0;
 		return this;
 	}
 
