@@ -286,7 +286,11 @@ public final class Checks implements FluentSyntax {
 		 */
 		public @Nonnull <R> Check<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 			Null.nonNullArg(clazz, "clazz");
-			return (Check) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+			T obj = get();
+			if (!clazz.isInstance(obj)) {
+				fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+			}
+			return (Check) this;
 		}
 
 		public String toString() {

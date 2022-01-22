@@ -285,7 +285,11 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	 */
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
-		return (Opt) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
+		T obj = get();
+		if (!clazz.isInstance(obj)) {
+			fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+		}
+		return (Opt) this;
 	}
 
 	/**
@@ -308,10 +312,12 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	public @Nonnull <R> Opt<R> shouldBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		if (isPresent()) {
-			return (Opt) must(Be::instanceOf, clazz, "Value <%s> must be instance of class <%s> but is not.");
-		} else {
-			return (Opt) this;
+			T obj = get();
+			if (!clazz.isInstance(obj)) {
+				fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+			}
 		}
+		return (Opt) this;
 	}
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
