@@ -458,6 +458,58 @@ public final class Has implements FluentSyntax {
 		return !(e.getCause() != null) ? null : String.format("Exception <%s> must NOT have cause.", e);
 	}
 
+	/** Predicate: Exception <%s> must have suspended other exceptions. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static boolean suspended(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return e.getSuppressed().length != 0;
+	}
+
+	/** "Special" predicate: Exception <%s> must have suspended other exceptions. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static String suspendedEx(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return (e.getSuppressed().length != 0) ? null : String.format("Exception <%s> must have suspended other exceptions.", e);
+	}
+
+	/** Predicate: Exception <%s> must NOT have suspended other exceptions. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static boolean noSuspended(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return !(e.getSuppressed().length != 0);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have suspended other exceptions. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static String noSuspendedEx(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return !(e.getSuppressed().length != 0) ? null : String.format("Exception <%s> must NOT have suspended other exceptions.", e);
+	}
+
+	/** Predicate: Exception <%s> must have message equal to <'%s>'. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static boolean msgEqual(@Nonnull Throwable e, @Nonnull String text) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(text, "text");
+		return text.equals(e.getMessage());
+	}
+
+	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static String msgEqualEx(@Nonnull Throwable e, @Nonnull String text) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(text, "text");
+		return (text.equals(e.getMessage())) ? null : String.format("Exception <%s> must have message equal to <'%s>'.", e, text);
+	}
+
+	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static boolean msgNotEqual(@Nonnull Throwable e, @Nonnull String text) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(text, "text");
+		return !(text.equals(e.getMessage()));
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static String msgNotEqualEx(@Nonnull Throwable e, @Nonnull String text) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(text, "text");
+		return !(text.equals(e.getMessage())) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e, text);
+	}
+
 	/** Predicate: Exception <%s> must have message starting with <'%s>'. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static boolean msgStartWith(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");

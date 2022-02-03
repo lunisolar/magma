@@ -35,9 +35,10 @@ import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
-import java.util.*;
-import java.lang.reflect.*;
+import java.util.*; // NOSONAR
+import java.lang.reflect.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -381,6 +382,85 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 			accept(a1, a2, a3, a4);
 		};
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LQuadConsumer<T1, T2, T3, T4> wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return (a1, a2, a3, a4) -> acceptX(ctx, a1, a2, a3, a4, this);
+	}
+
+	static <T1, T2, T3, T4> void acceptX(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		ctx.call(() -> {
+			function.acceptX(a1, a2, a3, a4);
+			return null;
+		});
+	}
+
+	static <T1, T2, T3, T4> void nestingAccept(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(ctx, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2, T3, T4> void shovingAccept(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(ctx, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2, T3, T4> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					function.acceptX(a1, a2, a3, a4);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2, T3, T4> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					LQuadConsumer.acceptX(ctx, a1, a2, a3, a4, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T1 a1, T2 a2, T3 a3, T4 a4) {

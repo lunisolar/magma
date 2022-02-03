@@ -35,7 +35,10 @@ import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
-import java.util.*;
+import java.util.concurrent.*; // NOSONAR
+import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -339,6 +342,82 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 			return retval;
 		};
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LSupplier<T> wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return () -> getX(ctx, this);
+	}
+
+	static <T> T getX(@Nonnull CallContext ctx, @Nonnull LSupplier<T> function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		return (T) ctx.call(() -> function.getX());
+	}
+
+	static <T> T nestingGet(@Nonnull CallContext ctx, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(ctx, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> T shovingGet(@Nonnull CallContext ctx, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(ctx, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.getX();
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LSupplier.getX(ctx, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T> LSupplier<T> of(T r) {

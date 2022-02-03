@@ -35,9 +35,11 @@ import eu.lunisolar.magma.func.IA;
 import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+
+import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
-import java.lang.reflect.*;
+import java.lang.reflect.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -847,6 +849,82 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		}
 		return a1;
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LBiPredicate<T1, T2> wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return (a1, a2) -> testX(ctx, a1, a2, this);
+	}
+
+	static <T1, T2> boolean testX(@Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiPredicate<T1, T2> function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		return (boolean) ctx.call(() -> function.testX(a1, a2));
+	}
+
+	static <T1, T2> boolean nestingTest(@Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiPredicate<T1, T2> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(ctx, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2> boolean shovingTest(@Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiPredicate<T1, T2> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(ctx, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, T1 a1, T2 a2, @Nonnull LBiPredicate<T1, T2> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.testX(a1, a2);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiPredicate<T1, T2> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LBiPredicate.testX(ctx, a1, a2, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T1 a1, T2 a2) {

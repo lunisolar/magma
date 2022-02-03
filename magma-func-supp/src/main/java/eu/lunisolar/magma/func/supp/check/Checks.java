@@ -1422,7 +1422,7 @@ public final class Checks implements FluentSyntax {
 	public static Check<Throwable> attestThrownBy(@Nonnull LAction action) {
 		Null.nonNullArg(action, "action");
 		try {
-			action.execute();
+			action.executeX();
 		} catch (Throwable e) {
 			return Checks.attest(e, "exception");
 		}

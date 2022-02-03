@@ -35,7 +35,10 @@ import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import java.util.function.*; // NOSONAR
-import java.util.*;
+import java.util.concurrent.*; // NOSONAR
+import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -330,6 +333,82 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 			return retval;
 		};
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LBoolSupplier wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return () -> getAsBoolX(ctx, this);
+	}
+
+	static boolean getAsBoolX(@Nonnull CallContext ctx, @Nonnull LBoolSupplier function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		return (boolean) ctx.call(() -> function.getAsBoolX());
+	}
+
+	static boolean nestingGetAsBool(@Nonnull CallContext ctx, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(ctx, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static boolean shovingGetAsBool(@Nonnull CallContext ctx, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(ctx, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.getAsBoolX();
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LBoolSupplier.getAsBoolX(ctx, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static LBoolSupplier of(boolean r) {

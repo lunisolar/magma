@@ -37,7 +37,10 @@ import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
+import java.util.*; // NOSONAR
+import java.lang.reflect.*; // NOSONAR
 
 /**
  * LAction is a replacement for Runnable.
@@ -311,6 +314,85 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 			return value;
 		};
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LAction wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return () -> executeX(ctx, this);
+	}
+
+	static void executeX(@Nonnull CallContext ctx, @Nonnull LAction function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		ctx.call(() -> {
+			function.executeX();
+			return null;
+		});
+	}
+
+	static void nestingExecute(@Nonnull CallContext ctx, @Nonnull LAction function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(ctx, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static void shovingExecute(@Nonnull CallContext ctx, @Nonnull LAction function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(ctx, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull LAction function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					function.executeX();
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, @Nonnull LAction function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					LAction.executeX(ctx, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull

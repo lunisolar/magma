@@ -35,9 +35,11 @@ import eu.lunisolar.magma.func.IA;
 import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+
+import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
-import java.lang.reflect.*;
+import java.lang.reflect.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -409,6 +411,82 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 			return retval;
 		};
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LQuadFunction<T1, T2, T3, T4, R> wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return (a1, a2, a3, a4) -> applyX(ctx, a1, a2, a3, a4, this);
+	}
+
+	static <T1, T2, T3, T4, R> R applyX(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		return (R) ctx.call(() -> function.applyX(a1, a2, a3, a4));
+	}
+
+	static <T1, T2, T3, T4, R> R nestingApply(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(ctx, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> R shovingApply(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(ctx, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<R> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.applyX(a1, a2, a3, a4);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<R> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LQuadFunction.applyX(ctx, a1, a2, a3, a4, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T1 a1, T2 a2, T3 a3, T4 a4) {

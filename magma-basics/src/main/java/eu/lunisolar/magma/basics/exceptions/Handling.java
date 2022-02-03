@@ -507,4 +507,13 @@ public final class Handling implements Serializable {
             }
         });
     }
+
+    public static RuntimeException throwWithSuppression(@Nonnull Throwable main, @Nullable Throwable suppressed) {
+        nonNullArg(main, "main");
+        if (suppressed != null) {
+            main.addSuppressed(suppressed);
+        }
+        throw throwIt(main);
+    }
+
 }

@@ -35,9 +35,10 @@ import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
-import java.util.*;
-import java.lang.reflect.*;
+import java.util.*; // NOSONAR
+import java.lang.reflect.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -335,6 +336,85 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 			accept(a);
 		};
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LConsumer<T> wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return a -> acceptX(ctx, a, this);
+	}
+
+	static <T> void acceptX(@Nonnull CallContext ctx, T a, @Nonnull LConsumer<T> function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		ctx.call(() -> {
+			function.acceptX(a);
+			return null;
+		});
+	}
+
+	static <T> void nestingAccept(@Nonnull CallContext ctx, T a, @Nonnull LConsumer<T> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(ctx, a, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> void shovingAccept(@Nonnull CallContext ctx, T a, @Nonnull LConsumer<T> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(ctx, a, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, T a, @Nonnull LConsumer<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					function.acceptX(a);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T a, @Nonnull LConsumer<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					LConsumer.acceptX(ctx, a, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T a) {

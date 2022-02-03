@@ -35,9 +35,11 @@ import eu.lunisolar.magma.func.IA;
 import eu.lunisolar.magma.func.SA;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+
+import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
-import java.lang.reflect.*;
+import java.lang.reflect.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -848,6 +850,82 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 		return a1;
 	}
+
+	// <editor-fold desc="CallContext">
+
+	default @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> wrapWith(@Nonnull CallContext ctx) {
+		Null.nonNullArg(ctx, "ctx");
+		return (a1, a2, a3, a4, a5) -> testX(ctx, a1, a2, a3, a4, a5, this);
+	}
+
+	static <T1, T2, T3, T4, T5> boolean testX(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		return (boolean) ctx.call(() -> function.testX(a1, a2, a3, a4, a5));
+	}
+
+	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(ctx, a1, a2, a3, a4, a5, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(ctx, a1, a2, a3, a4, a5, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.testX(a1, a2, a3, a4, a5);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LQuintPredicate.testX(ctx, a1, a2, a3, a4, a5, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	// </editor-fold>
 
 	/** Captures arguments but delays the evaluation. */
 	default LBoolSupplier capture(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
