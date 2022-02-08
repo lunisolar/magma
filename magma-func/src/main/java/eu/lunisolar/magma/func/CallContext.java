@@ -36,7 +36,10 @@ public interface CallContext {
 	 * Executes call within expected context (be it transaction, logging, time measuring), and propagates the answer.
 	 * There is no access to function arguments.
 	 * Generalized (Object, ?) so the CallContext could be implemented with lambda, without CallContext itself having generic argument.
-	 * Does not need to use {@link eu.lunisolar.magma.basics.exceptions.NestedException}.
+	 * Unless it is intended for the user to receive exactly that exception, implementation must not use
+	 * {@link eu.lunisolar.magma.basics.exceptions.NestedException} or method wrapping to it.
+	 * Checked vs uncheck behaviour will be decided by user by calling either {@link eu.lunisolar.magma.func.function.LBiFunction#shovingApply(Object, Object)}
+	 * or {@link eu.lunisolar.magma.func.function.LBiFunction#nestingApply(Object, Object)}.
 	 */
 	Object call(@Nonnull LSupplier<?> function) throws Throwable;
 
