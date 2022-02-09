@@ -18,19 +18,11 @@
 
 package eu.lunisolar.magma.func;
 
-import eu.lunisolar.magma.basics.exceptions.Handling;
 import eu.lunisolar.magma.func.action.LAction;
-import eu.lunisolar.magma.func.consumer.LBiConsumer;
-import eu.lunisolar.magma.func.consumer.LConsumer;
-import eu.lunisolar.magma.func.supplier.LSupplier;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import static eu.lunisolar.magma.basics.Null.nonNullArg;
 
 public interface AsyncCallContext {
-	CallContext NOOP = LSupplier::get;
 
 	void call(@Nonnull LAction functionCall);
 

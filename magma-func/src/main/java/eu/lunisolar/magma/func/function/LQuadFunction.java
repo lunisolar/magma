@@ -414,45 +414,61 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 
 	// <editor-fold desc="CallContext">
 
-	default @Nonnull LQuadFunction<T1, T2, T3, T4, R> wrapWith(@Nonnull CallContext ctx) {
-		Null.nonNullArg(ctx, "ctx");
-		return (a1, a2, a3, a4) -> applyX(ctx, a1, a2, a3, a4, this);
-	}
-
-	static <T1, T2, T3, T4, R> R applyX(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) throws Throwable {
-		Null.nonNullArg(ctx, "ctx");
-		Null.nonNullArg(function, "function");
-		return (R) ctx.call(() -> function.applyX(a1, a2, a3, a4));
-	}
-
-	static <T1, T2, T3, T4, R> R nestingApply(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T1, T2, T3, T4, R> R nestingApply(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return applyX(ctx, a1, a2, a3, a4, function);
+			return applyX(c1, a1, a2, a3, a4, function);
 		} catch (Throwable e) {
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
-	static <T1, T2, T3, T4, R> R shovingApply(@Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T1, T2, T3, T4, R> R shovingApply(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return applyX(ctx, a1, a2, a3, a4, function);
+			return applyX(c1, a1, a2, a3, a4, function);
 		} catch (Throwable e) {
 			throw Handling.throwIt(e);
 		}
 	}
 
-	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+	static <T1, T2, T3, T4, R> R applyX(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3, a4);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (R) retval;
+	}
+
+	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
 		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = function.applyX(a1, a2, a3, a4);
+					var v = LQuadFunction.applyX(c1, a1, a2, a3, a4, function);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);
@@ -465,15 +481,252 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return future;
 	}
 
-	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+	static <T1, T2, T3, T4, R> R nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> R shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> R applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3, a4);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (R) retval;
+	}
+
+	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = LQuadFunction.applyX(ctx, a1, a2, a3, a4, function);
+					var v = LQuadFunction.applyX(c1, c2, a1, a2, a3, a4, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2, T3, T4, R> R nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> R shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> R applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3, a4);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (R) retval;
+	}
+
+	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<R> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LQuadFunction.applyX(c1, c2, c3, a1, a2, a3, a4, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2, T3, T4, R> R nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, c4, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> R shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, c4, a1, a2, a3, a4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2, T3, T4, R> R applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s4 = last = CallContext.tryInit(last, c4);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3, a4);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c4, s4);
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (R) retval;
+	}
+
+	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4,
+			@Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<R> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LQuadFunction.applyX(c1, c2, c3, c4, a1, a2, a3, a4, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2, T3, T4, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<R> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.applyX(a1, a2, a3, a4);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);

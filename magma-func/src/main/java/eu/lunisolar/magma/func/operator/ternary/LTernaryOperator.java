@@ -398,45 +398,61 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 
 	// <editor-fold desc="CallContext">
 
-	default @Nonnull LTernaryOperator<T> wrapWith(@Nonnull CallContext ctx) {
-		Null.nonNullArg(ctx, "ctx");
-		return (a1, a2, a3) -> applyX(ctx, a1, a2, a3, this);
-	}
-
-	static <T> T applyX(@Nonnull CallContext ctx, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) throws Throwable {
-		Null.nonNullArg(ctx, "ctx");
-		Null.nonNullArg(function, "function");
-		return (T) ctx.call(() -> function.applyX(a1, a2, a3));
-	}
-
-	static <T> T nestingApply(@Nonnull CallContext ctx, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T> T nestingApply(@Nonnull CallContext c1, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return applyX(ctx, a1, a2, a3, function);
+			return applyX(c1, a1, a2, a3, function);
 		} catch (Throwable e) {
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
-	static <T> T shovingApply(@Nonnull CallContext ctx, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T> T shovingApply(@Nonnull CallContext c1, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return applyX(ctx, a1, a2, a3, function);
+			return applyX(c1, a1, a2, a3, function);
 		} catch (Throwable e) {
 			throw Handling.throwIt(e);
 		}
 	}
 
-	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+	static <T> T applyX(@Nonnull CallContext c1, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
 		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = function.applyX(a1, a2, a3);
+					var v = LTernaryOperator.applyX(c1, a1, a2, a3, function);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);
@@ -449,15 +465,251 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return future;
 	}
 
-	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+	static <T> T nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, a1, a2, a3, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> T shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, a1, a2, a3, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> T applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = LTernaryOperator.applyX(ctx, a1, a2, a3, function);
+					var v = LTernaryOperator.applyX(c1, c2, a1, a2, a3, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> T nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, a1, a2, a3, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> T shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, a1, a2, a3, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> T applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LTernaryOperator.applyX(c1, c2, c3, a1, a2, a3, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> T nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, c4, a1, a2, a3, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> T shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return applyX(c1, c2, c3, c4, a1, a2, a3, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> T applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s4 = last = CallContext.tryInit(last, c4);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingApply(a1, a2, a3);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c4, s4);
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LTernaryOperator.applyX(c1, c2, c3, c4, a1, a2, a3, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.applyX(a1, a2, a3);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);

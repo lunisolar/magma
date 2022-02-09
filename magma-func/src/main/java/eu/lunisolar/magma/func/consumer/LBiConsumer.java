@@ -387,48 +387,61 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 
 	// <editor-fold desc="CallContext">
 
-	default @Nonnull LBiConsumer<T1, T2> wrapWith(@Nonnull CallContext ctx) {
-		Null.nonNullArg(ctx, "ctx");
-		return (a1, a2) -> acceptX(ctx, a1, a2, this);
-	}
-
-	static <T1, T2> void acceptX(@Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) throws Throwable {
-		Null.nonNullArg(ctx, "ctx");
-		Null.nonNullArg(function, "function");
-		ctx.call(() -> {
-			function.acceptX(a1, a2);
-			return null;
-		});
-	}
-
-	static <T1, T2> void nestingAccept(@Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T1, T2> void nestingAccept(@Nonnull CallContext c1, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			acceptX(ctx, a1, a2, function);
+			acceptX(c1, a1, a2, function);
 		} catch (Throwable e) {
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
-	static <T1, T2> void shovingAccept(@Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T1, T2> void shovingAccept(@Nonnull CallContext c1, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			acceptX(ctx, a1, a2, function);
+			acceptX(c1, a1, a2, function);
 		} catch (Throwable e) {
 			throw Handling.throwIt(e);
 		}
 	}
 
-	static <T1, T2> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+	static <T1, T2> void acceptX(@Nonnull CallContext c1, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingAccept(a1, a2);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static <T1, T2> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
 		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					function.acceptX(a1, a2);
+					LBiConsumer.acceptX(c1, a1, a2, function);
 					future.complete(null);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);
@@ -441,15 +454,251 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return future;
 	}
 
-	static <T1, T2> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+	static <T1, T2> void nestingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(c1, c2, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2> void shovingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(c1, c2, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2> void acceptX(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingAccept(a1, a2);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static <T1, T2> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					LBiConsumer.acceptX(ctx, a1, a2, function);
+					LBiConsumer.acceptX(c1, c2, a1, a2, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2> void nestingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(c1, c2, c3, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2> void shovingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(c1, c2, c3, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2> void acceptX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingAccept(a1, a2);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static <T1, T2> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					LBiConsumer.acceptX(c1, c2, c3, a1, a2, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2> void nestingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(c1, c2, c3, c4, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T1, T2> void shovingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			acceptX(c1, c2, c3, c4, a1, a2, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T1, T2> void acceptX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s4 = last = CallContext.tryInit(last, c4);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingAccept(a1, a2);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c4, s4);
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static <T1, T2> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					LBiConsumer.acceptX(c1, c2, c3, c4, a1, a2, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T1, T2> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					function.acceptX(a1, a2);
 					future.complete(null);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);

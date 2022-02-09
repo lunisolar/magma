@@ -84,26 +84,6 @@ public class CallContextTest {
     }
 
     @Test(dataProvider = "simpleTest")
-    public void simpleTest(String a1, String a2) {
-
-        // given
-        l().clear();
-        var ctx = CallContext.ctx(f -> {
-            l().add(i1$);
-            Object o = f.get();
-            l().add(f1$);
-            return o;
-        });
-
-        // when
-        var result = LBiFunction.nestingApply((CallContext) ctx, a1, a2, FUNC);
-
-        // then
-        attest(result).mustEx(Be::equalEx, a1 + a2);
-        assertThat(l()).containsExactly(i1$, a1, a2, f1$);
-    }
-
-    @Test(dataProvider = "simpleTest")
     public void simpleTest_consumer(String a1, String a2) {
 
         // given
@@ -125,38 +105,8 @@ public class CallContextTest {
         var ctx1 = CallContext.ctx(i1, f1);
         var ctx2 = CallContext.ctx(i2, f2);
 
-        var ctx = ctx1.and(ctx2);
-
         // when
-        var result = LBiFunction.nestingApply((CallContext) ctx, a1, a2, FUNC);
-
-        // then
-        assertThat(l()).containsExactly(i1$, i2$, a1, a2, f2$, f1$);
-    }
-
-    @Test(dataProvider = "simpleTest")
-    public void combine_wrapsInCorrectOrder(String a1, String a2) {
-
-        // given
-        l().clear();
-        var ctx1 = CallContext.ctx(f -> {
-            l().add(i1$);
-            Object o = f.get();
-            l().add(f1$);
-            return o;
-        });
-
-        var ctx2 = CallContext.ctx(f -> {
-            l().add(i2$);
-            Object o = f.get();
-            l().add(f2$);
-            return o;
-        });
-
-        var ctx = ctx1.and(ctx2);
-
-        // when
-        var result = LBiFunction.nestingApply((CallContext) ctx, a1, a2, FUNC);
+        var result = LBiFunction.nestingApply(ctx1, ctx2, a1, a2, FUNC);
 
         // then
         assertThat(l()).containsExactly(i1$, i2$, a1, a2, f2$, f1$);
@@ -164,42 +114,13 @@ public class CallContextTest {
 
     //<editor-fold desc="setup">
 
-    @Nonnull private CallContext ctxCreate(
-            LAction init1, LAction finalize1,
-            LAction init2, LAction finalize2) {
-        var ctx1 = CallContext.ctx(init1, finalize1);
-        var ctx2 = CallContext.ctx(init2, finalize2);
-        return ctx1.and(ctx2);
-    }
-
     /** To enhance coverage for CallContext. */
     @Nonnull private CallContext ctxCreate_finisherWithThrowableArg(
-            LAction init1, LAction finalize1,
-            LAction init2, LAction finalize2) {
-        var ctx1 = CallContext.ctx(() -> {
+            LAction init1, LAction finalize1) {
+        return CallContext.ctx(() -> {
             init1.executeX();
             return null;
         }, (ignored1, ignored2) -> finalize1.executeX());
-        var ctx2 = CallContext.ctx(() -> {
-            init2.executeX();
-            return null;
-        }, (ignored1, ignored2) -> finalize2.executeX());     // <- ignored2 is the difference
-        return ctx1.and(ctx2);
-    }
-
-    /** To enhance coverage for CallContext. */
-    @Nonnull private CallContext ctxCreate_semiCustomCtx(
-            LAction init1, LAction finalize1,
-            LAction init2, LAction finalize2) {
-        CallContext ctx1 = call -> CallContext.shovingCallWithHandling(() -> {      // <- shovingCallWithHandling is the difference
-            init1.executeX();
-            return null;
-        }, (ignored1, ignored2) -> finalize1.executeX(), call);
-        CallContext ctx2 = call -> CallContext.shovingCallWithHandling(() -> {      // <- shovingCallWithHandling is the difference
-            init2.executeX();
-            return null;
-        }, (ignored1, ignored2) -> finalize2.executeX(), call);  // <- ignored2 is the difference
-        return ctx1.and(ctx2);
     }
 
     private static final ThreadLocal<List<String>> L = ThreadLocal.withInitial(ArrayList::new);
@@ -357,11 +278,12 @@ public class CallContextTest {
     ) {
         // given
         l().clear();
-        var ctx = ctxCreate(init1, finish1, init2, finish2);
+        var ctx1 = CallContext.ctx(init1, finish1);
+        var ctx2 = CallContext.ctx(init2, finish2);
 
         // when
         var check = attestThrownBy(() -> {
-            LBiFunction.shovingApply(ctx, ARG1, ARG2, function);
+            LBiFunction.shovingApply(ctx1, ctx2, ARG1, ARG2, function);
         });
 
         // then
@@ -379,11 +301,12 @@ public class CallContextTest {
     ) {
         // given
         l().clear();
-        var ctx = ctxCreate(init1, finish1, init2, finish2);
+        var ctx1 = CallContext.ctx(init1, finish1);
+        var ctx2 = CallContext.ctx(init2, finish2);
 
         // when
         var check = attestThrownBy(() -> {
-            LBiFunction.nestingApply(ctx, ARG1, ARG2, function);
+            LBiFunction.nestingApply(ctx1, ctx2, ARG1, ARG2, function);
         });
 
         // then
@@ -404,33 +327,12 @@ public class CallContextTest {
     ) {
         // given
         l().clear();
-        var ctx = ctxCreate_finisherWithThrowableArg(init1, finish1, init2, finish2);
+        var ctx1 = ctxCreate_finisherWithThrowableArg(init1, finish1);
+        var ctx2 = ctxCreate_finisherWithThrowableArg(init2, finish2);
 
         // when
         var check = attestThrownBy(() -> {
-            LBiFunction.shovingApply(ctx, ARG1, ARG2, function);
-        });
-
-        // then
-        exChecker.accept(check);
-        assertThat(l()).containsExactly(expectedLog);
-    }
-
-    @Test(dataProvider = "exceptionHandling")
-    public void combine_exceptionHandling_semiCustomCtx(
-            LAction init1, LAction finish1,
-            LAction init2, LAction finish2,
-            LBiFunction<String, String, String> function,
-            Consumer<Checks.Check<Throwable>> exChecker,
-            String... expectedLog
-    ) {
-        // given
-        l().clear();
-        var ctx = ctxCreate_semiCustomCtx(init1, finish1, init2, finish2);
-
-        // when
-        var check = attestThrownBy(() -> {
-            LBiFunction.shovingApply(ctx, ARG1, ARG2, function);
+            LBiFunction.shovingApply(ctx1, ctx2, ARG1, ARG2, function);
         });
 
         // then
@@ -465,6 +367,8 @@ public class CallContextTest {
 
         // when
         var check = attestThrownBy(future::get);
+
+        // then
         check.mustEx(Be::instanceOfEx, ExecutionException.class)
              .mustEx(Have::msgEqualEx, "java.lang.UnsupportedOperationException: unsupported")
              .mustEx(Have::noSuspendedEx)
@@ -474,7 +378,24 @@ public class CallContextTest {
                      .mustEx(Have::msgEqualEx, "unsupported")
                      .mustEx(Have::noCauseEx)
                      .mustEx(Have::noSuspendedEx));
+    }
+
+    @Test
+    public void supplier_init_exception_returned_not_thrown() {
+        // given
+        var capturedL = l();
+        capturedL.clear();
+        var asyncCtx = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
+        var ctx1 = CallContext.ctx(()-> new UnsupportedOperationException("unsupported"), obj-> {/*NOOP*/});
+
+        // when
+        var check = attestThrownBy(()-> LSupplier.shovingGet(ctx1, Object::new));
+
         // then
+        check.mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
+             .mustEx(Have::msgEqualEx, "unsupported")
+             .mustEx(Have::noCauseEx)
+             .mustEx(Have::noSuspendedEx);
     }
 
     @Test

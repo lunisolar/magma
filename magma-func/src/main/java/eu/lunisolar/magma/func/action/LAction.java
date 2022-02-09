@@ -317,48 +317,61 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	// <editor-fold desc="CallContext">
 
-	default @Nonnull LAction wrapWith(@Nonnull CallContext ctx) {
-		Null.nonNullArg(ctx, "ctx");
-		return () -> executeX(ctx, this);
-	}
-
-	static void executeX(@Nonnull CallContext ctx, @Nonnull LAction function) throws Throwable {
-		Null.nonNullArg(ctx, "ctx");
-		Null.nonNullArg(function, "function");
-		ctx.call(() -> {
-			function.executeX();
-			return null;
-		});
-	}
-
-	static void nestingExecute(@Nonnull CallContext ctx, @Nonnull LAction function) {
-		Null.nonNullArg(ctx, "ctx");
+	static void nestingExecute(@Nonnull CallContext c1, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			executeX(ctx, function);
+			executeX(c1, function);
 		} catch (Throwable e) {
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
-	static void shovingExecute(@Nonnull CallContext ctx, @Nonnull LAction function) {
-		Null.nonNullArg(ctx, "ctx");
+	static void shovingExecute(@Nonnull CallContext c1, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			executeX(ctx, function);
+			executeX(c1, function);
 		} catch (Throwable e) {
 			throw Handling.throwIt(e);
 		}
 	}
 
-	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull LAction function) {
+	static void executeX(@Nonnull CallContext c1, @Nonnull LAction function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingExecute();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull LAction function) {
 		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					function.executeX();
+					LAction.executeX(c1, function);
 					future.complete(null);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);
@@ -371,15 +384,251 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return future;
 	}
 
-	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, @Nonnull LAction function) {
+	static void nestingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(c1, c2, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static void shovingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(c1, c2, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static void executeX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingExecute();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					LAction.executeX(ctx, function);
+					LAction.executeX(c1, c2, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static void nestingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(c1, c2, c3, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static void shovingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(c1, c2, c3, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static void executeX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingExecute();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					LAction.executeX(c1, c2, c3, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static void nestingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(c1, c2, c3, c4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static void shovingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			executeX(c1, c2, c3, c4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static void executeX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s4 = last = CallContext.tryInit(last, c4);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+		if (primary == null) {
+			try {
+				function.shovingExecute();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c4, s4);
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+
+	}
+
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					LAction.executeX(c1, c2, c3, c4, function);
+					future.complete(null);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull LAction function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Void> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					function.executeX();
 					future.complete(null);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);

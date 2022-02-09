@@ -641,45 +641,61 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 
 	// <editor-fold desc="CallContext">
 
-	default @Nonnull LPredicate<T> wrapWith(@Nonnull CallContext ctx) {
-		Null.nonNullArg(ctx, "ctx");
-		return a -> testX(ctx, a, this);
-	}
-
-	static <T> boolean testX(@Nonnull CallContext ctx, T a, @Nonnull LPredicate<T> function) throws Throwable {
-		Null.nonNullArg(ctx, "ctx");
-		Null.nonNullArg(function, "function");
-		return (boolean) ctx.call(() -> function.testX(a));
-	}
-
-	static <T> boolean nestingTest(@Nonnull CallContext ctx, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T> boolean nestingTest(@Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return testX(ctx, a, function);
+			return testX(c1, a, function);
 		} catch (Throwable e) {
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
-	static <T> boolean shovingTest(@Nonnull CallContext ctx, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T> boolean shovingTest(@Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return testX(ctx, a, function);
+			return testX(c1, a, function);
 		} catch (Throwable e) {
 			throw Handling.throwIt(e);
 		}
 	}
 
-	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, T a, @Nonnull LPredicate<T> function) {
+	static <T> boolean testX(@Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingTest(a);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = function.testX(a);
+					var v = LPredicate.testX(c1, a, function);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);
@@ -692,15 +708,251 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return future;
 	}
 
-	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, T a, @Nonnull LPredicate<T> function) {
+	static <T> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(c1, c2, a, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(c1, c2, a, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingTest(a);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = LPredicate.testX(ctx, a, function);
+					var v = LPredicate.testX(c1, c2, a, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(c1, c2, c3, a, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(c1, c2, c3, a, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingTest(a);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LPredicate.testX(c1, c2, c3, a, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(c1, c2, c3, c4, a, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return testX(c1, c2, c3, c4, a, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s4 = last = CallContext.tryInit(last, c4);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingTest(a);
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c4, s4);
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LPredicate.testX(c1, c2, c3, c4, a, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, T a, @Nonnull LPredicate<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.testX(a);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);

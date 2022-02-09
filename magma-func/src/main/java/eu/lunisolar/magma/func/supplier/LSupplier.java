@@ -345,45 +345,61 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 
 	// <editor-fold desc="CallContext">
 
-	default @Nonnull LSupplier<T> wrapWith(@Nonnull CallContext ctx) {
-		Null.nonNullArg(ctx, "ctx");
-		return () -> getX(ctx, this);
-	}
-
-	static <T> T getX(@Nonnull CallContext ctx, @Nonnull LSupplier<T> function) throws Throwable {
-		Null.nonNullArg(ctx, "ctx");
-		Null.nonNullArg(function, "function");
-		return (T) ctx.call(() -> function.getX());
-	}
-
-	static <T> T nestingGet(@Nonnull CallContext ctx, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return getX(ctx, function);
+			return getX(c1, function);
 		} catch (Throwable e) {
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
-	static <T> T shovingGet(@Nonnull CallContext ctx, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(ctx, "ctx");
+	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return getX(ctx, function);
+			return getX(c1, function);
 		} catch (Throwable e) {
 			throw Handling.throwIt(e);
 		}
 	}
 
-	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull LSupplier<T> function) {
+	static <T> T getX(@Nonnull CallContext c1, @Nonnull LSupplier<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGet();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = function.getX();
+					var v = LSupplier.getX(c1, function);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);
@@ -396,15 +412,251 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return future;
 	}
 
-	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, @Nonnull LSupplier<T> function) {
+	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(c1, c2, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(c1, c2, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> T getX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGet();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = LSupplier.getX(ctx, function);
+					var v = LSupplier.getX(c1, c2, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(c1, c2, c3, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(c1, c2, c3, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> T getX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGet();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LSupplier.getX(c1, c2, c3, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(c1, c2, c3, c4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return getX(c1, c2, c3, c4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static <T> T getX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s4 = last = CallContext.tryInit(last, c4);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGet();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c4, s4);
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (T) retval;
+	}
+
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LSupplier.getX(c1, c2, c3, c4, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull LSupplier<T> function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<T> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.getX();
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);

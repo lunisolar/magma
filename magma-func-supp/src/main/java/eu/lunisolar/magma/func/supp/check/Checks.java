@@ -1427,7 +1427,7 @@ public final class Checks implements FluentSyntax {
 			return Checks.attest(e, "exception");
 		}
 
-		return Checks.attest(null, "exception");
+		throw X.assertion("Expecting exception.");
 	}
 
 }

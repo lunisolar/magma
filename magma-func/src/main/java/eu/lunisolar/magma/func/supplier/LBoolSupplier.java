@@ -336,45 +336,61 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 
 	// <editor-fold desc="CallContext">
 
-	default @Nonnull LBoolSupplier wrapWith(@Nonnull CallContext ctx) {
-		Null.nonNullArg(ctx, "ctx");
-		return () -> getAsBoolX(ctx, this);
-	}
-
-	static boolean getAsBoolX(@Nonnull CallContext ctx, @Nonnull LBoolSupplier function) throws Throwable {
-		Null.nonNullArg(ctx, "ctx");
-		Null.nonNullArg(function, "function");
-		return (boolean) ctx.call(() -> function.getAsBoolX());
-	}
-
-	static boolean nestingGetAsBool(@Nonnull CallContext ctx, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(ctx, "ctx");
+	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return getAsBoolX(ctx, function);
+			return getAsBoolX(c1, function);
 		} catch (Throwable e) {
 			throw Handling.nestCheckedAndThrow(e);
 		}
 	}
 
-	static boolean shovingGetAsBool(@Nonnull CallContext ctx, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(ctx, "ctx");
+	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		try {
-			return getAsBoolX(ctx, function);
+			return getAsBoolX(c1, function);
 		} catch (Throwable e) {
 			throw Handling.throwIt(e);
 		}
 	}
 
-	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull LBoolSupplier function) {
+	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull LBoolSupplier function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGetAsBool();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = function.getAsBoolX();
+					var v = LBoolSupplier.getAsBoolX(c1, function);
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);
@@ -387,15 +403,251 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return future;
 	}
 
-	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext ctx, @Nonnull LBoolSupplier function) {
+	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(c1, c2, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(c1, c2, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGetAsBool();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(ctx, "ctx");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
 			async.call(() -> {
 				try {
-					var v = LBoolSupplier.getAsBoolX(ctx, function);
+					var v = LBoolSupplier.getAsBoolX(c1, c2, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(c1, c2, c3, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(c1, c2, c3, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGetAsBool();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LBoolSupplier.getAsBoolX(c1, c2, c3, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(c1, c2, c3, c4, function);
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+	}
+
+	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		try {
+			return getAsBoolX(c1, c2, c3, c4, function);
+		} catch (Throwable e) {
+			throw Handling.throwIt(e);
+		}
+	}
+
+	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) throws Throwable {
+
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+
+		Object last = null;
+		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s4 = last = CallContext.tryInit(last, c4);
+
+		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object retval = null;
+		if (primary == null) {
+			try {
+				retval = function.shovingGetAsBool();
+			} catch (Throwable e) {
+				primary = e;
+			}
+		}
+
+		primary = CallContext.tryFinish(primary, c4, s4);
+		primary = CallContext.tryFinish(primary, c3, s3);
+		primary = CallContext.tryFinish(primary, c2, s2);
+		primary = CallContext.tryFinish(primary, c1, s1);
+
+		if (primary != null) {
+			throw Handling.throwIt(primary);
+		}
+		return (boolean) retval;
+	}
+
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(c1, "c1");
+		Null.nonNullArg(c2, "c2");
+		Null.nonNullArg(c3, "c3");
+		Null.nonNullArg(c4, "c4");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = LBoolSupplier.getAsBoolX(c1, c2, c3, c4, function);
+					future.complete(v);
+				} catch (Throwable e) {
+					Handling.handleErrors(e);
+					future.completeExceptionally(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw Handling.nestCheckedAndThrow(e);
+		}
+		return future;
+	}
+
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull LBoolSupplier function) {
+		Null.nonNullArg(async, "async");
+		Null.nonNullArg(function, "function");
+		CompletableFuture<Boolean> future = new CompletableFuture<>();
+		try {
+			async.call(() -> {
+				try {
+					var v = function.getAsBoolX();
 					future.complete(v);
 				} catch (Throwable e) {
 					Handling.handleErrors(e);

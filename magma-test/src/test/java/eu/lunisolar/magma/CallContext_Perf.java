@@ -18,7 +18,9 @@
 
 package eu.lunisolar.magma;
 
+import eu.lunisolar.magma.func.AsyncCallContext;
 import eu.lunisolar.magma.func.CallContext;
+import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.operator.binary.LBinaryOperator;
 import eu.lunisolar.magma.func.operator.binary.LIntBinaryOperator;
 import eu.lunisolar.magma.func.supplier.LSupplier;
@@ -27,9 +29,10 @@ import eu.lunisolar.magma.test.random.Series;
 import eu.lunisolar.magma.test.random.SeriesParams;
 import org.openjdk.jmh.annotations.*;
 
-import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
 import java.util.concurrent.*;
 
+import static eu.lunisolar.magma.basics.Null.nonNullArg;
 import static eu.lunisolar.magma.test.random.Series.series;
 import static eu.lunisolar.magma.test.random.SimpleRandoms.anInt;
 import static org.openjdk.jmh.runner.options.TimeValue.seconds;
@@ -48,77 +51,106 @@ import static org.openjdk.jmh.runner.options.TimeValue.seconds;
 @SuppressWarnings({"unused", "unchecked"})
 public class CallContext_Perf {
 
-    private static final int THREADS     = 1;
+    private static final int THREADS = 1;
     private static final int SERIES_SIZE = 1000;
 
     private static final LSupplier<Integer>       int1               = () -> anInt(40000);
     private static final int                      COUNT_ITERATIONS   = 10000;
     public static final  LBinaryOperator<Integer> FUNCTION           = (a1, a2) -> a1 >= a2 ? a1 : a2;
     public static final  LIntBinaryOperator       FUNCTION_PRIMITIVE = (a1, a2) -> a1 >= a2 ? a1 : a2;
+    public static final String NAME_STR = "AAAA";
 
     private static SeriesParams<Integer> params() {
-        return SeriesParams.<Integer>params()
-                           .size(SERIES_SIZE)
-                           .poolASize(5)
-                           .percentageA(39)
-                           .poolAProducer(int1)
-                           .poolBSize(20)
-                           .percentageB(60)
-                           .poolBProducer(int1)
-                           .poolCProducer(int1);
+        return SeriesParams.<Integer>params().size(SERIES_SIZE).poolASize(1).percentageA(1).poolAProducer(int1)   // forcing some measure of exception handling
+//                           .poolAProducer(() -> null)   // forcing some measure of exception handling
+                           .poolBSize(20).percentageB(60).poolBProducer(int1).poolCProducer(int1);
     }
+
+    @NotThreadSafe
+    public static class SomeSimpleContextUtility {
+        public long entries = 0; // \
+        public long exits   = 0; // / non atomic - performance will be measured just for one thread.
+
+        public static interface SomeSimpleContextUtilitySupplier<V> {
+            V calculate();
+        }
+
+        public <V> V executeInContext(SomeSimpleContextUtilitySupplier<V> supplier) {
+            enterContext();
+            var v = supplier.calculate();
+            exitContext();
+            return v;
+        }
+
+        public void exitContext()  {exits++;}
+        public void enterContext() {entries++;}
+
+        // Bad because causes GC due to the interface incompatibility
+        public static <V> V someBadUtilityMethod(SomeSimpleContextUtility u, LSupplier<V> calculation) {
+            return u.executeInContext(calculation::shovingGet);
+        }
+
+        public static <V> V someGoodUtilityMethod(SomeSimpleContextUtility u, SomeSimpleContextUtilitySupplier<V> calculation) {
+            return u.executeInContext(calculation);
+        }
+
+        long sum() {
+            return entries + exits;
+        }
+    }
+
+    @NotThreadSafe
+    public static class SomeNamedContextUtility {
+        public       long   value = 0;
+
+        public static interface SomeSimpleContextUtilitySupplier<V> {
+            V calculate();
+        }
+
+        public <V> V executeInContext(String name, SomeSimpleContextUtilitySupplier<V> supplier) {
+            long increment = name.length();
+            var v = supplier.calculate();
+            value += increment;
+            return v;
+        }
+
+        public void enterContext(long increment) {value += increment;}
+
+        public CallContext namedCtx(String name) {return CallContext.ctx(()-> name.length() /* something to hold on to */, l -> this.value += l);}
+
+    }
+
+    public static final SomeNamedContextUtility NAMED = new SomeNamedContextUtility();
+    static final CallContext named_intended = NAMED.namedCtx(NAME_STR);
 
     @State(Scope.Thread)
     public static class TheState {
 
-        static Series<Integer> a1 = series(params().name("a1"));
-        static Series<Integer> a2 = series(params().name("a2"));
+        final SomeSimpleContextUtility C1 = new SomeSimpleContextUtility();
+        final SomeSimpleContextUtility C2 = new SomeSimpleContextUtility();
+        final SomeSimpleContextUtility C3 = new SomeSimpleContextUtility();
+        final SomeSimpleContextUtility C4 = new SomeSimpleContextUtility();
 
-        long entries = 0;
-        long exits   = 0;
+        final SomeNamedContextUtility NAME = NAMED;
 
-        // Thread unsafe - CallContext internal impact for measurement must be minimal.
-        CallContext CTX_TS_1 = CallContext.ctx(() -> {if (exits % 2 == 0) {entries++;}}, () -> exits++);
-//        CallContext CTX_TS_1 = CallContext.ctx(() -> entries++, () -> exits++);
+        final Series<Integer> a1 = series(params().name("a1"));
+        final Series<Integer> a2 = series(params().name("a2"));
 
-        // Thread unsafe - CallContext internal impact for measurement must be minimal.
-        CallContext CTX_TS_2 = CallContext.ctx(() -> entries++, () -> exits++);
+        CallContext CTX1 = CallContext.ctx(C1::enterContext, C1::exitContext);
+        CallContext CTX2 = CallContext.ctx(C2::enterContext, C2::exitContext);
+        CallContext CTX3 = CallContext.ctx(C3::enterContext, C3::exitContext);
+        CallContext CTX4 = CallContext.ctx(C4::enterContext, C4::exitContext);
 
-        // Thread unsafe - CallContext internal impact for measurement must be minimal.
-        CallContext CTX_1 = functionCall -> {
-            entries++;
-            var v = functionCall.get();
-            exits++;
-            return v;
-        };
+        AsyncCallContext FAKE_ASYNC = LAction::execute;
 
-        // Thread unsafe - CallContext internal impact for measurement must be minimal.
-        CallContext CTX_2 = functionCall -> {
-            entries++;
-            var v = functionCall.get();
-            exits++;
-            return v;
-        };
-
-        CallContext CTX_TS_DOUBLE = CallContext.combine(CTX_TS_1, CTX_TS_2);
-        CallContext CTX_DOUBLE    = CallContext.combine(CTX_1, CTX_2);
-        CallContext CTX3_DOUBLE   = CallContext.combine((CallContext) CTX_TS_1, CTX_TS_2);
-        CallContext CTX4_4        = CallContext.combine(CTX_1, CTX_2, CTX_1, CTX_2);
-
-        CallContext[] ARRAY = new CallContext[]{CTX_1, CTX_TS_1, CTX_2, CTX_TS_2, CTX_DOUBLE};
-//        TwoStage[]    ARRAY2 = new TwoStage[]{CTX_TS_1, CTX_TS_2};
-//        TwoStage[]    ARRAY3 = new TwoStage[]{CTX_TS_1, CTX_TS_DOUBLE};
+        CallContext[] ARRAY = new CallContext[]{CTX1, CTX2};
 
         CallContext decoupledCtx() {return ARRAY[iteration % ARRAY.length];}
-//        TwoStage decoupledTwoStage() {return ARRAY2[iteration % ARRAY2.length];}
-//        TwoStage decoupledTwoStage2() {return ARRAY3[iteration % ARRAY2.length];}
 
-        @Setup
-        public void setup() {
+        @Setup public void setup() {
         }
 
-        @TearDown
-        public void after() {
+        @TearDown public void after() {
         }
 
         private int iteration = 0;
@@ -131,159 +163,319 @@ public class CallContext_Perf {
 
     }
 
-    @Benchmark @Threads(THREADS) public Object function_reference(TheState state) {
+    //
+
+    //<editor-fold desc="ref">
+
+    @Benchmark @Threads(THREADS) public Object function_ref_performance_roof(TheState state) {
         int a = 0;
         var runningSum = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             var i = state.i();
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
-
-            runningSum += LBinaryOperator.call(a1, a2, FUNCTION);
+            try {
+                runningSum += a1 >= a2 ? a1 : a2;
+            } catch (Exception e) {
+                runningSum += 1;
+            }
         }
-        return runningSum + state.entries + state.exits;
+        return runningSum + state.C1.entries + state.C2.exits;
     }
 
-    @Benchmark @Threads(THREADS) public Object call_CTX_TS_1(TheState state) {
+    @Benchmark @Threads(THREADS) public Object function_ref_case_to_replace_ideal(TheState state) {
         int a = 0;
         var runningSum = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             var i = state.i();
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
-
-            runningSum += LBinaryOperator.shovingApply(state.CTX_TS_1, a1, a2, FUNCTION);
+            try {
+                runningSum += state.C1.executeInContext(() -> state.C2.executeInContext(() -> FUNCTION.apply(a1, a2)));
+            } catch (Exception e) {
+                runningSum += 1;
+            }
         }
-        return runningSum + state.entries + state.exits;
+        return runningSum + state.C1.entries + state.C2.exits;
     }
 
-//    @Benchmark @Threads(THREADS) public Object call_CTX_TS_1_primitive(TheState state) {
+    @Benchmark @Threads(THREADS) public Object function_ref_case_to_replace_ideal2(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += state.C1.executeInContext(() -> {
+                    state.C2.enterContext();
+                    Integer v = ((LSupplier<Integer>) () -> FUNCTION.apply(a1, a2)).shovingGet();
+                    state.C2.exitContext();
+                    return v;
+                });
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.entries + state.C2.exits;
+    }
+
+    @Benchmark @Threads(THREADS) public Object function_ref_case_to_replace_NOT_ideal(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += state.C1.executeInContext(() -> state.C2.executeInContext(() -> state.C1.executeInContext(() -> FUNCTION.apply(a1, a2))));
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.entries + state.C2.exits;
+    }
+
+    /* Because of this case it is not beneficial to introduce CallContext as "unified" functional interface. */
+    @Benchmark @Threads(THREADS) public Object function_ref_BAD_utilityMethod(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += SomeSimpleContextUtility.someBadUtilityMethod(state.C1, () -> FUNCTION.apply(a1, a2));
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.entries + state.C2.exits;
+    }
+
+    @Benchmark @Threads(THREADS) public Object function_ref_GOOD_utilityMethod(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += SomeSimpleContextUtility.someGoodUtilityMethod(state.C1, () -> FUNCTION.apply(a1, a2));
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.entries + state.C2.exits;
+    }
+    //</editor-fold>
+
+    @Benchmark @Threads(THREADS) public Object function_ref_biOp_named_intended_CTX2(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += NAMED.executeInContext(NAME_STR, ()-> {
+                    return SomeSimpleContextUtility.someGoodUtilityMethod(state.C1, () -> FUNCTION.apply(a1, a2));
+                });
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.entries + state.C2.exits;
+    }
+
+    //
+
+    @Benchmark @Threads(THREADS) public Object call_biOp_CTX1(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += LBinaryOperator.shovingApply(state.CTX1, a1, a2, FUNCTION);
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
+    }
+
+    @Benchmark @Threads(THREADS) public Object call_biOp_CTX1_CTX2(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += LBinaryOperator.shovingApply(state.CTX1, state.CTX2, a1, a2, FUNCTION);
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
+    }
+
+    @Benchmark @Threads(THREADS) public Object call_biOp_CTX1_CTX2_CTX3(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += LBinaryOperator.shovingApply(state.CTX1, state.CTX2, state.CTX3, a1, a2, FUNCTION);
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
+    }
+
+    @Benchmark @Threads(THREADS) public Object call_biOp_CTX1_CTX2_CTX3_CTX4(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += LBinaryOperator.shovingApply(state.CTX1, state.CTX2, state.CTX3, state.CTX4, a1, a2, FUNCTION);
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
+    }
+
+    @Benchmark @Threads(THREADS) public Object call_biOp_EXTRA_CTX1_CTX2_CTX3_CTX4(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += state.C1.executeInContext(() -> { // <- some context that cannot be two-phase
+                    return LBinaryOperator.shovingApply(state.CTX1, state.CTX2, state.CTX3, state.CTX4, a1, a2, FUNCTION);
+                });
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
+    }
+
+    @Benchmark @Threads(THREADS) public Object call_biOp_EXTRA_CTX1_CTX2_CTX3_CTX42(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += state.C1.executeInContext(() -> { // <- some context that cannot be two-phase
+                    return LBinaryOperator.shovingApply(state.CTX1, state.CTX2, state.CTX3, state.CTX4, a1, a2, (a11, a21) -> a11 >= a21 ? a11 : a21);
+                });
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
+    }
+
+    @Benchmark @Threads(THREADS) public Object call_action_CTX1_CTX2_CTX3_CTX4(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                LAction.shovingExecute(state.CTX1, state.CTX2, state.CTX3, state.CTX4, () -> FUNCTION.applyX(a1, a2));
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
+    }
+
+//    @Benchmark @Threads(THREADS) public Object call_biOp_EXTRA_CTX1_CTX2_CTX3_CTX4_primitive(TheState state) {
 //        int a = 0;
 //        var runningSum = 0;
 //        for (int c = 0; c < COUNT_ITERATIONS; c++) {
 //            var i = state.i();
 //            var a1 = state.a1.v(i);
 //            var a2 = state.a2.v(i);
-//
-//            runningSum += LIntBinaryOperator.applyAsInt(state.CTX_TS_1, a1, a2, FUNCTION_PRIMITIVE);
+//            try {
+//                runningSum += state.C1.executeInContext(() -> { // <- some context that cannot be two-phase
+//                    return LIntBinaryOperator.shovingApplyAsInt(state.CTX1, state.CTX2, state.CTX3, state.CTX4, a1, a2, FUNCTION_PRIMITIVE);
+//                });
+//            } catch (Exception e) {
+//                runningSum += 1;
+//            }
 //        }
-//        return runningSum + state.entries + state.exits;
+//        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
 //    }
 
-//    @Benchmark @Threads(THREADS) public Object call_CTX_TS_1_primitive_decoupled(TheState state) {
-//        int a = 0;
-//        var runningSum = 0;
-//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
-//            var i = state.i();
-//            var a1 = state.a1.v(i);
-//            var a2 = state.a2.v(i);
-//
-//            runningSum += LIntBinaryOperator.applyAsInt(state.decoupledTwoStage(), a1, a2, FUNCTION_PRIMITIVE);
-//        }
-//        return runningSum + state.entries + state.exits;
-//    }
-
-    @Benchmark @Threads(THREADS) public Object call_CTX_TS_1_as_CC(TheState state) {
+    @Benchmark @Threads(THREADS) public Object call_biOp_named_adHoc_CTX2(TheState state) {
         int a = 0;
         var runningSum = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             var i = state.i();
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
-
-            runningSum += LBinaryOperator.shovingApply((CallContext) state.CTX_TS_1, a1, a2, FUNCTION);
+            try {
+                runningSum += LBinaryOperator.shovingApply(state.NAME.namedCtx(NAME_STR), state.CTX2, a1, a2, FUNCTION);
+            } catch (Exception e) {
+                runningSum += 1;
+            }
         }
-        return runningSum + state.entries + state.exits;
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
     }
 
-    @Benchmark @Threads(THREADS) public Object call_CTX_TS_DOUBLE(TheState state) {
+    @Benchmark @Threads(THREADS) public Object call_biOp_named_adHoc_better_CTX2(TheState state) {
         int a = 0;
         var runningSum = 0;
+        final CallContext aaaaa = state.NAME.namedCtx(NAME_STR);
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             var i = state.i();
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
-
-            runningSum += LBinaryOperator.shovingApply(state.CTX_TS_DOUBLE, a1, a2, FUNCTION);
+            try {
+                runningSum += LBinaryOperator.shovingApply(aaaaa, state.CTX2, a1, a2, FUNCTION);
+            } catch (Exception e) {
+                runningSum += 1;
+            }
         }
-        return runningSum + state.entries + state.exits;
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
     }
 
-//    @Benchmark @Threads(THREADS) public Object call_CTX_TS_DOUBLE_primitive(TheState state) {
-//        int a = 0;
-//        var runningSum = 0;
-//        for (int c = 0; c < COUNT_ITERATIONS; c++) {
-//            var i = state.i();
-//            var a1 = state.a1.v(i);
-//            var a2 = state.a2.v(i);
-//
-//            runningSum += LIntBinaryOperator.applyAsInt(state.CTX_TS_DOUBLE, a1, a2, FUNCTION_PRIMITIVE);
-//        }
-//        return runningSum + state.entries + state.exits;
-//    }
 
-    @Benchmark @Threads(THREADS) public Object call_CTX3_DOUBLE(TheState state) {
+    @Benchmark @Threads(THREADS) public Object call_biOp_named_intended_CTX2(TheState state) {
         int a = 0;
         var runningSum = 0;
+
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             var i = state.i();
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
-
-            runningSum += LBinaryOperator.shovingApply(state.CTX3_DOUBLE, a1, a2, FUNCTION);
+            try {
+                runningSum += LBinaryOperator.shovingApply(named_intended, state.CTX2, a1, a2, FUNCTION);
+            } catch (Exception e) {
+                runningSum += 1;
+            }
         }
-        return runningSum + state.entries + state.exits;
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
     }
 
-    @Benchmark @Threads(THREADS) public Object call_CTX_1(TheState state) {
-        int a = 0;
-        var runningSum = 0;
-        for (int c = 0; c < COUNT_ITERATIONS; c++) {
-            var i = state.i();
-            var a1 = state.a1.v(i);
-            var a2 = state.a2.v(i);
-            runningSum += LBinaryOperator.shovingApply(state.CTX_1, a1, a2, FUNCTION);
-        }
-        return runningSum + state.entries + state.exits;
-    }
-
-    @Benchmark @Threads(THREADS) public Object call_CTX_DOUBLE(TheState state) {
-        int a = 0;
-        var runningSum = 0;
-        for (int c = 0; c < COUNT_ITERATIONS; c++) {
-            var i = state.i();
-            var a1 = state.a1.v(i);
-            var a2 = state.a2.v(i);
-            runningSum += LBinaryOperator.shovingApply(state.CTX_DOUBLE, a1, a2, FUNCTION);
-        }
-        return runningSum + state.entries + state.exits;
-    }
-
-    @Benchmark @Threads(THREADS) public Object call_CTX4_4(TheState state) {
-        int a = 0;
-        var runningSum = 0;
-        for (int c = 0; c < COUNT_ITERATIONS; c++) {
-            var i = state.i();
-            var a1 = state.a1.v(i);
-            var a2 = state.a2.v(i);
-            runningSum += LBinaryOperator.shovingApply(state.CTX4_4, a1, a2, FUNCTION);
-        }
-        return runningSum + state.entries + state.exits;
-    }
-
-    @Benchmark @Threads(THREADS) public Object call_semiRandomCtx(TheState state) { // no optimizations
-        int a = 0;
-        var runningSum = 0;
-        for (int c = 0; c < COUNT_ITERATIONS; c++) {
-            var i = state.i();
-            var a1 = state.a1.v(i);
-            var a2 = state.a2.v(i);
-            runningSum += LBinaryOperator.shovingApply(state.decoupledCtx(), a1, a2, FUNCTION);
-        }
-        return runningSum + state.entries + state.exits;
-    }
-
-    @Benchmark @Threads(THREADS) public Object call_adHOcCombine_worst(TheState state) {
+    @Benchmark @Threads(THREADS) public Object call_biOp_named_intended_CTX2____FAKE_ASYNC(TheState state) {
         int a = 0;
         var runningSum = 0;
 
@@ -291,30 +483,20 @@ public class CallContext_Perf {
             var i = state.i();
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
-            runningSum += LBinaryOperator.shovingApply(CallContext.combine(state.CTX_1, state.CTX_2), a1, a2, FUNCTION);
+            try {
+                runningSum += LBinaryOperator.asyncApply(state.FAKE_ASYNC , named_intended, state.CTX2, a1, a2, FUNCTION).join();
+            } catch (Exception e) {
+                runningSum += 1;
+            }
         }
-        return runningSum + state.entries + state.exits;
-    }
-
-    @Benchmark @Threads(THREADS) public Object call_adHOcCombine_better(TheState state) {
-        int a = 0;
-        var runningSum = 0;
-
-        CallContext combine = CallContext.combine(state.CTX_1, state.CTX_2);
-        for (int c = 0; c < COUNT_ITERATIONS; c++) {
-            var i = state.i();
-            var a1 = state.a1.v(i);
-            var a2 = state.a2.v(i);
-            runningSum += LBinaryOperator.shovingApply(combine, a1, a2, FUNCTION);
-        }
-        return runningSum + state.entries + state.exits;
+        return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
     }
 
     public static void main(String... args) {
         JMH.jmh()
            .java10ServerArgs()
 //           .iterations(3, seconds(10), 3, seconds(10))
-           .iterations(2, seconds(3), 2, seconds(3))
+           .iterations(2, seconds(2), 2, seconds(2))
            .classes(CallContext_Perf.class)
            .gc()
            .mode(Mode.Throughput)
