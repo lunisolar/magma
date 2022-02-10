@@ -345,8 +345,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 
 	// <editor-fold desc="CallContext">
 
-	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T> T nestingGet(@Nullable CallContext c1, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, function);
@@ -355,8 +354,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T> T shovingGet(@Nullable CallContext c1, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, function);
@@ -365,9 +363,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T getX(@Nonnull CallContext c1, @Nonnull LSupplier<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
+	static <T> T getX(@Nullable CallContext c1, @Nonnull LSupplier<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -391,9 +387,8 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return (T) retval;
 	}
 
-	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull LSupplier<T> function) {
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {
@@ -412,9 +407,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return future;
 	}
 
-	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T> T nestingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, c2, function);
@@ -423,9 +416,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T> T shovingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, c2, function);
@@ -434,10 +425,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T getX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T> T getX(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LSupplier<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -463,10 +451,8 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return (T) retval;
 	}
 
-	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LSupplier<T> function) {
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {
@@ -485,10 +471,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return future;
 	}
 
-	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T> T nestingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, c2, c3, function);
@@ -497,10 +480,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T> T shovingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, c2, c3, function);
@@ -509,11 +489,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T getX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T> T getX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LSupplier<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -541,11 +517,8 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return (T) retval;
 	}
 
-	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LSupplier<T> function) {
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {
@@ -564,11 +537,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return future;
 	}
 
-	static <T> T nestingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T> T nestingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, c2, c3, c4, function);
@@ -577,11 +546,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T shovingGet(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T> T shovingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getX(c1, c2, c3, c4, function);
@@ -590,12 +555,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		}
 	}
 
-	static <T> T getX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T> T getX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LSupplier<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -625,12 +585,8 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return (T) retval;
 	}
 
-	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LSupplier<T> function) {
+	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
 		try {

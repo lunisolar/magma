@@ -385,8 +385,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	// <editor-fold desc="CallContext">
 
-	static <T1, T2, T3> void nestingAccept(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, a1, a2, a3, function);
@@ -395,8 +394,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void shovingAccept(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T1, T2, T3> void shovingAccept(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, a1, a2, a3, function);
@@ -405,9 +403,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void acceptX(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
+	static <T1, T2, T3> void acceptX(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -431,9 +427,8 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	}
 
-	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
+	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nullable CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
@@ -452,9 +447,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return future;
 	}
 
-	static <T1, T2, T3> void nestingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, c2, a1, a2, a3, function);
@@ -463,9 +456,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void shovingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T1, T2, T3> void shovingAccept(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, c2, a1, a2, a3, function);
@@ -474,10 +465,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void acceptX(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T1, T2, T3> void acceptX(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -503,10 +491,8 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	}
 
-	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
+	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
@@ -525,10 +511,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return future;
 	}
 
-	static <T1, T2, T3> void nestingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, c2, c3, a1, a2, a3, function);
@@ -537,10 +520,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void shovingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T1, T2, T3> void shovingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, c2, c3, a1, a2, a3, function);
@@ -549,11 +529,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void acceptX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T1, T2, T3> void acceptX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -581,11 +557,8 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	}
 
-	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
+	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
@@ -604,11 +577,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return future;
 	}
 
-	static <T1, T2, T3> void nestingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, c2, c3, c4, a1, a2, a3, function);
@@ -617,11 +586,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void shovingAccept(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T1, T2, T3> void shovingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			acceptX(c1, c2, c3, c4, a1, a2, a3, function);
@@ -630,12 +595,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		}
 	}
 
-	static <T1, T2, T3> void acceptX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T1, T2, T3> void acceptX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -665,13 +625,9 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	}
 
-	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3,
+	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3,
 			@Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {

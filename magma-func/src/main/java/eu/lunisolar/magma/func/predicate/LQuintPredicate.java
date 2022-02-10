@@ -853,8 +853,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 
 	// <editor-fold desc="CallContext">
 
-	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, a1, a2, a3, a4, a5, function);
@@ -863,8 +862,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, a1, a2, a3, a4, a5, function);
@@ -873,9 +871,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean testX(@Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
+	static <T1, T2, T3, T4, T5> boolean testX(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -899,9 +895,8 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (boolean) retval;
 	}
 
-	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
+	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -920,9 +915,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return future;
 	}
 
-	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, a1, a2, a3, a4, a5, function);
@@ -931,9 +924,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, a1, a2, a3, a4, a5, function);
@@ -942,10 +933,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T1, T2, T3, T4, T5> boolean testX(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -971,10 +959,8 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (boolean) retval;
 	}
 
-	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
+	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -993,10 +979,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return future;
 	}
 
-	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, a1, a2, a3, a4, a5, function);
@@ -1005,10 +988,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, a1, a2, a3, a4, a5, function);
@@ -1017,11 +997,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T1, T2, T3, T4, T5> boolean testX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -1049,12 +1025,9 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (boolean) retval;
 	}
 
-	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5,
+	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5,
 			@Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -1073,11 +1046,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return future;
 	}
 
-	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, c4, a1, a2, a3, a4, a5, function);
@@ -1086,11 +1055,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T1, T2, T3, T4, T5> boolean shovingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, c4, a1, a2, a3, a4, a5, function);
@@ -1099,12 +1064,8 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T1, T2, T3, T4, T5> boolean testX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function)
+			throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -1134,13 +1095,9 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (boolean) retval;
 	}
 
-	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5,
+	static <T1, T2, T3, T4, T5> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5,
 			@Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {

@@ -336,8 +336,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 
 	// <editor-fold desc="CallContext">
 
-	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
+	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, function);
@@ -346,8 +345,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
+	static boolean shovingGetAsBool(@Nullable CallContext c1, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, function);
@@ -356,9 +354,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull LBoolSupplier function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
+	static boolean getAsBoolX(@Nullable CallContext c1, @Nonnull LBoolSupplier function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -382,9 +378,8 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return (boolean) retval;
 	}
 
-	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull LBoolSupplier function) {
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -403,9 +398,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return future;
 	}
 
-	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, c2, function);
@@ -414,9 +407,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static boolean shovingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, c2, function);
@@ -425,10 +416,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static boolean getAsBoolX(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LBoolSupplier function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -454,10 +442,8 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return (boolean) retval;
 	}
 
-	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LBoolSupplier function) {
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -476,10 +462,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return future;
 	}
 
-	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, c2, c3, function);
@@ -488,10 +471,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static boolean shovingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, c2, c3, function);
@@ -500,11 +480,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static boolean getAsBoolX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LBoolSupplier function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -532,11 +508,8 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return (boolean) retval;
 	}
 
-	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LBoolSupplier function) {
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -555,11 +528,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return future;
 	}
 
-	static boolean nestingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, c2, c3, c4, function);
@@ -568,11 +537,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean shovingGetAsBool(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static boolean shovingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return getAsBoolX(c1, c2, c3, c4, function);
@@ -581,12 +546,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		}
 	}
 
-	static boolean getAsBoolX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static boolean getAsBoolX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LBoolSupplier function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -616,12 +576,8 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return (boolean) retval;
 	}
 
-	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LBoolSupplier function) {
+	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {

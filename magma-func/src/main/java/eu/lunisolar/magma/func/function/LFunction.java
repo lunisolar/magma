@@ -370,8 +370,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 
 	// <editor-fold desc="CallContext">
 
-	static <T, R> R nestingApply(@Nonnull CallContext c1, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T, R> R nestingApply(@Nullable CallContext c1, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, a, function);
@@ -380,8 +379,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R shovingApply(@Nonnull CallContext c1, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T, R> R shovingApply(@Nullable CallContext c1, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, a, function);
@@ -390,9 +388,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R applyX(@Nonnull CallContext c1, T a, @Nonnull LFunction<T, R> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
+	static <T, R> R applyX(@Nullable CallContext c1, T a, @Nonnull LFunction<T, R> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -416,9 +412,8 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return (R) retval;
 	}
 
-	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T a, @Nonnull LFunction<T, R> function) {
+	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nullable CallContext c1, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
 		try {
@@ -437,9 +432,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return future;
 	}
 
-	static <T, R> R nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T, R> R nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, c2, a, function);
@@ -448,9 +441,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T, R> R shovingApply(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, c2, a, function);
@@ -459,10 +450,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LFunction<T, R> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T, R> R applyX(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LFunction<T, R> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -488,10 +476,8 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return (R) retval;
 	}
 
-	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LFunction<T, R> function) {
+	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
 		try {
@@ -510,10 +496,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return future;
 	}
 
-	static <T, R> R nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T, R> R nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, c2, c3, a, function);
@@ -522,10 +505,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T, R> R shovingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, c2, c3, a, function);
@@ -534,11 +514,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LFunction<T, R> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T, R> R applyX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LFunction<T, R> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -566,11 +542,8 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return (R) retval;
 	}
 
-	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LFunction<T, R> function) {
+	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
 		try {
@@ -589,11 +562,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return future;
 	}
 
-	static <T, R> R nestingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T, R> R nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, c2, c3, c4, a, function);
@@ -602,11 +571,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R shovingApply(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LFunction<T, R> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T, R> R shovingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return applyX(c1, c2, c3, c4, a, function);
@@ -615,12 +580,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		}
 	}
 
-	static <T, R> R applyX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LFunction<T, R> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T, R> R applyX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LFunction<T, R> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -650,12 +610,8 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return (R) retval;
 	}
 
-	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LFunction<T, R> function) {
+	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
 		try {

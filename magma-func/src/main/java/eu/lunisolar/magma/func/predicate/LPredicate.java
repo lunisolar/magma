@@ -641,8 +641,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 
 	// <editor-fold desc="CallContext">
 
-	static <T> boolean nestingTest(@Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T> boolean nestingTest(@Nullable CallContext c1, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, a, function);
@@ -651,8 +650,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean shovingTest(@Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
+	static <T> boolean shovingTest(@Nullable CallContext c1, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, a, function);
@@ -661,9 +659,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean testX(@Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
+	static <T> boolean testX(@Nullable CallContext c1, T a, @Nonnull LPredicate<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -687,9 +683,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return (boolean) retval;
 	}
 
-	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, T a, @Nonnull LPredicate<T> function) {
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -708,9 +703,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return future;
 	}
 
-	static <T> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, a, function);
@@ -719,9 +712,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T> boolean shovingTest(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, a, function);
@@ -730,10 +721,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static <T> boolean testX(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LPredicate<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -759,10 +747,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return (boolean) retval;
 	}
 
-	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, T a, @Nonnull LPredicate<T> function) {
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -781,10 +767,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return future;
 	}
 
-	static <T> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, a, function);
@@ -793,10 +776,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T> boolean shovingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, a, function);
@@ -805,11 +785,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static <T> boolean testX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LPredicate<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -837,11 +813,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return (boolean) retval;
 	}
 
-	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, T a, @Nonnull LPredicate<T> function) {
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {
@@ -860,11 +833,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return future;
 	}
 
-	static <T> boolean nestingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, c4, a, function);
@@ -873,11 +842,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean shovingTest(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T> boolean shovingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");
 		try {
 			return testX(c1, c2, c3, c4, a, function);
@@ -886,12 +851,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		}
 	}
 
-	static <T> boolean testX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static <T> boolean testX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LPredicate<T> function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -921,12 +881,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return (boolean) retval;
 	}
 
-	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, T a, @Nonnull LPredicate<T> function) {
+	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		try {

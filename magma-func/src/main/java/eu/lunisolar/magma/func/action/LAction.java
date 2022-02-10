@@ -317,8 +317,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	// <editor-fold desc="CallContext">
 
-	static void nestingExecute(@Nonnull CallContext c1, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
+	static void nestingExecute(@Nullable CallContext c1, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, function);
@@ -327,8 +326,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void shovingExecute(@Nonnull CallContext c1, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
+	static void shovingExecute(@Nullable CallContext c1, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, function);
@@ -337,9 +335,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void executeX(@Nonnull CallContext c1, @Nonnull LAction function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
+	static void executeX(@Nullable CallContext c1, @Nonnull LAction function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -363,9 +359,8 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	}
 
-	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull LAction function) {
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nonnull LAction function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
@@ -384,9 +379,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return future;
 	}
 
-	static void nestingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static void nestingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, c2, function);
@@ -395,9 +388,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void shovingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static void shovingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, c2, function);
@@ -406,10 +397,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void executeX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
+	static void executeX(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LAction function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -435,10 +423,8 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	}
 
-	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull LAction function) {
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LAction function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
@@ -457,10 +443,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return future;
 	}
 
-	static void nestingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static void nestingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, c2, c3, function);
@@ -469,10 +452,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void shovingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static void shovingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, c2, c3, function);
@@ -481,11 +461,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void executeX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
+	static void executeX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LAction function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -513,11 +489,8 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	}
 
-	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull LAction function) {
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LAction function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {
@@ -536,11 +509,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return future;
 	}
 
-	static void nestingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static void nestingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, c2, c3, c4, function);
@@ -549,11 +518,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void shovingExecute(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) {
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static void shovingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");
 		try {
 			executeX(c1, c2, c3, c4, function);
@@ -562,12 +527,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		}
 	}
 
-	static void executeX(@Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) throws Throwable {
-
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
+	static void executeX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LAction function) throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -597,12 +557,8 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	}
 
-	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull CallContext c1, @Nonnull CallContext c2, @Nonnull CallContext c3, @Nonnull CallContext c4, @Nonnull LAction function) {
+	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LAction function) {
 		Null.nonNullArg(async, "async");
-		Null.nonNullArg(c1, "c1");
-		Null.nonNullArg(c2, "c2");
-		Null.nonNullArg(c3, "c3");
-		Null.nonNullArg(c4, "c4");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		try {

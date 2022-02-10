@@ -123,10 +123,14 @@ public interface CallContext {
 			return potentialPrimaryException;
 		}
 
-		try {
-			return notInitialized.start();
-		} catch (Throwable e) {
-			return e; // new primary
+		if (notInitialized != null) {
+			try {
+				return notInitialized.start();
+			} catch (Throwable e) {
+				return e; // new primary
+			}
+		} else {
+			return null;
 		}
 	}
 
@@ -135,14 +139,16 @@ public interface CallContext {
 			return primary;
 		}
 
-		try {
-			alreadyInitialized.end(state, primary);
-		} catch (Throwable e) {
-			if (primary != null) {
-				Handling.handleErrors(e);
-				primary.addSuppressed(e);
-			} else {
-				return e;
+		if (alreadyInitialized != null) {
+			try {
+				alreadyInitialized.end(state, primary);
+			} catch (Throwable e) {
+				if (primary != null) {
+					Handling.handleErrors(e);
+					primary.addSuppressed(e);
+				} else {
+					return e;
+				}
 			}
 		}
 		return primary;
