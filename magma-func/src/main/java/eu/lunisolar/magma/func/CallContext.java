@@ -55,15 +55,15 @@ public interface CallContext {
 	public interface Easy<C> extends CallContext {
 
 		@Nullable
-		C doStart();
-		void doEnd(@Nullable C obj, @Nullable Throwable e);
+		C doStart() throws Throwable;
+		void doEnd(@Nullable C obj, @Nullable Throwable e) throws Throwable;
 
 		@Override
-		default Object start() {
+		default @Nullable Object start() throws Throwable {
 			return doStart();
 		}
 		@Override
-		default void end(Object obj, Throwable e) {
+		default void end(@Nullable Object obj, @Nullable Throwable e) throws Throwable {
 			doEnd((C) obj, e);
 		}
 	}
