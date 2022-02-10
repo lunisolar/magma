@@ -18,6 +18,8 @@
 
 package eu.lunisolar.magma;
 
+import eu.lunisolar.magma.CallContext_Perf.SomeNamedContextUtility.SomeSimpleContextUtilitySupplier;
+import eu.lunisolar.magma.basics.exceptions.Handling;
 import eu.lunisolar.magma.func.AsyncCallContext;
 import eu.lunisolar.magma.func.CallContext;
 import eu.lunisolar.magma.func.action.LAction;
@@ -51,14 +53,14 @@ import static org.openjdk.jmh.runner.options.TimeValue.seconds;
 @SuppressWarnings({"unused", "unchecked"})
 public class CallContext_Perf {
 
-    private static final int THREADS = 1;
+    private static final int THREADS     = 1;
     private static final int SERIES_SIZE = 1000;
 
     private static final LSupplier<Integer>       int1               = () -> anInt(40000);
     private static final int                      COUNT_ITERATIONS   = 10000;
     public static final  LBinaryOperator<Integer> FUNCTION           = (a1, a2) -> a1 >= a2 ? a1 : a2;
     public static final  LIntBinaryOperator       FUNCTION_PRIMITIVE = (a1, a2) -> a1 >= a2 ? a1 : a2;
-    public static final String NAME_STR = "AAAA";
+    public static final  String                   NAME_STR           = "AAAA";
 
     private static SeriesParams<Integer> params() {
         return SeriesParams.<Integer>params().size(SERIES_SIZE).poolASize(1).percentageA(1).poolAProducer(int1)   // forcing some measure of exception handling
@@ -66,14 +68,14 @@ public class CallContext_Perf {
                            .poolBSize(20).percentageB(60).poolBProducer(int1).poolCProducer(int1);
     }
 
+    public static interface SomeSimpleContextUtilitySupplier<V> {
+        V calculate();
+    }
+
     @NotThreadSafe
     public static class SomeSimpleContextUtility {
         public long entries = 0; // \
         public long exits   = 0; // / non atomic - performance will be measured just for one thread.
-
-        public static interface SomeSimpleContextUtilitySupplier<V> {
-            V calculate();
-        }
 
         public <V> V executeInContext(SomeSimpleContextUtilitySupplier<V> supplier) {
             enterContext();
@@ -99,9 +101,41 @@ public class CallContext_Perf {
         }
     }
 
+    public static interface ConvenientSupplier1<V> extends SomeSimpleContextUtilitySupplier<V> {
+
+        default @Override V calculate() {
+            try {
+                return doCalculate();
+            } catch (Throwable e) {
+                throw Handling.throwIt(e);
+            }
+        }
+
+        V doCalculate() throws Throwable;
+    }
+
+    public static interface ConvenientSupplier2<V> extends SomeSimpleContextUtilitySupplier<V>, LSupplier<V> {
+        default @Override V calculate() {
+            return shovingGet();
+        }
+    }
+
+    @NotThreadSafe
+    public static class SomeCustomizedContextUtility {
+
+        public static <V> V someGoodUtilityMethod1(SomeSimpleContextUtility u, ConvenientSupplier1<V> calculation) {
+            return u.executeInContext(calculation);
+        }
+
+        public static <V> V someGoodUtilityMethod2(SomeSimpleContextUtility u, ConvenientSupplier2<V> calculation) {
+            return u.executeInContext(calculation);
+        }
+
+    }
+
     @NotThreadSafe
     public static class SomeNamedContextUtility {
-        public       long   value = 0;
+        public long value = 0;
 
         public static interface SomeSimpleContextUtilitySupplier<V> {
             V calculate();
@@ -116,12 +150,12 @@ public class CallContext_Perf {
 
         public void enterContext(long increment) {value += increment;}
 
-        public CallContext namedCtx(String name) {return CallContext.ctx(()-> name.length() /* something to hold on to */, l -> this.value += l);}
+        public CallContext namedCtx(String name) {return CallContext.ctx(() -> name.length() /* something to hold on to */, l -> this.value += l);}
 
     }
 
-    public static final SomeNamedContextUtility NAMED = new SomeNamedContextUtility();
-    static final CallContext named_intended = NAMED.namedCtx(NAME_STR);
+    public static final SomeNamedContextUtility NAMED          = new SomeNamedContextUtility();
+    static final        CallContext             named_intended = NAMED.namedCtx(NAME_STR);
 
     @State(Scope.Thread)
     public static class TheState {
@@ -253,6 +287,38 @@ public class CallContext_Perf {
         return runningSum + state.C1.entries + state.C2.exits;
     }
 
+    @Benchmark @Threads(THREADS) public Object function_ref_COMPROMISE_utilityMethod1(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += SomeCustomizedContextUtility.someGoodUtilityMethod1(state.C1, () -> FUNCTION.apply(a1, a2));
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.entries + state.C2.exits;
+    }
+
+    @Benchmark @Threads(THREADS) public Object function_ref_COMPROMISE_utilityMethod2(TheState state) {
+        int a = 0;
+        var runningSum = 0;
+        for (int c = 0; c < COUNT_ITERATIONS; c++) {
+            var i = state.i();
+            var a1 = state.a1.v(i);
+            var a2 = state.a2.v(i);
+            try {
+                runningSum += SomeCustomizedContextUtility.someGoodUtilityMethod2(state.C1, () -> FUNCTION.apply(a1, a2));
+            } catch (Exception e) {
+                runningSum += 1;
+            }
+        }
+        return runningSum + state.C1.entries + state.C2.exits;
+    }
+
     @Benchmark @Threads(THREADS) public Object function_ref_GOOD_utilityMethod(TheState state) {
         int a = 0;
         var runningSum = 0;
@@ -278,7 +344,7 @@ public class CallContext_Perf {
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
             try {
-                runningSum += NAMED.executeInContext(NAME_STR, ()-> {
+                runningSum += NAMED.executeInContext(NAME_STR, () -> {
                     return SomeSimpleContextUtility.someGoodUtilityMethod(state.C1, () -> FUNCTION.apply(a1, a2));
                 });
             } catch (Exception e) {
@@ -457,7 +523,6 @@ public class CallContext_Perf {
         return runningSum + state.C1.sum() + state.C2.sum() + state.C3.sum() + state.C4.sum();
     }
 
-
     @Benchmark @Threads(THREADS) public Object call_biOp_named_intended_CTX2(TheState state) {
         int a = 0;
         var runningSum = 0;
@@ -484,7 +549,7 @@ public class CallContext_Perf {
             var a1 = state.a1.v(i);
             var a2 = state.a2.v(i);
             try {
-                runningSum += LBinaryOperator.asyncApply(state.FAKE_ASYNC , named_intended, state.CTX2, a1, a2, FUNCTION).join();
+                runningSum += LBinaryOperator.asyncApply(state.FAKE_ASYNC, named_intended, state.CTX2, a1, a2, FUNCTION).join();
             } catch (Exception e) {
                 runningSum += 1;
             }

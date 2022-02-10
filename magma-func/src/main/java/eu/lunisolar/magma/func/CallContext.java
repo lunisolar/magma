@@ -38,7 +38,7 @@ public interface CallContext {
 	 * is made.
 	 */
 	@Nullable
-	Object start();
+	Object start() throws Throwable;
 
 	/**
 	 * End boundary of the context for the call.
@@ -48,7 +48,7 @@ public interface CallContext {
 	 *                carried elsewhere. It should be used only for information, e.g. things like: TX commit/rollback decision.
 	 *                {@link CallContext#end(Object, Throwable)} is allowed to throw its own exception.
 	 */
-	void end(@Nullable Object obj, @Nullable Throwable primary);
+	void end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable;
 
 	/** {@link CallContext} variant that is slightly easier to implement. */
 	@SuppressWarnings("unchecked")
@@ -137,7 +137,7 @@ public interface CallContext {
 
 		try {
 			alreadyInitialized.end(state, primary);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			if (primary != null) {
 				Handling.handleErrors(e);
 				primary.addSuppressed(e);
