@@ -67,55 +67,44 @@ public final class Are implements FluentSyntax {
 
 	// <editor-fold desc="Object">
 
+	/** Predicate: All references must be null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static boolean allNull(@Nullable Object... objects) {
-		if (objects == null) {
-			return true;
-		}
-		for (Object o : objects) {
-			if (o != null) {
-				return false;
-			}
-		}
-
-		return true;
+		return P.allNull(objects);
 	}
 
+	/** "Special" predicate: All references must be null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static String allNullEx(@Nullable Object... objects) {
-		return allNull(objects) ? null : String.format("All references must be null.");
+		return P.allNull(objects) ? null : String.format("All references must be null.");
 	}
 
+	/** Predicate: All references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static boolean noneNull(@Nullable Object... objects) {
-		if (objects == null) {
-			return false;
-		}
-		for (Object o : objects) {
-			if (o == null) {
-				return false;
-			}
-		}
-
-		return true;
+		return P.noneNull(objects);
 	}
 
+	/** "Special" predicate: All references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static String noneNullEx(@Nullable Object... objects) {
-		return noneNull(objects) ? null : String.format("All references must be NOT null.");
+		return P.noneNull(objects) ? null : String.format("All references must be NOT null.");
 	}
 
+	/** Predicate: At least one references must be null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static boolean anyNull(@Nullable Object... objects) {
-		if (objects == null) {
-			return true;
-		}
-		for (Object o : objects) {
-			if (o == null) {
-				return true;
-			}
-		}
-
-		return false;
+		return P.anyNull(objects);
 	}
 
+	/** "Special" predicate: At least one references must be null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static String anyNullEx(@Nullable Object... objects) {
-		return anyNull(objects) ? null : String.format("At least one references must be null.");
+		return P.anyNull(objects) ? null : String.format("At least one references must be null.");
+	}
+
+	/** Predicate: At least one references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
+	public static boolean anyNotNull(@Nullable Object... objects) {
+		return P.anyNotNull(objects);
+	}
+
+	/** "Special" predicate: At least one references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
+	public static String anyNotNullEx(@Nullable Object... objects) {
+		return P.anyNotNull(objects) ? null : String.format("At least one references must be NOT null.");
 	}
 
 	// </editor-fold>

@@ -1,7 +1,7 @@
 /*
  * This file is part of "lunisolar-magma".
  *
- * (C) Copyright 2014-2019 Lunisolar (http://lunisolar.eu/).
+ * (C) Copyright 2014-2022 Lunisolar (http://lunisolar.eu/).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma;
+package eu.lunisolar.magma.func.supp;
 
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Has;
@@ -28,22 +28,30 @@ import org.testng.annotations.Test;
 import static eu.lunisolar.magma.asserts.Attests.attestThat;
 import static java.util.Arrays.*;
 
-public class PTest {
+public class P_ContainsExactly_Test {
 
     @Test void containExactlyTest() {
-
         attestThat(P.containExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::TrueEx);
-
         attestThat(P.containExactly(asList(1, 2, 3), 1, 2)).mustEx(Be::FalseEx);
         attestThat(P.containExactly(asList(1, 2, 3), 2, 3)).mustEx(Be::FalseEx);
         attestThat(P.containExactly(asList(1, 2, 3), 3, 2, 1)).mustEx(Be::FalseEx);
-
         attestThat(P.containExactly(asList(1, 2, 3))).mustEx(Be::FalseEx);
-
         attestThat(P.containExactly(asList())).mustEx(Be::TrueEx);
 
-        Opt.obj(asList(1, 2)).mustAEx(P::containExactlyEx, 1, 2);
+        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::TrueEx);
+        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2)).mustEx(Be::FalseEx);
+        attestThat(Does.containExactly(asList(1, 2, 3), 2, 3)).mustEx(Be::FalseEx);
+        attestThat(Does.containExactly(asList(1, 2, 3), 3, 2, 1)).mustEx(Be::FalseEx);
+        attestThat(Does.containExactly(asList(1, 2, 3))).mustEx(Be::FalseEx);
+        attestThat(Does.containExactly(asList())).mustEx(Be::TrueEx);
+    }
 
+    @Test void notContainExactlyTest() {
+        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::FalseEx);
+        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 3, 4)).mustEx(Be::TrueEx);
+
+        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::FalseEx);
+        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 3, 4)).mustEx(Be::TrueEx);
     }
 
     @Test void array_in_messages() {
