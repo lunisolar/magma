@@ -76,18 +76,17 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> must be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String sameEx(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly) {
-		return P.same(n, other) ? null : String.format("Object <%s> must be the same as <%s>.", n, other);
+	public static <MP1> @Nullable String sameEx(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly) {
+		return P.sameEx(n, other);
 	}
-
 	/** Predicate: Object <%s> must NOT be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notSame(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly) {
 		return P.notSame(n, other);
 	}
 
 	/** "Special" predicate: Object <%s> must NOT be the same as <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notSameEx(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly) {
-		return P.notSame(n, other) ? null : String.format("Object <%s> must NOT be the same as <%s>.", n, other);
+	public static <MP1> @Nullable String notSameEx(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly) {
+		return P.notSameEx(n, other);
 	}
 
 	/** Predicate: Reference must be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
@@ -96,18 +95,17 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Reference must be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String NullEx(@Nullable Object n, MP1 msgParamOnly) {
-		return P.Null(n) ? null : String.format("Reference must be null, currently is pointing to <%s>.", n);
+	public static <MP1> @Nullable String NullEx(@Nullable Object n, MP1 msgParamOnly) {
+		return P.NullEx(n);
 	}
-
 	/** Predicate: Reference must NOT be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notNull(@Nullable Object n, MP1 msgParamOnly) {
 		return P.notNull(n);
 	}
 
 	/** "Special" predicate: Reference must NOT be null, currently is pointing to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notNullEx(@Nullable Object n, MP1 msgParamOnly) {
-		return P.notNull(n) ? null : String.format("Reference must NOT be null, currently is pointing to <%s>.", n);
+	public static <MP1> @Nullable String notNullEx(@Nullable Object n, MP1 msgParamOnly) {
+		return P.notNullEx(n);
 	}
 
 	// </editor-fold>
@@ -121,11 +119,10 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String emptyEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String emptyEx(@Nonnull String n, MP1 msgParamOnly) {
 		Null.nonNullArg(n, "n");
-		return P.empty(n) ? null : String.format("String <'%s'> must be empty.", n);
+		return P.emptyEx(n);
 	}
-
 	/** Predicate: String <'%s'> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notEmpty(@Nonnull String n, MP1 msgParamOnly) {
 		Null.nonNullArg(n, "n");
@@ -133,9 +130,9 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String notEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
 		Null.nonNullArg(n, "n");
-		return P.notEmpty(n) ? null : String.format("String <'%s'> must NOT be empty.", n);
+		return P.notEmptyEx(n);
 	}
 
 	/** Predicate: String <'%s'> must be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
@@ -145,11 +142,10 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String blankEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String blankEx(@Nonnull String n, MP1 msgParamOnly) {
 		Null.nonNullArg(n, "n");
-		return P.blank(n) ? null : String.format("String <'%s'> must be blank (empty or consisting of only white characters).", n);
+		return P.blankEx(n);
 	}
-
 	/** Predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notBlank(@Nonnull String n, MP1 msgParamOnly) {
 		Null.nonNullArg(n, "n");
@@ -157,9 +153,9 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notBlankEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String notBlankEx(@Nonnull String n, MP1 msgParamOnly) {
 		Null.nonNullArg(n, "n");
-		return P.notBlank(n) ? null : String.format("String <'%s'> must NOT be blank (empty or consisting of only white characters).", n);
+		return P.notBlankEx(n);
 	}
 
 	/** Predicate: String <'%s'> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
@@ -168,18 +164,17 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String nullOrEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
-		return P.nullOrEmpty(n) ? null : String.format("String <'%s'> must be null or empty.", n);
+	public static <MP1> @Nullable String nullOrEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
+		return P.nullOrEmptyEx(n);
 	}
-
 	/** Predicate: String <'%s'> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notNullNorEmpty(@Nonnull String n, MP1 msgParamOnly) {
 		return P.notNullNorEmpty(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notNullNorEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
-		return P.notNullNorEmpty(n) ? null : String.format("String <'%s'> must NOT be null or empty.", n);
+	public static <MP1> @Nullable String notNullNorEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
+		return P.notNullNorEmptyEx(n);
 	}
 
 	/** Predicate: String <'%s'> must be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
@@ -188,18 +183,17 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String nullOrBlankEx(@Nonnull String n, MP1 msgParamOnly) {
-		return P.nullOrBlank(n) ? null : String.format("String <'%s'> must be null or blank.", n);
+	public static <MP1> @Nullable String nullOrBlankEx(@Nonnull String n, MP1 msgParamOnly) {
+		return P.nullOrBlankEx(n);
 	}
-
 	/** Predicate: String <'%s'> must NOT be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notNullNorBlank(@Nonnull String n, MP1 msgParamOnly) {
 		return P.notNullNorBlank(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or blank. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notNullNorBlankEx(@Nonnull String n, MP1 msgParamOnly) {
-		return P.notNullNorBlank(n) ? null : String.format("String <'%s'> must NOT be null or blank.", n);
+	public static <MP1> @Nullable String notNullNorBlankEx(@Nonnull String n, MP1 msgParamOnly) {
+		return P.notNullNorBlankEx(n);
 	}
 
 	// </editor-fold>
@@ -229,11 +223,10 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String instanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String instanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
-		return P.instanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
+		return P.instanceOfEx(object, clazz);
 	}
-
 	/** Predicate: Object <%s> of class <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notInstanceOf(Object object, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
@@ -241,9 +234,9 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String notInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
-		return P.notInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
+		return P.notInstanceOfEx(object, clazz);
 	}
 
 	/** Predicate: Object <%s> of class <%s> must be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
@@ -253,11 +246,10 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String exactlyInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String exactlyInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
-		return P.exactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
+		return P.exactlyInstanceOfEx(object, clazz);
 	}
-
 	/** Predicate: Object <%s> of class <%s> must NOT be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notExactlyInstanceOf(Object object, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
@@ -265,9 +257,9 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must NOT be exactly instance of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notExactlyInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String notExactlyInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
-		return P.notExactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
+		return P.notExactlyInstanceOfEx(object, clazz);
 	}
 
 	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
@@ -277,11 +269,10 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String assignableFromEx(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String assignableFromEx(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
-		return P.assignableFrom(specialization, clazz) ? null : String.format("Class <%s> of class <%s> must ---NOT-- be specialization of <%s>.", specialization, specialization != null ? specialization.getClass() : null, clazz);
+		return P.assignableFromEx(specialization, clazz);
 	}
-
 	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
 	public static <MP1> boolean notAssignableFrom(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
@@ -289,9 +280,9 @@ public final class P1 implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/
-	public static <MP1> String notAssignableFromEx(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String notAssignableFromEx(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
 		Null.nonNullArg(clazz, "clazz");
-		return P.notAssignableFrom(specialization, clazz) ? null : String.format("Class <%s> of class <%s> must ---NOT-- be specialization of <%s>.", specialization, specialization != null ? specialization.getClass() : null, clazz);
+		return P.notAssignableFromEx(specialization, clazz);
 	}
 
 	// </editor-fold>

@@ -79,12 +79,11 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must start with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String startWithEx(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String startWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return P.startWith(n, a1) ? null : String.format("String <'%s'> must start with <'%s'>.", n, a1);
+		return P.startWithEx(n, a1);
 	}
-
 	/** Predicate: String <'%s'> must NOT start with <'%s'>. Available in {@link P}, {@link Does}.*/
 	public static boolean notStartWith(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
@@ -93,10 +92,10 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT start with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String notStartWithEx(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String notStartWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return P.notStartWith(n, a1) ? null : String.format("String <'%s'> must NOT start with <'%s'>.", n, a1);
+		return P.notStartWithEx(n, a1);
 	}
 
 	/** Predicate: String <'%s'> must end with <'%s'>. Available in {@link P}, {@link Does}.*/
@@ -107,12 +106,11 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must end with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String endWithEx(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String endWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return P.endWith(n, a1) ? null : String.format("String <'%s'> must end with <'%s'>.", n, a1);
+		return P.endWithEx(n, a1);
 	}
-
 	/** Predicate: String <'%s'> must NOT end with <'%s'>. Available in {@link P}, {@link Does}.*/
 	public static boolean notEndWith(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
@@ -121,10 +119,10 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT end with <'%s'>. Available in {@link P}, {@link Does}.*/
-	public static String notEndWithEx(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String notEndWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return P.notEndWith(n, a1) ? null : String.format("String <'%s'> must NOT end with <'%s'>.", n, a1);
+		return P.notEndWithEx(n, a1);
 	}
 
 	/** Predicate: String <'%s'> must contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
@@ -135,12 +133,11 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
-	public static String containEx(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String containEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return P.contain(n, a1) ? null : String.format("String <'%s'> must contain string <'%s'>. But does not.", n, a1);
+		return P.containEx(n, a1);
 	}
-
 	/** Predicate: String <'%s'> must NOT contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
 	public static boolean notContain(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
@@ -149,10 +146,10 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT contain string <'%s'>. But does not. Available in {@link P}, {@link Does}.*/
-	public static String notContainEx(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String notContainEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
-		return P.notContain(n, a1) ? null : String.format("String <'%s'> must NOT contain string <'%s'>. But does not.", n, a1);
+		return P.notContainEx(n, a1);
 	}
 
 	// </editor-fold>
@@ -169,18 +166,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(Object o1, Object o2) {
-		return P.equal(o1, o2) ? null : String.format("<%s> must be equal to <%s>.", o1, o2);
+	public static @Nullable String equalEx(Object o1, Object o2) {
+		return P.equalEx(o1, o2);
 	}
-
 	/** Predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(Object o1, Object o2) {
 		return P.notEqual(o1, o2);
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(Object o1, Object o2) {
-		return P.notEqual(o1, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", o1, o2);
+	public static @Nullable String notEqualEx(Object o1, Object o2) {
+		return P.notEqualEx(o1, o2);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -189,18 +185,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(byte n, byte a1) {
-		return P.equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	public static @Nullable String equalEx(byte n, byte a1) {
+		return P.equalEx(n, a1);
 	}
-
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(byte n, byte a1) {
 		return P.notEqual(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(byte n, byte a1) {
-		return P.notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
+	public static @Nullable String notEqualEx(byte n, byte a1) {
+		return P.notEqualEx(n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -209,18 +204,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(short n, short a1) {
-		return P.equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	public static @Nullable String equalEx(short n, short a1) {
+		return P.equalEx(n, a1);
 	}
-
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(short n, short a1) {
 		return P.notEqual(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(short n, short a1) {
-		return P.notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
+	public static @Nullable String notEqualEx(short n, short a1) {
+		return P.notEqualEx(n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -229,18 +223,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(int n, int a1) {
-		return P.equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	public static @Nullable String equalEx(int n, int a1) {
+		return P.equalEx(n, a1);
 	}
-
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(int n, int a1) {
 		return P.notEqual(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(int n, int a1) {
-		return P.notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
+	public static @Nullable String notEqualEx(int n, int a1) {
+		return P.notEqualEx(n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -249,18 +242,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(long n, long a1) {
-		return P.equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	public static @Nullable String equalEx(long n, long a1) {
+		return P.equalEx(n, a1);
 	}
-
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(long n, long a1) {
 		return P.notEqual(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(long n, long a1) {
-		return P.notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
+	public static @Nullable String notEqualEx(long n, long a1) {
+		return P.notEqualEx(n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -269,18 +261,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(float n, float a1) {
-		return P.equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	public static @Nullable String equalEx(float n, float a1) {
+		return P.equalEx(n, a1);
 	}
-
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(float n, float a1) {
 		return P.notEqual(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(float n, float a1) {
-		return P.notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
+	public static @Nullable String notEqualEx(float n, float a1) {
+		return P.notEqualEx(n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -289,18 +280,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(double n, double a1) {
-		return P.equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	public static @Nullable String equalEx(double n, double a1) {
+		return P.equalEx(n, a1);
 	}
-
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(double n, double a1) {
 		return P.notEqual(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(double n, double a1) {
-		return P.notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
+	public static @Nullable String notEqualEx(double n, double a1) {
+		return P.notEqualEx(n, a1);
 	}
 
 	/** Predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -309,18 +299,17 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String equalEx(char n, char a1) {
-		return P.equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	public static @Nullable String equalEx(char n, char a1) {
+		return P.equalEx(n, a1);
 	}
-
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(char n, char a1) {
 		return P.notEqual(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
-	public static String notEqualEx(char n, char a1) {
-		return P.notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
+	public static @Nullable String notEqualEx(char n, char a1) {
+		return P.notEqualEx(n, a1);
 	}
 
 	// </editor-fold>
@@ -338,11 +327,10 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must contain element <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String containEx(@Nonnull Collection<T> collection, T element) {
+	public static <T> @Nullable String containEx(@Nonnull Collection<T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
-		return P.contain(collection, element) ? null : String.format("Collection <%s> must contain element <%s>.", collection, element);
+		return P.containEx(collection, element);
 	}
-
 	/** Predicate: Collection <%s> must NOT contain element <%s>. Available in {@link P}, {@link Does}.*/
 	public static <T> boolean notContain(@Nonnull Collection<T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
@@ -350,9 +338,9 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain element <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String notContainEx(@Nonnull Collection<T> collection, T element) {
+	public static <T> @Nullable String notContainEx(@Nonnull Collection<T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
-		return P.notContain(collection, element) ? null : String.format("Collection <%s> must NOT contain element <%s>.", collection, element);
+		return P.notContainEx(collection, element);
 	}
 
 	/** Predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
@@ -363,12 +351,11 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String containExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
-		return P.containExactly(collection, elementsInOrder) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
+		return P.containExactlyEx(collection, elementsInOrder);
 	}
-
 	/** Predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
 	public static <T> boolean notContainExactly(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
@@ -377,10 +364,10 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. Available in {@link P}, {@link Does}.*/
-	public static <T> String notContainExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull Collection<?> collection, Object... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
-		return P.notContainExactly(collection, elementsInOrder) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
+		return P.notContainExactlyEx(collection, elementsInOrder);
 	}
 
 	/** Predicate: Map <%s> must contain key <%s>. Available in {@link P}, {@link Does}.*/
@@ -390,11 +377,10 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain key <%s>. Available in {@link P}, {@link Does}.*/
-	public static <K> String containKeyEx(@Nonnull Map<K, ?> map, K key) {
+	public static <K> @Nullable String containKeyEx(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
-		return P.containKey(map, key) ? null : String.format("Map <%s> must contain key <%s>.", map, key);
+		return P.containKeyEx(map, key);
 	}
-
 	/** Predicate: Map <%s> must NOT contain key <%s>. Available in {@link P}, {@link Does}.*/
 	public static <K> boolean notContainKey(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
@@ -402,9 +388,9 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain key <%s>. Available in {@link P}, {@link Does}.*/
-	public static <K> String notContainKeyEx(@Nonnull Map<K, ?> map, K key) {
+	public static <K> @Nullable String notContainKeyEx(@Nonnull Map<K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
-		return P.notContainKey(map, key) ? null : String.format("Map <%s> must NOT contain key <%s>.", map, key);
+		return P.notContainKeyEx(map, key);
 	}
 
 	/** Predicate: Map <%s> must contain keys <%s>. Available in {@link P}, {@link Does}.*/
@@ -414,11 +400,10 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain keys <%s>. Available in {@link P}, {@link Does}.*/
-	public static <K> String containKeysEx(@Nonnull Map<K, ?> map, K... keys) {
+	public static <K> @Nullable String containKeysEx(@Nonnull Map<K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
-		return P.containKeys(map, keys) ? null : String.format("Map <%s> must contain keys <%s>.", map, Arrays.toString(keys));
+		return P.containKeysEx(map, keys);
 	}
-
 	/** Predicate: Map <%s> must NOT contain keys <%s>. Available in {@link P}, {@link Does}.*/
 	public static <K> boolean notContainKeys(@Nonnull Map<K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
@@ -426,9 +411,9 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain keys <%s>. Available in {@link P}, {@link Does}.*/
-	public static <K> String notContainKeysEx(@Nonnull Map<K, ?> map, K... keys) {
+	public static <K> @Nullable String notContainKeysEx(@Nonnull Map<K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
-		return P.notContainKeys(map, keys) ? null : String.format("Map <%s> must NOT contain keys <%s>.", map, Arrays.toString(keys));
+		return P.notContainKeysEx(map, keys);
 	}
 
 	/** Predicate: Map <%s> must contain any key from <%s>. Available in {@link P}, {@link Does}.*/
@@ -438,9 +423,9 @@ public final class Does implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain any key from <%s>. Available in {@link P}, {@link Does}.*/
-	public static <K> String containAnyKeyEx(@Nonnull Map<K, ?> map, K... keys) {
+	public static <K> @Nullable String containAnyKeyEx(@Nonnull Map<K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
-		return P.containAnyKey(map, keys) ? null : String.format("Map <%s> must contain any key from <%s>.", map, Arrays.toString(keys));
+		return P.containAnyKeyEx(map, keys);
 	}
 
 	// </editor-fold>

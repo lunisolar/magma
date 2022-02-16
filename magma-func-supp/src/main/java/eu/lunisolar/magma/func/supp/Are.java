@@ -73,18 +73,17 @@ public final class Are implements FluentSyntax {
 	}
 
 	/** "Special" predicate: All references must be null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
-	public static String allNullEx(@Nullable Object... objects) {
-		return P.allNull(objects) ? null : String.format("All references must be null.");
+	public static @Nullable String allNullEx(@Nullable Object... objects) {
+		return P.allNullEx(objects);
 	}
-
 	/** Predicate: All references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static boolean noneNull(@Nullable Object... objects) {
 		return P.noneNull(objects);
 	}
 
 	/** "Special" predicate: All references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
-	public static String noneNullEx(@Nullable Object... objects) {
-		return P.noneNull(objects) ? null : String.format("All references must be NOT null.");
+	public static @Nullable String noneNullEx(@Nullable Object... objects) {
+		return P.noneNullEx(objects);
 	}
 
 	/** Predicate: At least one references must be null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
@@ -93,18 +92,17 @@ public final class Are implements FluentSyntax {
 	}
 
 	/** "Special" predicate: At least one references must be null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
-	public static String anyNullEx(@Nullable Object... objects) {
-		return P.anyNull(objects) ? null : String.format("At least one references must be null.");
+	public static @Nullable String anyNullEx(@Nullable Object... objects) {
+		return P.anyNullEx(objects);
 	}
-
 	/** Predicate: At least one references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
 	public static boolean anyNotNull(@Nullable Object... objects) {
 		return P.anyNotNull(objects);
 	}
 
 	/** "Special" predicate: At least one references must be NOT null. Available in {@link P}, {@link Is}, {@link Are}, {@link Be}, {@link Has}.*/
-	public static String anyNotNullEx(@Nullable Object... objects) {
-		return P.anyNotNull(objects) ? null : String.format("At least one references must be NOT null.");
+	public static @Nullable String anyNotNullEx(@Nullable Object... objects) {
+		return P.anyNotNullEx(objects);
 	}
 
 	// </editor-fold>
