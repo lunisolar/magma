@@ -56,7 +56,6 @@ import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.asserts.opt.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
 //import eu.lunisolar.magma.asserts.std.*; // NOSONAR
 
@@ -3767,51 +3766,6 @@ public interface Attests {
 	@Nonnull
 	public static <A extends Supplier<T>, RS extends Assert<RS, T>, T> JreSupplierAssert.The<A, RS, T> attestSup(Supplier<T> func) {
 		return new JreSupplierAssert.The(func, Assertions::assertThat);
-	}
-
-	@Nonnull
-	public static OptBoolTraitAssert attestThat(OptBoolTrait<?> actual) {
-		return new OptBoolTraitAssert(actual);
-	}
-
-	@Nonnull
-	public static <T> OptTraitAssert<T> attestThat(OptTrait<T, ?> actual) {
-		return new OptTraitAssert<T>(actual);
-	}
-
-	@Nonnull
-	public static OptByteTraitAssert attestThat(OptByteTrait<?> actual) {
-		return new OptByteTraitAssert(actual);
-	}
-
-	@Nonnull
-	public static OptDblTraitAssert attestThat(OptDblTrait<?> actual) {
-		return new OptDblTraitAssert(actual);
-	}
-
-	@Nonnull
-	public static OptCharTraitAssert attestThat(OptCharTrait<?> actual) {
-		return new OptCharTraitAssert(actual);
-	}
-
-	@Nonnull
-	public static OptSrtTraitAssert attestThat(OptSrtTrait<?> actual) {
-		return new OptSrtTraitAssert(actual);
-	}
-
-	@Nonnull
-	public static OptFltTraitAssert attestThat(OptFltTrait<?> actual) {
-		return new OptFltTraitAssert(actual);
-	}
-
-	@Nonnull
-	public static OptIntTraitAssert attestThat(OptIntTrait<?> actual) {
-		return new OptIntTraitAssert(actual);
-	}
-
-	@Nonnull
-	public static OptLongTraitAssert attestThat(OptLongTrait<?> actual) {
-		return new OptLongTraitAssert(actual);
 	}
 
 	@Nonnull

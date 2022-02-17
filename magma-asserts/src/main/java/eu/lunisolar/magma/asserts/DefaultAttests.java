@@ -59,9 +59,6 @@ import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import eu.lunisolar.magma.asserts.opt.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
-//import eu.lunisolar.magma.asserts.std.*; // NOSONAR
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -4819,51 +4816,6 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 		// ?: makes possible to merge captures OS & RS
 		LFunction<Object, OS> assertFunc = this::attestThatObj;
 		return new JreSupplierAssert.The(func, assertFunc);
-	}
-
-	@Nonnull
-	default OptBoolTraitAssert attestThat(OptBoolTrait<?> actual) {
-		return new OptBoolTraitAssert(actual);
-	}
-
-	@Nonnull
-	default <T> OptTraitAssert<T> attestThat(OptTrait<T, ?> actual) {
-		return new OptTraitAssert<T>(actual);
-	}
-
-	@Nonnull
-	default OptByteTraitAssert attestThat(OptByteTrait<?> actual) {
-		return new OptByteTraitAssert(actual);
-	}
-
-	@Nonnull
-	default OptDblTraitAssert attestThat(OptDblTrait<?> actual) {
-		return new OptDblTraitAssert(actual);
-	}
-
-	@Nonnull
-	default OptCharTraitAssert attestThat(OptCharTrait<?> actual) {
-		return new OptCharTraitAssert(actual);
-	}
-
-	@Nonnull
-	default OptSrtTraitAssert attestThat(OptSrtTrait<?> actual) {
-		return new OptSrtTraitAssert(actual);
-	}
-
-	@Nonnull
-	default OptFltTraitAssert attestThat(OptFltTrait<?> actual) {
-		return new OptFltTraitAssert(actual);
-	}
-
-	@Nonnull
-	default OptIntTraitAssert attestThat(OptIntTrait<?> actual) {
-		return new OptIntTraitAssert(actual);
-	}
-
-	@Nonnull
-	default OptLongTraitAssert attestThat(OptLongTrait<?> actual) {
-		return new OptLongTraitAssert(actual);
 	}
 
 	@Nonnull

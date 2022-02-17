@@ -31,6 +31,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
@@ -421,7 +422,7 @@ public final class P implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(byte n, byte a1) {
-		return n != a1;
+		return !equal(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -554,7 +555,7 @@ public final class P implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(short n, short a1) {
-		return n != a1;
+		return !equal(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -687,7 +688,7 @@ public final class P implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(int n, int a1) {
-		return n != a1;
+		return !equal(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -820,7 +821,7 @@ public final class P implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(long n, long a1) {
-		return n != a1;
+		return !equal(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -953,7 +954,7 @@ public final class P implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(float n, float a1) {
-		return n != a1;
+		return !equal(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -1086,7 +1087,7 @@ public final class P implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(double n, double a1) {
-		return n != a1;
+		return !equal(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -1219,7 +1220,7 @@ public final class P implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
 	public static boolean notEqual(char n, char a1) {
-		return n != a1;
+		return !equal(n, a1);
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. Available in {@link P}, {@link Is}, {@link Be}, {@link Does}.*/
@@ -3492,6 +3493,654 @@ public final class P implements FluentSyntax {
 	public static @Nullable String notSuppressingEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return P.notSuppressing(e) ? null : String.format("Exception <%s> must NOT have suppressed other exceptions.", e);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="Opt">
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptBoolTrait<?> opt, boolean expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptBoolTrait<?> opt, boolean expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptBoolTrait<?> opt, boolean expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptBoolTrait<?> opt, boolean expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return Objects.equals(opt.nullable(), expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
+	public static <V> boolean sameValue(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.nullable() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String sameValueEx(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.sameValue(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
+	public static <V> boolean notSameValue(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return !sameValue(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String notSameValueEx(@Nonnull OptTrait<?, ?> opt, V expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.notSameValue(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptByteTrait<?> opt, byte expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptByteTrait<?> opt, byte expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptByteTrait<?> opt, byte expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptByteTrait<?> opt, byte expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptDblTrait<?> opt, double expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptDblTrait<?> opt, double expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptDblTrait<?> opt, double expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptDblTrait<?> opt, double expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptCharTrait<?> opt, char expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptCharTrait<?> opt, char expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptCharTrait<?> opt, char expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptCharTrait<?> opt, char expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptSrtTrait<?> opt, short expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptSrtTrait<?> opt, short expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptSrtTrait<?> opt, short expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptSrtTrait<?> opt, short expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptFltTrait<?> opt, float expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptFltTrait<?> opt, float expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptFltTrait<?> opt, float expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptFltTrait<?> opt, float expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptIntTrait<?> opt, int expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptIntTrait<?> opt, int expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptIntTrait<?> opt, int expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptIntTrait<?> opt, int expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
+	}
+
+	/** Predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valuePresent(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent();
+	}
+
+	/** "Special" predicate: Optional <%s> must have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean noValuePresent(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !valuePresent(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isVoid();
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return !Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
+	}
+
+	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueEqual(@Nonnull OptLongTrait<?> opt, long expected) {
+		Null.nonNullArg(opt, "opt");
+		return opt.isPresent() && opt.value() == expected;
+	}
+
+	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptLongTrait<?> opt, long expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
+	}
+	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> boolean valueNotEqual(@Nonnull OptLongTrait<?> opt, long expected) {
+		Null.nonNullArg(opt, "opt");
+		return !valueEqual(opt, expected);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptLongTrait<?> opt, long expected) {
+		Null.nonNullArg(opt, "opt");
+		return P.valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
 
 	// </editor-fold>

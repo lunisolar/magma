@@ -31,6 +31,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
@@ -2788,6 +2789,217 @@ public final class Be implements FluentSyntax {
 	public static @Nullable String notRuntimeEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return P.notRuntimeEx(e);
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="Opt">
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptBoolTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptTrait<?, ?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptByteTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptDblTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptCharTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptSrtTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptFltTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptIntTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
+	}
+
+	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean Void(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.Void(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String VoidEx(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.VoidEx(opt);
+	}
+	/** Predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> boolean notVoid(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoid(opt);
+	}
+
+	/** "Special" predicate: Optional <%s> must NOT be void. Available in {@link P}, {@link Is}, {@link Be}.*/
+	public static <V> @Nullable String notVoidEx(@Nonnull OptLongTrait<?> opt) {
+		Null.nonNullArg(opt, "opt");
+		return P.notVoidEx(opt);
 	}
 
 	// </editor-fold>
