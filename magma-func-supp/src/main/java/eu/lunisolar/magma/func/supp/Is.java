@@ -61,7 +61,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - when({@link Is}::equal, 4) *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
-public final class Is implements FluentSyntax {
+@MethodReferences
+public class Is implements FluentSyntax {
+
 	// <editor-fold desc="no instance">
 	private Is() {
 	}
@@ -149,27 +151,27 @@ public final class Is implements FluentSyntax {
 
 	// <editor-fold desc="`String`">
 
-	/** Predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
 	public static boolean ofLength(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
-		return P.length(s, size);
+		return P.ofLength(s, size);
 	}
 
-	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
 	public static @Nullable String ofLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
-		return P.lengthEx(s, size);
+		return P.ofLengthEx(s, size);
 	}
-	/** Predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
 	public static boolean notOfLength(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
-		return P.lengthOtherThan(s, size);
+		return P.notOfLength(s, size);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
 	public static @Nullable String notOfLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
-		return P.lengthOtherThanEx(s, size);
+		return P.notOfLengthEx(s, size);
 	}
 
 	/** Predicate: String <'%s'> must be empty. Available in {@link P}, {@link Is}, {@link Be}, {@link P1}, {@link P2}.*/

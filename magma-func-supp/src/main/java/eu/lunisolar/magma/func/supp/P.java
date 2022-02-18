@@ -61,7 +61,22 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - when({@link Is}::equal, 4) *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
-public final class P implements FluentSyntax {
+@MethodReferences
+public class P implements FluentSyntax {
+
+	public static class Is extends P {
+	}
+	public static class Are extends P {
+	}
+	public static class Has extends P {
+	}
+	public static class Have extends P {
+	}
+	public static class Be extends P {
+	}
+	public static class Does extends P {
+	}
+
 	// <editor-fold desc="no instance">
 	private P() {
 	}
@@ -185,27 +200,50 @@ public final class P implements FluentSyntax {
 
 	// <editor-fold desc="`String`">
 
-	/** Predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static boolean length(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return size == s.length();
 	}
 
-	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static @Nullable String lengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return P.length(s, size) ? null : String.format("String <'%s'> must be <%d> characters long.", s, size);
 	}
-	/** Predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
-	public static boolean lengthOtherThan(@Nonnull CharSequence s, int size) {
+	/** Predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static boolean notLength(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return !length(s, size);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
-	public static @Nullable String lengthOtherThanEx(@Nonnull CharSequence s, int size) {
+	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static @Nullable String notLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
-		return P.lengthOtherThan(s, size) ? null : String.format("String <'%s'> must NOT be <%d> characters long.", s, size);
+		return P.notLength(s, size) ? null : String.format("String <'%s'> must NOT be <%d> characters long.", s, size);
+	}
+
+	/** Predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
+	public static boolean ofLength(@Nonnull CharSequence s, int size) {
+		Null.nonNullArg(s, "s");
+		return size == s.length();
+	}
+
+	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
+	public static @Nullable String ofLengthEx(@Nonnull CharSequence s, int size) {
+		Null.nonNullArg(s, "s");
+		return P.ofLength(s, size) ? null : String.format("String <'%s'> must be <%d> characters long.", s, size);
+	}
+	/** Predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
+	public static boolean notOfLength(@Nonnull CharSequence s, int size) {
+		Null.nonNullArg(s, "s");
+		return !ofLength(s, size);
+	}
+
+	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Is}, {@link Be}, {@link Are}.*/
+	public static @Nullable String notOfLengthEx(@Nonnull CharSequence s, int size) {
+		Null.nonNullArg(s, "s");
+		return P.notOfLength(s, size) ? null : String.format("String <'%s'> must NOT be <%d> characters long.", s, size);
 	}
 
 	/** Predicate: String <'%s'> must start with <'%s'>. Available in {@link P}, {@link Does}.*/

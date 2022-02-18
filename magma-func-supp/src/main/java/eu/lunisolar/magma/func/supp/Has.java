@@ -61,7 +61,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - when({@link Is}::equal, 4) *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
-public final class Has implements FluentSyntax {
+@MethodReferences
+public class Has implements FluentSyntax {
+
 	// <editor-fold desc="no instance">
 	private Has() {
 	}
@@ -111,27 +113,27 @@ public final class Has implements FluentSyntax {
 
 	// <editor-fold desc="`String`">
 
-	/** Predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** Predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static boolean length(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return P.length(s, size);
 	}
 
-	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
+	/** "Special" predicate: String <'%s'> must be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
 	public static @Nullable String lengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return P.lengthEx(s, size);
 	}
-	/** Predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
-	public static boolean lengthOtherThan(@Nonnull CharSequence s, int size) {
+	/** Predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static boolean notLength(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
-		return P.lengthOtherThan(s, size);
+		return P.notLength(s, size);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}, {@link Is}, {@link Be}.*/
-	public static @Nullable String lengthOtherThanEx(@Nonnull CharSequence s, int size) {
+	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. Available in {@link P}, {@link Has}, {@link Have}.*/
+	public static @Nullable String notLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
-		return P.lengthOtherThanEx(s, size);
+		return P.notLengthEx(s, size);
 	}
 
 	// </editor-fold>

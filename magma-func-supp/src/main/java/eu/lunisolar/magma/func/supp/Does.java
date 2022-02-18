@@ -61,7 +61,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - when({@link Is}::equal, 4) *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
-public final class Does implements FluentSyntax {
+@MethodReferences
+public class Does implements FluentSyntax {
+
 	// <editor-fold desc="no instance">
 	private Does() {
 	}

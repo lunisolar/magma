@@ -64,7 +64,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *
  * @see {@link P}, {@link Is}, {@link Does}, {@link Be}, {@link Are}
  */
-public final class P1 implements FluentSyntax {
+@MethodReferences
+public class P1 implements FluentSyntax {
+
 	// <editor-fold desc="no instance">
 	private P1() {
 	}
