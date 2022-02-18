@@ -62,14 +62,14 @@ public class Validations4U_Perf {
 
     private static SeriesParams<String> params() {
         return SeriesParams.<String>params()
-                .size(SERIES_SIZE)
-                .poolASize(5)
-                .percentageA(39)
-                .poolAProducer(str)
-                .poolBSize(20)
-                .percentageB(60)
-                .poolBProducer(str)
-                .poolCProducer(str);        // <-- ALT1
+                           .size(SERIES_SIZE)
+                           .poolASize(5)
+                           .percentageA(39)
+                           .poolAProducer(str)
+                           .poolBSize(20)
+                           .percentageB(60)
+                           .poolBProducer(str)
+                           .poolCProducer(str);        // <-- ALT1
 //                .poolCProducer(nullStr);    // <-- ALT2
     }
 
@@ -200,7 +200,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                LPredicate.throwIf(state.values.v(i),  Be::nullOrEmpty, X::arg, (o1)-> { return ""+ state.values.v(i).getClass();});
+                LPredicate.throwIf(state.values.v(i), Be::nullOrEmpty, X::arg, (o1) -> {return "" + state.values.v(i).getClass();});
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -229,7 +229,7 @@ public class Validations4U_Perf {
             int i = state.i();
             try {
                 arg(state.values.v(i)).mustNot(Be::nullOrEmpty, "Cannot be empty.")
-                                      .checkInt(String::length,"der",  v -> v.must(Be::gtEq, 2, "Must be longer than 2"));
+                                      .checkInt("der", String::length, v -> v.must(Be::gtEq, 2, "Must be longer than 2"));
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -287,7 +287,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i)).verbosity(ALL).mustNot(P::equal, "","No no!");
+                arg(state.values.v(i)).verbosity(ALL).mustNot(P::equal, "", "No no!");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -334,7 +334,7 @@ public class Validations4U_Perf {
             int i = state.i();
             try {
                 String v = state.values.v(i);
-                LBiPredicate.throwIf(v, P::equal, "", X::arg,"Cannot be empty: %s");
+                LBiPredicate.throwIf(v, P::equal, "", X::arg, "Cannot be empty: %s");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -423,7 +423,7 @@ public class Validations4U_Perf {
             int i = state.i();
             try {
                 var s = state.values.v(i);
-                if (s!= null ) {
+                if (s != null) {
                     arg(state.values.v(i)).verbosity(ALL).mustNot(Be::equal, "", "Cannot be empty.");
                 }
 
@@ -442,7 +442,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    arg(state.values.v(i)).mustEx(Be::notEqualEx, "");
+                arg(state.values.v(i)).mustEx(Be::notEqualEx, "");
 //                }
 
                 a++;
@@ -491,14 +491,14 @@ public class Validations4U_Perf {
         return a;
     }
 
-     @Benchmark @Threads(THREADS) public Object notEqualEx_throwIfNot(TheState state) {
+    @Benchmark @Threads(THREADS) public Object notEqualEx_throwIfNot(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg);
+                LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg);
 //                }throwIfNot
 
                 a++;
@@ -516,7 +516,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg, "Message: %s");
+                LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg, "Message: %s");
 //                }throwIfNot
 
                 a++;
@@ -534,7 +534,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                arg(state.values.v(i)).mustExM(Be::notEqualEx, ALL,"");
+                arg(state.values.v(i)).mustExM(Be::notEqualEx, ALL, "");
 //                }throwIfNot
 
                 a++;
@@ -545,14 +545,14 @@ public class Validations4U_Perf {
         return a;
     }
 
-     @Benchmark @Threads(THREADS) public Object equal(TheState state) {
+    @Benchmark @Threads(THREADS) public Object equal(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                    arg(state.values.v(i)).must(Be::notEqual, "", "MUST");
+                arg(state.values.v(i)).must(Be::notEqual, "", "MUST");
 //                }
 
                 a++;
@@ -604,7 +604,6 @@ public class Validations4U_Perf {
         }
         return a;
     }
-
 
     @Benchmark @Threads(THREADS) public Object verbosity_0(TheState state) {
         int a = 0;
@@ -695,7 +694,8 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL).mustExM3(PP::notSame4Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
+                arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL)
+                                                                  .mustExM3(PP::notSame4Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -704,7 +704,7 @@ public class Validations4U_Perf {
         return a;
     }
 
-     @Benchmark @Threads(THREADS) public Object verbosity_d2_customMsg(TheState state) {
+    @Benchmark @Threads(THREADS) public Object verbosity_d2_customMsg(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -772,7 +772,7 @@ public class Validations4U_Perf {
 //        return a;
 //    }
 
-     @Benchmark @Threads(THREADS) public Object ToStr_toStr_ref1(TheState state) {
+    @Benchmark @Threads(THREADS) public Object ToStr_toStr_ref1(TheState state) {
         int a = 0;
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
@@ -793,14 +793,14 @@ public class Validations4U_Perf {
         }
 
         public static String notSame4Ex(@Nullable Object n, @Nullable Object other1, @Nullable Object other2, @Nullable Object other3) {
-            if (!notSame4(n, other1, other2, other3 )) {
+            if (!notSame4(n, other1, other2, other3)) {
                 return String.format("<%s> must be different from <%s>, <%s> and <%s>", other1, other2, other3);
-            };
+            }
+            ;
             return null;
         }
 
     }
-
 
     public static void main(String... args) {
         JMH.jmh()

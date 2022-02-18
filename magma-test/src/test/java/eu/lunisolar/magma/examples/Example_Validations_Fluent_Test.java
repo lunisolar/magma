@@ -132,7 +132,7 @@ public class Example_Validations_Fluent_Test {
         value(Collections.singleton(2), "collection_name")
                 .mustNot(Be::Null, "This collection cannot be null.")
                 //fails:
-                .checkInt(Collection::size, "size", v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
+                .checkInt("size", Collection::size, v -> v.must(Be::gtEq, 2, "Collection size must be >1"));
     }
     //>example<
 
