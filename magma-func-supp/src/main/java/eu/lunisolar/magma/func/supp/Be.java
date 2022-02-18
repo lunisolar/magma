@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
@@ -2793,7 +2794,7 @@ public final class Be implements FluentSyntax {
 
 	// </editor-fold>
 
-	// <editor-fold desc="Opt">
+	// <editor-fold desc="Value (e.g. Opt )">
 
 	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static <V> boolean Void(@Nonnull OptBoolTrait<?> opt) {

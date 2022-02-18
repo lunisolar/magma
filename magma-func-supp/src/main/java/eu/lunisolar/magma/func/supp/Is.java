@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
 
@@ -2816,7 +2817,7 @@ public final class Is implements FluentSyntax {
 
 	// </editor-fold>
 
-	// <editor-fold desc="Opt">
+	// <editor-fold desc="Value (e.g. Opt )">
 
 	/** Predicate: Optional <%s> must be void. Available in {@link P}, {@link Is}, {@link Be}.*/
 	public static <V> boolean Void(@Nonnull OptBoolTrait<?> opt) {
@@ -2865,24 +2866,24 @@ public final class Is implements FluentSyntax {
 	}
 
 	/** Predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
-	public static <V> boolean sameValue(@Nonnull OptTrait<?, ?> opt, V expected) {
+	public static <V> boolean sameValue(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return P.sameValue(opt, expected);
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
-	public static <V> @Nullable String sameValueEx(@Nonnull OptTrait<?, ?> opt, V expected) {
+	public static <V> @Nullable String sameValueEx(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return P.sameValueEx(opt, expected);
 	}
 	/** Predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
-	public static <V> boolean notSameValue(@Nonnull OptTrait<?, ?> opt, V expected) {
+	public static <V> boolean notSameValue(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return P.notSameValue(opt, expected);
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. Available in {@link P}, {@link Is}, {@link Has}, {@link Have}.*/
-	public static <V> @Nullable String notSameValueEx(@Nonnull OptTrait<?, ?> opt, V expected) {
+	public static <V> @Nullable String notSameValueEx(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return P.notSameValueEx(opt, expected);
 	}
