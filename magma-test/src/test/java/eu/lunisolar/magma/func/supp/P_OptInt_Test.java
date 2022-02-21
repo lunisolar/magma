@@ -35,54 +35,54 @@ public class P_OptInt_Test {
 
     @Test
     public void test_valuePresentEx_OPT() {
-        check(OPT).mustEx(Have::valuePresentEx);
+        check(OPT).must$(Have::valuePresent$);
     }
 
     @Test
-    public void test_valuePresentEx_VOID() {
-        attestThrownBy(() -> check(VOID).mustEx(Have::valuePresentEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <OptInt.empty> must have value.");
+    public void test_valuePresent$_VOID() {
+        attestThrownBy(() -> check(VOID).must$(Have::valuePresent$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <OptInt.empty> must have value.");
 
-        attestThrownBy(() -> check(VOID).verbose().mustEx(Have::valuePresentEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?=='OptInt.empty']: Optional <OptInt.empty> must have value.");
+        attestThrownBy(() -> check(VOID).verbose().must$(Have::valuePresent$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?=='OptInt.empty']: Optional <OptInt.empty> must have value.");
     }
 
     @Test
     public void test_noValuePresentEx_OPT() {
-        attestThrownBy(() -> check(OPT).mustEx(Have::noValuePresentEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <OptInt['1'^^int]> must NOT have value.");
+        attestThrownBy(() -> check(OPT).must$(Have::noValuePresent$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <OptInt['1'^^int]> must NOT have value.");
     }
 
     @Test
     public void test_noValuePresentEx_VOID() {
-        check(VOID).mustEx(Have::noValuePresentEx);
+        check(VOID).must$(Have::noValuePresent$);
     }
 
     @Test
     public void test_VoidEx_OPT() {
-        attestThrownBy(() -> check(OPT).mustEx(Be::VoidEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <OptInt['1'^^int]> must be void.");
+        attestThrownBy(() -> check(OPT).must$(Be::Void$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <OptInt['1'^^int]> must be void.");
     }
 
     @Test
     public void test_VoidEx_VOID() {
-        check(VOID).mustEx(Be::VoidEx);
+        check(VOID).must$(Be::Void$);
     }
 
     @Test
     public void test_notVoidEx_OPT() {
-        check(OPT).mustEx(Be::notVoidEx);
+        check(OPT).must$(Be::notVoid$);
     }
 
     @Test
     public void test_notVoidEx_VOID() {
-        attestThrownBy(() -> check(VOID).mustEx(Be::notVoidEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <OptInt.empty> must NOT be void.");
+        attestThrownBy(() -> check(VOID).must$(Be::notVoid$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <OptInt.empty> must NOT be void.");
     }
 
 }

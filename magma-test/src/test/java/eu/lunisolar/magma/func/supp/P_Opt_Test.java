@@ -38,87 +38,87 @@ public class P_Opt_Test {
     public static final String OTHER_VALUE_STR = "'1'^^Integer";
 
     @Test
-    public void test_valuePresentEx_OPT() {
-        check(OPT).mustEx(Have::valuePresentEx);
+    public void test_valuePresent$_OPT() {
+        check(OPT).must$(Have::valuePresent$);
     }
 
     @Test
-    public void test_valuePresentEx_VOID() {
-        attestThrownBy(() -> check(VOID).mustEx(Have::valuePresentEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <Opt.empty> must have value.");
+    public void test_valuePresent$_VOID() {
+        attestThrownBy(() -> check(VOID).must$(Have::valuePresent$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <Opt.empty> must have value.");
 
-        attestThrownBy(() -> check(VOID).verbose().mustEx(Have::valuePresentEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?=='Opt.empty']: Optional <Opt.empty> must have value.");
+        attestThrownBy(() -> check(VOID).verbose().must$(Have::valuePresent$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?=='Opt.empty']: Optional <Opt.empty> must have value.");
     }
 
     @Test(expectedExceptions = NullPointerException.class, expectedExceptionsMessageRegExp = ".*Argument 'opt' must not be null.*")
-    public void test_valuePresentEx_NULL() {
-        check(NULL).mustEx(Have::valuePresentEx);
+    public void test_valuePresent$_NULL() {
+        check(NULL).must$(Have::valuePresent$);
     }
 
     @Test
-    public void test_sameValueEx_OPT() {
-        check(OPT).mustEx(Have::sameValueEx, VALUE);
+    public void test_sameValue$_OPT() {
+        check(OPT).must$(Have::sameValue$, VALUE);
     }
 
     @Test
-    public void test_sameValueEx_VOID() {
-        attestThrownBy(() -> check(VOID).mustEx(Have::sameValueEx, VALUE))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <Opt.empty> must have value equal <0>.");
+    public void test_sameValue$_VOID() {
+        attestThrownBy(() -> check(VOID).must$(Have::sameValue$, VALUE))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <Opt.empty> must have value equal <0>.");
 
-        check(VOID).mustEx(Have::sameValueEx, (Object) null);
+        check(VOID).must$(Have::sameValue$, (Object) null);
     }
 
     @Test
-    public void test_notSameValueEx_OPT() {
-        attestThrownBy(() -> check(OPT).mustEx(Have::notSameValueEx, VALUE))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <Opt['0'^^Integer]> must NOT have value equal <0>.");
+    public void test_notSameValue$_OPT() {
+        attestThrownBy(() -> check(OPT).must$(Have::notSameValue$, VALUE))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <Opt['0'^^Integer]> must NOT have value equal <0>.");
     }
 
     @Test
-    public void test_notSameValueEx_VOID() {
-        check(VOID).mustEx(Have::notSameValueEx, VALUE);
+    public void test_notSameValue$_VOID() {
+        check(VOID).must$(Have::notSameValue$, VALUE);
     }
 
 
     @Test
-    public void test_noValuePresentEx_OPT() {
-        attestThrownBy(() -> check(OPT).mustEx(Have::noValuePresentEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <Opt['0'^^Integer]> must NOT have value.");
+    public void test_noValuePresent$_OPT() {
+        attestThrownBy(() -> check(OPT).must$(Have::noValuePresent$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <Opt['0'^^Integer]> must NOT have value.");
     }
 
     @Test
-    public void test_noValuePresentEx_VOID() {
-        check(VOID).mustEx(Have::noValuePresentEx);
+    public void test_noValuePresent$_VOID() {
+        check(VOID).must$(Have::noValuePresent$);
     }
 
     @Test
-    public void test_VoidEx_OPT() {
-        attestThrownBy(() -> check(OPT).mustEx(Be::VoidEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <Opt['0'^^Integer]> must be void.");
+    public void test_Void$_OPT() {
+        attestThrownBy(() -> check(OPT).must$(Be::Void$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <Opt['0'^^Integer]> must be void.");
     }
 
     @Test
-    public void test_VoidEx_VOID() {
-        check(VOID).mustEx(Be::VoidEx);
+    public void test_Void$_VOID() {
+        check(VOID).must$(Be::Void$);
     }
 
     @Test
-    public void test_notVoidEx_OPT() {
-        check(OPT).mustEx(Be::notVoidEx);
+    public void test_notVoid$_OPT() {
+        check(OPT).must$(Be::notVoid$);
     }
 
     @Test
-    public void test_notVoidEx_VOID() {
-        attestThrownBy(() -> check(VOID).mustEx(Be::notVoidEx))
-                .mustEx(Be::instanceOfEx, IllegalStateException.class)
-                .mustEx(Have::msgEqualEx, "Check [?]: Optional <Opt.empty> must NOT be void.");
+    public void test_notVoid$_VOID() {
+        attestThrownBy(() -> check(VOID).must$(Be::notVoid$))
+                .must$(Be::instanceOf$, IllegalStateException.class)
+                .must$(Have::msgEqual$, "Check [?]: Optional <Opt.empty> must NOT be void.");
     }
 
 }

@@ -61,7 +61,7 @@ public interface OneTrait<T> {
 	/** Expectation: there MUST be a value, it MUST be of specific type */
 	default @Nonnull <R> R theValue(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
-		return (R) state(theValue()).mustM1(Be::instanceOf, clazz, "Value is not of expected class", clazz).value();
+		return (R) state(theValue()).must1(Be::instanceOf, clazz, "Value is not of expected class", clazz).value();
 	}
 
 	default @Nonnull Byte theByte() {
@@ -137,7 +137,7 @@ public interface OneTrait<T> {
 	/** Expectation: there might be a value, it MUST be of specific type */
 	default @Nonnull <R> Opt<R> aValue(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
-		return (Opt) aValue().ifExists(clazz, (__, c) -> __.mustM1(Be::instanceOf, c, "Value is not of expected class", c));
+		return (Opt) aValue().ifExists(clazz, (__, c) -> __.must1(Be::instanceOf, c, "Value is not of expected class", c));
 	}
 
 	default @Nonnull OptByte aByte() {

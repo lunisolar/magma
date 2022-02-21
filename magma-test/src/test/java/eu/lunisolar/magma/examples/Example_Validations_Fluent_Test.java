@@ -170,11 +170,11 @@ public class Example_Validations_Fluent_Test {
     public void test1_bis() {
 
         Checks.arg(arg45)
-              .mustEx(Be::notGtEqEx, 50 ) //passes (there is no mustNotEx method for logical reasons)
-              .mustEx(Be::ltEx, 50); //passes
+              .must$(Be::notGtEq$, 50 ) //passes (there is no mustNot$ method for logical reasons)
+              .must$(Be::lt$, 50); //passes
 
         var i = arg(60)
-                .mustExM1(Be::notGtEqEx, 50, "#3 some additional info: %s", "it failed") //fails
+                .must$1(Be::notGtEq$, 50, "#3 some additional info: %s", "it failed") //fails
                 .get();
     }
     //>example<
@@ -225,29 +225,29 @@ public class Example_Validations_Fluent_Test {
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null.")
     public void specialPredicates_allNull1() {
-        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx);
+        Checks.value(new Object[]{1, 2}).must$(Be::allNull$);
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Message: not really.")
     public void specialPredicates_allNull2() {
-        Checks.value(new Object[]{1, 2}).mustM1(Be::allNull, "Message: %s.", "not really");
+        Checks.value(new Object[]{1, 2}).must1(Be::allNull, "Message: %s.", "not really");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null. - Array contains non-null elements")
     public void specialPredicates_allNull3() {
-        Checks.value(new Object[]{1, 2}).mustExM(Be::allNullEx, "Array contains non-null elements");
+        Checks.value(new Object[]{1, 2}).must$0(Be::allNull$, "Array contains non-null elements");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")
     public void specialPredicates() {
         var e = new Exception("Message1!", new RuntimeException("Message2!"));
 
-        Checks.value(e).mustEx(P.haveEx(Exception::getCause, Have::msgContainEx, "I'm Expecting this"));
+        Checks.value(e).must$(P.have$(Exception::getCause, Have::msgContain$, "I'm Expecting this"));
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: 1 must be: 5 <= 1 <= 10.")
     public void between() {
-        Checks.value(1L).mustEx(Be::inRangeEx, 5L, 10l);
+        Checks.value(1L).must$(Be::inRange$, 5L, 10l);
     }
 
     /**
@@ -270,13 +270,13 @@ public class Example_Validations_Fluent_Test {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check/attest \\[\\?=='1'\\]: 1 must be equal to 45.")
     public void test9() {
         attest(new Integer(1))
-                .mustEx(P.haveToIntEx(Integer::intValue, P::equalEx, 45));
+                .must$(P.haveToInt$(Integer::intValue, P::equal$, 45));
     }
     //>example<
 
 /// > Summary note on naming convention:
 /// >
-/// > - must**Ex** - _Ex_ stands for self-**ex**plaining
+/// > - must**$** - _$_ indicates special predicate
 /// > - must**2** - _2_ solves problem with ambiguous arguments (a matter of number of function arguments vs number of message arguments)
 ///
 

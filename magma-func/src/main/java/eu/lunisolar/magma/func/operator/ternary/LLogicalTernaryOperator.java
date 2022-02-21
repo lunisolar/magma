@@ -680,7 +680,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		var m = specialPredicate.apply(a1, a2, a3);
@@ -691,7 +691,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(msg, "msg");
@@ -703,7 +703,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -715,7 +715,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
 			@Nullable Object param2) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
@@ -728,7 +728,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
 			@Nullable Object param2, @Nullable Object param3) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
@@ -741,7 +741,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory) throws X {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		var m = specialPredicate.apply(a1, a2, a3);
@@ -752,7 +752,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(msg, "msg");
@@ -764,7 +764,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -776,7 +776,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
 			@Nullable Object param2) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
@@ -789,7 +789,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
+	public static <X extends Throwable> boolean throwIfNot$(boolean a1, @Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
 			@Nullable Object param2, @Nullable Object param3) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");

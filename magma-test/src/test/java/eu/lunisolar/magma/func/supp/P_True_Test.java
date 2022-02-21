@@ -43,14 +43,14 @@ public class P_True_Test {
         assertThat(Be.True(false)).isFalse();
     }
 
-    @Test void trueEx_P() {
-        assertThat(P.TrueEx(true)).isNull();
-        assertThat(P.TrueEx(false)).isEqualTo("<false> must be true.");
+    @Test void true$_P() {
+        assertThat(P.True$(true)).isNull();
+        assertThat(P.True$(false)).isEqualTo("<false> must be true.");
     }
 
-    @Test void trueEx_Be() {
-        assertThat(Be.TrueEx(true)).isNull();
-        assertThat(Be.TrueEx(false)).isEqualTo("<false> must be true.");
+    @Test void true$_Be() {
+        assertThat(Be.True$(true)).isNull();
+        assertThat(Be.True$(false)).isEqualTo("<false> must be true.");
     }
     
 }

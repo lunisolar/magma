@@ -32,8 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.Be; // NOSONAR
-import eu.lunisolar.magma.func.supp.MsgVerbosity; // NOSONAR   
+import eu.lunisolar.magma.func.supp.MsgVerbosity; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
@@ -93,7 +92,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	// <editor-fold desc="main methods">
 
 	/**   */
-	default @Nonnull SELF mustF(@Nonnull LBytePredicate predicate, @Nonnull LByteFunction<String> msgFunc) {
+	default @Nonnull SELF must_(@Nonnull LBytePredicate predicate, @Nonnull LByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(get())) {
@@ -115,7 +114,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM1(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must1(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get())) {
@@ -127,7 +126,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM2(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get())) {
@@ -139,7 +138,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM3(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must3(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get())) {
@@ -151,7 +150,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotF(@Nonnull LBytePredicate predicate, @Nonnull LByteFunction<String> msgFunc) {
+	default @Nonnull SELF mustNot_(@Nonnull LBytePredicate predicate, @Nonnull LByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(get())) {
@@ -173,7 +172,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM1(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot1(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get())) {
@@ -185,7 +184,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM2(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot2(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get())) {
@@ -197,7 +196,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM3(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot3(@Nonnull LBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get())) {
@@ -209,7 +208,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LByteFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF must$(@Nonnull LByteFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get());
@@ -221,7 +220,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF must$0(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -235,7 +234,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM1(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must$1(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -249,7 +248,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM2(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must$2(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -263,7 +262,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM3(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must$3(@Nonnull LByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -277,7 +276,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustF(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull LBiByteFunction<String> msgFunc) {
+	default @Nonnull SELF must_(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull LBiByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(get(), a2)) {
@@ -299,7 +298,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM1(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must1(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -311,7 +310,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM2(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -323,7 +322,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM3(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must3(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -335,7 +334,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustF(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LBiByteFunction<String> msgFunc) {
+	default @Nonnull SELF must_(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LBiByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(get(), a2)) {
@@ -357,7 +356,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM1(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must1(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -369,7 +368,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM2(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -381,7 +380,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM3(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must3(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2)) {
@@ -393,7 +392,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotF(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull LBiByteFunction<String> msgFunc) {
+	default @Nonnull SELF mustNot_(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull LBiByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(get(), a2)) {
@@ -415,7 +414,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM1(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot1(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -427,7 +426,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM2(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot2(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -439,7 +438,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM3(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot3(@Nonnull LBiBytePredicate predicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -451,7 +450,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotF(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LBiByteFunction<String> msgFunc) {
+	default @Nonnull SELF mustNot_(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull LBiByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(get(), a2)) {
@@ -473,7 +472,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM1(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot1(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -485,7 +484,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM2(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot2(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -497,7 +496,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM3(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot3(byte a2, @Nonnull LBiBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2)) {
@@ -509,7 +508,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2) {
+	default @Nonnull SELF must$(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -521,7 +520,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message) {
+	default @Nonnull SELF must$0(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -535,7 +534,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM1(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must$1(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -549,7 +548,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM2(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must$2(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -563,7 +562,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM3(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must$3(@Nonnull LBiByteFunction<? extends String> specialPredicate, byte a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -577,7 +576,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF must$(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -589,7 +588,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF must$0(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -603,7 +602,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM1(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must$1(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -617,7 +616,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM2(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must$2(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -631,7 +630,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM3(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must$3(byte a2, @Nonnull LBiByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -645,7 +644,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustF(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull LTriByteFunction<String> msgFunc) {
+	default @Nonnull SELF must_(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull LTriByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(get(), a2, a3)) {
@@ -667,7 +666,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM1(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must1(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -679,7 +678,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM2(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -691,7 +690,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM3(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must3(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -703,7 +702,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustF(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull LTriByteFunction<String> msgFunc) {
+	default @Nonnull SELF must_(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull LTriByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(get(), a2, a3)) {
@@ -725,7 +724,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM1(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must1(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -737,7 +736,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM2(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must2(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -749,7 +748,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustM3(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must3(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), a2, a3)) {
@@ -761,7 +760,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotF(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull LTriByteFunction<String> msgFunc) {
+	default @Nonnull SELF mustNot_(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull LTriByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(get(), a2, a3)) {
@@ -783,7 +782,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM1(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot1(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -795,7 +794,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM2(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot2(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -807,7 +806,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM3(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot3(@Nonnull LTriBytePredicate predicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -819,7 +818,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotF(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull LTriByteFunction<String> msgFunc) {
+	default @Nonnull SELF mustNot_(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull LTriByteFunction<String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(get(), a2, a3)) {
@@ -841,7 +840,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM1(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNot1(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -853,7 +852,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM2(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNot2(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -865,7 +864,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotM3(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNot3(byte a2, byte a3, @Nonnull LTriBytePredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), a2, a3)) {
@@ -877,7 +876,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3) {
+	default @Nonnull SELF must$(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2, a3);
@@ -889,7 +888,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message) {
+	default @Nonnull SELF must$0(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -903,7 +902,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM1(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must$1(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -917,7 +916,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM2(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must$2(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -931,7 +930,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM3(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must$3(@Nonnull LTriByteFunction<? extends String> specialPredicate, byte a2, byte a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -945,7 +944,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustEx(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF must$(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2, a3);
@@ -957,7 +956,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF must$0(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -971,7 +970,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM1(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF must$1(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -985,7 +984,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM2(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF must$2(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -999,7 +998,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustExM3(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF must$3(byte a2, byte a3, @Nonnull LTriByteFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1025,7 +1024,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustIntM1(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustInt1(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), v)) {
@@ -1037,7 +1036,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustIntM2(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustInt2(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), v)) {
@@ -1049,7 +1048,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustIntM3(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustInt3(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), v)) {
@@ -1073,7 +1072,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustIntM1(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustInt1(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), v)) {
@@ -1085,7 +1084,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustIntM2(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustInt2(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), v)) {
@@ -1097,7 +1096,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustIntM3(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustInt3(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(get(), v)) {
@@ -1121,7 +1120,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotIntM1(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotInt1(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), v)) {
@@ -1133,7 +1132,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotIntM2(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotInt2(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), v)) {
@@ -1145,7 +1144,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotIntM3(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotInt3(@Nonnull LByteIntPredicate predicate, int v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), v)) {
@@ -1169,7 +1168,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotIntM1(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustNotInt1(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), v)) {
@@ -1181,7 +1180,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotIntM2(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustNotInt2(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), v)) {
@@ -1193,7 +1192,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull SELF mustNotIntM3(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustNotInt3(int v, @Nonnull LByteIntPredicate predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(get(), v)) {
@@ -1205,7 +1204,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_F(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF must__(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1227,7 +1226,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_M1(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_1(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1239,7 +1238,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_M2(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_2(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1251,7 +1250,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_M3(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_3(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1263,7 +1262,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_F(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF must__(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1285,7 +1284,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_M1(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_1(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1297,7 +1296,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_M2(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_2(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1309,7 +1308,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_M3(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_3(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.testByteObj(get(), v)) {
@@ -1321,7 +1320,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_F(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF mustNot__(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.testByteObj(get(), v)) {
@@ -1343,7 +1342,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_M1(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_1(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testByteObj(get(), v)) {
@@ -1355,7 +1354,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_M2(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_2(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testByteObj(get(), v)) {
@@ -1367,7 +1366,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_M3(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_3(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testByteObj(get(), v)) {
@@ -1379,7 +1378,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_F(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
+	default @Nonnull <V> SELF mustNot__(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LObjByteFunction.LByteObjFunc<? super V, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.testByteObj(get(), v)) {
@@ -1401,7 +1400,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_M1(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF mustNot_1(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testByteObj(get(), v)) {
@@ -1413,7 +1412,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_M2(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF mustNot_2(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testByteObj(get(), v)) {
@@ -1425,7 +1424,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF mustNot_M3(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF mustNot_3(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.testByteObj(get(), v)) {
@@ -1437,7 +1436,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v) {
+	default @Nonnull <V> SELF must_$(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applyByteObj(get(), v);
@@ -1449,7 +1448,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
+	default @Nonnull <V> SELF must_$0(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1463,7 +1462,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM1(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_$1(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1477,7 +1476,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM2(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_$2(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1491,7 +1490,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM3(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_$3(@Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, V v, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1505,7 +1504,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_Ex(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate) {
+	default @Nonnull <V> SELF must_$(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.applyByteObj(get(), v);
@@ -1517,7 +1516,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V> SELF must_$0(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1531,7 +1530,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM1(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V> SELF must_$1(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1545,7 +1544,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM2(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V> SELF must_$2(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1559,7 +1558,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V> SELF must_ExM3(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V> SELF must_$3(V v, @Nonnull LObjByteFunction.LByteObjFunc<? super V, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1573,7 +1572,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteF(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustWithByte_(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, get())) {
@@ -1595,7 +1594,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteM1(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithByte1(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -1607,7 +1606,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteM2(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithByte2(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -1619,7 +1618,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteM3(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithByte3(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -1631,7 +1630,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteF(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustWithByte_(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, get())) {
@@ -1653,7 +1652,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteM1(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithByte1(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -1665,7 +1664,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteM2(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithByte2(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -1677,7 +1676,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteM3(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithByte3(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, get())) {
@@ -1689,7 +1688,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteF(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustNotWithByte_(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, get())) {
@@ -1711,7 +1710,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteM1(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithByte1(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -1723,7 +1722,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteM2(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithByte2(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -1735,7 +1734,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteM3(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithByte3(@Nonnull LObjBytePredicate<? super V1> predicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -1747,7 +1746,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteF(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
+	default @Nonnull <V1> SELF mustNotWithByte_(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LObjByteFunction<? super V1, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, get())) {
@@ -1769,7 +1768,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteM1(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustNotWithByte1(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -1781,7 +1780,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteM2(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustNotWithByte2(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -1793,7 +1792,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustNotWithByteM3(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustNotWithByte3(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, get())) {
@@ -1805,7 +1804,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteEx(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
+	default @Nonnull <V1> SELF mustWithByte$(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -1817,7 +1816,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithByte$0(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1831,7 +1830,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM1(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithByte$1(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1845,7 +1844,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM2(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithByte$2(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1859,7 +1858,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM3(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithByte$3(@Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1873,7 +1872,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteEx(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate) {
+	default @Nonnull <V1> SELF mustWithByte$(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -1885,7 +1884,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithByte$0(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1899,7 +1898,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM1(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithByte$1(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1913,7 +1912,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM2(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithByte$2(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1927,7 +1926,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithByteExM3(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithByte$3(V1 with1, @Nonnull LObjByteFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1941,7 +1940,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithF(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustWith_(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, with2, get())) {
@@ -1963,7 +1962,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithM1(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith1(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -1975,7 +1974,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithM2(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith2(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -1987,7 +1986,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithM3(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith3(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -1999,7 +1998,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithF(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustWith_(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (!predicate.test(with1, with2, get())) {
@@ -2021,7 +2020,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithM1(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith1(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2033,7 +2032,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithM2(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith2(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2045,7 +2044,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithM3(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith3(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (!predicate.test(with1, with2, get())) {
@@ -2057,7 +2056,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithF(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustNotWith_(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, with2, get())) {
@@ -2079,7 +2078,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithM1(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWith1(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -2091,7 +2090,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithM2(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWith2(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -2103,7 +2102,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithM3(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(@Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -2115,7 +2114,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithF(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
+	default @Nonnull <V1, V2> SELF mustNotWith_(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> msgFunc) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(msgFunc, "msgFunc");
 		if (predicate.test(with1, with2, get())) {
@@ -2137,7 +2136,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithM1(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustNotWith1(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -2149,7 +2148,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithM2(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustNotWith2(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -2161,7 +2160,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustNotWithM3(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustNotWith3(V1 with1, V2 with2, @Nonnull LBiObjBytePredicate<? super V1, ? super V2> predicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(message, "message");
 		if (predicate.test(with1, with2, get())) {
@@ -2173,7 +2172,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
+	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2185,7 +2184,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith$0(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2199,7 +2198,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM1(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith$1(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2213,7 +2212,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM2(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith$2(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2227,7 +2226,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM3(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith$3(@Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2241,7 +2240,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
+	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -2253,7 +2252,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWith$0(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2267,7 +2266,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM1(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWith$1(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2281,7 +2280,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM2(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWith$2(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2295,7 +2294,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithExM3(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWith$3(V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -2369,7 +2368,7 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	default @Nonnull SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
-		return this.mustM1(__ -> false, newMessage, messageParams);
+		return this.must1(__ -> false, newMessage, messageParams);
 	}
 
 }

@@ -287,13 +287,13 @@ public class Example_Opt_Test {
                            .filter(P::startWith, "T")
                            .replace("This", "THIS")
                            .removeTail(".")
-                           .mustEx(Be::equalEx, "THIS is optional string");
+                           .must$(Be::equal$, "THIS is optional string");
 
         OptStr str2 = OptStr.str(input)
                            .filter(P::startWith, "123456789")
                            .replace("This", "THIS")
                            .removeTail(".")
-                           .mustEx(Be::equalEx, "THIS is optional string");   //NoSuchElementException
+                           .must$(Be::equal$, "THIS is optional string");   //NoSuchElementException
 //                           .mustBeEmpty();  /// TODO Add
 
     }

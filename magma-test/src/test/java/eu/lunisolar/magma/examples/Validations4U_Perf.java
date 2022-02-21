@@ -214,7 +214,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).mustNotM1(Be::nullOrEmpty, "Cannot be empty index: %s", i);
+                arg(state.values.v(i), state.names.v(i)).mustNot1(Be::nullOrEmpty, "Cannot be empty index: %s", i);
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -442,7 +442,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                arg(state.values.v(i)).mustEx(Be::notEqualEx, "");
+                arg(state.values.v(i)).must$(Be::notEqual$, "");
 //                }
 
                 a++;
@@ -480,7 +480,7 @@ public class Validations4U_Perf {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
                 String v = state.values.v(i);
-                arg(v).mustExM(Be::notEqualEx, "", "Special comment: %s");
+                arg(v).must$0(Be::notEqual$, "", "Special comment: %s");
 //                }
 
                 a++;
@@ -498,7 +498,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg);
+                LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg);
 //                }throwIfNot
 
                 a++;
@@ -516,7 +516,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg, "Message: %s");
+                LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg, "Message: %s");
 //                }throwIfNot
 
                 a++;
@@ -534,7 +534,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                arg(state.values.v(i)).mustExM(Be::notEqualEx, ALL, "");
+                arg(state.values.v(i)).must$0(Be::notEqual$, ALL, "");
 //                }throwIfNot
 
                 a++;
@@ -695,7 +695,7 @@ public class Validations4U_Perf {
             int i = state.i();
             try {
                 arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL)
-                                                                  .mustExM3(PP::notSame4Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
+                                                                  .must$3(PP::notSame4Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
                 a++;
             } catch (RuntimeException e) {
                 a--;
@@ -709,7 +709,7 @@ public class Validations4U_Perf {
         for (int c = 0; c < COUNT_ITERATIONS; c++) {
             int i = state.i();
             try {
-                arg(state.values.v(i), state.names.v(i)).verbose().mustM1(PP::notSame4, SAME, "a", "b", "Cannot be empty index %s", "3465");
+                arg(state.values.v(i), state.names.v(i)).verbose().must1(PP::notSame4, SAME, "a", "b", "Cannot be empty index %s", "3465");
                 a++;
             } catch (RuntimeException e) {
                 a--;

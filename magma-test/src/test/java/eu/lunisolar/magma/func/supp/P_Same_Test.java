@@ -34,27 +34,27 @@ public class P_Same_Test {
     public static final int I2 = 2;
 
     @Test void same_P() {
-        attestThat(P.same(I1, I1)).mustEx(Be::TrueEx);
-        attestThat(P.notSame(I1, I1)).mustEx(Be::FalseEx);
+        attestThat(P.same(I1, I1)).must$(Be::True$);
+        attestThat(P.notSame(I1, I1)).must$(Be::False$);
 
-        attestThat(P.same(I1, I2)).mustEx(Be::FalseEx);
-        attestThat(P.notSame(I1, I2)).mustEx(Be::TrueEx);
+        attestThat(P.same(I1, I2)).must$(Be::False$);
+        attestThat(P.notSame(I1, I2)).must$(Be::True$);
     }
 
     @Test void same_Be() {
-        attestThat(Be.same(I1, I1)).mustEx(Be::TrueEx);
-        attestThat(Be.notSame(I1, I1)).mustEx(Be::FalseEx);
+        attestThat(Be.same(I1, I1)).must$(Be::True$);
+        attestThat(Be.notSame(I1, I1)).must$(Be::False$);
 
-        attestThat(Be.same(I1, I2)).mustEx(Be::FalseEx);
-        attestThat(Be.notSame(I1, I2)).mustEx(Be::TrueEx);
+        attestThat(Be.same(I1, I2)).must$(Be::False$);
+        attestThat(Be.notSame(I1, I2)).must$(Be::True$);
     }
 
-    @Test void sameEx() {
-        attestThat(P.sameEx(I1, I1)).mustEx(Be::NullEx);
-        attestThat(P.notSameEx(I1, I1)).mustEx(Be::equalEx, "Object <1> must NOT be the same as <1>.");
+    @Test void same$() {
+        attestThat(P.same$(I1, I1)).must$(Be::Null$);
+        attestThat(P.notSame$(I1, I1)).must$(Be::equal$, "Object <1> must NOT be the same as <1>.");
 
-        attestThat(Be.sameEx(I1, I2)).mustEx(Be::equalEx, "Object <1> must be the same as <2>.");
-        attestThat(Be.notSameEx(I1, I2)).mustEx(Be::NullEx);
+        attestThat(Be.same$(I1, I2)).must$(Be::equal$, "Object <1> must be the same as <2>.");
+        attestThat(Be.notSame$(I1, I2)).must$(Be::Null$);
     }
 
 }

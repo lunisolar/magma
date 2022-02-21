@@ -32,7 +32,7 @@ public interface Sut<SUT> {
 	LConsumer<String> logger();
 
 	default void log(String message) {
-		arg(message, "message").mustEx(Be::notNullEx);
+		arg(message, "message").must$(Be::notNull$);
 		logger().accept(message);
 	}
 
@@ -42,7 +42,7 @@ public interface Sut<SUT> {
 		private final LConsumer<String> logger;
 
 		public Base(SUT sut, @Nonnull LConsumer<String> logger) {
-			arg(logger, "logger").mustEx(Be::notNullEx);
+			arg(logger, "logger").must$(Be::notNull$);
 			this.sut = sut;
 			this.logger = logger;
 		}

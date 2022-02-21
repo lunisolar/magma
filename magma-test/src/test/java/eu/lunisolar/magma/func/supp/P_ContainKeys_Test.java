@@ -37,23 +37,23 @@ public class P_ContainKeys_Test {
     }
 
     @Test void containKeys() {
-        attestThat(P.containKeys(MAP, "key1")).mustEx(Be::TrueEx);
-        attestThat(P.containKeys(MAP, "key1", "key2")).mustEx(Be::TrueEx);
-        attestThat(P.containKeys(MAP, "other")).mustEx(Be::FalseEx);
-        attestThat(P.containKeys(MAP, "key1", "other")).mustEx(Be::FalseEx);
+        attestThat(P.containKeys(MAP, "key1")).must$(Be::True$);
+        attestThat(P.containKeys(MAP, "key1", "key2")).must$(Be::True$);
+        attestThat(P.containKeys(MAP, "other")).must$(Be::False$);
+        attestThat(P.containKeys(MAP, "key1", "other")).must$(Be::False$);
     }
 
     @Test void notContainKeys() {
-        attestThat(P.notContainKeys(MAP, "key1")).mustEx(Be::FalseEx);
-        attestThat(P.notContainKeys(MAP, "key1", "key2")).mustEx(Be::FalseEx);
-        attestThat(P.notContainKeys(MAP, "other")).mustEx(Be::TrueEx);
+        attestThat(P.notContainKeys(MAP, "key1")).must$(Be::False$);
+        attestThat(P.notContainKeys(MAP, "key1", "key2")).must$(Be::False$);
+        attestThat(P.notContainKeys(MAP, "other")).must$(Be::True$);
         //
-        attestThat(P.notContainKeys(MAP, "key1", "other")).mustEx(Be::FalseEx);
-        attestThat(P.notContainKeys(MAP, "other", "other1")).mustEx(Be::TrueEx);
+        attestThat(P.notContainKeys(MAP, "key1", "other")).must$(Be::False$);
+        attestThat(P.notContainKeys(MAP, "other", "other1")).must$(Be::True$);
     }
 
     @Test void ex() {
-        attestThat(P.containKeysEx(MAP, "other", "other2")).mustEx(Be::equalEx, "Map <{key1=value11, key2=value12, key3=value13}> must contain keys <[other, other2]>.");
+        attestThat(P.containKeys$(MAP, "other", "other2")).must$(Be::equal$, "Map <{key1=value11, key2=value12, key3=value13}> must contain keys <[other, other2]>.");
 
     }
 }

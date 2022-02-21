@@ -31,37 +31,37 @@ import static java.util.Arrays.*;
 public class P_ContainsExactly_Test {
 
     @Test void containExactlyTest() {
-        attestThat(P.containExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::TrueEx);
-        attestThat(P.containExactly(asList(1, 2, 3), 1, 2)).mustEx(Be::FalseEx);
-        attestThat(P.containExactly(asList(1, 2, 3), 2, 3)).mustEx(Be::FalseEx);
-        attestThat(P.containExactly(asList(1, 2, 3), 3, 2, 1)).mustEx(Be::FalseEx);
-        attestThat(P.containExactly(asList(1, 2, 3))).mustEx(Be::FalseEx);
-        attestThat(P.containExactly(asList())).mustEx(Be::TrueEx);
+        attestThat(P.containExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::True$);
+        attestThat(P.containExactly(asList(1, 2, 3), 1, 2)).must$(Be::False$);
+        attestThat(P.containExactly(asList(1, 2, 3), 2, 3)).must$(Be::False$);
+        attestThat(P.containExactly(asList(1, 2, 3), 3, 2, 1)).must$(Be::False$);
+        attestThat(P.containExactly(asList(1, 2, 3))).must$(Be::False$);
+        attestThat(P.containExactly(asList())).must$(Be::True$);
 
-        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::TrueEx);
-        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2)).mustEx(Be::FalseEx);
-        attestThat(Does.containExactly(asList(1, 2, 3), 2, 3)).mustEx(Be::FalseEx);
-        attestThat(Does.containExactly(asList(1, 2, 3), 3, 2, 1)).mustEx(Be::FalseEx);
-        attestThat(Does.containExactly(asList(1, 2, 3))).mustEx(Be::FalseEx);
-        attestThat(Does.containExactly(asList())).mustEx(Be::TrueEx);
+        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::True$);
+        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2)).must$(Be::False$);
+        attestThat(Does.containExactly(asList(1, 2, 3), 2, 3)).must$(Be::False$);
+        attestThat(Does.containExactly(asList(1, 2, 3), 3, 2, 1)).must$(Be::False$);
+        attestThat(Does.containExactly(asList(1, 2, 3))).must$(Be::False$);
+        attestThat(Does.containExactly(asList())).must$(Be::True$);
     }
 
     @Test void notContainExactlyTest() {
-        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::FalseEx);
-        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 3, 4)).mustEx(Be::TrueEx);
+        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::False$);
+        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 3, 4)).must$(Be::True$);
 
-        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 2, 3)).mustEx(Be::FalseEx);
-        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 3, 4)).mustEx(Be::TrueEx);
+        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::False$);
+        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 3, 4)).must$(Be::True$);
     }
 
     @Test void array_in_messages() {
 
         var array = new Integer[]{1, 2, 3};
 
-        attestThat(Has.lengthEx(array, 5)).mustEx(Be::equalEx, "Array <[1, 2, 3]> must be of size 5.");
-        attestThat(Is.ofLengthEx(array, 5)).mustEx(Be::equalEx, "Array <[1, 2, 3]> must be of size 5.");
+        attestThat(Has.length$(array, 5)).must$(Be::equal$, "Array <[1, 2, 3]> must be of size 5.");
+        attestThat(Is.ofLength$(array, 5)).must$(Be::equal$, "Array <[1, 2, 3]> must be of size 5.");
 
-        attestThat(P.containExactlyEx(asList(array), 5, 6, 7)).mustEx(Be::equalEx, "Collection <[1, 2, 3]> must contain exactly elements in order: <[5, 6, 7]>.");
+        attestThat(P.containExactly$(asList(array), 5, 6, 7)).must$(Be::equal$, "Collection <[1, 2, 3]> must contain exactly elements in order: <[5, 6, 7]>.");
 
     }
 }

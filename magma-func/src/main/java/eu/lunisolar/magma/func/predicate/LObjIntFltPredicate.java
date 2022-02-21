@@ -689,7 +689,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		var m = specialPredicate.apply(a1, a2, a3);
@@ -700,7 +700,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(msg, "msg");
@@ -712,7 +712,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -724,8 +724,8 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
-			@Nullable Object param2) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2)
+			throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -737,7 +737,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
+	public static <T, X extends Throwable> T throwIfNot$(T a1, int a2, float a3, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
 			@Nullable Object param2, @Nullable Object param3) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
@@ -750,7 +750,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		var m = specialPredicate.apply(a1, a2, a3);
@@ -761,7 +761,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String msg) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(msg, "msg");
@@ -773,7 +773,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -785,8 +785,8 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
-			@Nullable Object param2) throws X {
+	public static <T, X extends Throwable> T throwIfNot$(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2)
+			throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -798,7 +798,7 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T, X extends Throwable> T throwIfNotEx(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
+	public static <T, X extends Throwable> T throwIfNot$(T a1, @Nonnull LObjIntFltFunction<? super T, ? extends String> specialPredicate, int a2, float a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1,
 			@Nullable Object param2, @Nullable Object param3) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");

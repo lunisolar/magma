@@ -94,7 +94,7 @@ public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R
     }
 
     /** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-    public CTX toEx(@Nonnull Consumer<Checks.Check<R>> customCheckBlock) {
+    public CTX to$(@Nonnull Consumer<Checks.Check<R>> customCheckBlock) {
         Null.nonNullArg(customCheckBlock, "customCheckBlock");
         R actualResult = stealActualResult();
         customCheckBlock.accept(Checks.attest(actualResult));

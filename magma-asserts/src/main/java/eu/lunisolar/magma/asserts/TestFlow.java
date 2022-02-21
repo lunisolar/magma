@@ -41,7 +41,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 	}
 
 	public TestFlow<?> log(@Nonnull LConsumer<String> logger) {
-		arg(logger, "logger").mustEx(Be::notNullEx);
+		arg(logger, "logger").must$(Be::notNull$);
 		return new TestFlow<>(null, logger);
 	}
 
@@ -51,7 +51,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	public <SUT> TestFlow<SUT> given(@Nullable String description, LSupplier<SUT> givenBlock) {
 		log("Given: " + description);
-		check(givenBlock).mustEx(Be::notNullEx);
+		check(givenBlock).must$(Be::notNull$);
 		var sut = givenBlock.shovingGet();
 		return new TestFlow<>(sut, logger());
 	}
@@ -62,7 +62,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	public TestFlow<SUT> precondition(@Nullable String description, LConsumer<SUT> preBlock) {
 		log("Precondition: " + description);
-		check(preBlock).mustEx(Be::notNullEx);
+		check(preBlock).must$(Be::notNull$);
 		preBlock.shovingAccept(sut());
 		return new TestFlow<>(sut(), logger());
 	}
@@ -73,7 +73,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	public TestFlow<SUT> when(@Nullable String description, LConsumer<SUT> whenBlock) {
 		log("When: " + description);
-		check(whenBlock).mustEx(Be::notNullEx);
+		check(whenBlock).must$(Be::notNull$);
 		whenBlock.shovingAccept(sut());
 		return new TestFlow<>(sut(), logger());
 	}
@@ -84,7 +84,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	public TestFlow<SUT> then(@Nullable String description, LConsumer<SUT> thenBlock) {
 		log("Then: " + description);
-		check(thenBlock).mustEx(Be::notNullEx);
+		check(thenBlock).must$(Be::notNull$);
 		thenBlock.shovingAccept(sut());
 		return new TestFlow<>(sut(), logger());
 	}
@@ -114,7 +114,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	public TestFlow<SUT> aftermath(@Nullable String description, LConsumer<SUT> postBlock) {
 		log("Aftermath: " + description);
-		check(postBlock).mustEx(Be::notNullEx);
+		check(postBlock).must$(Be::notNull$);
 		postBlock.shovingAccept(sut());
 		return new TestFlow<>(sut(), logger());
 	}

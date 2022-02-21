@@ -20,8 +20,8 @@ package eu.lunisolar.magma;
 
 import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.basics.exceptions.X;
-import eu.lunisolar.magma.func.CallContext;
 import eu.lunisolar.magma.func.AsyncCallContext;
+import eu.lunisolar.magma.func.CallContext;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.function.LBiFunction;
@@ -43,7 +43,6 @@ import java.util.function.*;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CallContextTest {
 
@@ -64,7 +63,7 @@ public class CallContextTest {
         var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
 
         // then
-        attest(result).mustEx(Be::equalEx, a1 + a2);
+        attest(result).must$(Be::equal$, a1 + a2);
         assertThat(l()).containsExactly(i1$, a1, a2, f1$);
     }
 
@@ -79,7 +78,7 @@ public class CallContextTest {
         var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
 
         // then
-        attest(result).mustEx(Be::equalEx, a1 + a2);
+        attest(result).must$(Be::equal$, a1 + a2);
         assertThat(l()).containsExactly(i1$, a1, a2, f1$);
     }
 
@@ -164,66 +163,66 @@ public class CallContextTest {
     public static Object[][] exceptionHandling() {
         return new Object[][]{
                 p(i1, f1, i2, f2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, $EX_F)
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuspendedEx),
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, $EX_F)
+                                  .must$(Have::noCause$)
+                                  .must$(Have::noSuspended$),
                   i1$, i2$, f2$, f1$
                 ),
 
                 //<editor-fold desc="single exception in context">
                 p(EX_I1, f1, i2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "I1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuspendedEx)
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "I1")
+                                  .must$(Have::noCause$)
+                                  .must$(Have::noSuspended$)
                 ),
                 p(i1, EX_F1, i2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "F1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuspendedEx),
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "F1")
+                                  .must$(Have::noCause$)
+                                  .must$(Have::noSuspended$),
                   i1$, i2$, ARG1, ARG2, f2$
                 ),
                 p(i1, f1, EX_I2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "I2")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuspendedEx),
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "I2")
+                                  .must$(Have::noCause$)
+                                  .must$(Have::noSuspended$),
                   i1$, f1$
                 ),
                 p(i1, f1, i2, EX_F2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "F2")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuspendedEx),
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "F2")
+                                  .must$(Have::noCause$)
+                                  .must$(Have::noSuspended$),
                   i1$, i2$, ARG1, ARG2, f1$
                 ),
                 //</editor-fold>
 
                 //<editor-fold desc="both main function and finisher fails">
                 p(i1, EX_F1, i2, f2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::suspendedEx)
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "E1")
+                                  .must$(Have::noCause$)
+                                  .must$(Have::suspended$)
                                   .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuspendedEx);
+                                      ch.must$(Be::exactlyInstanceOf$, Exception.class)
+                                        .must$(Have::msgEqual$, "F1")
+                                        .must$(Have::noCause$)
+                                        .must$(Have::noSuspended$);
                                   }),
                   i1$, i2$, f2$
                 ),
                 p(i1, f1, i2, EX_F2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "E1")
+                                  .must$(Have::noCause$)
                                   .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F2")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuspendedEx);
+                                      ch.must$(Be::exactlyInstanceOf$, Exception.class)
+                                        .must$(Have::msgEqual$, "F2")
+                                        .must$(Have::noCause$)
+                                        .must$(Have::noSuspended$);
                                   }),
                   i1$, i2$, f1$
                 ),
@@ -231,20 +230,20 @@ public class CallContextTest {
 
                 //<editor-fold desc="main function and both finisher fails">
                 p(i1, EX_F1, i2, EX_F2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "E1")
+                                  .must$(Have::noCause$)
                                   .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F2")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuspendedEx);
+                                      ch.must$(Be::exactlyInstanceOf$, Exception.class)
+                                        .must$(Have::msgEqual$, "F2")
+                                        .must$(Have::noCause$)
+                                        .must$(Have::noSuspended$);
                                   })
                                   .check(e -> e.getSuppressed()[1], ch2 -> {
-                                      ch2.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                         .mustEx(Have::msgEqualEx, "F1")
-                                         .mustEx(Have::noCauseEx)
-                                         .mustEx(Have::noSuspendedEx);
+                                      ch2.must$(Be::exactlyInstanceOf$, Exception.class)
+                                         .must$(Have::msgEqual$, "F1")
+                                         .must$(Have::noCause$)
+                                         .must$(Have::noSuspended$);
                                   }),
                   i1$, i2$
                 ),
@@ -252,14 +251,14 @@ public class CallContextTest {
 
                 //<editor-fold desc="last initializer + first finisher fail">
                 p(i1, EX_F1, EX_I2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "I2")
-                                  .mustEx(Have::noCauseEx)
+                  attest -> attest.must$(Be::exactlyInstanceOf$, Exception.class)
+                                  .must$(Have::msgEqual$, "I2")
+                                  .must$(Have::noCause$)
                                   .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuspendedEx);
+                                      ch.must$(Be::exactlyInstanceOf$, Exception.class)
+                                        .must$(Have::msgEqual$, "F1")
+                                        .must$(Have::noCause$)
+                                        .must$(Have::noSuspended$);
                                   }),
                   i1$
                 ),
@@ -310,9 +309,9 @@ public class CallContextTest {
         });
 
         // then
-        check.mustEx(Be::exactlyInstanceOfEx, NestedException.class)
-             .mustEx(Have::noSuspendedEx)
-             .mustEx(Have::causeEx)
+        check.must$(Be::exactlyInstanceOf$, NestedException.class)
+             .must$(Have::noSuspended$)
+             .must$(Have::cause$)
              .check(Throwable::getCause, exChecker::accept);
         assertThat(l()).containsExactly(expectedLog);
     }
@@ -352,7 +351,7 @@ public class CallContextTest {
         var futureThread = LSupplier.asyncGet(asyncCtx, function);
 
         // then
-        attest(futureThread.join()).mustEx(Be::notSameEx, unitTestThread);
+        attest(futureThread.join()).must$(Be::notSame$, unitTestThread);
     }
 
     @Test
@@ -369,15 +368,15 @@ public class CallContextTest {
         var check = attestThrownBy(future::get);
 
         // then
-        check.mustEx(Be::instanceOfEx, ExecutionException.class)
-             .mustEx(Have::msgEqualEx, "java.lang.UnsupportedOperationException: unsupported")
-             .mustEx(Have::noSuspendedEx)
-             .mustEx(Have::causeEx)
+        check.must$(Be::instanceOf$, ExecutionException.class)
+             .must$(Have::msgEqual$, "java.lang.UnsupportedOperationException: unsupported")
+             .must$(Have::noSuspended$)
+             .must$(Have::cause$)
              .check(Throwable::getCause, __ -> __
-                     .mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
-                     .mustEx(Have::msgEqualEx, "unsupported")
-                     .mustEx(Have::noCauseEx)
-                     .mustEx(Have::noSuspendedEx));
+                     .must$(Be::instanceOf$, UnsupportedOperationException.class)
+                     .must$(Have::msgEqual$, "unsupported")
+                     .must$(Have::noCause$)
+                     .must$(Have::noSuspended$));
     }
 
     @Test
@@ -392,10 +391,10 @@ public class CallContextTest {
         var check = attestThrownBy(()-> LSupplier.shovingGet(ctx1, Object::new));
 
         // then
-        check.mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
-             .mustEx(Have::msgEqualEx, "unsupported")
-             .mustEx(Have::noCauseEx)
-             .mustEx(Have::noSuspendedEx);
+        check.must$(Be::instanceOf$, UnsupportedOperationException.class)
+             .must$(Have::msgEqual$, "unsupported")
+             .must$(Have::noCause$)
+             .must$(Have::noSuspended$);
     }
 
     @Test
@@ -457,7 +456,7 @@ public class CallContextTest {
 
         assertThat(l()).containsExactly(i1$, f1$);
         assertThat(otherL.value()).containsExactly(i1$, "F", f1$);
-        attest(result).mustEx(Be::equalEx, a1 + a2);
+        attest(result).must$(Be::equal$, a1 + a2);
 
     }
 

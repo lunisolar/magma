@@ -36,14 +36,14 @@ public class P_ContainAnyKey_Test {
     }
 
     @Test void containAnyKey() {
-        attestThat(P.containAnyKey(MAP, "key1")).mustEx(Be::TrueEx);
-        attestThat(P.containAnyKey(MAP, "key1", "key2")).mustEx(Be::TrueEx);
-        attestThat(P.containAnyKey(MAP, "other")).mustEx(Be::FalseEx);
-        attestThat(P.containAnyKey(MAP, "key1", "other")).mustEx(Be::TrueEx);
+        attestThat(P.containAnyKey(MAP, "key1")).must$(Be::True$);
+        attestThat(P.containAnyKey(MAP, "key1", "key2")).must$(Be::True$);
+        attestThat(P.containAnyKey(MAP, "other")).must$(Be::False$);
+        attestThat(P.containAnyKey(MAP, "key1", "other")).must$(Be::True$);
     }
 
     @Test void ex() {
-        attestThat(P.containAnyKeyEx(MAP, "other", "other2")).mustEx(Be::equalEx, "Map <{key1=value11, key2=value12, key3=value13}> must contain any key from <[other, other2]>.");
+        attestThat(P.containAnyKey$(MAP, "other", "other2")).must$(Be::equal$, "Map <{key1=value11, key2=value12, key3=value13}> must contain any key from <[other, other2]>.");
 
     }
 }

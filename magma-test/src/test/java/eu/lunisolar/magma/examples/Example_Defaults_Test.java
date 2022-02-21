@@ -147,7 +147,7 @@ public class Example_Defaults_Test {
 
         int actual = f1.tupleApplyAsInt(LIntPair.of(2, 5));
 
-        attest(actual).mustEx(Be::equalEx, 7);
+        attest(actual).must$(Be::equal$, 7);
     }
     //>example<
 
@@ -187,8 +187,8 @@ public class Example_Defaults_Test {
 
         attestThatThrownBy(
                 () -> badFunction.nonNullApply(null)
-        ).mustEx(Be::instanceOfEx, RuntimeException.class)
-         .mustEx(P.haveEx(Throwable::getMessage, P::containEx, "Evaluated value by nonNullApply() method cannot be null"));
+        ).must$(Be::instanceOf$, RuntimeException.class)
+         .must$(P.have$(Throwable::getMessage, P::contain$, "Evaluated value by nonNullApply() method cannot be null"));
 
         attestUnaryOp(badFunction.nonNullable())
                 .doesApply(2).asEqualTo(2)
@@ -262,7 +262,7 @@ public class Example_Defaults_Test {
         }).when(state -> {
             state.func.apply(3, 4);
         }).then(state -> {
-            attest(state.sb.toString()).mustEx(Be::equalEx, "3+4=7");
+            attest(state.sb.toString()).must$(Be::equal$, "3+4=7");
         });
 
     }
