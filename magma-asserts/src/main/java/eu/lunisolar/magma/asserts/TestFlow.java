@@ -28,9 +28,19 @@ import javax.annotation.Nullable;
 import static eu.lunisolar.magma.func.supp.check.Checks.arg;
 import static eu.lunisolar.magma.func.supp.check.Checks.check;
 
+/**
+ * @param <SUT> SUT - System Under Test / State of Unit Test
+ */
 public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	public static final String DEFAULT_DESCRIPTION = "...";
+
+	/**
+	 * Optional marker for a SUT/State of Unit Test objects.
+	 */
+	public static class State {
+
+	}
 
 	public TestFlow(SUT sut, @Nonnull LConsumer<String> logger) {
 		super(sut, logger);
