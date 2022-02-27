@@ -209,6 +209,18 @@ public final class SeriesParams<T> {
                                     .poolCProducer(supplierC);
     }
 
+    public static <T> SeriesParams<T> uniform(Distribution distribution, LSupplier<T> supplier) {
+        return distribution.supplier.get()
+                                    .size(65_000)
+                                    .poolAProducer(supplier)
+                                    .poolBProducer(supplier)
+                                    .poolCProducer(supplier);
+    }
+
+    public static SeriesParams<Boolean> booleans(Distribution distribution) {
+        return distributed(distribution, SimpleRandoms::aBoolean, SimpleRandoms::aBoolean, SimpleRandoms::aBoolean);
+    }
+
     public static SeriesParams<Byte> bytes(Distribution distribution) {
         return distributed(distribution, () -> SimpleRandoms.aByte((byte) 127), SimpleRandoms::aByte, SimpleRandoms::aByte);
     }
