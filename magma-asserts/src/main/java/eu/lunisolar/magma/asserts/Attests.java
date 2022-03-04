@@ -3768,19 +3768,4 @@ public interface Attests {
 		return new JreSupplierAssert.The(func, Assertions::assertThat);
 	}
 
-	@Nonnull
-	public static <A> Attest.ObjAttest<A> attestThat(A actual) {
-		return THEN.attestThat(actual);
-	}
-
-	@Nonnull
-	public static <A extends Throwable> Attest.ThrowableAttest<A> attestThat(A actual) {
-		return new Attest.ThrowableAttest(actual);
-	}
-
-	@Nonnull
-	public static Attest.ThrowableAttest<? extends Throwable> attestThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
-		return attestThat(Assertions.catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
-	}
-
 }

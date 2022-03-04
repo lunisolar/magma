@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
-import static eu.lunisolar.magma.asserts.Attests.attestThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 public class P_ContainAnyKey_Test {
 
@@ -36,14 +36,14 @@ public class P_ContainAnyKey_Test {
     }
 
     @Test void containAnyKey() {
-        attestThat(P.containAnyKey(MAP, "key1")).must$(Be::True$);
-        attestThat(P.containAnyKey(MAP, "key1", "key2")).must$(Be::True$);
-        attestThat(P.containAnyKey(MAP, "other")).must$(Be::False$);
-        attestThat(P.containAnyKey(MAP, "key1", "other")).must$(Be::True$);
+        attest(P.containAnyKey(MAP, "key1")).must$(Be::True$);
+        attest(P.containAnyKey(MAP, "key1", "key2")).must$(Be::True$);
+        attest(P.containAnyKey(MAP, "other")).must$(Be::False$);
+        attest(P.containAnyKey(MAP, "key1", "other")).must$(Be::True$);
     }
 
     @Test void ex() {
-        attestThat(P.containAnyKey$(MAP, "other", "other2")).must$(Be::equal$, "Map <{key1=value11, key2=value12, key3=value13}> must contain any key from <[other, other2]>.");
-
+        attest(P.containAnyKey$(MAP, "other", "other2"))
+                .must$(Be::equal$, "Map <{key1=value11, key2=value12, key3=value13}> must contain any key from <[other, other2]>.");
     }
 }

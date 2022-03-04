@@ -46,6 +46,7 @@ import static eu.lunisolar.magma.asserts.func.supplier.LSupplierAssert.attestSup
 import static eu.lunisolar.magma.func.function.LFunction.func;
 import static eu.lunisolar.magma.func.operator.unary.LUnaryOperator.unaryOp;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
+import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
 //>transform-to-MD<
 /**
@@ -185,7 +186,7 @@ public class Example_Defaults_Test {
                 .doesApply(2).asEqualTo(2)
                 .doesApply(null).asEqualTo(null);
 
-        attestThatThrownBy(
+        attestThrownBy(
                 () -> badFunction.nonNullApply(null)
         ).must$(Be::instanceOf$, RuntimeException.class)
          .must$(P.have$(Throwable::getMessage, P::contain$, "Evaluated value by nonNullApply() method cannot be null"));

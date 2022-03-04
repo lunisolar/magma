@@ -4818,18 +4818,4 @@ public interface DefaultAttests<OS extends Assert> extends BasicAssertions<OS> {
 		return new JreSupplierAssert.The(func, assertFunc);
 	}
 
-	@Nonnull
-	default <A> Attest.ObjAttest<A> attestThat(A actual) {
-		return new Attest.ObjAttest(actual);
-	}
-
-	@Nonnull
-	default <A extends Throwable> Attest.ThrowableAttest<A> attestThat(A actual) {
-		return new Attest.ThrowableAttest(actual);
-	}
-
-	@Nonnull
-	default Attest.ThrowableAttest<? extends Throwable> attestThatThrownBy(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
-		return attestThat(Assertions.catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
-	}
 }

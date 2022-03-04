@@ -18,15 +18,9 @@
 
 package eu.lunisolar.magma.func.supp;
 
-import eu.lunisolar.magma.func.supp.Be;
-import eu.lunisolar.magma.func.supp.Has;
-import eu.lunisolar.magma.func.supp.Is;
-import eu.lunisolar.magma.func.supp.P;
-import eu.lunisolar.magma.func.supp.opt.Opt;
 import org.testng.annotations.Test;
 
-import static eu.lunisolar.magma.asserts.Attests.attestThat;
-import static java.util.Arrays.*;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 public class P_Same_Test {
 
@@ -34,27 +28,27 @@ public class P_Same_Test {
     public static final int I2 = 2;
 
     @Test void same_P() {
-        attestThat(P.same(I1, I1)).must$(Be::True$);
-        attestThat(P.notSame(I1, I1)).must$(Be::False$);
+        attest(P.same(I1, I1)).must$(Be::True$);
+        attest(P.notSame(I1, I1)).must$(Be::False$);
 
-        attestThat(P.same(I1, I2)).must$(Be::False$);
-        attestThat(P.notSame(I1, I2)).must$(Be::True$);
+        attest(P.same(I1, I2)).must$(Be::False$);
+        attest(P.notSame(I1, I2)).must$(Be::True$);
     }
 
     @Test void same_Be() {
-        attestThat(Be.same(I1, I1)).must$(Be::True$);
-        attestThat(Be.notSame(I1, I1)).must$(Be::False$);
+        attest(Be.same(I1, I1)).must$(Be::True$);
+        attest(Be.notSame(I1, I1)).must$(Be::False$);
 
-        attestThat(Be.same(I1, I2)).must$(Be::False$);
-        attestThat(Be.notSame(I1, I2)).must$(Be::True$);
+        attest(Be.same(I1, I2)).must$(Be::False$);
+        attest(Be.notSame(I1, I2)).must$(Be::True$);
     }
 
     @Test void same$() {
-        attestThat(P.same$(I1, I1)).must$(Be::Null$);
-        attestThat(P.notSame$(I1, I1)).must$(Be::equal$, "Object <1> must NOT be the same as <1>.");
+        attest(P.same$(I1, I1)).must$(Be::Null$);
+        attest(P.notSame$(I1, I1)).must$(Be::equal$, "Object <1> must NOT be the same as <1>.");
 
-        attestThat(Be.same$(I1, I2)).must$(Be::equal$, "Object <1> must be the same as <2>.");
-        attestThat(Be.notSame$(I1, I2)).must$(Be::Null$);
+        attest(Be.same$(I1, I2)).must$(Be::equal$, "Object <1> must be the same as <2>.");
+        attest(Be.notSame$(I1, I2)).must$(Be::Null$);
     }
 
 }

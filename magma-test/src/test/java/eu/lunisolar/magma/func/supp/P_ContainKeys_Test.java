@@ -22,8 +22,7 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
-import static eu.lunisolar.magma.asserts.Attests.attestThat;
-import static java.util.Arrays.*;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 public class P_ContainKeys_Test {
 
@@ -37,23 +36,24 @@ public class P_ContainKeys_Test {
     }
 
     @Test void containKeys() {
-        attestThat(P.containKeys(MAP, "key1")).must$(Be::True$);
-        attestThat(P.containKeys(MAP, "key1", "key2")).must$(Be::True$);
-        attestThat(P.containKeys(MAP, "other")).must$(Be::False$);
-        attestThat(P.containKeys(MAP, "key1", "other")).must$(Be::False$);
+        attest(P.containKeys(MAP, "key1")).must$(Be::True$);
+        attest(P.containKeys(MAP, "key1", "key2")).must$(Be::True$);
+        attest(P.containKeys(MAP, "other")).must$(Be::False$);
+        attest(P.containKeys(MAP, "key1", "other")).must$(Be::False$);
     }
 
     @Test void notContainKeys() {
-        attestThat(P.notContainKeys(MAP, "key1")).must$(Be::False$);
-        attestThat(P.notContainKeys(MAP, "key1", "key2")).must$(Be::False$);
-        attestThat(P.notContainKeys(MAP, "other")).must$(Be::True$);
+        attest(P.notContainKeys(MAP, "key1")).must$(Be::False$);
+        attest(P.notContainKeys(MAP, "key1", "key2")).must$(Be::False$);
+        attest(P.notContainKeys(MAP, "other")).must$(Be::True$);
         //
-        attestThat(P.notContainKeys(MAP, "key1", "other")).must$(Be::False$);
-        attestThat(P.notContainKeys(MAP, "other", "other1")).must$(Be::True$);
+        attest(P.notContainKeys(MAP, "key1", "other")).must$(Be::False$);
+        attest(P.notContainKeys(MAP, "other", "other1")).must$(Be::True$);
     }
 
     @Test void ex() {
-        attestThat(P.containKeys$(MAP, "other", "other2")).must$(Be::equal$, "Map <{key1=value11, key2=value12, key3=value13}> must contain keys <[other, other2]>.");
+        attest(P.containKeys$(MAP, "other", "other2"))
+                .must$(Be::equal$, "Map <{key1=value11, key2=value12, key3=value13}> must contain keys <[other, other2]>.");
 
     }
 }

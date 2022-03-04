@@ -18,15 +18,9 @@
 
 package eu.lunisolar.magma.func.supp;
 
-import eu.lunisolar.magma.func.supp.*;
-import eu.lunisolar.magma.func.supp.check.Checks;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
-import static eu.lunisolar.magma.asserts.Attests.attestThat;
-import static java.util.Arrays.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class P_True_Test {
 

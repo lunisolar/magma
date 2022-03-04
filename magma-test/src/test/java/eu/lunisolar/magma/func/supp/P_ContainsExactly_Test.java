@@ -18,50 +18,45 @@
 
 package eu.lunisolar.magma.func.supp;
 
-import eu.lunisolar.magma.func.supp.Be;
-import eu.lunisolar.magma.func.supp.Has;
-import eu.lunisolar.magma.func.supp.Is;
-import eu.lunisolar.magma.func.supp.P;
-import eu.lunisolar.magma.func.supp.opt.Opt;
 import org.testng.annotations.Test;
 
-import static eu.lunisolar.magma.asserts.Attests.attestThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static java.util.Arrays.*;
 
 public class P_ContainsExactly_Test {
 
     @Test void containExactlyTest() {
-        attestThat(P.containExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::True$);
-        attestThat(P.containExactly(asList(1, 2, 3), 1, 2)).must$(Be::False$);
-        attestThat(P.containExactly(asList(1, 2, 3), 2, 3)).must$(Be::False$);
-        attestThat(P.containExactly(asList(1, 2, 3), 3, 2, 1)).must$(Be::False$);
-        attestThat(P.containExactly(asList(1, 2, 3))).must$(Be::False$);
-        attestThat(P.containExactly(asList())).must$(Be::True$);
+        attest(P.containExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::True$);
+        attest(P.containExactly(asList(1, 2, 3), 1, 2)).must$(Be::False$);
+        attest(P.containExactly(asList(1, 2, 3), 2, 3)).must$(Be::False$);
+        attest(P.containExactly(asList(1, 2, 3), 3, 2, 1)).must$(Be::False$);
+        attest(P.containExactly(asList(1, 2, 3))).must$(Be::False$);
+        attest(P.containExactly(asList())).must$(Be::True$);
 
-        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::True$);
-        attestThat(Does.containExactly(asList(1, 2, 3), 1, 2)).must$(Be::False$);
-        attestThat(Does.containExactly(asList(1, 2, 3), 2, 3)).must$(Be::False$);
-        attestThat(Does.containExactly(asList(1, 2, 3), 3, 2, 1)).must$(Be::False$);
-        attestThat(Does.containExactly(asList(1, 2, 3))).must$(Be::False$);
-        attestThat(Does.containExactly(asList())).must$(Be::True$);
+        attest(Does.containExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::True$);
+        attest(Does.containExactly(asList(1, 2, 3), 1, 2)).must$(Be::False$);
+        attest(Does.containExactly(asList(1, 2, 3), 2, 3)).must$(Be::False$);
+        attest(Does.containExactly(asList(1, 2, 3), 3, 2, 1)).must$(Be::False$);
+        attest(Does.containExactly(asList(1, 2, 3))).must$(Be::False$);
+        attest(Does.containExactly(asList())).must$(Be::True$);
     }
 
     @Test void notContainExactlyTest() {
-        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::False$);
-        attestThat(P.notContainExactly(asList(1, 2, 3), 1, 3, 4)).must$(Be::True$);
+        attest(P.notContainExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::False$);
+        attest(P.notContainExactly(asList(1, 2, 3), 1, 3, 4)).must$(Be::True$);
 
-        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::False$);
-        attestThat(Does.notContainExactly(asList(1, 2, 3), 1, 3, 4)).must$(Be::True$);
+        attest(Does.notContainExactly(asList(1, 2, 3), 1, 2, 3)).must$(Be::False$);
+        attest(Does.notContainExactly(asList(1, 2, 3), 1, 3, 4)).must$(Be::True$);
     }
 
     @Test void array_in_messages() {
 
         var array = new Integer[]{1, 2, 3};
 
-        attestThat(Has.length$(array, 5)).must$(Be::equal$, "Array <[1, 2, 3]> must be of size 5.");
-        attestThat(Is.ofLength$(array, 5)).must$(Be::equal$, "Array <[1, 2, 3]> must be of size 5.");
+        attest(Has.length$(array, 5)).must$(Be::equal$, "Array <[1, 2, 3]> must be of size 5.");
+        attest(Is.ofLength$(array, 5)).must$(Be::equal$, "Array <[1, 2, 3]> must be of size 5.");
 
-        attestThat(P.containExactly$(asList(array), 5, 6, 7)).must$(Be::equal$, "Collection <[1, 2, 3]> must contain exactly elements in order: <[5, 6, 7]>.");
+        attest(P.containExactly$(asList(array), 5, 6, 7)).must$(Be::equal$, "Collection <[1, 2, 3]> must contain exactly elements in order: <[5, 6, 7]>.");
 
     }
 }

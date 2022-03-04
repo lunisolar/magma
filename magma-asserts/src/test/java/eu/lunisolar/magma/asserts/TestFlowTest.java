@@ -23,9 +23,9 @@ import eu.lunisolar.magma.func.supp.Have;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
 
-import static eu.lunisolar.magma.asserts.Attests.attestThatThrownBy;
 import static eu.lunisolar.magma.asserts.TestFlow.test;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
+import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -148,7 +148,7 @@ public class TestFlowTest {
 
     @Test public void howToUseTestFlowState() {
 
-        attestThatThrownBy(() ->
+        attestThrownBy(() ->
             test().given(() -> new TestFlow.State() {
                     String someState = new String("");
                 })
