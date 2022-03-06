@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.consumer.primitives;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.consumer.primitives.LBoolConsumerBui
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LBoolConsumerBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,9 +126,9 @@ public class LBoolConsumerBuilderTest{
         );
 
 
-        A.attestBoolCons(function)
-            .doesAccept(false).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
-            .doesAccept(true).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
+        FuncAttests.attestBoolCons(function)
+            .doesAccept(false).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
+            .doesAccept(true).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
         ;
 
     }

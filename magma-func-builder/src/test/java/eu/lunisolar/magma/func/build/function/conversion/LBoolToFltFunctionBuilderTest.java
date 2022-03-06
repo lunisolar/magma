@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LBoolToFltFuncti
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LBoolToFltFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -126,9 +125,9 @@ public class LBoolToFltFunctionBuilderTest{
         );
 
 
-        A.attestBoolToFltFunc(function)
-            .doesApplyAsFlt(false).when(null).to(a -> a.isEqualTo(0f))
-            .doesApplyAsFlt(true).when(null).to(a -> a.isEqualTo(1f))
+        FuncAttests.attestBoolToFltFunc(function)
+            .doesApplyAsFlt(false).when(null).to(a -> a.must$(Be::equal$, 0f))
+            .doesApplyAsFlt(true).when(null).to(a -> a.must$(Be::equal$, 1f))
         ;
 
     }

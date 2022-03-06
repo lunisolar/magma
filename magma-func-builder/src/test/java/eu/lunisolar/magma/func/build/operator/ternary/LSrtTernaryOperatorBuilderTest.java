@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.operator.ternary;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.operator.ternary.LSrtTernaryOperator
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LSrtTernaryOperatorBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LSrtTernaryOperatorBuilderTest{
         );
 
 
-        A.attestSrtTernaryOp(function)
-            .doesApplyAsSrt((short)0,(short)0,(short)0).when(null).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsSrt((short)5,(short)5,(short)5).when(null).to(a -> a.isEqualTo((short)1))
-            .doesApplyAsSrt((short)15,(short)15,(short)15).when(null).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsSrt((short)10,(short)10,(short)10).when(null).to(a -> a.isEqualTo((short)99))
+        FuncAttests.attestSrtTernaryOp(function)
+            .doesApplyAsSrt((short)0,(short)0,(short)0).when(null).to(a -> a.must$(Be::equal$, (short)0))
+            .doesApplyAsSrt((short)5,(short)5,(short)5).when(null).to(a -> a.must$(Be::equal$, (short)1))
+            .doesApplyAsSrt((short)15,(short)15,(short)15).when(null).to(a -> a.must$(Be::equal$, (short)2))
+            .doesApplyAsSrt((short)10,(short)10,(short)10).when(null).to(a -> a.must$(Be::equal$, (short)99))
         ;
 
     }

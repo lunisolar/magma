@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.from;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.from.LObjBiLongFunctionBuil
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LObjBiLongFunctionBuilderTest<T,R>{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LObjBiLongFunctionBuilderTest<T,R>{
         );
 
 
-        A.attestObjBiLongFunc(function)
-            .doesApply(0,0L,0L).when(null).to(a -> a.isEqualTo(0))
-            .doesApply(5,5L,5L).when(null).to(a -> a.isEqualTo(1))
-            .doesApply(15,15L,15L).when(null).to(a -> a.isEqualTo(2))
-            .doesApply(10,10L,10L).when(null).to(a -> a.isEqualTo(99))
+        FuncAttests.attestObjBiLongFunc(function)
+            .doesApply(0,0L,0L).when(null).to(a -> a.must$(Be::equal$, 0))
+            .doesApply(5,5L,5L).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApply(15,15L,15L).when(null).to(a -> a.must$(Be::equal$, 2))
+            .doesApply(10,10L,10L).when(null).to(a -> a.must$(Be::equal$, 99))
         ;
 
     }

@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.operator.ternary;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.operator.ternary.LLogicalTernaryOper
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LLogicalTernaryOperatorBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -126,9 +125,9 @@ public class LLogicalTernaryOperatorBuilderTest{
         );
 
 
-        A.attestLogicalTernaryOp(function)
-            .doesApply(false,false,false).when(null).to(a -> a.isEqualTo(false))
-            .doesApply(true,true,true).when(null).to(a -> a.isEqualTo(true))
+        FuncAttests.attestLogicalTernaryOp(function)
+            .doesApply(false,false,false).when(null).to(a -> a.must$(Be::equal$, false))
+            .doesApply(true,true,true).when(null).to(a -> a.must$(Be::equal$, true))
         ;
 
     }

@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.action;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.action.LActionBuilder.actionFrom;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LActionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -129,11 +128,11 @@ public class LActionBuilderTest{
         );
 
 
-        A.attestAct(function)
-            .doesExecute().when(()->externalInfluence.set(0)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
-            .doesExecute().when(()->externalInfluence.set(5)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
-            .doesExecute().when(()->externalInfluence.set(15)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))
-            .doesExecute().when(()->externalInfluence.set(10)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(99))
+        FuncAttests.attestAct(function)
+            .doesExecute().when(()->externalInfluence.set(0)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
+            .doesExecute().when(()->externalInfluence.set(5)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
+            .doesExecute().when(()->externalInfluence.set(15)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
+            .doesExecute().when(()->externalInfluence.set(10)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
         ;
 
     }

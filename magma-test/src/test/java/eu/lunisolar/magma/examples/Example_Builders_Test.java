@@ -27,12 +27,15 @@ import eu.lunisolar.magma.func.function.to.LToIntBiFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 import eu.lunisolar.magma.func.function.to.LToIntTriFunction;
 import eu.lunisolar.magma.func.predicate.LTriPredicate;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Have;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.*;
 
+import static eu.lunisolar.magma.asserts.func.FuncAttests.attestToIntBiFunc;
+import static eu.lunisolar.magma.asserts.func.FuncAttests.attestToIntFunc;
 import static eu.lunisolar.magma.basics.exceptions.Handling.throwThe;
-import static eu.lunisolar.magma.asserts.Attests.THEN;
 import static eu.lunisolar.magma.func.function.to.LToIntBiFunction.apply1stAsInt;
 import static eu.lunisolar.magma.func.predicate.LBiPredicate.test1st;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,14 +84,14 @@ public class Example_Builders_Test {
                 .otherwise(o -> throwThe(new IllegalArgumentException()))
                 .build();
 
-        THEN.attestToIntFunc(function)
-            .doesApplyAsInt(0).to(a -> a.isEqualTo(0))
-            .doesApplyAsInt(5).to(a -> a.isEqualTo(5))
-            .doesApplyAsInt(44f).to(a -> a.isEqualTo(44))
-            .doesApplyAsInt(3_000_000_000L).to(a -> a.isEqualTo(-1294967296))
-            .doesApplyAsInt("-4").to(a -> a.isEqualTo(-4))
-            .doesApplyAsInt("non number").withException(a -> a.isInstanceOf(NumberFormatException.class))
-            .doesApplyAsInt(new Object()).withException(a -> a.isInstanceOf(IllegalArgumentException.class));
+        attestToIntFunc(function)
+                   .doesApplyAsInt(0).toEqualTo(0)
+                   .doesApplyAsInt(5).toEqualTo(5)
+                   .doesApplyAsInt(44f).toEqualTo(44)
+                   .doesApplyAsInt(3_000_000_000L).toEqualTo(-1294967296)
+                   .doesApplyAsInt("-4").toEqualTo(-4)
+                   .doesApplyAsInt("non number").withException(a -> a.must$(Be::exactlyInstanceOf$, NumberFormatException.class))
+                   .doesApplyAsInt(new Object()).withException(a -> a.must$(Be::exactlyInstanceOf$, IllegalArgumentException.class));
     }
     //>example<
 
@@ -125,15 +128,15 @@ public class Example_Builders_Test {
             }
         };
 
-        THEN.attestToIntBiFunc(function)
-            .doesApplyAsInt(0, null).to(a -> a.isEqualTo(0))
-            .doesApplyAsInt(5, null).to(a -> a.isEqualTo(5))
-            .doesApplyAsInt(44f, null).to(a -> a.isEqualTo(44))
+        attestToIntBiFunc(function)
+            .doesApplyAsInt(0, null).toEqualTo(0)
+            .doesApplyAsInt(5, null).toEqualTo(5)
+            .doesApplyAsInt(44f, null).toEqualTo(44)
             .doesApplyAsInt(3_000L, null).toEqualTo(3000)
-            .doesApplyAsInt(3_000_000_000L, null).withException(a -> a.isInstanceOf(IllegalArgumentException.class).hasMessage("To large for int."))
-            .doesApplyAsInt("-4", null).to(a -> a.isEqualTo(-4))
-            .doesApplyAsInt("non number", null).withException(a -> a.isInstanceOf(NumberFormatException.class))
-            .doesApplyAsInt(new Object(), null).withException(a -> a.isInstanceOf(IllegalArgumentException.class));
+            .doesApplyAsInt(3_000_000_000L, null).withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class).must$(Have::msgEqual$, "To large for int."))
+            .doesApplyAsInt("-4", null).toEqualTo(-4)
+            .doesApplyAsInt("non number", null).withException(a -> a.must$(Be::instanceOf$, NumberFormatException.class))
+            .doesApplyAsInt(new Object(), null).withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class));
     }
 
 /// > Just in case you wonder `test1st` is static method in <a href="https://github.com/lunisolar/magma/blob/master/magma-func/src/main/java/eu/lunisolar/magma/func/predicate/LBiPredicate.java" target="_blank">LBiPredicate</a>

@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.consumer.primitives.bi;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.consumer.primitives.bi.LLongIntConsu
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LLongIntConsumerBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -128,11 +127,11 @@ public class LLongIntConsumerBuilderTest{
         );
 
 
-        A.attestLongIntCons(function)
-            .doesAccept(0L,0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(0))
-            .doesAccept(5L,5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
-            .doesAccept(15L,15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(2))
-            .doesAccept(10L,10).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(99))
+        FuncAttests.attestLongIntCons(function)
+            .doesAccept(0L,0).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
+            .doesAccept(5L,5).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
+            .doesAccept(15L,15).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
+            .doesAccept(10L,10).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
         ;
 
     }

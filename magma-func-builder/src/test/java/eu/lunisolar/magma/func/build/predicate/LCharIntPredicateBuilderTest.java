@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.predicate;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.predicate.LCharIntPredicateBuilder.c
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LCharIntPredicateBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,9 +126,9 @@ public class LCharIntPredicateBuilderTest{
         );
 
 
-        A.attestCharIntPred(function)
-            .doesTest('\u0000',0).when(null).to(a -> a.isEqualTo(false))
-            .doesTest('\u0005',5).when(null).to(a -> a.isEqualTo(true))
+        FuncAttests.attestCharIntPred(function)
+            .doesTest('\u0000',0).when(null).to(a -> a.must$(Be::equal$, false))
+            .doesTest('\u0005',5).when(null).to(a -> a.must$(Be::equal$, true))
         ;
 
     }

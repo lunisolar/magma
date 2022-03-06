@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.from;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.from.LTriFltFunctionBuilder
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LTriFltFunctionBuilderTest<R>{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LTriFltFunctionBuilderTest<R>{
         );
 
 
-        A.attestTriFltFunc(function)
-            .doesApply(0f,0f,0f).when(null).to(a -> a.isEqualTo(0))
-            .doesApply(5f,5f,5f).when(null).to(a -> a.isEqualTo(1))
-            .doesApply(15f,15f,15f).when(null).to(a -> a.isEqualTo(2))
-            .doesApply(10f,10f,10f).when(null).to(a -> a.isEqualTo(99))
+        FuncAttests.attestTriFltFunc(function)
+            .doesApply(0f,0f,0f).when(null).to(a -> a.must$(Be::equal$, 0))
+            .doesApply(5f,5f,5f).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApply(15f,15f,15f).when(null).to(a -> a.must$(Be::equal$, 2))
+            .doesApply(10f,10f,10f).when(null).to(a -> a.must$(Be::equal$, 99))
         ;
 
     }

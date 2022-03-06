@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.to;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.to.LTieBoolFunctionBuilder.
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LTieBoolFunctionBuilderTest<T>{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LTieBoolFunctionBuilderTest<T>{
         );
 
 
-        A.attestTieBoolFunc(function)
-            .doesApplyAsInt(0,0,false).when(null).to(a -> a.isEqualTo(0))
-            .doesApplyAsInt(5,5,true).when(null).to(a -> a.isEqualTo(1))
-            .doesApplyAsInt(15,15,true).when(null).to(a -> a.isEqualTo(2))
-            .doesApplyAsInt(10,10,true).when(null).to(a -> a.isEqualTo(99))
+        FuncAttests.attestTieBoolFunc(function)
+            .doesApplyAsInt(0,0,false).when(null).to(a -> a.must$(Be::equal$, 0))
+            .doesApplyAsInt(5,5,true).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApplyAsInt(15,15,true).when(null).to(a -> a.must$(Be::equal$, 2))
+            .doesApplyAsInt(10,10,true).when(null).to(a -> a.must$(Be::equal$, 99))
         ;
 
     }

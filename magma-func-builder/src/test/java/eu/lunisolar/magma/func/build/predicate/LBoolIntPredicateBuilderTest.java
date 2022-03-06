@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.predicate;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.predicate.LBoolIntPredicateBuilder.b
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LBoolIntPredicateBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -126,9 +125,9 @@ public class LBoolIntPredicateBuilderTest{
         );
 
 
-        A.attestBoolIntPred(function)
-            .doesTest(false,0).when(null).to(a -> a.isEqualTo(false))
-            .doesTest(true,5).when(null).to(a -> a.isEqualTo(true))
+        FuncAttests.attestBoolIntPred(function)
+            .doesTest(false,0).when(null).to(a -> a.must$(Be::equal$, false))
+            .doesTest(true,5).when(null).to(a -> a.must$(Be::equal$, true))
         ;
 
     }

@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LDblToFltFunctio
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LDblToFltFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LDblToFltFunctionBuilderTest{
         );
 
 
-        A.attestDblToFltFunc(function)
-            .doesApplyAsFlt(0d).when(null).to(a -> a.isEqualTo(0f))
-            .doesApplyAsFlt(5d).when(null).to(a -> a.isEqualTo(1f))
-            .doesApplyAsFlt(15d).when(null).to(a -> a.isEqualTo(2f))
-            .doesApplyAsFlt(10d).when(null).to(a -> a.isEqualTo(99f))
+        FuncAttests.attestDblToFltFunc(function)
+            .doesApplyAsFlt(0d).when(null).to(a -> a.must$(Be::equal$, 0f))
+            .doesApplyAsFlt(5d).when(null).to(a -> a.must$(Be::equal$, 1f))
+            .doesApplyAsFlt(15d).when(null).to(a -> a.must$(Be::equal$, 2f))
+            .doesApplyAsFlt(10d).when(null).to(a -> a.must$(Be::equal$, 99f))
         ;
 
     }

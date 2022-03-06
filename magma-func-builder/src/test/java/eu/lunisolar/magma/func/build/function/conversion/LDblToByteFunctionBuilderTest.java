@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LDblToByteFuncti
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LDblToByteFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LDblToByteFunctionBuilderTest{
         );
 
 
-        A.attestDblToByteFunc(function)
-            .doesApplyAsByte(0d).when(null).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte(5d).when(null).to(a -> a.isEqualTo((byte)1))
-            .doesApplyAsByte(15d).when(null).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte(10d).when(null).to(a -> a.isEqualTo((byte)99))
+        FuncAttests.attestDblToByteFunc(function)
+            .doesApplyAsByte(0d).when(null).to(a -> a.must$(Be::equal$, (byte)0))
+            .doesApplyAsByte(5d).when(null).to(a -> a.must$(Be::equal$, (byte)1))
+            .doesApplyAsByte(15d).when(null).to(a -> a.must$(Be::equal$, (byte)2))
+            .doesApplyAsByte(10d).when(null).to(a -> a.must$(Be::equal$, (byte)99))
         ;
 
     }

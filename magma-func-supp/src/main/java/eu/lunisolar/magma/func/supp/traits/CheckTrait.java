@@ -7313,11 +7313,19 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 		return fluentCtx();
 	}
 
+	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {
+		Null.nonNullArg(checks, "checks");
+		checks.shovingAccept(fluentCtx());
+		return fluentCtx();
+	}
+
 	default @Nonnull SELF fails(@Nonnull String newMessage) {
+		Null.nonNullArg(newMessage, "newMessage");
 		return this.must(__ -> false, newMessage);
 	}
 
 	default @Nonnull SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+		Null.nonNullArg(newMessage, "newMessage");
 		return this.must1(__ -> false, newMessage, messageParams);
 	}
 

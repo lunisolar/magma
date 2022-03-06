@@ -461,6 +461,44 @@ public class Predicates implements FluentSyntax {
 		return notEqual(o1, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", o1, o2);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean objEqual(Object o1, Object o2) {
+		return Objects.equals(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String objEqual$(Object o1, Object o2) {
+		return objEqual(o1, o2) ? null : String.format("<%s> must be equal to <%s>.", o1, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean objNotEqual(Object o1, Object o2) {
+		return !objEqual(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String objNotEqual$(Object o1, Object o2) {
+		return objNotEqual(o1, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", o1, o2);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(byte n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(byte n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(byte n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(byte n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static boolean equal(byte n, byte a1) {
 		return n == a1;
@@ -592,6 +630,25 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static @Nullable String positive$(byte n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(short n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(short n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(short n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(short n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
 	/** Predicate: %s must be equal to %s..*/
@@ -727,6 +784,25 @@ public class Predicates implements FluentSyntax {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(int n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(int n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(int n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(int n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static boolean equal(int n, int a1) {
 		return n == a1;
@@ -858,6 +934,25 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static @Nullable String positive$(int n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(long n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(long n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(long n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(long n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
 	/** Predicate: %s must be equal to %s..*/
@@ -993,6 +1088,25 @@ public class Predicates implements FluentSyntax {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(float n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(float n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(float n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(float n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static boolean equal(float n, float a1) {
 		return n == a1;
@@ -1124,6 +1238,25 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static @Nullable String positive$(float n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(double n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(double n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(double n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(double n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
 	/** Predicate: %s must be equal to %s..*/
@@ -1259,6 +1392,25 @@ public class Predicates implements FluentSyntax {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(char n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(char n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(char n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(char n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static boolean equal(char n, char a1) {
 		return n == a1;
@@ -1390,6 +1542,44 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static @Nullable String positive$(char n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static boolean equalToObj(boolean n, Object o2) {
+		return Objects.equals(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static @Nullable String equalToObj$(boolean n, Object o2) {
+		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static boolean notEqualToObj(boolean n, Object o2) {
+		return !equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static @Nullable String notEqualToObj$(boolean n, Object o2) {
+		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
+	}
+
+	/** Predicate: %s must be equal to %s..*/
+	public static boolean equal(boolean n, boolean a1) {
+		return n == a1;
+	}
+
+	/** "Special" predicate: %s must be equal to %s. */
+	public static @Nullable String equal$(boolean n, boolean a1) {
+		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
+	}
+	/** Predicate: %s must NOT be equal to %s..*/
+	public static boolean notEqual(boolean n, boolean a1) {
+		return !equal(n, a1);
+	}
+
+	/** "Special" predicate: %s must NOT be equal to %s. */
+	public static @Nullable String notEqual$(boolean n, boolean a1) {
+		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
 	/** Predicate: %1$s must be: %2$s < %1$s < %3$s..*/
@@ -3413,30 +3603,49 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** Predicate: Exception <%s> must have message equal to <'%s>'..*/
-	public static boolean msgEqual(@Nonnull Throwable e, @Nonnull String text) {
+	public static boolean msgEqual(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
-		return text.equals(e.getMessage());
+		return Objects.equals(e.getMessage(), text);
 	}
 
 	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
-	public static @Nullable String msgEqual$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgEqual$(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
 		return msgEqual(e, text) ? null : String.format("Exception <%s> must have message equal to <'%s>'.", e, text);
 	}
 	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'..*/
-	public static boolean msgNotEqual(@Nonnull Throwable e, @Nonnull String text) {
+	public static boolean msgNotEqual(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
 		return !msgEqual(e, text);
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
-	public static @Nullable String msgNotEqual$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgNotEqual$(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
 		return msgNotEqual(e, text) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e, text);
+	}
+
+	/** Predicate: Exception <%s> must have message equal to <'%s>'..*/
+	public static boolean noMsg(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return e.getMessage() == null;
+	}
+
+	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
+	public static @Nullable String noMsg$(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return noMsg(e) ? null : String.format("Exception <%s> must have message equal to <'%s>'.", e);
+	}
+	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'..*/
+	public static boolean msgPresent(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return !noMsg(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
+	public static @Nullable String msgPresent$(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return msgPresent(e) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e);
 	}
 
 	/** Predicate: Exception <%s> must have message starting with <'%s>'..*/

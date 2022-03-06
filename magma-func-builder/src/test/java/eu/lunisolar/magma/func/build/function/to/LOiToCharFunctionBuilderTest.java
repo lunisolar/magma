@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.to;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.to.LOiToCharFunctionBuilder
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LOiToCharFunctionBuilderTest<T>{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LOiToCharFunctionBuilderTest<T>{
         );
 
 
-        A.attestOiToCharFunc(function)
-            .doesApplyAsChar(0,0).when(null).to(a -> a.isEqualTo('\u0000'))
-            .doesApplyAsChar(5,5).when(null).to(a -> a.isEqualTo('\u0001'))
-            .doesApplyAsChar(15,15).when(null).to(a -> a.isEqualTo('\u0002'))
-            .doesApplyAsChar(10,10).when(null).to(a -> a.isEqualTo('\u0099'))
+        FuncAttests.attestOiToCharFunc(function)
+            .doesApplyAsChar(0,0).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
+            .doesApplyAsChar(5,5).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
+            .doesApplyAsChar(15,15).when(null).to(a -> a.must$(Be::equal$, '\u0002'))
+            .doesApplyAsChar(10,10).when(null).to(a -> a.must$(Be::equal$, '\u0099'))
         ;
 
     }

@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LFltToLongFuncti
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LFltToLongFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LFltToLongFunctionBuilderTest{
         );
 
 
-        A.attestFltToLongFunc(function)
-            .doesApplyAsLong(0f).when(null).to(a -> a.isEqualTo(0L))
-            .doesApplyAsLong(5f).when(null).to(a -> a.isEqualTo(1L))
-            .doesApplyAsLong(15f).when(null).to(a -> a.isEqualTo(2L))
-            .doesApplyAsLong(10f).when(null).to(a -> a.isEqualTo(99L))
+        FuncAttests.attestFltToLongFunc(function)
+            .doesApplyAsLong(0f).when(null).to(a -> a.must$(Be::equal$, 0L))
+            .doesApplyAsLong(5f).when(null).to(a -> a.must$(Be::equal$, 1L))
+            .doesApplyAsLong(15f).when(null).to(a -> a.must$(Be::equal$, 2L))
+            .doesApplyAsLong(10f).when(null).to(a -> a.must$(Be::equal$, 99L))
         ;
 
     }

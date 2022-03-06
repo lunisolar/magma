@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.std;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.std.IntSupplierBuilder.intSupplierFr
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class IntSupplierBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -128,11 +127,11 @@ public class IntSupplierBuilderTest{
         );
 
 
-        A.attestIntSup(function)
-            .doesGetAsInt().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(0))
-            .doesGetAsInt().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(1))
-            .doesGetAsInt().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(2))
-            .doesGetAsInt().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo(99))
+        FuncAttests.attestIntSup(function)
+            .doesGetAsInt().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, 0))
+            .doesGetAsInt().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, 1))
+            .doesGetAsInt().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, 2))
+            .doesGetAsInt().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, 99))
         ;
 
     }

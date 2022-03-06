@@ -28,6 +28,7 @@ import eu.lunisolar.magma.func.operator.binary.LIntBinaryOperator;
 import eu.lunisolar.magma.func.operator.unary.LLongUnaryOperator;
 import eu.lunisolar.magma.func.operator.unary.LUnaryOperator;
 import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Have;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supplier.LLongSupplier;
 import eu.lunisolar.magma.func.supplier.LSupplier;
@@ -39,10 +40,8 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import static eu.lunisolar.magma.asserts.Attests.*;
 import static eu.lunisolar.magma.asserts.TestFlow.test;
-import static eu.lunisolar.magma.asserts.func.operator.binary.LBinaryOperatorAssert.attestBinaryOp;
-import static eu.lunisolar.magma.asserts.func.supplier.LSupplierAssert.attestSup;
+import static eu.lunisolar.magma.asserts.func.FuncAttests.*;
 import static eu.lunisolar.magma.func.function.LFunction.func;
 import static eu.lunisolar.magma.func.operator.unary.LUnaryOperator.unaryOp;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
@@ -163,8 +162,8 @@ public class Example_Defaults_Test {
         LBinaryOperator<Integer> badFunction = Math::addExact;
 
         attestBinaryOp(badFunction)
-                .doesApply(2, 5).asEqualTo(7)
-                .doesApply(null, 7).withException(e -> e.isInstanceOf(NullPointerException.class));
+                   .doesApply(2, 5).asEqualTo(7)
+                   .doesApply(null, 7).withException(e -> e.must$(Be::exactlyInstanceOf$, NullPointerException.class));
 
     }
     //>example<
@@ -195,8 +194,8 @@ public class Example_Defaults_Test {
                 .doesApply(2).asEqualTo(2)
                 .doesApply(null)
                 .withException(e -> e
-                        .isInstanceOf(NullPointerException.class)
-                        .hasMessageContaining("Evaluated value by nonNullApply() method cannot be null")
+                        .must$(Be::exactlyInstanceOf$, NullPointerException.class)
+                        .must$(Have::msgContain$, "Evaluated value by nonNullApply() method cannot be null")
                 );
     }
     //>example<

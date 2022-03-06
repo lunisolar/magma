@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LByteToIntFuncti
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LByteToIntFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LByteToIntFunctionBuilderTest{
         );
 
 
-        A.attestByteToIntFunc(function)
-            .doesApplyAsInt((byte)0).when(null).to(a -> a.isEqualTo(0))
-            .doesApplyAsInt((byte)5).when(null).to(a -> a.isEqualTo(1))
-            .doesApplyAsInt((byte)15).when(null).to(a -> a.isEqualTo(2))
-            .doesApplyAsInt((byte)10).when(null).to(a -> a.isEqualTo(99))
+        FuncAttests.attestByteToIntFunc(function)
+            .doesApplyAsInt((byte)0).when(null).to(a -> a.must$(Be::equal$, 0))
+            .doesApplyAsInt((byte)5).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApplyAsInt((byte)15).when(null).to(a -> a.must$(Be::equal$, 2))
+            .doesApplyAsInt((byte)10).when(null).to(a -> a.must$(Be::equal$, 99))
         ;
 
     }

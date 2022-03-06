@@ -20,6 +20,7 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Have;
 import eu.lunisolar.magma.func.supp.Is;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.opt.Opt;
@@ -30,7 +31,7 @@ import org.testng.annotations.Test;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static eu.lunisolar.magma.asserts.Attests.attestSup;
+import static eu.lunisolar.magma.asserts.func.FuncAttests.attestSup;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -168,13 +169,13 @@ public class Example_Opt_Test {
                 .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
 
         // that's part of Optional 'contract'
-        attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::get).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
 
         // that's part of Opt 'contract'
         assertThat(opt.nullable()).isNull();
 
         // that's part of Opt/Check 'contract'
-        attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::value).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
     }
 
     @Test
@@ -186,13 +187,13 @@ public class Example_Opt_Test {
                 .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
 
         // that's part of Optional 'contract'
-        attestSup(opt::get).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::get).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
 
         // that's part of Opt 'contract'
         assertThat(opt.nullable()).isNull();
 
         // that's part of Opt/Check 'contract'
-        attestSup(opt::value).doesGet().withException(ea -> ea.isInstanceOf(NoSuchElementException.class).hasMessage("No value present."));
+        attestSup(opt::value).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
     }
 
     @Test

@@ -83,11 +83,6 @@
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
-                <artifactId>magma-basics-assert</artifactId>
-                <version>3.1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func</artifactId>
                 <version>3.1.0-SNAPSHOT</version>
             </dependency>

@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LFltToSrtFunctio
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LFltToSrtFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LFltToSrtFunctionBuilderTest{
         );
 
 
-        A.attestFltToSrtFunc(function)
-            .doesApplyAsSrt(0f).when(null).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsSrt(5f).when(null).to(a -> a.isEqualTo((short)1))
-            .doesApplyAsSrt(15f).when(null).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsSrt(10f).when(null).to(a -> a.isEqualTo((short)99))
+        FuncAttests.attestFltToSrtFunc(function)
+            .doesApplyAsSrt(0f).when(null).to(a -> a.must$(Be::equal$, (short)0))
+            .doesApplyAsSrt(5f).when(null).to(a -> a.must$(Be::equal$, (short)1))
+            .doesApplyAsSrt(15f).when(null).to(a -> a.must$(Be::equal$, (short)2))
+            .doesApplyAsSrt(10f).when(null).to(a -> a.must$(Be::equal$, (short)99))
         ;
 
     }

@@ -53,14 +53,11 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-/**
- * Extension over CheckTrait with specific purpose of unit test assertions. Advantage is that properly written assert class includes messages similar like AssertJ, otherwise
- * adhoc usage of CHeckTrait methods is still possible.     
- */
-public interface Attest<SELF extends Attest<SELF, A>, A> extends Assert<SELF, A>, FluentTrait<SELF>, CheckTrait<A, SELF> {
+public interface Attest<SELF extends Attest<SELF, A>, A> extends FluentTrait<SELF>, CheckTrait<A, SELF> {
 
 	@Nullable
-	A actual();
+	@Override
+	A get();
 
 	@Deprecated
 	@Nonnull
@@ -69,86 +66,38 @@ public interface Attest<SELF extends Attest<SELF, A>, A> extends Assert<SELF, A>
 		throw X.unsupported(); // otherwise it would make assertions very confusing.
 	}
 
-	@Nullable
-	@Override
-	default A get() {
-		return actual();
-	}
 	@Nonnull
 	default String checkTraitType() {
 		return "Actual";
 	}
+
 	@Nonnull
 	default String checkTraitName() {
 		return "actual";
 	}
+
 	@Nonnull
 	default ExMF<RuntimeException> checkTraitFactory() {
 		return ExMF.shoving(X::assertion);
 	}
+
 	@Override
 	@Nonnull
 	default MsgVerbosity verbosity() {
 		return MsgVerbosity.ALL;
 	}
 
-	@Deprecated
-	default <R> SELF has(LFunction<A, R> predicate, R expected, String message, Object... args) {
-		isNotNull();
-		R derivedActual = predicate.apply(actual());
-		Assertions.assertThat(derivedActual).as(message, args).isEqualTo(expected);
-		return fluentCtx();
-	}
+	public static abstract class Base<SELF extends Base<SELF, A>, A> implements Attest<SELF, A> {
 
-	@Deprecated
-	default SELF mustBe(LPredicate<A> predicate, boolean expected, String message, Object... args) {
-		isNotNull();
-		BooleanAssert as = (BooleanAssert) Assertions.assertThat(predicate.test(actual())).as(message, args);
-		as.isEqualTo(expected);
-		return fluentCtx();
-	}
-
-	public static abstract class AbstractObjAttest<SELF extends AbstractObjAttest<SELF, A>, A> extends AbstractObjectAssert<SELF, A> implements Attest<SELF, A> {
-
-		public AbstractObjAttest(A a, Class<?> selfType) {
-			super(a, selfType);
+		private final A value;
+		protected Base(A value) {
+			this.value = value;
 		}
 
 		@Nullable
 		@Override
-		public A actual() {
-			return actual;
-		}
-	}
-
-	public static class ObjAttest<A> extends AbstractObjAttest<ObjAttest<A>, A> implements Attest<ObjAttest<A>, A> {
-
-		public ObjAttest(A a) {
-			super(a, ObjAttest.class);
-		}
-
-		@Nullable
-		@Override
-		public A actual() {
-			return actual;
-		}
-	}
-
-	public static class ThrowableAttest<A extends Throwable> extends AbstractThrowableAssert<ThrowableAttest<A>, A> implements Attest<ThrowableAttest<A>, A> {
-
-		public ThrowableAttest(A a) {
-			super(a, ThrowableAttest.class);
-		}
-
-		@Nullable
-		@Override
-		public A actual() {
-			return actual;
-		}
-
-		@Override
-		protected ThrowableAttest<A> hasBeenThrown() {
-			return super.hasBeenThrown();
+		public A get() {
+			return value;
 		}
 	}
 }

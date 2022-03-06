@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.operator.ternary;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.operator.ternary.LFltTernaryOperator
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LFltTernaryOperatorBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LFltTernaryOperatorBuilderTest{
         );
 
 
-        A.attestFltTernaryOp(function)
-            .doesApplyAsFlt(0f,0f,0f).when(null).to(a -> a.isEqualTo(0f))
-            .doesApplyAsFlt(5f,5f,5f).when(null).to(a -> a.isEqualTo(1f))
-            .doesApplyAsFlt(15f,15f,15f).when(null).to(a -> a.isEqualTo(2f))
-            .doesApplyAsFlt(10f,10f,10f).when(null).to(a -> a.isEqualTo(99f))
+        FuncAttests.attestFltTernaryOp(function)
+            .doesApplyAsFlt(0f,0f,0f).when(null).to(a -> a.must$(Be::equal$, 0f))
+            .doesApplyAsFlt(5f,5f,5f).when(null).to(a -> a.must$(Be::equal$, 1f))
+            .doesApplyAsFlt(15f,15f,15f).when(null).to(a -> a.must$(Be::equal$, 2f))
+            .doesApplyAsFlt(10f,10f,10f).when(null).to(a -> a.must$(Be::equal$, 99f))
         ;
 
     }

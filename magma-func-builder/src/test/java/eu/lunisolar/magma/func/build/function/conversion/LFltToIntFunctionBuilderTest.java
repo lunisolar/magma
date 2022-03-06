@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LFltToIntFunctio
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LFltToIntFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LFltToIntFunctionBuilderTest{
         );
 
 
-        A.attestFltToIntFunc(function)
-            .doesApplyAsInt(0f).when(null).to(a -> a.isEqualTo(0))
-            .doesApplyAsInt(5f).when(null).to(a -> a.isEqualTo(1))
-            .doesApplyAsInt(15f).when(null).to(a -> a.isEqualTo(2))
-            .doesApplyAsInt(10f).when(null).to(a -> a.isEqualTo(99))
+        FuncAttests.attestFltToIntFunc(function)
+            .doesApplyAsInt(0f).when(null).to(a -> a.must$(Be::equal$, 0))
+            .doesApplyAsInt(5f).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApplyAsInt(15f).when(null).to(a -> a.must$(Be::equal$, 2))
+            .doesApplyAsInt(10f).when(null).to(a -> a.must$(Be::equal$, 99))
         ;
 
     }

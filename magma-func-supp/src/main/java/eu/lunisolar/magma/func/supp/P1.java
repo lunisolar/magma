@@ -374,6 +374,44 @@ public class P1 implements FluentSyntax {
 		return Predicates.notEqual$(o1, o2);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean objEqual(Object o1, Object o2, MP1 msgParamOnly) {
+		return Predicates.objEqual(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String objEqual$(Object o1, Object o2, MP1 msgParamOnly) {
+		return Predicates.objEqual$(o1, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean objNotEqual(Object o1, Object o2, MP1 msgParamOnly) {
+		return Predicates.objNotEqual(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String objNotEqual$(Object o1, Object o2, MP1 msgParamOnly) {
+		return Predicates.objNotEqual$(o1, o2);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(byte n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(byte n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(byte n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(byte n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static <MP1> boolean equal(byte n, byte a1, MP1 msgParamOnly) {
 		return Predicates.equal(n, a1);
@@ -505,6 +543,25 @@ public class P1 implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static <MP1> @Nullable String positive$(byte n, MP1 msgParamOnly) {
 		return Predicates.positive$(n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(short n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(short n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(short n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(short n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
 	}
 
 	/** Predicate: %s must be equal to %s..*/
@@ -640,6 +697,25 @@ public class P1 implements FluentSyntax {
 		return Predicates.positive$(n);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(int n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(int n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(int n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(int n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static <MP1> boolean equal(int n, int a1, MP1 msgParamOnly) {
 		return Predicates.equal(n, a1);
@@ -771,6 +847,25 @@ public class P1 implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static <MP1> @Nullable String positive$(int n, MP1 msgParamOnly) {
 		return Predicates.positive$(n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(long n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(long n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(long n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(long n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
 	}
 
 	/** Predicate: %s must be equal to %s..*/
@@ -906,6 +1001,25 @@ public class P1 implements FluentSyntax {
 		return Predicates.positive$(n);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(float n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(float n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(float n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(float n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static <MP1> boolean equal(float n, float a1, MP1 msgParamOnly) {
 		return Predicates.equal(n, a1);
@@ -1037,6 +1151,25 @@ public class P1 implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static <MP1> @Nullable String positive$(float n, MP1 msgParamOnly) {
 		return Predicates.positive$(n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(double n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(double n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(double n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(double n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
 	}
 
 	/** Predicate: %s must be equal to %s..*/
@@ -1172,6 +1305,25 @@ public class P1 implements FluentSyntax {
 		return Predicates.positive$(n);
 	}
 
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(char n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(char n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(char n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(char n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
+	}
+
 	/** Predicate: %s must be equal to %s..*/
 	public static <MP1> boolean equal(char n, char a1, MP1 msgParamOnly) {
 		return Predicates.equal(n, a1);
@@ -1303,6 +1455,44 @@ public class P1 implements FluentSyntax {
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
 	public static <MP1> @Nullable String positive$(char n, MP1 msgParamOnly) {
 		return Predicates.positive$(n);
+	}
+
+	/** Predicate: <%s> must be equal to <%s>..*/
+	public static <MP1> boolean equalToObj(boolean n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s>. */
+	public static <MP1> @Nullable String equalToObj$(boolean n, Object o2, MP1 msgParamOnly) {
+		return Predicates.equalToObj$(n, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	public static <MP1> boolean notEqualToObj(boolean n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj(n, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	public static <MP1> @Nullable String notEqualToObj$(boolean n, Object o2, MP1 msgParamOnly) {
+		return Predicates.notEqualToObj$(n, o2);
+	}
+
+	/** Predicate: %s must be equal to %s..*/
+	public static <MP1> boolean equal(boolean n, boolean a1, MP1 msgParamOnly) {
+		return Predicates.equal(n, a1);
+	}
+
+	/** "Special" predicate: %s must be equal to %s. */
+	public static <MP1> @Nullable String equal$(boolean n, boolean a1, MP1 msgParamOnly) {
+		return Predicates.equal$(n, a1);
+	}
+	/** Predicate: %s must NOT be equal to %s..*/
+	public static <MP1> boolean notEqual(boolean n, boolean a1, MP1 msgParamOnly) {
+		return Predicates.notEqual(n, a1);
+	}
+
+	/** "Special" predicate: %s must NOT be equal to %s. */
+	public static <MP1> @Nullable String notEqual$(boolean n, boolean a1, MP1 msgParamOnly) {
+		return Predicates.notEqual$(n, a1);
 	}
 
 	/** Predicate: %1$s must be: %2$s < %1$s < %3$s..*/
@@ -3227,30 +3417,49 @@ public class P1 implements FluentSyntax {
 	}
 
 	/** Predicate: Exception <%s> must have message equal to <'%s>'..*/
-	public static <MP1> boolean msgEqual(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly) {
+	public static <MP1> boolean msgEqual(@Nonnull Throwable e, String text, MP1 msgParamOnly) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
 		return Predicates.msgEqual(e, text);
 	}
 
 	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
-	public static <MP1> @Nullable String msgEqual$(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String msgEqual$(@Nonnull Throwable e, String text, MP1 msgParamOnly) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
 		return Predicates.msgEqual$(e, text);
 	}
 	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'..*/
-	public static <MP1> boolean msgNotEqual(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly) {
+	public static <MP1> boolean msgNotEqual(@Nonnull Throwable e, String text, MP1 msgParamOnly) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
 		return Predicates.msgNotEqual(e, text);
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
-	public static <MP1> @Nullable String msgNotEqual$(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String msgNotEqual$(@Nonnull Throwable e, String text, MP1 msgParamOnly) {
 		Null.nonNullArg(e, "e");
-		Null.nonNullArg(text, "text");
 		return Predicates.msgNotEqual$(e, text);
+	}
+
+	/** Predicate: Exception <%s> must have message equal to <'%s>'..*/
+	public static <MP1> boolean noMsg(@Nonnull Throwable e, MP1 msgParamOnly) {
+		Null.nonNullArg(e, "e");
+		return Predicates.noMsg(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
+	public static <MP1> @Nullable String noMsg$(@Nonnull Throwable e, MP1 msgParamOnly) {
+		Null.nonNullArg(e, "e");
+		return Predicates.noMsg$(e);
+	}
+	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'..*/
+	public static <MP1> boolean msgPresent(@Nonnull Throwable e, MP1 msgParamOnly) {
+		Null.nonNullArg(e, "e");
+		return Predicates.msgPresent(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
+	public static <MP1> @Nullable String msgPresent$(@Nonnull Throwable e, MP1 msgParamOnly) {
+		Null.nonNullArg(e, "e");
+		return Predicates.msgPresent$(e);
 	}
 
 	/** Predicate: Exception <%s> must have message starting with <'%s>'..*/

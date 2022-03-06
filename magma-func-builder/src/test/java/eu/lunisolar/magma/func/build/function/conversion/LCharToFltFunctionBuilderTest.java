@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.function.conversion;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.function.conversion.LCharToFltFuncti
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LCharToFltFunctionBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LCharToFltFunctionBuilderTest{
         );
 
 
-        A.attestCharToFltFunc(function)
-            .doesApplyAsFlt('\u0000').when(null).to(a -> a.isEqualTo(0f))
-            .doesApplyAsFlt('\u0005').when(null).to(a -> a.isEqualTo(1f))
-            .doesApplyAsFlt('\u0015').when(null).to(a -> a.isEqualTo(2f))
-            .doesApplyAsFlt('\u0010').when(null).to(a -> a.isEqualTo(99f))
+        FuncAttests.attestCharToFltFunc(function)
+            .doesApplyAsFlt('\u0000').when(null).to(a -> a.must$(Be::equal$, 0f))
+            .doesApplyAsFlt('\u0005').when(null).to(a -> a.must$(Be::equal$, 1f))
+            .doesApplyAsFlt('\u0015').when(null).to(a -> a.must$(Be::equal$, 2f))
+            .doesApplyAsFlt('\u0010').when(null).to(a -> a.must$(Be::equal$, 99f))
         ;
 
     }

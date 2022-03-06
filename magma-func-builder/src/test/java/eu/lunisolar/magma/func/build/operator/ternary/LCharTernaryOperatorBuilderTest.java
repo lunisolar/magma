@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func.build.operator.ternary;
 
+import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -56,10 +59,6 @@ import static eu.lunisolar.magma.func.build.operator.ternary.LCharTernaryOperato
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LCharTernaryOperatorBuilderTest{
-
-    @SuppressWarnings("unchecked")
-    public static final DefaultAttests<ObjectAssert> A = new DefaultAttests() {
-    };
 
     @Test
     public void testOtherwiseThrow()  {
@@ -127,11 +126,11 @@ public class LCharTernaryOperatorBuilderTest{
         );
 
 
-        A.attestCharTernaryOp(function)
-            .doesApplyAsChar('\u0000','\u0000','\u0000').when(null).to(a -> a.isEqualTo('\u0000'))
-            .doesApplyAsChar('\u0005','\u0005','\u0005').when(null).to(a -> a.isEqualTo('\u0001'))
-            .doesApplyAsChar('\u0015','\u0015','\u0015').when(null).to(a -> a.isEqualTo('\u0002'))
-            .doesApplyAsChar('\u0010','\u0010','\u0010').when(null).to(a -> a.isEqualTo('\u0099'))
+        FuncAttests.attestCharTernaryOp(function)
+            .doesApplyAsChar('\u0000','\u0000','\u0000').when(null).to(a -> a.must$(Be::equal$, '\u0000'))
+            .doesApplyAsChar('\u0005','\u0005','\u0005').when(null).to(a -> a.must$(Be::equal$, '\u0001'))
+            .doesApplyAsChar('\u0015','\u0015','\u0015').when(null).to(a -> a.must$(Be::equal$, '\u0002'))
+            .doesApplyAsChar('\u0010','\u0010','\u0010').when(null).to(a -> a.must$(Be::equal$, '\u0099'))
         ;
 
     }
