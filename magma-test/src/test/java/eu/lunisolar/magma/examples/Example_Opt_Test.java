@@ -32,8 +32,8 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 import static eu.lunisolar.magma.asserts.func.FuncAttests.attestSup;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
+import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
 //>transform-to-MD<
 /**
@@ -104,7 +104,7 @@ public class Example_Opt_Test {
                 .filter(Is::inRange, 5, 7) // 5 is in range from 5 to 7
                 .filter(Is::between, 5, 7); // 5 is NOT between 5 to 7
 
-        assertThat(result.toOpt()).isEmpty();
+        attest(result).must$(Be::Void$);
     }
     //>example<
 
@@ -118,7 +118,7 @@ public class Example_Opt_Test {
                 .filter(Is::inRange, 5, 7) // 5 is in range from 5 to 7
                 .filter(Is::between, 5, 7); // 5 is NOT between 5 to 7
 
-        assertThat(result.toOpt()).isEmpty();
+        attest(result).must$(Be::Void$);
     }
 
     /**
@@ -130,9 +130,9 @@ public class Example_Opt_Test {
 
         Opt<Integer> ooo = Opt.obj(5);
 
-        assertThat(ooo.uniIs(P::equal, 5)).isTrue();
-        assertThat(ooo.is(P::inRange, 5, 7)).isTrue();
-        assertThat(ooo.is(P::between, 5, 7)).isFalse();
+        attest(ooo.uniIs(P::equal, 5)).must$(Be::True$);
+        attest(ooo.is(P::inRange, 5, 7)).must$(Be::True$);
+        attest(ooo.is(P::between, 5, 7)).must$(Be::False$);
 
         ooo.uniMust(Be::equal, 99, "must be 99");
     }
@@ -149,7 +149,7 @@ public class Example_Opt_Test {
     public void test4() {
         Opt ooo = Opt.empty();
 
-        assertThat(ooo.is(P::Null)).isFalse();
+        attest(ooo.is(P::Null)).must$(Be::False$);
     }
 
     @Test(expectedExceptions = NoSuchElementException.class, expectedExceptionsMessageRegExp = "No value present.")
@@ -165,14 +165,15 @@ public class Example_Opt_Test {
         Opt<String> opt = Opt.of(null);
 
         // testing value against ANY predicate is impossible.
-        assertThatThrownBy(() -> opt.must(Be::Null, "must be null!"))
-                .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
+        attestThrownBy(() -> opt.must(Be::Null, "must be null!"))
+                .must$(Be::instanceOf$, NoSuchElementException.class)
+                .must$(Have::msgEqual$, "No value present.");
 
         // that's part of Optional 'contract'
         attestSup(opt::get).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
 
         // that's part of Opt 'contract'
-        assertThat(opt.nullable()).isNull();
+        attest(opt.nullable()).must$(Be::Null$);
 
         // that's part of Opt/Check 'contract'
         attestSup(opt::value).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
@@ -183,14 +184,14 @@ public class Example_Opt_Test {
         OptInt opt = OptInt.empty();
 
         // testing value against ANY predicate is impossible.
-        assertThatThrownBy(() -> opt.must(Be::Null, "must be null!"))
-                .isInstanceOf(NoSuchElementException.class).hasMessage("No value present.");
+        attestThrownBy(() -> opt.must(Be::Null, "must be null!"))
+                .must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgEqual$, "No value present.");
 
         // that's part of Optional 'contract'
         attestSup(opt::get).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
 
         // that's part of Opt 'contract'
-        assertThat(opt.nullable()).isNull();
+        attest(opt.nullable()).must$(Be::Null$);
 
         // that's part of Opt/Check 'contract'
         attestSup(opt::value).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
@@ -200,13 +201,13 @@ public class Example_Opt_Test {
     public void valueTrait() {
         OptInt opt = OptInt.empty();
 
-        assertThat(opt.voidValue()).isSameAs(opt);
-        assertThat(opt.value(45)).isNotSameAs(opt);
+        attest(opt.voidValue()).must$(Be::same$, opt);
+        attest(opt.value(45)).must$(Be::notSame$, opt);
 
         opt = OptInt.valueOf(45);
 
-        assertThat(opt.voidValue()).isNotSameAs(opt);
-        assertThat(opt.value(45)).isNotSameAs(opt);
+        attest(opt.voidValue()).must$(Be::notSame$, opt);
+        attest(opt.value(45)).must$(Be::notSame$, opt);
     }
 
     static {
@@ -283,7 +284,7 @@ public class Example_Opt_Test {
     public void test6() {
 
         String input = "This is optional string.";
-        
+
         OptStr str = OptStr.str(input)
                            .filter(P::startWith, "T")
                            .replace("This", "THIS")

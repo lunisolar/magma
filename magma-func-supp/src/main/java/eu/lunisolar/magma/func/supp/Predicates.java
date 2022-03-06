@@ -2001,6 +2001,49 @@ public class Predicates implements FluentSyntax {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
+	static boolean containsExactly_privately(@Nonnull boolean[] array, boolean... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull boolean[] array, boolean... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull boolean[] array, boolean... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull boolean[] array, boolean... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull boolean[] array, boolean... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+
 	/** Predicate: Array <%s> must be of size %s..*/
 	public static boolean length(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -2129,6 +2172,49 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
 	public static @Nullable String notEqual$(byte[] a1, byte[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
+	}
+
+	static boolean containsExactly_privately(@Nonnull byte[] array, byte... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull byte[] array, byte... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull byte[] array, byte... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull byte[] array, byte... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull byte[] array, byte... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
 	}
 
 	/** Predicate: Array <%s> must be of size %s..*/
@@ -2261,6 +2347,49 @@ public class Predicates implements FluentSyntax {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
+	static boolean containsExactly_privately(@Nonnull double[] array, double... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull double[] array, double... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull double[] array, double... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull double[] array, double... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull double[] array, double... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+
 	/** Predicate: Array <%s> must be of size %s..*/
 	public static boolean length(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -2389,6 +2518,49 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
 	public static @Nullable String notEqual$(char[] a1, char[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
+	}
+
+	static boolean containsExactly_privately(@Nonnull char[] array, char... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull char[] array, char... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull char[] array, char... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull char[] array, char... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull char[] array, char... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
 	}
 
 	/** Predicate: Array <%s> must be of size %s..*/
@@ -2521,6 +2693,49 @@ public class Predicates implements FluentSyntax {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
+	static boolean containsExactly_privately(@Nonnull short[] array, short... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull short[] array, short... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull short[] array, short... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull short[] array, short... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull short[] array, short... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+
 	/** Predicate: Array <%s> must be of size %s..*/
 	public static boolean length(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -2649,6 +2864,49 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
 	public static @Nullable String notEqual$(float[] a1, float[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
+	}
+
+	static boolean containsExactly_privately(@Nonnull float[] array, float... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull float[] array, float... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull float[] array, float... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull float[] array, float... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull float[] array, float... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
 	}
 
 	/** Predicate: Array <%s> must be of size %s..*/
@@ -2781,6 +3039,49 @@ public class Predicates implements FluentSyntax {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
+	static boolean containsExactly_privately(@Nonnull int[] array, int... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull int[] array, int... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull int[] array, int... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull int[] array, int... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull int[] array, int... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+
 	/** Predicate: Array <%s> must be of size %s..*/
 	public static boolean length(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -2911,6 +3212,49 @@ public class Predicates implements FluentSyntax {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
+	static boolean containsExactly_privately(@Nonnull long[] array, long... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull long[] array, long... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull long[] array, long... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull long[] array, long... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull long[] array, long... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+
 	/** Predicate: Array <%s> must be of size %s..*/
 	public static <T> boolean length(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
@@ -3039,6 +3383,49 @@ public class Predicates implements FluentSyntax {
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
 	public static <T> @Nullable String notEqual$(T[] a1, T[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
+	}
+
+	static <T> boolean containsExactly_privately(@Nonnull T[] array, T... elementsInOrder) {
+
+		int size = array.length;
+		if (size != elementsInOrder.length) { // fast track
+			return false;
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!equal(array[i], elementsInOrder[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/** Predicate: Array <%s> must contain exactly elements in order: <%s>..*/
+	public static <T> boolean containExactly(@Nonnull T[] array, T... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containsExactly_privately(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String containExactly$(@Nonnull T[] array, T... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
+	}
+	/** Predicate: Array <%s> must NOT contain exactly elements in order: <%s>..*/
+	public static <T> boolean notContainExactly(@Nonnull T[] array, T... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return !containExactly(array, elementsInOrder);
+	}
+
+	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
+	public static <T> @Nullable String notContainExactly$(@Nonnull T[] array, T... elementsInOrder) {
+		Null.nonNullArg(array, "array");
+		Null.nonNullArg(elementsInOrder, "elementsInOrder");
+		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
 	}
 
 	// </editor-fold>

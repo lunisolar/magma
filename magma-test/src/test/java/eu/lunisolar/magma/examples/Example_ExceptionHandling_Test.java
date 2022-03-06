@@ -26,8 +26,10 @@ import eu.lunisolar.magma.examples.support.SomeRuntimeExcepton;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.LLongConsumer;
 import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Has;
 import eu.lunisolar.magma.func.supp.Is;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import org.testng.annotations.Test;
 
 import java.io.*;
@@ -35,7 +37,7 @@ import java.text.*;
 import java.util.function.*;
 
 import static eu.lunisolar.magma.func.predicate.LPredicate.pred;
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 //>transform-to-MD<
 
@@ -193,7 +195,7 @@ public class Example_ExceptionHandling_Test {
     @Test(expectedExceptions = NestedException.class)
     public java.util.function.Function<Integer, Integer> example1() {
 
-        assertThat(throwingAlways).isInstanceOf(Function.class);
+        attest(throwingAlways).must$(Be::instanceOf$, Function.class);
 
         return throwingAlways;
     }

@@ -30,8 +30,6 @@ import java.util.*;
 
 import static eu.lunisolar.magma.func.supp.MsgVerbosity.*;
 import static eu.lunisolar.magma.func.supp.check.Checks.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 //>transform-to-MD<
 /**
@@ -170,7 +168,7 @@ public class Example_Validations_Fluent_Test {
     public void test1_bis() {
 
         Checks.arg(arg45)
-              .must$(Be::notGtEq$, 50 ) //passes (there is no mustNot$ method for logical reasons)
+              .must$(Be::notGtEq$, 50) //passes (there is no mustNot$ method for logical reasons)
               .must$(Be::lt$, 50); //passes
 
         var i = arg(60)
@@ -183,10 +181,10 @@ public class Example_Validations_Fluent_Test {
     public void valueTrait() {
         CheckInt opt = Checks.value(45);
 
-        assertThat(opt.value(45)).isNotSameAs(opt);
+        attest(opt.value(45)).must$(Be::notSame$, opt);
 
-        assertThatThrownBy(opt::voidValue).isInstanceOf(UnsupportedOperationException.class)
-                                          .hasMessage("Trait implementation (CheckInt) does not support empty value.");
+        attestThrownBy(opt::voidValue).must$(Be::instanceOf$, UnsupportedOperationException.class)
+                                      .must$(Have::msgEqual$, "Trait implementation (CheckInt) does not support empty value.");
 
         Checks.value(null).must(Be::notNull, "_message_");
     }
@@ -263,7 +261,7 @@ public class Example_Validations_Fluent_Test {
     }
     //>example<
 
-     /**
+    /**
      * And in such cases you can also use _self-explaining_ methods ('Ex').
      */
     //>example<
@@ -282,17 +280,17 @@ public class Example_Validations_Fluent_Test {
 
     @Test
     public void toString1() {
-        assertThat(Opt.of(45).toString()).isEqualTo("OptInt['45'^^int]");
-        assertThat(Opt.of("45").toString()).isEqualTo("Opt['45'^^String]");
-        assertThat(Opt.of(null).toString()).isEqualTo("Opt.empty");
-        assertThat(Checks.value(null).toString()).isEqualTo("Value [?==<null>]");
-        assertThat(Checks.value(45).toString()).isEqualTo("Value [?=='45'^^int]");
-        assertThat(Checks.arg(45, "arg1").toString()).isEqualTo("Argument [arg1=='45'^^int]");
-        assertThat(Checks.arg(45).toString()).isEqualTo("Argument [?=='45'^^int]");
-        assertThat(Checks.state(45, "count").toString()).isEqualTo("State [count=='45'^^int]");
-        assertThat(Checks.state(45).toString()).isEqualTo("State [?=='45'^^int]");
-        assertThat(Checks.attest(45, "arg1").toString()).isEqualTo("Check/attest [arg1=='45'^^int]");
-        assertThat(Checks.attest(45).toString()).isEqualTo("Check/attest [?=='45'^^int]");
+        attest(Opt.of(45).toString()).must$(Be::equal$, "OptInt['45'^^int]");
+        attest(Opt.of("45").toString()).must$(Be::equal$, "Opt['45'^^String]");
+        attest(Opt.of(null).toString()).must$(Be::equal$, "Opt.empty");
+        attest(Checks.value(null).toString()).must$(Be::equal$, "Value [?==<null>]");
+        attest(Checks.value(45).toString()).must$(Be::equal$, "Value [?=='45'^^int]");
+        attest(Checks.arg(45, "arg1").toString()).must$(Be::equal$, "Argument [arg1=='45'^^int]");
+        attest(Checks.arg(45).toString()).must$(Be::equal$, "Argument [?=='45'^^int]");
+        attest(Checks.state(45, "count").toString()).must$(Be::equal$, "State [count=='45'^^int]");
+        attest(Checks.state(45).toString()).must$(Be::equal$, "State [?=='45'^^int]");
+        attest(Checks.attest(45, "arg1").toString()).must$(Be::equal$, "Check/attest [arg1=='45'^^int]");
+        attest(Checks.attest(45).toString()).must$(Be::equal$, "Check/attest [?=='45'^^int]");
     }
 
     //>inject<:generated

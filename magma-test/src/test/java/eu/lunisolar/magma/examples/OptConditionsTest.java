@@ -18,13 +18,14 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.opt.Opt;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 @SuppressWarnings("unchecked")
 public class OptConditionsTest {
@@ -33,8 +34,8 @@ public class OptConditionsTest {
     public void filterAndMap() {
         var sut = Opt.obj(Integer.valueOf(1));
 
-        assertThat(sut.filterAndMap(Integer.class).nullable()).isEqualTo(1);
-        assertThat(sut.filterAndMap(String.class).nullable()).isNull();
+        attest(sut.filterAndMap(Integer.class).nullable()).must$(Be::equal$, 1);
+        attest(sut.filterAndMap(String.class).nullable()).must$(Be::Null$);
     }
 
 
@@ -47,7 +48,7 @@ public class OptConditionsTest {
             result.set("done");
         });
 
-        assertThat(result).hasValue("done");
+        attest(result).must$(P.have$(AtomicReference::get, P::equal$, "done"));
     }
 
     @Test
@@ -59,7 +60,7 @@ public class OptConditionsTest {
             result.set("done");
         });
 
-        assertThat(result).doesNotHaveValue("done");
+        attest(result).must$(P.have$(AtomicReference::get, P::notEqual$, "done"));
     }
 
     @Test
@@ -71,7 +72,7 @@ public class OptConditionsTest {
             result.set("done");
         });
 
-        assertThat(result).hasValue("done");
+        attest(result).must$(P.have$(AtomicReference::get, P::equal$, "done"));
     }
 
 }

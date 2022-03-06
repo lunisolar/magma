@@ -29,6 +29,7 @@ import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.operator.binary.LBinaryOperator;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Have;
+import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.supp.value.LValue;
 import eu.lunisolar.magma.func.supplier.LSupplier;
@@ -42,7 +43,6 @@ import java.util.function.*;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CallContextTest {
 
@@ -64,7 +64,7 @@ public class CallContextTest {
 
         // then
         attest(result).must$(Be::equal$, a1 + a2);
-        assertThat(l()).containsExactly(i1$, a1, a2, f1$);
+        attest(l()).mustA$(P::containExactly$, i1$, a1, a2, f1$);
     }
 
     @Test(dataProvider = "simpleTest")
@@ -79,7 +79,7 @@ public class CallContextTest {
 
         // then
         attest(result).must$(Be::equal$, a1 + a2);
-        assertThat(l()).containsExactly(i1$, a1, a2, f1$);
+        attest(l()).mustA$(P::containExactly$, i1$, a1, a2, f1$);
     }
 
     @Test(dataProvider = "simpleTest")
@@ -93,7 +93,7 @@ public class CallContextTest {
         LConsumer.nestingAccept(ctx, a1, str -> l().add(str));
 
         // then
-        assertThat(l()).containsExactly(i1$, a1, f1$);
+        attest(l()).mustA$(P::containExactly$, i1$, a1, f1$);
     }
 
     @Test(dataProvider = "simpleTest")
@@ -108,7 +108,7 @@ public class CallContextTest {
         var result = LBiFunction.nestingApply(ctx1, ctx2, a1, a2, FUNC);
 
         // then
-        assertThat(l()).containsExactly(i1$, i2$, a1, a2, f2$, f1$);
+        attest(l()).mustA$(P::containExactly$, i1$, i2$, a1, a2, f2$, f1$);
     }
 
     //<editor-fold desc="setup">
@@ -287,7 +287,7 @@ public class CallContextTest {
 
         // then
         exChecker.accept(check);
-        assertThat(l()).containsExactly(expectedLog);
+        attest(l()).mustA$(P::containExactly$, expectedLog);
     }
 
     @Test(dataProvider = "exceptionHandling")
@@ -313,7 +313,7 @@ public class CallContextTest {
              .must$(Have::noSuspended$)
              .must$(Have::cause$)
              .check(Throwable::getCause, exChecker::accept);
-        assertThat(l()).containsExactly(expectedLog);
+        attest(l()).mustA$(P::containExactly$, expectedLog);
     }
 
     @Test(dataProvider = "exceptionHandling")
@@ -336,7 +336,7 @@ public class CallContextTest {
 
         // then
         exChecker.accept(check);
-        assertThat(l()).containsExactly(expectedLog);
+        attest(l()).mustA$(P::containExactly$, expectedLog);
     }
 
     @Test
@@ -423,8 +423,8 @@ public class CallContextTest {
 
         // then
 
-        assertThat(l()).containsExactly(i1$, "F", f1$);
-        assertThat(otherL.value()).containsExactly(i1$, f1$);
+        attest(l()).mustA$(P::containExactly$, i1$, "F", f1$);
+        attest(otherL.value()).mustA$(P::containExactly$, i1$, f1$);
     }
 
     @Test(dataProvider = "simpleTest")
@@ -454,8 +454,8 @@ public class CallContextTest {
 
         // then
 
-        assertThat(l()).containsExactly(i1$, f1$);
-        assertThat(otherL.value()).containsExactly(i1$, "F", f1$);
+        attest(l()).mustA$(P::containExactly$, i1$, f1$);
+        attest(otherL.value()).mustA$(P::containExactly$, i1$, "F", f1$);
         attest(result).must$(Be::equal$, a1 + a2);
 
     }

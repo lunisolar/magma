@@ -19,10 +19,10 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.func.IA;
-import eu.lunisolar.magma.func.consumer.LBiConsumer;
-import eu.lunisolar.magma.func.consumer.primitives.obj.LObjIntConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer;
 import eu.lunisolar.magma.func.function.to.LTieFunction;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.P;
 import org.testng.annotations.Test;
 
 import javax.annotation.Nonnull;
@@ -30,10 +30,9 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.*;
 
-import static eu.lunisolar.magma.func.consumer.LBiConsumer.biCons;
 import static eu.lunisolar.magma.func.consumer.LBiConsumer.targetedForEach;
 import static eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer.tieCons;
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 @SuppressWarnings("RedundantArrayCreation")
 public class IterationsTest {
@@ -50,28 +49,28 @@ public class IterationsTest {
     void consumerForEach0() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieConsumer.tieForEach(0, 10, 0, targetArray, sourceArray(), (o, i) -> o[i], (t, i, e) -> t[i] = e);
-        assertThat(targetIncrement).isEqualTo(10);
-        assertThat(targetArray).containsExactly(new Integer[]{100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+        attest(targetIncrement).must$(Be::equal$, 10);
+        attest(targetArray).mustA$(P::containExactly$, new Integer[]{100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
 
         targetIncrement = LTieConsumer.tieForEach(0, 10, targetIncrement, targetArray, sourceArray(), Array::get, Array::set);
-        assertThat(targetIncrement).isEqualTo(10);
-        assertThat(targetArray).containsExactly(new Integer[]{100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109});
+        attest(targetIncrement).must$(Be::equal$, 10);
+        attest(targetArray).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109);
     }
 
     @Test
     void consumerForEach1() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieConsumer.tieForEach(0, 10, 3, targetArray, sourceArray(), Array::get, Array::set);
-        assertThat(targetIncrement).isEqualTo(10);
-        assertThat(targetArray).containsExactly(new Integer[]{0, 1, 2, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 13, 14, 15, 16, 17, 18, 19});
+        attest(targetIncrement).must$(Be::equal$, 10);
+        attest(targetArray).mustA$(P::containExactly$, 0, 1, 2, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 13, 14, 15, 16, 17, 18, 19);
     }
 
     @Test
     void consumerForEach2() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieConsumer.tieForEach(5, 14, 3, targetArray, sourceArray(), Array::get, Array::set);
-        assertThat(targetIncrement).isEqualTo(9);
-        assertThat(targetArray).containsExactly(new Integer[]{0, 1, 2, 105, 106, 107, 108, 109, 110, 111, 112, 113, 12, 13, 14, 15, 16, 17, 18, 19});
+        attest(targetIncrement).must$(Be::equal$, 9);
+        attest(targetArray).mustA$(P::containExactly$, 0, 1, 2, 105, 106, 107, 108, 109, 110, 111, 112, 113, 12, 13, 14, 15, 16, 17, 18, 19);
     }
 
     @Test(expectedExceptions = IndexOutOfBoundsException.class, expectedExceptionsMessageRegExp = ".*100.*")
@@ -85,12 +84,12 @@ public class IterationsTest {
     void functionForEach0() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieFunction.tieForEach(0, 10, 0, targetArray, sourceArray(), Array::get, tieCons(Array::set).toTieFunction());
-        assertThat(targetIncrement).isEqualTo(10);
-        assertThat(targetArray).containsExactly(new Integer[]{100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+        attest(targetIncrement).must$(Be::equal$, 10);
+        attest(targetArray).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
 
         targetIncrement = LTieFunction.tieForEach(0, 10, targetIncrement, targetArray, sourceArray(), Array::get, tieCons(Array::set).toTieFunction());
-        assertThat(targetIncrement).isEqualTo(10);
-        assertThat(targetArray).containsExactly(new Integer[]{100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109});
+        attest(targetIncrement).must$(Be::equal$, 10);
+        attest(targetArray).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109);
     }
 
     @Test
@@ -102,23 +101,23 @@ public class IterationsTest {
         Integer[] targetArray = Stream.concat(Stream.of(targetArray()), Stream.of(targetArray())).toArray(Integer[]::new);
 
         int targetIncrement = LTieFunction.tieForEach(0, 10, 0, targetArray, sourceArray(), Array::get, tieFunction);
-        assertThat(targetIncrement).isEqualTo(20);
-        assertThat(targetArray).containsExactly(new Integer[]{
+        attest(targetIncrement).must$(Be::equal$, 20);
+        attest(targetArray).mustA$(P::containExactly$,
                 100, 1, 101, 3, 102, 5, 103, 7, 104, 9, 105, 11, 106, 13, 107, 15, 108, 17, 109, 19,
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
 
         targetIncrement = LTieFunction.tieForEach(0, 10, targetIncrement, targetArray, sourceArray(), Array::get,
                                                   tieFunction);
-        assertThat(targetIncrement).isEqualTo(20);
-        assertThat(targetArray).containsExactly(new Integer[]{
+        attest(targetIncrement).must$(Be::equal$, 20);
+        attest(targetArray).mustA$(P::containExactly$,
                 100, 1, 101, 3, 102, 5, 103, 7, 104, 9, 105, 11, 106, 13, 107, 15, 108, 17, 109, 19,
-                100, 1, 101, 3, 102, 5, 103, 7, 104, 9, 105, 11, 106, 13, 107, 15, 108, 17, 109, 19});
+                100, 1, 101, 3, 102, 5, 103, 7, 104, 9, 105, 11, 106, 13, 107, 15, 108, 17, 109, 19);
     }
 
     @Test
     void functionForEach2() {
         List<Integer> result  = targetedForEach(new ArrayList(), IA.array(), sourceArray(), Collection::add);
-        assertThat(result).containsExactly(100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119);
+        attest(result).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119);
     }
 
 }

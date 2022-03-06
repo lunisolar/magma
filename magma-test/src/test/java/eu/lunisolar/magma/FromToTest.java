@@ -19,14 +19,15 @@
 package eu.lunisolar.magma;
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer;
+import eu.lunisolar.magma.func.supp.Be;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.*;
 
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class FromToTest {
 
@@ -50,13 +51,13 @@ public class FromToTest {
         {
             ArrayList<Object> list = new ArrayList<>();
             LBiObjIntConsumer.fromTo(from, to, list, null, (l, nil, i) -> l.add(i));
-            assertThat(list).isEqualTo(fromTo);
+            attest(list).must$(Be::equal$, fromTo);
         }
 
         {
             ArrayList<Object> list = new ArrayList<>();
             LBiObjIntConsumer.fromTill(from, to, list, null, (l, nil, i) -> l.add(i));
-            assertThat(list).isEqualTo(fromTill);
+            attest(list).must$(Be::equal$, fromTill);
         }
     }
 
@@ -75,7 +76,7 @@ public class FromToTest {
     public void times(int times, List expectedResult) {
         ArrayList<Object> list = new ArrayList<>();
         LBiObjIntConsumer.times(times, list, null, (l, nil, i) -> l.add(i));
-        assertThat(list).isEqualTo(expectedResult);
+        attest(list).must$(Be::equal$, expectedResult);
     }
 
 }

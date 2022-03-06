@@ -24,7 +24,6 @@ import org.testng.annotations.Test;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 import static eu.lunisolar.magma.func.supp.check.Checks.check;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class P_Opt_Test {
 

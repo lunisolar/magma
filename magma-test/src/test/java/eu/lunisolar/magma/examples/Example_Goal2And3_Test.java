@@ -19,13 +19,10 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.func.function.conversion.LIntToFltFunction;
-import org.assertj.core.util.Lists;
+import eu.lunisolar.magma.func.supp.Be;
 import org.testng.annotations.Test;
 
-import java.util.*;
-import java.util.function.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 //>transform-to-MD<
 /**
@@ -46,8 +43,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * **More primitive types supported**. **More combinations of arguments** .
  */
 public class Example_Goal2And3_Test {
-
-    private static final List<Integer> integerList = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
 ///
 ///### More primitive types.
@@ -90,7 +85,7 @@ public class Example_Goal2And3_Test {
 ///
 
     /**
-     * Just short example: 
+     * Just short example:
      */
     //>example<
     private static String typeToString(Float f) {
@@ -105,8 +100,8 @@ public class Example_Goal2And3_Test {
     public void someExample() {
         LIntToFltFunction toFloat = i -> (float) i;
 
-        assertThat(typeToString(toFloat.applyAsFlt(10)))
-                .isEqualTo("float primitive");
+        attest(typeToString(toFloat.applyAsFlt(10)))
+                .must$(Be::equal$, "float primitive");
     }
     //>example<
 

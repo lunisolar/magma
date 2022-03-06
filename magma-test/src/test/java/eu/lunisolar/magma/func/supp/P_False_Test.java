@@ -20,7 +20,7 @@ package eu.lunisolar.magma.func.supp;
 
 import org.testng.annotations.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.Assert.*;
 
 public class P_False_Test {
 
@@ -28,23 +28,23 @@ public class P_False_Test {
     public static final int I2 = 2;
 
     @Test void true_P() {
-        assertThat(P.False(true)).isFalse();
-        assertThat(P.False(false)).isTrue();
+        assertFalse(P.False(true));
+        assertTrue(P.False(false));
     }
     
     @Test void true_Be() {
-        assertThat(Be.False(true)).isFalse();
-        assertThat(Be.False(false)).isTrue();
+        assertFalse(Be.False(true));
+        assertTrue(Be.False(false));
     }
 
     @Test void true$_P() {
-        assertThat(P.False$(true)).isEqualTo("<true> must be false.");
-        assertThat(P.False$(false)).isNull();
+        assertEquals(P.False$(true), "<true> must be false.");
+        assertNull(P.False$(false));
     }
 
     @Test void true$_Be() {
-        assertThat(Be.False$(true)).isEqualTo("<true> must be false.");
-        assertThat(Be.False$(false)).isNull();
+        assertEquals(Be.False$(true), "<true> must be false.");
+        assertNull(Be.False$(false));
     }
     
 }

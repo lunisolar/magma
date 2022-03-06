@@ -22,15 +22,16 @@ import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.examples.support.CheckedException;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.predicate.LPredicate;
-import org.assertj.core.util.Lists;
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.P;
 import org.testng.annotations.Test;
 
 import java.io.*;
 import java.util.*;
 import java.util.function.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
+import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
 //>transform-to-MD<
 /**
@@ -50,7 +51,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 public class Example_Goal1_Test {
 
-    private static final List<Integer> integerList = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private static final List<Integer> integerList = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     /**
      * ### Introduction to the issue
@@ -82,7 +83,7 @@ public class Example_Goal1_Test {
             }
         }).count();
 
-        assertThat(result).isEqualTo(10);
+        attest(result).must$(Be::equal$, 10);
     }
     //>example<
 
@@ -103,7 +104,7 @@ public class Example_Goal1_Test {
 
         long result = integerList.stream().filter(Example_Goal1_Test::myMethodToReference).count();
 
-        assertThat(result).isEqualTo(10);
+        attest(result).must$(Be::equal$, 10);
     }
     //>example<
 
@@ -122,14 +123,12 @@ public class Example_Goal1_Test {
     //>example<
     @Test
     public void checkedExceptionPropagated() throws CheckedException {
-        assertThatThrownBy(() -> {
-
+        attestThrownBy(() -> {
             LPredicate<Integer> predicateX = i -> throwingAlways(i) != null;
             predicateX.test(10);
-
         })
-                .isInstanceOf(NestedException.class)
-                .hasCauseInstanceOf(CheckedException.class);
+                .must$(Be::instanceOf$, NestedException.class)
+                .must$(P.have$(Throwable::getCause, P::instanceOf$, CheckedException.class));
     }
     //>example<
 
@@ -143,7 +142,7 @@ public class Example_Goal1_Test {
 
         long result = integerList.stream().filter(LPredicate.pred(i -> potentiallyThrowing(i) != null)).count();
 
-        assertThat(result).isEqualTo(10);
+        attest(result).must$(Be::equal$, 10);
     }
     //>example<
 

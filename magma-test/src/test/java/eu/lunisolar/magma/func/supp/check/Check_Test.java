@@ -22,18 +22,15 @@ import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.P2;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.*;
 
 import static eu.lunisolar.magma.func.supp.MsgVerbosity.ALL;
 import static eu.lunisolar.magma.func.supp.MsgVerbosity.MIN;
 import static eu.lunisolar.magma.func.supp.check.Checks.arg;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class Check_Test {
 
@@ -118,11 +115,13 @@ public class Check_Test {
         check.accept(passing);
 
         // Negative check - no exception thrown.
-        assertThatThrownBy(() -> {
+        try {
             check.accept(nonPassing);
-        })
-                .isExactlyInstanceOf(clazz)
-                .hasMessage(message);
+            Assert.fail("No exception thrown.");
+        } catch (Throwable e) {
+            Assert.assertSame(e.getClass(), clazz);
+            Assert.assertEquals(e.getMessage(), message);
+        }
     }
 
 }

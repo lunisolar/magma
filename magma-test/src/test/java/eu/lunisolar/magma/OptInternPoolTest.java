@@ -18,12 +18,13 @@
 
 package eu.lunisolar.magma;
 
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Have;
 import eu.lunisolar.magma.func.supp.opt.OptBool;
 import eu.lunisolar.magma.func.supp.opt.OptByte;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 public class OptInternPoolTest {
 
@@ -35,11 +36,11 @@ public class OptInternPoolTest {
         OptBool t2 = OptBool.of(true);
         OptBool f2 = OptBool.of(false);
 
-        assertThat(t1).isSameAs(t2);
-        assertThat(f1).isSameAs(f2);
+        attest(t1).must$(Be::same$, t2);
+        attest(f1).must$(Be::same$, f2);
 
-        assertThat(t1.value()).isTrue();
-        assertThat(f1.value()).isFalse();
+        attest(t1).must$(Have::valueEqual$, true);
+        attest(f1).must$(Have::valueEqual$, false);
     }
 
     @Test
@@ -49,8 +50,8 @@ public class OptInternPoolTest {
             OptByte b1 = OptByte.of((byte)i);
             OptByte b2 = OptByte.of((byte)i);
 
-            assertThat(b1).isSameAs(b2);
-            assertThat(b1.value()).isEqualTo((byte)i);
+            attest(b1).must$(Be::same$, b2);
+            attest(b1).must$(Have::valueEqual$, (byte)i);
         }
     }
 }

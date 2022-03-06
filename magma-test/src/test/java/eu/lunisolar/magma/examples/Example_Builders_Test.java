@@ -38,7 +38,7 @@ import static eu.lunisolar.magma.asserts.func.FuncAttests.attestToIntFunc;
 import static eu.lunisolar.magma.basics.exceptions.Handling.throwThe;
 import static eu.lunisolar.magma.func.function.to.LToIntBiFunction.apply1stAsInt;
 import static eu.lunisolar.magma.func.predicate.LBiPredicate.test1st;
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 //>transform-to-MD<
 /**
@@ -85,13 +85,13 @@ public class Example_Builders_Test {
                 .build();
 
         attestToIntFunc(function)
-                   .doesApplyAsInt(0).toEqualTo(0)
-                   .doesApplyAsInt(5).toEqualTo(5)
-                   .doesApplyAsInt(44f).toEqualTo(44)
-                   .doesApplyAsInt(3_000_000_000L).toEqualTo(-1294967296)
-                   .doesApplyAsInt("-4").toEqualTo(-4)
-                   .doesApplyAsInt("non number").withException(a -> a.must$(Be::exactlyInstanceOf$, NumberFormatException.class))
-                   .doesApplyAsInt(new Object()).withException(a -> a.must$(Be::exactlyInstanceOf$, IllegalArgumentException.class));
+                .doesApplyAsInt(0).toEqualTo(0)
+                .doesApplyAsInt(5).toEqualTo(5)
+                .doesApplyAsInt(44f).toEqualTo(44)
+                .doesApplyAsInt(3_000_000_000L).toEqualTo(-1294967296)
+                .doesApplyAsInt("-4").toEqualTo(-4)
+                .doesApplyAsInt("non number").withException(a -> a.must$(Be::exactlyInstanceOf$, NumberFormatException.class))
+                .doesApplyAsInt(new Object()).withException(a -> a.must$(Be::exactlyInstanceOf$, IllegalArgumentException.class));
     }
     //>example<
 
@@ -129,14 +129,22 @@ public class Example_Builders_Test {
         };
 
         attestToIntBiFunc(function)
-            .doesApplyAsInt(0, null).toEqualTo(0)
-            .doesApplyAsInt(5, null).toEqualTo(5)
-            .doesApplyAsInt(44f, null).toEqualTo(44)
-            .doesApplyAsInt(3_000L, null).toEqualTo(3000)
-            .doesApplyAsInt(3_000_000_000L, null).withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class).must$(Have::msgEqual$, "To large for int."))
-            .doesApplyAsInt("-4", null).toEqualTo(-4)
-            .doesApplyAsInt("non number", null).withException(a -> a.must$(Be::instanceOf$, NumberFormatException.class))
-            .doesApplyAsInt(new Object(), null).withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class));
+                .doesApplyAsInt(0, null)
+                .toEqualTo(0)
+                .doesApplyAsInt(5, null)
+                .toEqualTo(5)
+                .doesApplyAsInt(44f, null)
+                .toEqualTo(44)
+                .doesApplyAsInt(3_000L, null)
+                .toEqualTo(3000)
+                .doesApplyAsInt(3_000_000_000L, null)
+                .withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class).must$(Have::msgEqual$, "To large for int."))
+                .doesApplyAsInt("-4", null)
+                .toEqualTo(-4)
+                .doesApplyAsInt("non number", null)
+                .withException(a -> a.must$(Be::instanceOf$, NumberFormatException.class))
+                .doesApplyAsInt(new Object(), null)
+                .withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class));
     }
 
 /// > Just in case you wonder `test1st` is static method in <a href="https://github.com/lunisolar/magma/blob/master/magma-func/src/main/java/eu/lunisolar/magma/func/predicate/LBiPredicate.java" target="_blank">LBiPredicate</a>
@@ -149,7 +157,7 @@ public class Example_Builders_Test {
         return ((long) Integer.MAX_VALUE) >= o && o >= ((long) Integer.MIN_VALUE);
     }
 
-/// 
+    ///
 /// ### Examples with Generics and type arguments.
 /// 
 /// Previous examples actually avoid one ot the issues a Java compiler might have (all the generic types are compiled as Object). There is a limitation to
@@ -160,9 +168,9 @@ public class Example_Builders_Test {
     public <T> void testGeneric1() {
 
         LToIntFunction<T> function = LToIntFunctionBuilder.<T>toIntFunction()
-                .inCase(String.class::isInstance).evaluate(o -> Integer.parseInt((String) o))
-                .otherwise(o -> throwThe(new IllegalArgumentException()))
-                .build();
+                                                          .inCase(String.class::isInstance).evaluate(o -> Integer.parseInt((String) o))
+                                                          .otherwise(o -> throwThe(new IllegalArgumentException()))
+                                                          .build();
     }
     //>example<
 
@@ -195,9 +203,8 @@ public class Example_Builders_Test {
                 .aCase(() -> GLOBAL_STATE.get(), () -> GLOBAL_STATE.set(false))
         );
 
-        assertThat(function)
-                .isInstanceOf(Runnable.class)
-                .isNotInstanceOf(LAction.class);
+        attest(function).must$(Be::instanceOf$, Runnable.class)
+                        .must$(Be::notInstanceOf$, LAction.class);
 
     }
     //>example<

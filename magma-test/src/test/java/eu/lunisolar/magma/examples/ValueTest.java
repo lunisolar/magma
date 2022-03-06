@@ -18,11 +18,13 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Have;
 import eu.lunisolar.magma.func.supp.value.LInteger;
 import eu.lunisolar.magma.func.supp.value.LValue;
 import org.testng.annotations.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 public class ValueTest {
 
@@ -35,9 +37,9 @@ public class ValueTest {
                 .filter(i -> i == 1)
                 .uniMap(i -> i + 1);
 
-        assertThat(result).isSameAs(v);
-        assertThat(v.value()).isEqualTo(2);
-        assertThat(v.is(i-> i==2)).isTrue();
+        attest(result).must$(Be::same$, v)
+                      .must$(Have::valueEqual$, 2)
+                      .checkBool(__ -> __.is(i -> i == 2), bool -> bool.must$(Be::True$));
     }
 
     @Test
@@ -50,9 +52,9 @@ public class ValueTest {
                 .value(10)
                 .uniMap(i -> i + 1);
 
-        assertThat(result).isSameAs(v);
-        assertThat(v.value()).isEqualTo(11);
-        assertThat(v.is(i-> i==11)).isTrue();
+        attest(result).must$(Be::same$, v)
+                      .must$(Have::valueEqual$, 11)
+                      .checkBool(__ -> __.is(i -> i == 11), bool -> bool.must$(Be::True$));
     }
 
     @Test
@@ -64,9 +66,9 @@ public class ValueTest {
                 .filter(i -> i != 1)     // v.value() == 0
                 .map(i -> i + 1);
 
-        assertThat(result).isSameAs(v);
-        assertThat(v.value()).isEqualTo(1);
-        assertThat(v.is(i-> i==1)).isTrue();
+        attest(result).must$(Be::same$, v)
+                      .must$(Have::valueEqual$, 1)
+                      .checkBool(__ -> __.is(i -> i == 1), bool -> bool.must$(Be::True$));
     }
 
 }

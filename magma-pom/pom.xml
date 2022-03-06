@@ -50,7 +50,6 @@
         <!--<testNg-version>[6.9.6,7.0)</testNg-version>-->
         <testNg-version>6.14.3</testNg-version>
         <!--        <jmockit.version>[1.14, 2.0)</jmockit.version>-->
-        <assertj-core.version>3.20.2</assertj-core.version>
 
     </properties>
 
@@ -63,11 +62,6 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
         </dependency>
 
     </dependencies>
@@ -114,12 +108,6 @@
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
                 <version>${testNg-version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.assertj</groupId>
-                <artifactId>assertj-core</artifactId>
-                <version>${assertj-core.version}</version>
                 <scope>test</scope>
             </dependency>
 

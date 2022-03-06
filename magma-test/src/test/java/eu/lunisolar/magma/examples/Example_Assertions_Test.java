@@ -32,8 +32,8 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.*;
 
+import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
-import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 /**
@@ -197,10 +197,10 @@ public class Example_Assertions_Test {
     public void testActionAssert() {
 
         FuncAttests.attestAct(action)
-                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
-                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
-                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> assertThat(extEffect.get()).isEqualTo(1))
-                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> assertThat(extEffect.get()).isEqualTo(4000));
+                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
+                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
+                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 1))
+                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 4000));
     }
     //>example<
 
@@ -208,10 +208,10 @@ public class Example_Assertions_Test {
     public void testRecurringAssertsNegative() {
 
         FuncAttests.attestAct((Runnable) action)
-                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
-                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
-                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> assertThat(extEffect.get()).isEqualTo(1))
-                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> assertThat(extEffect.get()).isEqualTo(4000));
+                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
+                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
+                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 1))
+                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 4000));
     }
 
     //>inject<:generated
