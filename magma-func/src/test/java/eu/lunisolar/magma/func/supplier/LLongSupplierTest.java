@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -86,8 +85,7 @@ public class LLongSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.getAsLong())
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.getAsLong(), testValue);
     }
 
     @Test
@@ -97,14 +95,12 @@ public class LLongSupplierTest {
 
         Object result = sut.tupleGetAsLong(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullGetAsLong() throws Throwable {
-        assertThat(sut.nonNullGetAsLong())
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullGetAsLong(), testValue);
     }
 
     @Test
@@ -113,12 +109,11 @@ public class LLongSupplierTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -128,33 +123,30 @@ public class LLongSupplierTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingGetAsLong();
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongSupplier: long getAsLong()");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LLongSupplier: long getAsLong()");
     }
 
     @Test
     public void testLongSupMethod() throws Throwable {
-        assertThat(LLongSupplier.longSup(() -> testValue ))
-            .isInstanceOf(LLongSupplier.class);
+        Assert.assertTrue(LLongSupplier.longSup(() -> testValue ) instanceof LLongSupplier);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LLongSupplier.wrap(jre))
-            .isInstanceOf(LLongSupplier.class);
+        Assert.assertTrue(LLongSupplier.wrap(jre) instanceof LLongSupplier);
     }
 
 
@@ -179,7 +171,7 @@ public class LLongSupplierTest {
         LLongFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // Integer
                 return 100;
         };
@@ -189,9 +181,9 @@ public class LLongSupplierTest {
         Integer finalValue = function.get();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -212,7 +204,7 @@ public class LLongSupplierTest {
         LLongToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // byte
                 return (byte)100;
         };
@@ -222,9 +214,9 @@ public class LLongSupplierTest {
         byte finalValue = function.getAsByte();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -245,7 +237,7 @@ public class LLongSupplierTest {
         LLongToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // short
                 return (short)100;
         };
@@ -255,9 +247,9 @@ public class LLongSupplierTest {
         short finalValue = function.getAsSrt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -278,7 +270,7 @@ public class LLongSupplierTest {
         LLongToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // int
                 return 100;
         };
@@ -288,9 +280,9 @@ public class LLongSupplierTest {
         int finalValue = function.getAsInt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -311,7 +303,7 @@ public class LLongSupplierTest {
         LLongUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // long
                 return 100L;
         };
@@ -321,9 +313,9 @@ public class LLongSupplierTest {
         long finalValue = function.getAsLong();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -344,7 +336,7 @@ public class LLongSupplierTest {
         LLongToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // float
                 return 100f;
         };
@@ -354,9 +346,9 @@ public class LLongSupplierTest {
         float finalValue = function.getAsFlt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -377,7 +369,7 @@ public class LLongSupplierTest {
         LLongToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // double
                 return 100d;
         };
@@ -387,9 +379,9 @@ public class LLongSupplierTest {
         double finalValue = function.getAsDbl();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -410,7 +402,7 @@ public class LLongSupplierTest {
         LLongToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // char
                 return '\u0100';
         };
@@ -420,9 +412,9 @@ public class LLongSupplierTest {
         char finalValue = function.getAsChar();
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -443,7 +435,7 @@ public class LLongSupplierTest {
         LLongPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // boolean
                 return true;
         };
@@ -453,9 +445,9 @@ public class LLongSupplierTest {
         boolean finalValue = function.getAsBool();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -480,20 +472,17 @@ public class LLongSupplierTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LLongSupplier: long getAsLong()");
+        Assert.assertTrue(String.format("%s", sut).contains("LLongSupplier: long getAsLong()"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

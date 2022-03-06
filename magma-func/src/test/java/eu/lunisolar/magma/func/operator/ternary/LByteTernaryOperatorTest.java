@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LByteTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsByte((byte)100,(byte)100,(byte)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsByte((byte)100,(byte)100,(byte)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LByteTernaryOperatorTest {
 
         Object result = sut.tupleApplyAsByte(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsByte() throws Throwable {
-        assertThat(sut.nonNullApplyAsByte((byte)100,(byte)100,(byte)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsByte((byte)100,(byte)100,(byte)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LByteTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsByte((byte)100,(byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LByteTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsByte((byte)100,(byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteTernaryOperator: byte applyAsByte(byte a1,byte a2,byte a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LByteTernaryOperator: byte applyAsByte(byte a1,byte a2,byte a3)");
     }
 
     @Test
     public void testByteTernaryOpMethod() throws Throwable {
-        assertThat(LByteTernaryOperator.byteTernaryOp((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LByteTernaryOperator.class);
+        Assert.assertTrue(LByteTernaryOperator.byteTernaryOp((a1,a2,a3) -> testValue ) instanceof LByteTernaryOperator);
+    
     }
 
 
@@ -164,24 +157,24 @@ public class LByteTernaryOperatorTest {
         //given (+ some assertions)
         LByteTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)90);
-                assertThat(a2).isEqualTo((byte)91);
-                assertThat(a3).isEqualTo((byte)92);
+                Assert.assertEquals(a1, (Object) (byte)90);
+                Assert.assertEquals(a2, (Object) (byte)91);
+                Assert.assertEquals(a3, (Object) (byte)92);
                 return (byte)100;
         };
 
         LByteUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((byte)80);
+            Assert.assertEquals(p0, (Object) (byte)80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
         LByteUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((byte)81);
+            Assert.assertEquals(p1, (Object) (byte)81);
             beforeCalls.incrementAndGet();
             return (byte)91;
         };
         LByteUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo((byte)82);
+            Assert.assertEquals(p2, (Object) (byte)82);
             beforeCalls.incrementAndGet();
             return (byte)92;
         };
@@ -191,8 +184,8 @@ public class LByteTernaryOperatorTest {
         function.applyAsByte((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -210,16 +203,16 @@ public class LByteTernaryOperatorTest {
         //given (+ some assertions)
         LByteTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
-                assertThat(a3).isEqualTo((byte)82);
+                Assert.assertEquals(a1, (Object) (byte)80);
+                Assert.assertEquals(a2, (Object) (byte)81);
+                Assert.assertEquals(a3, (Object) (byte)82);
                 return (byte)90;
         };
 
         LByteFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // Integer
                 return 100;
         };
@@ -229,9 +222,9 @@ public class LByteTernaryOperatorTest {
         Integer finalValue = function.apply((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -246,16 +239,16 @@ public class LByteTernaryOperatorTest {
         //given (+ some assertions)
         LByteTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
-                assertThat(a3).isEqualTo((byte)82);
+                Assert.assertEquals(a1, (Object) (byte)80);
+                Assert.assertEquals(a2, (Object) (byte)81);
+                Assert.assertEquals(a3, (Object) (byte)82);
                 return (byte)90;
         };
 
         LByteUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // byte
                 return (byte)100;
         };
@@ -265,9 +258,9 @@ public class LByteTernaryOperatorTest {
         byte finalValue = function.applyAsByte((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -282,16 +275,16 @@ public class LByteTernaryOperatorTest {
         //given (+ some assertions)
         LByteTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
-                assertThat(a3).isEqualTo((byte)82);
+                Assert.assertEquals(a1, (Object) (byte)80);
+                Assert.assertEquals(a2, (Object) (byte)81);
+                Assert.assertEquals(a3, (Object) (byte)82);
                 return (byte)90;
         };
 
         LBytePredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // boolean
                 return true;
         };
@@ -301,9 +294,9 @@ public class LByteTernaryOperatorTest {
         boolean finalValue = function.test((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -328,20 +321,17 @@ public class LByteTernaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LByteTernaryOperator: byte applyAsByte(byte a1,byte a2,byte a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LByteTernaryOperator: byte applyAsByte(byte a1,byte a2,byte a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

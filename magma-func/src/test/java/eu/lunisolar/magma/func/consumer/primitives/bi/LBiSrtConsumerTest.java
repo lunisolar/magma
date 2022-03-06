@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LBiSrtConsumerTest {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LBiSrtConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept((short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LBiSrtConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept((short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiSrtConsumer: void accept(short a1,short a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBiSrtConsumer: void accept(short a1,short a2)");
     }
 
     @Test
     public void testBiSrtConsMethod() throws Throwable {
-        assertThat(LBiSrtConsumer.biSrtCons(LBiSrtConsumer::doNothing))
-            .isInstanceOf(LBiSrtConsumer.class);
+        Assert.assertTrue(LBiSrtConsumer.biSrtCons(LBiSrtConsumer::doNothing) instanceof LBiSrtConsumer);
+    
     }
 
 
@@ -151,17 +146,17 @@ public class LBiSrtConsumerTest {
         //given (+ some assertions)
         LBiSrtConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo((short)91);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) (short)91);
         };
 
         LSrtUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((short)80);
+            Assert.assertEquals(p0, (Object) (short)80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LSrtUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((short)81);
+            Assert.assertEquals(p1, (Object) (short)81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
@@ -171,8 +166,8 @@ public class LBiSrtConsumerTest {
         function.accept((short)80,(short)81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -185,17 +180,17 @@ public class LBiSrtConsumerTest {
         //given (+ some assertions)
         LBiSrtConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo((short)91);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) (short)91);
         };
 
         LToSrtFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LToSrtFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
@@ -205,8 +200,8 @@ public class LBiSrtConsumerTest {
         function.accept(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -220,14 +215,14 @@ public class LBiSrtConsumerTest {
          //given (+ some assertions)
         LBiSrtConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
+                Assert.assertEquals((Object)a1, (Object) (short)80);
+                Assert.assertEquals((Object)a2, (Object) (short)81);
         };
 
         LBiSrtConsumer thenFunction = (a1,a2) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
+                Assert.assertEquals((Object)a1, (Object) (short)80);
+                Assert.assertEquals((Object)a2, (Object) (short)81);
         };
 
         //when
@@ -235,8 +230,8 @@ public class LBiSrtConsumerTest {
         function.accept((short)80,(short)81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -257,20 +252,17 @@ public class LBiSrtConsumerTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBiSrtConsumer: void accept(short a1,short a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBiSrtConsumer: void accept(short a1,short a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -282,7 +274,7 @@ public class LBiSrtConsumerTest {
     public void compilerSubstituteVariantLSrt1Srt0Cons() {
         LBiSrtConsumer lambda = LBiSrtConsumer./**/srt1Srt0Cons(this::variantLSrt1Srt0Cons);
 
-        assertThat(lambda).isInstanceOf(LBiSrtConsumer.LSrt1Srt0Cons.class);
+        Assert.assertTrue(lambda instanceof LBiSrtConsumer.LSrt1Srt0Cons);
     }
 
     //</editor-fold>

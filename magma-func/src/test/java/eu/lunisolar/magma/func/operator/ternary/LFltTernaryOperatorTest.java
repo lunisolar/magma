@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LFltTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsFlt(100f,100f,100f))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsFlt(100f,100f,100f), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LFltTernaryOperatorTest {
 
         Object result = sut.tupleApplyAsFlt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullApplyAsFlt(100f,100f,100f))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsFlt(100f,100f,100f), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LFltTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsFlt(100f,100f,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LFltTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsFlt(100f,100f,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltTernaryOperator: float applyAsFlt(float a1,float a2,float a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LFltTernaryOperator: float applyAsFlt(float a1,float a2,float a3)");
     }
 
     @Test
     public void testFltTernaryOpMethod() throws Throwable {
-        assertThat(LFltTernaryOperator.fltTernaryOp((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LFltTernaryOperator.class);
+        Assert.assertTrue(LFltTernaryOperator.fltTernaryOp((a1,a2,a3) -> testValue ) instanceof LFltTernaryOperator);
+    
     }
 
 
@@ -164,24 +157,24 @@ public class LFltTernaryOperatorTest {
         //given (+ some assertions)
         LFltTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
-                assertThat(a2).isEqualTo(91f);
-                assertThat(a3).isEqualTo(92f);
+                Assert.assertEquals(a1, (Object) 90f);
+                Assert.assertEquals(a2, (Object) 91f);
+                Assert.assertEquals(a3, (Object) 92f);
                 return 100f;
         };
 
         LFltUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80f);
+            Assert.assertEquals(p0, (Object) 80f);
             beforeCalls.incrementAndGet();
             return 90f;
         };
         LFltUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81f);
+            Assert.assertEquals(p1, (Object) 81f);
             beforeCalls.incrementAndGet();
             return 91f;
         };
         LFltUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82f);
+            Assert.assertEquals(p2, (Object) 82f);
             beforeCalls.incrementAndGet();
             return 92f;
         };
@@ -191,8 +184,8 @@ public class LFltTernaryOperatorTest {
         function.applyAsFlt(80f,81f,82f);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -210,16 +203,16 @@ public class LFltTernaryOperatorTest {
         //given (+ some assertions)
         LFltTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
-                assertThat(a3).isEqualTo(82f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
+                Assert.assertEquals(a3, (Object) 82f);
                 return 90f;
         };
 
         LFltFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // Integer
                 return 100;
         };
@@ -229,9 +222,9 @@ public class LFltTernaryOperatorTest {
         Integer finalValue = function.apply(80f,81f,82f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -246,16 +239,16 @@ public class LFltTernaryOperatorTest {
         //given (+ some assertions)
         LFltTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
-                assertThat(a3).isEqualTo(82f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
+                Assert.assertEquals(a3, (Object) 82f);
                 return 90f;
         };
 
         LFltUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // float
                 return 100f;
         };
@@ -265,9 +258,9 @@ public class LFltTernaryOperatorTest {
         float finalValue = function.applyAsFlt(80f,81f,82f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -282,16 +275,16 @@ public class LFltTernaryOperatorTest {
         //given (+ some assertions)
         LFltTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
-                assertThat(a3).isEqualTo(82f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
+                Assert.assertEquals(a3, (Object) 82f);
                 return 90f;
         };
 
         LFltPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // boolean
                 return true;
         };
@@ -301,9 +294,9 @@ public class LFltTernaryOperatorTest {
         boolean finalValue = function.test(80f,81f,82f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -328,20 +321,17 @@ public class LFltTernaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LFltTernaryOperator: float applyAsFlt(float a1,float a2,float a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LFltTernaryOperator: float applyAsFlt(float a1,float a2,float a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LObjBiLongConsumerTest<T> {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LObjBiLongConsumerTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept(100,100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LObjBiLongConsumerTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept(100,100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBiLongConsumer: void accept(T a1,long a2,long a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LObjBiLongConsumer: void accept(T a1,long a2,long a3)");
     }
 
     @Test
     public void testObjBiLongConsMethod() throws Throwable {
-        assertThat(LObjBiLongConsumer.objBiLongCons(LObjBiLongConsumer::doNothing))
-            .isInstanceOf(LObjBiLongConsumer.class);
+        Assert.assertTrue(LObjBiLongConsumer.objBiLongCons(LObjBiLongConsumer::doNothing) instanceof LObjBiLongConsumer);
+    
     }
 
 
@@ -151,23 +146,23 @@ public class LObjBiLongConsumerTest<T> {
         //given (+ some assertions)
         LObjBiLongConsumer<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91L);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91L);
+                Assert.assertEquals(a3, (Object) 92L);
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LLongUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81L);
+            Assert.assertEquals(p1, (Object) 81L);
             beforeCalls.incrementAndGet();
             return 91L;
         };
         LLongUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82L);
+            Assert.assertEquals(p2, (Object) 82L);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -177,8 +172,8 @@ public class LObjBiLongConsumerTest<T> {
         function.accept(80,81L,82L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -191,23 +186,23 @@ public class LObjBiLongConsumerTest<T> {
         //given (+ some assertions)
         LObjBiLongConsumer<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91L);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91L);
+                Assert.assertEquals(a3, (Object) 92L);
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToLongFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91L;
         };
         LToLongFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -217,8 +212,8 @@ public class LObjBiLongConsumerTest<T> {
         function.accept(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -232,16 +227,16 @@ public class LObjBiLongConsumerTest<T> {
          //given (+ some assertions)
         LObjBiLongConsumer<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81L);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81L);
+                Assert.assertEquals((Object)a3, (Object) 82L);
         };
 
         LObjBiLongConsumer<Integer> thenFunction = (a1,a2,a3) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81L);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81L);
+                Assert.assertEquals((Object)a3, (Object) 82L);
         };
 
         //when
@@ -249,8 +244,8 @@ public class LObjBiLongConsumerTest<T> {
         function.accept(80,81L,82L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -271,20 +266,17 @@ public class LObjBiLongConsumerTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LObjBiLongConsumer: void accept(T a1,long a2,long a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LObjBiLongConsumer: void accept(T a1,long a2,long a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -296,7 +288,7 @@ public class LObjBiLongConsumerTest<T> {
     public void compilerSubstituteVariantLObj0Long2Long1Cons() {
         LObjBiLongConsumer lambda = LObjBiLongConsumer./*<T>*/obj0Long2Long1Cons(this::variantLObj0Long2Long1Cons);
 
-        assertThat(lambda).isInstanceOf(LObjBiLongConsumer.LObj0Long2Long1Cons.class);
+        Assert.assertTrue(lambda instanceof LObjBiLongConsumer.LObj0Long2Long1Cons);
     }
 
 
@@ -307,7 +299,7 @@ public class LObjBiLongConsumerTest<T> {
     public void compilerSubstituteVariantLLong1Obj0Long2Cons() {
         LObjBiLongConsumer lambda = LObjBiLongConsumer./*<T>*/long1Obj0Long2Cons(this::variantLLong1Obj0Long2Cons);
 
-        assertThat(lambda).isInstanceOf(LObjBiLongConsumer.LLong1Obj0Long2Cons.class);
+        Assert.assertTrue(lambda instanceof LObjBiLongConsumer.LLong1Obj0Long2Cons);
     }
 
 
@@ -318,7 +310,7 @@ public class LObjBiLongConsumerTest<T> {
     public void compilerSubstituteVariantLLong1Long2Obj0Cons() {
         LObjBiLongConsumer lambda = LObjBiLongConsumer./*<T>*/long1Long2Obj0Cons(this::variantLLong1Long2Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LObjBiLongConsumer.LLong1Long2Obj0Cons.class);
+        Assert.assertTrue(lambda instanceof LObjBiLongConsumer.LLong1Long2Obj0Cons);
     }
 
 
@@ -329,7 +321,7 @@ public class LObjBiLongConsumerTest<T> {
     public void compilerSubstituteVariantLLong2Obj0Long1Cons() {
         LObjBiLongConsumer lambda = LObjBiLongConsumer./*<T>*/long2Obj0Long1Cons(this::variantLLong2Obj0Long1Cons);
 
-        assertThat(lambda).isInstanceOf(LObjBiLongConsumer.LLong2Obj0Long1Cons.class);
+        Assert.assertTrue(lambda instanceof LObjBiLongConsumer.LLong2Obj0Long1Cons);
     }
 
 
@@ -340,7 +332,7 @@ public class LObjBiLongConsumerTest<T> {
     public void compilerSubstituteVariantLBiLong1Obj0Cons() {
         LObjBiLongConsumer lambda = LObjBiLongConsumer./*<T>*/biLong1Obj0Cons(this::variantLBiLong1Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LObjBiLongConsumer.LBiLong1Obj0Cons.class);
+        Assert.assertTrue(lambda instanceof LObjBiLongConsumer.LBiLong1Obj0Cons);
     }
 
     //</editor-fold>

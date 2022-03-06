@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import org.testng.Assert;
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
@@ -45,8 +46,6 @@ import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-import org.assertj.core.api.Assertions;  //NOSONAR
-import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -56,46 +55,46 @@ import java.util.function.*; //NOSONAR
 
 import static eu.lunisolar.magma.func.build.function.to.LToCharBiFunctionBuilder.toCharBiFunction;
 import static eu.lunisolar.magma.func.build.function.to.LToCharBiFunctionBuilder.toCharBiFunctionFrom;
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 public class LToCharBiFunctionBuilderTest<T1,T2>{
 
     @Test
     public void testOtherwiseThrow()  {
 
-        assertThatThrownBy(() -> {
+        try {
             LToCharBiFunction<Integer,Integer> function = toCharBiFunctionFrom(b-> b
                 .build()
             );
 
             function.applyAsChar(100,100);
 
-            fail("No exception was thrown.");
-        })
-                    .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("There is no case configured for the arguments (if any).");
+            Assert.fail("No exception was thrown.");
+        } catch (Throwable e) {
+            Assert.assertSame(e.getClass(), IllegalStateException.class);
+            Assert.assertTrue(e.getMessage().contains("There is no case configured for the arguments (if any)."));
+        }
     }
 
     @Test
     public void testHandlingCanBeSetOnlyOnce()  {
 
-
-        assertThatThrownBy(() -> {
+        try {
             LToCharBiFunction<Integer,Integer> function = toCharBiFunctionFrom(b-> b
                 .withHandling(h -> h.wrapIf(RuntimeException.class::isInstance, RuntimeException::new))
                 .build(h -> h.wrapIf(RuntimeException.class::isInstance, RuntimeException::new))
             );
 
-            fail("No exception was thrown.");
-        })
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessageContaining("Handling is already set for this builder.");
+            Assert.fail("No exception was thrown.");
+        } catch (Throwable e) {
+            Assert.assertSame(e.getClass(), UnsupportedOperationException.class);
+            Assert.assertTrue(e.getMessage().contains("Handling is already set for this builder."));
+        }
     }
 
     @Test
     public void testHandling()  {
 
-        assertThatThrownBy(() -> {
+        try {
             LToCharBiFunction<Integer,Integer> function = toCharBiFunctionFrom(b -> b
                 .otherwise((a1,a2) -> {
                         throw new RuntimeException("ORIGINAL");
@@ -105,11 +104,13 @@ public class LToCharBiFunctionBuilderTest<T1,T2>{
 
             function.applyAsChar(100,100);
 
-            fail("No exception was thrown.");
-        })
-                    .isExactlyInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("NEW EXCEPTION")
-                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+            Assert.fail("No exception was thrown.");
+        } catch (Throwable e) {
+            Assert.assertSame(e.getClass(), IllegalStateException.class);
+            Assert.assertTrue(e.getMessage().contains("NEW EXCEPTION"));
+            Assert.assertSame(e.getCause().getClass(), RuntimeException.class);
+        }
+
     }
 
 

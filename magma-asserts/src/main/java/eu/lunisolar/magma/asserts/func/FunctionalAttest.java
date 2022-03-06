@@ -39,7 +39,6 @@ import java.util.*;
 import java.util.function.*;
 
 import static java.util.stream.Collectors.*;
-import static org.assertj.core.api.Fail.fail;
 
 public final class FunctionalAttest {
 
@@ -179,7 +178,7 @@ public final class FunctionalAttest {
 						assertPreConsumer.forEach(c -> c.accept(resultAssert));
 					}
 				} catch (AssertionError e) {
-					throw new AssertionError(String.format("Recurring assertion failed.%s", e.getMessage()), e);
+					throw new AssertionError(String.format("Recurring assertion failed. %s", e.getMessage()), e);
 				}
 
 				assertConsumer.accept(resultAssert);
@@ -187,8 +186,7 @@ public final class FunctionalAttest {
 			} catch (AssertionError e) {
 				throw e;
 			} catch (Throwable e) { // NOSONAR
-				fail(String.format("Case %s should evaluate without problem.", caseDescription.get()), e);
-				throw Handling.shouldNeverBeenHere();
+				throw Handling.wrap(e, AssertionError::new, "Case %s should evaluate without problem.", caseDescription.get());
 			}
 		}
 
@@ -202,7 +200,7 @@ public final class FunctionalAttest {
 				return;
 			}
 
-			fail("Case %s should evaluate with exception.", caseDescription.get());
+			throw Handling.create(AssertionError::new, "Case %s should evaluate with exception.", caseDescription.get());
 		}
 
 	}

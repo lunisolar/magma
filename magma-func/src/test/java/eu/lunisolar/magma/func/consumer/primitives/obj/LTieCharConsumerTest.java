@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LTieCharConsumerTest<T> {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LTieCharConsumerTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept(100,100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LTieCharConsumerTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept(100,100,'\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieCharConsumer: void accept(T a1,int a2,char a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LTieCharConsumer: void accept(T a1,int a2,char a3)");
     }
 
     @Test
     public void testTieCharConsMethod() throws Throwable {
-        assertThat(LTieCharConsumer.tieCharCons(LTieCharConsumer::doNothing))
-            .isInstanceOf(LTieCharConsumer.class);
+        Assert.assertTrue(LTieCharConsumer.tieCharCons(LTieCharConsumer::doNothing) instanceof LTieCharConsumer);
+    
     }
 
 
@@ -151,23 +146,23 @@ public class LTieCharConsumerTest<T> {
         //given (+ some assertions)
         LTieCharConsumer<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo('\u0092');
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) '\u0092');
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LCharUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo('\u0082');
+            Assert.assertEquals(p2, (Object) '\u0082');
             beforeCalls.incrementAndGet();
             return '\u0092';
         };
@@ -177,8 +172,8 @@ public class LTieCharConsumerTest<T> {
         function.accept(80,81,'\u0082');
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -191,23 +186,23 @@ public class LTieCharConsumerTest<T> {
         //given (+ some assertions)
         LTieCharConsumer<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo('\u0092');
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) '\u0092');
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LToCharFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return '\u0092';
         };
@@ -217,8 +212,8 @@ public class LTieCharConsumerTest<T> {
         function.accept(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -232,16 +227,16 @@ public class LTieCharConsumerTest<T> {
          //given (+ some assertions)
         LTieCharConsumer<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo('\u0082');
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81);
+                Assert.assertEquals((Object)a3, (Object) '\u0082');
         };
 
         LTieCharConsumer<Integer> thenFunction = (a1,a2,a3) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo('\u0082');
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81);
+                Assert.assertEquals((Object)a3, (Object) '\u0082');
         };
 
         //when
@@ -249,8 +244,8 @@ public class LTieCharConsumerTest<T> {
         function.accept(80,81,'\u0082');
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -271,20 +266,17 @@ public class LTieCharConsumerTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LTieCharConsumer: void accept(T a1,int a2,char a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LTieCharConsumer: void accept(T a1,int a2,char a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -296,7 +288,7 @@ public class LTieCharConsumerTest<T> {
     public void compilerSubstituteVariantLObjCharIntCons() {
         LTieCharConsumer lambda = LTieCharConsumer./*<T>*/objCharIntCons(this::variantLObjCharIntCons);
 
-        assertThat(lambda).isInstanceOf(LTieCharConsumer.LObjCharIntCons.class);
+        Assert.assertTrue(lambda instanceof LTieCharConsumer.LObjCharIntCons);
     }
 
 
@@ -307,7 +299,7 @@ public class LTieCharConsumerTest<T> {
     public void compilerSubstituteVariantLIntObjCharCons() {
         LTieCharConsumer lambda = LTieCharConsumer./*<T>*/intObjCharCons(this::variantLIntObjCharCons);
 
-        assertThat(lambda).isInstanceOf(LTieCharConsumer.LIntObjCharCons.class);
+        Assert.assertTrue(lambda instanceof LTieCharConsumer.LIntObjCharCons);
     }
 
 
@@ -318,7 +310,7 @@ public class LTieCharConsumerTest<T> {
     public void compilerSubstituteVariantLIntCharObjCons() {
         LTieCharConsumer lambda = LTieCharConsumer./*<T>*/intCharObjCons(this::variantLIntCharObjCons);
 
-        assertThat(lambda).isInstanceOf(LTieCharConsumer.LIntCharObjCons.class);
+        Assert.assertTrue(lambda instanceof LTieCharConsumer.LIntCharObjCons);
     }
 
 
@@ -329,7 +321,7 @@ public class LTieCharConsumerTest<T> {
     public void compilerSubstituteVariantLCharObjIntCons() {
         LTieCharConsumer lambda = LTieCharConsumer./*<T>*/charObjIntCons(this::variantLCharObjIntCons);
 
-        assertThat(lambda).isInstanceOf(LTieCharConsumer.LCharObjIntCons.class);
+        Assert.assertTrue(lambda instanceof LTieCharConsumer.LCharObjIntCons);
     }
 
 
@@ -340,7 +332,7 @@ public class LTieCharConsumerTest<T> {
     public void compilerSubstituteVariantLCharIntObjCons() {
         LTieCharConsumer lambda = LTieCharConsumer./*<T>*/charIntObjCons(this::variantLCharIntObjCons);
 
-        assertThat(lambda).isInstanceOf(LTieCharConsumer.LCharIntObjCons.class);
+        Assert.assertTrue(lambda instanceof LTieCharConsumer.LCharIntObjCons);
     }
 
     //</editor-fold>

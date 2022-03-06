@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LBiObjLongPredicateTest<T1,T2> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100,100,100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100,100,100L), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LBiObjLongPredicateTest<T1,T2> {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100,100,100L))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100,100,100L), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LBiObjLongPredicateTest<T1,T2> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100,100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LBiObjLongPredicateTest<T1,T2> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100,100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100,100,100L))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100,100,100L), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjLongPredicate: boolean test(T1 a1,T2 a2,long a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBiObjLongPredicate: boolean test(T1 a1,T2 a2,long a3)");
     }
 
     @Test
     public void testBiObjLongPredMethod() throws Throwable {
-        assertThat(LBiObjLongPredicate.biObjLongPred((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LBiObjLongPredicate.class);
+        Assert.assertTrue(LBiObjLongPredicate.biObjLongPred((a1,a2,a3) -> testValue ) instanceof LBiObjLongPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LBiObjLongPredicateTest<T1,T2> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100,100,100L))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100,100,100L), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LBiObjLongPredicateTest<T1,T2> {
         LBiObjLongPredicate<Integer,Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100,100,100L))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100,100,100L), andResult);
 
-        assertThat(orFunction.test(100,100,100L))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100,100,100L), orResult);
 
-        assertThat(xorFunction.test(100,100,100L))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100,100,100L), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LBiObjLongPredicateTest<T1,T2> {
         LBiObjLongPredicate<Integer,Integer> equals = LBiObjLongPredicate.isEqual(1,1,1L);
 
         //then
-        assertThat(equals.test(1,1,1L))
-                .isTrue();
+        Assert.assertTrue(equals.test(1,1,1L));
 
-        assertThat(equals.test(0,0,0L))
-                .isFalse();
+        Assert.assertFalse(equals.test(0,0,0L));
     }
 
 
@@ -224,24 +209,24 @@ public class LBiObjLongPredicateTest<T1,T2> {
         //given (+ some assertions)
         LBiObjLongPredicate<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92L);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LFunction<Integer,Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LLongUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82L);
+            Assert.assertEquals(p2, (Object) 82L);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -251,8 +236,8 @@ public class LBiObjLongPredicateTest<T1,T2> {
         function.test(80,81,82L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -265,24 +250,24 @@ public class LBiObjLongPredicateTest<T1,T2> {
         //given (+ some assertions)
         LBiObjLongPredicate<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92L);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LFunction<Integer,Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LToLongFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -292,8 +277,8 @@ public class LBiObjLongPredicateTest<T1,T2> {
         function.test(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -311,16 +296,16 @@ public class LBiObjLongPredicateTest<T1,T2> {
         //given (+ some assertions)
         LBiObjLongPredicate<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -330,9 +315,9 @@ public class LBiObjLongPredicateTest<T1,T2> {
         Integer finalValue = function.apply(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -347,16 +332,16 @@ public class LBiObjLongPredicateTest<T1,T2> {
         //given (+ some assertions)
         LBiObjLongPredicate<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -366,9 +351,9 @@ public class LBiObjLongPredicateTest<T1,T2> {
         boolean finalValue = function.test(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -393,20 +378,17 @@ public class LBiObjLongPredicateTest<T1,T2> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBiObjLongPredicate: boolean test(T1 a1,T2 a2,long a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBiObjLongPredicate: boolean test(T1 a1,T2 a2,long a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -419,7 +401,7 @@ public class LBiObjLongPredicateTest<T1,T2> {
     public void compilerSubstituteVariantLObj0Long2Obj1Pred() {
         LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/obj0Long2Obj1Pred(this::variantLObj0Long2Obj1Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.LObj0Long2Obj1Pred.class);
+        Assert.assertTrue(lambda instanceof LBiObjLongPredicate.LObj0Long2Obj1Pred);
     }
 
 
@@ -431,7 +413,7 @@ public class LBiObjLongPredicateTest<T1,T2> {
     public void compilerSubstituteVariantLObj1Obj0Long2Pred() {
         LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/obj1Obj0Long2Pred(this::variantLObj1Obj0Long2Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.LObj1Obj0Long2Pred.class);
+        Assert.assertTrue(lambda instanceof LBiObjLongPredicate.LObj1Obj0Long2Pred);
     }
 
 
@@ -443,7 +425,7 @@ public class LBiObjLongPredicateTest<T1,T2> {
     public void compilerSubstituteVariantLObj1Long2Obj0Pred() {
         LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/obj1Long2Obj0Pred(this::variantLObj1Long2Obj0Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.LObj1Long2Obj0Pred.class);
+        Assert.assertTrue(lambda instanceof LBiObjLongPredicate.LObj1Long2Obj0Pred);
     }
 
 
@@ -455,7 +437,7 @@ public class LBiObjLongPredicateTest<T1,T2> {
     public void compilerSubstituteVariantLLong2Obj0Obj1Pred() {
         LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/long2Obj0Obj1Pred(this::variantLLong2Obj0Obj1Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.LLong2Obj0Obj1Pred.class);
+        Assert.assertTrue(lambda instanceof LBiObjLongPredicate.LLong2Obj0Obj1Pred);
     }
 
 
@@ -467,7 +449,7 @@ public class LBiObjLongPredicateTest<T1,T2> {
     public void compilerSubstituteVariantLLong2Obj1Obj0Pred() {
         LBiObjLongPredicate lambda = LBiObjLongPredicate./*<T1,T2>*/long2Obj1Obj0Pred(this::variantLLong2Obj1Obj0Pred);
 
-        assertThat(lambda).isInstanceOf(LBiObjLongPredicate.LLong2Obj1Obj0Pred.class);
+        Assert.assertTrue(lambda instanceof LBiObjLongPredicate.LLong2Obj1Obj0Pred);
     }
 
     //</editor-fold>

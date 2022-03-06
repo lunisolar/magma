@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -86,8 +85,7 @@ public class LLongBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsLong(100L,100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsLong(100L,100L), testValue);
     }
 
     @Test
@@ -97,14 +95,12 @@ public class LLongBinaryOperatorTest {
 
         Object result = sut.tupleApplyAsLong(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullApplyAsLong(100L,100L))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsLong(100L,100L), testValue);
     }
 
     @Test
@@ -113,12 +109,11 @@ public class LLongBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsLong(100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -128,33 +123,30 @@ public class LLongBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsLong(100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongBinaryOperator: long applyAsLong(long a1,long a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LLongBinaryOperator: long applyAsLong(long a1,long a2)");
     }
 
     @Test
     public void testLongBinaryOpMethod() throws Throwable {
-        assertThat(LLongBinaryOperator.longBinaryOp((a1,a2) -> testValue ))
-            .isInstanceOf(LLongBinaryOperator.class);
+        Assert.assertTrue(LLongBinaryOperator.longBinaryOp((a1,a2) -> testValue ) instanceof LLongBinaryOperator);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LLongBinaryOperator.wrap(jre))
-            .isInstanceOf(LLongBinaryOperator.class);
+        Assert.assertTrue(LLongBinaryOperator.wrap(jre) instanceof LLongBinaryOperator);
     }
 
 
@@ -166,10 +158,8 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator min =  LLongBinaryOperator.minBy(Long::compare);
 
         //then
-        assertThat(min.applyAsLong(0L, 56L))
-                .isEqualTo(0L);
-        assertThat(min.applyAsLong(56L, 0L))
-                       .isEqualTo(0L);
+        Assert.assertEquals(min.applyAsLong(0L, 56L), (Object) 0L);
+        Assert.assertEquals(min.applyAsLong(56L, 0L), (Object) 0L);
 
     }
 
@@ -179,10 +169,8 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator max =  LLongBinaryOperator.maxBy(Long::compare);
 
         //then
-        assertThat(max.applyAsLong(0L, 56L))
-                .isEqualTo(56L);
-        assertThat(max.applyAsLong(56L, 0L))
-                        .isEqualTo(56L);
+        Assert.assertEquals(max.applyAsLong(0L, 56L), (Object) 56L);
+        Assert.assertEquals(max.applyAsLong(56L, 0L), (Object) 56L);
     }
 
 
@@ -196,11 +184,9 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator min = LLongBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsLong(valueSmall, valueBig))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsLong(valueSmall, valueBig), valueSmall);
 
-        assertThat(min.applyAsLong(valueBig, valueSmall))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsLong(valueBig, valueSmall), valueSmall);
     }
 
     @Test
@@ -213,11 +199,9 @@ public class LLongBinaryOperatorTest {
         LLongBinaryOperator max = LLongBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsLong(valueSmall, valueBig))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsLong(valueSmall, valueBig), valueBig);
 
-        assertThat(max.applyAsLong(valueBig, valueSmall))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsLong(valueBig, valueSmall), valueBig);
     }
 
 
@@ -232,18 +216,18 @@ public class LLongBinaryOperatorTest {
         //given (+ some assertions)
         LLongBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90L);
-                assertThat(a2).isEqualTo(91L);
+                Assert.assertEquals(a1, (Object) 90L);
+                Assert.assertEquals(a2, (Object) 91L);
                 return 100L;
         };
 
         LLongUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80L);
+            Assert.assertEquals(p0, (Object) 80L);
             beforeCalls.incrementAndGet();
             return 90L;
         };
         LLongUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81L);
+            Assert.assertEquals(p1, (Object) 81L);
             beforeCalls.incrementAndGet();
             return 91L;
         };
@@ -253,8 +237,8 @@ public class LLongBinaryOperatorTest {
         function.applyAsLong(80L,81L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -267,18 +251,18 @@ public class LLongBinaryOperatorTest {
         //given (+ some assertions)
         LLongBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90L);
-                assertThat(a2).isEqualTo(91L);
+                Assert.assertEquals(a1, (Object) 90L);
+                Assert.assertEquals(a2, (Object) 91L);
                 return 100L;
         };
 
         LToLongFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90L;
         };
         LToLongFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91L;
         };
@@ -288,8 +272,8 @@ public class LLongBinaryOperatorTest {
         function.applyAsLong(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -307,15 +291,15 @@ public class LLongBinaryOperatorTest {
         //given (+ some assertions)
         LLongBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
                 return 90L;
         };
 
         LLongFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // Integer
                 return 100;
         };
@@ -325,9 +309,9 @@ public class LLongBinaryOperatorTest {
         Integer finalValue = function.apply(80L,81L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -342,15 +326,15 @@ public class LLongBinaryOperatorTest {
         //given (+ some assertions)
         LLongBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
                 return 90L;
         };
 
         LLongUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // long
                 return 100L;
         };
@@ -360,9 +344,9 @@ public class LLongBinaryOperatorTest {
         long finalValue = function.applyAsLong(80L,81L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -377,15 +361,15 @@ public class LLongBinaryOperatorTest {
         //given (+ some assertions)
         LLongBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
                 return 90L;
         };
 
         LLongPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // boolean
                 return true;
         };
@@ -395,9 +379,9 @@ public class LLongBinaryOperatorTest {
         boolean finalValue = function.test(80L,81L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -422,20 +406,17 @@ public class LLongBinaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LLongBinaryOperator: long applyAsLong(long a1,long a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LLongBinaryOperator: long applyAsLong(long a1,long a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

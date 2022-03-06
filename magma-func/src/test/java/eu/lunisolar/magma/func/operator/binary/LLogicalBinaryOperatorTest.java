@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LLogicalBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.apply(true,true))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.apply(true,true), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LLogicalBinaryOperatorTest {
 
         Object result = sut.tupleApply(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApply() throws Throwable {
-        assertThat(sut.nonNullApply(true,true))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApply(true,true), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LLogicalBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApply(true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LLogicalBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApply(true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLogicalBinaryOperator: boolean apply(boolean a1,boolean a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LLogicalBinaryOperator: boolean apply(boolean a1,boolean a2)");
     }
 
     @Test
     public void testLogicalBinaryOpMethod() throws Throwable {
-        assertThat(LLogicalBinaryOperator.logicalBinaryOp((a1,a2) -> testValue ))
-            .isInstanceOf(LLogicalBinaryOperator.class);
+        Assert.assertTrue(LLogicalBinaryOperator.logicalBinaryOp((a1,a2) -> testValue ) instanceof LLogicalBinaryOperator);
+    
     }
 
 
@@ -153,8 +146,7 @@ public class LLogicalBinaryOperatorTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().apply(true,true))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().apply(true,true), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -181,14 +173,11 @@ public class LLogicalBinaryOperatorTest {
         LLogicalBinaryOperator xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.apply(true,true))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.apply(true,true), andResult);
 
-        assertThat(orFunction.apply(true,true))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.apply(true,true), orResult);
 
-        assertThat(xorFunction.apply(true,true))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.apply(true,true), xorResult);
     }
 
     @Test
@@ -197,11 +186,9 @@ public class LLogicalBinaryOperatorTest {
         LLogicalBinaryOperator equals = LLogicalBinaryOperator.isEqual(true,true);
 
         //then
-        assertThat(equals.apply(true,true))
-                .isTrue();
+        Assert.assertTrue(equals.apply(true,true));
 
-        assertThat(equals.apply(false,false))
-                .isFalse();
+        Assert.assertFalse(equals.apply(false,false));
     }
 
 
@@ -213,14 +200,11 @@ public class LLogicalBinaryOperatorTest {
         LLogicalBinaryOperator xorFunction = LLogicalBinaryOperator.xor();
 
         //then
-        assertThat(andFunction.apply(value1, value2))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.apply(value1, value2), andResult);
 
-        assertThat(orFunction.apply(value1, value2))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.apply(value1, value2), orResult);
 
-        assertThat(xorFunction.apply(value1, value2))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.apply(value1, value2), xorResult);
     }
 
 
@@ -235,18 +219,18 @@ public class LLogicalBinaryOperatorTest {
         //given (+ some assertions)
         LLogicalBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
                 return true;
         };
 
         LLogicalOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(true);
+            Assert.assertEquals(p0, (Object) true);
             beforeCalls.incrementAndGet();
             return true;
         };
         LLogicalOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(true);
+            Assert.assertEquals(p1, (Object) true);
             beforeCalls.incrementAndGet();
             return true;
         };
@@ -256,8 +240,8 @@ public class LLogicalBinaryOperatorTest {
         function.apply(true,true);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -270,18 +254,18 @@ public class LLogicalBinaryOperatorTest {
         //given (+ some assertions)
         LLogicalBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
                 return true;
         };
 
         LPredicate<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return true;
         };
         LPredicate<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return true;
         };
@@ -291,8 +275,8 @@ public class LLogicalBinaryOperatorTest {
         function.test(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -310,15 +294,15 @@ public class LLogicalBinaryOperatorTest {
         //given (+ some assertions)
         LLogicalBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -328,9 +312,9 @@ public class LLogicalBinaryOperatorTest {
         Integer finalValue = function.apply(true,true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -345,15 +329,15 @@ public class LLogicalBinaryOperatorTest {
         //given (+ some assertions)
         LLogicalBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -363,9 +347,9 @@ public class LLogicalBinaryOperatorTest {
         boolean finalValue = function.apply(true,true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -390,20 +374,17 @@ public class LLogicalBinaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LLogicalBinaryOperator: boolean apply(boolean a1,boolean a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LLogicalBinaryOperator: boolean apply(boolean a1,boolean a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

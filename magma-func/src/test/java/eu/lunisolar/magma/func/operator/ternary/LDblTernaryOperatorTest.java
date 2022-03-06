@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LDblTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsDbl(100d,100d,100d))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsDbl(100d,100d,100d), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LDblTernaryOperatorTest {
 
         Object result = sut.tupleApplyAsDbl(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsDbl() throws Throwable {
-        assertThat(sut.nonNullApplyAsDbl(100d,100d,100d))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsDbl(100d,100d,100d), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LDblTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsDbl(100d,100d,100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LDblTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsDbl(100d,100d,100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblTernaryOperator: double applyAsDbl(double a1,double a2,double a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LDblTernaryOperator: double applyAsDbl(double a1,double a2,double a3)");
     }
 
     @Test
     public void testDblTernaryOpMethod() throws Throwable {
-        assertThat(LDblTernaryOperator.dblTernaryOp((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LDblTernaryOperator.class);
+        Assert.assertTrue(LDblTernaryOperator.dblTernaryOp((a1,a2,a3) -> testValue ) instanceof LDblTernaryOperator);
+    
     }
 
 
@@ -164,24 +157,24 @@ public class LDblTernaryOperatorTest {
         //given (+ some assertions)
         LDblTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
-                assertThat(a2).isEqualTo(91d);
-                assertThat(a3).isEqualTo(92d);
+                Assert.assertEquals(a1, (Object) 90d);
+                Assert.assertEquals(a2, (Object) 91d);
+                Assert.assertEquals(a3, (Object) 92d);
                 return 100d;
         };
 
         LDblUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80d);
+            Assert.assertEquals(p0, (Object) 80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
         LDblUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81d);
+            Assert.assertEquals(p1, (Object) 81d);
             beforeCalls.incrementAndGet();
             return 91d;
         };
         LDblUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82d);
+            Assert.assertEquals(p2, (Object) 82d);
             beforeCalls.incrementAndGet();
             return 92d;
         };
@@ -191,8 +184,8 @@ public class LDblTernaryOperatorTest {
         function.applyAsDbl(80d,81d,82d);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -210,16 +203,16 @@ public class LDblTernaryOperatorTest {
         //given (+ some assertions)
         LDblTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
-                assertThat(a3).isEqualTo(82d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
+                Assert.assertEquals(a3, (Object) 82d);
                 return 90d;
         };
 
         LDblFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // Integer
                 return 100;
         };
@@ -229,9 +222,9 @@ public class LDblTernaryOperatorTest {
         Integer finalValue = function.apply(80d,81d,82d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -246,16 +239,16 @@ public class LDblTernaryOperatorTest {
         //given (+ some assertions)
         LDblTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
-                assertThat(a3).isEqualTo(82d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
+                Assert.assertEquals(a3, (Object) 82d);
                 return 90d;
         };
 
         LDblUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // double
                 return 100d;
         };
@@ -265,9 +258,9 @@ public class LDblTernaryOperatorTest {
         double finalValue = function.applyAsDbl(80d,81d,82d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -282,16 +275,16 @@ public class LDblTernaryOperatorTest {
         //given (+ some assertions)
         LDblTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
-                assertThat(a3).isEqualTo(82d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
+                Assert.assertEquals(a3, (Object) 82d);
                 return 90d;
         };
 
         LDblPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // boolean
                 return true;
         };
@@ -301,9 +294,9 @@ public class LDblTernaryOperatorTest {
         boolean finalValue = function.test(80d,81d,82d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -328,20 +321,17 @@ public class LDblTernaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LDblTernaryOperator: double applyAsDbl(double a1,double a2,double a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LDblTernaryOperator: double applyAsDbl(double a1,double a2,double a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

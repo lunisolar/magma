@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LLongToByteFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsByte(100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsByte(100L), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LLongToByteFunctionTest {
 
         Object result = sut.tupleApplyAsByte(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsByte() throws Throwable {
-        assertThat(sut.nonNullApplyAsByte(100L))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsByte(100L), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LLongToByteFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsByte(100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LLongToByteFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsByte(100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongToByteFunction: byte applyAsByte(long a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LLongToByteFunction: byte applyAsByte(long a)");
     }
 
     @Test
     public void testLongToByteFuncMethod() throws Throwable {
-        assertThat(LLongToByteFunction.longToByteFunc(a -> testValue ))
-            .isInstanceOf(LLongToByteFunction.class);
+        Assert.assertTrue(LLongToByteFunction.longToByteFunc(a -> testValue ) instanceof LLongToByteFunction);
+    
     }
 
 
@@ -164,12 +157,12 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90L);
+                Assert.assertEquals(a, (Object) 90L);
                 return (byte)100;
         };
 
         LLongUnaryOperator before = p0 -> {
-            assertThat(p0).isEqualTo(80L);
+            Assert.assertEquals(p0, (Object) 80L);
             beforeCalls.incrementAndGet();
             return 90L;
         };
@@ -179,8 +172,8 @@ public class LLongToByteFunctionTest {
         function.applyAsByte(80L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -193,12 +186,12 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90L);
+                Assert.assertEquals(a, (Object) 90L);
                 return (byte)100;
         };
 
         LToLongFunction<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90L;
         };
@@ -208,8 +201,8 @@ public class LLongToByteFunctionTest {
         function.applyAsByte(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -227,14 +220,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // Integer
                 return 100;
         };
@@ -244,9 +237,9 @@ public class LLongToByteFunctionTest {
         Integer finalValue = function.apply(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -261,14 +254,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // byte
                 return (byte)100;
         };
@@ -278,9 +271,9 @@ public class LLongToByteFunctionTest {
         byte finalValue = function.applyAsByte(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -295,14 +288,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // short
                 return (short)100;
         };
@@ -312,9 +305,9 @@ public class LLongToByteFunctionTest {
         short finalValue = function.applyAsSrt(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -329,14 +322,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // int
                 return 100;
         };
@@ -346,9 +339,9 @@ public class LLongToByteFunctionTest {
         int finalValue = function.applyAsInt(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -363,14 +356,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // long
                 return 100L;
         };
@@ -380,9 +373,9 @@ public class LLongToByteFunctionTest {
         long finalValue = function.applyAsLong(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,14 +390,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // float
                 return 100f;
         };
@@ -414,9 +407,9 @@ public class LLongToByteFunctionTest {
         float finalValue = function.applyAsFlt(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -431,14 +424,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // double
                 return 100d;
         };
@@ -448,9 +441,9 @@ public class LLongToByteFunctionTest {
         double finalValue = function.applyAsDbl(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -465,14 +458,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LByteToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // char
                 return '\u0100';
         };
@@ -482,9 +475,9 @@ public class LLongToByteFunctionTest {
         char finalValue = function.applyAsChar(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -499,14 +492,14 @@ public class LLongToByteFunctionTest {
         //given (+ some assertions)
         LLongToByteFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return (byte)90;
         };
 
         LBytePredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // byte
-                assertThat(p).isEqualTo((byte)90);
+                Assert.assertEquals(p, (Object) (byte)90);
                 // boolean
                 return true;
         };
@@ -516,9 +509,9 @@ public class LLongToByteFunctionTest {
         boolean finalValue = function.test(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -543,20 +536,17 @@ public class LLongToByteFunctionTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LLongToByteFunction: byte applyAsByte(long a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LLongToByteFunction: byte applyAsByte(long a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

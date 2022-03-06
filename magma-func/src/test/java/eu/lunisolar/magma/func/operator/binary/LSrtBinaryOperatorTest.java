@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LSrtBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsSrt((short)100,(short)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsSrt((short)100,(short)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LSrtBinaryOperatorTest {
 
         Object result = sut.tupleApplyAsSrt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsSrt() throws Throwable {
-        assertThat(sut.nonNullApplyAsSrt((short)100,(short)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsSrt((short)100,(short)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LSrtBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsSrt((short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LSrtBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsSrt((short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtBinaryOperator: short applyAsSrt(short a1,short a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LSrtBinaryOperator: short applyAsSrt(short a1,short a2)");
     }
 
     @Test
     public void testSrtBinaryOpMethod() throws Throwable {
-        assertThat(LSrtBinaryOperator.srtBinaryOp((a1,a2) -> testValue ))
-            .isInstanceOf(LSrtBinaryOperator.class);
+        Assert.assertTrue(LSrtBinaryOperator.srtBinaryOp((a1,a2) -> testValue ) instanceof LSrtBinaryOperator);
+    
     }
 
 
@@ -158,10 +151,8 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator min =  LSrtBinaryOperator.minBy(Short::compare);
 
         //then
-        assertThat(min.applyAsSrt((short)0, (short)56))
-                .isEqualTo((short)0);
-        assertThat(min.applyAsSrt((short)56, (short)0))
-                       .isEqualTo((short)0);
+        Assert.assertEquals(min.applyAsSrt((short)0, (short)56), (Object) (short)0);
+        Assert.assertEquals(min.applyAsSrt((short)56, (short)0), (Object) (short)0);
 
     }
 
@@ -171,10 +162,8 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator max =  LSrtBinaryOperator.maxBy(Short::compare);
 
         //then
-        assertThat(max.applyAsSrt((short)0, (short)56))
-                .isEqualTo((short)56);
-        assertThat(max.applyAsSrt((short)56, (short)0))
-                        .isEqualTo((short)56);
+        Assert.assertEquals(max.applyAsSrt((short)0, (short)56), (Object) (short)56);
+        Assert.assertEquals(max.applyAsSrt((short)56, (short)0), (Object) (short)56);
     }
 
 
@@ -188,11 +177,9 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator min = LSrtBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsSrt(valueSmall, valueBig))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsSrt(valueSmall, valueBig), valueSmall);
 
-        assertThat(min.applyAsSrt(valueBig, valueSmall))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsSrt(valueBig, valueSmall), valueSmall);
     }
 
     @Test
@@ -205,11 +192,9 @@ public class LSrtBinaryOperatorTest {
         LSrtBinaryOperator max = LSrtBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsSrt(valueSmall, valueBig))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsSrt(valueSmall, valueBig), valueBig);
 
-        assertThat(max.applyAsSrt(valueBig, valueSmall))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsSrt(valueBig, valueSmall), valueBig);
     }
 
 
@@ -224,18 +209,18 @@ public class LSrtBinaryOperatorTest {
         //given (+ some assertions)
         LSrtBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo((short)91);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) (short)91);
                 return (short)100;
         };
 
         LSrtUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((short)80);
+            Assert.assertEquals(p0, (Object) (short)80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LSrtUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((short)81);
+            Assert.assertEquals(p1, (Object) (short)81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
@@ -245,8 +230,8 @@ public class LSrtBinaryOperatorTest {
         function.applyAsSrt((short)80,(short)81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LSrtBinaryOperatorTest {
         //given (+ some assertions)
         LSrtBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo((short)91);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) (short)91);
                 return (short)100;
         };
 
         LToSrtFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LToSrtFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
@@ -280,8 +265,8 @@ public class LSrtBinaryOperatorTest {
         function.applyAsSrt(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LSrtBinaryOperatorTest {
         //given (+ some assertions)
         LSrtBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
                 return (short)90;
         };
 
         LSrtFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // Integer
                 return 100;
         };
@@ -317,9 +302,9 @@ public class LSrtBinaryOperatorTest {
         Integer finalValue = function.apply((short)80,(short)81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -334,15 +319,15 @@ public class LSrtBinaryOperatorTest {
         //given (+ some assertions)
         LSrtBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
                 return (short)90;
         };
 
         LSrtUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // short
                 return (short)100;
         };
@@ -352,9 +337,9 @@ public class LSrtBinaryOperatorTest {
         short finalValue = function.applyAsSrt((short)80,(short)81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -369,15 +354,15 @@ public class LSrtBinaryOperatorTest {
         //given (+ some assertions)
         LSrtBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
                 return (short)90;
         };
 
         LSrtPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // boolean
                 return true;
         };
@@ -387,9 +372,9 @@ public class LSrtBinaryOperatorTest {
         boolean finalValue = function.test((short)80,(short)81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -414,20 +399,17 @@ public class LSrtBinaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LSrtBinaryOperator: short applyAsSrt(short a1,short a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LSrtBinaryOperator: short applyAsSrt(short a1,short a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

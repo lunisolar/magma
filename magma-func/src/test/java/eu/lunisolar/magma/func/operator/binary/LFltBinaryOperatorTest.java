@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LFltBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsFlt(100f,100f))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsFlt(100f,100f), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LFltBinaryOperatorTest {
 
         Object result = sut.tupleApplyAsFlt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullApplyAsFlt(100f,100f))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsFlt(100f,100f), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LFltBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsFlt(100f,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LFltBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsFlt(100f,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFltBinaryOperator: float applyAsFlt(float a1,float a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LFltBinaryOperator: float applyAsFlt(float a1,float a2)");
     }
 
     @Test
     public void testFltBinaryOpMethod() throws Throwable {
-        assertThat(LFltBinaryOperator.fltBinaryOp((a1,a2) -> testValue ))
-            .isInstanceOf(LFltBinaryOperator.class);
+        Assert.assertTrue(LFltBinaryOperator.fltBinaryOp((a1,a2) -> testValue ) instanceof LFltBinaryOperator);
+    
     }
 
 
@@ -158,10 +151,8 @@ public class LFltBinaryOperatorTest {
         LFltBinaryOperator min =  LFltBinaryOperator.minBy(Float::compare);
 
         //then
-        assertThat(min.applyAsFlt(0f, 56f))
-                .isEqualTo(0f);
-        assertThat(min.applyAsFlt(56f, 0f))
-                       .isEqualTo(0f);
+        Assert.assertEquals(min.applyAsFlt(0f, 56f), (Object) 0f);
+        Assert.assertEquals(min.applyAsFlt(56f, 0f), (Object) 0f);
 
     }
 
@@ -171,10 +162,8 @@ public class LFltBinaryOperatorTest {
         LFltBinaryOperator max =  LFltBinaryOperator.maxBy(Float::compare);
 
         //then
-        assertThat(max.applyAsFlt(0f, 56f))
-                .isEqualTo(56f);
-        assertThat(max.applyAsFlt(56f, 0f))
-                        .isEqualTo(56f);
+        Assert.assertEquals(max.applyAsFlt(0f, 56f), (Object) 56f);
+        Assert.assertEquals(max.applyAsFlt(56f, 0f), (Object) 56f);
     }
 
 
@@ -188,11 +177,9 @@ public class LFltBinaryOperatorTest {
         LFltBinaryOperator min = LFltBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsFlt(valueSmall, valueBig))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsFlt(valueSmall, valueBig), valueSmall);
 
-        assertThat(min.applyAsFlt(valueBig, valueSmall))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsFlt(valueBig, valueSmall), valueSmall);
     }
 
     @Test
@@ -205,11 +192,9 @@ public class LFltBinaryOperatorTest {
         LFltBinaryOperator max = LFltBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsFlt(valueSmall, valueBig))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsFlt(valueSmall, valueBig), valueBig);
 
-        assertThat(max.applyAsFlt(valueBig, valueSmall))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsFlt(valueBig, valueSmall), valueBig);
     }
 
 
@@ -224,18 +209,18 @@ public class LFltBinaryOperatorTest {
         //given (+ some assertions)
         LFltBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
-                assertThat(a2).isEqualTo(91f);
+                Assert.assertEquals(a1, (Object) 90f);
+                Assert.assertEquals(a2, (Object) 91f);
                 return 100f;
         };
 
         LFltUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80f);
+            Assert.assertEquals(p0, (Object) 80f);
             beforeCalls.incrementAndGet();
             return 90f;
         };
         LFltUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81f);
+            Assert.assertEquals(p1, (Object) 81f);
             beforeCalls.incrementAndGet();
             return 91f;
         };
@@ -245,8 +230,8 @@ public class LFltBinaryOperatorTest {
         function.applyAsFlt(80f,81f);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LFltBinaryOperatorTest {
         //given (+ some assertions)
         LFltBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
-                assertThat(a2).isEqualTo(91f);
+                Assert.assertEquals(a1, (Object) 90f);
+                Assert.assertEquals(a2, (Object) 91f);
                 return 100f;
         };
 
         LToFltFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90f;
         };
         LToFltFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91f;
         };
@@ -280,8 +265,8 @@ public class LFltBinaryOperatorTest {
         function.applyAsFlt(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LFltBinaryOperatorTest {
         //given (+ some assertions)
         LFltBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
                 return 90f;
         };
 
         LFltFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // Integer
                 return 100;
         };
@@ -317,9 +302,9 @@ public class LFltBinaryOperatorTest {
         Integer finalValue = function.apply(80f,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -334,15 +319,15 @@ public class LFltBinaryOperatorTest {
         //given (+ some assertions)
         LFltBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
                 return 90f;
         };
 
         LFltUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // float
                 return 100f;
         };
@@ -352,9 +337,9 @@ public class LFltBinaryOperatorTest {
         float finalValue = function.applyAsFlt(80f,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -369,15 +354,15 @@ public class LFltBinaryOperatorTest {
         //given (+ some assertions)
         LFltBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
                 return 90f;
         };
 
         LFltPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // boolean
                 return true;
         };
@@ -387,9 +372,9 @@ public class LFltBinaryOperatorTest {
         boolean finalValue = function.test(80f,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -414,20 +399,17 @@ public class LFltBinaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LFltBinaryOperator: float applyAsFlt(float a1,float a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LFltBinaryOperator: float applyAsFlt(float a1,float a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

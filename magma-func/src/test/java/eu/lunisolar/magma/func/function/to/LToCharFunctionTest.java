@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LToCharFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsChar(100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsChar(100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LToCharFunctionTest<T> {
 
         Object result = sut.tupleApplyAsChar(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullApplyAsChar(100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsChar(100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LToCharFunctionTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LToCharFunctionTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsChar(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToCharFunction: char applyAsChar(T a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LToCharFunction: char applyAsChar(T a)");
     }
 
     @Test
     public void testToCharFuncMethod() throws Throwable {
-        assertThat(LToCharFunction.toCharFunc(a -> testValue ))
-            .isInstanceOf(LToCharFunction.class);
+        Assert.assertTrue(LToCharFunction.toCharFunc(a -> testValue ) instanceof LToCharFunction);
+    
     }
 
 
@@ -164,12 +157,12 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90);
+                Assert.assertEquals(a, (Object) 90);
                 return '\u0100';
         };
 
         LFunction<Integer,Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
@@ -179,8 +172,8 @@ public class LToCharFunctionTest<T> {
         function.applyAsChar(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -198,14 +191,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // Integer
                 return 100;
         };
@@ -215,9 +208,9 @@ public class LToCharFunctionTest<T> {
         Integer finalValue = function.apply(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -232,14 +225,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // byte
                 return (byte)100;
         };
@@ -249,9 +242,9 @@ public class LToCharFunctionTest<T> {
         byte finalValue = function.applyAsByte(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -266,14 +259,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // short
                 return (short)100;
         };
@@ -283,9 +276,9 @@ public class LToCharFunctionTest<T> {
         short finalValue = function.applyAsSrt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -300,14 +293,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // int
                 return 100;
         };
@@ -317,9 +310,9 @@ public class LToCharFunctionTest<T> {
         int finalValue = function.applyAsInt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -334,14 +327,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // long
                 return 100L;
         };
@@ -351,9 +344,9 @@ public class LToCharFunctionTest<T> {
         long finalValue = function.applyAsLong(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -368,14 +361,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // float
                 return 100f;
         };
@@ -385,9 +378,9 @@ public class LToCharFunctionTest<T> {
         float finalValue = function.applyAsFlt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -402,14 +395,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // double
                 return 100d;
         };
@@ -419,9 +412,9 @@ public class LToCharFunctionTest<T> {
         double finalValue = function.applyAsDbl(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -436,14 +429,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // char
                 return '\u0100';
         };
@@ -453,9 +446,9 @@ public class LToCharFunctionTest<T> {
         char finalValue = function.applyAsChar(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -470,14 +463,14 @@ public class LToCharFunctionTest<T> {
         //given (+ some assertions)
         LToCharFunction<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return '\u0090';
         };
 
         LCharPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // boolean
                 return true;
         };
@@ -487,9 +480,9 @@ public class LToCharFunctionTest<T> {
         boolean finalValue = function.test(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -514,20 +507,17 @@ public class LToCharFunctionTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LToCharFunction: char applyAsChar(T a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LToCharFunction: char applyAsChar(T a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

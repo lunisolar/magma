@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LTriSrtPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test((short)100,(short)100,(short)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test((short)100,(short)100,(short)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LTriSrtPredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest((short)100,(short)100,(short)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest((short)100,(short)100,(short)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LTriSrtPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest((short)100,(short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LTriSrtPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest((short)100,(short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean((short)100,(short)100,(short)100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean((short)100,(short)100,(short)100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriSrtPredicate: boolean test(short a1,short a2,short a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LTriSrtPredicate: boolean test(short a1,short a2,short a3)");
     }
 
     @Test
     public void testTriSrtPredMethod() throws Throwable {
-        assertThat(LTriSrtPredicate.triSrtPred((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LTriSrtPredicate.class);
+        Assert.assertTrue(LTriSrtPredicate.triSrtPred((a1,a2,a3) -> testValue ) instanceof LTriSrtPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LTriSrtPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test((short)100,(short)100,(short)100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test((short)100,(short)100,(short)100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LTriSrtPredicateTest {
         LTriSrtPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((short)100,(short)100,(short)100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test((short)100,(short)100,(short)100), andResult);
 
-        assertThat(orFunction.test((short)100,(short)100,(short)100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test((short)100,(short)100,(short)100), orResult);
 
-        assertThat(xorFunction.test((short)100,(short)100,(short)100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test((short)100,(short)100,(short)100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LTriSrtPredicateTest {
         LTriSrtPredicate equals = LTriSrtPredicate.isEqual((short)1,(short)1,(short)1);
 
         //then
-        assertThat(equals.test((short)1,(short)1,(short)1))
-                .isTrue();
+        Assert.assertTrue(equals.test((short)1,(short)1,(short)1));
 
-        assertThat(equals.test((short)0,(short)0,(short)0))
-                .isFalse();
+        Assert.assertFalse(equals.test((short)0,(short)0,(short)0));
     }
 
 
@@ -224,24 +209,24 @@ public class LTriSrtPredicateTest {
         //given (+ some assertions)
         LTriSrtPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo((short)91);
-                assertThat(a3).isEqualTo((short)92);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) (short)91);
+                Assert.assertEquals(a3, (Object) (short)92);
                 return true;
         };
 
         LSrtUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((short)80);
+            Assert.assertEquals(p0, (Object) (short)80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LSrtUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((short)81);
+            Assert.assertEquals(p1, (Object) (short)81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
         LSrtUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo((short)82);
+            Assert.assertEquals(p2, (Object) (short)82);
             beforeCalls.incrementAndGet();
             return (short)92;
         };
@@ -251,8 +236,8 @@ public class LTriSrtPredicateTest {
         function.test((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -265,24 +250,24 @@ public class LTriSrtPredicateTest {
         //given (+ some assertions)
         LTriSrtPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo((short)91);
-                assertThat(a3).isEqualTo((short)92);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) (short)91);
+                Assert.assertEquals(a3, (Object) (short)92);
                 return true;
         };
 
         LToSrtFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LToSrtFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
         LToSrtFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return (short)92;
         };
@@ -292,8 +277,8 @@ public class LTriSrtPredicateTest {
         function.test(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -311,16 +296,16 @@ public class LTriSrtPredicateTest {
         //given (+ some assertions)
         LTriSrtPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -330,9 +315,9 @@ public class LTriSrtPredicateTest {
         Integer finalValue = function.apply((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -347,16 +332,16 @@ public class LTriSrtPredicateTest {
         //given (+ some assertions)
         LTriSrtPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return true;
         };
 
         LBoolToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // short
                 return (short)100;
         };
@@ -366,9 +351,9 @@ public class LTriSrtPredicateTest {
         short finalValue = function.applyAsSrt((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -383,16 +368,16 @@ public class LTriSrtPredicateTest {
         //given (+ some assertions)
         LTriSrtPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -402,9 +387,9 @@ public class LTriSrtPredicateTest {
         boolean finalValue = function.test((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -429,20 +414,17 @@ public class LTriSrtPredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LTriSrtPredicate: boolean test(short a1,short a2,short a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LTriSrtPredicate: boolean test(short a1,short a2,short a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LBoolToIntFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsInt(true))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsInt(true), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LBoolToIntFunctionTest {
 
         Object result = sut.tupleApplyAsInt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullApplyAsInt(true))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsInt(true), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LBoolToIntFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsInt(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LBoolToIntFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsInt(true);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolToIntFunction: int applyAsInt(boolean a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBoolToIntFunction: int applyAsInt(boolean a)");
     }
 
     @Test
     public void testBoolToIntFuncMethod() throws Throwable {
-        assertThat(LBoolToIntFunction.boolToIntFunc(a -> testValue ))
-            .isInstanceOf(LBoolToIntFunction.class);
+        Assert.assertTrue(LBoolToIntFunction.boolToIntFunc(a -> testValue ) instanceof LBoolToIntFunction);
+    
     }
 
 
@@ -164,12 +157,12 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 100;
         };
 
         LLogicalOperator before = p0 -> {
-            assertThat(p0).isEqualTo(true);
+            Assert.assertEquals(p0, (Object) true);
             beforeCalls.incrementAndGet();
             return true;
         };
@@ -179,8 +172,8 @@ public class LBoolToIntFunctionTest {
         function.applyAsInt(true);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -193,12 +186,12 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 100;
         };
 
         LPredicate<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return true;
         };
@@ -208,8 +201,8 @@ public class LBoolToIntFunctionTest {
         function.applyAsInt(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -227,14 +220,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -244,9 +237,9 @@ public class LBoolToIntFunctionTest {
         Integer finalValue = function.apply(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -261,14 +254,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // byte
                 return (byte)100;
         };
@@ -278,9 +271,9 @@ public class LBoolToIntFunctionTest {
         byte finalValue = function.applyAsByte(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -295,14 +288,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // short
                 return (short)100;
         };
@@ -312,9 +305,9 @@ public class LBoolToIntFunctionTest {
         short finalValue = function.applyAsSrt(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -329,14 +322,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // int
                 return 100;
         };
@@ -346,9 +339,9 @@ public class LBoolToIntFunctionTest {
         int finalValue = function.applyAsInt(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -363,14 +356,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // long
                 return 100L;
         };
@@ -380,9 +373,9 @@ public class LBoolToIntFunctionTest {
         long finalValue = function.applyAsLong(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,14 +390,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // float
                 return 100f;
         };
@@ -414,9 +407,9 @@ public class LBoolToIntFunctionTest {
         float finalValue = function.applyAsFlt(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -431,14 +424,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // double
                 return 100d;
         };
@@ -448,9 +441,9 @@ public class LBoolToIntFunctionTest {
         double finalValue = function.applyAsDbl(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -465,14 +458,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // char
                 return '\u0100';
         };
@@ -482,9 +475,9 @@ public class LBoolToIntFunctionTest {
         char finalValue = function.applyAsChar(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -499,14 +492,14 @@ public class LBoolToIntFunctionTest {
         //given (+ some assertions)
         LBoolToIntFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(true);
+                Assert.assertEquals(a, (Object) true);
                 return 90;
         };
 
         LIntPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -516,9 +509,9 @@ public class LBoolToIntFunctionTest {
         boolean finalValue = function.apply(true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -543,20 +536,17 @@ public class LBoolToIntFunctionTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBoolToIntFunction: int applyAsInt(boolean a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBoolToIntFunction: int applyAsInt(boolean a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

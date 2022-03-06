@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LDblToFltFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsFlt(100d))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsFlt(100d), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LDblToFltFunctionTest {
 
         Object result = sut.tupleApplyAsFlt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsFlt() throws Throwable {
-        assertThat(sut.nonNullApplyAsFlt(100d))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsFlt(100d), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LDblToFltFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsFlt(100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LDblToFltFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsFlt(100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblToFltFunction: float applyAsFlt(double a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LDblToFltFunction: float applyAsFlt(double a)");
     }
 
     @Test
     public void testDblToFltFuncMethod() throws Throwable {
-        assertThat(LDblToFltFunction.dblToFltFunc(a -> testValue ))
-            .isInstanceOf(LDblToFltFunction.class);
+        Assert.assertTrue(LDblToFltFunction.dblToFltFunc(a -> testValue ) instanceof LDblToFltFunction);
+    
     }
 
 
@@ -164,12 +157,12 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90d);
+                Assert.assertEquals(a, (Object) 90d);
                 return 100f;
         };
 
         LDblUnaryOperator before = p0 -> {
-            assertThat(p0).isEqualTo(80d);
+            Assert.assertEquals(p0, (Object) 80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
@@ -179,8 +172,8 @@ public class LDblToFltFunctionTest {
         function.applyAsFlt(80d);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -193,12 +186,12 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90d);
+                Assert.assertEquals(a, (Object) 90d);
                 return 100f;
         };
 
         LToDblFunction<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
@@ -208,8 +201,8 @@ public class LDblToFltFunctionTest {
         function.applyAsFlt(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -227,14 +220,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // Integer
                 return 100;
         };
@@ -244,9 +237,9 @@ public class LDblToFltFunctionTest {
         Integer finalValue = function.apply(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -261,14 +254,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // byte
                 return (byte)100;
         };
@@ -278,9 +271,9 @@ public class LDblToFltFunctionTest {
         byte finalValue = function.applyAsByte(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -295,14 +288,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // short
                 return (short)100;
         };
@@ -312,9 +305,9 @@ public class LDblToFltFunctionTest {
         short finalValue = function.applyAsSrt(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -329,14 +322,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // int
                 return 100;
         };
@@ -346,9 +339,9 @@ public class LDblToFltFunctionTest {
         int finalValue = function.applyAsInt(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -363,14 +356,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // long
                 return 100L;
         };
@@ -380,9 +373,9 @@ public class LDblToFltFunctionTest {
         long finalValue = function.applyAsLong(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,14 +390,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // float
                 return 100f;
         };
@@ -414,9 +407,9 @@ public class LDblToFltFunctionTest {
         float finalValue = function.applyAsFlt(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -431,14 +424,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // double
                 return 100d;
         };
@@ -448,9 +441,9 @@ public class LDblToFltFunctionTest {
         double finalValue = function.applyAsDbl(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -465,14 +458,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // char
                 return '\u0100';
         };
@@ -482,9 +475,9 @@ public class LDblToFltFunctionTest {
         char finalValue = function.applyAsChar(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -499,14 +492,14 @@ public class LDblToFltFunctionTest {
         //given (+ some assertions)
         LDblToFltFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals(a, (Object) 80d);
                 return 90f;
         };
 
         LFltPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // float
-                assertThat(p).isEqualTo(90f);
+                Assert.assertEquals(p, (Object) 90f);
                 // boolean
                 return true;
         };
@@ -516,9 +509,9 @@ public class LDblToFltFunctionTest {
         boolean finalValue = function.test(80d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -543,20 +536,17 @@ public class LDblToFltFunctionTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LDblToFltFunction: float applyAsFlt(double a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LDblToFltFunction: float applyAsFlt(double a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

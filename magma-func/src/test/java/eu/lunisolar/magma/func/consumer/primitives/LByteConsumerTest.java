@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LByteConsumerTest {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LByteConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LByteConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteConsumer: void accept(byte a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LByteConsumer: void accept(byte a)");
     }
 
     @Test
     public void testByteConsMethod() throws Throwable {
-        assertThat(LByteConsumer.byteCons(LByteConsumer::doNothing))
-            .isInstanceOf(LByteConsumer.class);
+        Assert.assertTrue(LByteConsumer.byteCons(LByteConsumer::doNothing) instanceof LByteConsumer);
+    
     }
 
 
@@ -151,11 +146,11 @@ public class LByteConsumerTest {
         //given (+ some assertions)
         LByteConsumer sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)90);
+                Assert.assertEquals(a, (Object) (byte)90);
         };
 
         LByteUnaryOperator before = p0 -> {
-            assertThat(p0).isEqualTo((byte)80);
+            Assert.assertEquals(p0, (Object) (byte)80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
@@ -165,8 +160,8 @@ public class LByteConsumerTest {
         function.accept((byte)80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -179,11 +174,11 @@ public class LByteConsumerTest {
         //given (+ some assertions)
         LByteConsumer sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)90);
+                Assert.assertEquals(a, (Object) (byte)90);
         };
 
         LToByteFunction<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
@@ -193,8 +188,8 @@ public class LByteConsumerTest {
         function.accept(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -208,12 +203,12 @@ public class LByteConsumerTest {
          //given (+ some assertions)
         LByteConsumer sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals((Object)a, (Object) (byte)80);
         };
 
         LByteConsumer thenFunction = a -> {
                 thenFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals((Object)a, (Object) (byte)80);
         };
 
         //when
@@ -221,8 +216,8 @@ public class LByteConsumerTest {
         function.accept((byte)80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -243,20 +238,17 @@ public class LByteConsumerTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LByteConsumer: void accept(byte a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LByteConsumer: void accept(byte a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

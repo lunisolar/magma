@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -86,8 +85,7 @@ public class LDblSupplierTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.getAsDbl())
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.getAsDbl(), testValue);
     }
 
     @Test
@@ -97,14 +95,12 @@ public class LDblSupplierTest {
 
         Object result = sut.tupleGetAsDbl(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullGetAsDbl() throws Throwable {
-        assertThat(sut.nonNullGetAsDbl())
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullGetAsDbl(), testValue);
     }
 
     @Test
@@ -113,12 +109,11 @@ public class LDblSupplierTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingGetAsDbl();
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -128,33 +123,30 @@ public class LDblSupplierTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingGetAsDbl();
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblSupplier: double getAsDbl()");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LDblSupplier: double getAsDbl()");
     }
 
     @Test
     public void testDblSupMethod() throws Throwable {
-        assertThat(LDblSupplier.dblSup(() -> testValue ))
-            .isInstanceOf(LDblSupplier.class);
+        Assert.assertTrue(LDblSupplier.dblSup(() -> testValue ) instanceof LDblSupplier);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LDblSupplier.wrap(jre))
-            .isInstanceOf(LDblSupplier.class);
+        Assert.assertTrue(LDblSupplier.wrap(jre) instanceof LDblSupplier);
     }
 
 
@@ -179,7 +171,7 @@ public class LDblSupplierTest {
         LDblFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // Integer
                 return 100;
         };
@@ -189,9 +181,9 @@ public class LDblSupplierTest {
         Integer finalValue = function.get();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -212,7 +204,7 @@ public class LDblSupplierTest {
         LDblToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // byte
                 return (byte)100;
         };
@@ -222,9 +214,9 @@ public class LDblSupplierTest {
         byte finalValue = function.getAsByte();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -245,7 +237,7 @@ public class LDblSupplierTest {
         LDblToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // short
                 return (short)100;
         };
@@ -255,9 +247,9 @@ public class LDblSupplierTest {
         short finalValue = function.getAsSrt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -278,7 +270,7 @@ public class LDblSupplierTest {
         LDblToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // int
                 return 100;
         };
@@ -288,9 +280,9 @@ public class LDblSupplierTest {
         int finalValue = function.getAsInt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -311,7 +303,7 @@ public class LDblSupplierTest {
         LDblToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // long
                 return 100L;
         };
@@ -321,9 +313,9 @@ public class LDblSupplierTest {
         long finalValue = function.getAsLong();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -344,7 +336,7 @@ public class LDblSupplierTest {
         LDblToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // float
                 return 100f;
         };
@@ -354,9 +346,9 @@ public class LDblSupplierTest {
         float finalValue = function.getAsFlt();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -377,7 +369,7 @@ public class LDblSupplierTest {
         LDblUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // double
                 return 100d;
         };
@@ -387,9 +379,9 @@ public class LDblSupplierTest {
         double finalValue = function.getAsDbl();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -410,7 +402,7 @@ public class LDblSupplierTest {
         LDblToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // char
                 return '\u0100';
         };
@@ -420,9 +412,9 @@ public class LDblSupplierTest {
         char finalValue = function.getAsChar();
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -443,7 +435,7 @@ public class LDblSupplierTest {
         LDblPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // double
-                assertThat(p).isEqualTo(90d);
+                Assert.assertEquals(p, (Object) 90d);
                 // boolean
                 return true;
         };
@@ -453,9 +445,9 @@ public class LDblSupplierTest {
         boolean finalValue = function.getAsBool();
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -480,20 +472,17 @@ public class LDblSupplierTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LDblSupplier: double getAsDbl()");
+        Assert.assertTrue(String.format("%s", sut).contains("LDblSupplier: double getAsDbl()"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

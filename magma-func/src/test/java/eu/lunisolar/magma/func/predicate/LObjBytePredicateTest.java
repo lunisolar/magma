@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LObjBytePredicateTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100,(byte)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100,(byte)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LObjBytePredicateTest<T> {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100,(byte)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100,(byte)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LObjBytePredicateTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LObjBytePredicateTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100,(byte)100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100,(byte)100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBytePredicate: boolean test(T a1,byte a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LObjBytePredicate: boolean test(T a1,byte a2)");
     }
 
     @Test
     public void testObjBytePredMethod() throws Throwable {
-        assertThat(LObjBytePredicate.objBytePred((a1,a2) -> testValue ))
-            .isInstanceOf(LObjBytePredicate.class);
+        Assert.assertTrue(LObjBytePredicate.objBytePred((a1,a2) -> testValue ) instanceof LObjBytePredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LObjBytePredicateTest<T> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100,(byte)100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100,(byte)100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LObjBytePredicateTest<T> {
         LObjBytePredicate<Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100,(byte)100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100,(byte)100), andResult);
 
-        assertThat(orFunction.test(100,(byte)100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100,(byte)100), orResult);
 
-        assertThat(xorFunction.test(100,(byte)100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100,(byte)100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LObjBytePredicateTest<T> {
         LObjBytePredicate<Integer> equals = LObjBytePredicate.isEqual(1,(byte)1);
 
         //then
-        assertThat(equals.test(1,(byte)1))
-                .isTrue();
+        Assert.assertTrue(equals.test(1,(byte)1));
 
-        assertThat(equals.test(0,(byte)0))
-                .isFalse();
+        Assert.assertFalse(equals.test(0,(byte)0));
     }
 
 
@@ -224,18 +209,18 @@ public class LObjBytePredicateTest<T> {
         //given (+ some assertions)
         LObjBytePredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo((byte)91);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) (byte)91);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LByteUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((byte)81);
+            Assert.assertEquals(p1, (Object) (byte)81);
             beforeCalls.incrementAndGet();
             return (byte)91;
         };
@@ -245,8 +230,8 @@ public class LObjBytePredicateTest<T> {
         function.test(80,(byte)81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LObjBytePredicateTest<T> {
         //given (+ some assertions)
         LObjBytePredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo((byte)91);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) (byte)91);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToByteFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return (byte)91;
         };
@@ -280,8 +265,8 @@ public class LObjBytePredicateTest<T> {
         function.test(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LObjBytePredicateTest<T> {
         //given (+ some assertions)
         LObjBytePredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo((byte)81);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) (byte)81);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -317,9 +302,9 @@ public class LObjBytePredicateTest<T> {
         Integer finalValue = function.apply(80,(byte)81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -334,15 +319,15 @@ public class LObjBytePredicateTest<T> {
         //given (+ some assertions)
         LObjBytePredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo((byte)81);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) (byte)81);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -352,9 +337,9 @@ public class LObjBytePredicateTest<T> {
         boolean finalValue = function.test(80,(byte)81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -379,20 +364,17 @@ public class LObjBytePredicateTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LObjBytePredicate: boolean test(T a1,byte a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LObjBytePredicate: boolean test(T a1,byte a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -405,7 +387,7 @@ public class LObjBytePredicateTest<T> {
     public void compilerSubstituteVariantLByteObjPred() {
         LObjBytePredicate lambda = LObjBytePredicate./*<T>*/byteObjPred(this::variantLByteObjPred);
 
-        assertThat(lambda).isInstanceOf(LObjBytePredicate.LByteObjPred.class);
+        Assert.assertTrue(lambda instanceof LObjBytePredicate.LByteObjPred);
     }
 
     //</editor-fold>

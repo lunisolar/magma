@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LDblIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100d,100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100d,100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LDblIntPredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100d,100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100d,100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LDblIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100d,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LDblIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100d,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100d,100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100d,100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblIntPredicate: boolean test(double a1,int a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LDblIntPredicate: boolean test(double a1,int a2)");
     }
 
     @Test
     public void testDblIntPredMethod() throws Throwable {
-        assertThat(LDblIntPredicate.dblIntPred((a1,a2) -> testValue ))
-            .isInstanceOf(LDblIntPredicate.class);
+        Assert.assertTrue(LDblIntPredicate.dblIntPred((a1,a2) -> testValue ) instanceof LDblIntPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LDblIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100d,100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100d,100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LDblIntPredicateTest {
         LDblIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100d,100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100d,100), andResult);
 
-        assertThat(orFunction.test(100d,100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100d,100), orResult);
 
-        assertThat(xorFunction.test(100d,100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100d,100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LDblIntPredicateTest {
         LDblIntPredicate equals = LDblIntPredicate.isEqual(1d,1);
 
         //then
-        assertThat(equals.test(1d,1))
-                .isTrue();
+        Assert.assertTrue(equals.test(1d,1));
 
-        assertThat(equals.test(0d,0))
-                .isFalse();
+        Assert.assertFalse(equals.test(0d,0));
     }
 
 
@@ -224,18 +209,18 @@ public class LDblIntPredicateTest {
         //given (+ some assertions)
         LDblIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) 90d);
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LDblUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80d);
+            Assert.assertEquals(p0, (Object) 80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -245,8 +230,8 @@ public class LDblIntPredicateTest {
         function.test(80d,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LDblIntPredicateTest {
         //given (+ some assertions)
         LDblIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) 90d);
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LToDblFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -280,8 +265,8 @@ public class LDblIntPredicateTest {
         function.test(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LDblIntPredicateTest {
         //given (+ some assertions)
         LDblIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -317,9 +302,9 @@ public class LDblIntPredicateTest {
         boolean finalValue = function.test(80d,81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -344,20 +329,17 @@ public class LDblIntPredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LDblIntPredicate: boolean test(double a1,int a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LDblIntPredicate: boolean test(double a1,int a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -370,7 +352,7 @@ public class LDblIntPredicateTest {
     public void compilerSubstituteVariantLIntDblPred() {
         LDblIntPredicate lambda = LDblIntPredicate./**/intDblPred(this::variantLIntDblPred);
 
-        assertThat(lambda).isInstanceOf(LDblIntPredicate.LIntDblPred.class);
+        Assert.assertTrue(lambda instanceof LDblIntPredicate.LIntDblPred);
     }
 
     //</editor-fold>

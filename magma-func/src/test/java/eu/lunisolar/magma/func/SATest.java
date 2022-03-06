@@ -28,7 +28,6 @@ import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 import eu.lunisolar.magma.func.predicate.LPredicate;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
 import javax.annotation.Nonnull;
@@ -40,9 +39,8 @@ import static eu.lunisolar.magma.func.consumer.LBiConsumer.biCons;
 import static eu.lunisolar.magma.func.consumer.LBiConsumer.biConsThrowing;
 import static eu.lunisolar.magma.func.function.LFunction.func;
 import static eu.lunisolar.magma.func.function.LFunction.identity;
+import org.testng.Assert;
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  *    
@@ -61,18 +59,18 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(0);
+        Assert.assertEquals(size.applyAsInt(container), 0);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThat(hasNextPredicate.test(iterator)).isEqualTo(false);
+        Assert.assertEquals(hasNextPredicate.test(iterator), false);
         consumer.accept(container, 22);
         iterator = iteratorFunc.apply(container);
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testIterable() {
@@ -85,18 +83,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(-1);
+        Assert.assertEquals(size.applyAsInt(container), -1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testStream() {
@@ -109,18 +110,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(-1);
+        Assert.assertEquals(size.applyAsInt(container), -1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testIterator() {
@@ -133,18 +137,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(-1);
+        Assert.assertEquals(size.applyAsInt(container), -1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testEnumeration() {
@@ -157,18 +164,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(-1);
+        Assert.assertEquals(size.applyAsInt(container), -1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testListIterator() {
@@ -181,18 +191,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(-1);
+        Assert.assertEquals(size.applyAsInt(container), -1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testListIterator_ArrayList() {
@@ -205,18 +218,18 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(-1);
+        Assert.assertEquals(size.applyAsInt(container), -1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThat(hasNextPredicate.test(iterator)).isEqualTo(true);
+        Assert.assertEquals(hasNextPredicate.test(iterator), true);
         consumer.accept(container, 22);
         iterator = iteratorFunc.apply(container);
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testArray() {
@@ -229,18 +242,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(1);
+        Assert.assertEquals(size.applyAsInt(container), 1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testIntegerArray() {
@@ -253,18 +269,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(1);
+        Assert.assertEquals(size.applyAsInt(container), 1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testIntArray() {
@@ -277,18 +296,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(1);
+        Assert.assertEquals(size.applyAsInt(container), 1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testLongArray() {
@@ -301,18 +323,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(1);
+        Assert.assertEquals(size.applyAsInt(container), 1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22L))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22L);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22L);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22L);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
     @Test public void testByteArray() {
@@ -325,18 +350,21 @@ public class SATest {
         LFunction nextFunc = sa.supplier();
         LBiConsumer consumer = sa.consumer();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(1);
+        Assert.assertEquals(size.applyAsInt(container), 1);
 
         Object iterator = iteratorFunc.apply(container);
 
-        assertThatThrownBy(() -> consumer.accept(container, 22))
-                .isInstanceOf(UnsupportedOperationException.class);
+        try {
+            consumer.accept(container, 22);
+            Assert.fail("Expecting exception");
+        } catch (Throwable e) {
+            Assert.assertEquals(e.getClass(), UnsupportedOperationException.class);
+        }
+        Assert.assertTrue(hasNextPredicate.test(iterator));
 
-        assertThat(hasNextPredicate.test(iterator)).isTrue();
+        Assert.assertEquals(nextFunc.apply(iterator), 22);
 
-        assertThat(nextFunc.apply(iterator)).isEqualTo(22);
-
-        assertThat(hasNextPredicate.test(iterator)).isFalse();
+        Assert.assertFalse(hasNextPredicate.test(iterator));
     }
 
 

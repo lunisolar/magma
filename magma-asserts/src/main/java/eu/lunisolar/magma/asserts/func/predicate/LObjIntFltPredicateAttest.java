@@ -25,7 +25,6 @@ import eu.lunisolar.magma.asserts.func.FunctionalAttest;
 import eu.lunisolar.magma.asserts.func.FunctionalAttest.*;
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import org.assertj.core.api.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.Checks; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -52,8 +51,6 @@ import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-
-import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LObjIntFltPredicate. */
 public final class LObjIntFltPredicateAttest<T> extends FunctionalAttest.Full<LObjIntFltPredicateAttest<T>, LObjIntFltPredicate<T>, LTieFltConsumer<T>, Checks.CheckBool> {

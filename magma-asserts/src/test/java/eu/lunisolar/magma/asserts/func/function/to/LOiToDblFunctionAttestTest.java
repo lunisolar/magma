@@ -19,6 +19,7 @@
 package eu.lunisolar.magma.asserts.func.function.to;
 
 import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -29,14 +30,11 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.LOiToDblFunction;
-import org.assertj.core.api.Assertions;  //NOSONAR
-import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
@@ -103,7 +101,7 @@ public class LOiToDblFunctionAttestTest<T> {
          .doesApplyAsDbl(100,100)
             .to(a -> a.must$(Be::equal$, testValue));
 
-        assertThat(recurringAssertsCalls.get()).isEqualTo(2);
+        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s).*Recurring assertion failed.*")
@@ -123,7 +121,7 @@ public class LOiToDblFunctionAttestTest<T> {
          .doesApplyAsDbl(100,100)
             .to(a -> a.must$(Be::equal$, testValue));
 
-        assertThat(recurringAssertsCalls.get()).isEqualTo(2);
+        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
     }
 
 }

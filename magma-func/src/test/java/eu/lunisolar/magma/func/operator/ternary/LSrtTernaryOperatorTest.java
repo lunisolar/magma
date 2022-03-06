@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LSrtTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsSrt((short)100,(short)100,(short)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsSrt((short)100,(short)100,(short)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LSrtTernaryOperatorTest {
 
         Object result = sut.tupleApplyAsSrt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsSrt() throws Throwable {
-        assertThat(sut.nonNullApplyAsSrt((short)100,(short)100,(short)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsSrt((short)100,(short)100,(short)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LSrtTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsSrt((short)100,(short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LSrtTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsSrt((short)100,(short)100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtTernaryOperator: short applyAsSrt(short a1,short a2,short a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LSrtTernaryOperator: short applyAsSrt(short a1,short a2,short a3)");
     }
 
     @Test
     public void testSrtTernaryOpMethod() throws Throwable {
-        assertThat(LSrtTernaryOperator.srtTernaryOp((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LSrtTernaryOperator.class);
+        Assert.assertTrue(LSrtTernaryOperator.srtTernaryOp((a1,a2,a3) -> testValue ) instanceof LSrtTernaryOperator);
+    
     }
 
 
@@ -164,24 +157,24 @@ public class LSrtTernaryOperatorTest {
         //given (+ some assertions)
         LSrtTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo((short)91);
-                assertThat(a3).isEqualTo((short)92);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) (short)91);
+                Assert.assertEquals(a3, (Object) (short)92);
                 return (short)100;
         };
 
         LSrtUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((short)80);
+            Assert.assertEquals(p0, (Object) (short)80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LSrtUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((short)81);
+            Assert.assertEquals(p1, (Object) (short)81);
             beforeCalls.incrementAndGet();
             return (short)91;
         };
         LSrtUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo((short)82);
+            Assert.assertEquals(p2, (Object) (short)82);
             beforeCalls.incrementAndGet();
             return (short)92;
         };
@@ -191,8 +184,8 @@ public class LSrtTernaryOperatorTest {
         function.applyAsSrt((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -210,16 +203,16 @@ public class LSrtTernaryOperatorTest {
         //given (+ some assertions)
         LSrtTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return (short)90;
         };
 
         LSrtFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // Integer
                 return 100;
         };
@@ -229,9 +222,9 @@ public class LSrtTernaryOperatorTest {
         Integer finalValue = function.apply((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -246,16 +239,16 @@ public class LSrtTernaryOperatorTest {
         //given (+ some assertions)
         LSrtTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return (short)90;
         };
 
         LSrtUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // short
                 return (short)100;
         };
@@ -265,9 +258,9 @@ public class LSrtTernaryOperatorTest {
         short finalValue = function.applyAsSrt((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -282,16 +275,16 @@ public class LSrtTernaryOperatorTest {
         //given (+ some assertions)
         LSrtTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo((short)81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) (short)81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return (short)90;
         };
 
         LSrtPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // boolean
                 return true;
         };
@@ -301,9 +294,9 @@ public class LSrtTernaryOperatorTest {
         boolean finalValue = function.test((short)80,(short)81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -328,20 +321,17 @@ public class LSrtTernaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LSrtTernaryOperator: short applyAsSrt(short a1,short a2,short a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LSrtTernaryOperator: short applyAsSrt(short a1,short a2,short a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

@@ -23,7 +23,6 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
-import org.assertj.core.api.*; // NOSONAR
 import eu.lunisolar.magma.asserts.func.std.*; // NOSONAR
 import eu.lunisolar.magma.asserts.func.action.*; // NOSONAR
 import eu.lunisolar.magma.asserts.func.consumer.*; // NOSONAR
@@ -57,8 +56,6 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
 //import eu.lunisolar.magma.asserts.std.*; // NOSONAR
-
-import static org.assertj.core.api.Fail.fail;
 
 /**
  * Default implementation of assertion factories. Always use with/by provided type argument OS otherwise compiler will not be able to infer the type of

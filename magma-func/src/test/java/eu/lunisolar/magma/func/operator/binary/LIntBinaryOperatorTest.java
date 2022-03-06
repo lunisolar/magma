@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -86,8 +85,7 @@ public class LIntBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsInt(100,100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsInt(100,100), testValue);
     }
 
     @Test
@@ -97,14 +95,12 @@ public class LIntBinaryOperatorTest {
 
         Object result = sut.tupleApplyAsInt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullApplyAsInt(100,100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsInt(100,100), testValue);
     }
 
     @Test
@@ -113,12 +109,11 @@ public class LIntBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -128,33 +123,30 @@ public class LIntBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntBinaryOperator: int applyAsInt(int a1,int a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LIntBinaryOperator: int applyAsInt(int a1,int a2)");
     }
 
     @Test
     public void testIntBinaryOpMethod() throws Throwable {
-        assertThat(LIntBinaryOperator.intBinaryOp((a1,a2) -> testValue ))
-            .isInstanceOf(LIntBinaryOperator.class);
+        Assert.assertTrue(LIntBinaryOperator.intBinaryOp((a1,a2) -> testValue ) instanceof LIntBinaryOperator);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LIntBinaryOperator.wrap(jre))
-            .isInstanceOf(LIntBinaryOperator.class);
+        Assert.assertTrue(LIntBinaryOperator.wrap(jre) instanceof LIntBinaryOperator);
     }
 
 
@@ -166,10 +158,8 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator min =  LIntBinaryOperator.minBy(Integer::compare);
 
         //then
-        assertThat(min.applyAsInt(0, 56))
-                .isEqualTo(0);
-        assertThat(min.applyAsInt(56, 0))
-                       .isEqualTo(0);
+        Assert.assertEquals(min.applyAsInt(0, 56), (Object) 0);
+        Assert.assertEquals(min.applyAsInt(56, 0), (Object) 0);
 
     }
 
@@ -179,10 +169,8 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator max =  LIntBinaryOperator.maxBy(Integer::compare);
 
         //then
-        assertThat(max.applyAsInt(0, 56))
-                .isEqualTo(56);
-        assertThat(max.applyAsInt(56, 0))
-                        .isEqualTo(56);
+        Assert.assertEquals(max.applyAsInt(0, 56), (Object) 56);
+        Assert.assertEquals(max.applyAsInt(56, 0), (Object) 56);
     }
 
 
@@ -196,11 +184,9 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator min = LIntBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsInt(valueSmall, valueBig))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsInt(valueSmall, valueBig), valueSmall);
 
-        assertThat(min.applyAsInt(valueBig, valueSmall))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsInt(valueBig, valueSmall), valueSmall);
     }
 
     @Test
@@ -213,11 +199,9 @@ public class LIntBinaryOperatorTest {
         LIntBinaryOperator max = LIntBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsInt(valueSmall, valueBig))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsInt(valueSmall, valueBig), valueBig);
 
-        assertThat(max.applyAsInt(valueBig, valueSmall))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsInt(valueBig, valueSmall), valueBig);
     }
 
 
@@ -232,18 +216,18 @@ public class LIntBinaryOperatorTest {
         //given (+ some assertions)
         LIntBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
                 return 100;
         };
 
         LIntUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -253,8 +237,8 @@ public class LIntBinaryOperatorTest {
         function.applyAsInt(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -267,18 +251,18 @@ public class LIntBinaryOperatorTest {
         //given (+ some assertions)
         LIntBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
                 return 100;
         };
 
         LToIntFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -288,8 +272,8 @@ public class LIntBinaryOperatorTest {
         function.applyAsInt(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -307,15 +291,15 @@ public class LIntBinaryOperatorTest {
         //given (+ some assertions)
         LIntBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
                 return 90;
         };
 
         LIntFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -325,9 +309,9 @@ public class LIntBinaryOperatorTest {
         Integer finalValue = function.apply(80,81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -342,15 +326,15 @@ public class LIntBinaryOperatorTest {
         //given (+ some assertions)
         LIntBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
                 return 90;
         };
 
         LIntUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // int
                 return 100;
         };
@@ -360,9 +344,9 @@ public class LIntBinaryOperatorTest {
         int finalValue = function.applyAsInt(80,81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -377,15 +361,15 @@ public class LIntBinaryOperatorTest {
         //given (+ some assertions)
         LIntBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
                 return 90;
         };
 
         LIntPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -395,9 +379,9 @@ public class LIntBinaryOperatorTest {
         boolean finalValue = function.test(80,81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -422,20 +406,17 @@ public class LIntBinaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LIntBinaryOperator: int applyAsInt(int a1,int a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LIntBinaryOperator: int applyAsInt(int a1,int a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

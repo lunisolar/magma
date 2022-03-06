@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LBiObjFltConsumerTest<T1,T2> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept(100,100,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LBiObjFltConsumerTest<T1,T2> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept(100,100,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjFltConsumer: void accept(T1 a1,T2 a2,float a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBiObjFltConsumer: void accept(T1 a1,T2 a2,float a3)");
     }
 
     @Test
     public void testBiObjFltConsMethod() throws Throwable {
-        assertThat(LBiObjFltConsumer.biObjFltCons(LBiObjFltConsumer::doNothing))
-            .isInstanceOf(LBiObjFltConsumer.class);
+        Assert.assertTrue(LBiObjFltConsumer.biObjFltCons(LBiObjFltConsumer::doNothing) instanceof LBiObjFltConsumer);
+    
     }
 
 
@@ -151,23 +146,23 @@ public class LBiObjFltConsumerTest<T1,T2> {
         //given (+ some assertions)
         LBiObjFltConsumer<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92f);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92f);
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LFunction<Integer,Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LFltUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82f);
+            Assert.assertEquals(p2, (Object) 82f);
             beforeCalls.incrementAndGet();
             return 92f;
         };
@@ -177,8 +172,8 @@ public class LBiObjFltConsumerTest<T1,T2> {
         function.accept(80,81,82f);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -191,23 +186,23 @@ public class LBiObjFltConsumerTest<T1,T2> {
         //given (+ some assertions)
         LBiObjFltConsumer<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92f);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92f);
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LFunction<Integer,Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LToFltFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92f;
         };
@@ -217,8 +212,8 @@ public class LBiObjFltConsumerTest<T1,T2> {
         function.accept(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -232,16 +227,16 @@ public class LBiObjFltConsumerTest<T1,T2> {
          //given (+ some assertions)
         LBiObjFltConsumer<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82f);
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81);
+                Assert.assertEquals((Object)a3, (Object) 82f);
         };
 
         LBiObjFltConsumer<Integer,Integer> thenFunction = (a1,a2,a3) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82f);
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81);
+                Assert.assertEquals((Object)a3, (Object) 82f);
         };
 
         //when
@@ -249,8 +244,8 @@ public class LBiObjFltConsumerTest<T1,T2> {
         function.accept(80,81,82f);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -271,20 +266,17 @@ public class LBiObjFltConsumerTest<T1,T2> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBiObjFltConsumer: void accept(T1 a1,T2 a2,float a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBiObjFltConsumer: void accept(T1 a1,T2 a2,float a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -296,7 +288,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
     public void compilerSubstituteVariantLObj0Flt2Obj1Cons() {
         LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj0Flt2Obj1Cons(this::variantLObj0Flt2Obj1Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj0Flt2Obj1Cons.class);
+        Assert.assertTrue(lambda instanceof LBiObjFltConsumer.LObj0Flt2Obj1Cons);
     }
 
 
@@ -307,7 +299,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
     public void compilerSubstituteVariantLObj1Obj0Flt2Cons() {
         LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj1Obj0Flt2Cons(this::variantLObj1Obj0Flt2Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj1Obj0Flt2Cons.class);
+        Assert.assertTrue(lambda instanceof LBiObjFltConsumer.LObj1Obj0Flt2Cons);
     }
 
 
@@ -318,7 +310,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
     public void compilerSubstituteVariantLObj1Flt2Obj0Cons() {
         LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/obj1Flt2Obj0Cons(this::variantLObj1Flt2Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LObj1Flt2Obj0Cons.class);
+        Assert.assertTrue(lambda instanceof LBiObjFltConsumer.LObj1Flt2Obj0Cons);
     }
 
 
@@ -329,7 +321,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
     public void compilerSubstituteVariantLFlt2Obj0Obj1Cons() {
         LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/flt2Obj0Obj1Cons(this::variantLFlt2Obj0Obj1Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LFlt2Obj0Obj1Cons.class);
+        Assert.assertTrue(lambda instanceof LBiObjFltConsumer.LFlt2Obj0Obj1Cons);
     }
 
 
@@ -340,7 +332,7 @@ public class LBiObjFltConsumerTest<T1,T2> {
     public void compilerSubstituteVariantLFlt2Obj1Obj0Cons() {
         LBiObjFltConsumer lambda = LBiObjFltConsumer./*<T1,T2>*/flt2Obj1Obj0Cons(this::variantLFlt2Obj1Obj0Cons);
 
-        assertThat(lambda).isInstanceOf(LBiObjFltConsumer.LFlt2Obj1Obj0Cons.class);
+        Assert.assertTrue(lambda instanceof LBiObjFltConsumer.LFlt2Obj1Obj0Cons);
     }
 
     //</editor-fold>

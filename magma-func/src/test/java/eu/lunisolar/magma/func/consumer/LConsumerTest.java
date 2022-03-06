@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -90,8 +89,7 @@ public class LConsumerTest<T> {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -100,12 +98,11 @@ public class LConsumerTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -115,33 +112,30 @@ public class LConsumerTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LConsumer: void accept(T a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LConsumer: void accept(T a)");
     }
 
     @Test
     public void testConsMethod() throws Throwable {
-        assertThat(LConsumer.cons(LConsumer::doNothing))
-            .isInstanceOf(LConsumer.class);
+        Assert.assertTrue(LConsumer.cons(LConsumer::doNothing) instanceof LConsumer);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LConsumer.wrap(jre))
-            .isInstanceOf(LConsumer.class);
+        Assert.assertTrue(LConsumer.wrap(jre) instanceof LConsumer);
     }
 
 
@@ -159,11 +153,11 @@ public class LConsumerTest<T> {
         //given (+ some assertions)
         LConsumer<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90);
+                Assert.assertEquals(a, (Object) 90);
         };
 
         LFunction<Integer,Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
@@ -173,8 +167,8 @@ public class LConsumerTest<T> {
         function.accept(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -188,12 +182,12 @@ public class LConsumerTest<T> {
          //given (+ some assertions)
         LConsumer<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals((Object)a, (Object) 80);
         };
 
         LConsumer<Integer> thenFunction = a -> {
                 thenFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals((Object)a, (Object) 80);
         };
 
         //when
@@ -201,8 +195,8 @@ public class LConsumerTest<T> {
         function.accept(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -223,20 +217,17 @@ public class LConsumerTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LConsumer: void accept(T a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LConsumer: void accept(T a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

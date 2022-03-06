@@ -26,8 +26,6 @@ import org.testng.annotations.Test;
 import static eu.lunisolar.magma.asserts.TestFlow.test;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestFlowTest {
 
@@ -38,7 +36,7 @@ public class TestFlowTest {
         }).when(sut -> {
 
         }).then(sut -> {
-            assertThat(sut.toString()).isEqualTo("1");
+            Checks.attest(sut.toString()).must$(Be::equal$, "1");
         });
     }
 
@@ -47,7 +45,7 @@ public class TestFlowTest {
         test().given(() -> {
             return 1;
         }).then(sut -> {
-            assertThat(sut.toString()).isEqualTo("1");
+            Checks.attest(sut.toString()).must$(Be::equal$, "1");
         });
     }
 
@@ -56,7 +54,7 @@ public class TestFlowTest {
         test().given(() -> {
             return 1;
         }).then(sut -> {
-            assertThat(sut.toString()).isEqualTo("1");
+            Checks.attest(sut.toString()).must$(Be::equal$, "1");
         }).continuing(
         ).when(sut -> {
 
@@ -75,19 +73,19 @@ public class TestFlowTest {
             t.when("when1", sut -> {
                 //...
             }).then("then1", sut -> {
-                assertThat(sut.toString()).isEqualTo("1");
+                Checks.attest(sut.toString()).must$(Be::equal$, "1");
             });
         }).step("Step2", t -> {
             t.when("when2", sut -> {
                 //...
             }).then(sut -> {
-                assertThat(sut.toString()).isEqualTo("1");
+                Checks.attest(sut.toString()).must$(Be::equal$, "1");
             });
         }).aftermath("in the end", sut -> {
 
         });
 
-        assertThat(sb.toString()).isEqualTo("Given: ...\n" +
+        Checks.attest(sb.toString()).must$(Be::equal$, "Given: ...\n" +
                                                     "Precondition: initial state is\n" +
                                                     "STEP: Step1\n" +
                                                     "When: when1\n" +
@@ -103,15 +101,15 @@ public class TestFlowTest {
         final var message = "The message is important.";
         final var theException = new AssertionError(message);
 
-        assertThatThrownBy(() ->
+        attestThrownBy(() ->
                                    test().given(() -> {
                                        return 1;
                                    }).then(sut -> {
                                        throw theException;
                                    })
         )
-                .hasMessage(message)
-                .isSameAs(theException);
+                .must$(Have::msgEqual$, message)
+                .must$(Be::same$,theException);
     }
 
     @Test public void negativeCase_RuntimeException() {
@@ -119,15 +117,15 @@ public class TestFlowTest {
         final var message = "The message is important.";
         final var theException = new RuntimeException(message);
 
-        assertThatThrownBy(() ->
+        attestThrownBy(() ->
                                    test().given(() -> {
                                        return 1;
                                    }).then(sut -> {
                                        throw theException;
                                    })
         )
-                .hasMessage(message)
-                .isSameAs(theException);
+                .must$(Have::msgEqual$, message)
+                .must$(Be::same$,theException);
     }
 
     @Test public void negativeCase_Exception() {
@@ -135,15 +133,15 @@ public class TestFlowTest {
         final var message = "The message is important.";
         final var theException = new Exception(message);
 
-        assertThatThrownBy(() ->
+        attestThrownBy(() ->
                                    test().given(() -> {
                                        return 1;
                                    }).then(sut -> {
                                        throw theException;
                                    })
         )
-                .hasMessage(message)
-                .isSameAs(theException);
+                .must$(Have::msgEqual$, message)
+                .must$(Be::same$,theException);
     }
 
     @Test public void howToUseTestFlowState() {

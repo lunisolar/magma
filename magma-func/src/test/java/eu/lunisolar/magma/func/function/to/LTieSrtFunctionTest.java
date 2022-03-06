@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LTieSrtFunctionTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsInt(100,100,(short)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsInt(100,100,(short)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LTieSrtFunctionTest<T> {
 
         Object result = sut.tupleApplyAsInt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsInt() throws Throwable {
-        assertThat(sut.nonNullApplyAsInt(100,100,(short)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsInt(100,100,(short)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LTieSrtFunctionTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsInt(100,100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LTieSrtFunctionTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsInt(100,100,(short)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTieSrtFunction: int applyAsInt(T a1,int a2,short a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LTieSrtFunction: int applyAsInt(T a1,int a2,short a3)");
     }
 
     @Test
     public void testTieSrtFuncMethod() throws Throwable {
-        assertThat(LTieSrtFunction.tieSrtFunc((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LTieSrtFunction.class);
+        Assert.assertTrue(LTieSrtFunction.tieSrtFunc((a1,a2,a3) -> testValue ) instanceof LTieSrtFunction);
+    
     }
 
 
@@ -164,24 +157,24 @@ public class LTieSrtFunctionTest<T> {
         //given (+ some assertions)
         LTieSrtFunction<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo((short)92);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) (short)92);
                 return 100;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LSrtUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo((short)82);
+            Assert.assertEquals(p2, (Object) (short)82);
             beforeCalls.incrementAndGet();
             return (short)92;
         };
@@ -191,8 +184,8 @@ public class LTieSrtFunctionTest<T> {
         function.applyAsInt(80,81,(short)82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -205,24 +198,24 @@ public class LTieSrtFunctionTest<T> {
         //given (+ some assertions)
         LTieSrtFunction<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo((short)92);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) (short)92);
                 return 100;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LToSrtFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return (short)92;
         };
@@ -232,8 +225,8 @@ public class LTieSrtFunctionTest<T> {
         function.applyAsInt(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -251,16 +244,16 @@ public class LTieSrtFunctionTest<T> {
         //given (+ some assertions)
         LTieSrtFunction<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return 90;
         };
 
         LIntFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -270,9 +263,9 @@ public class LTieSrtFunctionTest<T> {
         Integer finalValue = function.apply(80,81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -287,16 +280,16 @@ public class LTieSrtFunctionTest<T> {
         //given (+ some assertions)
         LTieSrtFunction<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return 90;
         };
 
         LIntUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // int
                 return 100;
         };
@@ -306,9 +299,9 @@ public class LTieSrtFunctionTest<T> {
         int finalValue = function.applyAsInt(80,81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -323,16 +316,16 @@ public class LTieSrtFunctionTest<T> {
         //given (+ some assertions)
         LTieSrtFunction<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo((short)82);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) (short)82);
                 return 90;
         };
 
         LIntPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // int
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -342,9 +335,9 @@ public class LTieSrtFunctionTest<T> {
         boolean finalValue = function.test(80,81,(short)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -369,20 +362,17 @@ public class LTieSrtFunctionTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LTieSrtFunction: int applyAsInt(T a1,int a2,short a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LTieSrtFunction: int applyAsInt(T a1,int a2,short a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -395,7 +385,7 @@ public class LTieSrtFunctionTest<T> {
     public void compilerSubstituteVariantLObjSrtIntToIntFunc() {
         LTieSrtFunction lambda = LTieSrtFunction./*<T>*/objSrtIntToIntFunc(this::variantLObjSrtIntToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieSrtFunction.LObjSrtIntToIntFunc.class);
+        Assert.assertTrue(lambda instanceof LTieSrtFunction.LObjSrtIntToIntFunc);
     }
 
 
@@ -407,7 +397,7 @@ public class LTieSrtFunctionTest<T> {
     public void compilerSubstituteVariantLIntObjSrtToIntFunc() {
         LTieSrtFunction lambda = LTieSrtFunction./*<T>*/intObjSrtToIntFunc(this::variantLIntObjSrtToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieSrtFunction.LIntObjSrtToIntFunc.class);
+        Assert.assertTrue(lambda instanceof LTieSrtFunction.LIntObjSrtToIntFunc);
     }
 
 
@@ -419,7 +409,7 @@ public class LTieSrtFunctionTest<T> {
     public void compilerSubstituteVariantLIntSrtObjToIntFunc() {
         LTieSrtFunction lambda = LTieSrtFunction./*<T>*/intSrtObjToIntFunc(this::variantLIntSrtObjToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieSrtFunction.LIntSrtObjToIntFunc.class);
+        Assert.assertTrue(lambda instanceof LTieSrtFunction.LIntSrtObjToIntFunc);
     }
 
 
@@ -431,7 +421,7 @@ public class LTieSrtFunctionTest<T> {
     public void compilerSubstituteVariantLSrtObjIntToIntFunc() {
         LTieSrtFunction lambda = LTieSrtFunction./*<T>*/srtObjIntToIntFunc(this::variantLSrtObjIntToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieSrtFunction.LSrtObjIntToIntFunc.class);
+        Assert.assertTrue(lambda instanceof LTieSrtFunction.LSrtObjIntToIntFunc);
     }
 
 
@@ -443,7 +433,7 @@ public class LTieSrtFunctionTest<T> {
     public void compilerSubstituteVariantLSrtIntObjToIntFunc() {
         LTieSrtFunction lambda = LTieSrtFunction./*<T>*/srtIntObjToIntFunc(this::variantLSrtIntObjToIntFunc);
 
-        assertThat(lambda).isInstanceOf(LTieSrtFunction.LSrtIntObjToIntFunc.class);
+        Assert.assertTrue(lambda instanceof LTieSrtFunction.LSrtIntObjToIntFunc);
     }
 
     //</editor-fold>

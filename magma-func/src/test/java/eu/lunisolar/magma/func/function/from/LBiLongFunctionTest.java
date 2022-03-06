@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -90,8 +89,7 @@ public class LBiLongFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.apply(100L,100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.apply(100L,100L), testValue);
     }
 
     @Test
@@ -101,14 +99,12 @@ public class LBiLongFunctionTest<R> {
 
         Object result = sut.tupleApply(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApply() throws Throwable {
-        assertThat(sut.nonNullApply(100L,100L))
-            .isSameAs(testValue);
+            Assert.assertSame(sut.nonNullApply(100L,100L), testValue);
     }
 
     @Test
@@ -117,12 +113,11 @@ public class LBiLongFunctionTest<R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApply(100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -132,12 +127,11 @@ public class LBiLongFunctionTest<R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApply(100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -149,14 +143,13 @@ public class LBiLongFunctionTest<R> {
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiLongFunction: R apply(long a1,long a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBiLongFunction: R apply(long a1,long a2)");
     }
 
     @Test
     public void testBiLongFuncMethod() throws Throwable {
-        assertThat(LBiLongFunction.biLongFunc((a1,a2) -> testValue ))
-            .isInstanceOf(LBiLongFunction.class);
+        Assert.assertTrue(LBiLongFunction.biLongFunc((a1,a2) -> testValue ) instanceof LBiLongFunction);
+    
     }
 
 
@@ -175,18 +168,18 @@ public class LBiLongFunctionTest<R> {
         //given (+ some assertions)
         LBiLongFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90L);
-                assertThat(a2).isEqualTo(91L);
+                Assert.assertEquals(a1, (Object) 90L);
+                Assert.assertEquals(a2, (Object) 91L);
                 return 100;
         };
 
         LLongUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80L);
+            Assert.assertEquals(p0, (Object) 80L);
             beforeCalls.incrementAndGet();
             return 90L;
         };
         LLongUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81L);
+            Assert.assertEquals(p1, (Object) 81L);
             beforeCalls.incrementAndGet();
             return 91L;
         };
@@ -196,8 +189,8 @@ public class LBiLongFunctionTest<R> {
         function.apply(80L,81L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -210,18 +203,18 @@ public class LBiLongFunctionTest<R> {
         //given (+ some assertions)
         LBiLongFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90L);
-                assertThat(a2).isEqualTo(91L);
+                Assert.assertEquals(a1, (Object) 90L);
+                Assert.assertEquals(a2, (Object) 91L);
                 return 100;
         };
 
         LToLongFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90L;
         };
         LToLongFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91L;
         };
@@ -231,8 +224,8 @@ public class LBiLongFunctionTest<R> {
         function.apply(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -250,15 +243,15 @@ public class LBiLongFunctionTest<R> {
         //given (+ some assertions)
         LBiLongFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
                 return 90;
         };
 
         LFunction<Integer,Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -268,9 +261,9 @@ public class LBiLongFunctionTest<R> {
         Integer finalValue = function.apply(80L,81L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -285,15 +278,15 @@ public class LBiLongFunctionTest<R> {
         //given (+ some assertions)
         LBiLongFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
                 return 90;
         };
 
         LConsumer<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
         };
 
         //when
@@ -301,8 +294,8 @@ public class LBiLongFunctionTest<R> {
         function.accept(80L,81L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -317,15 +310,15 @@ public class LBiLongFunctionTest<R> {
         //given (+ some assertions)
         LBiLongFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
                 return 90;
         };
 
         LToLongFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // long
                 return 100L;
         };
@@ -335,9 +328,9 @@ public class LBiLongFunctionTest<R> {
         long finalValue = function.applyAsLong(80L,81L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -352,15 +345,15 @@ public class LBiLongFunctionTest<R> {
         //given (+ some assertions)
         LBiLongFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
                 return 90;
         };
 
         LPredicate<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -370,9 +363,9 @@ public class LBiLongFunctionTest<R> {
         boolean finalValue = function.test(80L,81L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,20 +390,17 @@ public class LBiLongFunctionTest<R> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBiLongFunction: R apply(long a1,long a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBiLongFunction: R apply(long a1,long a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -423,7 +413,7 @@ public class LBiLongFunctionTest<R> {
     public void compilerSubstituteVariantLLong1Long0Func() {
         LBiLongFunction lambda = LBiLongFunction./*<R>*/long1Long0Func(this::variantLLong1Long0Func);
 
-        assertThat(lambda).isInstanceOf(LBiLongFunction.LLong1Long0Func.class);
+        Assert.assertTrue(lambda instanceof LBiLongFunction.LLong1Long0Func);
     }
 
     //</editor-fold>

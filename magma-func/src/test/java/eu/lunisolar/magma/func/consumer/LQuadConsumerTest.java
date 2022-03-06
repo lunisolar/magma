@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept(100,100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept(100,100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)");
     }
 
     @Test
     public void testQuadConsMethod() throws Throwable {
-        assertThat(LQuadConsumer.quadCons(LQuadConsumer::doNothing))
-            .isInstanceOf(LQuadConsumer.class);
+        Assert.assertTrue(LQuadConsumer.quadCons(LQuadConsumer::doNothing) instanceof LQuadConsumer);
+    
     }
 
 
@@ -151,29 +146,29 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         //given (+ some assertions)
         LQuadConsumer<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92);
-                assertThat(a4).isEqualTo(93);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92);
+                Assert.assertEquals(a4, (Object) 93);
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LFunction<Integer,Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LFunction<Integer,Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92;
         };
         LFunction<Integer,Integer> before4 = p3 -> {
-            assertThat(p3).isEqualTo(83);
+            Assert.assertEquals(p3, (Object) 83);
             beforeCalls.incrementAndGet();
             return 93;
         };
@@ -183,8 +178,8 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         function.accept(80,81,82,83);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(4);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 4);
     }
 
     // </editor-fold>
@@ -198,18 +193,18 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
          //given (+ some assertions)
         LQuadConsumer<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82);
-                assertThat(a4).isEqualTo(83);
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81);
+                Assert.assertEquals((Object)a3, (Object) 82);
+                Assert.assertEquals((Object)a4, (Object) 83);
         };
 
         LQuadConsumer<Integer,Integer,Integer,Integer> thenFunction = (a1,a2,a3,a4) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82);
-                assertThat(a4).isEqualTo(83);
+                Assert.assertEquals((Object)a1, (Object) 80);
+                Assert.assertEquals((Object)a2, (Object) 81);
+                Assert.assertEquals((Object)a3, (Object) 82);
+                Assert.assertEquals((Object)a4, (Object) 83);
         };
 
         //when
@@ -217,8 +212,8 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
         function.accept(80,81,82,83);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -239,20 +234,17 @@ public class LQuadConsumerTest<T1,T2,T3,T4> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)");
+        Assert.assertTrue(String.format("%s", sut).contains("LQuadConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

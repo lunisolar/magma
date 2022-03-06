@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LCharIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test('\u0100',100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test('\u0100',100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LCharIntPredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest('\u0100',100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest('\u0100',100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LCharIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest('\u0100',100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LCharIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest('\u0100',100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean('\u0100',100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean('\u0100',100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharIntPredicate: boolean test(char a1,int a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LCharIntPredicate: boolean test(char a1,int a2)");
     }
 
     @Test
     public void testCharIntPredMethod() throws Throwable {
-        assertThat(LCharIntPredicate.charIntPred((a1,a2) -> testValue ))
-            .isInstanceOf(LCharIntPredicate.class);
+        Assert.assertTrue(LCharIntPredicate.charIntPred((a1,a2) -> testValue ) instanceof LCharIntPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LCharIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test('\u0100',100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test('\u0100',100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LCharIntPredicateTest {
         LCharIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test('\u0100',100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test('\u0100',100), andResult);
 
-        assertThat(orFunction.test('\u0100',100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test('\u0100',100), orResult);
 
-        assertThat(xorFunction.test('\u0100',100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test('\u0100',100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LCharIntPredicateTest {
         LCharIntPredicate equals = LCharIntPredicate.isEqual('\u0001',1);
 
         //then
-        assertThat(equals.test('\u0001',1))
-                .isTrue();
+        Assert.assertTrue(equals.test('\u0001',1));
 
-        assertThat(equals.test('\u0000',0))
-                .isFalse();
+        Assert.assertFalse(equals.test('\u0000',0));
     }
 
 
@@ -224,18 +209,18 @@ public class LCharIntPredicateTest {
         //given (+ some assertions)
         LCharIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) '\u0090');
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LCharUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo('\u0080');
+            Assert.assertEquals(p0, (Object) '\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -245,8 +230,8 @@ public class LCharIntPredicateTest {
         function.test('\u0080',81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LCharIntPredicateTest {
         //given (+ some assertions)
         LCharIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) '\u0090');
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LToCharFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -280,8 +265,8 @@ public class LCharIntPredicateTest {
         function.test(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LCharIntPredicateTest {
         //given (+ some assertions)
         LCharIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo(81);
+                Assert.assertEquals(a1, (Object) '\u0080');
+                Assert.assertEquals(a2, (Object) 81);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -317,9 +302,9 @@ public class LCharIntPredicateTest {
         boolean finalValue = function.test('\u0080',81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -344,20 +329,17 @@ public class LCharIntPredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LCharIntPredicate: boolean test(char a1,int a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LCharIntPredicate: boolean test(char a1,int a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -370,7 +352,7 @@ public class LCharIntPredicateTest {
     public void compilerSubstituteVariantLIntCharPred() {
         LCharIntPredicate lambda = LCharIntPredicate./**/intCharPred(this::variantLIntCharPred);
 
-        assertThat(lambda).isInstanceOf(LCharIntPredicate.LIntCharPred.class);
+        Assert.assertTrue(lambda instanceof LCharIntPredicate.LIntCharPred);
     }
 
     //</editor-fold>

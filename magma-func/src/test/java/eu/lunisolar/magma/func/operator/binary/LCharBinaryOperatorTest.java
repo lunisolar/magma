@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LCharBinaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsChar('\u0100','\u0100'))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsChar('\u0100','\u0100'), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LCharBinaryOperatorTest {
 
         Object result = sut.tupleApplyAsChar(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullApplyAsChar('\u0100','\u0100'))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsChar('\u0100','\u0100'), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LCharBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsChar('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LCharBinaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsChar('\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharBinaryOperator: char applyAsChar(char a1,char a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LCharBinaryOperator: char applyAsChar(char a1,char a2)");
     }
 
     @Test
     public void testCharBinaryOpMethod() throws Throwable {
-        assertThat(LCharBinaryOperator.charBinaryOp((a1,a2) -> testValue ))
-            .isInstanceOf(LCharBinaryOperator.class);
+        Assert.assertTrue(LCharBinaryOperator.charBinaryOp((a1,a2) -> testValue ) instanceof LCharBinaryOperator);
+    
     }
 
 
@@ -158,10 +151,8 @@ public class LCharBinaryOperatorTest {
         LCharBinaryOperator min =  LCharBinaryOperator.minBy(Character::compare);
 
         //then
-        assertThat(min.applyAsChar('\u0000', '\u0056'))
-                .isEqualTo('\u0000');
-        assertThat(min.applyAsChar('\u0056', '\u0000'))
-                       .isEqualTo('\u0000');
+        Assert.assertEquals(min.applyAsChar('\u0000', '\u0056'), (Object) '\u0000');
+        Assert.assertEquals(min.applyAsChar('\u0056', '\u0000'), (Object) '\u0000');
 
     }
 
@@ -171,10 +162,8 @@ public class LCharBinaryOperatorTest {
         LCharBinaryOperator max =  LCharBinaryOperator.maxBy(Character::compare);
 
         //then
-        assertThat(max.applyAsChar('\u0000', '\u0056'))
-                .isEqualTo('\u0056');
-        assertThat(max.applyAsChar('\u0056', '\u0000'))
-                        .isEqualTo('\u0056');
+        Assert.assertEquals(max.applyAsChar('\u0000', '\u0056'), (Object) '\u0056');
+        Assert.assertEquals(max.applyAsChar('\u0056', '\u0000'), (Object) '\u0056');
     }
 
 
@@ -188,11 +177,9 @@ public class LCharBinaryOperatorTest {
         LCharBinaryOperator min = LCharBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsChar(valueSmall, valueBig))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsChar(valueSmall, valueBig), valueSmall);
 
-        assertThat(min.applyAsChar(valueBig, valueSmall))
-                .isEqualTo(valueSmall);
+        Assert.assertEquals(min.applyAsChar(valueBig, valueSmall), valueSmall);
     }
 
     @Test
@@ -205,11 +192,9 @@ public class LCharBinaryOperatorTest {
         LCharBinaryOperator max = LCharBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsChar(valueSmall, valueBig))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsChar(valueSmall, valueBig), valueBig);
 
-        assertThat(max.applyAsChar(valueBig, valueSmall))
-                .isEqualTo(valueBig);
+        Assert.assertEquals(max.applyAsChar(valueBig, valueSmall), valueBig);
     }
 
 
@@ -224,18 +209,18 @@ public class LCharBinaryOperatorTest {
         //given (+ some assertions)
         LCharBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
-                assertThat(a2).isEqualTo('\u0091');
+                Assert.assertEquals(a1, (Object) '\u0090');
+                Assert.assertEquals(a2, (Object) '\u0091');
                 return '\u0100';
         };
 
         LCharUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo('\u0080');
+            Assert.assertEquals(p0, (Object) '\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
         LCharUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo('\u0081');
+            Assert.assertEquals(p1, (Object) '\u0081');
             beforeCalls.incrementAndGet();
             return '\u0091';
         };
@@ -245,8 +230,8 @@ public class LCharBinaryOperatorTest {
         function.applyAsChar('\u0080','\u0081');
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LCharBinaryOperatorTest {
         //given (+ some assertions)
         LCharBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
-                assertThat(a2).isEqualTo('\u0091');
+                Assert.assertEquals(a1, (Object) '\u0090');
+                Assert.assertEquals(a2, (Object) '\u0091');
                 return '\u0100';
         };
 
         LToCharFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
         LToCharFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return '\u0091';
         };
@@ -280,8 +265,8 @@ public class LCharBinaryOperatorTest {
         function.applyAsChar(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LCharBinaryOperatorTest {
         //given (+ some assertions)
         LCharBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
+                Assert.assertEquals(a1, (Object) '\u0080');
+                Assert.assertEquals(a2, (Object) '\u0081');
                 return '\u0090';
         };
 
         LCharFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // Integer
                 return 100;
         };
@@ -317,9 +302,9 @@ public class LCharBinaryOperatorTest {
         Integer finalValue = function.apply('\u0080','\u0081');
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -334,15 +319,15 @@ public class LCharBinaryOperatorTest {
         //given (+ some assertions)
         LCharBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
+                Assert.assertEquals(a1, (Object) '\u0080');
+                Assert.assertEquals(a2, (Object) '\u0081');
                 return '\u0090';
         };
 
         LCharUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // char
                 return '\u0100';
         };
@@ -352,9 +337,9 @@ public class LCharBinaryOperatorTest {
         char finalValue = function.applyAsChar('\u0080','\u0081');
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -369,15 +354,15 @@ public class LCharBinaryOperatorTest {
         //given (+ some assertions)
         LCharBinaryOperator sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
+                Assert.assertEquals(a1, (Object) '\u0080');
+                Assert.assertEquals(a2, (Object) '\u0081');
                 return '\u0090';
         };
 
         LCharPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // boolean
                 return true;
         };
@@ -387,9 +372,9 @@ public class LCharBinaryOperatorTest {
         boolean finalValue = function.test('\u0080','\u0081');
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -414,20 +399,17 @@ public class LCharBinaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LCharBinaryOperator: char applyAsChar(char a1,char a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LCharBinaryOperator: char applyAsChar(char a1,char a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100,100,100,100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100,100,100,100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100,100,100,100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100,100,100,100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100,100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100,100,100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100,100,100,100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100,100,100,100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LQuadPredicate: boolean test(T1 a1,T2 a2,T3 a3,T4 a4)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LQuadPredicate: boolean test(T1 a1,T2 a2,T3 a3,T4 a4)");
     }
 
     @Test
     public void testQuadPredMethod() throws Throwable {
-        assertThat(LQuadPredicate.quadPred((a1,a2,a3,a4) -> testValue ))
-            .isInstanceOf(LQuadPredicate.class);
+        Assert.assertTrue(LQuadPredicate.quadPred((a1,a2,a3,a4) -> testValue ) instanceof LQuadPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100,100,100,100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100,100,100,100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         LQuadPredicate<Integer,Integer,Integer,Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100,100,100,100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100,100,100,100), andResult);
 
-        assertThat(orFunction.test(100,100,100,100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100,100,100,100), orResult);
 
-        assertThat(xorFunction.test(100,100,100,100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100,100,100,100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         LQuadPredicate<Integer,Integer,Integer,Integer> equals = LQuadPredicate.isEqual(1,1,1,1);
 
         //then
-        assertThat(equals.test(1,1,1,1))
-                .isTrue();
+        Assert.assertTrue(equals.test(1,1,1,1));
 
-        assertThat(equals.test(0,0,0,0))
-                .isFalse();
+        Assert.assertFalse(equals.test(0,0,0,0));
     }
 
 
@@ -224,30 +209,30 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         //given (+ some assertions)
         LQuadPredicate<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92);
-                assertThat(a4).isEqualTo(93);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92);
+                Assert.assertEquals(a4, (Object) 93);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LFunction<Integer,Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LFunction<Integer,Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92;
         };
         LFunction<Integer,Integer> before4 = p3 -> {
-            assertThat(p3).isEqualTo(83);
+            Assert.assertEquals(p3, (Object) 83);
             beforeCalls.incrementAndGet();
             return 93;
         };
@@ -257,8 +242,8 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         function.test(80,81,82,83);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(4);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 4);
     }
 
     // </editor-fold>
@@ -276,17 +261,17 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         //given (+ some assertions)
         LQuadPredicate<Integer,Integer,Integer,Integer> sutO = (a1,a2,a3,a4) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82);
-                assertThat(a4).isEqualTo(83);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82);
+                Assert.assertEquals(a4, (Object) 83);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -296,9 +281,9 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
         Integer finalValue = function.apply(80,81,82,83);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -323,20 +308,17 @@ public class LQuadPredicateTest<T1,T2,T3,T4> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LQuadPredicate: boolean test(T1 a1,T2 a2,T3 a3,T4 a4)");
+        Assert.assertTrue(String.format("%s", sut).contains("LQuadPredicate: boolean test(T1 a1,T2 a2,T3 a3,T4 a4)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

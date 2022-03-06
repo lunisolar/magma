@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -92,8 +91,7 @@ public class LUnaryOperatorTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.apply(100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.apply(100), testValue);
     }
 
     @Test
@@ -103,14 +101,12 @@ public class LUnaryOperatorTest<T> {
 
         Object result = sut.tupleApply(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApply() throws Throwable {
-        assertThat(sut.nonNullApply(100))
-            .isSameAs(testValue);
+            Assert.assertSame(sut.nonNullApply(100), testValue);
     }
 
     @Test
@@ -119,12 +115,11 @@ public class LUnaryOperatorTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -134,12 +129,11 @@ public class LUnaryOperatorTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApply(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -151,21 +145,19 @@ public class LUnaryOperatorTest<T> {
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LUnaryOperator: T apply(T a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LUnaryOperator: T apply(T a)");
     }
 
     @Test
     public void testUnaryOpMethod() throws Throwable {
-        assertThat(LUnaryOperator.unaryOp(a -> testValue ))
-            .isInstanceOf(LUnaryOperator.class);
+        Assert.assertTrue(LUnaryOperator.unaryOp(a -> testValue ) instanceof LUnaryOperator);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LUnaryOperator.wrap(jre))
-            .isInstanceOf(LUnaryOperator.class);
+        Assert.assertTrue(LUnaryOperator.wrap(jre) instanceof LUnaryOperator);
     }
 
 
@@ -184,14 +176,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LFunction<Integer,Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -201,9 +193,9 @@ public class LUnaryOperatorTest<T> {
         Integer finalValue = function.apply(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -218,14 +210,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LToByteFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // byte
                 return (byte)100;
         };
@@ -235,9 +227,9 @@ public class LUnaryOperatorTest<T> {
         byte finalValue = function.applyAsByte(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -252,14 +244,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LToSrtFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // short
                 return (short)100;
         };
@@ -269,9 +261,9 @@ public class LUnaryOperatorTest<T> {
         short finalValue = function.applyAsSrt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -286,14 +278,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LToIntFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // int
                 return 100;
         };
@@ -303,9 +295,9 @@ public class LUnaryOperatorTest<T> {
         int finalValue = function.applyAsInt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -320,14 +312,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LToLongFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // long
                 return 100L;
         };
@@ -337,9 +329,9 @@ public class LUnaryOperatorTest<T> {
         long finalValue = function.applyAsLong(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -354,14 +346,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LToFltFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // float
                 return 100f;
         };
@@ -371,9 +363,9 @@ public class LUnaryOperatorTest<T> {
         float finalValue = function.applyAsFlt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -388,14 +380,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LToDblFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // double
                 return 100d;
         };
@@ -405,9 +397,9 @@ public class LUnaryOperatorTest<T> {
         double finalValue = function.applyAsDbl(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -422,14 +414,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LToCharFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // char
                 return '\u0100';
         };
@@ -439,9 +431,9 @@ public class LUnaryOperatorTest<T> {
         char finalValue = function.applyAsChar(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -456,14 +448,14 @@ public class LUnaryOperatorTest<T> {
         //given (+ some assertions)
         LUnaryOperator<Integer> sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90;
         };
 
         LPredicate<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -473,9 +465,9 @@ public class LUnaryOperatorTest<T> {
         boolean finalValue = function.test(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -485,8 +477,7 @@ public class LUnaryOperatorTest<T> {
     @Test
     public void identity() throws Throwable {
         LUnaryOperator<Integer> identityFunction = LUnaryOperator.identity();
-
-        assertThat(identityFunction.apply(8)).isEqualTo(8);
+        Assert.assertEquals(identityFunction.apply(8), (Object) 8);
     }
 
 
@@ -507,20 +498,17 @@ public class LUnaryOperatorTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LUnaryOperator: T apply(T a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LUnaryOperator: T apply(T a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

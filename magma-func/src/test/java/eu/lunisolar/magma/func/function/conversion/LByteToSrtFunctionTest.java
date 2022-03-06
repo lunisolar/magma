@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LByteToSrtFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsSrt((byte)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsSrt((byte)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LByteToSrtFunctionTest {
 
         Object result = sut.tupleApplyAsSrt(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsSrt() throws Throwable {
-        assertThat(sut.nonNullApplyAsSrt((byte)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsSrt((byte)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LByteToSrtFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsSrt((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LByteToSrtFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsSrt((byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteToSrtFunction: short applyAsSrt(byte a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LByteToSrtFunction: short applyAsSrt(byte a)");
     }
 
     @Test
     public void testByteToSrtFuncMethod() throws Throwable {
-        assertThat(LByteToSrtFunction.byteToSrtFunc(a -> testValue ))
-            .isInstanceOf(LByteToSrtFunction.class);
+        Assert.assertTrue(LByteToSrtFunction.byteToSrtFunc(a -> testValue ) instanceof LByteToSrtFunction);
+    
     }
 
 
@@ -164,12 +157,12 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)90);
+                Assert.assertEquals(a, (Object) (byte)90);
                 return (short)100;
         };
 
         LByteUnaryOperator before = p0 -> {
-            assertThat(p0).isEqualTo((byte)80);
+            Assert.assertEquals(p0, (Object) (byte)80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
@@ -179,8 +172,8 @@ public class LByteToSrtFunctionTest {
         function.applyAsSrt((byte)80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -193,12 +186,12 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)90);
+                Assert.assertEquals(a, (Object) (byte)90);
                 return (short)100;
         };
 
         LToByteFunction<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
@@ -208,8 +201,8 @@ public class LByteToSrtFunctionTest {
         function.applyAsSrt(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -227,14 +220,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // Integer
                 return 100;
         };
@@ -244,9 +237,9 @@ public class LByteToSrtFunctionTest {
         Integer finalValue = function.apply((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -261,14 +254,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // byte
                 return (byte)100;
         };
@@ -278,9 +271,9 @@ public class LByteToSrtFunctionTest {
         byte finalValue = function.applyAsByte((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -295,14 +288,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // short
                 return (short)100;
         };
@@ -312,9 +305,9 @@ public class LByteToSrtFunctionTest {
         short finalValue = function.applyAsSrt((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -329,14 +322,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // int
                 return 100;
         };
@@ -346,9 +339,9 @@ public class LByteToSrtFunctionTest {
         int finalValue = function.applyAsInt((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -363,14 +356,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // long
                 return 100L;
         };
@@ -380,9 +373,9 @@ public class LByteToSrtFunctionTest {
         long finalValue = function.applyAsLong((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,14 +390,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // float
                 return 100f;
         };
@@ -414,9 +407,9 @@ public class LByteToSrtFunctionTest {
         float finalValue = function.applyAsFlt((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -431,14 +424,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // double
                 return 100d;
         };
@@ -448,9 +441,9 @@ public class LByteToSrtFunctionTest {
         double finalValue = function.applyAsDbl((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -465,14 +458,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // char
                 return '\u0100';
         };
@@ -482,9 +475,9 @@ public class LByteToSrtFunctionTest {
         char finalValue = function.applyAsChar((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -499,14 +492,14 @@ public class LByteToSrtFunctionTest {
         //given (+ some assertions)
         LByteToSrtFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo((byte)80);
+                Assert.assertEquals(a, (Object) (byte)80);
                 return (short)90;
         };
 
         LSrtPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // short
-                assertThat(p).isEqualTo((short)90);
+                Assert.assertEquals(p, (Object) (short)90);
                 // boolean
                 return true;
         };
@@ -516,9 +509,9 @@ public class LByteToSrtFunctionTest {
         boolean finalValue = function.test((byte)80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -543,20 +536,17 @@ public class LByteToSrtFunctionTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LByteToSrtFunction: short applyAsSrt(byte a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LByteToSrtFunction: short applyAsSrt(byte a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

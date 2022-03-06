@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LCharTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsChar('\u0100','\u0100','\u0100'))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsChar('\u0100','\u0100','\u0100'), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LCharTernaryOperatorTest {
 
         Object result = sut.tupleApplyAsChar(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsChar() throws Throwable {
-        assertThat(sut.nonNullApplyAsChar('\u0100','\u0100','\u0100'))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsChar('\u0100','\u0100','\u0100'), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LCharTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsChar('\u0100','\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LCharTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsChar('\u0100','\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharTernaryOperator: char applyAsChar(char a1,char a2,char a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LCharTernaryOperator: char applyAsChar(char a1,char a2,char a3)");
     }
 
     @Test
     public void testCharTernaryOpMethod() throws Throwable {
-        assertThat(LCharTernaryOperator.charTernaryOp((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LCharTernaryOperator.class);
+        Assert.assertTrue(LCharTernaryOperator.charTernaryOp((a1,a2,a3) -> testValue ) instanceof LCharTernaryOperator);
+    
     }
 
 
@@ -164,24 +157,24 @@ public class LCharTernaryOperatorTest {
         //given (+ some assertions)
         LCharTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
-                assertThat(a2).isEqualTo('\u0091');
-                assertThat(a3).isEqualTo('\u0092');
+                Assert.assertEquals(a1, (Object) '\u0090');
+                Assert.assertEquals(a2, (Object) '\u0091');
+                Assert.assertEquals(a3, (Object) '\u0092');
                 return '\u0100';
         };
 
         LCharUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo('\u0080');
+            Assert.assertEquals(p0, (Object) '\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
         LCharUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo('\u0081');
+            Assert.assertEquals(p1, (Object) '\u0081');
             beforeCalls.incrementAndGet();
             return '\u0091';
         };
         LCharUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo('\u0082');
+            Assert.assertEquals(p2, (Object) '\u0082');
             beforeCalls.incrementAndGet();
             return '\u0092';
         };
@@ -191,8 +184,8 @@ public class LCharTernaryOperatorTest {
         function.applyAsChar('\u0080','\u0081','\u0082');
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -210,16 +203,16 @@ public class LCharTernaryOperatorTest {
         //given (+ some assertions)
         LCharTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
-                assertThat(a3).isEqualTo('\u0082');
+                Assert.assertEquals(a1, (Object) '\u0080');
+                Assert.assertEquals(a2, (Object) '\u0081');
+                Assert.assertEquals(a3, (Object) '\u0082');
                 return '\u0090';
         };
 
         LCharFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // Integer
                 return 100;
         };
@@ -229,9 +222,9 @@ public class LCharTernaryOperatorTest {
         Integer finalValue = function.apply('\u0080','\u0081','\u0082');
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -246,16 +239,16 @@ public class LCharTernaryOperatorTest {
         //given (+ some assertions)
         LCharTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
-                assertThat(a3).isEqualTo('\u0082');
+                Assert.assertEquals(a1, (Object) '\u0080');
+                Assert.assertEquals(a2, (Object) '\u0081');
+                Assert.assertEquals(a3, (Object) '\u0082');
                 return '\u0090';
         };
 
         LCharUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // char
                 return '\u0100';
         };
@@ -265,9 +258,9 @@ public class LCharTernaryOperatorTest {
         char finalValue = function.applyAsChar('\u0080','\u0081','\u0082');
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -282,16 +275,16 @@ public class LCharTernaryOperatorTest {
         //given (+ some assertions)
         LCharTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
-                assertThat(a3).isEqualTo('\u0082');
+                Assert.assertEquals(a1, (Object) '\u0080');
+                Assert.assertEquals(a2, (Object) '\u0081');
+                Assert.assertEquals(a3, (Object) '\u0082');
                 return '\u0090';
         };
 
         LCharPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // char
-                assertThat(p).isEqualTo('\u0090');
+                Assert.assertEquals(p, (Object) '\u0090');
                 // boolean
                 return true;
         };
@@ -301,9 +294,9 @@ public class LCharTernaryOperatorTest {
         boolean finalValue = function.test('\u0080','\u0081','\u0082');
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -328,20 +321,17 @@ public class LCharTernaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LCharTernaryOperator: char applyAsChar(char a1,char a2,char a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LCharTernaryOperator: char applyAsChar(char a1,char a2,char a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

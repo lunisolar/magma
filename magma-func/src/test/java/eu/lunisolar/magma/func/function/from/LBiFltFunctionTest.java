@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -90,8 +89,7 @@ public class LBiFltFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.apply(100f,100f))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.apply(100f,100f), testValue);
     }
 
     @Test
@@ -101,14 +99,12 @@ public class LBiFltFunctionTest<R> {
 
         Object result = sut.tupleApply(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApply() throws Throwable {
-        assertThat(sut.nonNullApply(100f,100f))
-            .isSameAs(testValue);
+            Assert.assertSame(sut.nonNullApply(100f,100f), testValue);
     }
 
     @Test
@@ -117,12 +113,11 @@ public class LBiFltFunctionTest<R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApply(100f,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -132,12 +127,11 @@ public class LBiFltFunctionTest<R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApply(100f,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -149,14 +143,13 @@ public class LBiFltFunctionTest<R> {
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiFltFunction: R apply(float a1,float a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBiFltFunction: R apply(float a1,float a2)");
     }
 
     @Test
     public void testBiFltFuncMethod() throws Throwable {
-        assertThat(LBiFltFunction.biFltFunc((a1,a2) -> testValue ))
-            .isInstanceOf(LBiFltFunction.class);
+        Assert.assertTrue(LBiFltFunction.biFltFunc((a1,a2) -> testValue ) instanceof LBiFltFunction);
+    
     }
 
 
@@ -175,18 +168,18 @@ public class LBiFltFunctionTest<R> {
         //given (+ some assertions)
         LBiFltFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
-                assertThat(a2).isEqualTo(91f);
+                Assert.assertEquals(a1, (Object) 90f);
+                Assert.assertEquals(a2, (Object) 91f);
                 return 100;
         };
 
         LFltUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80f);
+            Assert.assertEquals(p0, (Object) 80f);
             beforeCalls.incrementAndGet();
             return 90f;
         };
         LFltUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81f);
+            Assert.assertEquals(p1, (Object) 81f);
             beforeCalls.incrementAndGet();
             return 91f;
         };
@@ -196,8 +189,8 @@ public class LBiFltFunctionTest<R> {
         function.apply(80f,81f);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -210,18 +203,18 @@ public class LBiFltFunctionTest<R> {
         //given (+ some assertions)
         LBiFltFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90f);
-                assertThat(a2).isEqualTo(91f);
+                Assert.assertEquals(a1, (Object) 90f);
+                Assert.assertEquals(a2, (Object) 91f);
                 return 100;
         };
 
         LToFltFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90f;
         };
         LToFltFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91f;
         };
@@ -231,8 +224,8 @@ public class LBiFltFunctionTest<R> {
         function.apply(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -250,15 +243,15 @@ public class LBiFltFunctionTest<R> {
         //given (+ some assertions)
         LBiFltFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
                 return 90;
         };
 
         LFunction<Integer,Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -268,9 +261,9 @@ public class LBiFltFunctionTest<R> {
         Integer finalValue = function.apply(80f,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -285,15 +278,15 @@ public class LBiFltFunctionTest<R> {
         //given (+ some assertions)
         LBiFltFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
                 return 90;
         };
 
         LConsumer<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
         };
 
         //when
@@ -301,8 +294,8 @@ public class LBiFltFunctionTest<R> {
         function.accept(80f,81f);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -317,15 +310,15 @@ public class LBiFltFunctionTest<R> {
         //given (+ some assertions)
         LBiFltFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
                 return 90;
         };
 
         LToFltFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // float
                 return 100f;
         };
@@ -335,9 +328,9 @@ public class LBiFltFunctionTest<R> {
         float finalValue = function.applyAsFlt(80f,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -352,15 +345,15 @@ public class LBiFltFunctionTest<R> {
         //given (+ some assertions)
         LBiFltFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80f);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80f);
+                Assert.assertEquals(a2, (Object) 81f);
                 return 90;
         };
 
         LPredicate<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -370,9 +363,9 @@ public class LBiFltFunctionTest<R> {
         boolean finalValue = function.test(80f,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,20 +390,17 @@ public class LBiFltFunctionTest<R> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBiFltFunction: R apply(float a1,float a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBiFltFunction: R apply(float a1,float a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -423,7 +413,7 @@ public class LBiFltFunctionTest<R> {
     public void compilerSubstituteVariantLFlt1Flt0Func() {
         LBiFltFunction lambda = LBiFltFunction./*<R>*/flt1Flt0Func(this::variantLFlt1Flt0Func);
 
-        assertThat(lambda).isInstanceOf(LBiFltFunction.LFlt1Flt0Func.class);
+        Assert.assertTrue(lambda instanceof LBiFltFunction.LFlt1Flt0Func);
     }
 
     //</editor-fold>

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -90,8 +89,7 @@ public class LDblConsumerTest {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -100,12 +98,11 @@ public class LDblConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept(100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -115,33 +112,30 @@ public class LDblConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept(100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDblConsumer: void accept(double a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LDblConsumer: void accept(double a)");
     }
 
     @Test
     public void testDblConsMethod() throws Throwable {
-        assertThat(LDblConsumer.dblCons(LDblConsumer::doNothing))
-            .isInstanceOf(LDblConsumer.class);
+        Assert.assertTrue(LDblConsumer.dblCons(LDblConsumer::doNothing) instanceof LDblConsumer);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LDblConsumer.wrap(jre))
-            .isInstanceOf(LDblConsumer.class);
+        Assert.assertTrue(LDblConsumer.wrap(jre) instanceof LDblConsumer);
     }
 
 
@@ -159,11 +153,11 @@ public class LDblConsumerTest {
         //given (+ some assertions)
         LDblConsumer sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90d);
+                Assert.assertEquals(a, (Object) 90d);
         };
 
         LDblUnaryOperator before = p0 -> {
-            assertThat(p0).isEqualTo(80d);
+            Assert.assertEquals(p0, (Object) 80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
@@ -173,8 +167,8 @@ public class LDblConsumerTest {
         function.accept(80d);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -187,11 +181,11 @@ public class LDblConsumerTest {
         //given (+ some assertions)
         LDblConsumer sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90d);
+                Assert.assertEquals(a, (Object) 90d);
         };
 
         LToDblFunction<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
@@ -201,8 +195,8 @@ public class LDblConsumerTest {
         function.accept(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -216,12 +210,12 @@ public class LDblConsumerTest {
          //given (+ some assertions)
         LDblConsumer sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals((Object)a, (Object) 80d);
         };
 
         LDblConsumer thenFunction = a -> {
                 thenFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80d);
+                Assert.assertEquals((Object)a, (Object) 80d);
         };
 
         //when
@@ -229,8 +223,8 @@ public class LDblConsumerTest {
         function.accept(80d);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -251,20 +245,17 @@ public class LDblConsumerTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LDblConsumer: void accept(double a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LDblConsumer: void accept(double a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

@@ -22,10 +22,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*;
 import eu.lunisolar.magma.func.function.from.LOiFunction;
 import eu.lunisolar.magma.func.function.to.*;
 import eu.lunisolar.magma.func.predicate.LObjIntPredicate;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static java.util.Arrays.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  *    
@@ -41,9 +41,9 @@ public class IATest {
         LTieConsumer setter = IA.list().setter();
         LOiFunction getter = IA.list().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, 22);
-        assertThat(getter.apply(container, 0)).isEqualTo(22);
+        Assert.assertEquals(getter.apply(container, 0), 22);
     }
 
      @Test public void testObjectArray() {
@@ -53,9 +53,9 @@ public class IATest {
         LTieConsumer setter = IA.array().setter();
         LOiFunction getter = IA.array().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, 22);
-        assertThat(getter.apply(container, 0)).isEqualTo(22);
+        Assert.assertEquals(getter.apply(container, 0), 22);
     }
 
      @Test public void testIntegerArray() {
@@ -65,9 +65,9 @@ public class IATest {
         LTieConsumer setter = IA.array().setter();
         LOiFunction getter = IA.array().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, 22);
-        assertThat(getter.apply(container, 0)).isEqualTo(22);
+        Assert.assertEquals(getter.apply(container, 0), 22);
     }
 
      @Test public void testIntArray() {
@@ -77,9 +77,9 @@ public class IATest {
         LTieIntConsumer setter = IA.intArray().setter();
         LOiToIntFunction getter = IA.intArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, 22);
-        assertThat(getter.applyAsInt(container, 0)).isEqualTo(22);
+        Assert.assertEquals(getter.applyAsInt(container, 0), 22);
     }
 
      @Test public void testLongArray() {
@@ -89,9 +89,9 @@ public class IATest {
         LTieLongConsumer setter = IA.longArray().setter();
         LOiToLongFunction getter = IA.longArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, 22);
-        assertThat(getter.applyAsLong(container, 0)).isEqualTo(22);
+        Assert.assertEquals(getter.applyAsLong(container, 0), 22);
     }
 
      @Test public void testDoubleArray() {
@@ -101,9 +101,9 @@ public class IATest {
         LTieDblConsumer setter = IA.doubleArray().setter();
         LOiToDblFunction getter = IA.doubleArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
-        setter.accept(container, 0, 22);
-        assertThat(getter.applyAsDbl(container, 0)).isEqualTo(22);
+        Assert.assertEquals(size.applyAsInt(container), 3);
+        setter.accept(container, 0, 22.0);
+        Assert.assertEquals(getter.applyAsDbl(container, 0), 22.0);
     }
 
      @Test public void testByteArray() {
@@ -113,9 +113,9 @@ public class IATest {
         LTieByteConsumer setter = IA.byteArray().setter();
         LOiToByteFunction getter = IA.byteArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, (byte)22);
-        assertThat(getter.applyAsByte(container, 0)).isEqualTo((byte)22);
+        Assert.assertEquals(getter.applyAsByte(container, 0), (byte)22);
     }
 
      @Test public void testShortArray() {
@@ -125,9 +125,9 @@ public class IATest {
         LTieSrtConsumer setter = IA.shortArray().setter();
         LOiToSrtFunction getter = IA.shortArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, (short)22);
-        assertThat(getter.applyAsSrt(container, 0)).isEqualTo((short)22);
+        Assert.assertEquals(getter.applyAsSrt(container, 0), (short)22);
     }
 
      @Test public void testCharArray() {
@@ -137,9 +137,9 @@ public class IATest {
         LTieCharConsumer setter = IA.charArray().setter();
         LOiToCharFunction getter = IA.charArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, (char)22);
-        assertThat(getter.applyAsChar(container, 0)).isEqualTo((char)22);
+        Assert.assertEquals(getter.applyAsChar(container, 0), (char)22);
     }
 
      @Test public void testFloatArray() {
@@ -149,9 +149,9 @@ public class IATest {
         LTieFltConsumer setter = IA.floatArray().setter();
         LOiToFltFunction getter = IA.floatArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, (float)22);
-        assertThat(getter.applyAsFlt(container, 0)).isEqualTo((float)22);
+        Assert.assertEquals(getter.applyAsFlt(container, 0), (float)22);
     }
 
      @Test public void testBoolArray() {
@@ -161,9 +161,9 @@ public class IATest {
         LTieBoolConsumer setter = IA.boolArray().setter();
         LObjIntPredicate getter = IA.boolArray().getter();
 
-        assertThat(size.applyAsInt(container)).isEqualTo(3);
+        Assert.assertEquals(size.applyAsInt(container), 3);
         setter.accept(container, 0, false);
-        assertThat(getter.test(container, 0)).isEqualTo(false);
+        Assert.assertEquals(getter.test(container, 0), false);
     }
 
 

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -86,8 +85,7 @@ public class LLongPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100L), testValue);
     }
 
     @Test
@@ -97,14 +95,12 @@ public class LLongPredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100L))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100L), testValue);
     }
 
     @Test
@@ -113,12 +109,11 @@ public class LLongPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -128,48 +123,42 @@ public class LLongPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100L))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100L), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongPredicate: boolean test(long a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LLongPredicate: boolean test(long a)");
     }
 
     @Test
     public void testLongPredMethod() throws Throwable {
-        assertThat(LLongPredicate.longPred(a -> testValue ))
-            .isInstanceOf(LLongPredicate.class);
+        Assert.assertTrue(LLongPredicate.longPred(a -> testValue ) instanceof LLongPredicate);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LLongPredicate.wrap(jre))
-            .isInstanceOf(LLongPredicate.class);
+        Assert.assertTrue(LLongPredicate.wrap(jre) instanceof LLongPredicate);
     }
 
 
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100L))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100L), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -196,14 +185,11 @@ public class LLongPredicateTest {
         LLongPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100L))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100L), andResult);
 
-        assertThat(orFunction.test(100L))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100L), orResult);
 
-        assertThat(xorFunction.test(100L))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100L), xorResult);
     }
 
     @Test
@@ -212,11 +198,9 @@ public class LLongPredicateTest {
         LLongPredicate equals = LLongPredicate.isEqual(1L);
 
         //then
-        assertThat(equals.test(1L))
-                .isTrue();
+        Assert.assertTrue(equals.test(1L));
 
-        assertThat(equals.test(0L))
-                .isFalse();
+        Assert.assertFalse(equals.test(0L));
     }
 
 
@@ -232,12 +216,12 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90L);
+                Assert.assertEquals(a, (Object) 90L);
                 return true;
         };
 
         LLongUnaryOperator before = p0 -> {
-            assertThat(p0).isEqualTo(80L);
+            Assert.assertEquals(p0, (Object) 80L);
             beforeCalls.incrementAndGet();
             return 90L;
         };
@@ -247,8 +231,8 @@ public class LLongPredicateTest {
         function.test(80L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -261,12 +245,12 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90L);
+                Assert.assertEquals(a, (Object) 90L);
                 return true;
         };
 
         LToLongFunction<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90L;
         };
@@ -276,8 +260,8 @@ public class LLongPredicateTest {
         function.test(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -295,14 +279,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -312,9 +296,9 @@ public class LLongPredicateTest {
         Integer finalValue = function.apply(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -329,14 +313,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // byte
                 return (byte)100;
         };
@@ -346,9 +330,9 @@ public class LLongPredicateTest {
         byte finalValue = function.applyAsByte(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -363,14 +347,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // short
                 return (short)100;
         };
@@ -380,9 +364,9 @@ public class LLongPredicateTest {
         short finalValue = function.applyAsSrt(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,14 +381,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // int
                 return 100;
         };
@@ -414,9 +398,9 @@ public class LLongPredicateTest {
         int finalValue = function.applyAsInt(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -431,14 +415,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // long
                 return 100L;
         };
@@ -448,9 +432,9 @@ public class LLongPredicateTest {
         long finalValue = function.applyAsLong(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -465,14 +449,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // float
                 return 100f;
         };
@@ -482,9 +466,9 @@ public class LLongPredicateTest {
         float finalValue = function.applyAsFlt(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -499,14 +483,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // double
                 return 100d;
         };
@@ -516,9 +500,9 @@ public class LLongPredicateTest {
         double finalValue = function.applyAsDbl(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -533,14 +517,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LBoolToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // char
                 return '\u0100';
         };
@@ -550,9 +534,9 @@ public class LLongPredicateTest {
         char finalValue = function.applyAsChar(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -567,14 +551,14 @@ public class LLongPredicateTest {
         //given (+ some assertions)
         LLongPredicate sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80L);
+                Assert.assertEquals(a, (Object) 80L);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -584,9 +568,9 @@ public class LLongPredicateTest {
         boolean finalValue = function.test(80L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -611,20 +595,17 @@ public class LLongPredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LLongPredicate: boolean test(long a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LLongPredicate: boolean test(long a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

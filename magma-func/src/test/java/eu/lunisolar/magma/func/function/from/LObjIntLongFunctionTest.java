@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -90,8 +89,7 @@ public class LObjIntLongFunctionTest<T,R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.apply(100,100,100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.apply(100,100,100L), testValue);
     }
 
     @Test
@@ -101,14 +99,12 @@ public class LObjIntLongFunctionTest<T,R> {
 
         Object result = sut.tupleApply(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApply() throws Throwable {
-        assertThat(sut.nonNullApply(100,100,100L))
-            .isSameAs(testValue);
+            Assert.assertSame(sut.nonNullApply(100,100,100L), testValue);
     }
 
     @Test
@@ -117,12 +113,11 @@ public class LObjIntLongFunctionTest<T,R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApply(100,100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -132,12 +127,11 @@ public class LObjIntLongFunctionTest<T,R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApply(100,100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -149,14 +143,13 @@ public class LObjIntLongFunctionTest<T,R> {
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjIntLongFunction: R apply(T a1,int a2,long a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LObjIntLongFunction: R apply(T a1,int a2,long a3)");
     }
 
     @Test
     public void testObjIntLongFuncMethod() throws Throwable {
-        assertThat(LObjIntLongFunction.objIntLongFunc((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LObjIntLongFunction.class);
+        Assert.assertTrue(LObjIntLongFunction.objIntLongFunc((a1,a2,a3) -> testValue ) instanceof LObjIntLongFunction);
+    
     }
 
 
@@ -175,24 +168,24 @@ public class LObjIntLongFunctionTest<T,R> {
         //given (+ some assertions)
         LObjIntLongFunction<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92L);
                 return 100;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LLongUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82L);
+            Assert.assertEquals(p2, (Object) 82L);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -202,8 +195,8 @@ public class LObjIntLongFunctionTest<T,R> {
         function.apply(80,81,82L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -216,24 +209,24 @@ public class LObjIntLongFunctionTest<T,R> {
         //given (+ some assertions)
         LObjIntLongFunction<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92L);
                 return 100;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LToLongFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -243,8 +236,8 @@ public class LObjIntLongFunctionTest<T,R> {
         function.apply(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -262,16 +255,16 @@ public class LObjIntLongFunctionTest<T,R> {
         //given (+ some assertions)
         LObjIntLongFunction<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return 90;
         };
 
         LFunction<Integer,Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -281,9 +274,9 @@ public class LObjIntLongFunctionTest<T,R> {
         Integer finalValue = function.apply(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -298,16 +291,16 @@ public class LObjIntLongFunctionTest<T,R> {
         //given (+ some assertions)
         LObjIntLongFunction<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return 90;
         };
 
         LConsumer<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
         };
 
         //when
@@ -315,8 +308,8 @@ public class LObjIntLongFunctionTest<T,R> {
         function.accept(80,81,82L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -331,16 +324,16 @@ public class LObjIntLongFunctionTest<T,R> {
         //given (+ some assertions)
         LObjIntLongFunction<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return 90;
         };
 
         LToIntFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // int
                 return 100;
         };
@@ -350,9 +343,9 @@ public class LObjIntLongFunctionTest<T,R> {
         int finalValue = function.applyAsInt(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -367,16 +360,16 @@ public class LObjIntLongFunctionTest<T,R> {
         //given (+ some assertions)
         LObjIntLongFunction<Integer,Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return 90;
         };
 
         LPredicate<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -386,9 +379,9 @@ public class LObjIntLongFunctionTest<T,R> {
         boolean finalValue = function.test(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -413,20 +406,17 @@ public class LObjIntLongFunctionTest<T,R> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LObjIntLongFunction: R apply(T a1,int a2,long a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LObjIntLongFunction: R apply(T a1,int a2,long a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -439,7 +429,7 @@ public class LObjIntLongFunctionTest<T,R> {
     public void compilerSubstituteVariantLObjLongIntFunc() {
         LObjIntLongFunction lambda = LObjIntLongFunction./*<T,R>*/objLongIntFunc(this::variantLObjLongIntFunc);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongFunction.LObjLongIntFunc.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongFunction.LObjLongIntFunc);
     }
 
 
@@ -451,7 +441,7 @@ public class LObjIntLongFunctionTest<T,R> {
     public void compilerSubstituteVariantLIntObjLongFunc() {
         LObjIntLongFunction lambda = LObjIntLongFunction./*<T,R>*/intObjLongFunc(this::variantLIntObjLongFunc);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongFunction.LIntObjLongFunc.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongFunction.LIntObjLongFunc);
     }
 
 
@@ -463,7 +453,7 @@ public class LObjIntLongFunctionTest<T,R> {
     public void compilerSubstituteVariantLIntLongObjFunc() {
         LObjIntLongFunction lambda = LObjIntLongFunction./*<T,R>*/intLongObjFunc(this::variantLIntLongObjFunc);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongFunction.LIntLongObjFunc.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongFunction.LIntLongObjFunc);
     }
 
 
@@ -475,7 +465,7 @@ public class LObjIntLongFunctionTest<T,R> {
     public void compilerSubstituteVariantLLongObjIntFunc() {
         LObjIntLongFunction lambda = LObjIntLongFunction./*<T,R>*/longObjIntFunc(this::variantLLongObjIntFunc);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongFunction.LLongObjIntFunc.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongFunction.LLongObjIntFunc);
     }
 
 
@@ -487,7 +477,7 @@ public class LObjIntLongFunctionTest<T,R> {
     public void compilerSubstituteVariantLLongIntObjFunc() {
         LObjIntLongFunction lambda = LObjIntLongFunction./*<T,R>*/longIntObjFunc(this::variantLLongIntObjFunc);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongFunction.LLongIntObjFunc.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongFunction.LLongIntObjFunc);
     }
 
     //</editor-fold>

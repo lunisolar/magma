@@ -19,6 +19,7 @@
 package eu.lunisolar.magma.asserts.func.consumer.primitives.obj;
 
 import eu.lunisolar.magma.asserts.func.FuncAttests;
+import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -29,14 +30,11 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjIntConsumer;
-import org.assertj.core.api.Assertions;  //NOSONAR
-import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; //NOSONAR
 
 @SuppressWarnings("ALL")
@@ -58,7 +56,7 @@ public class LBiObjIntConsumerAttestTest<T1,T2> {
 
         FuncAttests.attestBiObjIntCons(function)
          .doesAccept(100,100,100)
-            .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
+            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue));
 
     }
 
@@ -67,7 +65,7 @@ public class LBiObjIntConsumerAttestTest<T1,T2> {
 
         FuncAttests.attestBiObjIntCons(function)
          .doesAccept(100,100,100)
-            .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
+            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, 2));
 
     }
 
@@ -76,7 +74,7 @@ public class LBiObjIntConsumerAttestTest<T1,T2> {
 
         FuncAttests.attestBiObjIntCons(functionThrowing)
          .doesAccept(100,100,100)
-            .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
+            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, 1));
     }
 
     @Test
@@ -97,14 +95,14 @@ public class LBiObjIntConsumerAttestTest<T1,T2> {
         FuncAttests.attestBiObjIntCons(function)
          .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
-            assertThat(externalEffect.get()).isEqualTo(testValue);
+            Checks.attest(externalEffect.get()).must$(Be::equal$, testValue);
          })
          .doesAccept(100,100,100)
-            .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
+            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue))
          .doesAccept(100,100,100)
-            .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
+            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue));
 
-        assertThat(recurringAssertsCalls.get()).isEqualTo(2);
+        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s).*Recurring assertion failed.*")
@@ -116,15 +114,15 @@ public class LBiObjIntConsumerAttestTest<T1,T2> {
          .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                assertThat(externalEffect.get()).isEqualTo(0);
+                Checks.attest(externalEffect.get()).must$(Be::equal$, 0);
             }
          })
          .doesAccept(100,100,100)
-            .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
+            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue))
          .doesAccept(100,100,100)
-            .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
+            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue));
 
-        assertThat(recurringAssertsCalls.get()).isEqualTo(2);
+        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
     }
 
 }

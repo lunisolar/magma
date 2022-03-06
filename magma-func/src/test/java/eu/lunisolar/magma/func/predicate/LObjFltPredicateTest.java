@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LObjFltPredicateTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100,100f))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100,100f), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LObjFltPredicateTest<T> {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100,100f))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100,100f), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LObjFltPredicateTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LObjFltPredicateTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100,100f);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100,100f))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100,100f), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjFltPredicate: boolean test(T a1,float a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LObjFltPredicate: boolean test(T a1,float a2)");
     }
 
     @Test
     public void testObjFltPredMethod() throws Throwable {
-        assertThat(LObjFltPredicate.objFltPred((a1,a2) -> testValue ))
-            .isInstanceOf(LObjFltPredicate.class);
+        Assert.assertTrue(LObjFltPredicate.objFltPred((a1,a2) -> testValue ) instanceof LObjFltPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LObjFltPredicateTest<T> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100,100f))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100,100f), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LObjFltPredicateTest<T> {
         LObjFltPredicate<Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100,100f))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100,100f), andResult);
 
-        assertThat(orFunction.test(100,100f))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100,100f), orResult);
 
-        assertThat(xorFunction.test(100,100f))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100,100f), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LObjFltPredicateTest<T> {
         LObjFltPredicate<Integer> equals = LObjFltPredicate.isEqual(1,1f);
 
         //then
-        assertThat(equals.test(1,1f))
-                .isTrue();
+        Assert.assertTrue(equals.test(1,1f));
 
-        assertThat(equals.test(0,0f))
-                .isFalse();
+        Assert.assertFalse(equals.test(0,0f));
     }
 
 
@@ -224,18 +209,18 @@ public class LObjFltPredicateTest<T> {
         //given (+ some assertions)
         LObjFltPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91f);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91f);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LFltUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81f);
+            Assert.assertEquals(p1, (Object) 81f);
             beforeCalls.incrementAndGet();
             return 91f;
         };
@@ -245,8 +230,8 @@ public class LObjFltPredicateTest<T> {
         function.test(80,81f);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LObjFltPredicateTest<T> {
         //given (+ some assertions)
         LObjFltPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91f);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91f);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToFltFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91f;
         };
@@ -280,8 +265,8 @@ public class LObjFltPredicateTest<T> {
         function.test(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LObjFltPredicateTest<T> {
         //given (+ some assertions)
         LObjFltPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81f);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -317,9 +302,9 @@ public class LObjFltPredicateTest<T> {
         Integer finalValue = function.apply(80,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -334,15 +319,15 @@ public class LObjFltPredicateTest<T> {
         //given (+ some assertions)
         LObjFltPredicate<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81f);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81f);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -352,9 +337,9 @@ public class LObjFltPredicateTest<T> {
         boolean finalValue = function.test(80,81f);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -379,20 +364,17 @@ public class LObjFltPredicateTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LObjFltPredicate: boolean test(T a1,float a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LObjFltPredicate: boolean test(T a1,float a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -405,7 +387,7 @@ public class LObjFltPredicateTest<T> {
     public void compilerSubstituteVariantLFltObjPred() {
         LObjFltPredicate lambda = LObjFltPredicate./*<T>*/fltObjPred(this::variantLFltObjPred);
 
-        assertThat(lambda).isInstanceOf(LObjFltPredicate.LFltObjPred.class);
+        Assert.assertTrue(lambda instanceof LObjFltPredicate.LFltObjPred);
     }
 
     //</editor-fold>

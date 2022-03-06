@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LLongTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsLong(100L,100L,100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsLong(100L,100L,100L), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LLongTernaryOperatorTest {
 
         Object result = sut.tupleApplyAsLong(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullApplyAsLong(100L,100L,100L))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsLong(100L,100L,100L), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LLongTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsLong(100L,100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LLongTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsLong(100L,100L,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongTernaryOperator: long applyAsLong(long a1,long a2,long a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LLongTernaryOperator: long applyAsLong(long a1,long a2,long a3)");
     }
 
     @Test
     public void testLongTernaryOpMethod() throws Throwable {
-        assertThat(LLongTernaryOperator.longTernaryOp((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LLongTernaryOperator.class);
+        Assert.assertTrue(LLongTernaryOperator.longTernaryOp((a1,a2,a3) -> testValue ) instanceof LLongTernaryOperator);
+    
     }
 
 
@@ -164,24 +157,24 @@ public class LLongTernaryOperatorTest {
         //given (+ some assertions)
         LLongTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90L);
-                assertThat(a2).isEqualTo(91L);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90L);
+                Assert.assertEquals(a2, (Object) 91L);
+                Assert.assertEquals(a3, (Object) 92L);
                 return 100L;
         };
 
         LLongUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80L);
+            Assert.assertEquals(p0, (Object) 80L);
             beforeCalls.incrementAndGet();
             return 90L;
         };
         LLongUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81L);
+            Assert.assertEquals(p1, (Object) 81L);
             beforeCalls.incrementAndGet();
             return 91L;
         };
         LLongUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82L);
+            Assert.assertEquals(p2, (Object) 82L);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -191,8 +184,8 @@ public class LLongTernaryOperatorTest {
         function.applyAsLong(80L,81L,82L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -210,16 +203,16 @@ public class LLongTernaryOperatorTest {
         //given (+ some assertions)
         LLongTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
+                Assert.assertEquals(a3, (Object) 82L);
                 return 90L;
         };
 
         LLongFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // Integer
                 return 100;
         };
@@ -229,9 +222,9 @@ public class LLongTernaryOperatorTest {
         Integer finalValue = function.apply(80L,81L,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -246,16 +239,16 @@ public class LLongTernaryOperatorTest {
         //given (+ some assertions)
         LLongTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
+                Assert.assertEquals(a3, (Object) 82L);
                 return 90L;
         };
 
         LLongUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // long
                 return 100L;
         };
@@ -265,9 +258,9 @@ public class LLongTernaryOperatorTest {
         long finalValue = function.applyAsLong(80L,81L,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -282,16 +275,16 @@ public class LLongTernaryOperatorTest {
         //given (+ some assertions)
         LLongTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80L);
-                assertThat(a2).isEqualTo(81L);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80L);
+                Assert.assertEquals(a2, (Object) 81L);
+                Assert.assertEquals(a3, (Object) 82L);
                 return 90L;
         };
 
         LLongPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // boolean
                 return true;
         };
@@ -301,9 +294,9 @@ public class LLongTernaryOperatorTest {
         boolean finalValue = function.test(80L,81L,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -328,20 +321,17 @@ public class LLongTernaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LLongTernaryOperator: long applyAsLong(long a1,long a2,long a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LLongTernaryOperator: long applyAsLong(long a1,long a2,long a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

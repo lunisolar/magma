@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LTriBytePredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test((byte)100,(byte)100,(byte)100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test((byte)100,(byte)100,(byte)100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LTriBytePredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest((byte)100,(byte)100,(byte)100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest((byte)100,(byte)100,(byte)100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LTriBytePredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest((byte)100,(byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LTriBytePredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest((byte)100,(byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean((byte)100,(byte)100,(byte)100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean((byte)100,(byte)100,(byte)100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriBytePredicate: boolean test(byte a1,byte a2,byte a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LTriBytePredicate: boolean test(byte a1,byte a2,byte a3)");
     }
 
     @Test
     public void testTriBytePredMethod() throws Throwable {
-        assertThat(LTriBytePredicate.triBytePred((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LTriBytePredicate.class);
+        Assert.assertTrue(LTriBytePredicate.triBytePred((a1,a2,a3) -> testValue ) instanceof LTriBytePredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LTriBytePredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test((byte)100,(byte)100,(byte)100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test((byte)100,(byte)100,(byte)100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LTriBytePredicateTest {
         LTriBytePredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((byte)100,(byte)100,(byte)100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test((byte)100,(byte)100,(byte)100), andResult);
 
-        assertThat(orFunction.test((byte)100,(byte)100,(byte)100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test((byte)100,(byte)100,(byte)100), orResult);
 
-        assertThat(xorFunction.test((byte)100,(byte)100,(byte)100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test((byte)100,(byte)100,(byte)100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LTriBytePredicateTest {
         LTriBytePredicate equals = LTriBytePredicate.isEqual((byte)1,(byte)1,(byte)1);
 
         //then
-        assertThat(equals.test((byte)1,(byte)1,(byte)1))
-                .isTrue();
+        Assert.assertTrue(equals.test((byte)1,(byte)1,(byte)1));
 
-        assertThat(equals.test((byte)0,(byte)0,(byte)0))
-                .isFalse();
+        Assert.assertFalse(equals.test((byte)0,(byte)0,(byte)0));
     }
 
 
@@ -224,24 +209,24 @@ public class LTriBytePredicateTest {
         //given (+ some assertions)
         LTriBytePredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)90);
-                assertThat(a2).isEqualTo((byte)91);
-                assertThat(a3).isEqualTo((byte)92);
+                Assert.assertEquals(a1, (Object) (byte)90);
+                Assert.assertEquals(a2, (Object) (byte)91);
+                Assert.assertEquals(a3, (Object) (byte)92);
                 return true;
         };
 
         LByteUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((byte)80);
+            Assert.assertEquals(p0, (Object) (byte)80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
         LByteUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((byte)81);
+            Assert.assertEquals(p1, (Object) (byte)81);
             beforeCalls.incrementAndGet();
             return (byte)91;
         };
         LByteUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo((byte)82);
+            Assert.assertEquals(p2, (Object) (byte)82);
             beforeCalls.incrementAndGet();
             return (byte)92;
         };
@@ -251,8 +236,8 @@ public class LTriBytePredicateTest {
         function.test((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -265,24 +250,24 @@ public class LTriBytePredicateTest {
         //given (+ some assertions)
         LTriBytePredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)90);
-                assertThat(a2).isEqualTo((byte)91);
-                assertThat(a3).isEqualTo((byte)92);
+                Assert.assertEquals(a1, (Object) (byte)90);
+                Assert.assertEquals(a2, (Object) (byte)91);
+                Assert.assertEquals(a3, (Object) (byte)92);
                 return true;
         };
 
         LToByteFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
         LToByteFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return (byte)91;
         };
         LToByteFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return (byte)92;
         };
@@ -292,8 +277,8 @@ public class LTriBytePredicateTest {
         function.test(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -311,16 +296,16 @@ public class LTriBytePredicateTest {
         //given (+ some assertions)
         LTriBytePredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
-                assertThat(a3).isEqualTo((byte)82);
+                Assert.assertEquals(a1, (Object) (byte)80);
+                Assert.assertEquals(a2, (Object) (byte)81);
+                Assert.assertEquals(a3, (Object) (byte)82);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -330,9 +315,9 @@ public class LTriBytePredicateTest {
         Integer finalValue = function.apply((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -347,16 +332,16 @@ public class LTriBytePredicateTest {
         //given (+ some assertions)
         LTriBytePredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
-                assertThat(a3).isEqualTo((byte)82);
+                Assert.assertEquals(a1, (Object) (byte)80);
+                Assert.assertEquals(a2, (Object) (byte)81);
+                Assert.assertEquals(a3, (Object) (byte)82);
                 return true;
         };
 
         LBoolToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // byte
                 return (byte)100;
         };
@@ -366,9 +351,9 @@ public class LTriBytePredicateTest {
         byte finalValue = function.applyAsByte((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -383,16 +368,16 @@ public class LTriBytePredicateTest {
         //given (+ some assertions)
         LTriBytePredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
-                assertThat(a3).isEqualTo((byte)82);
+                Assert.assertEquals(a1, (Object) (byte)80);
+                Assert.assertEquals(a2, (Object) (byte)81);
+                Assert.assertEquals(a3, (Object) (byte)82);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -402,9 +387,9 @@ public class LTriBytePredicateTest {
         boolean finalValue = function.test((byte)80,(byte)81,(byte)82);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -429,20 +414,17 @@ public class LTriBytePredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LTriBytePredicate: boolean test(byte a1,byte a2,byte a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LTriBytePredicate: boolean test(byte a1,byte a2,byte a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -86,8 +85,7 @@ public class LIntToLongFunctionTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.applyAsLong(100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.applyAsLong(100), testValue);
     }
 
     @Test
@@ -97,14 +95,12 @@ public class LIntToLongFunctionTest {
 
         Object result = sut.tupleApplyAsLong(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApplyAsLong() throws Throwable {
-        assertThat(sut.nonNullApplyAsLong(100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApplyAsLong(100), testValue);
     }
 
     @Test
@@ -113,12 +109,11 @@ public class LIntToLongFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApplyAsLong(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -128,33 +123,30 @@ public class LIntToLongFunctionTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApplyAsLong(100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntToLongFunction: long applyAsLong(int a)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LIntToLongFunction: long applyAsLong(int a)");
     }
 
     @Test
     public void testIntToLongFuncMethod() throws Throwable {
-        assertThat(LIntToLongFunction.intToLongFunc(a -> testValue ))
-            .isInstanceOf(LIntToLongFunction.class);
+        Assert.assertTrue(LIntToLongFunction.intToLongFunc(a -> testValue ) instanceof LIntToLongFunction);
+    
     }
 
 
     @Test
     public void testWrapStdMethod() throws Throwable {
-        assertThat(LIntToLongFunction.wrap(jre))
-            .isInstanceOf(LIntToLongFunction.class);
+        Assert.assertTrue(LIntToLongFunction.wrap(jre) instanceof LIntToLongFunction);
     }
 
 
@@ -172,12 +164,12 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90);
+                Assert.assertEquals(a, (Object) 90);
                 return 100L;
         };
 
         LIntUnaryOperator before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
@@ -187,8 +179,8 @@ public class LIntToLongFunctionTest {
         function.applyAsLong(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
 
@@ -201,12 +193,12 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(90);
+                Assert.assertEquals(a, (Object) 90);
                 return 100L;
         };
 
         LToIntFunction<Integer> before = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
@@ -216,8 +208,8 @@ public class LIntToLongFunctionTest {
         function.applyAsLong(80);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(1);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 1);
     }
 
     // </editor-fold>
@@ -235,14 +227,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // Integer
                 return 100;
         };
@@ -252,9 +244,9 @@ public class LIntToLongFunctionTest {
         Integer finalValue = function.apply(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -269,14 +261,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // byte
                 return (byte)100;
         };
@@ -286,9 +278,9 @@ public class LIntToLongFunctionTest {
         byte finalValue = function.applyAsByte(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((byte)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (byte)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -303,14 +295,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongToSrtFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // short
                 return (short)100;
         };
@@ -320,9 +312,9 @@ public class LIntToLongFunctionTest {
         short finalValue = function.applyAsSrt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo((short)100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) (short)100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -337,14 +329,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // int
                 return 100;
         };
@@ -354,9 +346,9 @@ public class LIntToLongFunctionTest {
         int finalValue = function.applyAsInt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -371,14 +363,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongUnaryOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // long
                 return 100L;
         };
@@ -388,9 +380,9 @@ public class LIntToLongFunctionTest {
         long finalValue = function.applyAsLong(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100L);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100L);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -405,14 +397,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongToFltFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // float
                 return 100f;
         };
@@ -422,9 +414,9 @@ public class LIntToLongFunctionTest {
         float finalValue = function.applyAsFlt(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100f);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100f);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -439,14 +431,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // double
                 return 100d;
         };
@@ -456,9 +448,9 @@ public class LIntToLongFunctionTest {
         double finalValue = function.applyAsDbl(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -473,14 +465,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // char
                 return '\u0100';
         };
@@ -490,9 +482,9 @@ public class LIntToLongFunctionTest {
         char finalValue = function.applyAsChar(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo('\u0100');
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) '\u0100');
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -507,14 +499,14 @@ public class LIntToLongFunctionTest {
         //given (+ some assertions)
         LIntToLongFunction sutO = a -> {
                 mainFunctionCalled.set(true);
-                assertThat(a).isEqualTo(80);
+                Assert.assertEquals(a, (Object) 80);
                 return 90L;
         };
 
         LLongPredicate thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // long
-                assertThat(p).isEqualTo(90L);
+                Assert.assertEquals(p, (Object) 90L);
                 // boolean
                 return true;
         };
@@ -524,9 +516,9 @@ public class LIntToLongFunctionTest {
         boolean finalValue = function.test(80);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -551,20 +543,17 @@ public class LIntToLongFunctionTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LIntToLongFunction: long applyAsLong(int a)");
+        Assert.assertTrue(String.format("%s", sut).contains("LIntToLongFunction: long applyAsLong(int a)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

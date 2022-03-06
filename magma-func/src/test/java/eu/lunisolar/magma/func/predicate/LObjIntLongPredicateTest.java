@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LObjIntLongPredicateTest<T> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100,100,100L))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100,100,100L), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LObjIntLongPredicateTest<T> {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100,100,100L))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100,100,100L), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LObjIntLongPredicateTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100,100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LObjIntLongPredicateTest<T> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100,100,100L);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100,100,100L))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100,100,100L), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjIntLongPredicate: boolean test(T a1,int a2,long a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LObjIntLongPredicate: boolean test(T a1,int a2,long a3)");
     }
 
     @Test
     public void testObjIntLongPredMethod() throws Throwable {
-        assertThat(LObjIntLongPredicate.objIntLongPred((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LObjIntLongPredicate.class);
+        Assert.assertTrue(LObjIntLongPredicate.objIntLongPred((a1,a2,a3) -> testValue ) instanceof LObjIntLongPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LObjIntLongPredicateTest<T> {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100,100,100L))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100,100,100L), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LObjIntLongPredicateTest<T> {
         LObjIntLongPredicate<Integer> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100,100,100L))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100,100,100L), andResult);
 
-        assertThat(orFunction.test(100,100,100L))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100,100,100L), orResult);
 
-        assertThat(xorFunction.test(100,100,100L))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100,100,100L), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LObjIntLongPredicateTest<T> {
         LObjIntLongPredicate<Integer> equals = LObjIntLongPredicate.isEqual(1,1,1L);
 
         //then
-        assertThat(equals.test(1,1,1L))
-                .isTrue();
+        Assert.assertTrue(equals.test(1,1,1L));
 
-        assertThat(equals.test(0,0,0L))
-                .isFalse();
+        Assert.assertFalse(equals.test(0,0,0L));
     }
 
 
@@ -224,24 +209,24 @@ public class LObjIntLongPredicateTest<T> {
         //given (+ some assertions)
         LObjIntLongPredicate<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92L);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LLongUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82L);
+            Assert.assertEquals(p2, (Object) 82L);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -251,8 +236,8 @@ public class LObjIntLongPredicateTest<T> {
         function.test(80,81,82L);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -265,24 +250,24 @@ public class LObjIntLongPredicateTest<T> {
         //given (+ some assertions)
         LObjIntLongPredicate<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90);
-                assertThat(a2).isEqualTo(91);
-                assertThat(a3).isEqualTo(92L);
+                Assert.assertEquals(a1, (Object) 90);
+                Assert.assertEquals(a2, (Object) 91);
+                Assert.assertEquals(a3, (Object) 92L);
                 return true;
         };
 
         LFunction<Integer,Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
         LToLongFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92L;
         };
@@ -292,8 +277,8 @@ public class LObjIntLongPredicateTest<T> {
         function.test(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -311,16 +296,16 @@ public class LObjIntLongPredicateTest<T> {
         //given (+ some assertions)
         LObjIntLongPredicate<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -330,9 +315,9 @@ public class LObjIntLongPredicateTest<T> {
         Integer finalValue = function.apply(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -347,16 +332,16 @@ public class LObjIntLongPredicateTest<T> {
         //given (+ some assertions)
         LObjIntLongPredicate<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return true;
         };
 
         LBoolToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // int
                 return 100;
         };
@@ -366,9 +351,9 @@ public class LObjIntLongPredicateTest<T> {
         int finalValue = function.applyAsInt(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -383,16 +368,16 @@ public class LObjIntLongPredicateTest<T> {
         //given (+ some assertions)
         LObjIntLongPredicate<Integer> sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80);
-                assertThat(a2).isEqualTo(81);
-                assertThat(a3).isEqualTo(82L);
+                Assert.assertEquals(a1, (Object) 80);
+                Assert.assertEquals(a2, (Object) 81);
+                Assert.assertEquals(a3, (Object) 82L);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -402,9 +387,9 @@ public class LObjIntLongPredicateTest<T> {
         boolean finalValue = function.test(80,81,82L);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -429,20 +414,17 @@ public class LObjIntLongPredicateTest<T> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LObjIntLongPredicate: boolean test(T a1,int a2,long a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LObjIntLongPredicate: boolean test(T a1,int a2,long a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -455,7 +437,7 @@ public class LObjIntLongPredicateTest<T> {
     public void compilerSubstituteVariantLObjLongIntPred() {
         LObjIntLongPredicate lambda = LObjIntLongPredicate./*<T>*/objLongIntPred(this::variantLObjLongIntPred);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongPredicate.LObjLongIntPred.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongPredicate.LObjLongIntPred);
     }
 
 
@@ -467,7 +449,7 @@ public class LObjIntLongPredicateTest<T> {
     public void compilerSubstituteVariantLIntObjLongPred() {
         LObjIntLongPredicate lambda = LObjIntLongPredicate./*<T>*/intObjLongPred(this::variantLIntObjLongPred);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongPredicate.LIntObjLongPred.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongPredicate.LIntObjLongPred);
     }
 
 
@@ -479,7 +461,7 @@ public class LObjIntLongPredicateTest<T> {
     public void compilerSubstituteVariantLIntLongObjPred() {
         LObjIntLongPredicate lambda = LObjIntLongPredicate./*<T>*/intLongObjPred(this::variantLIntLongObjPred);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongPredicate.LIntLongObjPred.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongPredicate.LIntLongObjPred);
     }
 
 
@@ -491,7 +473,7 @@ public class LObjIntLongPredicateTest<T> {
     public void compilerSubstituteVariantLLongObjIntPred() {
         LObjIntLongPredicate lambda = LObjIntLongPredicate./*<T>*/longObjIntPred(this::variantLLongObjIntPred);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongPredicate.LLongObjIntPred.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongPredicate.LLongObjIntPred);
     }
 
 
@@ -503,7 +485,7 @@ public class LObjIntLongPredicateTest<T> {
     public void compilerSubstituteVariantLLongIntObjPred() {
         LObjIntLongPredicate lambda = LObjIntLongPredicate./*<T>*/longIntObjPred(this::variantLLongIntObjPred);
 
-        assertThat(lambda).isInstanceOf(LObjIntLongPredicate.LLongIntObjPred.class);
+        Assert.assertTrue(lambda instanceof LObjIntLongPredicate.LLongIntObjPred);
     }
 
     //</editor-fold>

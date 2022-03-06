@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -90,8 +89,7 @@ public class LBiDblFunctionTest<R> {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.apply(100d,100d))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.apply(100d,100d), testValue);
     }
 
     @Test
@@ -101,14 +99,12 @@ public class LBiDblFunctionTest<R> {
 
         Object result = sut.tupleApply(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApply() throws Throwable {
-        assertThat(sut.nonNullApply(100d,100d))
-            .isSameAs(testValue);
+            Assert.assertSame(sut.nonNullApply(100d,100d), testValue);
     }
 
     @Test
@@ -117,12 +113,11 @@ public class LBiDblFunctionTest<R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApply(100d,100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -132,12 +127,11 @@ public class LBiDblFunctionTest<R> {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApply(100d,100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -149,14 +143,13 @@ public class LBiDblFunctionTest<R> {
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiDblFunction: R apply(double a1,double a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBiDblFunction: R apply(double a1,double a2)");
     }
 
     @Test
     public void testBiDblFuncMethod() throws Throwable {
-        assertThat(LBiDblFunction.biDblFunc((a1,a2) -> testValue ))
-            .isInstanceOf(LBiDblFunction.class);
+        Assert.assertTrue(LBiDblFunction.biDblFunc((a1,a2) -> testValue ) instanceof LBiDblFunction);
+    
     }
 
 
@@ -175,18 +168,18 @@ public class LBiDblFunctionTest<R> {
         //given (+ some assertions)
         LBiDblFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
-                assertThat(a2).isEqualTo(91d);
+                Assert.assertEquals(a1, (Object) 90d);
+                Assert.assertEquals(a2, (Object) 91d);
                 return 100;
         };
 
         LDblUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80d);
+            Assert.assertEquals(p0, (Object) 80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
         LDblUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81d);
+            Assert.assertEquals(p1, (Object) 81d);
             beforeCalls.incrementAndGet();
             return 91d;
         };
@@ -196,8 +189,8 @@ public class LBiDblFunctionTest<R> {
         function.apply(80d,81d);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -210,18 +203,18 @@ public class LBiDblFunctionTest<R> {
         //given (+ some assertions)
         LBiDblFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
-                assertThat(a2).isEqualTo(91d);
+                Assert.assertEquals(a1, (Object) 90d);
+                Assert.assertEquals(a2, (Object) 91d);
                 return 100;
         };
 
         LToDblFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
         LToDblFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91d;
         };
@@ -231,8 +224,8 @@ public class LBiDblFunctionTest<R> {
         function.apply(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -250,15 +243,15 @@ public class LBiDblFunctionTest<R> {
         //given (+ some assertions)
         LBiDblFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
                 return 90;
         };
 
         LFunction<Integer,Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // Integer
                 return 100;
         };
@@ -268,9 +261,9 @@ public class LBiDblFunctionTest<R> {
         Integer finalValue = function.apply(80d,81d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -285,15 +278,15 @@ public class LBiDblFunctionTest<R> {
         //given (+ some assertions)
         LBiDblFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
                 return 90;
         };
 
         LConsumer<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
         };
 
         //when
@@ -301,8 +294,8 @@ public class LBiDblFunctionTest<R> {
         function.accept(80d,81d);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -317,15 +310,15 @@ public class LBiDblFunctionTest<R> {
         //given (+ some assertions)
         LBiDblFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
                 return 90;
         };
 
         LToDblFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // double
                 return 100d;
         };
@@ -335,9 +328,9 @@ public class LBiDblFunctionTest<R> {
         double finalValue = function.applyAsDbl(80d,81d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -352,15 +345,15 @@ public class LBiDblFunctionTest<R> {
         //given (+ some assertions)
         LBiDblFunction<Integer> sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
                 return 90;
         };
 
         LPredicate<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // Integer
-                assertThat(p).isEqualTo(90);
+                Assert.assertEquals(p, (Object) 90);
                 // boolean
                 return true;
         };
@@ -370,9 +363,9 @@ public class LBiDblFunctionTest<R> {
         boolean finalValue = function.test(80d,81d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -397,20 +390,17 @@ public class LBiDblFunctionTest<R> {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBiDblFunction: R apply(double a1,double a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBiDblFunction: R apply(double a1,double a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -423,7 +413,7 @@ public class LBiDblFunctionTest<R> {
     public void compilerSubstituteVariantLDbl1Dbl0Func() {
         LBiDblFunction lambda = LBiDblFunction./*<R>*/dbl1Dbl0Func(this::variantLDbl1Dbl0Func);
 
-        assertThat(lambda).isInstanceOf(LBiDblFunction.LDbl1Dbl0Func.class);
+        Assert.assertTrue(lambda instanceof LBiDblFunction.LDbl1Dbl0Func);
     }
 
     //</editor-fold>

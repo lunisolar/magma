@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LSrtIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test((short)100,100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test((short)100,100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LSrtIntPredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest((short)100,100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest((short)100,100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LSrtIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest((short)100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LSrtIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest((short)100,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean((short)100,100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean((short)100,100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSrtIntPredicate: boolean test(short a1,int a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LSrtIntPredicate: boolean test(short a1,int a2)");
     }
 
     @Test
     public void testSrtIntPredMethod() throws Throwable {
-        assertThat(LSrtIntPredicate.srtIntPred((a1,a2) -> testValue ))
-            .isInstanceOf(LSrtIntPredicate.class);
+        Assert.assertTrue(LSrtIntPredicate.srtIntPred((a1,a2) -> testValue ) instanceof LSrtIntPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LSrtIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test((short)100,100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test((short)100,100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LSrtIntPredicateTest {
         LSrtIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((short)100,100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test((short)100,100), andResult);
 
-        assertThat(orFunction.test((short)100,100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test((short)100,100), orResult);
 
-        assertThat(xorFunction.test((short)100,100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test((short)100,100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LSrtIntPredicateTest {
         LSrtIntPredicate equals = LSrtIntPredicate.isEqual((short)1,1);
 
         //then
-        assertThat(equals.test((short)1,1))
-                .isTrue();
+        Assert.assertTrue(equals.test((short)1,1));
 
-        assertThat(equals.test((short)0,0))
-                .isFalse();
+        Assert.assertFalse(equals.test((short)0,0));
     }
 
 
@@ -224,18 +209,18 @@ public class LSrtIntPredicateTest {
         //given (+ some assertions)
         LSrtIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LSrtUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((short)80);
+            Assert.assertEquals(p0, (Object) (short)80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -245,8 +230,8 @@ public class LSrtIntPredicateTest {
         function.test((short)80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LSrtIntPredicateTest {
         //given (+ some assertions)
         LSrtIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)90);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) (short)90);
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LToSrtFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (short)90;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -280,8 +265,8 @@ public class LSrtIntPredicateTest {
         function.test(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LSrtIntPredicateTest {
         //given (+ some assertions)
         LSrtIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((short)80);
-                assertThat(a2).isEqualTo(81);
+                Assert.assertEquals(a1, (Object) (short)80);
+                Assert.assertEquals(a2, (Object) 81);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -317,9 +302,9 @@ public class LSrtIntPredicateTest {
         boolean finalValue = function.test((short)80,81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -344,20 +329,17 @@ public class LSrtIntPredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LSrtIntPredicate: boolean test(short a1,int a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LSrtIntPredicate: boolean test(short a1,int a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -370,7 +352,7 @@ public class LSrtIntPredicateTest {
     public void compilerSubstituteVariantLIntSrtPred() {
         LSrtIntPredicate lambda = LSrtIntPredicate./**/intSrtPred(this::variantLIntSrtPred);
 
-        assertThat(lambda).isInstanceOf(LSrtIntPredicate.LIntSrtPred.class);
+        Assert.assertTrue(lambda instanceof LSrtIntPredicate.LIntSrtPred);
     }
 
     //</editor-fold>

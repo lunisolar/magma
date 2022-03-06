@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LBiByteConsumerTest {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LBiByteConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LBiByteConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept((byte)100,(byte)100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiByteConsumer: void accept(byte a1,byte a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBiByteConsumer: void accept(byte a1,byte a2)");
     }
 
     @Test
     public void testBiByteConsMethod() throws Throwable {
-        assertThat(LBiByteConsumer.biByteCons(LBiByteConsumer::doNothing))
-            .isInstanceOf(LBiByteConsumer.class);
+        Assert.assertTrue(LBiByteConsumer.biByteCons(LBiByteConsumer::doNothing) instanceof LBiByteConsumer);
+    
     }
 
 
@@ -151,17 +146,17 @@ public class LBiByteConsumerTest {
         //given (+ some assertions)
         LBiByteConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)90);
-                assertThat(a2).isEqualTo((byte)91);
+                Assert.assertEquals(a1, (Object) (byte)90);
+                Assert.assertEquals(a2, (Object) (byte)91);
         };
 
         LByteUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo((byte)80);
+            Assert.assertEquals(p0, (Object) (byte)80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
         LByteUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo((byte)81);
+            Assert.assertEquals(p1, (Object) (byte)81);
             beforeCalls.incrementAndGet();
             return (byte)91;
         };
@@ -171,8 +166,8 @@ public class LBiByteConsumerTest {
         function.accept((byte)80,(byte)81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -185,17 +180,17 @@ public class LBiByteConsumerTest {
         //given (+ some assertions)
         LBiByteConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)90);
-                assertThat(a2).isEqualTo((byte)91);
+                Assert.assertEquals(a1, (Object) (byte)90);
+                Assert.assertEquals(a2, (Object) (byte)91);
         };
 
         LToByteFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return (byte)90;
         };
         LToByteFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return (byte)91;
         };
@@ -205,8 +200,8 @@ public class LBiByteConsumerTest {
         function.accept(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -220,14 +215,14 @@ public class LBiByteConsumerTest {
          //given (+ some assertions)
         LBiByteConsumer sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
+                Assert.assertEquals((Object)a1, (Object) (byte)80);
+                Assert.assertEquals((Object)a2, (Object) (byte)81);
         };
 
         LBiByteConsumer thenFunction = (a1,a2) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo((byte)80);
-                assertThat(a2).isEqualTo((byte)81);
+                Assert.assertEquals((Object)a1, (Object) (byte)80);
+                Assert.assertEquals((Object)a2, (Object) (byte)81);
         };
 
         //when
@@ -235,8 +230,8 @@ public class LBiByteConsumerTest {
         function.accept((byte)80,(byte)81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -257,20 +252,17 @@ public class LBiByteConsumerTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBiByteConsumer: void accept(byte a1,byte a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBiByteConsumer: void accept(byte a1,byte a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -282,7 +274,7 @@ public class LBiByteConsumerTest {
     public void compilerSubstituteVariantLByte1Byte0Cons() {
         LBiByteConsumer lambda = LBiByteConsumer./**/byte1Byte0Cons(this::variantLByte1Byte0Cons);
 
-        assertThat(lambda).isInstanceOf(LBiByteConsumer.LByte1Byte0Cons.class);
+        Assert.assertTrue(lambda instanceof LBiByteConsumer.LByte1Byte0Cons);
     }
 
     //</editor-fold>

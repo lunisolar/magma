@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LTriDblPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(100d,100d,100d))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(100d,100d,100d), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LTriDblPredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(100d,100d,100d))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(100d,100d,100d), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LTriDblPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(100d,100d,100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LTriDblPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(100d,100d,100d);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(100d,100d,100d))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(100d,100d,100d), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriDblPredicate: boolean test(double a1,double a2,double a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LTriDblPredicate: boolean test(double a1,double a2,double a3)");
     }
 
     @Test
     public void testTriDblPredMethod() throws Throwable {
-        assertThat(LTriDblPredicate.triDblPred((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LTriDblPredicate.class);
+        Assert.assertTrue(LTriDblPredicate.triDblPred((a1,a2,a3) -> testValue ) instanceof LTriDblPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LTriDblPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(100d,100d,100d))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(100d,100d,100d), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LTriDblPredicateTest {
         LTriDblPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(100d,100d,100d))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(100d,100d,100d), andResult);
 
-        assertThat(orFunction.test(100d,100d,100d))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(100d,100d,100d), orResult);
 
-        assertThat(xorFunction.test(100d,100d,100d))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(100d,100d,100d), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LTriDblPredicateTest {
         LTriDblPredicate equals = LTriDblPredicate.isEqual(1d,1d,1d);
 
         //then
-        assertThat(equals.test(1d,1d,1d))
-                .isTrue();
+        Assert.assertTrue(equals.test(1d,1d,1d));
 
-        assertThat(equals.test(0d,0d,0d))
-                .isFalse();
+        Assert.assertFalse(equals.test(0d,0d,0d));
     }
 
 
@@ -224,24 +209,24 @@ public class LTriDblPredicateTest {
         //given (+ some assertions)
         LTriDblPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
-                assertThat(a2).isEqualTo(91d);
-                assertThat(a3).isEqualTo(92d);
+                Assert.assertEquals(a1, (Object) 90d);
+                Assert.assertEquals(a2, (Object) 91d);
+                Assert.assertEquals(a3, (Object) 92d);
                 return true;
         };
 
         LDblUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(80d);
+            Assert.assertEquals(p0, (Object) 80d);
             beforeCalls.incrementAndGet();
             return 90d;
         };
         LDblUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81d);
+            Assert.assertEquals(p1, (Object) 81d);
             beforeCalls.incrementAndGet();
             return 91d;
         };
         LDblUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(82d);
+            Assert.assertEquals(p2, (Object) 82d);
             beforeCalls.incrementAndGet();
             return 92d;
         };
@@ -251,8 +236,8 @@ public class LTriDblPredicateTest {
         function.test(80d,81d,82d);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -265,24 +250,24 @@ public class LTriDblPredicateTest {
         //given (+ some assertions)
         LTriDblPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(90d);
-                assertThat(a2).isEqualTo(91d);
-                assertThat(a3).isEqualTo(92d);
+                Assert.assertEquals(a1, (Object) 90d);
+                Assert.assertEquals(a2, (Object) 91d);
+                Assert.assertEquals(a3, (Object) 92d);
                 return true;
         };
 
         LToDblFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return 90d;
         };
         LToDblFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91d;
         };
         LToDblFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return 92d;
         };
@@ -292,8 +277,8 @@ public class LTriDblPredicateTest {
         function.test(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -311,16 +296,16 @@ public class LTriDblPredicateTest {
         //given (+ some assertions)
         LTriDblPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
-                assertThat(a3).isEqualTo(82d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
+                Assert.assertEquals(a3, (Object) 82d);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -330,9 +315,9 @@ public class LTriDblPredicateTest {
         Integer finalValue = function.apply(80d,81d,82d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -347,16 +332,16 @@ public class LTriDblPredicateTest {
         //given (+ some assertions)
         LTriDblPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
-                assertThat(a3).isEqualTo(82d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
+                Assert.assertEquals(a3, (Object) 82d);
                 return true;
         };
 
         LBoolToDblFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // double
                 return 100d;
         };
@@ -366,9 +351,9 @@ public class LTriDblPredicateTest {
         double finalValue = function.applyAsDbl(80d,81d,82d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100d);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100d);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -383,16 +368,16 @@ public class LTriDblPredicateTest {
         //given (+ some assertions)
         LTriDblPredicate sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(80d);
-                assertThat(a2).isEqualTo(81d);
-                assertThat(a3).isEqualTo(82d);
+                Assert.assertEquals(a1, (Object) 80d);
+                Assert.assertEquals(a2, (Object) 81d);
+                Assert.assertEquals(a3, (Object) 82d);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -402,9 +387,9 @@ public class LTriDblPredicateTest {
         boolean finalValue = function.test(80d,81d,82d);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -429,20 +414,17 @@ public class LTriDblPredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LTriDblPredicate: boolean test(double a1,double a2,double a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LTriDblPredicate: boolean test(double a1,double a2,double a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

@@ -25,7 +25,6 @@ import eu.lunisolar.magma.asserts.func.FunctionalAttest;
 import eu.lunisolar.magma.asserts.func.FunctionalAttest.*;
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import org.assertj.core.api.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.Checks; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -52,8 +51,6 @@ import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
-
-import static org.assertj.core.api.Fail.fail;
 
 /** Assert class for LQuintFunction. */
 public final class LQuintFunctionAttest<T1, T2, T3, T4, T5, R> extends FunctionalAttest.Full<LQuintFunctionAttest<T1, T2, T3, T4, T5, R>, LQuintFunction<T1, T2, T3, T4, T5, R>, LQuintConsumer<T1, T2, T3, T4, T5>, Checks.Check<R>> {

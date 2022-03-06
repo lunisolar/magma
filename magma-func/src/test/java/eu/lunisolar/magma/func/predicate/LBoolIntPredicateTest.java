@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LBoolIntPredicateTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.test(true,100))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.test(true,100), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LBoolIntPredicateTest {
 
         Object result = sut.tupleTest(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullTest() throws Throwable {
-        assertThat(sut.nonNullTest(true,100))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullTest(true,100), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LBoolIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingTest(true,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,33 +121,29 @@ public class LBoolIntPredicateTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingTest(true,100);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws Throwable {
-        assertThat(sut.doApplyAsBoolean(true,100))
-            .isEqualTo(testValue);
-
+        Assert.assertEquals(sut.doApplyAsBoolean(true,100), testValue);
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBoolIntPredicate: boolean test(boolean a1,int a2)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LBoolIntPredicate: boolean test(boolean a1,int a2)");
     }
 
     @Test
     public void testBoolIntPredMethod() throws Throwable {
-        assertThat(LBoolIntPredicate.boolIntPred((a1,a2) -> testValue ))
-            .isInstanceOf(LBoolIntPredicate.class);
+        Assert.assertTrue(LBoolIntPredicate.boolIntPred((a1,a2) -> testValue ) instanceof LBoolIntPredicate);
+    
     }
 
 
@@ -160,8 +151,7 @@ public class LBoolIntPredicateTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().test(true,100))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().test(true,100), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -188,14 +178,11 @@ public class LBoolIntPredicateTest {
         LBoolIntPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test(true,100))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.test(true,100), andResult);
 
-        assertThat(orFunction.test(true,100))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.test(true,100), orResult);
 
-        assertThat(xorFunction.test(true,100))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.test(true,100), xorResult);
     }
 
     @Test
@@ -204,11 +191,9 @@ public class LBoolIntPredicateTest {
         LBoolIntPredicate equals = LBoolIntPredicate.isEqual(true,1);
 
         //then
-        assertThat(equals.test(true,1))
-                .isTrue();
+        Assert.assertTrue(equals.test(true,1));
 
-        assertThat(equals.test(false,0))
-                .isFalse();
+        Assert.assertFalse(equals.test(false,0));
     }
 
 
@@ -224,18 +209,18 @@ public class LBoolIntPredicateTest {
         //given (+ some assertions)
         LBoolIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LLogicalOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(true);
+            Assert.assertEquals(p0, (Object) true);
             beforeCalls.incrementAndGet();
             return true;
         };
         LIntUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -245,8 +230,8 @@ public class LBoolIntPredicateTest {
         function.test(true,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
 
@@ -259,18 +244,18 @@ public class LBoolIntPredicateTest {
         //given (+ some assertions)
         LBoolIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(91);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) 91);
                 return true;
         };
 
         LPredicate<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return true;
         };
         LToIntFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return 91;
         };
@@ -280,8 +265,8 @@ public class LBoolIntPredicateTest {
         function.test(80,81);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(2);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 2);
     }
 
     // </editor-fold>
@@ -299,15 +284,15 @@ public class LBoolIntPredicateTest {
         //given (+ some assertions)
         LBoolIntPredicate sutO = (a1,a2) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(81);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) 81);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -317,9 +302,9 @@ public class LBoolIntPredicateTest {
         boolean finalValue = function.test(true,81);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -344,20 +329,17 @@ public class LBoolIntPredicateTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LBoolIntPredicate: boolean test(boolean a1,int a2)");
+        Assert.assertTrue(String.format("%s", sut).contains("LBoolIntPredicate: boolean test(boolean a1,int a2)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
     //<editor-fold desc="Variants">
@@ -370,7 +352,7 @@ public class LBoolIntPredicateTest {
     public void compilerSubstituteVariantLIntBoolPred() {
         LBoolIntPredicate lambda = LBoolIntPredicate./**/intBoolPred(this::variantLIntBoolPred);
 
-        assertThat(lambda).isInstanceOf(LBoolIntPredicate.LIntBoolPred.class);
+        Assert.assertTrue(lambda instanceof LBoolIntPredicate.LIntBoolPred);
     }
 
     //</editor-fold>

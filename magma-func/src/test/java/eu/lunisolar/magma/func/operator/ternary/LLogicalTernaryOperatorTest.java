@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -84,8 +83,7 @@ public class LLogicalTernaryOperatorTest {
 
     @Test
     public void testTheResult() throws Throwable {
-        assertThat(sut.apply(true,true,true))
-            .isEqualTo(testValue);
+         Assert.assertEquals(sut.apply(true,true,true), testValue);
     }
 
     @Test
@@ -95,14 +93,12 @@ public class LLogicalTernaryOperatorTest {
 
         Object result = sut.tupleApply(domainObject);
 
-        assertThat(result)
-            .isEqualTo(testValue);
+            Assert.assertEquals(result, testValue);
     }
 
     @Test
     public void testNonNullApply() throws Throwable {
-        assertThat(sut.nonNullApply(true,true,true))
-            .isEqualTo(testValue);
+            Assert.assertEquals(sut.nonNullApply(true,true,true), testValue);
     }
 
     @Test
@@ -111,12 +107,11 @@ public class LLogicalTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -126,26 +121,24 @@ public class LLogicalTernaryOperatorTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingApply(true,true,true);
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLogicalTernaryOperator: boolean apply(boolean a1,boolean a2,boolean a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LLogicalTernaryOperator: boolean apply(boolean a1,boolean a2,boolean a3)");
     }
 
     @Test
     public void testLogicalTernaryOpMethod() throws Throwable {
-        assertThat(LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> testValue ))
-            .isInstanceOf(LLogicalTernaryOperator.class);
+        Assert.assertTrue(LLogicalTernaryOperator.logicalTernaryOp((a1,a2,a3) -> testValue ) instanceof LLogicalTernaryOperator);
+    
     }
 
 
@@ -153,8 +146,7 @@ public class LLogicalTernaryOperatorTest {
 
     @Test
     public void testnegate() throws Throwable {
-        assertThat(sut.negate().apply(true,true,true))
-            .isEqualTo(!testValue);
+        Assert.assertEquals(sut.negate().apply(true,true,true), !testValue);
     }
 
     @DataProvider(name="boolean permutations")
@@ -181,14 +173,11 @@ public class LLogicalTernaryOperatorTest {
         LLogicalTernaryOperator xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.apply(true,true,true))
-                .isEqualTo(andResult);
+        Assert.assertEquals(andFunction.apply(true,true,true), andResult);
 
-        assertThat(orFunction.apply(true,true,true))
-                .isEqualTo(orResult);
+        Assert.assertEquals(orFunction.apply(true,true,true), orResult);
 
-        assertThat(xorFunction.apply(true,true,true))
-                .isEqualTo(xorResult);
+        Assert.assertEquals(xorFunction.apply(true,true,true), xorResult);
     }
 
     @Test
@@ -197,11 +186,9 @@ public class LLogicalTernaryOperatorTest {
         LLogicalTernaryOperator equals = LLogicalTernaryOperator.isEqual(true,true,true);
 
         //then
-        assertThat(equals.apply(true,true,true))
-                .isTrue();
+        Assert.assertTrue(equals.apply(true,true,true));
 
-        assertThat(equals.apply(false,false,false))
-                .isFalse();
+        Assert.assertFalse(equals.apply(false,false,false));
     }
 
 
@@ -217,24 +204,24 @@ public class LLogicalTernaryOperatorTest {
         //given (+ some assertions)
         LLogicalTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
-                assertThat(a3).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
+                Assert.assertEquals(a3, (Object) true);
                 return true;
         };
 
         LLogicalOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo(true);
+            Assert.assertEquals(p0, (Object) true);
             beforeCalls.incrementAndGet();
             return true;
         };
         LLogicalOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo(true);
+            Assert.assertEquals(p1, (Object) true);
             beforeCalls.incrementAndGet();
             return true;
         };
         LLogicalOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo(true);
+            Assert.assertEquals(p2, (Object) true);
             beforeCalls.incrementAndGet();
             return true;
         };
@@ -244,8 +231,8 @@ public class LLogicalTernaryOperatorTest {
         function.apply(true,true,true);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -258,24 +245,24 @@ public class LLogicalTernaryOperatorTest {
         //given (+ some assertions)
         LLogicalTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
-                assertThat(a3).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
+                Assert.assertEquals(a3, (Object) true);
                 return true;
         };
 
         LPredicate<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return true;
         };
         LPredicate<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return true;
         };
         LPredicate<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return true;
         };
@@ -285,8 +272,8 @@ public class LLogicalTernaryOperatorTest {
         function.test(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -304,16 +291,16 @@ public class LLogicalTernaryOperatorTest {
         //given (+ some assertions)
         LLogicalTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
-                assertThat(a3).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
+                Assert.assertEquals(a3, (Object) true);
                 return true;
         };
 
         LBoolFunction<Integer> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // Integer
                 return 100;
         };
@@ -323,9 +310,9 @@ public class LLogicalTernaryOperatorTest {
         Integer finalValue = function.apply(true,true,true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(100);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) 100);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -340,16 +327,16 @@ public class LLogicalTernaryOperatorTest {
         //given (+ some assertions)
         LLogicalTernaryOperator sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo(true);
-                assertThat(a2).isEqualTo(true);
-                assertThat(a3).isEqualTo(true);
+                Assert.assertEquals(a1, (Object) true);
+                Assert.assertEquals(a2, (Object) true);
+                Assert.assertEquals(a3, (Object) true);
                 return true;
         };
 
         LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // boolean
-                assertThat(p).isEqualTo(true);
+                Assert.assertEquals(p, (Object) true);
                 // boolean
                 return true;
         };
@@ -359,9 +346,9 @@ public class LLogicalTernaryOperatorTest {
         boolean finalValue = function.apply(true,true,true);
 
         //then - finals
-        assertThat(finalValue).isEqualTo(true);
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertEquals(finalValue, (Object) true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
 
     }
 
@@ -386,20 +373,17 @@ public class LLogicalTernaryOperatorTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LLogicalTernaryOperator: boolean apply(boolean a1,boolean a2,boolean a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LLogicalTernaryOperator: boolean apply(boolean a1,boolean a2,boolean a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }

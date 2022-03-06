@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
-import org.assertj.core.api.Assertions;  //NOSONAR
+import org.testng.Assert;
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
@@ -51,7 +51,6 @@ import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import static org.assertj.core.api.Assertions.*; //NOSONAR
 import java.util.function.*; // NOSONAR
 
 /** The test obviously concentrate on the interface methods the function it self is very simple.  */
@@ -88,8 +87,7 @@ public class LTriCharConsumerTest {
 
         Object result = sut.tupleAccept(domainObject);
 
-        assertThat(result)
-            .isSameAs(LTuple.Void.INSTANCE);
+            Assert.assertSame(result, LTuple.Void.INSTANCE);
     }
 
     @Test
@@ -98,12 +96,11 @@ public class LTriCharConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.nestingAccept('\u0100','\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
@@ -113,26 +110,24 @@ public class LTriCharConsumerTest {
         // then
         try {
             sutAlwaysThrowingUnchecked.shovingAccept('\u0100','\u0100','\u0100');
-            fail(NO_EXCEPTION_WERE_THROWN);
+            Assert.fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
-                    .hasNoCause()
-                    .hasMessage(ORIGINAL_MESSAGE);
+            Assert.assertEquals(e.getClass(), IndexOutOfBoundsException.class);
+            Assert.assertNull(e.getCause());
+            Assert.assertEquals(e.getMessage(), ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
     public void testFunctionalInterfaceDescription() throws Throwable {
-        assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriCharConsumer: void accept(char a1,char a2,char a3)");
+        Assert.assertEquals(sut.functionalInterfaceDescription(), "LTriCharConsumer: void accept(char a1,char a2,char a3)");
     }
 
     @Test
     public void testTriCharConsMethod() throws Throwable {
-        assertThat(LTriCharConsumer.triCharCons(LTriCharConsumer::doNothing))
-            .isInstanceOf(LTriCharConsumer.class);
+        Assert.assertTrue(LTriCharConsumer.triCharCons(LTriCharConsumer::doNothing) instanceof LTriCharConsumer);
+    
     }
 
 
@@ -151,23 +146,23 @@ public class LTriCharConsumerTest {
         //given (+ some assertions)
         LTriCharConsumer sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
-                assertThat(a2).isEqualTo('\u0091');
-                assertThat(a3).isEqualTo('\u0092');
+                Assert.assertEquals(a1, (Object) '\u0090');
+                Assert.assertEquals(a2, (Object) '\u0091');
+                Assert.assertEquals(a3, (Object) '\u0092');
         };
 
         LCharUnaryOperator before1 = p0 -> {
-            assertThat(p0).isEqualTo('\u0080');
+            Assert.assertEquals(p0, (Object) '\u0080');
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
         LCharUnaryOperator before2 = p1 -> {
-            assertThat(p1).isEqualTo('\u0081');
+            Assert.assertEquals(p1, (Object) '\u0081');
             beforeCalls.incrementAndGet();
             return '\u0091';
         };
         LCharUnaryOperator before3 = p2 -> {
-            assertThat(p2).isEqualTo('\u0082');
+            Assert.assertEquals(p2, (Object) '\u0082');
             beforeCalls.incrementAndGet();
             return '\u0092';
         };
@@ -177,8 +172,8 @@ public class LTriCharConsumerTest {
         function.accept('\u0080','\u0081','\u0082');
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
 
@@ -191,23 +186,23 @@ public class LTriCharConsumerTest {
         //given (+ some assertions)
         LTriCharConsumer sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0090');
-                assertThat(a2).isEqualTo('\u0091');
-                assertThat(a3).isEqualTo('\u0092');
+                Assert.assertEquals(a1, (Object) '\u0090');
+                Assert.assertEquals(a2, (Object) '\u0091');
+                Assert.assertEquals(a3, (Object) '\u0092');
         };
 
         LToCharFunction<Integer> before1 = p0 -> {
-            assertThat(p0).isEqualTo(80);
+            Assert.assertEquals(p0, (Object) 80);
             beforeCalls.incrementAndGet();
             return '\u0090';
         };
         LToCharFunction<Integer> before2 = p1 -> {
-            assertThat(p1).isEqualTo(81);
+            Assert.assertEquals(p1, (Object) 81);
             beforeCalls.incrementAndGet();
             return '\u0091';
         };
         LToCharFunction<Integer> before3 = p2 -> {
-            assertThat(p2).isEqualTo(82);
+            Assert.assertEquals(p2, (Object) 82);
             beforeCalls.incrementAndGet();
             return '\u0092';
         };
@@ -217,8 +212,8 @@ public class LTriCharConsumerTest {
         function.accept(80,81,82);
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(beforeCalls.get()).isEqualTo(3);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertEquals(beforeCalls.get(), 3);
     }
 
     // </editor-fold>
@@ -232,16 +227,16 @@ public class LTriCharConsumerTest {
          //given (+ some assertions)
         LTriCharConsumer sutO = (a1,a2,a3) -> {
                 mainFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
-                assertThat(a3).isEqualTo('\u0082');
+                Assert.assertEquals((Object)a1, (Object) '\u0080');
+                Assert.assertEquals((Object)a2, (Object) '\u0081');
+                Assert.assertEquals((Object)a3, (Object) '\u0082');
         };
 
         LTriCharConsumer thenFunction = (a1,a2,a3) -> {
                 thenFunctionCalled.set(true);
-                assertThat(a1).isEqualTo('\u0080');
-                assertThat(a2).isEqualTo('\u0081');
-                assertThat(a3).isEqualTo('\u0082');
+                Assert.assertEquals((Object)a1, (Object) '\u0080');
+                Assert.assertEquals((Object)a2, (Object) '\u0081');
+                Assert.assertEquals((Object)a3, (Object) '\u0082');
         };
 
         //when
@@ -249,8 +244,8 @@ public class LTriCharConsumerTest {
         function.accept('\u0080','\u0081','\u0082');
 
         //then - finals
-        assertThat(mainFunctionCalled.get()).isEqualTo(true);
-        assertThat(thenFunctionCalled.get()).isEqualTo(true);
+        Assert.assertTrue(mainFunctionCalled.get());
+        Assert.assertTrue(thenFunctionCalled.get());
     }
 
 
@@ -271,20 +266,17 @@ public class LTriCharConsumerTest {
     @Test
     public void testToString() throws Throwable {
 
-        assertThat(sut.toString())
-                .isInstanceOf(String.class)
-                .startsWith(this.getClass().getName()+"$");
+        Assert.assertTrue(sut.toString().startsWith(this.getClass().getName()+"$"));
 
-        assertThat(String.format("%s", sut))
-                .isInstanceOf(String.class)
-                .contains("LTriCharConsumer: void accept(char a1,char a2,char a3)");
+        Assert.assertTrue(String.format("%s", sut).contains("LTriCharConsumer: void accept(char a1,char a2,char a3)"));
+    
     }
 
 
     @Test
     public void isThrowing() {
-        assertThat(sut.isThrowing())
-            .isFalse();
+
+        Assert.assertFalse(sut.isThrowing());
     }
 
 }
