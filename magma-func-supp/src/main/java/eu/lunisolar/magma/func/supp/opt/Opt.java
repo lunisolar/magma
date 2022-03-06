@@ -286,8 +286,30 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 	public @Nonnull <R> Opt<R> mustBeInstanceOf(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		T obj = get();
-		if (!clazz.isInstance(obj)) {
+		if (!Is.instanceOf(obj, clazz)) {
 			fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+		}
+		return (Opt) this;
+	}
+
+	/**
+	 * Must-be-instance-of - must be present and be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
+	public @Nonnull <R> Opt<R> mustBeExactlyInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
+		Null.nonNullArg(clazz, "clazz");
+		return (Opt) must(Be::exactlyInstanceOf, clazz, message);
+	}
+
+	/**
+	 * Must-be-instance-of - must be present and be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
+	public @Nonnull <R> Opt<R> mustBeExactlyInstanceOf(@Nonnull Class<R> clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		T obj = get();
+		if (!Is.exactlyInstanceOf(obj, clazz)) {
+			fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj.getClass(), clazz);
 		}
 		return (Opt) this;
 	}
@@ -313,8 +335,36 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		Null.nonNullArg(clazz, "clazz");
 		if (isPresent()) {
 			T obj = get();
-			if (!clazz.isInstance(obj)) {
+			if (!Is.instanceOf(obj, clazz)) {
 				fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+			}
+		}
+		return (Opt) this;
+	}
+
+	/**
+	 * Should-be-instance-of - if is present then must be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
+	public @Nonnull <R> Opt<R> shouldBeExactlyInstanceOf(@Nonnull Class<R> clazz, @Nonnull String message) {
+		Null.nonNullArg(clazz, "clazz");
+		if (isPresent()) {
+			return (Opt) must(Be::exactlyInstanceOf, clazz, message);
+		} else {
+			return (Opt) this;
+		}
+	}
+
+	/**
+	 * Should-be-instance-of - if is present then must be instance of.
+	 * @see {@link #mustBeInstanceOf(Class)}, {@link #mustBeInstanceOf(Class, String)} , {@link #shouldBeInstanceOf(Class)}, {@link #shouldBeInstanceOf(Class, String)}, {@link #filterAndMap}
+	 */
+	public @Nonnull <R> Opt<R> shouldBeExactlyInstanceOf(@Nonnull Class<R> clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		if (isPresent()) {
+			T obj = get();
+			if (!Is.exactlyInstanceOf(obj, clazz)) {
+				fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj.getClass(), clazz);
 			}
 		}
 		return (Opt) this;
