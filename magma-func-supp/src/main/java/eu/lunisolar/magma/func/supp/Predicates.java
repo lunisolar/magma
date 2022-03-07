@@ -3870,6 +3870,35 @@ public class Predicates implements FluentSyntax {
 		return notInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
+	/** Predicate: Object <%s> of class <%s> must be instance of any <%s>..*/
+	public static boolean instanceOfAny(Object object, Class<?>... classes) {
+		Null.nonNullArg(classes, "classes");
+		for (Class<?> c : classes) {
+			if (c.isInstance(object)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must be instance of any <%s>. */
+	public static @Nullable String instanceOfAny$(Object object, Class<?>... classes) {
+		Null.nonNullArg(classes, "classes");
+		return instanceOfAny(object, classes) ? null : String.format("Object <%s> of class <%s> must be instance of any <%s>.", object, object != null ? object.getClass() : null, Arrays.toString(classes));
+	}
+	/** Predicate: Object <%s> of class <%s> must NOT be instance of any <%s>..*/
+	public static boolean notInstanceOfAny(Object object, Class<?>... classes) {
+		Null.nonNullArg(classes, "classes");
+		return !instanceOfAny(object, classes);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of any <%s>. */
+	public static @Nullable String notInstanceOfAny$(Object object, Class<?>... classes) {
+		Null.nonNullArg(classes, "classes");
+		return notInstanceOfAny(object, classes) ? null : String.format("Object <%s> of class <%s> must NOT be instance of any <%s>.", object, object != null ? object.getClass() : null, Arrays.toString(classes));
+	}
+
 	/** Predicate: Object <%s> of class <%s> must be exactly instance of <%s>..*/
 	public static boolean exactlyInstanceOf(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
