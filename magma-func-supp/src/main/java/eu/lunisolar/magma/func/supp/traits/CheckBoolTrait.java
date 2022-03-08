@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.MsgVerbosity; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
@@ -2362,6 +2363,22 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends Fluen
 	}
 
 	// </editor-fold>
+
+	default @Nonnull SELF mustBeEqual(boolean expected) {
+		return must$(Be::equal$, expected);
+	}
+
+	default @Nonnull SELF mustBeNotEqual(boolean expected) {
+		return must$(Be::notEqual$, expected);
+	}
+
+	default @Nonnull SELF mustBeTrue() {
+		return must$(Be::True$);
+	}
+
+	default @Nonnull SELF mustBeFalse() {
+		return must$(Be::False$);
+	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {
 		Null.nonNullArg(checks, "checks");

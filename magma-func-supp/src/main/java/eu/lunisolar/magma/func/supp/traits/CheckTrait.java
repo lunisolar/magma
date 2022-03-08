@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.MsgVerbosity; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
@@ -6958,6 +6959,27 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 	}
 
 	// </editor-fold>
+
+	default @Nonnull SELF mustBeEqual(T expected) {
+		return must$(Be::equal$, expected);
+	}
+
+	default @Nonnull SELF mustBeNotEqual(T expected) {
+		return must$(Be::notEqual$, expected);
+	}
+
+	default @Nonnull SELF mustBeNull() {
+		return must$(Be::Null$);
+	}
+	default @Nonnull SELF mustBeNotNull() {
+		return must$(Be::notNull$);
+	}
+	default @Nonnull SELF mustBeSame(T expected) {
+		return must$(Be::same$, expected);
+	}
+	default @Nonnull SELF mustBeNotSame(T expected) {
+		return must$(Be::notSame$, expected);
+	}
 
 	default @Nonnull SELF checkBool(@Nonnull LPredicate<T> func, LConsumer<Checks.CheckBool> checks) {
 		Null.nonNullArg(func, "func");

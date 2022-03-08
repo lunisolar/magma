@@ -32,6 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
+import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.MsgVerbosity; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.traits.*; // NOSONAR
@@ -2362,6 +2363,27 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FluentT
 	}
 
 	// </editor-fold>
+
+	default @Nonnull SELF mustBeEqual(short expected) {
+		return must$(Be::equal$, expected);
+	}
+
+	default @Nonnull SELF mustBeNotEqual(short expected) {
+		return must$(Be::notEqual$, expected);
+	}
+
+	default @Nonnull SELF mustBeGreater(short value) {
+		return must$(Be::gt$, value);
+	}
+	default @Nonnull SELF mustBeGreaterEqual(short value) {
+		return must$(Be::gtEq$, value);
+	}
+	default @Nonnull SELF mustBeLessThan(short value) {
+		return must$(Be::lt$, value);
+	}
+	default @Nonnull SELF mustBeLessEqual(short value) {
+		return must$(Be::ltEq$, value);
+	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {
 		Null.nonNullArg(checks, "checks");
