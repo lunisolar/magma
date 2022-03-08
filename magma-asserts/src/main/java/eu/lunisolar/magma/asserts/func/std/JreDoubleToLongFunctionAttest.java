@@ -65,7 +65,7 @@ public final class JreDoubleToLongFunctionAttest extends FunctionalAttest.Full<J
 	@Nonnull
 	public LongEvaluation<JreDoubleToLongFunctionAttest, LDblConsumer> doesApplyAsLong(double a) {
 
-		return new LongEvaluation<JreDoubleToLongFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new LongEvaluation<JreDoubleToLongFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreDoubleToLongFunctionAttest extends FunctionalAttest.Full<J
 			}
 
 			var result = func.applyAsLong(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

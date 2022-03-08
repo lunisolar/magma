@@ -67,7 +67,7 @@ public final class LObjIntDblFunctionAttest<T, R> extends FunctionalAttest.Full<
 	@Nonnull
 	public Evaluation<LObjIntDblFunctionAttest<T, R>, LTieDblConsumer<T>, R> doesApply(T a1, int a2, double a3) {
 
-		return new Evaluation<LObjIntDblFunctionAttest<T, R>, LTieDblConsumer<T>, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new Evaluation<LObjIntDblFunctionAttest<T, R>, LTieDblConsumer<T>, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LObjIntDblFunctionAttest<T, R> extends FunctionalAttest.Full<
 			}
 
 			var result = func.apply(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

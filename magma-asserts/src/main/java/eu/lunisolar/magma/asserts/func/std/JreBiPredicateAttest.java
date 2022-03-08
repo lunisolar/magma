@@ -65,7 +65,7 @@ public final class JreBiPredicateAttest<T1, T2> extends FunctionalAttest.Full<Jr
 	@Nonnull
 	public BoolEvaluation<JreBiPredicateAttest<T1, T2>, LBiConsumer<T1, T2>> doesTest(T1 a1, T2 a2) {
 
-		return new BoolEvaluation<JreBiPredicateAttest<T1, T2>, LBiConsumer<T1, T2>>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new BoolEvaluation<JreBiPredicateAttest<T1, T2>, LBiConsumer<T1, T2>>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreBiPredicateAttest<T1, T2> extends FunctionalAttest.Full<Jr
 			}
 
 			var result = func.test(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

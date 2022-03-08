@@ -67,7 +67,7 @@ public final class LOiToCharFunctionAttest<T> extends FunctionalAttest.Full<LOiT
 	@Nonnull
 	public CharEvaluation<LOiToCharFunctionAttest<T>, LObjIntConsumer<T>> doesApplyAsChar(T a1, int a2) {
 
-		return new CharEvaluation<LOiToCharFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new CharEvaluation<LOiToCharFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LOiToCharFunctionAttest<T> extends FunctionalAttest.Full<LOiT
 			}
 
 			var result = func.applyAsChar(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

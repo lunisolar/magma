@@ -69,7 +69,7 @@ public final class LByte1Byte0PredAttest extends FunctionalAttest.Full<LByte1Byt
 	@Nonnull
 	public BoolEvaluation<LByte1Byte0PredAttest, LBiByteConsumer> doesTest(byte a2, byte a1) {
 
-		return new BoolEvaluation<LByte1Byte0PredAttest, LBiByteConsumer>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new BoolEvaluation<LByte1Byte0PredAttest, LBiByteConsumer>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -79,7 +79,7 @@ public final class LByte1Byte0PredAttest extends FunctionalAttest.Full<LByte1Byt
 			}
 
 			var result = func.testByte1Byte0(a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -67,7 +67,7 @@ public final class LLongBinaryOperatorAttest extends FunctionalAttest.Full<LLong
 	@Nonnull
 	public LongEvaluation<LLongBinaryOperatorAttest, LBiLongConsumer> doesApplyAsLong(long a1, long a2) {
 
-		return new LongEvaluation<LLongBinaryOperatorAttest, LBiLongConsumer>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new LongEvaluation<LLongBinaryOperatorAttest, LBiLongConsumer>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLongBinaryOperatorAttest extends FunctionalAttest.Full<LLong
 			}
 
 			var result = func.applyAsLong(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

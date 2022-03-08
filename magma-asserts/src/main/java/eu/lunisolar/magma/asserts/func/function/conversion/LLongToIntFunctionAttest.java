@@ -67,7 +67,7 @@ public final class LLongToIntFunctionAttest extends FunctionalAttest.Full<LLongT
 	@Nonnull
 	public IntEvaluation<LLongToIntFunctionAttest, LLongConsumer> doesApplyAsInt(long a) {
 
-		return new IntEvaluation<LLongToIntFunctionAttest, LLongConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new IntEvaluation<LLongToIntFunctionAttest, LLongConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLongToIntFunctionAttest extends FunctionalAttest.Full<LLongT
 			}
 
 			var result = func.applyAsInt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

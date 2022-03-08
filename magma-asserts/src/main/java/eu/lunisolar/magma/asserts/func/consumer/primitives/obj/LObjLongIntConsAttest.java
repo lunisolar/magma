@@ -70,7 +70,7 @@ public final class LObjLongIntConsAttest<T> extends FunctionalAttest.Simple<LObj
 	@Nonnull
 	public SemiEvaluation<LObjLongIntConsAttest<T>, LTieLongConsumer.LObjLongIntCons<T>, AssertionsCheck> doesAccept(T a1, long a3, int a2) {
 
-		return new SemiEvaluation<LObjLongIntConsAttest<T>, LTieLongConsumer.LObjLongIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a3, a2), pc -> {
+		return new SemiEvaluation<LObjLongIntConsAttest<T>, LTieLongConsumer.LObjLongIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a3, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

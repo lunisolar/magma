@@ -65,7 +65,7 @@ public final class JreLongConsumerAttest extends FunctionalAttest.Simple<JreLong
 	@Nonnull
 	public SemiEvaluation<JreLongConsumerAttest, LLongConsumer, AssertionsCheck> doesAccept(long a) {
 
-		return new SemiEvaluation<JreLongConsumerAttest, LLongConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), pc -> {
+		return new SemiEvaluation<JreLongConsumerAttest, LLongConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

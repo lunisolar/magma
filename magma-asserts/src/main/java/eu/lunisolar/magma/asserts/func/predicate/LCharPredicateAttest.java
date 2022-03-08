@@ -67,7 +67,7 @@ public final class LCharPredicateAttest extends FunctionalAttest.Full<LCharPredi
 	@Nonnull
 	public BoolEvaluation<LCharPredicateAttest, LCharConsumer> doesTest(char a) {
 
-		return new BoolEvaluation<LCharPredicateAttest, LCharConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new BoolEvaluation<LCharPredicateAttest, LCharConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LCharPredicateAttest extends FunctionalAttest.Full<LCharPredi
 			}
 
 			var result = func.test(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -67,7 +67,7 @@ public final class LTriBoolConsumerAttest extends FunctionalAttest.Simple<LTriBo
 	@Nonnull
 	public SemiEvaluation<LTriBoolConsumerAttest, LTriBoolConsumer, AssertionsCheck> doesAccept(boolean a1, boolean a2, boolean a3) {
 
-		return new SemiEvaluation<LTriBoolConsumerAttest, LTriBoolConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new SemiEvaluation<LTriBoolConsumerAttest, LTriBoolConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

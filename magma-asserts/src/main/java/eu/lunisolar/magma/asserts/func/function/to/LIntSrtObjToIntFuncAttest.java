@@ -70,7 +70,7 @@ public final class LIntSrtObjToIntFuncAttest<T> extends FunctionalAttest.Full<LI
 	@Nonnull
 	public IntEvaluation<LIntSrtObjToIntFuncAttest<T>, LTieSrtConsumer.LIntSrtObjCons<T>> doesApplyAsInt(int a2, short a3, T a1) {
 
-		return new IntEvaluation<LIntSrtObjToIntFuncAttest<T>, LTieSrtConsumer.LIntSrtObjCons<T>>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), pc -> {
+		return new IntEvaluation<LIntSrtObjToIntFuncAttest<T>, LTieSrtConsumer.LIntSrtObjCons<T>>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LIntSrtObjToIntFuncAttest<T> extends FunctionalAttest.Full<LI
 			}
 
 			var result = func.applyAsIntIntSrtObj(a2, a3, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -65,7 +65,7 @@ public final class JreIntSupplierAttest extends FunctionalAttest.Full<JreIntSupp
 	@Nonnull
 	public IntEvaluation<JreIntSupplierAttest, LAction> doesGetAsInt() {
 
-		return new IntEvaluation<JreIntSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new IntEvaluation<JreIntSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreIntSupplierAttest extends FunctionalAttest.Full<JreIntSupp
 			}
 
 			var result = func.getAsInt();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

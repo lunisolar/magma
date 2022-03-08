@@ -67,7 +67,7 @@ public final class LBoolConsumerAttest extends FunctionalAttest.Simple<LBoolCons
 	@Nonnull
 	public SemiEvaluation<LBoolConsumerAttest, LBoolConsumer, AssertionsCheck> doesAccept(boolean a) {
 
-		return new SemiEvaluation<LBoolConsumerAttest, LBoolConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), pc -> {
+		return new SemiEvaluation<LBoolConsumerAttest, LBoolConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

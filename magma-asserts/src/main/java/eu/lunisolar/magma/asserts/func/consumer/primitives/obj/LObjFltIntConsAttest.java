@@ -70,7 +70,7 @@ public final class LObjFltIntConsAttest<T> extends FunctionalAttest.Simple<LObjF
 	@Nonnull
 	public SemiEvaluation<LObjFltIntConsAttest<T>, LTieFltConsumer.LObjFltIntCons<T>, AssertionsCheck> doesAccept(T a1, float a3, int a2) {
 
-		return new SemiEvaluation<LObjFltIntConsAttest<T>, LTieFltConsumer.LObjFltIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a3, a2), pc -> {
+		return new SemiEvaluation<LObjFltIntConsAttest<T>, LTieFltConsumer.LObjFltIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a3, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

@@ -67,7 +67,7 @@ public final class LFltFunctionAttest<R> extends FunctionalAttest.Full<LFltFunct
 	@Nonnull
 	public Evaluation<LFltFunctionAttest<R>, LFltConsumer, R> doesApply(float a) {
 
-		return new Evaluation<LFltFunctionAttest<R>, LFltConsumer, R>(this, () -> String.format("(%s)", a), pc -> {
+		return new Evaluation<LFltFunctionAttest<R>, LFltConsumer, R>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LFltFunctionAttest<R> extends FunctionalAttest.Full<LFltFunct
 			}
 
 			var result = func.apply(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

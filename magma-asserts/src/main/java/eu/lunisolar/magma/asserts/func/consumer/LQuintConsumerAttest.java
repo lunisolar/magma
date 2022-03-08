@@ -67,7 +67,7 @@ public final class LQuintConsumerAttest<T1, T2, T3, T4, T5> extends FunctionalAt
 	@Nonnull
 	public SemiEvaluation<LQuintConsumerAttest<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>, AssertionsCheck> doesAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
 
-		return new SemiEvaluation<LQuintConsumerAttest<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s,%s,%s)", a1, a2, a3, a4, a5), pc -> {
+		return new SemiEvaluation<LQuintConsumerAttest<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s,%s,%s)", a1, a2, a3, a4, a5), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

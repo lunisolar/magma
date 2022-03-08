@@ -70,7 +70,7 @@ public final class LIntByteObjFuncAttest<T, R> extends FunctionalAttest.Full<LIn
 	@Nonnull
 	public Evaluation<LIntByteObjFuncAttest<T, R>, LTieByteConsumer.LIntByteObjCons<T>, R> doesApply(int a2, byte a3, T a1) {
 
-		return new Evaluation<LIntByteObjFuncAttest<T, R>, LTieByteConsumer.LIntByteObjCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), pc -> {
+		return new Evaluation<LIntByteObjFuncAttest<T, R>, LTieByteConsumer.LIntByteObjCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LIntByteObjFuncAttest<T, R> extends FunctionalAttest.Full<LIn
 			}
 
 			var result = func.applyIntByteObj(a2, a3, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

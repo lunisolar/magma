@@ -59,6 +59,8 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public final class Checks implements FluentSyntax {
 
+	public static final String DEFAULT_DESCRIPTION = "?";
+
 	// <editor-fold desc="no instance">
 	private Checks() {
 	}
@@ -133,7 +135,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool arg(boolean value) {
-		return new CheckBool(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckBool arg(boolean value, @Nullable String name) {
@@ -141,7 +143,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool arg(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckBool(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckBool arg(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -149,7 +151,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool value(boolean value) {
-		return new CheckBool(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckBool value(boolean value, @Nullable String name) {
@@ -157,7 +159,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool value(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckBool(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckBool value(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -165,7 +167,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool state(boolean value) {
-		return new CheckBool(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckBool state(boolean value, @Nullable String name) {
@@ -173,7 +175,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool state(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckBool(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckBool state(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -181,7 +183,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool check(boolean value) {
-		return new CheckBool(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckBool check(boolean value, @Nullable String name) {
@@ -189,7 +191,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool check(boolean value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckBool(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckBool check(boolean value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -197,7 +199,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool attest(boolean value) {
-		return new CheckBool(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckBool attest(boolean value, @Nullable String name) {
@@ -205,7 +207,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckBool attest(boolean value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckBool(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckBool(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckBool attest(boolean value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -325,7 +327,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> arg(@Nullable T value) {
-		return new Check<T>(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static <T> Check<T> arg(@Nullable T value, @Nullable String name) {
@@ -333,7 +335,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> arg(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new Check<T>(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static <T> Check<T> arg(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -341,7 +343,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> value(@Nullable T value) {
-		return new Check<T>(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static <T> Check<T> value(@Nullable T value, @Nullable String name) {
@@ -349,7 +351,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> value(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new Check<T>(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static <T> Check<T> value(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -357,7 +359,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> state(@Nullable T value) {
-		return new Check<T>(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static <T> Check<T> state(@Nullable T value, @Nullable String name) {
@@ -365,7 +367,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> state(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new Check<T>(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static <T> Check<T> state(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -373,7 +375,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> check(@Nullable T value) {
-		return new Check<T>(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static <T> Check<T> check(@Nullable T value, @Nullable String name) {
@@ -381,7 +383,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> check(@Nullable T value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new Check<T>(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static <T> Check<T> check(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -389,7 +391,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> attest(@Nullable T value) {
-		return new Check<T>(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static <T> Check<T> attest(@Nullable T value, @Nullable String name) {
@@ -397,7 +399,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static <T> Check<T> attest(@Nullable T value, @Nonnull ExMF<? extends Error> factory) {
-		return new Check<T>(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new Check<T>(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static <T> Check<T> attest(@Nullable T value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -473,7 +475,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte arg(byte value) {
-		return new CheckByte(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckByte arg(byte value, @Nullable String name) {
@@ -481,7 +483,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte arg(byte value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckByte(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckByte arg(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -489,7 +491,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte value(byte value) {
-		return new CheckByte(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckByte value(byte value, @Nullable String name) {
@@ -497,7 +499,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte value(byte value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckByte(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckByte value(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -505,7 +507,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte state(byte value) {
-		return new CheckByte(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckByte state(byte value, @Nullable String name) {
@@ -513,7 +515,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte state(byte value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckByte(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckByte state(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -521,7 +523,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte check(byte value) {
-		return new CheckByte(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckByte check(byte value, @Nullable String name) {
@@ -529,7 +531,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte check(byte value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckByte(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckByte check(byte value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -537,7 +539,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte attest(byte value) {
-		return new CheckByte(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckByte attest(byte value, @Nullable String name) {
@@ -545,7 +547,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckByte attest(byte value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckByte(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckByte(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckByte attest(byte value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -621,7 +623,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl arg(double value) {
-		return new CheckDbl(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckDbl arg(double value, @Nullable String name) {
@@ -629,7 +631,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl arg(double value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckDbl(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckDbl arg(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -637,7 +639,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl value(double value) {
-		return new CheckDbl(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckDbl value(double value, @Nullable String name) {
@@ -645,7 +647,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl value(double value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckDbl(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckDbl value(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -653,7 +655,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl state(double value) {
-		return new CheckDbl(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckDbl state(double value, @Nullable String name) {
@@ -661,7 +663,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl state(double value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckDbl(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckDbl state(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -669,7 +671,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl check(double value) {
-		return new CheckDbl(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckDbl check(double value, @Nullable String name) {
@@ -677,7 +679,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl check(double value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckDbl(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckDbl check(double value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -685,7 +687,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl attest(double value) {
-		return new CheckDbl(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckDbl attest(double value, @Nullable String name) {
@@ -693,7 +695,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckDbl attest(double value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckDbl(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckDbl(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckDbl attest(double value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -769,7 +771,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar arg(char value) {
-		return new CheckChar(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckChar arg(char value, @Nullable String name) {
@@ -777,7 +779,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar arg(char value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckChar(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckChar arg(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -785,7 +787,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar value(char value) {
-		return new CheckChar(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckChar value(char value, @Nullable String name) {
@@ -793,7 +795,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar value(char value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckChar(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckChar value(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -801,7 +803,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar state(char value) {
-		return new CheckChar(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckChar state(char value, @Nullable String name) {
@@ -809,7 +811,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar state(char value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckChar(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckChar state(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -817,7 +819,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar check(char value) {
-		return new CheckChar(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckChar check(char value, @Nullable String name) {
@@ -825,7 +827,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar check(char value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckChar(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckChar check(char value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -833,7 +835,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar attest(char value) {
-		return new CheckChar(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckChar attest(char value, @Nullable String name) {
@@ -841,7 +843,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckChar attest(char value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckChar(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckChar(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckChar attest(char value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -917,7 +919,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt arg(short value) {
-		return new CheckSrt(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckSrt arg(short value, @Nullable String name) {
@@ -925,7 +927,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt arg(short value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckSrt(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckSrt arg(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -933,7 +935,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt value(short value) {
-		return new CheckSrt(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckSrt value(short value, @Nullable String name) {
@@ -941,7 +943,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt value(short value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckSrt(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckSrt value(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -949,7 +951,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt state(short value) {
-		return new CheckSrt(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckSrt state(short value, @Nullable String name) {
@@ -957,7 +959,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt state(short value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckSrt(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckSrt state(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -965,7 +967,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt check(short value) {
-		return new CheckSrt(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckSrt check(short value, @Nullable String name) {
@@ -973,7 +975,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt check(short value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckSrt(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckSrt check(short value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -981,7 +983,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt attest(short value) {
-		return new CheckSrt(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckSrt attest(short value, @Nullable String name) {
@@ -989,7 +991,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckSrt attest(short value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckSrt(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckSrt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckSrt attest(short value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -1065,7 +1067,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt arg(float value) {
-		return new CheckFlt(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckFlt arg(float value, @Nullable String name) {
@@ -1073,7 +1075,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt arg(float value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckFlt(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckFlt arg(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1081,7 +1083,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt value(float value) {
-		return new CheckFlt(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckFlt value(float value, @Nullable String name) {
@@ -1089,7 +1091,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt value(float value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckFlt(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckFlt value(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1097,7 +1099,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt state(float value) {
-		return new CheckFlt(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckFlt state(float value, @Nullable String name) {
@@ -1105,7 +1107,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt state(float value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckFlt(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckFlt state(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1113,7 +1115,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt check(float value) {
-		return new CheckFlt(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckFlt check(float value, @Nullable String name) {
@@ -1121,7 +1123,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt check(float value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckFlt(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckFlt check(float value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1129,7 +1131,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt attest(float value) {
-		return new CheckFlt(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckFlt attest(float value, @Nullable String name) {
@@ -1137,7 +1139,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckFlt attest(float value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckFlt(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckFlt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckFlt attest(float value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -1213,7 +1215,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt arg(int value) {
-		return new CheckInt(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckInt arg(int value, @Nullable String name) {
@@ -1221,7 +1223,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt arg(int value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckInt(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckInt arg(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1229,7 +1231,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt value(int value) {
-		return new CheckInt(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckInt value(int value, @Nullable String name) {
@@ -1237,7 +1239,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt value(int value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckInt(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckInt value(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1245,7 +1247,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt state(int value) {
-		return new CheckInt(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckInt state(int value, @Nullable String name) {
@@ -1253,7 +1255,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt state(int value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckInt(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckInt state(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1261,7 +1263,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt check(int value) {
-		return new CheckInt(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckInt check(int value, @Nullable String name) {
@@ -1269,7 +1271,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt check(int value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckInt(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckInt check(int value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1277,7 +1279,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt attest(int value) {
-		return new CheckInt(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckInt attest(int value, @Nullable String name) {
@@ -1285,7 +1287,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckInt attest(int value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckInt(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckInt(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckInt attest(int value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {
@@ -1361,7 +1363,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong arg(long value) {
-		return new CheckLong(value, "?", ExMF.shoving(X::arg), "Argument", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::arg), "Argument", MIN);
 	}
 
 	public static CheckLong arg(long value, @Nullable String name) {
@@ -1369,7 +1371,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong arg(long value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckLong(value, "?", ExMF.shoving(factory), "Argument", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Argument", MIN);
 	}
 
 	public static CheckLong arg(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1377,7 +1379,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong value(long value) {
-		return new CheckLong(value, "?", ExMF.shoving(X::value), "Value", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::value), "Value", MIN);
 	}
 
 	public static CheckLong value(long value, @Nullable String name) {
@@ -1385,7 +1387,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong value(long value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckLong(value, "?", ExMF.shoving(factory), "Value", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Value", MIN);
 	}
 
 	public static CheckLong value(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1393,7 +1395,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong state(long value) {
-		return new CheckLong(value, "?", ExMF.shoving(X::state), "State", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "State", MIN);
 	}
 
 	public static CheckLong state(long value, @Nullable String name) {
@@ -1401,7 +1403,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong state(long value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckLong(value, "?", ExMF.shoving(factory), "State", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "State", MIN);
 	}
 
 	public static CheckLong state(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1409,7 +1411,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong check(long value) {
-		return new CheckLong(value, "?", ExMF.shoving(X::state), "Check", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::state), "Check", MIN);
 	}
 
 	public static CheckLong check(long value, @Nullable String name) {
@@ -1417,7 +1419,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong check(long value, @Nonnull ExMF<? extends Throwable> factory) {
-		return new CheckLong(value, "?", ExMF.shoving(factory), "Check", MIN);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check", MIN);
 	}
 
 	public static CheckLong check(long value, @Nullable String name, @Nonnull ExMF<? extends Throwable> factory) {
@@ -1425,7 +1427,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong attest(long value) {
-		return new CheckLong(value, "?", ExMF.shoving(X::assertion), "Check/attest", ALL);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(X::assertion), "Check/attest", ALL);
 	}
 
 	public static CheckLong attest(long value, @Nullable String name) {
@@ -1433,7 +1435,7 @@ public final class Checks implements FluentSyntax {
 	}
 
 	public static CheckLong attest(long value, @Nonnull ExMF<? extends Error> factory) {
-		return new CheckLong(value, "?", ExMF.shoving(factory), "Check/attest", ALL);
+		return new CheckLong(value, DEFAULT_DESCRIPTION, ExMF.shoving(factory), "Check/attest", ALL);
 	}
 
 	public static CheckLong attest(long value, @Nullable String name, @Nonnull ExMF<? extends Error> factory) {

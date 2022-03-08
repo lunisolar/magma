@@ -67,7 +67,7 @@ public final class LDblToCharFunctionAttest extends FunctionalAttest.Full<LDblTo
 	@Nonnull
 	public CharEvaluation<LDblToCharFunctionAttest, LDblConsumer> doesApplyAsChar(double a) {
 
-		return new CharEvaluation<LDblToCharFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new CharEvaluation<LDblToCharFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LDblToCharFunctionAttest extends FunctionalAttest.Full<LDblTo
 			}
 
 			var result = func.applyAsChar(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

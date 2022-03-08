@@ -70,7 +70,7 @@ public final class LInt1Obj2Obj0ConsAttest<T2, T1> extends FunctionalAttest.Simp
 	@Nonnull
 	public SemiEvaluation<LInt1Obj2Obj0ConsAttest<T2, T1>, LBiObjIntConsumer.LInt2Obj0Obj1Cons<T2, T1>, AssertionsCheck> doesAccept(int a2, T2 a3, T1 a1) {
 
-		return new SemiEvaluation<LInt1Obj2Obj0ConsAttest<T2, T1>, LBiObjIntConsumer.LInt2Obj0Obj1Cons<T2, T1>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), pc -> {
+		return new SemiEvaluation<LInt1Obj2Obj0ConsAttest<T2, T1>, LBiObjIntConsumer.LInt2Obj0Obj1Cons<T2, T1>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

@@ -67,7 +67,7 @@ public final class LQuadPredicateAttest<T1, T2, T3, T4> extends FunctionalAttest
 	@Nonnull
 	public BoolEvaluation<LQuadPredicateAttest<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>> doesTest(T1 a1, T2 a2, T3 a3, T4 a4) {
 
-		return new BoolEvaluation<LQuadPredicateAttest<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>>(this, () -> String.format("(%s,%s,%s,%s)", a1, a2, a3, a4), pc -> {
+		return new BoolEvaluation<LQuadPredicateAttest<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>>(this, () -> String.format("(%s,%s,%s,%s)", a1, a2, a3, a4), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LQuadPredicateAttest<T1, T2, T3, T4> extends FunctionalAttest
 			}
 
 			var result = func.test(a1, a2, a3, a4);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

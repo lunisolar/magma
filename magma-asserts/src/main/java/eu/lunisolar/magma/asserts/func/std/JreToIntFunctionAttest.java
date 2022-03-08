@@ -65,7 +65,7 @@ public final class JreToIntFunctionAttest<T> extends FunctionalAttest.Full<JreTo
 	@Nonnull
 	public IntEvaluation<JreToIntFunctionAttest<T>, LConsumer<T>> doesApplyAsInt(T a) {
 
-		return new IntEvaluation<JreToIntFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), pc -> {
+		return new IntEvaluation<JreToIntFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreToIntFunctionAttest<T> extends FunctionalAttest.Full<JreTo
 			}
 
 			var result = func.applyAsInt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

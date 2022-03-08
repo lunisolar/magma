@@ -67,7 +67,7 @@ public final class LDblTernaryOperatorAttest extends FunctionalAttest.Full<LDblT
 	@Nonnull
 	public DblEvaluation<LDblTernaryOperatorAttest, LTriDblConsumer> doesApplyAsDbl(double a1, double a2, double a3) {
 
-		return new DblEvaluation<LDblTernaryOperatorAttest, LTriDblConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new DblEvaluation<LDblTernaryOperatorAttest, LTriDblConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LDblTernaryOperatorAttest extends FunctionalAttest.Full<LDblT
 			}
 
 			var result = func.applyAsDbl(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

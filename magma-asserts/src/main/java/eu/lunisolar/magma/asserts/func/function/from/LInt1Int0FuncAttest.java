@@ -69,7 +69,7 @@ public final class LInt1Int0FuncAttest<R> extends FunctionalAttest.Full<LInt1Int
 	@Nonnull
 	public Evaluation<LInt1Int0FuncAttest<R>, LBiIntConsumer, R> doesApply(int a2, int a1) {
 
-		return new Evaluation<LInt1Int0FuncAttest<R>, LBiIntConsumer, R>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new Evaluation<LInt1Int0FuncAttest<R>, LBiIntConsumer, R>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -79,7 +79,7 @@ public final class LInt1Int0FuncAttest<R> extends FunctionalAttest.Full<LInt1Int
 			}
 
 			var result = func.applyInt1Int0(a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

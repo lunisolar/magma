@@ -67,7 +67,7 @@ public final class LToIntFunctionAttest<T> extends FunctionalAttest.Full<LToIntF
 	@Nonnull
 	public IntEvaluation<LToIntFunctionAttest<T>, LConsumer<T>> doesApplyAsInt(T a) {
 
-		return new IntEvaluation<LToIntFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), pc -> {
+		return new IntEvaluation<LToIntFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LToIntFunctionAttest<T> extends FunctionalAttest.Full<LToIntF
 			}
 
 			var result = func.applyAsInt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -67,7 +67,7 @@ public final class LOiToFltFunctionAttest<T> extends FunctionalAttest.Full<LOiTo
 	@Nonnull
 	public FltEvaluation<LOiToFltFunctionAttest<T>, LObjIntConsumer<T>> doesApplyAsFlt(T a1, int a2) {
 
-		return new FltEvaluation<LOiToFltFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new FltEvaluation<LOiToFltFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LOiToFltFunctionAttest<T> extends FunctionalAttest.Full<LOiTo
 			}
 
 			var result = func.applyAsFlt(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

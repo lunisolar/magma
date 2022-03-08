@@ -67,7 +67,7 @@ public final class LActionAttest extends FunctionalAttest.Simple<LActionAttest, 
 	@Nonnull
 	public SemiEvaluation<LActionAttest, LAction, AssertionsCheck> doesExecute() {
 
-		return new SemiEvaluation<LActionAttest, LAction, AssertionsCheck>(this, () -> String.format("()"), pc -> {
+		return new SemiEvaluation<LActionAttest, LAction, AssertionsCheck>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

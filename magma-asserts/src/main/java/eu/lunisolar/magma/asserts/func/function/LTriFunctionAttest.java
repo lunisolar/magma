@@ -67,7 +67,7 @@ public final class LTriFunctionAttest<T1, T2, T3, R> extends FunctionalAttest.Fu
 	@Nonnull
 	public Evaluation<LTriFunctionAttest<T1, T2, T3, R>, LTriConsumer<T1, T2, T3>, R> doesApply(T1 a1, T2 a2, T3 a3) {
 
-		return new Evaluation<LTriFunctionAttest<T1, T2, T3, R>, LTriConsumer<T1, T2, T3>, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new Evaluation<LTriFunctionAttest<T1, T2, T3, R>, LTriConsumer<T1, T2, T3>, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTriFunctionAttest<T1, T2, T3, R> extends FunctionalAttest.Fu
 			}
 
 			var result = func.apply(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

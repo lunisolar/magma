@@ -69,7 +69,7 @@ public final class LByte1Byte0ConsAttest extends FunctionalAttest.Simple<LByte1B
 	@Nonnull
 	public SemiEvaluation<LByte1Byte0ConsAttest, LBiByteConsumer, AssertionsCheck> doesAccept(byte a2, byte a1) {
 
-		return new SemiEvaluation<LByte1Byte0ConsAttest, LBiByteConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new SemiEvaluation<LByte1Byte0ConsAttest, LBiByteConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

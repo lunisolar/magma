@@ -70,7 +70,7 @@ public final class LIntCharObjPredAttest<T> extends FunctionalAttest.Full<LIntCh
 	@Nonnull
 	public BoolEvaluation<LIntCharObjPredAttest<T>, LTieCharConsumer.LIntCharObjCons<T>> doesTest(int a2, char a3, T a1) {
 
-		return new BoolEvaluation<LIntCharObjPredAttest<T>, LTieCharConsumer.LIntCharObjCons<T>>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), pc -> {
+		return new BoolEvaluation<LIntCharObjPredAttest<T>, LTieCharConsumer.LIntCharObjCons<T>>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LIntCharObjPredAttest<T> extends FunctionalAttest.Full<LIntCh
 			}
 
 			var result = func.testIntCharObj(a2, a3, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

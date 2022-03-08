@@ -67,7 +67,7 @@ public final class LLongToSrtFunctionAttest extends FunctionalAttest.Full<LLongT
 	@Nonnull
 	public SrtEvaluation<LLongToSrtFunctionAttest, LLongConsumer> doesApplyAsSrt(long a) {
 
-		return new SrtEvaluation<LLongToSrtFunctionAttest, LLongConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new SrtEvaluation<LLongToSrtFunctionAttest, LLongConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLongToSrtFunctionAttest extends FunctionalAttest.Full<LLongT
 			}
 
 			var result = func.applyAsSrt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

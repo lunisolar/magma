@@ -67,7 +67,7 @@ public final class LSrtSupplierAttest extends FunctionalAttest.Full<LSrtSupplier
 	@Nonnull
 	public SrtEvaluation<LSrtSupplierAttest, LAction> doesGetAsSrt() {
 
-		return new SrtEvaluation<LSrtSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new SrtEvaluation<LSrtSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LSrtSupplierAttest extends FunctionalAttest.Full<LSrtSupplier
 			}
 
 			var result = func.getAsSrt();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

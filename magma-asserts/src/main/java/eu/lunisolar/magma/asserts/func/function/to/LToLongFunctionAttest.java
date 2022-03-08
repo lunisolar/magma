@@ -67,7 +67,7 @@ public final class LToLongFunctionAttest<T> extends FunctionalAttest.Full<LToLon
 	@Nonnull
 	public LongEvaluation<LToLongFunctionAttest<T>, LConsumer<T>> doesApplyAsLong(T a) {
 
-		return new LongEvaluation<LToLongFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), pc -> {
+		return new LongEvaluation<LToLongFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LToLongFunctionAttest<T> extends FunctionalAttest.Full<LToLon
 			}
 
 			var result = func.applyAsLong(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

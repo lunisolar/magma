@@ -69,7 +69,7 @@ public final class LDbl1Dbl0FuncAttest<R> extends FunctionalAttest.Full<LDbl1Dbl
 	@Nonnull
 	public Evaluation<LDbl1Dbl0FuncAttest<R>, LBiDblConsumer, R> doesApply(double a2, double a1) {
 
-		return new Evaluation<LDbl1Dbl0FuncAttest<R>, LBiDblConsumer, R>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new Evaluation<LDbl1Dbl0FuncAttest<R>, LBiDblConsumer, R>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -79,7 +79,7 @@ public final class LDbl1Dbl0FuncAttest<R> extends FunctionalAttest.Full<LDbl1Dbl
 			}
 
 			var result = func.applyDbl1Dbl0(a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

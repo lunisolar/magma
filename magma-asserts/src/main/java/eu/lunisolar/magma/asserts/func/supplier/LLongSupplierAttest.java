@@ -67,7 +67,7 @@ public final class LLongSupplierAttest extends FunctionalAttest.Full<LLongSuppli
 	@Nonnull
 	public LongEvaluation<LLongSupplierAttest, LAction> doesGetAsLong() {
 
-		return new LongEvaluation<LLongSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new LongEvaluation<LLongSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLongSupplierAttest extends FunctionalAttest.Full<LLongSuppli
 			}
 
 			var result = func.getAsLong();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

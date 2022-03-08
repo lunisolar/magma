@@ -67,7 +67,7 @@ public final class LSrtToDblFunctionAttest extends FunctionalAttest.Full<LSrtToD
 	@Nonnull
 	public DblEvaluation<LSrtToDblFunctionAttest, LSrtConsumer> doesApplyAsDbl(short a) {
 
-		return new DblEvaluation<LSrtToDblFunctionAttest, LSrtConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new DblEvaluation<LSrtToDblFunctionAttest, LSrtConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LSrtToDblFunctionAttest extends FunctionalAttest.Full<LSrtToD
 			}
 
 			var result = func.applyAsDbl(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -67,7 +67,7 @@ public final class LFltBinaryOperatorAttest extends FunctionalAttest.Full<LFltBi
 	@Nonnull
 	public FltEvaluation<LFltBinaryOperatorAttest, LBiFltConsumer> doesApplyAsFlt(float a1, float a2) {
 
-		return new FltEvaluation<LFltBinaryOperatorAttest, LBiFltConsumer>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new FltEvaluation<LFltBinaryOperatorAttest, LBiFltConsumer>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LFltBinaryOperatorAttest extends FunctionalAttest.Full<LFltBi
 			}
 
 			var result = func.applyAsFlt(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -67,7 +67,7 @@ public final class LTriBoolFunctionAttest<R> extends FunctionalAttest.Full<LTriB
 	@Nonnull
 	public Evaluation<LTriBoolFunctionAttest<R>, LTriBoolConsumer, R> doesApply(boolean a1, boolean a2, boolean a3) {
 
-		return new Evaluation<LTriBoolFunctionAttest<R>, LTriBoolConsumer, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new Evaluation<LTriBoolFunctionAttest<R>, LTriBoolConsumer, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTriBoolFunctionAttest<R> extends FunctionalAttest.Full<LTriB
 			}
 
 			var result = func.apply(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

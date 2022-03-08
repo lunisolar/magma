@@ -67,7 +67,7 @@ public final class LCharToByteFunctionAttest extends FunctionalAttest.Full<LChar
 	@Nonnull
 	public ByteEvaluation<LCharToByteFunctionAttest, LCharConsumer> doesApplyAsByte(char a) {
 
-		return new ByteEvaluation<LCharToByteFunctionAttest, LCharConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new ByteEvaluation<LCharToByteFunctionAttest, LCharConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LCharToByteFunctionAttest extends FunctionalAttest.Full<LChar
 			}
 
 			var result = func.applyAsByte(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

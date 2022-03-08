@@ -65,7 +65,7 @@ public final class JreToLongBiFunctionAttest<T1, T2> extends FunctionalAttest.Fu
 	@Nonnull
 	public LongEvaluation<JreToLongBiFunctionAttest<T1, T2>, LBiConsumer<T1, T2>> doesApplyAsLong(T1 a1, T2 a2) {
 
-		return new LongEvaluation<JreToLongBiFunctionAttest<T1, T2>, LBiConsumer<T1, T2>>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new LongEvaluation<JreToLongBiFunctionAttest<T1, T2>, LBiConsumer<T1, T2>>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreToLongBiFunctionAttest<T1, T2> extends FunctionalAttest.Fu
 			}
 
 			var result = func.applyAsLong(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

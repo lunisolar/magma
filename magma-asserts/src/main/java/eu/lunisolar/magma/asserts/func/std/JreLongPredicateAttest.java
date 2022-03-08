@@ -65,7 +65,7 @@ public final class JreLongPredicateAttest extends FunctionalAttest.Full<JreLongP
 	@Nonnull
 	public BoolEvaluation<JreLongPredicateAttest, LLongConsumer> doesTest(long a) {
 
-		return new BoolEvaluation<JreLongPredicateAttest, LLongConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new BoolEvaluation<JreLongPredicateAttest, LLongConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreLongPredicateAttest extends FunctionalAttest.Full<JreLongP
 			}
 
 			var result = func.test(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

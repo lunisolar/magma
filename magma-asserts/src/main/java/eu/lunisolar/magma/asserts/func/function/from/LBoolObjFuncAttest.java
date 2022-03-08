@@ -70,7 +70,7 @@ public final class LBoolObjFuncAttest<T, R> extends FunctionalAttest.Full<LBoolO
 	@Nonnull
 	public Evaluation<LBoolObjFuncAttest<T, R>, LObjBoolConsumer.LBoolObjCons<T>, R> doesApply(boolean a2, T a1) {
 
-		return new Evaluation<LBoolObjFuncAttest<T, R>, LObjBoolConsumer.LBoolObjCons<T>, R>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new Evaluation<LBoolObjFuncAttest<T, R>, LObjBoolConsumer.LBoolObjCons<T>, R>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LBoolObjFuncAttest<T, R> extends FunctionalAttest.Full<LBoolO
 			}
 
 			var result = func.applyBoolObj(a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

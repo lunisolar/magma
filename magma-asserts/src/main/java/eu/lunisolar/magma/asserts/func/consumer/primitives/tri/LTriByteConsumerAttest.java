@@ -67,7 +67,7 @@ public final class LTriByteConsumerAttest extends FunctionalAttest.Simple<LTriBy
 	@Nonnull
 	public SemiEvaluation<LTriByteConsumerAttest, LTriByteConsumer, AssertionsCheck> doesAccept(byte a1, byte a2, byte a3) {
 
-		return new SemiEvaluation<LTriByteConsumerAttest, LTriByteConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new SemiEvaluation<LTriByteConsumerAttest, LTriByteConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

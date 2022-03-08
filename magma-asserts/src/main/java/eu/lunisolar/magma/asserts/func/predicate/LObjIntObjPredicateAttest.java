@@ -67,7 +67,7 @@ public final class LObjIntObjPredicateAttest<T1, T2> extends FunctionalAttest.Fu
 	@Nonnull
 	public BoolEvaluation<LObjIntObjPredicateAttest<T1, T2>, LTieConsumer<T1, T2>> doesTest(T1 a1, int a2, T2 a3) {
 
-		return new BoolEvaluation<LObjIntObjPredicateAttest<T1, T2>, LTieConsumer<T1, T2>>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new BoolEvaluation<LObjIntObjPredicateAttest<T1, T2>, LTieConsumer<T1, T2>>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LObjIntObjPredicateAttest<T1, T2> extends FunctionalAttest.Fu
 			}
 
 			var result = func.test(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

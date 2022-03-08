@@ -65,7 +65,7 @@ public final class JreDoublePredicateAttest extends FunctionalAttest.Full<JreDou
 	@Nonnull
 	public BoolEvaluation<JreDoublePredicateAttest, LDblConsumer> doesTest(double a) {
 
-		return new BoolEvaluation<JreDoublePredicateAttest, LDblConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new BoolEvaluation<JreDoublePredicateAttest, LDblConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreDoublePredicateAttest extends FunctionalAttest.Full<JreDou
 			}
 
 			var result = func.test(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

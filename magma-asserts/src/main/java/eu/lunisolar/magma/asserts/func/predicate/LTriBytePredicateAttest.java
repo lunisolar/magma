@@ -67,7 +67,7 @@ public final class LTriBytePredicateAttest extends FunctionalAttest.Full<LTriByt
 	@Nonnull
 	public BoolEvaluation<LTriBytePredicateAttest, LTriByteConsumer> doesTest(byte a1, byte a2, byte a3) {
 
-		return new BoolEvaluation<LTriBytePredicateAttest, LTriByteConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new BoolEvaluation<LTriBytePredicateAttest, LTriByteConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTriBytePredicateAttest extends FunctionalAttest.Full<LTriByt
 			}
 
 			var result = func.test(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

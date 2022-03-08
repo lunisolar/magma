@@ -67,7 +67,7 @@ public final class LBoolToCharFunctionAttest extends FunctionalAttest.Full<LBool
 	@Nonnull
 	public CharEvaluation<LBoolToCharFunctionAttest, LBoolConsumer> doesApplyAsChar(boolean a) {
 
-		return new CharEvaluation<LBoolToCharFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new CharEvaluation<LBoolToCharFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LBoolToCharFunctionAttest extends FunctionalAttest.Full<LBool
 			}
 
 			var result = func.applyAsChar(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

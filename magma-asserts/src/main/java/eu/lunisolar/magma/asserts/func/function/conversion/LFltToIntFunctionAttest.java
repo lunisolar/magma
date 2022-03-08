@@ -67,7 +67,7 @@ public final class LFltToIntFunctionAttest extends FunctionalAttest.Full<LFltToI
 	@Nonnull
 	public IntEvaluation<LFltToIntFunctionAttest, LFltConsumer> doesApplyAsInt(float a) {
 
-		return new IntEvaluation<LFltToIntFunctionAttest, LFltConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new IntEvaluation<LFltToIntFunctionAttest, LFltConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LFltToIntFunctionAttest extends FunctionalAttest.Full<LFltToI
 			}
 
 			var result = func.applyAsInt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

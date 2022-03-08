@@ -67,7 +67,7 @@ public final class LIntConsumerAttest extends FunctionalAttest.Simple<LIntConsum
 	@Nonnull
 	public SemiEvaluation<LIntConsumerAttest, LIntConsumer, AssertionsCheck> doesAccept(int a) {
 
-		return new SemiEvaluation<LIntConsumerAttest, LIntConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), pc -> {
+		return new SemiEvaluation<LIntConsumerAttest, LIntConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

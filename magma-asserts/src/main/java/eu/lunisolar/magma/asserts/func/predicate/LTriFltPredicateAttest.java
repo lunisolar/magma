@@ -67,7 +67,7 @@ public final class LTriFltPredicateAttest extends FunctionalAttest.Full<LTriFltP
 	@Nonnull
 	public BoolEvaluation<LTriFltPredicateAttest, LTriFltConsumer> doesTest(float a1, float a2, float a3) {
 
-		return new BoolEvaluation<LTriFltPredicateAttest, LTriFltConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new BoolEvaluation<LTriFltPredicateAttest, LTriFltConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTriFltPredicateAttest extends FunctionalAttest.Full<LTriFltP
 			}
 
 			var result = func.test(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

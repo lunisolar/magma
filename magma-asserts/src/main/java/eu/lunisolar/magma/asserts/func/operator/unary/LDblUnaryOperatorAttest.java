@@ -67,7 +67,7 @@ public final class LDblUnaryOperatorAttest extends FunctionalAttest.Full<LDblUna
 	@Nonnull
 	public DblEvaluation<LDblUnaryOperatorAttest, LDblConsumer> doesApplyAsDbl(double a) {
 
-		return new DblEvaluation<LDblUnaryOperatorAttest, LDblConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new DblEvaluation<LDblUnaryOperatorAttest, LDblConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LDblUnaryOperatorAttest extends FunctionalAttest.Full<LDblUna
 			}
 
 			var result = func.applyAsDbl(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

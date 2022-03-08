@@ -65,7 +65,7 @@ public final class JreBooleanSupplierAttest extends FunctionalAttest.Full<JreBoo
 	@Nonnull
 	public BoolEvaluation<JreBooleanSupplierAttest, LAction> doesGetAsBool() {
 
-		return new BoolEvaluation<JreBooleanSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new BoolEvaluation<JreBooleanSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreBooleanSupplierAttest extends FunctionalAttest.Full<JreBoo
 			}
 
 			var result = func.getAsBoolean();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

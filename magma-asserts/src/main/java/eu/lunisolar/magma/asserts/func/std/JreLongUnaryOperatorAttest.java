@@ -65,7 +65,7 @@ public final class JreLongUnaryOperatorAttest extends FunctionalAttest.Full<JreL
 	@Nonnull
 	public LongEvaluation<JreLongUnaryOperatorAttest, LLongConsumer> doesApplyAsLong(long a) {
 
-		return new LongEvaluation<JreLongUnaryOperatorAttest, LLongConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new LongEvaluation<JreLongUnaryOperatorAttest, LLongConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreLongUnaryOperatorAttest extends FunctionalAttest.Full<JreL
 			}
 
 			var result = func.applyAsLong(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

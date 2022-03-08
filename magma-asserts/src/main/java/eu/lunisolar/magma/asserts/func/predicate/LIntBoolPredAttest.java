@@ -70,7 +70,7 @@ public final class LIntBoolPredAttest extends FunctionalAttest.Full<LIntBoolPred
 	@Nonnull
 	public BoolEvaluation<LIntBoolPredAttest, LBoolIntConsumer.LIntBoolCons> doesTest(int a2, boolean a1) {
 
-		return new BoolEvaluation<LIntBoolPredAttest, LBoolIntConsumer.LIntBoolCons>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new BoolEvaluation<LIntBoolPredAttest, LBoolIntConsumer.LIntBoolCons>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LIntBoolPredAttest extends FunctionalAttest.Full<LIntBoolPred
 			}
 
 			var result = func.testIntBool(a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

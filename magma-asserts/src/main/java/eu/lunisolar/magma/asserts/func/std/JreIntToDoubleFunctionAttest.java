@@ -65,7 +65,7 @@ public final class JreIntToDoubleFunctionAttest extends FunctionalAttest.Full<Jr
 	@Nonnull
 	public DblEvaluation<JreIntToDoubleFunctionAttest, LIntConsumer> doesApplyAsDbl(int a) {
 
-		return new DblEvaluation<JreIntToDoubleFunctionAttest, LIntConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new DblEvaluation<JreIntToDoubleFunctionAttest, LIntConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreIntToDoubleFunctionAttest extends FunctionalAttest.Full<Jr
 			}
 
 			var result = func.applyAsDouble(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

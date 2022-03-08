@@ -67,7 +67,7 @@ public final class LOiToDblFunctionAttest<T> extends FunctionalAttest.Full<LOiTo
 	@Nonnull
 	public DblEvaluation<LOiToDblFunctionAttest<T>, LObjIntConsumer<T>> doesApplyAsDbl(T a1, int a2) {
 
-		return new DblEvaluation<LOiToDblFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new DblEvaluation<LOiToDblFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LOiToDblFunctionAttest<T> extends FunctionalAttest.Full<LOiTo
 			}
 
 			var result = func.applyAsDbl(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

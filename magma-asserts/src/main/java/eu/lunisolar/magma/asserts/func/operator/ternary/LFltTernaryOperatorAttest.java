@@ -67,7 +67,7 @@ public final class LFltTernaryOperatorAttest extends FunctionalAttest.Full<LFltT
 	@Nonnull
 	public FltEvaluation<LFltTernaryOperatorAttest, LTriFltConsumer> doesApplyAsFlt(float a1, float a2, float a3) {
 
-		return new FltEvaluation<LFltTernaryOperatorAttest, LTriFltConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new FltEvaluation<LFltTernaryOperatorAttest, LTriFltConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LFltTernaryOperatorAttest extends FunctionalAttest.Full<LFltT
 			}
 
 			var result = func.applyAsFlt(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

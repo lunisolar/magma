@@ -70,7 +70,7 @@ public final class LLongObjIntConsAttest<T> extends FunctionalAttest.Simple<LLon
 	@Nonnull
 	public SemiEvaluation<LLongObjIntConsAttest<T>, LTieLongConsumer.LLongObjIntCons<T>, AssertionsCheck> doesAccept(long a3, T a1, int a2) {
 
-		return new SemiEvaluation<LLongObjIntConsAttest<T>, LTieLongConsumer.LLongObjIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), pc -> {
+		return new SemiEvaluation<LLongObjIntConsAttest<T>, LTieLongConsumer.LLongObjIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

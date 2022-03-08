@@ -65,7 +65,7 @@ public final class JreIntConsumerAttest extends FunctionalAttest.Simple<JreIntCo
 	@Nonnull
 	public SemiEvaluation<JreIntConsumerAttest, LIntConsumer, AssertionsCheck> doesAccept(int a) {
 
-		return new SemiEvaluation<JreIntConsumerAttest, LIntConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), pc -> {
+		return new SemiEvaluation<JreIntConsumerAttest, LIntConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

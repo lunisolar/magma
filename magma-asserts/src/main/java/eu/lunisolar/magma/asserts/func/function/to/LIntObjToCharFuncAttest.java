@@ -70,7 +70,7 @@ public final class LIntObjToCharFuncAttest<T> extends FunctionalAttest.Full<LInt
 	@Nonnull
 	public CharEvaluation<LIntObjToCharFuncAttest<T>, LObjIntConsumer.LIntObjCons<T>> doesApplyAsChar(int a2, T a1) {
 
-		return new CharEvaluation<LIntObjToCharFuncAttest<T>, LObjIntConsumer.LIntObjCons<T>>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new CharEvaluation<LIntObjToCharFuncAttest<T>, LObjIntConsumer.LIntObjCons<T>>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LIntObjToCharFuncAttest<T> extends FunctionalAttest.Full<LInt
 			}
 
 			var result = func.applyAsCharIntObj(a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

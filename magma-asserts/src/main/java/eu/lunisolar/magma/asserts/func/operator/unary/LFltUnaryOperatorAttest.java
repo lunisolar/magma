@@ -67,7 +67,7 @@ public final class LFltUnaryOperatorAttest extends FunctionalAttest.Full<LFltUna
 	@Nonnull
 	public FltEvaluation<LFltUnaryOperatorAttest, LFltConsumer> doesApplyAsFlt(float a) {
 
-		return new FltEvaluation<LFltUnaryOperatorAttest, LFltConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new FltEvaluation<LFltUnaryOperatorAttest, LFltConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LFltUnaryOperatorAttest extends FunctionalAttest.Full<LFltUna
 			}
 
 			var result = func.applyAsFlt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

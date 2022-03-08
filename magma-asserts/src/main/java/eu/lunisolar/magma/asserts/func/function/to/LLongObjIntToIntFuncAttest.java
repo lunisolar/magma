@@ -70,7 +70,7 @@ public final class LLongObjIntToIntFuncAttest<T> extends FunctionalAttest.Full<L
 	@Nonnull
 	public IntEvaluation<LLongObjIntToIntFuncAttest<T>, LTieLongConsumer.LLongObjIntCons<T>> doesApplyAsInt(long a3, T a1, int a2) {
 
-		return new IntEvaluation<LLongObjIntToIntFuncAttest<T>, LTieLongConsumer.LLongObjIntCons<T>>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), pc -> {
+		return new IntEvaluation<LLongObjIntToIntFuncAttest<T>, LTieLongConsumer.LLongObjIntCons<T>>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LLongObjIntToIntFuncAttest<T> extends FunctionalAttest.Full<L
 			}
 
 			var result = func.applyAsIntLongObjInt(a3, a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

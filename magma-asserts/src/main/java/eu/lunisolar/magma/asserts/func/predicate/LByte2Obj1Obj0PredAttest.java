@@ -70,7 +70,7 @@ public final class LByte2Obj1Obj0PredAttest<T2, T1> extends FunctionalAttest.Ful
 	@Nonnull
 	public BoolEvaluation<LByte2Obj1Obj0PredAttest<T2, T1>, LBiObjByteConsumer.LByte2Obj0Obj1Cons<T2, T1>> doesTest(byte a3, T2 a2, T1 a1) {
 
-		return new BoolEvaluation<LByte2Obj1Obj0PredAttest<T2, T1>, LBiObjByteConsumer.LByte2Obj0Obj1Cons<T2, T1>>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), pc -> {
+		return new BoolEvaluation<LByte2Obj1Obj0PredAttest<T2, T1>, LBiObjByteConsumer.LByte2Obj0Obj1Cons<T2, T1>>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LByte2Obj1Obj0PredAttest<T2, T1> extends FunctionalAttest.Ful
 			}
 
 			var result = func.testByte2Obj1Obj0(a3, a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

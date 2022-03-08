@@ -65,7 +65,7 @@ public final class JreDoubleFunctionAttest<R> extends FunctionalAttest.Full<JreD
 	@Nonnull
 	public Evaluation<JreDoubleFunctionAttest<R>, LDblConsumer, R> doesApply(double a) {
 
-		return new Evaluation<JreDoubleFunctionAttest<R>, LDblConsumer, R>(this, () -> String.format("(%s)", a), pc -> {
+		return new Evaluation<JreDoubleFunctionAttest<R>, LDblConsumer, R>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreDoubleFunctionAttest<R> extends FunctionalAttest.Full<JreD
 			}
 
 			var result = func.apply(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

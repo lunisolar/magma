@@ -67,7 +67,7 @@ public final class LTieLongFunctionAttest<T> extends FunctionalAttest.Full<LTieL
 	@Nonnull
 	public IntEvaluation<LTieLongFunctionAttest<T>, LTieLongConsumer<T>> doesApplyAsInt(T a1, int a2, long a3) {
 
-		return new IntEvaluation<LTieLongFunctionAttest<T>, LTieLongConsumer<T>>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new IntEvaluation<LTieLongFunctionAttest<T>, LTieLongConsumer<T>>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTieLongFunctionAttest<T> extends FunctionalAttest.Full<LTieL
 			}
 
 			var result = func.applyAsInt(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

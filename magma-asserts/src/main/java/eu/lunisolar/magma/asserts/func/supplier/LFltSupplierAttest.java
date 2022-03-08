@@ -67,7 +67,7 @@ public final class LFltSupplierAttest extends FunctionalAttest.Full<LFltSupplier
 	@Nonnull
 	public FltEvaluation<LFltSupplierAttest, LAction> doesGetAsFlt() {
 
-		return new FltEvaluation<LFltSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new FltEvaluation<LFltSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LFltSupplierAttest extends FunctionalAttest.Full<LFltSupplier
 			}
 
 			var result = func.getAsFlt();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

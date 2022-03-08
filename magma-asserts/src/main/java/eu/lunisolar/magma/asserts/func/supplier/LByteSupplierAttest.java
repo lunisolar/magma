@@ -67,7 +67,7 @@ public final class LByteSupplierAttest extends FunctionalAttest.Full<LByteSuppli
 	@Nonnull
 	public ByteEvaluation<LByteSupplierAttest, LAction> doesGetAsByte() {
 
-		return new ByteEvaluation<LByteSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new ByteEvaluation<LByteSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LByteSupplierAttest extends FunctionalAttest.Full<LByteSuppli
 			}
 
 			var result = func.getAsByte();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

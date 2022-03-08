@@ -67,7 +67,7 @@ public final class LToCharFunctionAttest<T> extends FunctionalAttest.Full<LToCha
 	@Nonnull
 	public CharEvaluation<LToCharFunctionAttest<T>, LConsumer<T>> doesApplyAsChar(T a) {
 
-		return new CharEvaluation<LToCharFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), pc -> {
+		return new CharEvaluation<LToCharFunctionAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LToCharFunctionAttest<T> extends FunctionalAttest.Full<LToCha
 			}
 
 			var result = func.applyAsChar(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

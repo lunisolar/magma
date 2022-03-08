@@ -70,7 +70,7 @@ public final class LDblIntObjConsAttest<T> extends FunctionalAttest.Simple<LDblI
 	@Nonnull
 	public SemiEvaluation<LDblIntObjConsAttest<T>, LTieDblConsumer.LDblIntObjCons<T>, AssertionsCheck> doesAccept(double a3, int a2, T a1) {
 
-		return new SemiEvaluation<LDblIntObjConsAttest<T>, LTieDblConsumer.LDblIntObjCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), pc -> {
+		return new SemiEvaluation<LDblIntObjConsAttest<T>, LTieDblConsumer.LDblIntObjCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

@@ -69,7 +69,7 @@ public final class LBool1Bool0ConsAttest extends FunctionalAttest.Simple<LBool1B
 	@Nonnull
 	public SemiEvaluation<LBool1Bool0ConsAttest, LBiBoolConsumer, AssertionsCheck> doesAccept(boolean a2, boolean a1) {
 
-		return new SemiEvaluation<LBool1Bool0ConsAttest, LBiBoolConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new SemiEvaluation<LBool1Bool0ConsAttest, LBiBoolConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

@@ -67,7 +67,7 @@ public final class LCharToSrtFunctionAttest extends FunctionalAttest.Full<LCharT
 	@Nonnull
 	public SrtEvaluation<LCharToSrtFunctionAttest, LCharConsumer> doesApplyAsSrt(char a) {
 
-		return new SrtEvaluation<LCharToSrtFunctionAttest, LCharConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new SrtEvaluation<LCharToSrtFunctionAttest, LCharConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LCharToSrtFunctionAttest extends FunctionalAttest.Full<LCharT
 			}
 
 			var result = func.applyAsSrt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

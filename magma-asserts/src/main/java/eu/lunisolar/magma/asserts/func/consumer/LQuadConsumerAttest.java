@@ -67,7 +67,7 @@ public final class LQuadConsumerAttest<T1, T2, T3, T4> extends FunctionalAttest.
 	@Nonnull
 	public SemiEvaluation<LQuadConsumerAttest<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>, AssertionsCheck> doesAccept(T1 a1, T2 a2, T3 a3, T4 a4) {
 
-		return new SemiEvaluation<LQuadConsumerAttest<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s,%s)", a1, a2, a3, a4), pc -> {
+		return new SemiEvaluation<LQuadConsumerAttest<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s,%s)", a1, a2, a3, a4), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

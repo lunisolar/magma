@@ -67,7 +67,7 @@ public final class LDblToIntFunctionAttest extends FunctionalAttest.Full<LDblToI
 	@Nonnull
 	public IntEvaluation<LDblToIntFunctionAttest, LDblConsumer> doesApplyAsInt(double a) {
 
-		return new IntEvaluation<LDblToIntFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new IntEvaluation<LDblToIntFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LDblToIntFunctionAttest extends FunctionalAttest.Full<LDblToI
 			}
 
 			var result = func.applyAsInt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

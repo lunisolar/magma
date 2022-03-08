@@ -65,7 +65,7 @@ public final class JreIntPredicateAttest extends FunctionalAttest.Full<JreIntPre
 	@Nonnull
 	public BoolEvaluation<JreIntPredicateAttest, LIntConsumer> doesTest(int a) {
 
-		return new BoolEvaluation<JreIntPredicateAttest, LIntConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new BoolEvaluation<JreIntPredicateAttest, LIntConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreIntPredicateAttest extends FunctionalAttest.Full<JreIntPre
 			}
 
 			var result = func.test(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -70,7 +70,7 @@ public final class LIntFltConsAttest extends FunctionalAttest.Simple<LIntFltCons
 	@Nonnull
 	public SemiEvaluation<LIntFltConsAttest, LFltIntConsumer.LIntFltCons, AssertionsCheck> doesAccept(int a2, float a1) {
 
-		return new SemiEvaluation<LIntFltConsAttest, LFltIntConsumer.LIntFltCons, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new SemiEvaluation<LIntFltConsAttest, LFltIntConsumer.LIntFltCons, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

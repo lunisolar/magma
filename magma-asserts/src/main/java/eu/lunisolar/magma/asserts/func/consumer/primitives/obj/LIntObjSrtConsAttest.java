@@ -70,7 +70,7 @@ public final class LIntObjSrtConsAttest<T> extends FunctionalAttest.Simple<LIntO
 	@Nonnull
 	public SemiEvaluation<LIntObjSrtConsAttest<T>, LTieSrtConsumer.LIntObjSrtCons<T>, AssertionsCheck> doesAccept(int a2, T a1, short a3) {
 
-		return new SemiEvaluation<LIntObjSrtConsAttest<T>, LTieSrtConsumer.LIntObjSrtCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), pc -> {
+		return new SemiEvaluation<LIntObjSrtConsAttest<T>, LTieSrtConsumer.LIntObjSrtCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

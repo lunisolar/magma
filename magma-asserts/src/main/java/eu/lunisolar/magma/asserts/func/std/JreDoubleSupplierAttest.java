@@ -65,7 +65,7 @@ public final class JreDoubleSupplierAttest extends FunctionalAttest.Full<JreDoub
 	@Nonnull
 	public DblEvaluation<JreDoubleSupplierAttest, LAction> doesGetAsDbl() {
 
-		return new DblEvaluation<JreDoubleSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new DblEvaluation<JreDoubleSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreDoubleSupplierAttest extends FunctionalAttest.Full<JreDoub
 			}
 
 			var result = func.getAsDouble();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

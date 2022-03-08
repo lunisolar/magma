@@ -67,7 +67,7 @@ public final class LPredicateAttest<T> extends FunctionalAttest.Full<LPredicateA
 	@Nonnull
 	public BoolEvaluation<LPredicateAttest<T>, LConsumer<T>> doesTest(T a) {
 
-		return new BoolEvaluation<LPredicateAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), pc -> {
+		return new BoolEvaluation<LPredicateAttest<T>, LConsumer<T>>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LPredicateAttest<T> extends FunctionalAttest.Full<LPredicateA
 			}
 
 			var result = func.test(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

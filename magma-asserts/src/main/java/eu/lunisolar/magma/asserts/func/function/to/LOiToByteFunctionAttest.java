@@ -67,7 +67,7 @@ public final class LOiToByteFunctionAttest<T> extends FunctionalAttest.Full<LOiT
 	@Nonnull
 	public ByteEvaluation<LOiToByteFunctionAttest<T>, LObjIntConsumer<T>> doesApplyAsByte(T a1, int a2) {
 
-		return new ByteEvaluation<LOiToByteFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new ByteEvaluation<LOiToByteFunctionAttest<T>, LObjIntConsumer<T>>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LOiToByteFunctionAttest<T> extends FunctionalAttest.Full<LOiT
 			}
 
 			var result = func.applyAsByte(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

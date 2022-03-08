@@ -67,7 +67,7 @@ public final class LSrtTernaryOperatorAttest extends FunctionalAttest.Full<LSrtT
 	@Nonnull
 	public SrtEvaluation<LSrtTernaryOperatorAttest, LTriSrtConsumer> doesApplyAsSrt(short a1, short a2, short a3) {
 
-		return new SrtEvaluation<LSrtTernaryOperatorAttest, LTriSrtConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new SrtEvaluation<LSrtTernaryOperatorAttest, LTriSrtConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LSrtTernaryOperatorAttest extends FunctionalAttest.Full<LSrtT
 			}
 
 			var result = func.applyAsSrt(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

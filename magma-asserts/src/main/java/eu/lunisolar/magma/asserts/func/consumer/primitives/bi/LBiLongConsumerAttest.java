@@ -67,7 +67,7 @@ public final class LBiLongConsumerAttest extends FunctionalAttest.Simple<LBiLong
 	@Nonnull
 	public SemiEvaluation<LBiLongConsumerAttest, LBiLongConsumer, AssertionsCheck> doesAccept(long a1, long a2) {
 
-		return new SemiEvaluation<LBiLongConsumerAttest, LBiLongConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new SemiEvaluation<LBiLongConsumerAttest, LBiLongConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

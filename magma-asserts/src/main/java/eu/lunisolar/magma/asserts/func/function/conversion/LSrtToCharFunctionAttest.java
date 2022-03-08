@@ -67,7 +67,7 @@ public final class LSrtToCharFunctionAttest extends FunctionalAttest.Full<LSrtTo
 	@Nonnull
 	public CharEvaluation<LSrtToCharFunctionAttest, LSrtConsumer> doesApplyAsChar(short a) {
 
-		return new CharEvaluation<LSrtToCharFunctionAttest, LSrtConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new CharEvaluation<LSrtToCharFunctionAttest, LSrtConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LSrtToCharFunctionAttest extends FunctionalAttest.Full<LSrtTo
 			}
 
 			var result = func.applyAsChar(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

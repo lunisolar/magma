@@ -65,7 +65,7 @@ public final class JreUnaryOperatorAttest<T> extends FunctionalAttest.Full<JreUn
 	@Nonnull
 	public Evaluation<JreUnaryOperatorAttest<T>, LConsumer<T>, T> doesApply(T a) {
 
-		return new Evaluation<JreUnaryOperatorAttest<T>, LConsumer<T>, T>(this, () -> String.format("(%s)", a), pc -> {
+		return new Evaluation<JreUnaryOperatorAttest<T>, LConsumer<T>, T>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreUnaryOperatorAttest<T> extends FunctionalAttest.Full<JreUn
 			}
 
 			var result = func.apply(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

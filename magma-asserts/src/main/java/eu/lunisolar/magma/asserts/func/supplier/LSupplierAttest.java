@@ -67,7 +67,7 @@ public final class LSupplierAttest<T> extends FunctionalAttest.Full<LSupplierAtt
 	@Nonnull
 	public Evaluation<LSupplierAttest<T>, LAction, T> doesGet() {
 
-		return new Evaluation<LSupplierAttest<T>, LAction, T>(this, () -> String.format("()"), pc -> {
+		return new Evaluation<LSupplierAttest<T>, LAction, T>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LSupplierAttest<T> extends FunctionalAttest.Full<LSupplierAtt
 			}
 
 			var result = func.get();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

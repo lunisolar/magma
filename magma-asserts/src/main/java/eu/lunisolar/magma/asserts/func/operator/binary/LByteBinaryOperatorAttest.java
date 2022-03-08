@@ -67,7 +67,7 @@ public final class LByteBinaryOperatorAttest extends FunctionalAttest.Full<LByte
 	@Nonnull
 	public ByteEvaluation<LByteBinaryOperatorAttest, LBiByteConsumer> doesApplyAsByte(byte a1, byte a2) {
 
-		return new ByteEvaluation<LByteBinaryOperatorAttest, LBiByteConsumer>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new ByteEvaluation<LByteBinaryOperatorAttest, LBiByteConsumer>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LByteBinaryOperatorAttest extends FunctionalAttest.Full<LByte
 			}
 
 			var result = func.applyAsByte(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

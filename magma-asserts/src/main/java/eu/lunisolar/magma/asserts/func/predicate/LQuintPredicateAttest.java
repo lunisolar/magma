@@ -67,7 +67,7 @@ public final class LQuintPredicateAttest<T1, T2, T3, T4, T5> extends FunctionalA
 	@Nonnull
 	public BoolEvaluation<LQuintPredicateAttest<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> doesTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
 
-		return new BoolEvaluation<LQuintPredicateAttest<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>>(this, () -> String.format("(%s,%s,%s,%s,%s)", a1, a2, a3, a4, a5), pc -> {
+		return new BoolEvaluation<LQuintPredicateAttest<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>>(this, () -> String.format("(%s,%s,%s,%s,%s)", a1, a2, a3, a4, a5), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LQuintPredicateAttest<T1, T2, T3, T4, T5> extends FunctionalA
 			}
 
 			var result = func.test(a1, a2, a3, a4, a5);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

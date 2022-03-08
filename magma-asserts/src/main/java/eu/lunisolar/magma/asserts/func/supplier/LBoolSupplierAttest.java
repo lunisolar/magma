@@ -67,7 +67,7 @@ public final class LBoolSupplierAttest extends FunctionalAttest.Full<LBoolSuppli
 	@Nonnull
 	public BoolEvaluation<LBoolSupplierAttest, LAction> doesGetAsBool() {
 
-		return new BoolEvaluation<LBoolSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new BoolEvaluation<LBoolSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LBoolSupplierAttest extends FunctionalAttest.Full<LBoolSuppli
 			}
 
 			var result = func.getAsBool();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

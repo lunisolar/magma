@@ -67,7 +67,7 @@ public final class LDblSupplierAttest extends FunctionalAttest.Full<LDblSupplier
 	@Nonnull
 	public DblEvaluation<LDblSupplierAttest, LAction> doesGetAsDbl() {
 
-		return new DblEvaluation<LDblSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new DblEvaluation<LDblSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LDblSupplierAttest extends FunctionalAttest.Full<LDblSupplier
 			}
 
 			var result = func.getAsDbl();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

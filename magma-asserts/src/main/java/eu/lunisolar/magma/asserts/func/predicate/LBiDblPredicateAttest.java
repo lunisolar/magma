@@ -67,7 +67,7 @@ public final class LBiDblPredicateAttest extends FunctionalAttest.Full<LBiDblPre
 	@Nonnull
 	public BoolEvaluation<LBiDblPredicateAttest, LBiDblConsumer> doesTest(double a1, double a2) {
 
-		return new BoolEvaluation<LBiDblPredicateAttest, LBiDblConsumer>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new BoolEvaluation<LBiDblPredicateAttest, LBiDblConsumer>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LBiDblPredicateAttest extends FunctionalAttest.Full<LBiDblPre
 			}
 
 			var result = func.test(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -70,7 +70,7 @@ public final class LDblObjIntFuncAttest<T, R> extends FunctionalAttest.Full<LDbl
 	@Nonnull
 	public Evaluation<LDblObjIntFuncAttest<T, R>, LTieDblConsumer.LDblObjIntCons<T>, R> doesApply(double a3, T a1, int a2) {
 
-		return new Evaluation<LDblObjIntFuncAttest<T, R>, LTieDblConsumer.LDblObjIntCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), pc -> {
+		return new Evaluation<LDblObjIntFuncAttest<T, R>, LTieDblConsumer.LDblObjIntCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LDblObjIntFuncAttest<T, R> extends FunctionalAttest.Full<LDbl
 			}
 
 			var result = func.applyDblObjInt(a3, a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

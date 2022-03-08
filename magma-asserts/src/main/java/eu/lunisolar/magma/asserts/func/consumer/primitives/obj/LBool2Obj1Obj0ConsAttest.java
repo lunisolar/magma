@@ -70,7 +70,7 @@ public final class LBool2Obj1Obj0ConsAttest<T2, T1> extends FunctionalAttest.Sim
 	@Nonnull
 	public SemiEvaluation<LBool2Obj1Obj0ConsAttest<T2, T1>, LBiObjBoolConsumer.LBool2Obj0Obj1Cons<T2, T1>, AssertionsCheck> doesAccept(boolean a3, T2 a2, T1 a1) {
 
-		return new SemiEvaluation<LBool2Obj1Obj0ConsAttest<T2, T1>, LBiObjBoolConsumer.LBool2Obj0Obj1Cons<T2, T1>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), pc -> {
+		return new SemiEvaluation<LBool2Obj1Obj0ConsAttest<T2, T1>, LBiObjBoolConsumer.LBool2Obj0Obj1Cons<T2, T1>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

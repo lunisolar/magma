@@ -69,7 +69,7 @@ public final class LObj1Obj0Byte2FuncAttest<T2, T1, R> extends FunctionalAttest.
 	@Nonnull
 	public Evaluation<LObj1Obj0Byte2FuncAttest<T2, T1, R>, LBiObjByteConsumer<T2, T1>, R> doesApply(T2 a2, T1 a1, byte a3) {
 
-		return new Evaluation<LObj1Obj0Byte2FuncAttest<T2, T1, R>, LBiObjByteConsumer<T2, T1>, R>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), pc -> {
+		return new Evaluation<LObj1Obj0Byte2FuncAttest<T2, T1, R>, LBiObjByteConsumer<T2, T1>, R>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -79,7 +79,7 @@ public final class LObj1Obj0Byte2FuncAttest<T2, T1, R> extends FunctionalAttest.
 			}
 
 			var result = func.applyObj1Obj0Byte2(a2, a1, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

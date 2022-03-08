@@ -65,7 +65,7 @@ public final class JreBinaryOperatorAttest<T> extends FunctionalAttest.Full<JreB
 	@Nonnull
 	public Evaluation<JreBinaryOperatorAttest<T>, LBiConsumer<T, T>, T> doesApply(T a1, T a2) {
 
-		return new Evaluation<JreBinaryOperatorAttest<T>, LBiConsumer<T, T>, T>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new Evaluation<JreBinaryOperatorAttest<T>, LBiConsumer<T, T>, T>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreBinaryOperatorAttest<T> extends FunctionalAttest.Full<JreB
 			}
 
 			var result = func.apply(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

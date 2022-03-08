@@ -67,7 +67,7 @@ public final class LLongTernaryOperatorAttest extends FunctionalAttest.Full<LLon
 	@Nonnull
 	public LongEvaluation<LLongTernaryOperatorAttest, LTriLongConsumer> doesApplyAsLong(long a1, long a2, long a3) {
 
-		return new LongEvaluation<LLongTernaryOperatorAttest, LTriLongConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new LongEvaluation<LLongTernaryOperatorAttest, LTriLongConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLongTernaryOperatorAttest extends FunctionalAttest.Full<LLon
 			}
 
 			var result = func.applyAsLong(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

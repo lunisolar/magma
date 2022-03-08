@@ -70,7 +70,7 @@ public final class LCharObjIntConsAttest<T> extends FunctionalAttest.Simple<LCha
 	@Nonnull
 	public SemiEvaluation<LCharObjIntConsAttest<T>, LTieCharConsumer.LCharObjIntCons<T>, AssertionsCheck> doesAccept(char a3, T a1, int a2) {
 
-		return new SemiEvaluation<LCharObjIntConsAttest<T>, LTieCharConsumer.LCharObjIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), pc -> {
+		return new SemiEvaluation<LCharObjIntConsAttest<T>, LTieCharConsumer.LCharObjIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

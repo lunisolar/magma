@@ -70,7 +70,7 @@ public final class LCharObjIntFuncAttest<T, R> extends FunctionalAttest.Full<LCh
 	@Nonnull
 	public Evaluation<LCharObjIntFuncAttest<T, R>, LTieCharConsumer.LCharObjIntCons<T>, R> doesApply(char a3, T a1, int a2) {
 
-		return new Evaluation<LCharObjIntFuncAttest<T, R>, LTieCharConsumer.LCharObjIntCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), pc -> {
+		return new Evaluation<LCharObjIntFuncAttest<T, R>, LTieCharConsumer.LCharObjIntCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LCharObjIntFuncAttest<T, R> extends FunctionalAttest.Full<LCh
 			}
 
 			var result = func.applyCharObjInt(a3, a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

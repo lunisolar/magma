@@ -67,7 +67,7 @@ public final class LIntToDblFunctionAttest extends FunctionalAttest.Full<LIntToD
 	@Nonnull
 	public DblEvaluation<LIntToDblFunctionAttest, LIntConsumer> doesApplyAsDbl(int a) {
 
-		return new DblEvaluation<LIntToDblFunctionAttest, LIntConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new DblEvaluation<LIntToDblFunctionAttest, LIntConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LIntToDblFunctionAttest extends FunctionalAttest.Full<LIntToD
 			}
 
 			var result = func.applyAsDbl(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

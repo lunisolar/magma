@@ -26,6 +26,7 @@ import eu.lunisolar.magma.basics.fluent.FluentSubcontext;
 import eu.lunisolar.magma.basics.meta.functional.aCheck;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.consumer.primitives.*;
+import eu.lunisolar.magma.func.operator.unary.LUnaryOperator;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.supp.traits.CheckTrait;
@@ -49,7 +50,7 @@ public final class FunctionalAttest {
 	@FunctionalInterface
 	public interface AssertionFunction<PC, R_CHECK> {
 		@Nonnull
-		R_CHECK applyAndCreateResultAssert(@Nullable PC preconditions) throws Throwable;
+		R_CHECK applyAndCreateResultAssert(@Nullable String description, @Nullable PC preconditions) throws Throwable;
 	}
 
 	@FunctionalInterface
@@ -70,8 +71,8 @@ public final class FunctionalAttest {
 		}
 
 		@Nonnull
-		protected SemiEvaluation<SELF, PC, AssertionsCheck> evaluation(Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, ?> assertFunction) {
-			return new SemiEvaluation(this, caseDescription, assertFunction, recurringAssert);
+		protected SemiEvaluation<SELF, PC, AssertionsCheck> evaluation(Supplier<String> argDescription, @Nonnull AssertionFunction<PC, ?> assertFunction) {
+			return new SemiEvaluation(this, argDescription, assertFunction, recurringAssert);
 		}
 
 	}
@@ -126,23 +127,23 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, PC, R_CHECK>, CTX extends Fluent<CTX>, PC, R_CHECK> implements FluentSubcontext<SELF, CTX> {
 
-		protected @Nonnull Supplier<String> caseDescription;
+		protected @Nonnull Supplier<String> argDescription;
 		protected @Nullable PC preconditioner;
 		protected final @Nonnull AssertionFunction<PC, R_CHECK> assertFunction;
 		protected final @Nullable List<LConsumer<R_CHECK>> assertPreConsumer;
 
 		protected final @Nonnull CTX context;
 
-		protected AbstractEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction, @Nullable List<LConsumer<R_CHECK>> assertPreConsumer) {
-			this.caseDescription = caseDescription;
+		protected AbstractEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction, @Nullable List<LConsumer<R_CHECK>> assertPreConsumer) {
+			this.argDescription = argDescription;
 			this.assertPreConsumer = assertPreConsumer;
 			this.assertFunction = Objects.requireNonNull(assertFunction);
 			this.context = context;
 
 		}
 
-		protected AbstractEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nullable List<AssertionsCheck> assertPreConsumer, AssertionFunction<PC, R_CHECK> assertFunction) {
-			this(context, caseDescription, assertFunction, assertPreConsumer == null ? null : assertPreConsumer.stream().map(a -> (LConsumer<R_CHECK>) __ -> a.assertionsCheck()).collect(toList()));
+		protected AbstractEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nullable List<AssertionsCheck> assertPreConsumer, AssertionFunction<PC, R_CHECK> assertFunction) {
+			this(context, argDescription, assertFunction, assertPreConsumer == null ? null : assertPreConsumer.stream().map(a -> (LConsumer<R_CHECK>) __ -> a.assertionsCheck()).collect(toList()));
 		}
 
 		public SELF when(PC preconditioner) {
@@ -152,26 +153,32 @@ public final class FunctionalAttest {
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX soThat(@Nonnull AssertionsCheck assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, RCHECK -> assertions.assertionsCheck());
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, RCHECK -> assertions.assertionsCheck());
 			return context.fluentCtx();
 		}
 
 		public CTX withoutException() {
-			exceptionCheck(caseDescription, preconditioner, assertFunction, a -> {
+			exceptionCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, a -> {
 			});
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the failure of the method under test. */
 		public CTX withException(@Nonnull LConsumer<Checks.Check<? extends Throwable>> assertions) {
-			exceptionCheck(caseDescription, preconditioner, assertFunction, assertions);
+			exceptionCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertions);
 			return context.fluentCtx();
 		}
 
-		protected static <PC, R_CHECK> R_CHECK normalCheck(@Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction, @Nullable List<LConsumer<R_CHECK>> assertPreConsumer,
-				@Nonnull LConsumer<R_CHECK> assertConsumer) {
+		/** Assertion for the failure of the method under test. */
+		public CTX withException(@Nullable String checkDescription, @Nonnull LConsumer<Checks.Check<? extends Throwable>> assertions) {
+			exceptionCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertions);
+			return context.fluentCtx();
+		}
+
+		protected static <PC, R_CHECK> R_CHECK normalCheck(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction,
+				@Nullable List<LConsumer<R_CHECK>> assertPreConsumer, @Nonnull LConsumer<R_CHECK> assertConsumer) {
 			try {
-				R_CHECK resultAssert = assertFunction.applyAndCreateResultAssert(preconditioner);
+				R_CHECK resultAssert = assertFunction.applyAndCreateResultAssert(checkDescription, preconditioner);
 
 				try {
 					if (assertPreConsumer != null) {
@@ -190,13 +197,13 @@ public final class FunctionalAttest {
 			}
 		}
 
-		protected static <PC, R_CHECK, X extends Throwable> void exceptionCheck(@Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction,
+		protected static <PC, R_CHECK, X extends Throwable> void exceptionCheck(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction,
 				@Nonnull LConsumer<Checks.Check<? extends Throwable>> assertConsumer) {
 
 			try {
-				assertFunction.applyAndCreateResultAssert(preconditioner);
+				assertFunction.applyAndCreateResultAssert(checkDescription, preconditioner);
 			} catch (Throwable e) { // NOSONAR
-				assertConsumer.shovingAccept(Checks.attest(e));
+				assertConsumer.shovingAccept(Checks.attest(e, checkDescription));
 				return;
 			}
 
@@ -213,8 +220,8 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class SemiEvaluation<CTX extends Simple<CTX, ?, PC>, PC, R_CHECK> extends AbstractEvaluation<SemiEvaluation<CTX, PC, R_CHECK>, CTX, PC, R_CHECK> {
 
-		public SemiEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction, @Nullable List<AssertionsCheck> assertPreConsumer) {
-			super(context, caseDescription, assertPreConsumer, assertFunction);
+		public SemiEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction, @Nullable List<AssertionsCheck> assertPreConsumer) {
+			super(context, argDescription, assertPreConsumer, assertFunction);
 		}
 	}
 
@@ -226,30 +233,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class BoolEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<BoolEvaluation<CTX, PC>, CTX, PC, Checks.CheckBool> {
 
-		public BoolEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckBool> assertFunction, @Nullable List<LConsumer<Checks.CheckBool>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public BoolEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckBool> assertFunction, @Nullable List<LConsumer<Checks.CheckBool>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private boolean stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckBool> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(boolean equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckBool> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckBool> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckBool> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(boolean equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -265,14 +283,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckBool> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			boolean actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -283,30 +293,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class Evaluation<CTX extends Fluent<CTX>, PC, V> extends AbstractEvaluation<Evaluation<CTX, PC, V>, CTX, PC, Checks.Check<V>> {
 
-		public Evaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.Check<V>> assertFunction, @Nullable List<LConsumer<Checks.Check<V>>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public Evaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.Check<V>> assertFunction, @Nullable List<LConsumer<Checks.Check<V>>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private V stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.Check<V>> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(V equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.Check<V>> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.Check<V>> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.Check<V>> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(V equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -322,14 +343,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.Check<V>> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			V actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -340,30 +353,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class ByteEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<ByteEvaluation<CTX, PC>, CTX, PC, Checks.CheckByte> {
 
-		public ByteEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckByte> assertFunction, @Nullable List<LConsumer<Checks.CheckByte>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public ByteEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckByte> assertFunction, @Nullable List<LConsumer<Checks.CheckByte>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private byte stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckByte> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(byte equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckByte> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckByte> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckByte> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(byte equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -379,14 +403,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckByte> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			byte actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -397,30 +413,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class DblEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<DblEvaluation<CTX, PC>, CTX, PC, Checks.CheckDbl> {
 
-		public DblEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckDbl> assertFunction, @Nullable List<LConsumer<Checks.CheckDbl>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public DblEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckDbl> assertFunction, @Nullable List<LConsumer<Checks.CheckDbl>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private double stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckDbl> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(double equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckDbl> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckDbl> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckDbl> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(double equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -436,14 +463,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckDbl> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			double actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -454,30 +473,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class CharEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<CharEvaluation<CTX, PC>, CTX, PC, Checks.CheckChar> {
 
-		public CharEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckChar> assertFunction, @Nullable List<LConsumer<Checks.CheckChar>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public CharEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckChar> assertFunction, @Nullable List<LConsumer<Checks.CheckChar>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private char stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckChar> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(char equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckChar> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckChar> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckChar> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(char equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -493,14 +523,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckChar> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			char actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -511,30 +533,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class SrtEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<SrtEvaluation<CTX, PC>, CTX, PC, Checks.CheckSrt> {
 
-		public SrtEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckSrt> assertFunction, @Nullable List<LConsumer<Checks.CheckSrt>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public SrtEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckSrt> assertFunction, @Nullable List<LConsumer<Checks.CheckSrt>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private short stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckSrt> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(short equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckSrt> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckSrt> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckSrt> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(short equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -550,14 +583,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckSrt> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			short actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -568,30 +593,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class FltEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<FltEvaluation<CTX, PC>, CTX, PC, Checks.CheckFlt> {
 
-		public FltEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckFlt> assertFunction, @Nullable List<LConsumer<Checks.CheckFlt>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public FltEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckFlt> assertFunction, @Nullable List<LConsumer<Checks.CheckFlt>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private float stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckFlt> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(float equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckFlt> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckFlt> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckFlt> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(float equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -607,14 +643,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckFlt> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			float actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -625,30 +653,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class IntEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<IntEvaluation<CTX, PC>, CTX, PC, Checks.CheckInt> {
 
-		public IntEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckInt> assertFunction, @Nullable List<LConsumer<Checks.CheckInt>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public IntEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckInt> assertFunction, @Nullable List<LConsumer<Checks.CheckInt>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private int stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckInt> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(int equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckInt> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckInt> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckInt> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(int equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -664,14 +703,6 @@ public final class FunctionalAttest {
 			return context.fluentCtx();
 		}
 
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckInt> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			int actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
-			return context.fluentCtx();
-		}
-
 	}
 
 	/**
@@ -682,30 +713,41 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static final class LongEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<LongEvaluation<CTX, PC>, CTX, PC, Checks.CheckLong> {
 
-		public LongEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> caseDescription, @Nonnull AssertionFunction<PC, Checks.CheckLong> assertFunction, @Nullable List<LConsumer<Checks.CheckLong>> assertPreConsumer) {
-			super(context, caseDescription, assertFunction, assertPreConsumer);
+		public LongEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckLong> assertFunction, @Nullable List<LConsumer<Checks.CheckLong>> assertPreConsumer) {
+			super(context, argDescription, assertFunction, assertPreConsumer);
 		}
 
 		private long stealActualResult() {
-			return normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
+			return normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, __ -> {
 			}).value();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX to(@Nonnull LConsumer<Checks.CheckLong> assertions) {
-			normalCheck(caseDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
-			return context.fluentCtx();
-		}
-
-		/** Convenient method to just check equality */
-		public CTX toEqualTo(long equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			normalCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
 			return context.fluentCtx();
 		}
 
 		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
 		public CTX as(@Nonnull LConsumer<Checks.CheckLong> assertions) {
 			return to(assertions);
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX to(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckLong> assertions) {
+			normalCheck(checkDescription, argDescription, preconditioner, assertFunction, assertPreConsumer, assertions);
+			return context.fluentCtx();
+		}
+
+		/** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
+		public CTX as(@Nonnull String checkDescription, @Nonnull LConsumer<Checks.CheckLong> assertions) {
+			return to(checkDescription, assertions);
+		}
+
+		/** Convenient method to just check equality */
+		public CTX toEqualTo(long equalsTo) {
+			to(__ -> __.must$(Be::equal$, equalsTo));
+			return context.fluentCtx();
 		}
 
 		/** Convenient method to just check equality */
@@ -718,14 +760,6 @@ public final class FunctionalAttest {
 			Null.nonNullArg(customCheckBlock, "customCheckBlock");
 			long actualResult = stealActualResult();
 			customCheckBlock.accept(actualResult);
-			return context.fluentCtx();
-		}
-
-		/** Introduces possibility to check the result with the {@link Checks.Check}. Unfortunately at this time there are no specializations for primitive types. */
-		public CTX to$(@Nonnull LConsumer<Checks.CheckLong> customCheckBlock) {
-			Null.nonNullArg(customCheckBlock, "customCheckBlock");
-			long actualResult = stealActualResult();
-			customCheckBlock.shovingAccept(Checks.attest(actualResult));
 			return context.fluentCtx();
 		}
 

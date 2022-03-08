@@ -67,7 +67,7 @@ public final class LBoolToLongFunctionAttest extends FunctionalAttest.Full<LBool
 	@Nonnull
 	public LongEvaluation<LBoolToLongFunctionAttest, LBoolConsumer> doesApplyAsLong(boolean a) {
 
-		return new LongEvaluation<LBoolToLongFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new LongEvaluation<LBoolToLongFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LBoolToLongFunctionAttest extends FunctionalAttest.Full<LBool
 			}
 
 			var result = func.applyAsLong(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

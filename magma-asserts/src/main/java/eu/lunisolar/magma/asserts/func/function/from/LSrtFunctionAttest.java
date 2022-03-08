@@ -67,7 +67,7 @@ public final class LSrtFunctionAttest<R> extends FunctionalAttest.Full<LSrtFunct
 	@Nonnull
 	public Evaluation<LSrtFunctionAttest<R>, LSrtConsumer, R> doesApply(short a) {
 
-		return new Evaluation<LSrtFunctionAttest<R>, LSrtConsumer, R>(this, () -> String.format("(%s)", a), pc -> {
+		return new Evaluation<LSrtFunctionAttest<R>, LSrtConsumer, R>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LSrtFunctionAttest<R> extends FunctionalAttest.Full<LSrtFunct
 			}
 
 			var result = func.apply(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

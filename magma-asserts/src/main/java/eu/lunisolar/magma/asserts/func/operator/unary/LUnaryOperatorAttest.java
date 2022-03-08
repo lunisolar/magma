@@ -67,7 +67,7 @@ public final class LUnaryOperatorAttest<T> extends FunctionalAttest.Full<LUnaryO
 	@Nonnull
 	public Evaluation<LUnaryOperatorAttest<T>, LConsumer<T>, T> doesApply(T a) {
 
-		return new Evaluation<LUnaryOperatorAttest<T>, LConsumer<T>, T>(this, () -> String.format("(%s)", a), pc -> {
+		return new Evaluation<LUnaryOperatorAttest<T>, LConsumer<T>, T>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LUnaryOperatorAttest<T> extends FunctionalAttest.Full<LUnaryO
 			}
 
 			var result = func.apply(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

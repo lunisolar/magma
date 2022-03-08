@@ -70,7 +70,7 @@ public final class LObjSrtIntFuncAttest<T, R> extends FunctionalAttest.Full<LObj
 	@Nonnull
 	public Evaluation<LObjSrtIntFuncAttest<T, R>, LTieSrtConsumer.LObjSrtIntCons<T>, R> doesApply(T a1, short a3, int a2) {
 
-		return new Evaluation<LObjSrtIntFuncAttest<T, R>, LTieSrtConsumer.LObjSrtIntCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a1, a3, a2), pc -> {
+		return new Evaluation<LObjSrtIntFuncAttest<T, R>, LTieSrtConsumer.LObjSrtIntCons<T>, R>(this, () -> String.format("(%s,%s,%s)", a1, a3, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LObjSrtIntFuncAttest<T, R> extends FunctionalAttest.Full<LObj
 			}
 
 			var result = func.applyObjSrtInt(a1, a3, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

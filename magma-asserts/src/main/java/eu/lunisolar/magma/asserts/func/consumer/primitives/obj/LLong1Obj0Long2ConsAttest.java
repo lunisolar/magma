@@ -70,7 +70,7 @@ public final class LLong1Obj0Long2ConsAttest<T> extends FunctionalAttest.Simple<
 	@Nonnull
 	public SemiEvaluation<LLong1Obj0Long2ConsAttest<T>, LObjBiLongConsumer.LLong1Obj0Long2Cons<T>, AssertionsCheck> doesAccept(long a2, T a1, long a3) {
 
-		return new SemiEvaluation<LLong1Obj0Long2ConsAttest<T>, LObjBiLongConsumer.LLong1Obj0Long2Cons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), pc -> {
+		return new SemiEvaluation<LLong1Obj0Long2ConsAttest<T>, LObjBiLongConsumer.LLong1Obj0Long2Cons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

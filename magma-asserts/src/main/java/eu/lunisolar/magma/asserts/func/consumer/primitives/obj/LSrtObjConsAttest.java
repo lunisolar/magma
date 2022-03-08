@@ -70,7 +70,7 @@ public final class LSrtObjConsAttest<T> extends FunctionalAttest.Simple<LSrtObjC
 	@Nonnull
 	public SemiEvaluation<LSrtObjConsAttest<T>, LObjSrtConsumer.LSrtObjCons<T>, AssertionsCheck> doesAccept(short a2, T a1) {
 
-		return new SemiEvaluation<LSrtObjConsAttest<T>, LObjSrtConsumer.LSrtObjCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new SemiEvaluation<LSrtObjConsAttest<T>, LObjSrtConsumer.LSrtObjCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

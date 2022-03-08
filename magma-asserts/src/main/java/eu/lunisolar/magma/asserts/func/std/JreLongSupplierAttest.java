@@ -65,7 +65,7 @@ public final class JreLongSupplierAttest extends FunctionalAttest.Full<JreLongSu
 	@Nonnull
 	public LongEvaluation<JreLongSupplierAttest, LAction> doesGetAsLong() {
 
-		return new LongEvaluation<JreLongSupplierAttest, LAction>(this, () -> String.format("()"), pc -> {
+		return new LongEvaluation<JreLongSupplierAttest, LAction>(this, () -> String.format("()"), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -75,7 +75,7 @@ public final class JreLongSupplierAttest extends FunctionalAttest.Full<JreLongSu
 			}
 
 			var result = func.getAsLong();
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

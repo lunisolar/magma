@@ -70,7 +70,7 @@ public final class LCharObjPredAttest<T> extends FunctionalAttest.Full<LCharObjP
 	@Nonnull
 	public BoolEvaluation<LCharObjPredAttest<T>, LObjCharConsumer.LCharObjCons<T>> doesTest(char a2, T a1) {
 
-		return new BoolEvaluation<LCharObjPredAttest<T>, LObjCharConsumer.LCharObjCons<T>>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new BoolEvaluation<LCharObjPredAttest<T>, LObjCharConsumer.LCharObjCons<T>>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LCharObjPredAttest<T> extends FunctionalAttest.Full<LCharObjP
 			}
 
 			var result = func.testCharObj(a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

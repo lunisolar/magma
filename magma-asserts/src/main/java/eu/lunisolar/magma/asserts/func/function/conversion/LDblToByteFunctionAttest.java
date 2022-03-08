@@ -67,7 +67,7 @@ public final class LDblToByteFunctionAttest extends FunctionalAttest.Full<LDblTo
 	@Nonnull
 	public ByteEvaluation<LDblToByteFunctionAttest, LDblConsumer> doesApplyAsByte(double a) {
 
-		return new ByteEvaluation<LDblToByteFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new ByteEvaluation<LDblToByteFunctionAttest, LDblConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LDblToByteFunctionAttest extends FunctionalAttest.Full<LDblTo
 			}
 
 			var result = func.applyAsByte(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

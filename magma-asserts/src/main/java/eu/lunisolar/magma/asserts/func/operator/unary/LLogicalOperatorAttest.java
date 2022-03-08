@@ -67,7 +67,7 @@ public final class LLogicalOperatorAttest extends FunctionalAttest.Full<LLogical
 	@Nonnull
 	public BoolEvaluation<LLogicalOperatorAttest, LBoolConsumer> doesApply(boolean a) {
 
-		return new BoolEvaluation<LLogicalOperatorAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new BoolEvaluation<LLogicalOperatorAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLogicalOperatorAttest extends FunctionalAttest.Full<LLogical
 			}
 
 			var result = func.apply(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

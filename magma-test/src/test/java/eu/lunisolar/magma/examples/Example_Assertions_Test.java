@@ -112,7 +112,7 @@ public class Example_Assertions_Test {
                    .inAllFollowingCases(result -> result.must$(P::contain$, "_x_")) // #1
                    .doesApply("1", "_x_").asEqualTo("_x_234567890")            // #2
                    .doesApply("2", "_x_").asEqualTo("1_x_34567890")
-                   .doesApply("3", "_x_").to$(check -> check.must$(Be::equal$, "12_x_4567890"))  // #3
+                   .doesApply("3", "_x_").to(check -> check.must$(Be::equal$, "12_x_4567890"))  // #3
                    .doesApply("3", null).withException(ex -> ex.must$(Be::instanceOf$, NullPointerException.class));
     }
     //>example<

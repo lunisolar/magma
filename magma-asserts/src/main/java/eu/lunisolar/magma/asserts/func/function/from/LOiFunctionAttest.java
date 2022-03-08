@@ -67,7 +67,7 @@ public final class LOiFunctionAttest<T, R> extends FunctionalAttest.Full<LOiFunc
 	@Nonnull
 	public Evaluation<LOiFunctionAttest<T, R>, LObjIntConsumer<T>, R> doesApply(T a1, int a2) {
 
-		return new Evaluation<LOiFunctionAttest<T, R>, LObjIntConsumer<T>, R>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new Evaluation<LOiFunctionAttest<T, R>, LObjIntConsumer<T>, R>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LOiFunctionAttest<T, R> extends FunctionalAttest.Full<LOiFunc
 			}
 
 			var result = func.apply(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

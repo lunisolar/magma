@@ -67,7 +67,7 @@ public final class LObjByteConsumerAttest<T> extends FunctionalAttest.Simple<LOb
 	@Nonnull
 	public SemiEvaluation<LObjByteConsumerAttest<T>, LObjByteConsumer<T>, AssertionsCheck> doesAccept(T a1, byte a2) {
 
-		return new SemiEvaluation<LObjByteConsumerAttest<T>, LObjByteConsumer<T>, AssertionsCheck>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new SemiEvaluation<LObjByteConsumerAttest<T>, LObjByteConsumer<T>, AssertionsCheck>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

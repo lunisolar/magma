@@ -67,7 +67,7 @@ public final class LLogicalBinaryOperatorAttest extends FunctionalAttest.Full<LL
 	@Nonnull
 	public BoolEvaluation<LLogicalBinaryOperatorAttest, LBiBoolConsumer> doesApply(boolean a1, boolean a2) {
 
-		return new BoolEvaluation<LLogicalBinaryOperatorAttest, LBiBoolConsumer>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new BoolEvaluation<LLogicalBinaryOperatorAttest, LBiBoolConsumer>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLogicalBinaryOperatorAttest extends FunctionalAttest.Full<LL
 			}
 
 			var result = func.apply(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

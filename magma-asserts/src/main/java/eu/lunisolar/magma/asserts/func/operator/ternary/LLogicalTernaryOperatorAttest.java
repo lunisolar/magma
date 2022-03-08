@@ -67,7 +67,7 @@ public final class LLogicalTernaryOperatorAttest extends FunctionalAttest.Full<L
 	@Nonnull
 	public BoolEvaluation<LLogicalTernaryOperatorAttest, LTriBoolConsumer> doesApply(boolean a1, boolean a2, boolean a3) {
 
-		return new BoolEvaluation<LLogicalTernaryOperatorAttest, LTriBoolConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new BoolEvaluation<LLogicalTernaryOperatorAttest, LTriBoolConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LLogicalTernaryOperatorAttest extends FunctionalAttest.Full<L
 			}
 
 			var result = func.apply(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

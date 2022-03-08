@@ -67,7 +67,7 @@ public final class LByteTernaryOperatorAttest extends FunctionalAttest.Full<LByt
 	@Nonnull
 	public ByteEvaluation<LByteTernaryOperatorAttest, LTriByteConsumer> doesApplyAsByte(byte a1, byte a2, byte a3) {
 
-		return new ByteEvaluation<LByteTernaryOperatorAttest, LTriByteConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new ByteEvaluation<LByteTernaryOperatorAttest, LTriByteConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LByteTernaryOperatorAttest extends FunctionalAttest.Full<LByt
 			}
 
 			var result = func.applyAsByte(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -67,7 +67,7 @@ public final class LCharTernaryOperatorAttest extends FunctionalAttest.Full<LCha
 	@Nonnull
 	public CharEvaluation<LCharTernaryOperatorAttest, LTriCharConsumer> doesApplyAsChar(char a1, char a2, char a3) {
 
-		return new CharEvaluation<LCharTernaryOperatorAttest, LTriCharConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new CharEvaluation<LCharTernaryOperatorAttest, LTriCharConsumer>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LCharTernaryOperatorAttest extends FunctionalAttest.Full<LCha
 			}
 
 			var result = func.applyAsChar(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

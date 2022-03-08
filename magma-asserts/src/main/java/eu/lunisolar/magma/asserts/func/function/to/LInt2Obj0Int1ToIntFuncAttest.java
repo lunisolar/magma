@@ -70,7 +70,7 @@ public final class LInt2Obj0Int1ToIntFuncAttest<T> extends FunctionalAttest.Full
 	@Nonnull
 	public IntEvaluation<LInt2Obj0Int1ToIntFuncAttest<T>, LTieIntConsumer.LInt1Obj0Int2Cons<T>> doesApplyAsInt(int a3, T a1, int a2) {
 
-		return new IntEvaluation<LInt2Obj0Int1ToIntFuncAttest<T>, LTieIntConsumer.LInt1Obj0Int2Cons<T>>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), pc -> {
+		return new IntEvaluation<LInt2Obj0Int1ToIntFuncAttest<T>, LTieIntConsumer.LInt1Obj0Int2Cons<T>>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LInt2Obj0Int1ToIntFuncAttest<T> extends FunctionalAttest.Full
 			}
 
 			var result = func.applyAsIntInt2Obj0Int1(a3, a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

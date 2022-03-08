@@ -69,7 +69,7 @@ public final class LToIntObj1BiObj2FuncAttest<T2, T1, T3> extends FunctionalAtte
 	@Nonnull
 	public IntEvaluation<LToIntObj1BiObj2FuncAttest<T2, T1, T3>, LTriConsumer<T2, T1, T3>> doesApplyAsInt(T2 a2, T1 a1, T3 a3) {
 
-		return new IntEvaluation<LToIntObj1BiObj2FuncAttest<T2, T1, T3>, LTriConsumer<T2, T1, T3>>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), pc -> {
+		return new IntEvaluation<LToIntObj1BiObj2FuncAttest<T2, T1, T3>, LTriConsumer<T2, T1, T3>>(this, () -> String.format("(%s,%s,%s)", a2, a1, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -79,7 +79,7 @@ public final class LToIntObj1BiObj2FuncAttest<T2, T1, T3> extends FunctionalAtte
 			}
 
 			var result = func.applyAsIntObj1BiObj2(a2, a1, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

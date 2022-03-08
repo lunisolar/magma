@@ -70,7 +70,7 @@ public final class LIntCharConsAttest extends FunctionalAttest.Simple<LIntCharCo
 	@Nonnull
 	public SemiEvaluation<LIntCharConsAttest, LCharIntConsumer.LIntCharCons, AssertionsCheck> doesAccept(int a2, char a1) {
 
-		return new SemiEvaluation<LIntCharConsAttest, LCharIntConsumer.LIntCharCons, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), pc -> {
+		return new SemiEvaluation<LIntCharConsAttest, LCharIntConsumer.LIntCharCons, AssertionsCheck>(this, () -> String.format("(%s,%s)", a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

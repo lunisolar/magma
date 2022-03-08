@@ -67,7 +67,7 @@ public final class LTieIntConsumerAttest<T> extends FunctionalAttest.Simple<LTie
 	@Nonnull
 	public SemiEvaluation<LTieIntConsumerAttest<T>, LTieIntConsumer<T>, AssertionsCheck> doesAccept(T a1, int a2, int a3) {
 
-		return new SemiEvaluation<LTieIntConsumerAttest<T>, LTieIntConsumer<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new SemiEvaluation<LTieIntConsumerAttest<T>, LTieIntConsumer<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

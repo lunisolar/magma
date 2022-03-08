@@ -70,7 +70,7 @@ public final class LLong1Long2Obj0PredAttest<T> extends FunctionalAttest.Full<LL
 	@Nonnull
 	public BoolEvaluation<LLong1Long2Obj0PredAttest<T>, LObjBiLongConsumer.LLong1Long2Obj0Cons<T>> doesTest(long a2, long a3, T a1) {
 
-		return new BoolEvaluation<LLong1Long2Obj0PredAttest<T>, LObjBiLongConsumer.LLong1Long2Obj0Cons<T>>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), pc -> {
+		return new BoolEvaluation<LLong1Long2Obj0PredAttest<T>, LObjBiLongConsumer.LLong1Long2Obj0Cons<T>>(this, () -> String.format("(%s,%s,%s)", a2, a3, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LLong1Long2Obj0PredAttest<T> extends FunctionalAttest.Full<LL
 			}
 
 			var result = func.testLong1Long2Obj0(a2, a3, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

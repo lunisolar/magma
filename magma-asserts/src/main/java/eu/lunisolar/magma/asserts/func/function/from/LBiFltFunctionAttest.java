@@ -67,7 +67,7 @@ public final class LBiFltFunctionAttest<R> extends FunctionalAttest.Full<LBiFltF
 	@Nonnull
 	public Evaluation<LBiFltFunctionAttest<R>, LBiFltConsumer, R> doesApply(float a1, float a2) {
 
-		return new Evaluation<LBiFltFunctionAttest<R>, LBiFltConsumer, R>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new Evaluation<LBiFltFunctionAttest<R>, LBiFltConsumer, R>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LBiFltFunctionAttest<R> extends FunctionalAttest.Full<LBiFltF
 			}
 
 			var result = func.apply(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

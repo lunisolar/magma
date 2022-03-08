@@ -70,7 +70,7 @@ public final class LBiInt1Obj0FuncAttest<T, R> extends FunctionalAttest.Full<LBi
 	@Nonnull
 	public Evaluation<LBiInt1Obj0FuncAttest<T, R>, LTieIntConsumer.LInt1Int2Obj0Cons<T>, R> doesApply(int a3, int a2, T a1) {
 
-		return new Evaluation<LBiInt1Obj0FuncAttest<T, R>, LTieIntConsumer.LInt1Int2Obj0Cons<T>, R>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), pc -> {
+		return new Evaluation<LBiInt1Obj0FuncAttest<T, R>, LTieIntConsumer.LInt1Int2Obj0Cons<T>, R>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LBiInt1Obj0FuncAttest<T, R> extends FunctionalAttest.Full<LBi
 			}
 
 			var result = func.applyBiInt1Obj0(a3, a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

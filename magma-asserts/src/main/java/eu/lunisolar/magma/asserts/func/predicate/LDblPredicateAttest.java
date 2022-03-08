@@ -67,7 +67,7 @@ public final class LDblPredicateAttest extends FunctionalAttest.Full<LDblPredica
 	@Nonnull
 	public BoolEvaluation<LDblPredicateAttest, LDblConsumer> doesTest(double a) {
 
-		return new BoolEvaluation<LDblPredicateAttest, LDblConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new BoolEvaluation<LDblPredicateAttest, LDblConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LDblPredicateAttest extends FunctionalAttest.Full<LDblPredica
 			}
 
 			var result = func.test(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

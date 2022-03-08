@@ -67,7 +67,7 @@ public final class LDblConsumerAttest extends FunctionalAttest.Simple<LDblConsum
 	@Nonnull
 	public SemiEvaluation<LDblConsumerAttest, LDblConsumer, AssertionsCheck> doesAccept(double a) {
 
-		return new SemiEvaluation<LDblConsumerAttest, LDblConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), pc -> {
+		return new SemiEvaluation<LDblConsumerAttest, LDblConsumer, AssertionsCheck>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

@@ -67,7 +67,7 @@ public final class LTernaryOperatorAttest<T> extends FunctionalAttest.Full<LTern
 	@Nonnull
 	public Evaluation<LTernaryOperatorAttest<T>, LTriConsumer<T, T, T>, T> doesApply(T a1, T a2, T a3) {
 
-		return new Evaluation<LTernaryOperatorAttest<T>, LTriConsumer<T, T, T>, T>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new Evaluation<LTernaryOperatorAttest<T>, LTriConsumer<T, T, T>, T>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTernaryOperatorAttest<T> extends FunctionalAttest.Full<LTern
 			}
 
 			var result = func.apply(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

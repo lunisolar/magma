@@ -67,7 +67,7 @@ public final class LByteToFltFunctionAttest extends FunctionalAttest.Full<LByteT
 	@Nonnull
 	public FltEvaluation<LByteToFltFunctionAttest, LByteConsumer> doesApplyAsFlt(byte a) {
 
-		return new FltEvaluation<LByteToFltFunctionAttest, LByteConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new FltEvaluation<LByteToFltFunctionAttest, LByteConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LByteToFltFunctionAttest extends FunctionalAttest.Full<LByteT
 			}
 
 			var result = func.applyAsFlt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

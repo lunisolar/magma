@@ -67,7 +67,7 @@ public final class LTriLongFunctionAttest<R> extends FunctionalAttest.Full<LTriL
 	@Nonnull
 	public Evaluation<LTriLongFunctionAttest<R>, LTriLongConsumer, R> doesApply(long a1, long a2, long a3) {
 
-		return new Evaluation<LTriLongFunctionAttest<R>, LTriLongConsumer, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new Evaluation<LTriLongFunctionAttest<R>, LTriLongConsumer, R>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTriLongFunctionAttest<R> extends FunctionalAttest.Full<LTriL
 			}
 
 			var result = func.apply(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

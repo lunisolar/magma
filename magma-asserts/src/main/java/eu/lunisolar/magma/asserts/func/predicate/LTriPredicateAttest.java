@@ -67,7 +67,7 @@ public final class LTriPredicateAttest<T1, T2, T3> extends FunctionalAttest.Full
 	@Nonnull
 	public BoolEvaluation<LTriPredicateAttest<T1, T2, T3>, LTriConsumer<T1, T2, T3>> doesTest(T1 a1, T2 a2, T3 a3) {
 
-		return new BoolEvaluation<LTriPredicateAttest<T1, T2, T3>, LTriConsumer<T1, T2, T3>>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new BoolEvaluation<LTriPredicateAttest<T1, T2, T3>, LTriConsumer<T1, T2, T3>>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LTriPredicateAttest<T1, T2, T3> extends FunctionalAttest.Full
 			}
 
 			var result = func.test(a1, a2, a3);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

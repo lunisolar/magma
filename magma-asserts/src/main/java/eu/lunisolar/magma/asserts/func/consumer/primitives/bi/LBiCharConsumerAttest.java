@@ -67,7 +67,7 @@ public final class LBiCharConsumerAttest extends FunctionalAttest.Simple<LBiChar
 	@Nonnull
 	public SemiEvaluation<LBiCharConsumerAttest, LBiCharConsumer, AssertionsCheck> doesAccept(char a1, char a2) {
 
-		return new SemiEvaluation<LBiCharConsumerAttest, LBiCharConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new SemiEvaluation<LBiCharConsumerAttest, LBiCharConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

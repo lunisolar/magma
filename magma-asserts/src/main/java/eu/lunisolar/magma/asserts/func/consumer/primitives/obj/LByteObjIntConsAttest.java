@@ -70,7 +70,7 @@ public final class LByteObjIntConsAttest<T> extends FunctionalAttest.Simple<LByt
 	@Nonnull
 	public SemiEvaluation<LByteObjIntConsAttest<T>, LTieByteConsumer.LByteObjIntCons<T>, AssertionsCheck> doesAccept(byte a3, T a1, int a2) {
 
-		return new SemiEvaluation<LByteObjIntConsAttest<T>, LTieByteConsumer.LByteObjIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), pc -> {
+		return new SemiEvaluation<LByteObjIntConsAttest<T>, LTieByteConsumer.LByteObjIntCons<T>, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a3, a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

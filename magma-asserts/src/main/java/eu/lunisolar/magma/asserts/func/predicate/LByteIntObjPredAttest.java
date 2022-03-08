@@ -70,7 +70,7 @@ public final class LByteIntObjPredAttest<T> extends FunctionalAttest.Full<LByteI
 	@Nonnull
 	public BoolEvaluation<LByteIntObjPredAttest<T>, LTieByteConsumer.LByteIntObjCons<T>> doesTest(byte a3, int a2, T a1) {
 
-		return new BoolEvaluation<LByteIntObjPredAttest<T>, LTieByteConsumer.LByteIntObjCons<T>>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), pc -> {
+		return new BoolEvaluation<LByteIntObjPredAttest<T>, LTieByteConsumer.LByteIntObjCons<T>>(this, () -> String.format("(%s,%s,%s)", a3, a2, a1), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -80,7 +80,7 @@ public final class LByteIntObjPredAttest<T> extends FunctionalAttest.Full<LByteI
 			}
 
 			var result = func.testByteIntObj(a3, a2, a1);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

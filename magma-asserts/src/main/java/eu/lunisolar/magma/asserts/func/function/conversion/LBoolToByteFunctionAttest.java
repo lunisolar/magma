@@ -67,7 +67,7 @@ public final class LBoolToByteFunctionAttest extends FunctionalAttest.Full<LBool
 	@Nonnull
 	public ByteEvaluation<LBoolToByteFunctionAttest, LBoolConsumer> doesApplyAsByte(boolean a) {
 
-		return new ByteEvaluation<LBoolToByteFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new ByteEvaluation<LBoolToByteFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LBoolToByteFunctionAttest extends FunctionalAttest.Full<LBool
 			}
 
 			var result = func.applyAsByte(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

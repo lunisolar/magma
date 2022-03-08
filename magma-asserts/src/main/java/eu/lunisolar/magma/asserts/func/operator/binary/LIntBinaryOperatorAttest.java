@@ -67,7 +67,7 @@ public final class LIntBinaryOperatorAttest extends FunctionalAttest.Full<LIntBi
 	@Nonnull
 	public IntEvaluation<LIntBinaryOperatorAttest, LBiIntConsumer> doesApplyAsInt(int a1, int a2) {
 
-		return new IntEvaluation<LIntBinaryOperatorAttest, LBiIntConsumer>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new IntEvaluation<LIntBinaryOperatorAttest, LBiIntConsumer>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LIntBinaryOperatorAttest extends FunctionalAttest.Full<LIntBi
 			}
 
 			var result = func.applyAsInt(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

@@ -67,7 +67,7 @@ public final class LToIntBiFunctionAttest<T1, T2> extends FunctionalAttest.Full<
 	@Nonnull
 	public IntEvaluation<LToIntBiFunctionAttest<T1, T2>, LBiConsumer<T1, T2>> doesApplyAsInt(T1 a1, T2 a2) {
 
-		return new IntEvaluation<LToIntBiFunctionAttest<T1, T2>, LBiConsumer<T1, T2>>(this, () -> String.format("(%s,%s)", a1, a2), pc -> {
+		return new IntEvaluation<LToIntBiFunctionAttest<T1, T2>, LBiConsumer<T1, T2>>(this, () -> String.format("(%s,%s)", a1, a2), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LToIntBiFunctionAttest<T1, T2> extends FunctionalAttest.Full<
 			}
 
 			var result = func.applyAsInt(a1, a2);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}

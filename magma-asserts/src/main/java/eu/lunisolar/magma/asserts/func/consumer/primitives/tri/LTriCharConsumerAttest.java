@@ -67,7 +67,7 @@ public final class LTriCharConsumerAttest extends FunctionalAttest.Simple<LTriCh
 	@Nonnull
 	public SemiEvaluation<LTriCharConsumerAttest, LTriCharConsumer, AssertionsCheck> doesAccept(char a1, char a2, char a3) {
 
-		return new SemiEvaluation<LTriCharConsumerAttest, LTriCharConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), pc -> {
+		return new SemiEvaluation<LTriCharConsumerAttest, LTriCharConsumer, AssertionsCheck>(this, () -> String.format("(%s,%s,%s)", a1, a2, a3), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");

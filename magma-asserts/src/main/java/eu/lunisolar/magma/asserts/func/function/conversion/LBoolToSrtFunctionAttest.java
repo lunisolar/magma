@@ -67,7 +67,7 @@ public final class LBoolToSrtFunctionAttest extends FunctionalAttest.Full<LBoolT
 	@Nonnull
 	public SrtEvaluation<LBoolToSrtFunctionAttest, LBoolConsumer> doesApplyAsSrt(boolean a) {
 
-		return new SrtEvaluation<LBoolToSrtFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), pc -> {
+		return new SrtEvaluation<LBoolToSrtFunctionAttest, LBoolConsumer>(this, () -> String.format("(%s)", a), (desc, pc) -> {
 
 			var func = value();
 			Checks.check(func).must(Be::notNull, "Actual function is null.");
@@ -77,7 +77,7 @@ public final class LBoolToSrtFunctionAttest extends FunctionalAttest.Full<LBoolT
 			}
 
 			var result = func.applyAsSrt(a);
-			return Checks.attest(result);
+			return Checks.attest(result, desc);
 
 		}, recurringAssert);
 	}
