@@ -7348,7 +7348,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FluentT
 
 	default @Nonnull SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(newMessage, "newMessage");
-		return this.must1(__ -> false, newMessage, messageParams);
+		return fails(String.format(newMessage, messageParams));
 	}
 
 }
