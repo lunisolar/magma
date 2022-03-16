@@ -42,6 +42,13 @@ public class P_ContainKeys_Test {
         attest(P.containKeys(MAP, "key1", "other")).must$(Be::False$);
     }
 
+    @Test void containKeys_empty() {
+        attest(P.containKeys(new HashMap<>())).must$(Be::True$);
+        attest(P.containKeys(MAP)).must$(Be::False$);
+        attest(P.notContainKeys(new HashMap<>())).must$(Be::False$);
+        attest(P.notContainKeys(MAP)).must$(Be::True$);
+    }
+
     @Test void notContainKeys() {
         attest(P.notContainKeys(MAP, "key1")).must$(Be::False$);
         attest(P.notContainKeys(MAP, "key1", "key2")).must$(Be::False$);

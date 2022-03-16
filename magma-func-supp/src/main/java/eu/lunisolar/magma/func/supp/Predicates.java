@@ -3455,13 +3455,69 @@ public class Predicates implements FluentSyntax {
 		return notContain(collection, element) ? null : String.format("Collection <%s> must NOT contain element <%s>.", collection, element);
 	}
 
-	static boolean containsExactly_privately(@Nonnull Collection<?> collection, Object... elementsInOrder) {
+	/** Predicate: Collection <%s> must contain elements <%s>..*/
+	public static <T> boolean contain(@Nonnull Collection<T> collection, T... elements) {
+		Null.nonNullArg(collection, "collection");
+
+		for (Object element : elements) {
+			if (!collection.contains(element)) {
+				return false;
+			};
+		}
+
+		return containsAndEmptiness(true, collection.isEmpty(), elements);
+	}
+
+	/** "Special" predicate: Collection <%s> must contain elements <%s>. */
+	public static <T> @Nullable String contain$(@Nonnull Collection<T> collection, T... elements) {
+		Null.nonNullArg(collection, "collection");
+		return contain(collection, elements) ? null : String.format("Collection <%s> must contain elements <%s>.", collection, Arrays.toString(elements));
+	}
+	/** Predicate: Collection <%s> must NOT contain elements <%s>..*/
+	public static <T> boolean notContain(@Nonnull Collection<T> collection, T... elements) {
+		Null.nonNullArg(collection, "collection");
+
+		for (Object element : elements) {
+			if (collection.contains(element)) {
+				return false;
+			};
+		}
+
+		return containsAndEmptiness(false, collection.isEmpty(), elements);
+	}
+
+	/** "Special" predicate: Collection <%s> must NOT contain elements <%s>. */
+	public static <T> @Nullable String notContain$(@Nonnull Collection<T> collection, T... elements) {
+		Null.nonNullArg(collection, "collection");
+		return notContain(collection, elements) ? null : String.format("Collection <%s> must NOT contain elements <%s>.", collection, Arrays.toString(elements));
+	}
+
+	/** Predicate: Collection <%s> must contain element <%s>..*/
+	public static <T> boolean containAny(@Nonnull Collection<T> collection, T... elements) {
+		Null.nonNullArg(collection, "collection");
+
+		for (Object element : elements) {
+			if (collection.contains(element)) {
+				return true;
+			};
+		}
+
+		return false;
+	}
+
+	/** "Special" predicate: Collection <%s> must contain element <%s>. */
+	public static <T> @Nullable String containAny$(@Nonnull Collection<T> collection, T... elements) {
+		Null.nonNullArg(collection, "collection");
+		return containAny(collection, elements) ? null : String.format("Collection <%s> must contain element <%s>.", collection, Arrays.toString(elements));
+	}
+
+	static <T> boolean containsExactly_privately(@Nonnull Collection<T> collection, T... elementsInOrder) {
 
 		if (collection.size() != elementsInOrder.length) { // fast track
 			return false;
 		}
 
-		Iterator<?> iterator = collection.iterator();
+		Iterator<T> iterator = collection.iterator();
 
 		for (Object element : elementsInOrder) {
 			if (!iterator.hasNext()) {
@@ -3478,27 +3534,27 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** Predicate: Collection <%s> must contain exactly elements in order: <%s>..*/
-	public static <T> boolean containExactly(@Nonnull Collection<?> collection, Object... elementsInOrder) {
+	public static <T> boolean containExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containsExactly_privately(collection, elementsInOrder);
 	}
 
 	/** "Special" predicate: Collection <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull Collection<?> collection, Object... elementsInOrder) {
+	public static <T> @Nullable String containExactly$(@Nonnull Collection<T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(collection, elementsInOrder) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
 	}
 	/** Predicate: Collection <%s> must NOT contain exactly elements in order: <%s>..*/
-	public static <T> boolean notContainExactly(@Nonnull Collection<?> collection, Object... elementsInOrder) {
+	public static <T> boolean notContainExactly(@Nonnull Collection<T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return !containExactly(collection, elementsInOrder);
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull Collection<?> collection, Object... elementsInOrder) {
+	public static <T> @Nullable String notContainExactly$(@Nonnull Collection<T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(collection, elementsInOrder) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
@@ -3530,12 +3586,14 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Map <%s> must contain keys <%s>..*/
 	public static <K> boolean containKeys(@Nonnull Map<K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
+
 		for (K key : keys) {
 			if (!map.containsKey(key)) {
 				return false;
 			}
 		}
-		return true;
+
+		return containsAndEmptiness(true, map.isEmpty(), keys);
 	}
 
 	/** "Special" predicate: Map <%s> must contain keys <%s>. */
@@ -3546,12 +3604,14 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Map <%s> must NOT contain keys <%s>..*/
 	public static <K> boolean notContainKeys(@Nonnull Map<K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
+
 		for (K key : keys) {
 			if (map.containsKey(key)) {
 				return false;
 			}
 		}
-		return true;
+
+		return containsAndEmptiness(false, map.isEmpty(), keys);
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain keys <%s>. */
@@ -9347,5 +9407,17 @@ public class Predicates implements FluentSyntax {
 	}
 
 	// </editor-fold>
+
+	static <T> boolean containsAndEmptiness(boolean positive, boolean collectionEmpty, T... elements) {
+		var argsEmpty = elements.length == 0;
+		if (collectionEmpty && argsEmpty) {
+			return positive;
+		}
+
+		if (!collectionEmpty && argsEmpty) {
+			return !positive;
+		}
+		return true;
+	}
 
 }
