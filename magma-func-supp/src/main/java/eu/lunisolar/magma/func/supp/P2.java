@@ -3004,6 +3004,29 @@ public class P2 implements FluentSyntax {
 		return Predicates.notContainKey$(map, key);
 	}
 
+	/** Predicate: Map <%s> must contain entry with key <%s> and value <%s>..*/
+	public static <K, V, MP1, MP2> boolean containEntry(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(map, "map");
+		return Predicates.containEntry(map, key, value);
+	}
+
+	/** "Special" predicate: Map <%s> must contain entry with key <%s> and value <%s>. */
+	public static <K, V, MP1, MP2> @Nullable String containEntry$(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(map, "map");
+		return Predicates.containEntry$(map, key, value);
+	}
+	/** Predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>..*/
+	public static <K, V, MP1, MP2> boolean notContainEntry(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(map, "map");
+		return Predicates.notContainEntry(map, key, value);
+	}
+
+	/** "Special" predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>. */
+	public static <K, V, MP1, MP2> @Nullable String notContainEntry$(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(map, "map");
+		return Predicates.notContainEntry$(map, key, value);
+	}
+
 	/** Predicate: Collection <%s> must be of size %s..*/
 	public static <T, MP1, MP2> boolean size(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");

@@ -3583,6 +3583,29 @@ public class Predicates implements FluentSyntax {
 		return notContainKey(map, key) ? null : String.format("Map <%s> must NOT contain key <%s>.", map, key);
 	}
 
+	/** Predicate: Map <%s> must contain entry with key <%s> and value <%s>..*/
+	public static <K, V> boolean containEntry(@Nonnull Map<K, V> map, K key, V value) {
+		Null.nonNullArg(map, "map");
+		return map.containsKey(key) && Objects.equals(map.get(key), value);
+	}
+
+	/** "Special" predicate: Map <%s> must contain entry with key <%s> and value <%s>. */
+	public static <K, V> @Nullable String containEntry$(@Nonnull Map<K, V> map, K key, V value) {
+		Null.nonNullArg(map, "map");
+		return containEntry(map, key, value) ? null : String.format("Map <%s> must contain entry with key <%s> and value <%s>.", map, key, value);
+	}
+	/** Predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>..*/
+	public static <K, V> boolean notContainEntry(@Nonnull Map<K, V> map, K key, V value) {
+		Null.nonNullArg(map, "map");
+		return !containEntry(map, key, value);
+	}
+
+	/** "Special" predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>. */
+	public static <K, V> @Nullable String notContainEntry$(@Nonnull Map<K, V> map, K key, V value) {
+		Null.nonNullArg(map, "map");
+		return notContainEntry(map, key, value) ? null : String.format("Map <%s> must NOT contain entry with key <%s> and value <%s>.", map, key, value);
+	}
+
 	/** Predicate: Map <%s> must contain keys <%s>..*/
 	public static <K> boolean containKeys(@Nonnull Map<K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");

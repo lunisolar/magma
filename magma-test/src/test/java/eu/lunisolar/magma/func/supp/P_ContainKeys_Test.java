@@ -30,9 +30,9 @@ public class P_ContainKeys_Test {
 
     static {
         MAP = new HashMap<>();
-        MAP.put("key1", "value11");
-        MAP.put("key2", "value12");
-        MAP.put("key3", "value13");
+        MAP.put("key1", "value1");
+        MAP.put("key2", "value2");
+        MAP.put("key3", "value3");
     }
 
     @Test void containKeys() {
@@ -60,7 +60,7 @@ public class P_ContainKeys_Test {
 
     @Test void ex() {
         attest(P.containKeys$(MAP, "other", "other2"))
-                .must$(Be::equal$, "Map <{key1=value11, key2=value12, key3=value13}> must contain keys <[other, other2]>.");
+                .must$(Be::equal$, "Map <{key1=value1, key2=value2, key3=value3}> must contain keys <[other, other2]>.");
 
     }
 }

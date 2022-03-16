@@ -24,7 +24,7 @@ import java.util.*;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
-public class P_ContainAnyKey_Test {
+public class P_ContainEntry_Test {
 
     public static final Map<String, String> MAP;
 
@@ -35,15 +35,23 @@ public class P_ContainAnyKey_Test {
         MAP.put("key3", "value3");
     }
 
-    @Test void containAnyKey() {
-        attest(P.containAnyKey(MAP, "key1")).must$(Be::True$);
-        attest(P.containAnyKey(MAP, "key1", "key2")).must$(Be::True$);
-        attest(P.containAnyKey(MAP, "other")).must$(Be::False$);
-        attest(P.containAnyKey(MAP, "key1", "other")).must$(Be::True$);
+    @Test void containKeys() {
+        attest(P.containEntry(MAP, "key1", "value1")).must$(Be::True$);
+        attest(P.containEntry(MAP, "key1", "OTHER")).must$(Be::False$);
+        attest(P.containEntry(MAP, "OTHER", "value1")).must$(Be::False$);
+        attest(P.containEntry(MAP, "OTHER", "OTHER")).must$(Be::False$);
+    }
+
+    @Test void notContainKeys() {
+        attest(P.notContainEntry(MAP, "key1", "value1")).must$(Be::False$);
+        attest(P.notContainEntry(MAP, "key1", "OTHER")).must$(Be::True$);
+        attest(P.notContainEntry(MAP, "OTHER", "value1")).must$(Be::True$);
+        attest(P.notContainEntry(MAP, "OTHER", "OTHER")).must$(Be::True$);
     }
 
     @Test void ex() {
-        attest(P.containAnyKey$(MAP, "other", "other2"))
-                .must$(Be::equal$, "Map <{key1=value1, key2=value2, key3=value3}> must contain any key from <[other, other2]>.");
+        attest(P.notContainEntry$(MAP, "key1", "value1"))
+                .must$(Be::equal$, "Map <{key1=value1, key2=value2, key3=value3}> must NOT contain entry with key <key1> and value <value1>.");
+
     }
 }
