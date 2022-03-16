@@ -2959,271 +2959,271 @@ public class P1 implements FluentSyntax {
 	// <editor-fold desc="collections">
 
 	/** Predicate: Collection <%s> must contain element <%s>..*/
-	public static <T, MP1> boolean contain(@Nonnull Collection<T> collection, T element, MP1 msgParamOnly) {
+	public static <T, MP1> boolean contain(@Nonnull Collection<? extends T> collection, T element, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.contain(collection, element);
 	}
 
 	/** "Special" predicate: Collection <%s> must contain element <%s>. */
-	public static <T, MP1> @Nullable String contain$(@Nonnull Collection<T> collection, T element, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String contain$(@Nonnull Collection<? extends T> collection, T element, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.contain$(collection, element);
 	}
 	/** Predicate: Collection <%s> must NOT contain element <%s>..*/
-	public static <T, MP1> boolean notContain(@Nonnull Collection<T> collection, T element, MP1 msgParamOnly) {
+	public static <T, MP1> boolean notContain(@Nonnull Collection<? extends T> collection, T element, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notContain(collection, element);
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain element <%s>. */
-	public static <T, MP1> @Nullable String notContain$(@Nonnull Collection<T> collection, T element, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String notContain$(@Nonnull Collection<? extends T> collection, T element, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notContain$(collection, element);
 	}
 
 	/** Predicate: Map <%s> must contain key <%s>..*/
-	public static <K, MP1> boolean containKey(@Nonnull Map<K, ?> map, K key, MP1 msgParamOnly) {
+	public static <K, MP1> boolean containKey(@Nonnull Map<? extends K, ?> map, K key, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.containKey(map, key);
 	}
 
 	/** "Special" predicate: Map <%s> must contain key <%s>. */
-	public static <K, MP1> @Nullable String containKey$(@Nonnull Map<K, ?> map, K key, MP1 msgParamOnly) {
+	public static <K, MP1> @Nullable String containKey$(@Nonnull Map<? extends K, ?> map, K key, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.containKey$(map, key);
 	}
 	/** Predicate: Map <%s> must NOT contain key <%s>..*/
-	public static <K, MP1> boolean notContainKey(@Nonnull Map<K, ?> map, K key, MP1 msgParamOnly) {
+	public static <K, MP1> boolean notContainKey(@Nonnull Map<? extends K, ?> map, K key, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainKey(map, key);
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain key <%s>. */
-	public static <K, MP1> @Nullable String notContainKey$(@Nonnull Map<K, ?> map, K key, MP1 msgParamOnly) {
+	public static <K, MP1> @Nullable String notContainKey$(@Nonnull Map<? extends K, ?> map, K key, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainKey$(map, key);
 	}
 
 	/** Predicate: Map <%s> must contain entry with key <%s> and value <%s>..*/
-	public static <K, V, MP1> boolean containEntry(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly) {
+	public static <K, V, MP1> boolean containEntry(@Nonnull Map<? extends K, ? extends V> map, K key, V value, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.containEntry(map, key, value);
 	}
 
 	/** "Special" predicate: Map <%s> must contain entry with key <%s> and value <%s>. */
-	public static <K, V, MP1> @Nullable String containEntry$(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly) {
+	public static <K, V, MP1> @Nullable String containEntry$(@Nonnull Map<? extends K, ? extends V> map, K key, V value, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.containEntry$(map, key, value);
 	}
 	/** Predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>..*/
-	public static <K, V, MP1> boolean notContainEntry(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly) {
+	public static <K, V, MP1> boolean notContainEntry(@Nonnull Map<? extends K, ? extends V> map, K key, V value, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainEntry(map, key, value);
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>. */
-	public static <K, V, MP1> @Nullable String notContainEntry$(@Nonnull Map<K, V> map, K key, V value, MP1 msgParamOnly) {
+	public static <K, V, MP1> @Nullable String notContainEntry$(@Nonnull Map<? extends K, ? extends V> map, K key, V value, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainEntry$(map, key, value);
 	}
 
 	/** Predicate: Collection <%s> must be of size %s..*/
-	public static <T, MP1> boolean size(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> boolean size(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.size(collection, i);
 	}
 
 	/** "Special" predicate: Collection <%s> must be of size %s. */
-	public static <T, MP1> @Nullable String size$(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String size$(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.size$(collection, i);
 	}
 	/** Predicate: Collection <%s> must NOT be of size %s..*/
-	public static <T, MP1> boolean sizeOtherThan(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> boolean sizeOtherThan(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.sizeOtherThan(collection, i);
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be of size %s. */
-	public static <T, MP1> @Nullable String sizeOtherThan$(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String sizeOtherThan$(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.sizeOtherThan$(collection, i);
 	}
 	/** Predicate: Collection <%s> must be of size %s..*/
-	public static <T, MP1> boolean ofSize(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> boolean ofSize(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.ofSize(collection, i);
 	}
 
 	/** "Special" predicate: Collection <%s> must be of size %s. */
-	public static <T, MP1> @Nullable String ofSize$(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String ofSize$(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.ofSize$(collection, i);
 	}
 	/** Predicate: Collection <%s> must NOT be of size %s..*/
-	public static <T, MP1> boolean notOfSize(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> boolean notOfSize(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notOfSize(collection, i);
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be of size %s. */
-	public static <T, MP1> @Nullable String notOfSize$(@Nonnull Collection<T> collection, int i, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String notOfSize$(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notOfSize$(collection, i);
 	}
 
 	/** Predicate: Map <%s> must be of size %s..*/
-	public static <K, V, MP1> boolean size(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> boolean size(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.size(map, i);
 	}
 
 	/** "Special" predicate: Map <%s> must be of size %s. */
-	public static <K, V, MP1> @Nullable String size$(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> @Nullable String size$(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.size$(map, i);
 	}
 	/** Predicate: Map <%s> must NOT be of size %s..*/
-	public static <K, V, MP1> boolean sizeOtherThan(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> boolean sizeOtherThan(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.sizeOtherThan(map, i);
 	}
 
 	/** "Special" predicate: Map <%s> must NOT be of size %s. */
-	public static <K, V, MP1> @Nullable String sizeOtherThan$(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> @Nullable String sizeOtherThan$(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.sizeOtherThan$(map, i);
 	}
 	/** Predicate: Map <%s> must be of size %s..*/
-	public static <K, V, MP1> boolean ofSize(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> boolean ofSize(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.ofSize(map, i);
 	}
 
 	/** "Special" predicate: Map <%s> must be of size %s. */
-	public static <K, V, MP1> @Nullable String ofSize$(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> @Nullable String ofSize$(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.ofSize$(map, i);
 	}
 	/** Predicate: Map <%s> must NOT be of size %s..*/
-	public static <K, V, MP1> boolean notOfSize(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> boolean notOfSize(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notOfSize(map, i);
 	}
 
 	/** "Special" predicate: Map <%s> must NOT be of size %s. */
-	public static <K, V, MP1> @Nullable String notOfSize$(@Nonnull Map<K, V> map, int i, MP1 msgParamOnly) {
+	public static <K, V, MP1> @Nullable String notOfSize$(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notOfSize$(map, i);
 	}
 
 	/** Predicate: <%s> must be part of <%s> collection..*/
-	public static <T, MP1> boolean partOf(T element, @Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean partOf(T element, @Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.partOf(element, collection);
 	}
 
 	/** "Special" predicate: <%s> must be part of <%s> collection. */
-	public static <T, MP1> @Nullable String partOf$(T element, @Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String partOf$(T element, @Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.partOf$(element, collection);
 	}
 	/** Predicate: <%s> must NOT be part of <%s> collection..*/
-	public static <T, MP1> boolean notPartOf(T element, @Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean notPartOf(T element, @Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notPartOf(element, collection);
 	}
 
 	/** "Special" predicate: <%s> must NOT be part of <%s> collection. */
-	public static <T, MP1> @Nullable String notPartOf$(T element, @Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String notPartOf$(T element, @Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notPartOf$(element, collection);
 	}
 
 	/** Predicate: <%s> must be key in <%s> map..*/
-	public static <K, MP1> boolean aKeyIn(K key, @Nonnull Map<K, ?> map, MP1 msgParamOnly) {
+	public static <K, MP1> boolean aKeyIn(K key, @Nonnull Map<? extends K, ?> map, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.aKeyIn(key, map);
 	}
 
 	/** "Special" predicate: <%s> must be key in <%s> map. */
-	public static <K, MP1> @Nullable String aKeyIn$(K key, @Nonnull Map<K, ?> map, MP1 msgParamOnly) {
+	public static <K, MP1> @Nullable String aKeyIn$(K key, @Nonnull Map<? extends K, ?> map, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.aKeyIn$(key, map);
 	}
 	/** Predicate: <%s> must NOT be key in <%s> map..*/
-	public static <K, MP1> boolean notAKeyIn(K key, @Nonnull Map<K, ?> map, MP1 msgParamOnly) {
+	public static <K, MP1> boolean notAKeyIn(K key, @Nonnull Map<? extends K, ?> map, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notAKeyIn(key, map);
 	}
 
 	/** "Special" predicate: <%s> must NOT be key in <%s> map. */
-	public static <K, MP1> @Nullable String notAKeyIn$(K key, @Nonnull Map<K, ?> map, MP1 msgParamOnly) {
+	public static <K, MP1> @Nullable String notAKeyIn$(K key, @Nonnull Map<? extends K, ?> map, MP1 msgParamOnly) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notAKeyIn$(key, map);
 	}
 
 	/** Predicate: Collection <%s> must be empty..*/
-	public static <T, MP1> boolean empty(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean empty(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.empty(collection);
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. */
-	public static <T, MP1> @Nullable String empty$(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String empty$(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.empty$(collection);
 	}
 	/** Predicate: Collection <%s> must NOT be empty..*/
-	public static <T, MP1> boolean notEmpty(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean notEmpty(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notEmpty(collection);
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. */
-	public static <T, MP1> @Nullable String notEmpty$(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String notEmpty$(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notEmpty$(collection);
 	}
 
 	/** Predicate: Collection <%s> must be empty..*/
-	public static <T, MP1> boolean nullOrEmpty(@Nullable Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean nullOrEmpty(@Nullable Collection<? extends T> collection, MP1 msgParamOnly) {
 		return Predicates.nullOrEmpty(collection);
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. */
-	public static <T, MP1> @Nullable String nullOrEmpty$(@Nullable Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String nullOrEmpty$(@Nullable Collection<? extends T> collection, MP1 msgParamOnly) {
 		return Predicates.nullOrEmpty$(collection);
 	}
 	/** Predicate: Collection <%s> must NOT be empty..*/
-	public static <T, MP1> boolean notNullNorEmpty(@Nullable Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean notNullNorEmpty(@Nullable Collection<? extends T> collection, MP1 msgParamOnly) {
 		return Predicates.notNullNorEmpty(collection);
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. */
-	public static <T, MP1> @Nullable String notNullNorEmpty$(@Nullable Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String notNullNorEmpty$(@Nullable Collection<? extends T> collection, MP1 msgParamOnly) {
 		return Predicates.notNullNorEmpty$(collection);
 	}
 
 	/** Predicate: Collection <%s> must be exactly of size 1 (singleton)...*/
-	public static <T, MP1> boolean singleton(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean singleton(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.singleton(collection);
 	}
 
 	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton).. */
-	public static <T, MP1> @Nullable String singleton$(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String singleton$(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.singleton$(collection);
 	}
 	/** Predicate: Collection <%s> must NOT be exactly of size 1 (singleton)...*/
-	public static <T, MP1> boolean notSingleton(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> boolean notSingleton(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notSingleton(collection);
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton).. */
-	public static <T, MP1> @Nullable String notSingleton$(@Nonnull Collection<T> collection, MP1 msgParamOnly) {
+	public static <T, MP1> @Nullable String notSingleton$(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notSingleton$(collection);
 	}
