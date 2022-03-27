@@ -20,7 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
+import javax.annotation.concurrent.ThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -30,7 +30,9 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.tuple.*;
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+import java.util.concurrent.atomic.*; // NOSONAR
+import java.lang.invoke.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -52,11 +54,23 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-@NotThreadSafe
+@ThreadSafe
 public class LazySrt implements LSrtSupplier, LSrtSingle {
 
-	protected short value;
-	protected LSrtSupplier function;
+	private static final VarHandle VALUE;
+	private static final Object NO_VALUE = new Object();
+
+	protected volatile Object value = NO_VALUE;
+	protected volatile LSrtSupplier function;
+
+	static {
+		try {
+			MethodHandles.Lookup l = MethodHandles.lookup();
+			VALUE = l.findVarHandle(LazySrt.class, "value", Object.class);
+		} catch (ReflectiveOperationException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
 
 	protected LazySrt(LSrtSupplier function) {
 		Null.nonNullArg(function, "function");
@@ -68,21 +82,19 @@ public class LazySrt implements LSrtSupplier, LSrtSingle {
 		return new LazySrt(supplier);
 	}
 
-	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	/** Calls supplier and returns the result until predicate tells to accept value as permanent. */
 	public static LazySrt lazyTill(LSrtPredicate predicate, LSrtSupplier supplier) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(supplier, "supplier");
 		return new LazySrt(supplier) {
 			@Override
 			public short getAsSrtX() {
-				if (function != null) {
-					value = function.getAsSrt();
-
-					if (predicate.test(value)) {
-						function = null;
-					}
+				Object currentValue = VALUE.get(this);
+				if (currentValue == NO_VALUE) {
+					return (short) acquireValue(predicate);
 				}
-				return value;
+
+				return (short) currentValue;
 			}
 		};
 	}
@@ -101,12 +113,29 @@ public class LazySrt implements LSrtSupplier, LSrtSingle {
 
 	@Override
 	public short getAsSrtX() {
-		if (function != null) {
-			value = function.getAsSrt();
-			function = null;
+		Object currentValue = VALUE.get(this);
+		if (currentValue == NO_VALUE) {
+			return (short) acquireValue(LPredicate::alwaysTrue);
 		}
 
-		return value;
+		return (short) currentValue;
+	}
+
+	@Nullable
+	protected Object acquireValue(LSrtPredicate predicate) {
+		synchronized (this) {
+			Object actualValue = VALUE.getVolatile(this);
+			if (actualValue == NO_VALUE) {
+				actualValue = function.getAsSrt();
+			}
+
+			if (predicate.test((short) actualValue)) {
+				VALUE.setVolatile(this, actualValue);
+				function = null;
+			}
+
+			return actualValue;
+		}
 	}
 
 	public short value() {

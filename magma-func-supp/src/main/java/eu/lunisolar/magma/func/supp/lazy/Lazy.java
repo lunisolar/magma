@@ -20,7 +20,7 @@ package eu.lunisolar.magma.func.supp.lazy;
 
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
-import javax.annotation.concurrent.NotThreadSafe; // NOSONAR
+import javax.annotation.concurrent.ThreadSafe; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
@@ -30,7 +30,9 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.tuple.*;
+import eu.lunisolar.magma.func.tuple.*; // NOSONAR
+import java.util.concurrent.atomic.*; // NOSONAR
+import java.lang.invoke.*; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -52,11 +54,23 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Evaluates value only once, on first use.
  */
 @SuppressWarnings("UnusedDeclaration")
-@NotThreadSafe
+@ThreadSafe
 public class Lazy<T> implements LSupplier<T>, LSingle<T> {
 
-	protected T value;
-	protected LSupplier<T> function;
+	private static final VarHandle VALUE;
+	private static final Object NO_VALUE = new Object();
+
+	protected volatile Object value = NO_VALUE;
+	protected volatile LSupplier<T> function;
+
+	static {
+		try {
+			MethodHandles.Lookup l = MethodHandles.lookup();
+			VALUE = l.findVarHandle(Lazy.class, "value", Object.class);
+		} catch (ReflectiveOperationException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
 
 	protected Lazy(LSupplier<T> function) {
 		Null.nonNullArg(function, "function");
@@ -68,21 +82,19 @@ public class Lazy<T> implements LSupplier<T>, LSingle<T> {
 		return new Lazy<T>(supplier);
 	}
 
-	/** Calls supplier and returns the result until predicate tells to accepts value as permanent. */
+	/** Calls supplier and returns the result until predicate tells to accept value as permanent. */
 	public static <T> Lazy<T> lazyTill(LPredicate<T> predicate, LSupplier<T> supplier) {
 		Null.nonNullArg(predicate, "predicate");
 		Null.nonNullArg(supplier, "supplier");
 		return new Lazy<T>(supplier) {
 			@Override
 			public T getX() {
-				if (function != null) {
-					value = function.get();
-
-					if (predicate.test(value)) {
-						function = null;
-					}
+				Object currentValue = VALUE.get(this);
+				if (currentValue == NO_VALUE) {
+					return (T) acquireValue(predicate);
 				}
-				return value;
+
+				return (T) currentValue;
 			}
 		};
 	}
@@ -101,12 +113,29 @@ public class Lazy<T> implements LSupplier<T>, LSingle<T> {
 
 	@Override
 	public T getX() {
-		if (function != null) {
-			value = function.get();
-			function = null;
+		Object currentValue = VALUE.get(this);
+		if (currentValue == NO_VALUE) {
+			return (T) acquireValue(LPredicate::alwaysTrue);
 		}
 
-		return value;
+		return (T) currentValue;
+	}
+
+	@Nullable
+	protected Object acquireValue(LPredicate<T> predicate) {
+		synchronized (this) {
+			Object actualValue = VALUE.getVolatile(this);
+			if (actualValue == NO_VALUE) {
+				actualValue = function.get();
+			}
+
+			if (predicate.test((T) actualValue)) {
+				VALUE.setVolatile(this, actualValue);
+				function = null;
+			}
+
+			return actualValue;
+		}
 	}
 
 	public T value() {
