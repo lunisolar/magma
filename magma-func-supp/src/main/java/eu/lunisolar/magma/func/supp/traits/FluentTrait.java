@@ -52,7 +52,6 @@ import eu.lunisolar.magma.func.predicate.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Trait for any class that has fluent filter method.
  * Compared to {@link Fluent} forces to use exception handling from Magma functions.
  */
 public interface FluentTrait<FLUENT> extends Fluent<FLUENT> {
