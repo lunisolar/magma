@@ -1515,7 +1515,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 	}
 
 	@Override
-	default void close() throws Exception {
+	default void close() {
 		filterAndMap(AutoCloseable.class).ifPresent(AutoCloseable::close); // any exception will be nested
 	}
 
