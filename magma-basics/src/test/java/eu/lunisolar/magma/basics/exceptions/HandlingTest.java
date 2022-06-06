@@ -18,11 +18,11 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import javax.annotation.Nonnull;
+
+import static org.testng.Assert.*;
 
 public class HandlingTest {
 
@@ -86,11 +86,11 @@ public class HandlingTest {
     public void throwReplacement() throws Exception {
         try {
             Handling.throwReplacement(Exception1::new, "New message %s", "with param");
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception1.class);
-            Assert.assertTrue(e.getMessage().contains("New message with param"));
-            Assert.assertNull(e.getCause());
+            assertSame(e.getClass(), Exception1.class);
+            assertTrue(e.getMessage().contains("New message with param"));
+            assertNull(e.getCause());
         }
     }
 
@@ -98,11 +98,11 @@ public class HandlingTest {
     public void throwWrapper1() throws Exception {
         try {
             Handling.throwWrapper(RUNTIME, Exception1::new);
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception1.class);
-            Assert.assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
-            Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+            assertSame(e.getClass(), Exception1.class);
+            assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
+            assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
         }
     }
 
@@ -110,11 +110,11 @@ public class HandlingTest {
     public void throwWrapper2() throws Exception {
         try {
             Handling.throwWrapper(RUNTIME, Exception1::new, "New message %s", "with param");
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception1.class);
-            Assert.assertTrue(e.getMessage().contains("New message with param"));
-            Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+            assertSame(e.getClass(), Exception1.class);
+            assertTrue(e.getMessage().contains("New message with param"));
+            assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
         }
     }
 
@@ -123,11 +123,11 @@ public class HandlingTest {
         try {
             Handling.throwReplacementIf(false, Exception1::new, "New message %s", "with param");
             Handling.throwReplacementIf(true, Exception2::new, "New message %s", "with param");
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception2.class);
-            Assert.assertTrue(e.getMessage().contains("New message with param"));
-            Assert.assertNull(e.getCause());
+            assertSame(e.getClass(), Exception2.class);
+            assertTrue(e.getMessage().contains("New message with param"));
+            assertNull(e.getCause());
         }
     }
 
@@ -136,11 +136,11 @@ public class HandlingTest {
         try {
             Handling.throwWrapperIf(false, RUNTIME, Exception1::new);
             Handling.throwWrapperIf(true, RUNTIME, Exception2::new);
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception2.class);
-            Assert.assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
-            Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+            assertSame(e.getClass(), Exception2.class);
+            assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
+            assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
         }
     }
 
@@ -149,11 +149,11 @@ public class HandlingTest {
         try {
             Handling.throwWrapperIf(false, RUNTIME, Exception1::new, "New message %s", "with param");
             Handling.throwWrapperIf(true, RUNTIME, Exception2::new, "New message %s", "with param");
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception2.class);
-            Assert.assertTrue(e.getMessage().contains("New message with param"));
-            Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+            assertSame(e.getClass(), Exception2.class);
+            assertTrue(e.getMessage().contains("New message with param"));
+            assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
         }
     }
 
@@ -162,11 +162,11 @@ public class HandlingTest {
         try {
             Handling.throwReplacementIf(e -> false, RUNTIME, Exception1::new, "New message %s", "with param");
             Handling.throwReplacementIf(e -> true, RUNTIME, Exception2::new, "New message %s", "with param");
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception2.class);
-            Assert.assertTrue(e.getMessage().contains("New message with param"));
-            Assert.assertNull(e.getCause());
+            assertSame(e.getClass(), Exception2.class);
+            assertTrue(e.getMessage().contains("New message with param"));
+            assertNull(e.getCause());
         }
     }
 
@@ -175,11 +175,11 @@ public class HandlingTest {
         try {
             Handling.throwWrapperIf(e -> false, RUNTIME, Exception1::new);
             Handling.throwWrapperIf(e -> true, RUNTIME, Exception2::new);
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception2.class);
-            Assert.assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
-            Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+            assertSame(e.getClass(), Exception2.class);
+            assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
+            assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
         }
     }
 
@@ -188,58 +188,86 @@ public class HandlingTest {
         try {
             Handling.throwWrapperIf(e -> false, RUNTIME, Exception1::new, "New message %s", "with param");
             Handling.throwWrapperIf(e -> true, RUNTIME, Exception2::new, "New message %s", "with param");
-            Assert.fail("No exception thrown.");
+            fail("No exception thrown.");
         } catch (Throwable e) {
-            Assert.assertSame(e.getClass(), Exception2.class);
-            Assert.assertTrue(e.getMessage().contains("New message with param"));
-            Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+            assertSame(e.getClass(), Exception2.class);
+            assertTrue(e.getMessage().contains("New message with param"));
+            assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
         }
     }
 
     @Test
     public void testCreate() throws Exception {
         var e = Handling.create(Exception1::new, "New message %s", "with param");
-        Assert.assertSame(e.getClass(), Exception1.class);
-        Assert.assertTrue(e.getMessage().contains("New message with param"));
-        Assert.assertNull(e.getCause());
+        assertSame(e.getClass(), Exception1.class);
+        assertTrue(e.getMessage().contains("New message with param"));
+        assertNull(e.getCause());
     }
 
     @Test
     public void testWrap1() throws Exception {
         var e = Handling.wrap(RUNTIME, Exception1::new);
-        Assert.assertSame(e.getClass(), Exception1.class);
-        Assert.assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
-        Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+        assertSame(e.getClass(), Exception1.class);
+        assertTrue(e.getMessage().contains(ORIGINAL_MESSAGE));
+        assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
     }
 
     @Test
     public void testWrap2() throws Exception {
         var e = Handling.wrap(RUNTIME, Exception1::new, "New message %s", "with param");
-        Assert.assertSame(e.getClass(), Exception1.class);
-        Assert.assertTrue(e.getMessage().contains("New message with param"));
-        Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+        assertSame(e.getClass(), Exception1.class);
+        assertTrue(e.getMessage().contains("New message with param"));
+        assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
     }
 
     @Test
     public void testWrap3_messageToPropagate() throws Exception {
         var e = Handling.combine(RUNTIME, Exception1::new, "New message %s", "with param");
-        Assert.assertSame(e.getClass(), Exception1.class);
-        Assert.assertTrue(e.getMessage().contains("New message with param"));
-        Assert.assertTrue(e.getMessage().contains(" " + ORIGINAL_MESSAGE));
-        Assert.assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
+        assertSame(e.getClass(), Exception1.class);
+        assertTrue(e.getMessage().contains("New message with param"));
+        assertTrue(e.getMessage().contains(" " + ORIGINAL_MESSAGE));
+        assertSame(e.getCause().getClass(), OriginalRuntimeException.class);
     }
 
     @Test
     public void testWrap3_noMessageToPropagate() throws Exception {
         var e = Handling.combine(new RuntimeException(), Exception1::new, "New message %s", "with param");
-        Assert.assertSame(e.getClass(), Exception1.class);
-        Assert.assertTrue(e.getMessage().contains("New message with param"));
-        Assert.assertFalse(e.getMessage().contains(ORIGINAL_MESSAGE));
-        Assert.assertSame(e.getCause().getClass(), RuntimeException.class);
+        assertSame(e.getClass(), Exception1.class);
+        assertTrue(e.getMessage().contains("New message with param"));
+        assertFalse(e.getMessage().contains(ORIGINAL_MESSAGE));
+        assertSame(e.getCause().getClass(), RuntimeException.class);
     }
 
     @Test(expectedExceptions = OriginalException.class)
     public void testShoveIt() {
         Handling.shoveIt(CHECKED);
+    }
+
+    @Test
+    public void aggregateMessage() throws Exception {
+
+        // new Exception("Something happened: " + e.getMessage(), e)
+        IllegalArgumentException e1 = exception("Message1:Message2:Message3", "Message2:Message3", "Message3");
+        assertEquals(Handling.aggregateMessage("; ", e1), "Message1:Message2:Message3; Message2:Message3; Message3");
+        assertEquals(Handling.aggregateMessage("; ", e1, true), "Message1:Message2:Message3");
+
+        // new Exception(e.getMessage(), e)
+        IllegalArgumentException e2 = exception("Message1", "Message1", "Message1");
+        assertEquals(Handling.aggregateMessage("; ", e2), "Message1; Message1; Message1");
+        assertEquals(Handling.aggregateMessage("; ", e2, true), "Message1");
+
+        // new Exception("Issue!", e)
+        IllegalArgumentException e3 = exception("Message1", "Message2", "Message3");
+        assertEquals(Handling.aggregateMessage("; ", e3), "Message1; Message2; Message3");
+        assertEquals(Handling.aggregateMessage("; ", e3, true), "Message1; Message2; Message3");
+
+        // new Exception()
+        Exception e4 = new Exception();
+        assertEquals(Handling.aggregateMessage("; ", e4), "");
+        assertEquals(Handling.aggregateMessage("; ", e4, true), "");
+    }
+
+    @Nonnull private IllegalArgumentException exception(String message1, String message2, String message3) {
+        return new IllegalArgumentException(message1, new IllegalArgumentException(message2, new IllegalArgumentException(message3)));
     }
 }

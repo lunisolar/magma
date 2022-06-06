@@ -24,9 +24,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
 import java.lang.reflect.*;
+import java.util.*;
 import java.util.function.*;
+import java.util.stream.*;
 
 import static eu.lunisolar.magma.basics.Null.nonNullArg;
+import static java.util.stream.Collectors.*;
 
 @SuppressWarnings({"unchecked", "unused"})
 public final class Handling implements Serializable {
@@ -514,6 +517,47 @@ public final class Handling implements Serializable {
             main.addSuppressed(suppressed);
         }
         throw throwIt(main);
+    }
+
+    public static @Nonnull String aggregateMessage(@Nonnull Throwable main) {
+        return aggregateMessage(" ", main);
+    }
+
+    public static @Nonnull String aggregateMessage(@Nonnull String separator, @Nonnull Throwable main) {
+        return aggregateMessage(separator, main, false);
+    }
+
+    public static String aggregateMessage(@Nonnull Throwable main, boolean reduce) {
+        return aggregateMessage(" ", main, reduce);
+    }
+
+    public static String aggregateMessage(@Nonnull String separator, @Nonnull Throwable main, boolean reduce) {
+        nonNullArg(separator, "separator");
+        nonNullArg(main, "main");
+
+        Stream<String> stream = causeChain(main).stream()
+                                                .filter(e -> e.getMessage() != null && !e.getMessage().isBlank())
+                                                .map(Throwable::getMessage);
+
+        if (reduce) {
+            return stream.reduce((s1, s2) -> s1.endsWith(s2) ? s1 : s1 + separator + s2).orElse("");
+        }
+
+        return stream.collect(joining(separator));
+    }
+
+    private static List<Throwable> causeChain(@Nonnull Throwable main) {
+        nonNullArg(main, "main");
+
+        var list = new ArrayList<Throwable>();
+
+        var e = main;
+        while (e != null) {
+            list.add(e);
+            e = e.getCause();
+        }
+
+        return list;
     }
 
 }
