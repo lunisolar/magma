@@ -56,6 +56,6 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 * @see {@link Is}{@link Are}{@link Do}{@link Does}{@link Be}{@link Has}{@link Have}{@link As}{@link P}
 */
 @MethodReferences
-public final class Have extends Predicates {
+public final class As extends Predicates {
 
 }

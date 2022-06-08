@@ -55,7 +55,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  * Common predicates (methods to reference)
  *  *
- * @see {@link Is}{@link Are}{@link Do}{@link Does}{@link Be}{@link Has}{@link Have}{@link P}{@link Predicates}{@link P1}{@link P2}
+ * @see {@link Is}{@link Are}{@link Do}{@link Does}{@link Be}{@link Has}{@link Have}{@link As}{@link P}{@link Predicates}{@link P1}{@link P2}
  */
 @MethodReferences
 public class Predicates implements FluentSyntax {
@@ -73,6 +73,8 @@ public class Predicates implements FluentSyntax {
 	public static class Has extends Predicates {
 	}
 	public static class Have extends Predicates {
+	}
+	public static class As extends Predicates {
 	}
 
 	// <editor-fold desc="Object">
