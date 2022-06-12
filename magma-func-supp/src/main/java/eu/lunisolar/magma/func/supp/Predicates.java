@@ -9445,4 +9445,63 @@ public class Predicates implements FluentSyntax {
 		return true;
 	}
 
+	/** Predicate: <%s> must be equal to <%s> (including array elements)..*/
+	public static boolean Equal(Object o1, Object o2) {
+		if (o1 != null && o1.getClass().isArray() && o2 != null && o1.getClass() == o2.getClass()) {
+			var arrayClass = o1.getClass();
+
+			if (arrayClass == Object[].class) {
+				return Arrays.equals((Object[]) o1, (Object[]) o2);
+			}
+
+			if (arrayClass == byte[].class) {
+				return Arrays.equals((byte[]) o1, (byte[]) o2);
+			}
+
+			if (arrayClass == short[].class) {
+				return Arrays.equals((short[]) o1, (short[]) o2);
+			}
+
+			if (arrayClass == int[].class) {
+				return Arrays.equals((int[]) o1, (int[]) o2);
+			}
+
+			if (arrayClass == long[].class) {
+				return Arrays.equals((long[]) o1, (long[]) o2);
+			}
+
+			if (arrayClass == float[].class) {
+				return Arrays.equals((float[]) o1, (float[]) o2);
+			}
+
+			if (arrayClass == double[].class) {
+				return Arrays.equals((double[]) o1, (double[]) o2);
+			}
+
+			if (arrayClass == char[].class) {
+				return Arrays.equals((char[]) o1, (char[]) o2);
+			}
+
+			if (arrayClass == boolean[].class) {
+				return Arrays.equals((boolean[]) o1, (boolean[]) o2);
+			}
+
+		}
+		return Objects.equals(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s> (including array elements). */
+	public static @Nullable String Equal$(Object o1, Object o2) {
+		return Equal(o1, o2) ? null : String.format("<%s> must be equal to <%s> (including array elements).", o1, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s> (including array elements)..*/
+	public static boolean NotEqual(Object o1, Object o2) {
+		return !Equal(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s> (including array elements). */
+	public static @Nullable String NotEqual$(Object o1, Object o2) {
+		return NotEqual(o1, o2) ? null : String.format("<%s> must NOT be equal to <%s> (including array elements).", o1, o2);
+	}
+
 }

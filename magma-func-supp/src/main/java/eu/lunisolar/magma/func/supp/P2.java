@@ -4423,4 +4423,23 @@ public class P2 implements FluentSyntax {
 
 	// </editor-fold>
 
+	/** Predicate: <%s> must be equal to <%s> (including array elements)..*/
+	public static <MP1, MP2> boolean Equal(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		return Predicates.Equal(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must be equal to <%s> (including array elements). */
+	public static <MP1, MP2> @Nullable String Equal$(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		return Predicates.Equal$(o1, o2);
+	}
+	/** Predicate: <%s> must NOT be equal to <%s> (including array elements)..*/
+	public static <MP1, MP2> boolean NotEqual(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		return Predicates.NotEqual(o1, o2);
+	}
+
+	/** "Special" predicate: <%s> must NOT be equal to <%s> (including array elements). */
+	public static <MP1, MP2> @Nullable String NotEqual$(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		return Predicates.NotEqual$(o1, o2);
+	}
+
 }
