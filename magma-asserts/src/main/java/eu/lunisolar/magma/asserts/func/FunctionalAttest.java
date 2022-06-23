@@ -30,6 +30,7 @@ import eu.lunisolar.magma.func.operator.unary.LUnaryOperator;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.supp.traits.CheckTrait;
+import eu.lunisolar.magma.func.supp.traits.FailPoint;
 import eu.lunisolar.magma.func.supp.traits.FluentTrait;
 
 import javax.annotation.Nonnull;
@@ -138,7 +139,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, PC, R_CHECK>, CTX extends Fluent<CTX>, PC, R_CHECK> implements FluentSubcontext<SELF, CTX> {
+	public static abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, PC, R_CHECK>, CTX extends Attest<CTX, ?>, PC, R_CHECK> implements FluentSubcontext<SELF, CTX> {
 
 		protected @Nonnull Supplier<String> argDescription;
 		protected @Nullable PC preconditioner;
@@ -184,12 +185,12 @@ public final class FunctionalAttest {
 
 		/** Assertion for the failure of the method under test. */
 		public CTX withException(@Nullable String checkDescription, @Nonnull LConsumer<Checks.Check<? extends Throwable>> assertions) {
-			exceptionCheck(Checks.DEFAULT_DESCRIPTION, argDescription, preconditioner, assertFunction, assertions);
+			exceptionCheck(checkDescription, argDescription, preconditioner, assertFunction, assertions);
 			return context.fluentCtx();
 		}
 
-		protected static <PC, R_CHECK> R_CHECK normalCheck(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction,
-				@Nullable List<LConsumer<R_CHECK>> assertPreConsumer, @Nonnull LConsumer<R_CHECK> assertConsumer) {
+		protected R_CHECK normalCheck(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction, @Nullable List<LConsumer<R_CHECK>> assertPreConsumer,
+				@Nonnull LConsumer<R_CHECK> assertConsumer) {
 			try {
 				R_CHECK resultAssert = assertFunction.applyAndCreateResultAssert(checkDescription, preconditioner);
 
@@ -198,29 +199,43 @@ public final class FunctionalAttest {
 						assertPreConsumer.forEach(c -> c.accept(resultAssert));
 					}
 				} catch (AssertionError e) {
-					throw new AssertionError(String.format("Recurring assertion failed. %s", e.getMessage()), e);
+					throw new AssertionError(errorMessage(checkDescription, caseDescription, "Recurring assertion failed", e.getMessage()), e);
 				}
 
 				assertConsumer.accept(resultAssert);
 				return resultAssert;
 			} catch (AssertionError e) {
-				throw e;
+				throw new AssertionError(errorMessage(checkDescription, caseDescription, "Evaluation check failed", e.getMessage()), e);
 			} catch (Throwable e) { // NOSONAR
-				throw Handling.wrap(e, AssertionError::new, "Case %s should evaluate without problem.", caseDescription.get());
+				throw new AssertionError(errorMessage(checkDescription, caseDescription, "Should evaluate without problem", e.getMessage()), e);
 			}
 		}
 
-		protected static <PC, R_CHECK, X extends Throwable> void exceptionCheck(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction,
+		protected String errorMessage(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, String msg1) {
+			return context.failMessage(String.format("Case %s, check %s; %s", caseDescription.get(), checkDescription, msg1));
+		}
+
+		protected String errorMessage(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, String msg1, String msg2) {
+			return context.failMessage(String.format("Case %s, check %s; %s: %s", caseDescription.get(), checkDescription, msg1, msg2));
+		}
+
+		protected <X extends Throwable> void exceptionCheck(@Nullable String checkDescription, @Nonnull Supplier<String> caseDescription, @Nullable PC preconditioner, @Nonnull AssertionFunction<PC, R_CHECK> assertFunction,
 				@Nonnull LConsumer<Checks.Check<? extends Throwable>> assertConsumer) {
 
+			R_CHECK resultAssert = null;
 			try {
-				assertFunction.applyAndCreateResultAssert(checkDescription, preconditioner);
+				resultAssert = assertFunction.applyAndCreateResultAssert(checkDescription, preconditioner);
 			} catch (Throwable e) { // NOSONAR
 				assertConsumer.shovingAccept(Checks.attest(e, checkDescription));
 				return;
 			}
 
-			throw Handling.create(AssertionError::new, "Case %s should evaluate with exception.", caseDescription.get());
+			String message = "Should evaluate with exception.";
+			if (resultAssert instanceof FailPoint) {
+				message = ((FailPoint) resultAssert).failMessage(message);
+			}
+
+			throw new AssertionError(errorMessage(checkDescription, caseDescription, message));
 		}
 
 	}
@@ -244,7 +259,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class BoolEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<BoolEvaluation<CTX, PC>, CTX, PC, Checks.CheckBool> {
+	public static final class BoolEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<BoolEvaluation<CTX, PC>, CTX, PC, Checks.CheckBool> {
 
 		public BoolEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckBool> assertFunction, @Nullable List<LConsumer<Checks.CheckBool>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -304,7 +319,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class Evaluation<CTX extends Fluent<CTX>, PC, V> extends AbstractEvaluation<Evaluation<CTX, PC, V>, CTX, PC, Checks.Check<V>> {
+	public static final class Evaluation<CTX extends Attest<CTX, ?>, PC, V> extends AbstractEvaluation<Evaluation<CTX, PC, V>, CTX, PC, Checks.Check<V>> {
 
 		public Evaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.Check<V>> assertFunction, @Nullable List<LConsumer<Checks.Check<V>>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -364,7 +379,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class ByteEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<ByteEvaluation<CTX, PC>, CTX, PC, Checks.CheckByte> {
+	public static final class ByteEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<ByteEvaluation<CTX, PC>, CTX, PC, Checks.CheckByte> {
 
 		public ByteEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckByte> assertFunction, @Nullable List<LConsumer<Checks.CheckByte>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -424,7 +439,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class DblEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<DblEvaluation<CTX, PC>, CTX, PC, Checks.CheckDbl> {
+	public static final class DblEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<DblEvaluation<CTX, PC>, CTX, PC, Checks.CheckDbl> {
 
 		public DblEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckDbl> assertFunction, @Nullable List<LConsumer<Checks.CheckDbl>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -484,7 +499,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class CharEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<CharEvaluation<CTX, PC>, CTX, PC, Checks.CheckChar> {
+	public static final class CharEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<CharEvaluation<CTX, PC>, CTX, PC, Checks.CheckChar> {
 
 		public CharEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckChar> assertFunction, @Nullable List<LConsumer<Checks.CheckChar>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -544,7 +559,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class SrtEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<SrtEvaluation<CTX, PC>, CTX, PC, Checks.CheckSrt> {
+	public static final class SrtEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<SrtEvaluation<CTX, PC>, CTX, PC, Checks.CheckSrt> {
 
 		public SrtEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckSrt> assertFunction, @Nullable List<LConsumer<Checks.CheckSrt>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -604,7 +619,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class FltEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<FltEvaluation<CTX, PC>, CTX, PC, Checks.CheckFlt> {
+	public static final class FltEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<FltEvaluation<CTX, PC>, CTX, PC, Checks.CheckFlt> {
 
 		public FltEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckFlt> assertFunction, @Nullable List<LConsumer<Checks.CheckFlt>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -664,7 +679,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class IntEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<IntEvaluation<CTX, PC>, CTX, PC, Checks.CheckInt> {
+	public static final class IntEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<IntEvaluation<CTX, PC>, CTX, PC, Checks.CheckInt> {
 
 		public IntEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckInt> assertFunction, @Nullable List<LConsumer<Checks.CheckInt>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);
@@ -724,7 +739,7 @@ public final class FunctionalAttest {
 	@Immutable
 	@ThreadSafe
 	@SuppressWarnings("unchecked")
-	public static final class LongEvaluation<CTX extends Fluent<CTX>, PC> extends AbstractEvaluation<LongEvaluation<CTX, PC>, CTX, PC, Checks.CheckLong> {
+	public static final class LongEvaluation<CTX extends Attest<CTX, ?>, PC> extends AbstractEvaluation<LongEvaluation<CTX, PC>, CTX, PC, Checks.CheckLong> {
 
 		public LongEvaluation(@Nonnull CTX context, @Nonnull Supplier<String> argDescription, @Nonnull AssertionFunction<PC, Checks.CheckLong> assertFunction, @Nullable List<LConsumer<Checks.CheckLong>> assertPreConsumer) {
 			super(context, argDescription, assertFunction, assertPreConsumer);

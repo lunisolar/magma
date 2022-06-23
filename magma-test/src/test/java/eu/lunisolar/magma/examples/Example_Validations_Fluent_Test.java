@@ -279,6 +279,22 @@ public class Example_Validations_Fluent_Test {
 ///
 
     @Test
+    public void failMessage() {
+        {
+            String msg = attest(1).failMessage("msg1");
+            attest(msg).mustBeEqual("Check/attest [?=='1']: msg1");
+        }
+        {
+            String msg = attest(1, "name1").verbosity(MIN).failMessage("msg1");
+            attest(msg).mustBeEqual("Check/attest [name1]: msg1");
+        }
+        {
+            String msg = attest(1).failMessage("msg1: %s", "param1");
+            attest(msg).mustBeEqual("Check/attest [?=='1']: msg1: param1");
+        }
+    }
+
+    @Test
     public void toString1() {
         attest(Opt.of(45).toString()).must$(Be::equal$, "OptInt['45'^^int]");
         attest(Opt.of("45").toString()).must$(Be::equal$, "Opt['45'^^String]");

@@ -61,7 +61,7 @@ import static eu.lunisolar.magma.func.supp.traits.CheckTrait.*;
 import static java.lang.String.*; // NOSONAR
 import static eu.lunisolar.magma.func.supp.MsgVerbosity.*; // NOSONAR
 
-public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends FluentTrait<SELF>, aValue<aByte>, ByteValueTrait<SELF>, aCheck<aByte> {
+public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends FailPoint<SELF>, aValue<aByte>, ByteValueTrait<SELF>, aCheck<aByte> {
 
 	byte get();
 
@@ -2392,13 +2392,28 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends Fluen
 	}
 
 	default @Nonnull SELF fails(@Nonnull String newMessage) {
+		String failMessage = failMessage(newMessage);
+		throw Handling.shoveIt(Handling.create(checkTraitFactory(), failMessage));
+	}
+
+	default @Nonnull String failMessage(@Nonnull String newMessage) {
 		Null.nonNullArg(newMessage, "newMessage");
-		return this.must(__ -> false, newMessage);
+		var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), null, null};
+		params[params.length - 1] = newMessage;
+		return format(verbosity().format1UM(), params);
 	}
 
 	default @Nonnull SELF fails(@Nonnull String newMessage, @Nullable Object... messageParams) {
+		String failMessage = failMessage(newMessage, messageParams);
+		throw Handling.shoveIt(Handling.create(checkTraitFactory(), failMessage));
+	}
+
+	default @Nonnull String failMessage(@Nonnull String newMessage, @Nullable Object... messageParams) {
 		Null.nonNullArg(newMessage, "newMessage");
-		return fails(String.format(newMessage, messageParams));
+		var params = new Object[]{get(), null, null, null, checkTraitType(), checkTraitName(), null, null};
+		params[params.length - 1] = format(newMessage, messageParams);
+		String failMessage = format(verbosity().format1UM(), params);
+		return failMessage;
 	}
 
 }

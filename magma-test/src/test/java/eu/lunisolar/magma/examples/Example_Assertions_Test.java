@@ -129,7 +129,7 @@ public class Example_Assertions_Test {
      * Another example with some explanation below:
      */
     //>example<
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case \\(0\\) should evaluate with exception.")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case \\(0\\), check \\?; Check/attest .+: Should evaluate with exception.")
     public void example() {
 
         FuncAttests.attestFunc(function)

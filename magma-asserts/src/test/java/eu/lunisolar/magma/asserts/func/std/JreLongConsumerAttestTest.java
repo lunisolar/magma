@@ -68,7 +68,7 @@ public class JreLongConsumerAttestTest {
 
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Case .* should evaluate without problem.")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Should evaluate without problem: null")
     public void testAssertThrowsUnexpected() throws ParseException {
 
         FuncAttests.attestLongCons(functionThrowing)
@@ -104,7 +104,7 @@ public class JreLongConsumerAttestTest {
         Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s).*Recurring assertion failed.*")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
     public void testRecurringAssertsNegative() throws ParseException {
 
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
