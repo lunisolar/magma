@@ -59,9 +59,18 @@ public final class LBoolToLongFunctionAttest extends FunctionalAttest.Full<LBool
 		super(actual);
 	}
 
+	public LBoolToLongFunctionAttest(LBoolToLongFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolToLongFunctionAttest attestBoolToLongFunc(LBoolToLongFunction func) {
 		return new LBoolToLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolToLongFunctionAttest attestBoolToLongFunc(LBoolToLongFunction func, String name) {
+		return new LBoolToLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

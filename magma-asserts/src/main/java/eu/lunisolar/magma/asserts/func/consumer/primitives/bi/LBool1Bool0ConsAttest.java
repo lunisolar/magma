@@ -61,9 +61,18 @@ public final class LBool1Bool0ConsAttest extends FunctionalAttest.Simple<LBool1B
 		super(actual);
 	}
 
+	public LBool1Bool0ConsAttest(LBool1Bool0Cons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBool1Bool0ConsAttest attestBool1Bool0Cons(LBiBoolConsumer.LBool1Bool0Cons func) {
 		return new LBool1Bool0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static LBool1Bool0ConsAttest attestBool1Bool0Cons(LBiBoolConsumer.LBool1Bool0Cons func, String name) {
+		return new LBool1Bool0ConsAttest(func, name);
 	}
 
 	@Nonnull

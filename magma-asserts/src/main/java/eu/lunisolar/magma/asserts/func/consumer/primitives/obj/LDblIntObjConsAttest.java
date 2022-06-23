@@ -62,9 +62,18 @@ public final class LDblIntObjConsAttest<T> extends FunctionalAttest.Simple<LDblI
 		super(actual);
 	}
 
+	public LDblIntObjConsAttest(LDblIntObjCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LDblIntObjConsAttest<T> attestDblIntObjCons(LTieDblConsumer.LDblIntObjCons<T> func) {
 		return new LDblIntObjConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LDblIntObjConsAttest<T> attestDblIntObjCons(LTieDblConsumer.LDblIntObjCons<T> func, String name) {
+		return new LDblIntObjConsAttest(func, name);
 	}
 
 	@Nonnull

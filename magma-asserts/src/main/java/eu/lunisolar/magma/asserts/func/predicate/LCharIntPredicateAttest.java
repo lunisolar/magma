@@ -59,9 +59,18 @@ public final class LCharIntPredicateAttest extends FunctionalAttest.Full<LCharIn
 		super(actual);
 	}
 
+	public LCharIntPredicateAttest(LCharIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharIntPredicateAttest attestCharIntPred(LCharIntPredicate func) {
 		return new LCharIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LCharIntPredicateAttest attestCharIntPred(LCharIntPredicate func, String name) {
+		return new LCharIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

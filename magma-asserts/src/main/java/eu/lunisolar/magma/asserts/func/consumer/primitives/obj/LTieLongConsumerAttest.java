@@ -59,9 +59,18 @@ public final class LTieLongConsumerAttest<T> extends FunctionalAttest.Simple<LTi
 		super(actual);
 	}
 
+	public LTieLongConsumerAttest(LTieLongConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieLongConsumerAttest<T> attestTieLongCons(LTieLongConsumer<T> func) {
 		return new LTieLongConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieLongConsumerAttest<T> attestTieLongCons(LTieLongConsumer<T> func, String name) {
+		return new LTieLongConsumerAttest(func, name);
 	}
 
 	@Nonnull

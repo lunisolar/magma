@@ -62,9 +62,18 @@ public final class LIntObjByteConsAttest<T> extends FunctionalAttest.Simple<LInt
 		super(actual);
 	}
 
+	public LIntObjByteConsAttest(LIntObjByteCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LIntObjByteConsAttest<T> attestIntObjByteCons(LTieByteConsumer.LIntObjByteCons<T> func) {
 		return new LIntObjByteConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LIntObjByteConsAttest<T> attestIntObjByteCons(LTieByteConsumer.LIntObjByteCons<T> func, String name) {
+		return new LIntObjByteConsAttest(func, name);
 	}
 
 	@Nonnull

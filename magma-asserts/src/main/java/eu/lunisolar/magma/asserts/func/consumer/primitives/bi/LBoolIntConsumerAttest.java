@@ -59,9 +59,18 @@ public final class LBoolIntConsumerAttest extends FunctionalAttest.Simple<LBoolI
 		super(actual);
 	}
 
+	public LBoolIntConsumerAttest(LBoolIntConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolIntConsumerAttest attestBoolIntCons(LBoolIntConsumer func) {
 		return new LBoolIntConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolIntConsumerAttest attestBoolIntCons(LBoolIntConsumer func, String name) {
+		return new LBoolIntConsumerAttest(func, name);
 	}
 
 	@Nonnull

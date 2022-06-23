@@ -61,9 +61,18 @@ public final class LChar1Char0FuncAttest<R> extends FunctionalAttest.Full<LChar1
 		super(actual);
 	}
 
+	public LChar1Char0FuncAttest(LChar1Char0Func<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LChar1Char0FuncAttest<R> attestChar1Char0Func(LBiCharFunction.LChar1Char0Func<R> func) {
 		return new LChar1Char0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LChar1Char0FuncAttest<R> attestChar1Char0Func(LBiCharFunction.LChar1Char0Func<R> func, String name) {
+		return new LChar1Char0FuncAttest(func, name);
 	}
 
 	@Nonnull

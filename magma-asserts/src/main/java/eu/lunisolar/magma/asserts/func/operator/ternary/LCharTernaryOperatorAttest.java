@@ -59,9 +59,18 @@ public final class LCharTernaryOperatorAttest extends FunctionalAttest.Full<LCha
 		super(actual);
 	}
 
+	public LCharTernaryOperatorAttest(LCharTernaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharTernaryOperatorAttest attestCharTernaryOp(LCharTernaryOperator func) {
 		return new LCharTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LCharTernaryOperatorAttest attestCharTernaryOp(LCharTernaryOperator func, String name) {
+		return new LCharTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LByteBinaryOperatorAttest extends FunctionalAttest.Full<LByte
 		super(actual);
 	}
 
+	public LByteBinaryOperatorAttest(LByteBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteBinaryOperatorAttest attestByteBinaryOp(LByteBinaryOperator func) {
 		return new LByteBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LByteBinaryOperatorAttest attestByteBinaryOp(LByteBinaryOperator func, String name) {
+		return new LByteBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

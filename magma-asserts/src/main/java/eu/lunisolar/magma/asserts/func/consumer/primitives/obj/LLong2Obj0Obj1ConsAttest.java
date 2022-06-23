@@ -62,9 +62,18 @@ public final class LLong2Obj0Obj1ConsAttest<T1, T2> extends FunctionalAttest.Sim
 		super(actual);
 	}
 
+	public LLong2Obj0Obj1ConsAttest(LLong2Obj0Obj1Cons<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LLong2Obj0Obj1ConsAttest<T1, T2> attestLong2Obj0Obj1Cons(LBiObjLongConsumer.LLong2Obj0Obj1Cons<T1, T2> func) {
 		return new LLong2Obj0Obj1ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LLong2Obj0Obj1ConsAttest<T1, T2> attestLong2Obj0Obj1Cons(LBiObjLongConsumer.LLong2Obj0Obj1Cons<T1, T2> func, String name) {
+		return new LLong2Obj0Obj1ConsAttest(func, name);
 	}
 
 	@Nonnull

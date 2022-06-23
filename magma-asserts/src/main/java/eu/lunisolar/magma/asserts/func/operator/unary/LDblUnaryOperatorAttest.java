@@ -59,9 +59,18 @@ public final class LDblUnaryOperatorAttest extends FunctionalAttest.Full<LDblUna
 		super(actual);
 	}
 
+	public LDblUnaryOperatorAttest(LDblUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblUnaryOperatorAttest attestDblUnaryOp(LDblUnaryOperator func) {
 		return new LDblUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LDblUnaryOperatorAttest attestDblUnaryOp(LDblUnaryOperator func, String name) {
+		return new LDblUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

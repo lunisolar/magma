@@ -57,9 +57,18 @@ public final class JreRunnableAttest extends FunctionalAttest.Simple<JreRunnable
 		super(actual);
 	}
 
+	public JreRunnableAttest(Runnable actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreRunnableAttest attestAct(Runnable func) {
 		return new JreRunnableAttest(func);
+	}
+
+	@Nonnull
+	public static JreRunnableAttest attestAct(Runnable func, String name) {
+		return new JreRunnableAttest(func, name);
 	}
 
 	@Nonnull

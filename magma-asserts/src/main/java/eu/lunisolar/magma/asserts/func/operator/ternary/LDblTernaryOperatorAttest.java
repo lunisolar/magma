@@ -59,9 +59,18 @@ public final class LDblTernaryOperatorAttest extends FunctionalAttest.Full<LDblT
 		super(actual);
 	}
 
+	public LDblTernaryOperatorAttest(LDblTernaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblTernaryOperatorAttest attestDblTernaryOp(LDblTernaryOperator func) {
 		return new LDblTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LDblTernaryOperatorAttest attestDblTernaryOp(LDblTernaryOperator func, String name) {
+		return new LDblTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

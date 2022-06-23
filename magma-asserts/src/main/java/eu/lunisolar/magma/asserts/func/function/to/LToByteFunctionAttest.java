@@ -59,9 +59,18 @@ public final class LToByteFunctionAttest<T> extends FunctionalAttest.Full<LToByt
 		super(actual);
 	}
 
+	public LToByteFunctionAttest(LToByteFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LToByteFunctionAttest<T> attestToByteFunc(LToByteFunction<T> func) {
 		return new LToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LToByteFunctionAttest<T> attestToByteFunc(LToByteFunction<T> func, String name) {
+		return new LToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

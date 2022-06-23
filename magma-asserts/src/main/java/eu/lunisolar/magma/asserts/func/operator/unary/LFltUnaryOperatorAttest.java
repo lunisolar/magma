@@ -59,9 +59,18 @@ public final class LFltUnaryOperatorAttest extends FunctionalAttest.Full<LFltUna
 		super(actual);
 	}
 
+	public LFltUnaryOperatorAttest(LFltUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltUnaryOperatorAttest attestFltUnaryOp(LFltUnaryOperator func) {
 		return new LFltUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LFltUnaryOperatorAttest attestFltUnaryOp(LFltUnaryOperator func, String name) {
+		return new LFltUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

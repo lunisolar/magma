@@ -57,9 +57,18 @@ public final class JreLongFunctionAttest<R> extends FunctionalAttest.Full<JreLon
 		super(actual);
 	}
 
+	public JreLongFunctionAttest(LongFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> JreLongFunctionAttest<R> attestLongFunc(LongFunction<R> func) {
 		return new JreLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> JreLongFunctionAttest<R> attestLongFunc(LongFunction<R> func, String name) {
+		return new JreLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

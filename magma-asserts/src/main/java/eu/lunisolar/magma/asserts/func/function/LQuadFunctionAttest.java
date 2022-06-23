@@ -59,9 +59,18 @@ public final class LQuadFunctionAttest<T1, T2, T3, T4, R> extends FunctionalAtte
 		super(actual);
 	}
 
+	public LQuadFunctionAttest(LQuadFunction<T1, T2, T3, T4, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3, T4, R> LQuadFunctionAttest<T1, T2, T3, T4, R> attestQuadFunc(LQuadFunction<T1, T2, T3, T4, R> func) {
 		return new LQuadFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4, R> LQuadFunctionAttest<T1, T2, T3, T4, R> attestQuadFunc(LQuadFunction<T1, T2, T3, T4, R> func, String name) {
+		return new LQuadFunctionAttest(func, name);
 	}
 
 	@Nonnull

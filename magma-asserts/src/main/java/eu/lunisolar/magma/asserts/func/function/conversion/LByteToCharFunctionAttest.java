@@ -59,9 +59,18 @@ public final class LByteToCharFunctionAttest extends FunctionalAttest.Full<LByte
 		super(actual);
 	}
 
+	public LByteToCharFunctionAttest(LByteToCharFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteToCharFunctionAttest attestByteToCharFunc(LByteToCharFunction func) {
 		return new LByteToCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LByteToCharFunctionAttest attestByteToCharFunc(LByteToCharFunction func, String name) {
+		return new LByteToCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

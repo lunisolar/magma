@@ -89,8 +89,16 @@ public interface Attest<SELF extends Attest<SELF, A>, A> extends FluentTrait<SEL
 	public static abstract class Base<SELF extends Base<SELF, A>, A> implements Attest<SELF, A> {
 
 		private final A value;
+		public final String name;
+
 		protected Base(A value) {
 			this.value = value;
+			this.name = null;
+		}
+
+		public Base(A value, String name) {
+			this.value = value;
+			this.name = name;
 		}
 
 		@Nullable

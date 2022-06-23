@@ -62,9 +62,18 @@ public final class LObjBoolIntConsAttest<T> extends FunctionalAttest.Simple<LObj
 		super(actual);
 	}
 
+	public LObjBoolIntConsAttest(LObjBoolIntCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjBoolIntConsAttest<T> attestObjBoolIntCons(LTieBoolConsumer.LObjBoolIntCons<T> func) {
 		return new LObjBoolIntConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjBoolIntConsAttest<T> attestObjBoolIntCons(LTieBoolConsumer.LObjBoolIntCons<T> func, String name) {
+		return new LObjBoolIntConsAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LTriPredicateAttest<T1, T2, T3> extends FunctionalAttest.Full
 		super(actual);
 	}
 
+	public LTriPredicateAttest(LTriPredicate<T1, T2, T3> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3> LTriPredicateAttest<T1, T2, T3> attestTriPred(LTriPredicate<T1, T2, T3> func) {
 		return new LTriPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3> LTriPredicateAttest<T1, T2, T3> attestTriPred(LTriPredicate<T1, T2, T3> func, String name) {
+		return new LTriPredicateAttest(func, name);
 	}
 
 	@Nonnull

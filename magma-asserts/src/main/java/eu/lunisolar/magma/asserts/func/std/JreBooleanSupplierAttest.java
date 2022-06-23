@@ -57,9 +57,18 @@ public final class JreBooleanSupplierAttest extends FunctionalAttest.Full<JreBoo
 		super(actual);
 	}
 
+	public JreBooleanSupplierAttest(BooleanSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreBooleanSupplierAttest attestBoolSup(BooleanSupplier func) {
 		return new JreBooleanSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static JreBooleanSupplierAttest attestBoolSup(BooleanSupplier func, String name) {
+		return new JreBooleanSupplierAttest(func, name);
 	}
 
 	@Nonnull

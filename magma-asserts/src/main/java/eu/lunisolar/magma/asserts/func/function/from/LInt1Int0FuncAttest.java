@@ -61,9 +61,18 @@ public final class LInt1Int0FuncAttest<R> extends FunctionalAttest.Full<LInt1Int
 		super(actual);
 	}
 
+	public LInt1Int0FuncAttest(LInt1Int0Func<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LInt1Int0FuncAttest<R> attestInt1Int0Func(LBiIntFunction.LInt1Int0Func<R> func) {
 		return new LInt1Int0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LInt1Int0FuncAttest<R> attestInt1Int0Func(LBiIntFunction.LInt1Int0Func<R> func, String name) {
+		return new LInt1Int0FuncAttest(func, name);
 	}
 
 	@Nonnull

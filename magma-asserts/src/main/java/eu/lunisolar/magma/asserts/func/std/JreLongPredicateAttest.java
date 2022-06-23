@@ -57,9 +57,18 @@ public final class JreLongPredicateAttest extends FunctionalAttest.Full<JreLongP
 		super(actual);
 	}
 
+	public JreLongPredicateAttest(LongPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreLongPredicateAttest attestLongPred(LongPredicate func) {
 		return new JreLongPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static JreLongPredicateAttest attestLongPred(LongPredicate func, String name) {
+		return new JreLongPredicateAttest(func, name);
 	}
 
 	@Nonnull

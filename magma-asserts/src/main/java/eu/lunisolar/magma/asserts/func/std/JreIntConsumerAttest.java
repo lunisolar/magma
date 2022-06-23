@@ -57,9 +57,18 @@ public final class JreIntConsumerAttest extends FunctionalAttest.Simple<JreIntCo
 		super(actual);
 	}
 
+	public JreIntConsumerAttest(IntConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreIntConsumerAttest attestIntCons(IntConsumer func) {
 		return new JreIntConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static JreIntConsumerAttest attestIntCons(IntConsumer func, String name) {
+		return new JreIntConsumerAttest(func, name);
 	}
 
 	@Nonnull

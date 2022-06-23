@@ -59,9 +59,18 @@ public final class LFltToCharFunctionAttest extends FunctionalAttest.Full<LFltTo
 		super(actual);
 	}
 
+	public LFltToCharFunctionAttest(LFltToCharFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltToCharFunctionAttest attestFltToCharFunc(LFltToCharFunction func) {
 		return new LFltToCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LFltToCharFunctionAttest attestFltToCharFunc(LFltToCharFunction func, String name) {
+		return new LFltToCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

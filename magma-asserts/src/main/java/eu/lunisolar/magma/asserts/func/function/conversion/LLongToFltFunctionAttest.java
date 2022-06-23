@@ -59,9 +59,18 @@ public final class LLongToFltFunctionAttest extends FunctionalAttest.Full<LLongT
 		super(actual);
 	}
 
+	public LLongToFltFunctionAttest(LLongToFltFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongToFltFunctionAttest attestLongToFltFunc(LLongToFltFunction func) {
 		return new LLongToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LLongToFltFunctionAttest attestLongToFltFunc(LLongToFltFunction func, String name) {
+		return new LLongToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

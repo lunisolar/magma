@@ -59,9 +59,18 @@ public final class LIntTernaryOperatorAttest extends FunctionalAttest.Full<LIntT
 		super(actual);
 	}
 
+	public LIntTernaryOperatorAttest(LIntTernaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntTernaryOperatorAttest attestIntTernaryOp(LIntTernaryOperator func) {
 		return new LIntTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LIntTernaryOperatorAttest attestIntTernaryOp(LIntTernaryOperator func, String name) {
+		return new LIntTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

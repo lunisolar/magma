@@ -59,9 +59,18 @@ public final class LObjIntBytePredicateAttest<T> extends FunctionalAttest.Full<L
 		super(actual);
 	}
 
+	public LObjIntBytePredicateAttest(LObjIntBytePredicate<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjIntBytePredicateAttest<T> attestObjIntBytePred(LObjIntBytePredicate<T> func) {
 		return new LObjIntBytePredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjIntBytePredicateAttest<T> attestObjIntBytePred(LObjIntBytePredicate<T> func, String name) {
+		return new LObjIntBytePredicateAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LLongIntPredicateAttest extends FunctionalAttest.Full<LLongIn
 		super(actual);
 	}
 
+	public LLongIntPredicateAttest(LLongIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongIntPredicateAttest attestLongIntPred(LLongIntPredicate func) {
 		return new LLongIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LLongIntPredicateAttest attestLongIntPred(LLongIntPredicate func, String name) {
+		return new LLongIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

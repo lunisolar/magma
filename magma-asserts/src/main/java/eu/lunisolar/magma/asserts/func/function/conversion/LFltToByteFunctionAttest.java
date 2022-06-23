@@ -59,9 +59,18 @@ public final class LFltToByteFunctionAttest extends FunctionalAttest.Full<LFltTo
 		super(actual);
 	}
 
+	public LFltToByteFunctionAttest(LFltToByteFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltToByteFunctionAttest attestFltToByteFunc(LFltToByteFunction func) {
 		return new LFltToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LFltToByteFunctionAttest attestFltToByteFunc(LFltToByteFunction func, String name) {
+		return new LFltToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

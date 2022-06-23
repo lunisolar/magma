@@ -57,9 +57,18 @@ public final class JreLongUnaryOperatorAttest extends FunctionalAttest.Full<JreL
 		super(actual);
 	}
 
+	public JreLongUnaryOperatorAttest(LongUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreLongUnaryOperatorAttest attestLongUnaryOp(LongUnaryOperator func) {
 		return new JreLongUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static JreLongUnaryOperatorAttest attestLongUnaryOp(LongUnaryOperator func, String name) {
+		return new JreLongUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

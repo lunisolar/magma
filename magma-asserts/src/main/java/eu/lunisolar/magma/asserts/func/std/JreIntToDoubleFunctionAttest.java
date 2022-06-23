@@ -57,9 +57,18 @@ public final class JreIntToDoubleFunctionAttest extends FunctionalAttest.Full<Jr
 		super(actual);
 	}
 
+	public JreIntToDoubleFunctionAttest(IntToDoubleFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreIntToDoubleFunctionAttest attestIntToDblFunc(IntToDoubleFunction func) {
 		return new JreIntToDoubleFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static JreIntToDoubleFunctionAttest attestIntToDblFunc(IntToDoubleFunction func, String name) {
+		return new JreIntToDoubleFunctionAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LDblToIntFunctionAttest extends FunctionalAttest.Full<LDblToI
 		super(actual);
 	}
 
+	public LDblToIntFunctionAttest(LDblToIntFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblToIntFunctionAttest attestDblToIntFunc(LDblToIntFunction func) {
 		return new LDblToIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LDblToIntFunctionAttest attestDblToIntFunc(LDblToIntFunction func, String name) {
+		return new LDblToIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

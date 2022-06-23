@@ -61,9 +61,18 @@ public final class LObj1Obj0ConsAttest<T2, T1> extends FunctionalAttest.Simple<L
 		super(actual);
 	}
 
+	public LObj1Obj0ConsAttest(LObj1Obj0Cons<T2, T1> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T2, T1> LObj1Obj0ConsAttest<T2, T1> attestObj1Obj0Cons(LBiConsumer.LObj1Obj0Cons<T2, T1> func) {
 		return new LObj1Obj0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T2, T1> LObj1Obj0ConsAttest<T2, T1> attestObj1Obj0Cons(LBiConsumer.LObj1Obj0Cons<T2, T1> func, String name) {
+		return new LObj1Obj0ConsAttest(func, name);
 	}
 
 	@Nonnull

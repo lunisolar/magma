@@ -59,9 +59,18 @@ public final class LBiCharPredicateAttest extends FunctionalAttest.Full<LBiCharP
 		super(actual);
 	}
 
+	public LBiCharPredicateAttest(LBiCharPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiCharPredicateAttest attestBiCharPred(LBiCharPredicate func) {
 		return new LBiCharPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LBiCharPredicateAttest attestBiCharPred(LBiCharPredicate func, String name) {
+		return new LBiCharPredicateAttest(func, name);
 	}
 
 	@Nonnull

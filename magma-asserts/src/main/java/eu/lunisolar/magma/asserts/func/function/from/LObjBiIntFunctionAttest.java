@@ -59,9 +59,18 @@ public final class LObjBiIntFunctionAttest<T, R> extends FunctionalAttest.Full<L
 		super(actual);
 	}
 
+	public LObjBiIntFunctionAttest(LObjBiIntFunction<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LObjBiIntFunctionAttest<T, R> attestObjBiIntFunc(LObjBiIntFunction<T, R> func) {
 		return new LObjBiIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LObjBiIntFunctionAttest<T, R> attestObjBiIntFunc(LObjBiIntFunction<T, R> func, String name) {
+		return new LObjBiIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

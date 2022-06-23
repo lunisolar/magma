@@ -62,9 +62,18 @@ public final class LIntObjCharConsAttest<T> extends FunctionalAttest.Simple<LInt
 		super(actual);
 	}
 
+	public LIntObjCharConsAttest(LIntObjCharCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LIntObjCharConsAttest<T> attestIntObjCharCons(LTieCharConsumer.LIntObjCharCons<T> func) {
 		return new LIntObjCharConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LIntObjCharConsAttest<T> attestIntObjCharCons(LTieCharConsumer.LIntObjCharCons<T> func, String name) {
+		return new LIntObjCharConsAttest(func, name);
 	}
 
 	@Nonnull

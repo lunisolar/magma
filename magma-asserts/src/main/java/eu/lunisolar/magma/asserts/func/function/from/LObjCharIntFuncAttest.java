@@ -62,9 +62,18 @@ public final class LObjCharIntFuncAttest<T, R> extends FunctionalAttest.Full<LOb
 		super(actual);
 	}
 
+	public LObjCharIntFuncAttest(LObjCharIntFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LObjCharIntFuncAttest<T, R> attestObjCharIntFunc(LObjIntCharFunction.LObjCharIntFunc<T, R> func) {
 		return new LObjCharIntFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LObjCharIntFuncAttest<T, R> attestObjCharIntFunc(LObjIntCharFunction.LObjCharIntFunc<T, R> func, String name) {
+		return new LObjCharIntFuncAttest(func, name);
 	}
 
 	@Nonnull

@@ -57,9 +57,18 @@ public final class JreIntBinaryOperatorAttest extends FunctionalAttest.Full<JreI
 		super(actual);
 	}
 
+	public JreIntBinaryOperatorAttest(IntBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreIntBinaryOperatorAttest attestIntBinaryOp(IntBinaryOperator func) {
 		return new JreIntBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static JreIntBinaryOperatorAttest attestIntBinaryOp(IntBinaryOperator func, String name) {
+		return new JreIntBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LTriFunctionAttest<T1, T2, T3, R> extends FunctionalAttest.Fu
 		super(actual);
 	}
 
+	public LTriFunctionAttest(LTriFunction<T1, T2, T3, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3, R> LTriFunctionAttest<T1, T2, T3, R> attestTriFunc(LTriFunction<T1, T2, T3, R> func) {
 		return new LTriFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, R> LTriFunctionAttest<T1, T2, T3, R> attestTriFunc(LTriFunction<T1, T2, T3, R> func, String name) {
+		return new LTriFunctionAttest(func, name);
 	}
 
 	@Nonnull

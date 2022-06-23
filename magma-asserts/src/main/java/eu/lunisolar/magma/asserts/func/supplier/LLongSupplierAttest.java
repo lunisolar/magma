@@ -59,9 +59,18 @@ public final class LLongSupplierAttest extends FunctionalAttest.Full<LLongSuppli
 		super(actual);
 	}
 
+	public LLongSupplierAttest(LLongSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongSupplierAttest attestLongSup(LLongSupplier func) {
 		return new LLongSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LLongSupplierAttest attestLongSup(LLongSupplier func, String name) {
+		return new LLongSupplierAttest(func, name);
 	}
 
 	@Nonnull

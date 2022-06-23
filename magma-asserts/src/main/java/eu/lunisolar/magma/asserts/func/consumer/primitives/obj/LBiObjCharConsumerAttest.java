@@ -59,9 +59,18 @@ public final class LBiObjCharConsumerAttest<T1, T2> extends FunctionalAttest.Sim
 		super(actual);
 	}
 
+	public LBiObjCharConsumerAttest(LBiObjCharConsumer<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LBiObjCharConsumerAttest<T1, T2> attestBiObjCharCons(LBiObjCharConsumer<T1, T2> func) {
 		return new LBiObjCharConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LBiObjCharConsumerAttest<T1, T2> attestBiObjCharCons(LBiObjCharConsumer<T1, T2> func, String name) {
+		return new LBiObjCharConsumerAttest(func, name);
 	}
 
 	@Nonnull

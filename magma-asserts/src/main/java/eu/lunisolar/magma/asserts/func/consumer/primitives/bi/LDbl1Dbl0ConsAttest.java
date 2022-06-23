@@ -61,9 +61,18 @@ public final class LDbl1Dbl0ConsAttest extends FunctionalAttest.Simple<LDbl1Dbl0
 		super(actual);
 	}
 
+	public LDbl1Dbl0ConsAttest(LDbl1Dbl0Cons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDbl1Dbl0ConsAttest attestDbl1Dbl0Cons(LBiDblConsumer.LDbl1Dbl0Cons func) {
 		return new LDbl1Dbl0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static LDbl1Dbl0ConsAttest attestDbl1Dbl0Cons(LBiDblConsumer.LDbl1Dbl0Cons func, String name) {
+		return new LDbl1Dbl0ConsAttest(func, name);
 	}
 
 	@Nonnull

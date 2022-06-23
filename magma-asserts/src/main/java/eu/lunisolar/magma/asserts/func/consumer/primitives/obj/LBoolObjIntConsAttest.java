@@ -62,9 +62,18 @@ public final class LBoolObjIntConsAttest<T> extends FunctionalAttest.Simple<LBoo
 		super(actual);
 	}
 
+	public LBoolObjIntConsAttest(LBoolObjIntCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LBoolObjIntConsAttest<T> attestBoolObjIntCons(LTieBoolConsumer.LBoolObjIntCons<T> func) {
 		return new LBoolObjIntConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LBoolObjIntConsAttest<T> attestBoolObjIntCons(LTieBoolConsumer.LBoolObjIntCons<T> func, String name) {
+		return new LBoolObjIntConsAttest(func, name);
 	}
 
 	@Nonnull

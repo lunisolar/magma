@@ -59,9 +59,18 @@ public final class LSrtUnaryOperatorAttest extends FunctionalAttest.Full<LSrtUna
 		super(actual);
 	}
 
+	public LSrtUnaryOperatorAttest(LSrtUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtUnaryOperatorAttest attestSrtUnaryOp(LSrtUnaryOperator func) {
 		return new LSrtUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtUnaryOperatorAttest attestSrtUnaryOp(LSrtUnaryOperator func, String name) {
+		return new LSrtUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

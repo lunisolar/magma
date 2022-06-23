@@ -59,9 +59,18 @@ public final class LByteToFltFunctionAttest extends FunctionalAttest.Full<LByteT
 		super(actual);
 	}
 
+	public LByteToFltFunctionAttest(LByteToFltFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteToFltFunctionAttest attestByteToFltFunc(LByteToFltFunction func) {
 		return new LByteToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LByteToFltFunctionAttest attestByteToFltFunc(LByteToFltFunction func, String name) {
+		return new LByteToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

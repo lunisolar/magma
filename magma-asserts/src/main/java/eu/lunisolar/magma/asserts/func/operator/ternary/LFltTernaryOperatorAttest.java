@@ -59,9 +59,18 @@ public final class LFltTernaryOperatorAttest extends FunctionalAttest.Full<LFltT
 		super(actual);
 	}
 
+	public LFltTernaryOperatorAttest(LFltTernaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltTernaryOperatorAttest attestFltTernaryOp(LFltTernaryOperator func) {
 		return new LFltTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LFltTernaryOperatorAttest attestFltTernaryOp(LFltTernaryOperator func, String name) {
+		return new LFltTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

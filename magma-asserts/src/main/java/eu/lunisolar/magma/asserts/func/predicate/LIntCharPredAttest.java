@@ -62,9 +62,18 @@ public final class LIntCharPredAttest extends FunctionalAttest.Full<LIntCharPred
 		super(actual);
 	}
 
+	public LIntCharPredAttest(LIntCharPred actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntCharPredAttest attestIntCharPred(LCharIntPredicate.LIntCharPred func) {
 		return new LIntCharPredAttest(func);
+	}
+
+	@Nonnull
+	public static LIntCharPredAttest attestIntCharPred(LCharIntPredicate.LIntCharPred func, String name) {
+		return new LIntCharPredAttest(func, name);
 	}
 
 	@Nonnull

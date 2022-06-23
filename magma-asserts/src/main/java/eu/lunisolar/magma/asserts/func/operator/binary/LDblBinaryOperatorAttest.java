@@ -59,9 +59,18 @@ public final class LDblBinaryOperatorAttest extends FunctionalAttest.Full<LDblBi
 		super(actual);
 	}
 
+	public LDblBinaryOperatorAttest(LDblBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblBinaryOperatorAttest attestDblBinaryOp(LDblBinaryOperator func) {
 		return new LDblBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LDblBinaryOperatorAttest attestDblBinaryOp(LDblBinaryOperator func, String name) {
+		return new LDblBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

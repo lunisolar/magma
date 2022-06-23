@@ -59,9 +59,18 @@ public final class LTriDblPredicateAttest extends FunctionalAttest.Full<LTriDblP
 		super(actual);
 	}
 
+	public LTriDblPredicateAttest(LTriDblPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriDblPredicateAttest attestTriDblPred(LTriDblPredicate func) {
 		return new LTriDblPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LTriDblPredicateAttest attestTriDblPred(LTriDblPredicate func, String name) {
+		return new LTriDblPredicateAttest(func, name);
 	}
 
 	@Nonnull

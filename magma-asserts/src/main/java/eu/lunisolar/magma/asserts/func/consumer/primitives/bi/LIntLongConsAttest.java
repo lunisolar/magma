@@ -62,9 +62,18 @@ public final class LIntLongConsAttest extends FunctionalAttest.Simple<LIntLongCo
 		super(actual);
 	}
 
+	public LIntLongConsAttest(LIntLongCons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntLongConsAttest attestIntLongCons(LLongIntConsumer.LIntLongCons func) {
 		return new LIntLongConsAttest(func);
+	}
+
+	@Nonnull
+	public static LIntLongConsAttest attestIntLongCons(LLongIntConsumer.LIntLongCons func, String name) {
+		return new LIntLongConsAttest(func, name);
 	}
 
 	@Nonnull

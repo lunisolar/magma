@@ -59,9 +59,18 @@ public final class LBiObjByteConsumerAttest<T1, T2> extends FunctionalAttest.Sim
 		super(actual);
 	}
 
+	public LBiObjByteConsumerAttest(LBiObjByteConsumer<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LBiObjByteConsumerAttest<T1, T2> attestBiObjByteCons(LBiObjByteConsumer<T1, T2> func) {
 		return new LBiObjByteConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LBiObjByteConsumerAttest<T1, T2> attestBiObjByteCons(LBiObjByteConsumer<T1, T2> func, String name) {
+		return new LBiObjByteConsumerAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LQuintFunctionAttest<T1, T2, T3, T4, T5, R> extends Functiona
 		super(actual);
 	}
 
+	public LQuintFunctionAttest(LQuintFunction<T1, T2, T3, T4, T5, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3, T4, T5, R> LQuintFunctionAttest<T1, T2, T3, T4, T5, R> attestQuintFunc(LQuintFunction<T1, T2, T3, T4, T5, R> func) {
 		return new LQuintFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4, T5, R> LQuintFunctionAttest<T1, T2, T3, T4, T5, R> attestQuintFunc(LQuintFunction<T1, T2, T3, T4, T5, R> func, String name) {
+		return new LQuintFunctionAttest(func, name);
 	}
 
 	@Nonnull

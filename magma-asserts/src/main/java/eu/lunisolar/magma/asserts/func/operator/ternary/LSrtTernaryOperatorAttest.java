@@ -59,9 +59,18 @@ public final class LSrtTernaryOperatorAttest extends FunctionalAttest.Full<LSrtT
 		super(actual);
 	}
 
+	public LSrtTernaryOperatorAttest(LSrtTernaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtTernaryOperatorAttest attestSrtTernaryOp(LSrtTernaryOperator func) {
 		return new LSrtTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtTernaryOperatorAttest attestSrtTernaryOp(LSrtTernaryOperator func, String name) {
+		return new LSrtTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

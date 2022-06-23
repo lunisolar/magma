@@ -59,9 +59,18 @@ public final class LTriCharFunctionAttest<R> extends FunctionalAttest.Full<LTriC
 		super(actual);
 	}
 
+	public LTriCharFunctionAttest(LTriCharFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LTriCharFunctionAttest<R> attestTriCharFunc(LTriCharFunction<R> func) {
 		return new LTriCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LTriCharFunctionAttest<R> attestTriCharFunc(LTriCharFunction<R> func, String name) {
+		return new LTriCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

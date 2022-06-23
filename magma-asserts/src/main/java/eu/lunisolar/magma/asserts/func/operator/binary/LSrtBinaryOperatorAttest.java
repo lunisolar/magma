@@ -59,9 +59,18 @@ public final class LSrtBinaryOperatorAttest extends FunctionalAttest.Full<LSrtBi
 		super(actual);
 	}
 
+	public LSrtBinaryOperatorAttest(LSrtBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtBinaryOperatorAttest attestSrtBinaryOp(LSrtBinaryOperator func) {
 		return new LSrtBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtBinaryOperatorAttest attestSrtBinaryOp(LSrtBinaryOperator func, String name) {
+		return new LSrtBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

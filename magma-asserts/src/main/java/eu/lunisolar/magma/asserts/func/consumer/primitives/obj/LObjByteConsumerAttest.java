@@ -59,9 +59,18 @@ public final class LObjByteConsumerAttest<T> extends FunctionalAttest.Simple<LOb
 		super(actual);
 	}
 
+	public LObjByteConsumerAttest(LObjByteConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjByteConsumerAttest<T> attestObjByteCons(LObjByteConsumer<T> func) {
 		return new LObjByteConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjByteConsumerAttest<T> attestObjByteCons(LObjByteConsumer<T> func, String name) {
+		return new LObjByteConsumerAttest(func, name);
 	}
 
 	@Nonnull

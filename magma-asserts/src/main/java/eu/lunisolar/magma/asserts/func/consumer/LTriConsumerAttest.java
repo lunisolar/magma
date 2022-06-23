@@ -59,9 +59,18 @@ public final class LTriConsumerAttest<T1, T2, T3> extends FunctionalAttest.Simpl
 		super(actual);
 	}
 
+	public LTriConsumerAttest(LTriConsumer<T1, T2, T3> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3> LTriConsumerAttest<T1, T2, T3> attestTriCons(LTriConsumer<T1, T2, T3> func) {
 		return new LTriConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3> LTriConsumerAttest<T1, T2, T3> attestTriCons(LTriConsumer<T1, T2, T3> func, String name) {
+		return new LTriConsumerAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LBoolObjIntFuncAttest<T, R> extends FunctionalAttest.Full<LBo
 		super(actual);
 	}
 
+	public LBoolObjIntFuncAttest(LBoolObjIntFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LBoolObjIntFuncAttest<T, R> attestBoolObjIntFunc(LObjIntBoolFunction.LBoolObjIntFunc<T, R> func) {
 		return new LBoolObjIntFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LBoolObjIntFuncAttest<T, R> attestBoolObjIntFunc(LObjIntBoolFunction.LBoolObjIntFunc<T, R> func, String name) {
+		return new LBoolObjIntFuncAttest(func, name);
 	}
 
 	@Nonnull

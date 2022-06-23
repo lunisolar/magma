@@ -59,9 +59,18 @@ public final class LDblToByteFunctionAttest extends FunctionalAttest.Full<LDblTo
 		super(actual);
 	}
 
+	public LDblToByteFunctionAttest(LDblToByteFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblToByteFunctionAttest attestDblToByteFunc(LDblToByteFunction func) {
 		return new LDblToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LDblToByteFunctionAttest attestDblToByteFunc(LDblToByteFunction func, String name) {
+		return new LDblToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

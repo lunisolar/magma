@@ -59,9 +59,18 @@ public final class LBiObjLongConsumerAttest<T1, T2> extends FunctionalAttest.Sim
 		super(actual);
 	}
 
+	public LBiObjLongConsumerAttest(LBiObjLongConsumer<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LBiObjLongConsumerAttest<T1, T2> attestBiObjLongCons(LBiObjLongConsumer<T1, T2> func) {
 		return new LBiObjLongConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LBiObjLongConsumerAttest<T1, T2> attestBiObjLongCons(LBiObjLongConsumer<T1, T2> func, String name) {
+		return new LBiObjLongConsumerAttest(func, name);
 	}
 
 	@Nonnull

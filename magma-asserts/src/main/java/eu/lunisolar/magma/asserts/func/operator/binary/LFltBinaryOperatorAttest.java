@@ -59,9 +59,18 @@ public final class LFltBinaryOperatorAttest extends FunctionalAttest.Full<LFltBi
 		super(actual);
 	}
 
+	public LFltBinaryOperatorAttest(LFltBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltBinaryOperatorAttest attestFltBinaryOp(LFltBinaryOperator func) {
 		return new LFltBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LFltBinaryOperatorAttest attestFltBinaryOp(LFltBinaryOperator func, String name) {
+		return new LFltBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

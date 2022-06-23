@@ -62,9 +62,18 @@ public final class LLongIntObjConsAttest<T> extends FunctionalAttest.Simple<LLon
 		super(actual);
 	}
 
+	public LLongIntObjConsAttest(LLongIntObjCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LLongIntObjConsAttest<T> attestLongIntObjCons(LTieLongConsumer.LLongIntObjCons<T> func) {
 		return new LLongIntObjConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LLongIntObjConsAttest<T> attestLongIntObjCons(LTieLongConsumer.LLongIntObjCons<T> func, String name) {
+		return new LLongIntObjConsAttest(func, name);
 	}
 
 	@Nonnull

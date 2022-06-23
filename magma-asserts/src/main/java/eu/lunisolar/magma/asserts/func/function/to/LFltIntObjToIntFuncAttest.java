@@ -62,9 +62,18 @@ public final class LFltIntObjToIntFuncAttest<T> extends FunctionalAttest.Full<LF
 		super(actual);
 	}
 
+	public LFltIntObjToIntFuncAttest(LFltIntObjToIntFunc<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LFltIntObjToIntFuncAttest<T> attestFltIntObjToIntFunc(LTieFltFunction.LFltIntObjToIntFunc<T> func) {
 		return new LFltIntObjToIntFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LFltIntObjToIntFuncAttest<T> attestFltIntObjToIntFunc(LTieFltFunction.LFltIntObjToIntFunc<T> func, String name) {
+		return new LFltIntObjToIntFuncAttest(func, name);
 	}
 
 	@Nonnull

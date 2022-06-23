@@ -59,9 +59,18 @@ public final class LBiDblConsumerAttest extends FunctionalAttest.Simple<LBiDblCo
 		super(actual);
 	}
 
+	public LBiDblConsumerAttest(LBiDblConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiDblConsumerAttest attestBiDblCons(LBiDblConsumer func) {
 		return new LBiDblConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LBiDblConsumerAttest attestBiDblCons(LBiDblConsumer func, String name) {
+		return new LBiDblConsumerAttest(func, name);
 	}
 
 	@Nonnull

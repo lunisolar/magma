@@ -59,9 +59,18 @@ public final class LSrtConsumerAttest extends FunctionalAttest.Simple<LSrtConsum
 		super(actual);
 	}
 
+	public LSrtConsumerAttest(LSrtConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtConsumerAttest attestSrtCons(LSrtConsumer func) {
 		return new LSrtConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtConsumerAttest attestSrtCons(LSrtConsumer func, String name) {
+		return new LSrtConsumerAttest(func, name);
 	}
 
 	@Nonnull

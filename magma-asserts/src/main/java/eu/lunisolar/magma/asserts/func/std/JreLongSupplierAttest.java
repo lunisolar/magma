@@ -57,9 +57,18 @@ public final class JreLongSupplierAttest extends FunctionalAttest.Full<JreLongSu
 		super(actual);
 	}
 
+	public JreLongSupplierAttest(LongSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreLongSupplierAttest attestLongSup(LongSupplier func) {
 		return new JreLongSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static JreLongSupplierAttest attestLongSup(LongSupplier func, String name) {
+		return new JreLongSupplierAttest(func, name);
 	}
 
 	@Nonnull

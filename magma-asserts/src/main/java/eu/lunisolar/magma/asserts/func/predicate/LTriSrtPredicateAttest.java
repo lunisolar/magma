@@ -59,9 +59,18 @@ public final class LTriSrtPredicateAttest extends FunctionalAttest.Full<LTriSrtP
 		super(actual);
 	}
 
+	public LTriSrtPredicateAttest(LTriSrtPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriSrtPredicateAttest attestTriSrtPred(LTriSrtPredicate func) {
 		return new LTriSrtPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LTriSrtPredicateAttest attestTriSrtPred(LTriSrtPredicate func, String name) {
+		return new LTriSrtPredicateAttest(func, name);
 	}
 
 	@Nonnull

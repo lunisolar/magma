@@ -59,9 +59,18 @@ public final class LByteToIntFunctionAttest extends FunctionalAttest.Full<LByteT
 		super(actual);
 	}
 
+	public LByteToIntFunctionAttest(LByteToIntFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteToIntFunctionAttest attestByteToIntFunc(LByteToIntFunction func) {
 		return new LByteToIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LByteToIntFunctionAttest attestByteToIntFunc(LByteToIntFunction func, String name) {
+		return new LByteToIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

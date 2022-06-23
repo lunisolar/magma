@@ -57,9 +57,18 @@ public final class JreToIntBiFunctionAttest<T1, T2> extends FunctionalAttest.Ful
 		super(actual);
 	}
 
+	public JreToIntBiFunctionAttest(ToIntBiFunction<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> JreToIntBiFunctionAttest<T1, T2> attestToIntBiFunc(ToIntBiFunction<T1, T2> func) {
 		return new JreToIntBiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> JreToIntBiFunctionAttest<T1, T2> attestToIntBiFunc(ToIntBiFunction<T1, T2> func, String name) {
+		return new JreToIntBiFunctionAttest(func, name);
 	}
 
 	@Nonnull

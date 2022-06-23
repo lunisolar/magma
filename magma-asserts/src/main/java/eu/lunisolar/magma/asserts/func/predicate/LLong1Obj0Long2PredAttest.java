@@ -62,9 +62,18 @@ public final class LLong1Obj0Long2PredAttest<T> extends FunctionalAttest.Full<LL
 		super(actual);
 	}
 
+	public LLong1Obj0Long2PredAttest(LLong1Obj0Long2Pred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LLong1Obj0Long2PredAttest<T> attestLong1Obj0Long2Pred(LObjBiLongPredicate.LLong1Obj0Long2Pred<T> func) {
 		return new LLong1Obj0Long2PredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LLong1Obj0Long2PredAttest<T> attestLong1Obj0Long2Pred(LObjBiLongPredicate.LLong1Obj0Long2Pred<T> func, String name) {
+		return new LLong1Obj0Long2PredAttest(func, name);
 	}
 
 	@Nonnull

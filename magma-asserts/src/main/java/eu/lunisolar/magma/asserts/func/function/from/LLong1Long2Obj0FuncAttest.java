@@ -62,9 +62,18 @@ public final class LLong1Long2Obj0FuncAttest<T, R> extends FunctionalAttest.Full
 		super(actual);
 	}
 
+	public LLong1Long2Obj0FuncAttest(LLong1Long2Obj0Func<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LLong1Long2Obj0FuncAttest<T, R> attestLong1Long2Obj0Func(LObjBiLongFunction.LLong1Long2Obj0Func<T, R> func) {
 		return new LLong1Long2Obj0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LLong1Long2Obj0FuncAttest<T, R> attestLong1Long2Obj0Func(LObjBiLongFunction.LLong1Long2Obj0Func<T, R> func, String name) {
+		return new LLong1Long2Obj0FuncAttest(func, name);
 	}
 
 	@Nonnull

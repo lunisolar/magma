@@ -59,9 +59,18 @@ public final class LToDblFunctionAttest<T> extends FunctionalAttest.Full<LToDblF
 		super(actual);
 	}
 
+	public LToDblFunctionAttest(LToDblFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LToDblFunctionAttest<T> attestToDblFunc(LToDblFunction<T> func) {
 		return new LToDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LToDblFunctionAttest<T> attestToDblFunc(LToDblFunction<T> func, String name) {
+		return new LToDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

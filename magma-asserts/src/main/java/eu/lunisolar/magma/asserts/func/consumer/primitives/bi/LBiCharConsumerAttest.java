@@ -59,9 +59,18 @@ public final class LBiCharConsumerAttest extends FunctionalAttest.Simple<LBiChar
 		super(actual);
 	}
 
+	public LBiCharConsumerAttest(LBiCharConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiCharConsumerAttest attestBiCharCons(LBiCharConsumer func) {
 		return new LBiCharConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LBiCharConsumerAttest attestBiCharCons(LBiCharConsumer func, String name) {
+		return new LBiCharConsumerAttest(func, name);
 	}
 
 	@Nonnull

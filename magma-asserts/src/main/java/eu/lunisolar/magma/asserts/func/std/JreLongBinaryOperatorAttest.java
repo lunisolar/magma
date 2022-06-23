@@ -57,9 +57,18 @@ public final class JreLongBinaryOperatorAttest extends FunctionalAttest.Full<Jre
 		super(actual);
 	}
 
+	public JreLongBinaryOperatorAttest(LongBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreLongBinaryOperatorAttest attestLongBinaryOp(LongBinaryOperator func) {
 		return new JreLongBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static JreLongBinaryOperatorAttest attestLongBinaryOp(LongBinaryOperator func, String name) {
+		return new JreLongBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LIntObjFltConsAttest<T> extends FunctionalAttest.Simple<LIntO
 		super(actual);
 	}
 
+	public LIntObjFltConsAttest(LIntObjFltCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LIntObjFltConsAttest<T> attestIntObjFltCons(LTieFltConsumer.LIntObjFltCons<T> func) {
 		return new LIntObjFltConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LIntObjFltConsAttest<T> attestIntObjFltCons(LTieFltConsumer.LIntObjFltCons<T> func, String name) {
+		return new LIntObjFltConsAttest(func, name);
 	}
 
 	@Nonnull

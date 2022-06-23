@@ -57,9 +57,18 @@ public final class JreFunctionAttest<T, R> extends FunctionalAttest.Full<JreFunc
 		super(actual);
 	}
 
+	public JreFunctionAttest(Function<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> JreFunctionAttest<T, R> attestFunc(Function<T, R> func) {
 		return new JreFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> JreFunctionAttest<T, R> attestFunc(Function<T, R> func, String name) {
+		return new JreFunctionAttest(func, name);
 	}
 
 	@Nonnull

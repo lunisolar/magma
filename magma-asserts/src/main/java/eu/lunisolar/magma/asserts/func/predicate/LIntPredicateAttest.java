@@ -59,9 +59,18 @@ public final class LIntPredicateAttest extends FunctionalAttest.Full<LIntPredica
 		super(actual);
 	}
 
+	public LIntPredicateAttest(LIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntPredicateAttest attestIntPred(LIntPredicate func) {
 		return new LIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LIntPredicateAttest attestIntPred(LIntPredicate func, String name) {
+		return new LIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

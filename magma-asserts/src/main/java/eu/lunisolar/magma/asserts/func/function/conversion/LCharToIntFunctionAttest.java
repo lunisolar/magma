@@ -59,9 +59,18 @@ public final class LCharToIntFunctionAttest extends FunctionalAttest.Full<LCharT
 		super(actual);
 	}
 
+	public LCharToIntFunctionAttest(LCharToIntFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharToIntFunctionAttest attestCharToIntFunc(LCharToIntFunction func) {
 		return new LCharToIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LCharToIntFunctionAttest attestCharToIntFunc(LCharToIntFunction func, String name) {
+		return new LCharToIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

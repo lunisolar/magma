@@ -62,9 +62,18 @@ public final class LIntBoolPredAttest extends FunctionalAttest.Full<LIntBoolPred
 		super(actual);
 	}
 
+	public LIntBoolPredAttest(LIntBoolPred actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntBoolPredAttest attestIntBoolPred(LBoolIntPredicate.LIntBoolPred func) {
 		return new LIntBoolPredAttest(func);
+	}
+
+	@Nonnull
+	public static LIntBoolPredAttest attestIntBoolPred(LBoolIntPredicate.LIntBoolPred func, String name) {
+		return new LIntBoolPredAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LLongUnaryOperatorAttest extends FunctionalAttest.Full<LLongU
 		super(actual);
 	}
 
+	public LLongUnaryOperatorAttest(LLongUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongUnaryOperatorAttest attestLongUnaryOp(LLongUnaryOperator func) {
 		return new LLongUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LLongUnaryOperatorAttest attestLongUnaryOp(LLongUnaryOperator func, String name) {
+		return new LLongUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

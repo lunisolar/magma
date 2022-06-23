@@ -61,9 +61,18 @@ public final class LByte1Byte0FuncAttest<R> extends FunctionalAttest.Full<LByte1
 		super(actual);
 	}
 
+	public LByte1Byte0FuncAttest(LByte1Byte0Func<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LByte1Byte0FuncAttest<R> attestByte1Byte0Func(LBiByteFunction.LByte1Byte0Func<R> func) {
 		return new LByte1Byte0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LByte1Byte0FuncAttest<R> attestByte1Byte0Func(LBiByteFunction.LByte1Byte0Func<R> func, String name) {
+		return new LByte1Byte0FuncAttest(func, name);
 	}
 
 	@Nonnull

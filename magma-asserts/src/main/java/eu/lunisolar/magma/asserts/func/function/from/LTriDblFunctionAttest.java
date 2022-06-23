@@ -59,9 +59,18 @@ public final class LTriDblFunctionAttest<R> extends FunctionalAttest.Full<LTriDb
 		super(actual);
 	}
 
+	public LTriDblFunctionAttest(LTriDblFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LTriDblFunctionAttest<R> attestTriDblFunc(LTriDblFunction<R> func) {
 		return new LTriDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LTriDblFunctionAttest<R> attestTriDblFunc(LTriDblFunction<R> func, String name) {
+		return new LTriDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

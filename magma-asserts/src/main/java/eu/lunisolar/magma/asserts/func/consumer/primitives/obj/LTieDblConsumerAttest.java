@@ -59,9 +59,18 @@ public final class LTieDblConsumerAttest<T> extends FunctionalAttest.Simple<LTie
 		super(actual);
 	}
 
+	public LTieDblConsumerAttest(LTieDblConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieDblConsumerAttest<T> attestTieDblCons(LTieDblConsumer<T> func) {
 		return new LTieDblConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieDblConsumerAttest<T> attestTieDblCons(LTieDblConsumer<T> func, String name) {
+		return new LTieDblConsumerAttest(func, name);
 	}
 
 	@Nonnull

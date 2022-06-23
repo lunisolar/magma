@@ -59,9 +59,18 @@ public final class LCharBinaryOperatorAttest extends FunctionalAttest.Full<LChar
 		super(actual);
 	}
 
+	public LCharBinaryOperatorAttest(LCharBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharBinaryOperatorAttest attestCharBinaryOp(LCharBinaryOperator func) {
 		return new LCharBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LCharBinaryOperatorAttest attestCharBinaryOp(LCharBinaryOperator func, String name) {
+		return new LCharBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

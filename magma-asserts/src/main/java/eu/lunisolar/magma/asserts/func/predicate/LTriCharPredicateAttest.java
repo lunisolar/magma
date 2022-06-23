@@ -59,9 +59,18 @@ public final class LTriCharPredicateAttest extends FunctionalAttest.Full<LTriCha
 		super(actual);
 	}
 
+	public LTriCharPredicateAttest(LTriCharPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriCharPredicateAttest attestTriCharPred(LTriCharPredicate func) {
 		return new LTriCharPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LTriCharPredicateAttest attestTriCharPred(LTriCharPredicate func, String name) {
+		return new LTriCharPredicateAttest(func, name);
 	}
 
 	@Nonnull

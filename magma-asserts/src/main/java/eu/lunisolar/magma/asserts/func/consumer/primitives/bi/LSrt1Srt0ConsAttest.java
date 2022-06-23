@@ -61,9 +61,18 @@ public final class LSrt1Srt0ConsAttest extends FunctionalAttest.Simple<LSrt1Srt0
 		super(actual);
 	}
 
+	public LSrt1Srt0ConsAttest(LSrt1Srt0Cons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrt1Srt0ConsAttest attestSrt1Srt0Cons(LBiSrtConsumer.LSrt1Srt0Cons func) {
 		return new LSrt1Srt0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static LSrt1Srt0ConsAttest attestSrt1Srt0Cons(LBiSrtConsumer.LSrt1Srt0Cons func, String name) {
+		return new LSrt1Srt0ConsAttest(func, name);
 	}
 
 	@Nonnull

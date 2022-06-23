@@ -59,9 +59,18 @@ public final class LTieByteConsumerAttest<T> extends FunctionalAttest.Simple<LTi
 		super(actual);
 	}
 
+	public LTieByteConsumerAttest(LTieByteConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieByteConsumerAttest<T> attestTieByteCons(LTieByteConsumer<T> func) {
 		return new LTieByteConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieByteConsumerAttest<T> attestTieByteCons(LTieByteConsumer<T> func, String name) {
+		return new LTieByteConsumerAttest(func, name);
 	}
 
 	@Nonnull

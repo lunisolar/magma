@@ -59,9 +59,18 @@ public final class LTriBoolFunctionAttest<R> extends FunctionalAttest.Full<LTriB
 		super(actual);
 	}
 
+	public LTriBoolFunctionAttest(LTriBoolFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LTriBoolFunctionAttest<R> attestTriBoolFunc(LTriBoolFunction<R> func) {
 		return new LTriBoolFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LTriBoolFunctionAttest<R> attestTriBoolFunc(LTriBoolFunction<R> func, String name) {
+		return new LTriBoolFunctionAttest(func, name);
 	}
 
 	@Nonnull

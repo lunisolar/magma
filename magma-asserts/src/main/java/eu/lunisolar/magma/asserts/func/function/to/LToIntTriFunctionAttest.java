@@ -59,9 +59,18 @@ public final class LToIntTriFunctionAttest<T1, T2, T3> extends FunctionalAttest.
 		super(actual);
 	}
 
+	public LToIntTriFunctionAttest(LToIntTriFunction<T1, T2, T3> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3> LToIntTriFunctionAttest<T1, T2, T3> attestToIntTriFunc(LToIntTriFunction<T1, T2, T3> func) {
 		return new LToIntTriFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3> LToIntTriFunctionAttest<T1, T2, T3> attestToIntTriFunc(LToIntTriFunction<T1, T2, T3> func, String name) {
+		return new LToIntTriFunctionAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LLongBinaryOperatorAttest extends FunctionalAttest.Full<LLong
 		super(actual);
 	}
 
+	public LLongBinaryOperatorAttest(LLongBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongBinaryOperatorAttest attestLongBinaryOp(LLongBinaryOperator func) {
 		return new LLongBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LLongBinaryOperatorAttest attestLongBinaryOp(LLongBinaryOperator func, String name) {
+		return new LLongBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

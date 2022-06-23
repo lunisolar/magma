@@ -59,9 +59,18 @@ public final class LCharUnaryOperatorAttest extends FunctionalAttest.Full<LCharU
 		super(actual);
 	}
 
+	public LCharUnaryOperatorAttest(LCharUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharUnaryOperatorAttest attestCharUnaryOp(LCharUnaryOperator func) {
 		return new LCharUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LCharUnaryOperatorAttest attestCharUnaryOp(LCharUnaryOperator func, String name) {
+		return new LCharUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

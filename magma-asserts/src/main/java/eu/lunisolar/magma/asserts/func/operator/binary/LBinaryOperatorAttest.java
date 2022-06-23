@@ -59,9 +59,18 @@ public final class LBinaryOperatorAttest<T> extends FunctionalAttest.Full<LBinar
 		super(actual);
 	}
 
+	public LBinaryOperatorAttest(LBinaryOperator<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LBinaryOperatorAttest<T> attestBinaryOp(LBinaryOperator<T> func) {
 		return new LBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LBinaryOperatorAttest<T> attestBinaryOp(LBinaryOperator<T> func, String name) {
+		return new LBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

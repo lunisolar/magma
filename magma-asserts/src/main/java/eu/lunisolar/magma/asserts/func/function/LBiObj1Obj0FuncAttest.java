@@ -61,9 +61,18 @@ public final class LBiObj1Obj0FuncAttest<T3, T2, T1, R> extends FunctionalAttest
 		super(actual);
 	}
 
+	public LBiObj1Obj0FuncAttest(LBiObj1Obj0Func<T3, T2, T1, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T3, T2, T1, R> LBiObj1Obj0FuncAttest<T3, T2, T1, R> attestBiObj1Obj0Func(LTriFunction.LBiObj1Obj0Func<T3, T2, T1, R> func) {
 		return new LBiObj1Obj0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T3, T2, T1, R> LBiObj1Obj0FuncAttest<T3, T2, T1, R> attestBiObj1Obj0Func(LTriFunction.LBiObj1Obj0Func<T3, T2, T1, R> func, String name) {
+		return new LBiObj1Obj0FuncAttest(func, name);
 	}
 
 	@Nonnull

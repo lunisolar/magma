@@ -59,9 +59,18 @@ public final class LBoolSupplierAttest extends FunctionalAttest.Full<LBoolSuppli
 		super(actual);
 	}
 
+	public LBoolSupplierAttest(LBoolSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolSupplierAttest attestBoolSup(LBoolSupplier func) {
 		return new LBoolSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolSupplierAttest attestBoolSup(LBoolSupplier func, String name) {
+		return new LBoolSupplierAttest(func, name);
 	}
 
 	@Nonnull

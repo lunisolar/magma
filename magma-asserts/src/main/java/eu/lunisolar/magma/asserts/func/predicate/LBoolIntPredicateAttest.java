@@ -59,9 +59,18 @@ public final class LBoolIntPredicateAttest extends FunctionalAttest.Full<LBoolIn
 		super(actual);
 	}
 
+	public LBoolIntPredicateAttest(LBoolIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolIntPredicateAttest attestBoolIntPred(LBoolIntPredicate func) {
 		return new LBoolIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolIntPredicateAttest attestBoolIntPred(LBoolIntPredicate func, String name) {
+		return new LBoolIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

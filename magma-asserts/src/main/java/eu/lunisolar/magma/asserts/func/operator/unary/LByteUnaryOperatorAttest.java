@@ -59,9 +59,18 @@ public final class LByteUnaryOperatorAttest extends FunctionalAttest.Full<LByteU
 		super(actual);
 	}
 
+	public LByteUnaryOperatorAttest(LByteUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteUnaryOperatorAttest attestByteUnaryOp(LByteUnaryOperator func) {
 		return new LByteUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LByteUnaryOperatorAttest attestByteUnaryOp(LByteUnaryOperator func, String name) {
+		return new LByteUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LByteIntObjFuncAttest<T, R> extends FunctionalAttest.Full<LBy
 		super(actual);
 	}
 
+	public LByteIntObjFuncAttest(LByteIntObjFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LByteIntObjFuncAttest<T, R> attestByteIntObjFunc(LObjIntByteFunction.LByteIntObjFunc<T, R> func) {
 		return new LByteIntObjFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LByteIntObjFuncAttest<T, R> attestByteIntObjFunc(LObjIntByteFunction.LByteIntObjFunc<T, R> func, String name) {
+		return new LByteIntObjFuncAttest(func, name);
 	}
 
 	@Nonnull

@@ -61,9 +61,18 @@ public final class LFlt1Flt0PredAttest extends FunctionalAttest.Full<LFlt1Flt0Pr
 		super(actual);
 	}
 
+	public LFlt1Flt0PredAttest(LFlt1Flt0Pred actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFlt1Flt0PredAttest attestFlt1Flt0Pred(LBiFltPredicate.LFlt1Flt0Pred func) {
 		return new LFlt1Flt0PredAttest(func);
+	}
+
+	@Nonnull
+	public static LFlt1Flt0PredAttest attestFlt1Flt0Pred(LBiFltPredicate.LFlt1Flt0Pred func, String name) {
+		return new LFlt1Flt0PredAttest(func, name);
 	}
 
 	@Nonnull

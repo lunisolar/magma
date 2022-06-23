@@ -59,9 +59,18 @@ public final class LByteSupplierAttest extends FunctionalAttest.Full<LByteSuppli
 		super(actual);
 	}
 
+	public LByteSupplierAttest(LByteSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteSupplierAttest attestByteSup(LByteSupplier func) {
 		return new LByteSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LByteSupplierAttest attestByteSup(LByteSupplier func, String name) {
+		return new LByteSupplierAttest(func, name);
 	}
 
 	@Nonnull

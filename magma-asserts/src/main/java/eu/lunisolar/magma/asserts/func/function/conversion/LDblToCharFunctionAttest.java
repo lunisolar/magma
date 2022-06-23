@@ -59,9 +59,18 @@ public final class LDblToCharFunctionAttest extends FunctionalAttest.Full<LDblTo
 		super(actual);
 	}
 
+	public LDblToCharFunctionAttest(LDblToCharFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblToCharFunctionAttest attestDblToCharFunc(LDblToCharFunction func) {
 		return new LDblToCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LDblToCharFunctionAttest attestDblToCharFunc(LDblToCharFunction func, String name) {
+		return new LDblToCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

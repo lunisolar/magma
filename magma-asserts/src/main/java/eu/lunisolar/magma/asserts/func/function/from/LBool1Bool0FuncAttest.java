@@ -61,9 +61,18 @@ public final class LBool1Bool0FuncAttest<R> extends FunctionalAttest.Full<LBool1
 		super(actual);
 	}
 
+	public LBool1Bool0FuncAttest(LBool1Bool0Func<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LBool1Bool0FuncAttest<R> attestBool1Bool0Func(LBiBoolFunction.LBool1Bool0Func<R> func) {
 		return new LBool1Bool0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LBool1Bool0FuncAttest<R> attestBool1Bool0Func(LBiBoolFunction.LBool1Bool0Func<R> func, String name) {
+		return new LBool1Bool0FuncAttest(func, name);
 	}
 
 	@Nonnull

@@ -57,9 +57,18 @@ public final class JreToDoubleBiFunctionAttest<T1, T2> extends FunctionalAttest.
 		super(actual);
 	}
 
+	public JreToDoubleBiFunctionAttest(ToDoubleBiFunction<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> JreToDoubleBiFunctionAttest<T1, T2> attestToDblBiFunc(ToDoubleBiFunction<T1, T2> func) {
 		return new JreToDoubleBiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> JreToDoubleBiFunctionAttest<T1, T2> attestToDblBiFunc(ToDoubleBiFunction<T1, T2> func, String name) {
+		return new JreToDoubleBiFunctionAttest(func, name);
 	}
 
 	@Nonnull

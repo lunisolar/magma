@@ -59,9 +59,18 @@ public final class LLogicalBinaryOperatorAttest extends FunctionalAttest.Full<LL
 		super(actual);
 	}
 
+	public LLogicalBinaryOperatorAttest(LLogicalBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLogicalBinaryOperatorAttest attestLogicalBinaryOp(LLogicalBinaryOperator func) {
 		return new LLogicalBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LLogicalBinaryOperatorAttest attestLogicalBinaryOp(LLogicalBinaryOperator func, String name) {
+		return new LLogicalBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

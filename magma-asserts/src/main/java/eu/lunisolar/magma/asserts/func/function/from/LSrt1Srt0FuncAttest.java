@@ -61,9 +61,18 @@ public final class LSrt1Srt0FuncAttest<R> extends FunctionalAttest.Full<LSrt1Srt
 		super(actual);
 	}
 
+	public LSrt1Srt0FuncAttest(LSrt1Srt0Func<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LSrt1Srt0FuncAttest<R> attestSrt1Srt0Func(LBiSrtFunction.LSrt1Srt0Func<R> func) {
 		return new LSrt1Srt0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LSrt1Srt0FuncAttest<R> attestSrt1Srt0Func(LBiSrtFunction.LSrt1Srt0Func<R> func, String name) {
+		return new LSrt1Srt0FuncAttest(func, name);
 	}
 
 	@Nonnull

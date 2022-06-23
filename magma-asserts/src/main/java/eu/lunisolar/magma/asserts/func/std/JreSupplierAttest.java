@@ -57,9 +57,18 @@ public final class JreSupplierAttest<T> extends FunctionalAttest.Full<JreSupplie
 		super(actual);
 	}
 
+	public JreSupplierAttest(Supplier<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> JreSupplierAttest<T> attestSup(Supplier<T> func) {
 		return new JreSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static <T> JreSupplierAttest<T> attestSup(Supplier<T> func, String name) {
+		return new JreSupplierAttest(func, name);
 	}
 
 	@Nonnull

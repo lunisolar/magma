@@ -62,9 +62,18 @@ public final class LByte2Obj1Obj0PredAttest<T2, T1> extends FunctionalAttest.Ful
 		super(actual);
 	}
 
+	public LByte2Obj1Obj0PredAttest(LByte2Obj1Obj0Pred<T2, T1> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T2, T1> LByte2Obj1Obj0PredAttest<T2, T1> attestByte2Obj1Obj0Pred(LBiObjBytePredicate.LByte2Obj1Obj0Pred<T2, T1> func) {
 		return new LByte2Obj1Obj0PredAttest(func);
+	}
+
+	@Nonnull
+	public static <T2, T1> LByte2Obj1Obj0PredAttest<T2, T1> attestByte2Obj1Obj0Pred(LBiObjBytePredicate.LByte2Obj1Obj0Pred<T2, T1> func, String name) {
+		return new LByte2Obj1Obj0PredAttest(func, name);
 	}
 
 	@Nonnull

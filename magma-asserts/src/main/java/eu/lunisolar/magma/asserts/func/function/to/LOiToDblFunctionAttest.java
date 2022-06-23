@@ -59,9 +59,18 @@ public final class LOiToDblFunctionAttest<T> extends FunctionalAttest.Full<LOiTo
 		super(actual);
 	}
 
+	public LOiToDblFunctionAttest(LOiToDblFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LOiToDblFunctionAttest<T> attestOiToDblFunc(LOiToDblFunction<T> func) {
 		return new LOiToDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LOiToDblFunctionAttest<T> attestOiToDblFunc(LOiToDblFunction<T> func, String name) {
+		return new LOiToDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

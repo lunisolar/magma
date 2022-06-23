@@ -61,9 +61,18 @@ public final class LChar1Char0ConsAttest extends FunctionalAttest.Simple<LChar1C
 		super(actual);
 	}
 
+	public LChar1Char0ConsAttest(LChar1Char0Cons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LChar1Char0ConsAttest attestChar1Char0Cons(LBiCharConsumer.LChar1Char0Cons func) {
 		return new LChar1Char0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static LChar1Char0ConsAttest attestChar1Char0Cons(LBiCharConsumer.LChar1Char0Cons func, String name) {
+		return new LChar1Char0ConsAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LIntToFltFunctionAttest extends FunctionalAttest.Full<LIntToF
 		super(actual);
 	}
 
+	public LIntToFltFunctionAttest(LIntToFltFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntToFltFunctionAttest attestIntToFltFunc(LIntToFltFunction func) {
 		return new LIntToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LIntToFltFunctionAttest attestIntToFltFunc(LIntToFltFunction func, String name) {
+		return new LIntToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

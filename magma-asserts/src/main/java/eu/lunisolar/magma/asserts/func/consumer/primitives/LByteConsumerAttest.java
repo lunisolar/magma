@@ -59,9 +59,18 @@ public final class LByteConsumerAttest extends FunctionalAttest.Simple<LByteCons
 		super(actual);
 	}
 
+	public LByteConsumerAttest(LByteConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteConsumerAttest attestByteCons(LByteConsumer func) {
 		return new LByteConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LByteConsumerAttest attestByteCons(LByteConsumer func, String name) {
+		return new LByteConsumerAttest(func, name);
 	}
 
 	@Nonnull

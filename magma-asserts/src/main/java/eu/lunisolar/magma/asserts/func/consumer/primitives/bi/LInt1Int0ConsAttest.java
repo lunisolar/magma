@@ -61,9 +61,18 @@ public final class LInt1Int0ConsAttest extends FunctionalAttest.Simple<LInt1Int0
 		super(actual);
 	}
 
+	public LInt1Int0ConsAttest(LInt1Int0Cons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LInt1Int0ConsAttest attestInt1Int0Cons(LBiIntConsumer.LInt1Int0Cons func) {
 		return new LInt1Int0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static LInt1Int0ConsAttest attestInt1Int0Cons(LBiIntConsumer.LInt1Int0Cons func, String name) {
+		return new LInt1Int0ConsAttest(func, name);
 	}
 
 	@Nonnull

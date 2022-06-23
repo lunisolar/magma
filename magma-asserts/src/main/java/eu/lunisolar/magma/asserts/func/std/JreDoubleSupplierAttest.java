@@ -57,9 +57,18 @@ public final class JreDoubleSupplierAttest extends FunctionalAttest.Full<JreDoub
 		super(actual);
 	}
 
+	public JreDoubleSupplierAttest(DoubleSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreDoubleSupplierAttest attestDblSup(DoubleSupplier func) {
 		return new JreDoubleSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static JreDoubleSupplierAttest attestDblSup(DoubleSupplier func, String name) {
+		return new JreDoubleSupplierAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LTieDblFunctionAttest<T> extends FunctionalAttest.Full<LTieDb
 		super(actual);
 	}
 
+	public LTieDblFunctionAttest(LTieDblFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieDblFunctionAttest<T> attestTieDblFunc(LTieDblFunction<T> func) {
 		return new LTieDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieDblFunctionAttest<T> attestTieDblFunc(LTieDblFunction<T> func, String name) {
+		return new LTieDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

@@ -61,9 +61,18 @@ public final class LDbl1Dbl0FuncAttest<R> extends FunctionalAttest.Full<LDbl1Dbl
 		super(actual);
 	}
 
+	public LDbl1Dbl0FuncAttest(LDbl1Dbl0Func<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LDbl1Dbl0FuncAttest<R> attestDbl1Dbl0Func(LBiDblFunction.LDbl1Dbl0Func<R> func) {
 		return new LDbl1Dbl0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LDbl1Dbl0FuncAttest<R> attestDbl1Dbl0Func(LBiDblFunction.LDbl1Dbl0Func<R> func, String name) {
+		return new LDbl1Dbl0FuncAttest(func, name);
 	}
 
 	@Nonnull

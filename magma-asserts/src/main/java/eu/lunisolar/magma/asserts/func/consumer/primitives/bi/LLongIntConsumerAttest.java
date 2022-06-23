@@ -59,9 +59,18 @@ public final class LLongIntConsumerAttest extends FunctionalAttest.Simple<LLongI
 		super(actual);
 	}
 
+	public LLongIntConsumerAttest(LLongIntConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongIntConsumerAttest attestLongIntCons(LLongIntConsumer func) {
 		return new LLongIntConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LLongIntConsumerAttest attestLongIntCons(LLongIntConsumer func, String name) {
+		return new LLongIntConsumerAttest(func, name);
 	}
 
 	@Nonnull

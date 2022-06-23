@@ -59,9 +59,18 @@ public final class LSrtToByteFunctionAttest extends FunctionalAttest.Full<LSrtTo
 		super(actual);
 	}
 
+	public LSrtToByteFunctionAttest(LSrtToByteFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtToByteFunctionAttest attestSrtToByteFunc(LSrtToByteFunction func) {
 		return new LSrtToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtToByteFunctionAttest attestSrtToByteFunc(LSrtToByteFunction func, String name) {
+		return new LSrtToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

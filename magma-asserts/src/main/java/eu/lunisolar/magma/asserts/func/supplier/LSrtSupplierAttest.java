@@ -59,9 +59,18 @@ public final class LSrtSupplierAttest extends FunctionalAttest.Full<LSrtSupplier
 		super(actual);
 	}
 
+	public LSrtSupplierAttest(LSrtSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtSupplierAttest attestSrtSup(LSrtSupplier func) {
 		return new LSrtSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtSupplierAttest attestSrtSup(LSrtSupplier func, String name) {
+		return new LSrtSupplierAttest(func, name);
 	}
 
 	@Nonnull

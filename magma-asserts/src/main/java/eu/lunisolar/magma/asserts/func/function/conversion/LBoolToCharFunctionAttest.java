@@ -59,9 +59,18 @@ public final class LBoolToCharFunctionAttest extends FunctionalAttest.Full<LBool
 		super(actual);
 	}
 
+	public LBoolToCharFunctionAttest(LBoolToCharFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolToCharFunctionAttest attestBoolToCharFunc(LBoolToCharFunction func) {
 		return new LBoolToCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolToCharFunctionAttest attestBoolToCharFunc(LBoolToCharFunction func, String name) {
+		return new LBoolToCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

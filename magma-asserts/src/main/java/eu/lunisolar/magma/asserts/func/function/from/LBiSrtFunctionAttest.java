@@ -59,9 +59,18 @@ public final class LBiSrtFunctionAttest<R> extends FunctionalAttest.Full<LBiSrtF
 		super(actual);
 	}
 
+	public LBiSrtFunctionAttest(LBiSrtFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LBiSrtFunctionAttest<R> attestBiSrtFunc(LBiSrtFunction<R> func) {
 		return new LBiSrtFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LBiSrtFunctionAttest<R> attestBiSrtFunc(LBiSrtFunction<R> func, String name) {
+		return new LBiSrtFunctionAttest(func, name);
 	}
 
 	@Nonnull

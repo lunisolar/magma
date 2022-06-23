@@ -59,9 +59,18 @@ public final class LCharToByteFunctionAttest extends FunctionalAttest.Full<LChar
 		super(actual);
 	}
 
+	public LCharToByteFunctionAttest(LCharToByteFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharToByteFunctionAttest attestCharToByteFunc(LCharToByteFunction func) {
 		return new LCharToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LCharToByteFunctionAttest attestCharToByteFunc(LCharToByteFunction func, String name) {
+		return new LCharToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

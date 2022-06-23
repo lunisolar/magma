@@ -59,9 +59,18 @@ public final class LBiBoolFunctionAttest<R> extends FunctionalAttest.Full<LBiBoo
 		super(actual);
 	}
 
+	public LBiBoolFunctionAttest(LBiBoolFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LBiBoolFunctionAttest<R> attestBiBoolFunc(LBiBoolFunction<R> func) {
 		return new LBiBoolFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LBiBoolFunctionAttest<R> attestBiBoolFunc(LBiBoolFunction<R> func, String name) {
+		return new LBiBoolFunctionAttest(func, name);
 	}
 
 	@Nonnull

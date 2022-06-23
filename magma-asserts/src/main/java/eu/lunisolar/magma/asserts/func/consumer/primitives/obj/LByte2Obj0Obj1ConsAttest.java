@@ -62,9 +62,18 @@ public final class LByte2Obj0Obj1ConsAttest<T1, T2> extends FunctionalAttest.Sim
 		super(actual);
 	}
 
+	public LByte2Obj0Obj1ConsAttest(LByte2Obj0Obj1Cons<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LByte2Obj0Obj1ConsAttest<T1, T2> attestByte2Obj0Obj1Cons(LBiObjByteConsumer.LByte2Obj0Obj1Cons<T1, T2> func) {
 		return new LByte2Obj0Obj1ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LByte2Obj0Obj1ConsAttest<T1, T2> attestByte2Obj0Obj1Cons(LBiObjByteConsumer.LByte2Obj0Obj1Cons<T1, T2> func, String name) {
+		return new LByte2Obj0Obj1ConsAttest(func, name);
 	}
 
 	@Nonnull

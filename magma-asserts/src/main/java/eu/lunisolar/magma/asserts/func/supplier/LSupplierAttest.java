@@ -59,9 +59,18 @@ public final class LSupplierAttest<T> extends FunctionalAttest.Full<LSupplierAtt
 		super(actual);
 	}
 
+	public LSupplierAttest(LSupplier<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LSupplierAttest<T> attestSup(LSupplier<T> func) {
 		return new LSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LSupplierAttest<T> attestSup(LSupplier<T> func, String name) {
+		return new LSupplierAttest(func, name);
 	}
 
 	@Nonnull

@@ -57,9 +57,18 @@ public final class JreToLongBiFunctionAttest<T1, T2> extends FunctionalAttest.Fu
 		super(actual);
 	}
 
+	public JreToLongBiFunctionAttest(ToLongBiFunction<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> JreToLongBiFunctionAttest<T1, T2> attestToLongBiFunc(ToLongBiFunction<T1, T2> func) {
 		return new JreToLongBiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> JreToLongBiFunctionAttest<T1, T2> attestToLongBiFunc(ToLongBiFunction<T1, T2> func, String name) {
+		return new JreToLongBiFunctionAttest(func, name);
 	}
 
 	@Nonnull

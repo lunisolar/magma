@@ -59,9 +59,18 @@ public final class LFunctionAttest<T, R> extends FunctionalAttest.Full<LFunction
 		super(actual);
 	}
 
+	public LFunctionAttest(LFunction<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LFunctionAttest<T, R> attestFunc(LFunction<T, R> func) {
 		return new LFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LFunctionAttest<T, R> attestFunc(LFunction<T, R> func, String name) {
+		return new LFunctionAttest(func, name);
 	}
 
 	@Nonnull

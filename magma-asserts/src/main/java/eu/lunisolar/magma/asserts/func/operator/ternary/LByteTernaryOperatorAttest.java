@@ -59,9 +59,18 @@ public final class LByteTernaryOperatorAttest extends FunctionalAttest.Full<LByt
 		super(actual);
 	}
 
+	public LByteTernaryOperatorAttest(LByteTernaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteTernaryOperatorAttest attestByteTernaryOp(LByteTernaryOperator func) {
 		return new LByteTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LByteTernaryOperatorAttest attestByteTernaryOp(LByteTernaryOperator func, String name) {
+		return new LByteTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

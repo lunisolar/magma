@@ -62,9 +62,18 @@ public final class LLongIntObjPredAttest<T> extends FunctionalAttest.Full<LLongI
 		super(actual);
 	}
 
+	public LLongIntObjPredAttest(LLongIntObjPred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LLongIntObjPredAttest<T> attestLongIntObjPred(LObjIntLongPredicate.LLongIntObjPred<T> func) {
 		return new LLongIntObjPredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LLongIntObjPredAttest<T> attestLongIntObjPred(LObjIntLongPredicate.LLongIntObjPred<T> func, String name) {
+		return new LLongIntObjPredAttest(func, name);
 	}
 
 	@Nonnull

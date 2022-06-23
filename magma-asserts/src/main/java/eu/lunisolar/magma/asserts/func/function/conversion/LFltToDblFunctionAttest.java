@@ -59,9 +59,18 @@ public final class LFltToDblFunctionAttest extends FunctionalAttest.Full<LFltToD
 		super(actual);
 	}
 
+	public LFltToDblFunctionAttest(LFltToDblFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltToDblFunctionAttest attestFltToDblFunc(LFltToDblFunction func) {
 		return new LFltToDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LFltToDblFunctionAttest attestFltToDblFunc(LFltToDblFunction func, String name) {
+		return new LFltToDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

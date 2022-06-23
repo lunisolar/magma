@@ -59,9 +59,18 @@ public final class LQuadPredicateAttest<T1, T2, T3, T4> extends FunctionalAttest
 		super(actual);
 	}
 
+	public LQuadPredicateAttest(LQuadPredicate<T1, T2, T3, T4> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3, T4> LQuadPredicateAttest<T1, T2, T3, T4> attestQuadPred(LQuadPredicate<T1, T2, T3, T4> func) {
 		return new LQuadPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4> LQuadPredicateAttest<T1, T2, T3, T4> attestQuadPred(LQuadPredicate<T1, T2, T3, T4> func, String name) {
+		return new LQuadPredicateAttest(func, name);
 	}
 
 	@Nonnull

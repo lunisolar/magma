@@ -59,9 +59,18 @@ public final class LTriBoolConsumerAttest extends FunctionalAttest.Simple<LTriBo
 		super(actual);
 	}
 
+	public LTriBoolConsumerAttest(LTriBoolConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriBoolConsumerAttest attestTriBoolCons(LTriBoolConsumer func) {
 		return new LTriBoolConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LTriBoolConsumerAttest attestTriBoolCons(LTriBoolConsumer func, String name) {
+		return new LTriBoolConsumerAttest(func, name);
 	}
 
 	@Nonnull

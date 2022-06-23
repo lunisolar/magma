@@ -59,9 +59,18 @@ public final class LByteToSrtFunctionAttest extends FunctionalAttest.Full<LByteT
 		super(actual);
 	}
 
+	public LByteToSrtFunctionAttest(LByteToSrtFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteToSrtFunctionAttest attestByteToSrtFunc(LByteToSrtFunction func) {
 		return new LByteToSrtFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LByteToSrtFunctionAttest attestByteToSrtFunc(LByteToSrtFunction func, String name) {
+		return new LByteToSrtFunctionAttest(func, name);
 	}
 
 	@Nonnull

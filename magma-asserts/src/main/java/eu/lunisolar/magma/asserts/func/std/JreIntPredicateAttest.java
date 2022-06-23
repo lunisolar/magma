@@ -57,9 +57,18 @@ public final class JreIntPredicateAttest extends FunctionalAttest.Full<JreIntPre
 		super(actual);
 	}
 
+	public JreIntPredicateAttest(IntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreIntPredicateAttest attestIntPred(IntPredicate func) {
 		return new JreIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static JreIntPredicateAttest attestIntPred(IntPredicate func, String name) {
+		return new JreIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LBool2Obj1Obj0ConsAttest<T2, T1> extends FunctionalAttest.Sim
 		super(actual);
 	}
 
+	public LBool2Obj1Obj0ConsAttest(LBool2Obj1Obj0Cons<T2, T1> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T2, T1> LBool2Obj1Obj0ConsAttest<T2, T1> attestBool2Obj1Obj0Cons(LBiObjBoolConsumer.LBool2Obj1Obj0Cons<T2, T1> func) {
 		return new LBool2Obj1Obj0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T2, T1> LBool2Obj1Obj0ConsAttest<T2, T1> attestBool2Obj1Obj0Cons(LBiObjBoolConsumer.LBool2Obj1Obj0Cons<T2, T1> func, String name) {
+		return new LBool2Obj1Obj0ConsAttest(func, name);
 	}
 
 	@Nonnull

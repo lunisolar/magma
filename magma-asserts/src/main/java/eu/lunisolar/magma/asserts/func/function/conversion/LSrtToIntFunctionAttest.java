@@ -59,9 +59,18 @@ public final class LSrtToIntFunctionAttest extends FunctionalAttest.Full<LSrtToI
 		super(actual);
 	}
 
+	public LSrtToIntFunctionAttest(LSrtToIntFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtToIntFunctionAttest attestSrtToIntFunc(LSrtToIntFunction func) {
 		return new LSrtToIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtToIntFunctionAttest attestSrtToIntFunc(LSrtToIntFunction func, String name) {
+		return new LSrtToIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

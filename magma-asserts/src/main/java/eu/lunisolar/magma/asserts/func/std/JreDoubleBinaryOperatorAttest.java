@@ -57,9 +57,18 @@ public final class JreDoubleBinaryOperatorAttest extends FunctionalAttest.Full<J
 		super(actual);
 	}
 
+	public JreDoubleBinaryOperatorAttest(DoubleBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreDoubleBinaryOperatorAttest attestDblBinaryOp(DoubleBinaryOperator func) {
 		return new JreDoubleBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static JreDoubleBinaryOperatorAttest attestDblBinaryOp(DoubleBinaryOperator func, String name) {
+		return new JreDoubleBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

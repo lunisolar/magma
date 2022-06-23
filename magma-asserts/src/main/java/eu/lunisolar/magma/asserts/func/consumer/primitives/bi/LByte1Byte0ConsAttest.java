@@ -61,9 +61,18 @@ public final class LByte1Byte0ConsAttest extends FunctionalAttest.Simple<LByte1B
 		super(actual);
 	}
 
+	public LByte1Byte0ConsAttest(LByte1Byte0Cons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByte1Byte0ConsAttest attestByte1Byte0Cons(LBiByteConsumer.LByte1Byte0Cons func) {
 		return new LByte1Byte0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static LByte1Byte0ConsAttest attestByte1Byte0Cons(LBiByteConsumer.LByte1Byte0Cons func, String name) {
+		return new LByte1Byte0ConsAttest(func, name);
 	}
 
 	@Nonnull

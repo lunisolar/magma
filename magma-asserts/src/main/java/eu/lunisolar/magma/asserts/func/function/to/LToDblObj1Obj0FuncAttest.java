@@ -61,9 +61,18 @@ public final class LToDblObj1Obj0FuncAttest<T2, T1> extends FunctionalAttest.Ful
 		super(actual);
 	}
 
+	public LToDblObj1Obj0FuncAttest(LToDblObj1Obj0Func<T2, T1> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T2, T1> LToDblObj1Obj0FuncAttest<T2, T1> attestToDblObj1Obj0Func(LToDblBiFunction.LToDblObj1Obj0Func<T2, T1> func) {
 		return new LToDblObj1Obj0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T2, T1> LToDblObj1Obj0FuncAttest<T2, T1> attestToDblObj1Obj0Func(LToDblBiFunction.LToDblObj1Obj0Func<T2, T1> func, String name) {
+		return new LToDblObj1Obj0FuncAttest(func, name);
 	}
 
 	@Nonnull

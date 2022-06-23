@@ -62,9 +62,18 @@ public final class LObjByteIntConsAttest<T> extends FunctionalAttest.Simple<LObj
 		super(actual);
 	}
 
+	public LObjByteIntConsAttest(LObjByteIntCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjByteIntConsAttest<T> attestObjByteIntCons(LTieByteConsumer.LObjByteIntCons<T> func) {
 		return new LObjByteIntConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjByteIntConsAttest<T> attestObjByteIntCons(LTieByteConsumer.LObjByteIntCons<T> func, String name) {
+		return new LObjByteIntConsAttest(func, name);
 	}
 
 	@Nonnull

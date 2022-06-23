@@ -59,9 +59,18 @@ public final class LCharToFltFunctionAttest extends FunctionalAttest.Full<LCharT
 		super(actual);
 	}
 
+	public LCharToFltFunctionAttest(LCharToFltFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharToFltFunctionAttest attestCharToFltFunc(LCharToFltFunction func) {
 		return new LCharToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LCharToFltFunctionAttest attestCharToFltFunc(LCharToFltFunction func, String name) {
+		return new LCharToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

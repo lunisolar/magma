@@ -57,9 +57,18 @@ public final class JreDoubleConsumerAttest extends FunctionalAttest.Simple<JreDo
 		super(actual);
 	}
 
+	public JreDoubleConsumerAttest(DoubleConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreDoubleConsumerAttest attestDblCons(DoubleConsumer func) {
 		return new JreDoubleConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static JreDoubleConsumerAttest attestDblCons(DoubleConsumer func, String name) {
+		return new JreDoubleConsumerAttest(func, name);
 	}
 
 	@Nonnull

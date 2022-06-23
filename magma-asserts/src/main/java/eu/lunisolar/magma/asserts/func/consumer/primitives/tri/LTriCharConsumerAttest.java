@@ -59,9 +59,18 @@ public final class LTriCharConsumerAttest extends FunctionalAttest.Simple<LTriCh
 		super(actual);
 	}
 
+	public LTriCharConsumerAttest(LTriCharConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriCharConsumerAttest attestTriCharCons(LTriCharConsumer func) {
 		return new LTriCharConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LTriCharConsumerAttest attestTriCharCons(LTriCharConsumer func, String name) {
+		return new LTriCharConsumerAttest(func, name);
 	}
 
 	@Nonnull

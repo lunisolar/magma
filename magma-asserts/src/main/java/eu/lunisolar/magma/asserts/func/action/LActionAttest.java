@@ -59,9 +59,18 @@ public final class LActionAttest extends FunctionalAttest.Simple<LActionAttest, 
 		super(actual);
 	}
 
+	public LActionAttest(LAction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LActionAttest attestAct(LAction func) {
 		return new LActionAttest(func);
+	}
+
+	@Nonnull
+	public static LActionAttest attestAct(LAction func, String name) {
+		return new LActionAttest(func, name);
 	}
 
 	@Nonnull

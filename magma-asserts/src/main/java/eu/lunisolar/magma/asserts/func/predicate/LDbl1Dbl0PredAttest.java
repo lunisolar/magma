@@ -61,9 +61,18 @@ public final class LDbl1Dbl0PredAttest extends FunctionalAttest.Full<LDbl1Dbl0Pr
 		super(actual);
 	}
 
+	public LDbl1Dbl0PredAttest(LDbl1Dbl0Pred actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDbl1Dbl0PredAttest attestDbl1Dbl0Pred(LBiDblPredicate.LDbl1Dbl0Pred func) {
 		return new LDbl1Dbl0PredAttest(func);
+	}
+
+	@Nonnull
+	public static LDbl1Dbl0PredAttest attestDbl1Dbl0Pred(LBiDblPredicate.LDbl1Dbl0Pred func, String name) {
+		return new LDbl1Dbl0PredAttest(func, name);
 	}
 
 	@Nonnull

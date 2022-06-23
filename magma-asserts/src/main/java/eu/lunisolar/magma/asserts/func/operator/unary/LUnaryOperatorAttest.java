@@ -59,9 +59,18 @@ public final class LUnaryOperatorAttest<T> extends FunctionalAttest.Full<LUnaryO
 		super(actual);
 	}
 
+	public LUnaryOperatorAttest(LUnaryOperator<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LUnaryOperatorAttest<T> attestUnaryOp(LUnaryOperator<T> func) {
 		return new LUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LUnaryOperatorAttest<T> attestUnaryOp(LUnaryOperator<T> func, String name) {
+		return new LUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LBiBoolConsumerAttest extends FunctionalAttest.Simple<LBiBool
 		super(actual);
 	}
 
+	public LBiBoolConsumerAttest(LBiBoolConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiBoolConsumerAttest attestBiBoolCons(LBiBoolConsumer func) {
 		return new LBiBoolConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LBiBoolConsumerAttest attestBiBoolCons(LBiBoolConsumer func, String name) {
+		return new LBiBoolConsumerAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LBiDblFunctionAttest<R> extends FunctionalAttest.Full<LBiDblF
 		super(actual);
 	}
 
+	public LBiDblFunctionAttest(LBiDblFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LBiDblFunctionAttest<R> attestBiDblFunc(LBiDblFunction<R> func) {
 		return new LBiDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LBiDblFunctionAttest<R> attestBiDblFunc(LBiDblFunction<R> func, String name) {
+		return new LBiDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

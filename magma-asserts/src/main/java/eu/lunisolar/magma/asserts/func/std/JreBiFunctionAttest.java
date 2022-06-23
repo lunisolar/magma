@@ -57,9 +57,18 @@ public final class JreBiFunctionAttest<T1, T2, R> extends FunctionalAttest.Full<
 		super(actual);
 	}
 
+	public JreBiFunctionAttest(BiFunction<T1, T2, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, R> JreBiFunctionAttest<T1, T2, R> attestBiFunc(BiFunction<T1, T2, R> func) {
 		return new JreBiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, R> JreBiFunctionAttest<T1, T2, R> attestBiFunc(BiFunction<T1, T2, R> func, String name) {
+		return new JreBiFunctionAttest(func, name);
 	}
 
 	@Nonnull

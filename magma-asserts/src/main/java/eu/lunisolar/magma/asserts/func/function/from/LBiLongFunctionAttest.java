@@ -59,9 +59,18 @@ public final class LBiLongFunctionAttest<R> extends FunctionalAttest.Full<LBiLon
 		super(actual);
 	}
 
+	public LBiLongFunctionAttest(LBiLongFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LBiLongFunctionAttest<R> attestBiLongFunc(LBiLongFunction<R> func) {
 		return new LBiLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LBiLongFunctionAttest<R> attestBiLongFunc(LBiLongFunction<R> func, String name) {
+		return new LBiLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

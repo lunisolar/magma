@@ -59,9 +59,18 @@ public final class LBiByteFunctionAttest<R> extends FunctionalAttest.Full<LBiByt
 		super(actual);
 	}
 
+	public LBiByteFunctionAttest(LBiByteFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LBiByteFunctionAttest<R> attestBiByteFunc(LBiByteFunction<R> func) {
 		return new LBiByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LBiByteFunctionAttest<R> attestBiByteFunc(LBiByteFunction<R> func, String name) {
+		return new LBiByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

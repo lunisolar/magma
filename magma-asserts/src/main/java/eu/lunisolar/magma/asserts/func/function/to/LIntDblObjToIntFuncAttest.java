@@ -62,9 +62,18 @@ public final class LIntDblObjToIntFuncAttest<T> extends FunctionalAttest.Full<LI
 		super(actual);
 	}
 
+	public LIntDblObjToIntFuncAttest(LIntDblObjToIntFunc<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LIntDblObjToIntFuncAttest<T> attestIntDblObjToIntFunc(LTieDblFunction.LIntDblObjToIntFunc<T> func) {
 		return new LIntDblObjToIntFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LIntDblObjToIntFuncAttest<T> attestIntDblObjToIntFunc(LTieDblFunction.LIntDblObjToIntFunc<T> func, String name) {
+		return new LIntDblObjToIntFuncAttest(func, name);
 	}
 
 	@Nonnull

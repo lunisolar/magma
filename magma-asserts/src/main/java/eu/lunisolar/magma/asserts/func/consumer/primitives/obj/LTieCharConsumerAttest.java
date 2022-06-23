@@ -59,9 +59,18 @@ public final class LTieCharConsumerAttest<T> extends FunctionalAttest.Simple<LTi
 		super(actual);
 	}
 
+	public LTieCharConsumerAttest(LTieCharConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieCharConsumerAttest<T> attestTieCharCons(LTieCharConsumer<T> func) {
 		return new LTieCharConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieCharConsumerAttest<T> attestTieCharCons(LTieCharConsumer<T> func, String name) {
+		return new LTieCharConsumerAttest(func, name);
 	}
 
 	@Nonnull

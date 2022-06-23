@@ -59,9 +59,18 @@ public final class LBiFltConsumerAttest extends FunctionalAttest.Simple<LBiFltCo
 		super(actual);
 	}
 
+	public LBiFltConsumerAttest(LBiFltConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiFltConsumerAttest attestBiFltCons(LBiFltConsumer func) {
 		return new LBiFltConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LBiFltConsumerAttest attestBiFltCons(LBiFltConsumer func, String name) {
+		return new LBiFltConsumerAttest(func, name);
 	}
 
 	@Nonnull

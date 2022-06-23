@@ -61,9 +61,18 @@ public final class LObj1Obj0Int2ConsAttest<T2, T1> extends FunctionalAttest.Simp
 		super(actual);
 	}
 
+	public LObj1Obj0Int2ConsAttest(LObj1Obj0Int2Cons<T2, T1> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T2, T1> LObj1Obj0Int2ConsAttest<T2, T1> attestObj1Obj0Int2Cons(LBiObjIntConsumer.LObj1Obj0Int2Cons<T2, T1> func) {
 		return new LObj1Obj0Int2ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T2, T1> LObj1Obj0Int2ConsAttest<T2, T1> attestObj1Obj0Int2Cons(LBiObjIntConsumer.LObj1Obj0Int2Cons<T2, T1> func, String name) {
+		return new LObj1Obj0Int2ConsAttest(func, name);
 	}
 
 	@Nonnull

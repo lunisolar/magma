@@ -59,9 +59,18 @@ public final class LTieFunctionAttest<T1, T2> extends FunctionalAttest.Full<LTie
 		super(actual);
 	}
 
+	public LTieFunctionAttest(LTieFunction<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LTieFunctionAttest<T1, T2> attestTieFunc(LTieFunction<T1, T2> func) {
 		return new LTieFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LTieFunctionAttest<T1, T2> attestTieFunc(LTieFunction<T1, T2> func, String name) {
+		return new LTieFunctionAttest(func, name);
 	}
 
 	@Nonnull

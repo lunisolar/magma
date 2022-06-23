@@ -59,9 +59,18 @@ public final class LObjIntDblFunctionAttest<T, R> extends FunctionalAttest.Full<
 		super(actual);
 	}
 
+	public LObjIntDblFunctionAttest(LObjIntDblFunction<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LObjIntDblFunctionAttest<T, R> attestObjIntDblFunc(LObjIntDblFunction<T, R> func) {
 		return new LObjIntDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LObjIntDblFunctionAttest<T, R> attestObjIntDblFunc(LObjIntDblFunction<T, R> func, String name) {
+		return new LObjIntDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

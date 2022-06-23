@@ -61,9 +61,18 @@ public final class LSrt1Srt0PredAttest extends FunctionalAttest.Full<LSrt1Srt0Pr
 		super(actual);
 	}
 
+	public LSrt1Srt0PredAttest(LSrt1Srt0Pred actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrt1Srt0PredAttest attestSrt1Srt0Pred(LBiSrtPredicate.LSrt1Srt0Pred func) {
 		return new LSrt1Srt0PredAttest(func);
+	}
+
+	@Nonnull
+	public static LSrt1Srt0PredAttest attestSrt1Srt0Pred(LBiSrtPredicate.LSrt1Srt0Pred func, String name) {
+		return new LSrt1Srt0PredAttest(func, name);
 	}
 
 	@Nonnull

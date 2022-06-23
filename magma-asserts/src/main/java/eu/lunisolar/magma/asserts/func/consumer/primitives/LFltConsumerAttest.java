@@ -59,9 +59,18 @@ public final class LFltConsumerAttest extends FunctionalAttest.Simple<LFltConsum
 		super(actual);
 	}
 
+	public LFltConsumerAttest(LFltConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltConsumerAttest attestFltCons(LFltConsumer func) {
 		return new LFltConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LFltConsumerAttest attestFltCons(LFltConsumer func, String name) {
+		return new LFltConsumerAttest(func, name);
 	}
 
 	@Nonnull

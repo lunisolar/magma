@@ -59,9 +59,18 @@ public final class LIntToLongFunctionAttest extends FunctionalAttest.Full<LIntTo
 		super(actual);
 	}
 
+	public LIntToLongFunctionAttest(LIntToLongFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntToLongFunctionAttest attestIntToLongFunc(LIntToLongFunction func) {
 		return new LIntToLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LIntToLongFunctionAttest attestIntToLongFunc(LIntToLongFunction func, String name) {
+		return new LIntToLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

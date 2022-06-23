@@ -59,9 +59,18 @@ public final class LLongToByteFunctionAttest extends FunctionalAttest.Full<LLong
 		super(actual);
 	}
 
+	public LLongToByteFunctionAttest(LLongToByteFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongToByteFunctionAttest attestLongToByteFunc(LLongToByteFunction func) {
 		return new LLongToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LLongToByteFunctionAttest attestLongToByteFunc(LLongToByteFunction func, String name) {
+		return new LLongToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

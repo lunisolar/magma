@@ -57,9 +57,18 @@ public final class JreLongToDoubleFunctionAttest extends FunctionalAttest.Full<J
 		super(actual);
 	}
 
+	public JreLongToDoubleFunctionAttest(LongToDoubleFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreLongToDoubleFunctionAttest attestLongToDblFunc(LongToDoubleFunction func) {
 		return new JreLongToDoubleFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static JreLongToDoubleFunctionAttest attestLongToDblFunc(LongToDoubleFunction func, String name) {
+		return new JreLongToDoubleFunctionAttest(func, name);
 	}
 
 	@Nonnull

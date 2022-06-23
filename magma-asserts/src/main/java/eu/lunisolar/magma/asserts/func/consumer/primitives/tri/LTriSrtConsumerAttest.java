@@ -59,9 +59,18 @@ public final class LTriSrtConsumerAttest extends FunctionalAttest.Simple<LTriSrt
 		super(actual);
 	}
 
+	public LTriSrtConsumerAttest(LTriSrtConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriSrtConsumerAttest attestTriSrtCons(LTriSrtConsumer func) {
 		return new LTriSrtConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LTriSrtConsumerAttest attestTriSrtCons(LTriSrtConsumer func, String name) {
+		return new LTriSrtConsumerAttest(func, name);
 	}
 
 	@Nonnull

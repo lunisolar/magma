@@ -59,9 +59,18 @@ public final class LObjCharConsumerAttest<T> extends FunctionalAttest.Simple<LOb
 		super(actual);
 	}
 
+	public LObjCharConsumerAttest(LObjCharConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjCharConsumerAttest<T> attestObjCharCons(LObjCharConsumer<T> func) {
 		return new LObjCharConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjCharConsumerAttest<T> attestObjCharCons(LObjCharConsumer<T> func, String name) {
+		return new LObjCharConsumerAttest(func, name);
 	}
 
 	@Nonnull

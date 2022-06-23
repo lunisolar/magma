@@ -61,9 +61,18 @@ public final class LObj1Obj0Flt2FuncAttest<T2, T1, R> extends FunctionalAttest.F
 		super(actual);
 	}
 
+	public LObj1Obj0Flt2FuncAttest(LObj1Obj0Flt2Func<T2, T1, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T2, T1, R> LObj1Obj0Flt2FuncAttest<T2, T1, R> attestObj1Obj0Flt2Func(LBiObjFltFunction.LObj1Obj0Flt2Func<T2, T1, R> func) {
 		return new LObj1Obj0Flt2FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T2, T1, R> LObj1Obj0Flt2FuncAttest<T2, T1, R> attestObj1Obj0Flt2Func(LBiObjFltFunction.LObj1Obj0Flt2Func<T2, T1, R> func, String name) {
+		return new LObj1Obj0Flt2FuncAttest(func, name);
 	}
 
 	@Nonnull

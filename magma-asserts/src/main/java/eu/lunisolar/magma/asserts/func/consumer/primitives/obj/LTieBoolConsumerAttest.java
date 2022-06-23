@@ -59,9 +59,18 @@ public final class LTieBoolConsumerAttest<T> extends FunctionalAttest.Simple<LTi
 		super(actual);
 	}
 
+	public LTieBoolConsumerAttest(LTieBoolConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieBoolConsumerAttest<T> attestTieBoolCons(LTieBoolConsumer<T> func) {
 		return new LTieBoolConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieBoolConsumerAttest<T> attestTieBoolCons(LTieBoolConsumer<T> func, String name) {
+		return new LTieBoolConsumerAttest(func, name);
 	}
 
 	@Nonnull

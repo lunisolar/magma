@@ -59,9 +59,18 @@ public final class LToDblBiFunctionAttest<T1, T2> extends FunctionalAttest.Full<
 		super(actual);
 	}
 
+	public LToDblBiFunctionAttest(LToDblBiFunction<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LToDblBiFunctionAttest<T1, T2> attestToDblBiFunc(LToDblBiFunction<T1, T2> func) {
 		return new LToDblBiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LToDblBiFunctionAttest<T1, T2> attestToDblBiFunc(LToDblBiFunction<T1, T2> func, String name) {
+		return new LToDblBiFunctionAttest(func, name);
 	}
 
 	@Nonnull

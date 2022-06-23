@@ -59,9 +59,18 @@ public final class LLogicalOperatorAttest extends FunctionalAttest.Full<LLogical
 		super(actual);
 	}
 
+	public LLogicalOperatorAttest(LLogicalOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLogicalOperatorAttest attestLogicalOp(LLogicalOperator func) {
 		return new LLogicalOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LLogicalOperatorAttest attestLogicalOp(LLogicalOperator func, String name) {
+		return new LLogicalOperatorAttest(func, name);
 	}
 
 	@Nonnull

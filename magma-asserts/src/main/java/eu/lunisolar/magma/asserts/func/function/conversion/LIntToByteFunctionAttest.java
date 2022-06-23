@@ -59,9 +59,18 @@ public final class LIntToByteFunctionAttest extends FunctionalAttest.Full<LIntTo
 		super(actual);
 	}
 
+	public LIntToByteFunctionAttest(LIntToByteFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntToByteFunctionAttest attestIntToByteFunc(LIntToByteFunction func) {
 		return new LIntToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LIntToByteFunctionAttest attestIntToByteFunc(LIntToByteFunction func, String name) {
+		return new LIntToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

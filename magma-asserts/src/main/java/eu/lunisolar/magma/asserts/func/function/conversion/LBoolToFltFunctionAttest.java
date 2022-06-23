@@ -59,9 +59,18 @@ public final class LBoolToFltFunctionAttest extends FunctionalAttest.Full<LBoolT
 		super(actual);
 	}
 
+	public LBoolToFltFunctionAttest(LBoolToFltFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolToFltFunctionAttest attestBoolToFltFunc(LBoolToFltFunction func) {
 		return new LBoolToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolToFltFunctionAttest attestBoolToFltFunc(LBoolToFltFunction func, String name) {
+		return new LBoolToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

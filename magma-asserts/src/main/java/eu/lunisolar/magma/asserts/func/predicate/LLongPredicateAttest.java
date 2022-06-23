@@ -59,9 +59,18 @@ public final class LLongPredicateAttest extends FunctionalAttest.Full<LLongPredi
 		super(actual);
 	}
 
+	public LLongPredicateAttest(LLongPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongPredicateAttest attestLongPred(LLongPredicate func) {
 		return new LLongPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LLongPredicateAttest attestLongPred(LLongPredicate func, String name) {
+		return new LLongPredicateAttest(func, name);
 	}
 
 	@Nonnull

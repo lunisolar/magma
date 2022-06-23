@@ -62,9 +62,18 @@ public final class LInt1Obj0Int2ToIntFuncAttest<T> extends FunctionalAttest.Full
 		super(actual);
 	}
 
+	public LInt1Obj0Int2ToIntFuncAttest(LInt1Obj0Int2ToIntFunc<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LInt1Obj0Int2ToIntFuncAttest<T> attestInt1Obj0Int2ToIntFunc(LTieIntFunction.LInt1Obj0Int2ToIntFunc<T> func) {
 		return new LInt1Obj0Int2ToIntFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LInt1Obj0Int2ToIntFuncAttest<T> attestInt1Obj0Int2ToIntFunc(LTieIntFunction.LInt1Obj0Int2ToIntFunc<T> func, String name) {
+		return new LInt1Obj0Int2ToIntFuncAttest(func, name);
 	}
 
 	@Nonnull

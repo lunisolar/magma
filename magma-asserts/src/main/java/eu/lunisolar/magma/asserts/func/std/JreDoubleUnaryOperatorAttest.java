@@ -57,9 +57,18 @@ public final class JreDoubleUnaryOperatorAttest extends FunctionalAttest.Full<Jr
 		super(actual);
 	}
 
+	public JreDoubleUnaryOperatorAttest(DoubleUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreDoubleUnaryOperatorAttest attestDblUnaryOp(DoubleUnaryOperator func) {
 		return new JreDoubleUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static JreDoubleUnaryOperatorAttest attestDblUnaryOp(DoubleUnaryOperator func, String name) {
+		return new JreDoubleUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

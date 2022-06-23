@@ -59,9 +59,18 @@ public final class LIntToDblFunctionAttest extends FunctionalAttest.Full<LIntToD
 		super(actual);
 	}
 
+	public LIntToDblFunctionAttest(LIntToDblFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntToDblFunctionAttest attestIntToDblFunc(LIntToDblFunction func) {
 		return new LIntToDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LIntToDblFunctionAttest attestIntToDblFunc(LIntToDblFunction func, String name) {
+		return new LIntToDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

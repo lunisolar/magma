@@ -59,9 +59,18 @@ public final class LCharConsumerAttest extends FunctionalAttest.Simple<LCharCons
 		super(actual);
 	}
 
+	public LCharConsumerAttest(LCharConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharConsumerAttest attestCharCons(LCharConsumer func) {
 		return new LCharConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LCharConsumerAttest attestCharCons(LCharConsumer func, String name) {
+		return new LCharConsumerAttest(func, name);
 	}
 
 	@Nonnull

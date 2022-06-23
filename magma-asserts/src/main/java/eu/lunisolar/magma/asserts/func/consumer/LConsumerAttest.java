@@ -59,9 +59,18 @@ public final class LConsumerAttest<T> extends FunctionalAttest.Simple<LConsumerA
 		super(actual);
 	}
 
+	public LConsumerAttest(LConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LConsumerAttest<T> attestCons(LConsumer<T> func) {
 		return new LConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LConsumerAttest<T> attestCons(LConsumer<T> func, String name) {
+		return new LConsumerAttest(func, name);
 	}
 
 	@Nonnull

@@ -57,9 +57,18 @@ public final class JrePredicateAttest<T> extends FunctionalAttest.Full<JrePredic
 		super(actual);
 	}
 
+	public JrePredicateAttest(Predicate<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> JrePredicateAttest<T> attestPred(Predicate<T> func) {
 		return new JrePredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T> JrePredicateAttest<T> attestPred(Predicate<T> func, String name) {
+		return new JrePredicateAttest(func, name);
 	}
 
 	@Nonnull

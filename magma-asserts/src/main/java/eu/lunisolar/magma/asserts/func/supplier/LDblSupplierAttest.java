@@ -59,9 +59,18 @@ public final class LDblSupplierAttest extends FunctionalAttest.Full<LDblSupplier
 		super(actual);
 	}
 
+	public LDblSupplierAttest(LDblSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblSupplierAttest attestDblSup(LDblSupplier func) {
 		return new LDblSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LDblSupplierAttest attestDblSup(LDblSupplier func, String name) {
+		return new LDblSupplierAttest(func, name);
 	}
 
 	@Nonnull

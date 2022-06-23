@@ -59,9 +59,18 @@ public final class LTieCharFunctionAttest<T> extends FunctionalAttest.Full<LTieC
 		super(actual);
 	}
 
+	public LTieCharFunctionAttest(LTieCharFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieCharFunctionAttest<T> attestTieCharFunc(LTieCharFunction<T> func) {
 		return new LTieCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieCharFunctionAttest<T> attestTieCharFunc(LTieCharFunction<T> func, String name) {
+		return new LTieCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

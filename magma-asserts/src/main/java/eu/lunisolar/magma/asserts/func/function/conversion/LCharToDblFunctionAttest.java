@@ -59,9 +59,18 @@ public final class LCharToDblFunctionAttest extends FunctionalAttest.Full<LCharT
 		super(actual);
 	}
 
+	public LCharToDblFunctionAttest(LCharToDblFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharToDblFunctionAttest attestCharToDblFunc(LCharToDblFunction func) {
 		return new LCharToDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LCharToDblFunctionAttest attestCharToDblFunc(LCharToDblFunction func, String name) {
+		return new LCharToDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

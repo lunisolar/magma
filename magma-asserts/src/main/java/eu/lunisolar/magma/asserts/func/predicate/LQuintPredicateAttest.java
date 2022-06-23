@@ -59,9 +59,18 @@ public final class LQuintPredicateAttest<T1, T2, T3, T4, T5> extends FunctionalA
 		super(actual);
 	}
 
+	public LQuintPredicateAttest(LQuintPredicate<T1, T2, T3, T4, T5> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3, T4, T5> LQuintPredicateAttest<T1, T2, T3, T4, T5> attestQuintPred(LQuintPredicate<T1, T2, T3, T4, T5> func) {
 		return new LQuintPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4, T5> LQuintPredicateAttest<T1, T2, T3, T4, T5> attestQuintPred(LQuintPredicate<T1, T2, T3, T4, T5> func, String name) {
+		return new LQuintPredicateAttest(func, name);
 	}
 
 	@Nonnull

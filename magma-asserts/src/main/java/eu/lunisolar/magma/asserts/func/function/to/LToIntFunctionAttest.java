@@ -59,9 +59,18 @@ public final class LToIntFunctionAttest<T> extends FunctionalAttest.Full<LToIntF
 		super(actual);
 	}
 
+	public LToIntFunctionAttest(LToIntFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LToIntFunctionAttest<T> attestToIntFunc(LToIntFunction<T> func) {
 		return new LToIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LToIntFunctionAttest<T> attestToIntFunc(LToIntFunction<T> func, String name) {
+		return new LToIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

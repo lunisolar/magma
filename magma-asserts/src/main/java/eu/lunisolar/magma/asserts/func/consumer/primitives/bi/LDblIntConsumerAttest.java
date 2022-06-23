@@ -59,9 +59,18 @@ public final class LDblIntConsumerAttest extends FunctionalAttest.Simple<LDblInt
 		super(actual);
 	}
 
+	public LDblIntConsumerAttest(LDblIntConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblIntConsumerAttest attestDblIntCons(LDblIntConsumer func) {
 		return new LDblIntConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LDblIntConsumerAttest attestDblIntCons(LDblIntConsumer func, String name) {
+		return new LDblIntConsumerAttest(func, name);
 	}
 
 	@Nonnull

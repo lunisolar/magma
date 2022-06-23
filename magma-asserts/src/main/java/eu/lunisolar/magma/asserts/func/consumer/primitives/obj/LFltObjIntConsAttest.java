@@ -62,9 +62,18 @@ public final class LFltObjIntConsAttest<T> extends FunctionalAttest.Simple<LFltO
 		super(actual);
 	}
 
+	public LFltObjIntConsAttest(LFltObjIntCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LFltObjIntConsAttest<T> attestFltObjIntCons(LTieFltConsumer.LFltObjIntCons<T> func) {
 		return new LFltObjIntConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LFltObjIntConsAttest<T> attestFltObjIntCons(LTieFltConsumer.LFltObjIntCons<T> func, String name) {
+		return new LFltObjIntConsAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LIntByteObjPredAttest<T> extends FunctionalAttest.Full<LIntBy
 		super(actual);
 	}
 
+	public LIntByteObjPredAttest(LIntByteObjPred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LIntByteObjPredAttest<T> attestIntByteObjPred(LObjIntBytePredicate.LIntByteObjPred<T> func) {
 		return new LIntByteObjPredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LIntByteObjPredAttest<T> attestIntByteObjPred(LObjIntBytePredicate.LIntByteObjPred<T> func, String name) {
+		return new LIntByteObjPredAttest(func, name);
 	}
 
 	@Nonnull

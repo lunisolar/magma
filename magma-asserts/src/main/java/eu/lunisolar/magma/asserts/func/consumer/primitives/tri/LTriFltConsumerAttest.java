@@ -59,9 +59,18 @@ public final class LTriFltConsumerAttest extends FunctionalAttest.Simple<LTriFlt
 		super(actual);
 	}
 
+	public LTriFltConsumerAttest(LTriFltConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriFltConsumerAttest attestTriFltCons(LTriFltConsumer func) {
 		return new LTriFltConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LTriFltConsumerAttest attestTriFltCons(LTriFltConsumer func, String name) {
+		return new LTriFltConsumerAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LIntObjLongPredAttest<T> extends FunctionalAttest.Full<LIntOb
 		super(actual);
 	}
 
+	public LIntObjLongPredAttest(LIntObjLongPred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LIntObjLongPredAttest<T> attestIntObjLongPred(LObjIntLongPredicate.LIntObjLongPred<T> func) {
 		return new LIntObjLongPredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LIntObjLongPredAttest<T> attestIntObjLongPred(LObjIntLongPredicate.LIntObjLongPred<T> func, String name) {
+		return new LIntObjLongPredAttest(func, name);
 	}
 
 	@Nonnull

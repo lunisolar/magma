@@ -59,9 +59,18 @@ public final class LBiIntPredicateAttest extends FunctionalAttest.Full<LBiIntPre
 		super(actual);
 	}
 
+	public LBiIntPredicateAttest(LBiIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiIntPredicateAttest attestBiIntPred(LBiIntPredicate func) {
 		return new LBiIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LBiIntPredicateAttest attestBiIntPred(LBiIntPredicate func, String name) {
+		return new LBiIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

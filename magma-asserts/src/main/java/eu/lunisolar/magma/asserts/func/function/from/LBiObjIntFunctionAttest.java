@@ -59,9 +59,18 @@ public final class LBiObjIntFunctionAttest<T1, T2, R> extends FunctionalAttest.F
 		super(actual);
 	}
 
+	public LBiObjIntFunctionAttest(LBiObjIntFunction<T1, T2, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, R> LBiObjIntFunctionAttest<T1, T2, R> attestBiObjIntFunc(LBiObjIntFunction<T1, T2, R> func) {
 		return new LBiObjIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, R> LBiObjIntFunctionAttest<T1, T2, R> attestBiObjIntFunc(LBiObjIntFunction<T1, T2, R> func, String name) {
+		return new LBiObjIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

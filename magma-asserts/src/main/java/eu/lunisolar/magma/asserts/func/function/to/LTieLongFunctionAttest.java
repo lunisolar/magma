@@ -59,9 +59,18 @@ public final class LTieLongFunctionAttest<T> extends FunctionalAttest.Full<LTieL
 		super(actual);
 	}
 
+	public LTieLongFunctionAttest(LTieLongFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieLongFunctionAttest<T> attestTieLongFunc(LTieLongFunction<T> func) {
 		return new LTieLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieLongFunctionAttest<T> attestTieLongFunc(LTieLongFunction<T> func, String name) {
+		return new LTieLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

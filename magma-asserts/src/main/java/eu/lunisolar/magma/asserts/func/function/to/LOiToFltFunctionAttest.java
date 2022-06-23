@@ -59,9 +59,18 @@ public final class LOiToFltFunctionAttest<T> extends FunctionalAttest.Full<LOiTo
 		super(actual);
 	}
 
+	public LOiToFltFunctionAttest(LOiToFltFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LOiToFltFunctionAttest<T> attestOiToFltFunc(LOiToFltFunction<T> func) {
 		return new LOiToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LOiToFltFunctionAttest<T> attestOiToFltFunc(LOiToFltFunction<T> func, String name) {
+		return new LOiToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

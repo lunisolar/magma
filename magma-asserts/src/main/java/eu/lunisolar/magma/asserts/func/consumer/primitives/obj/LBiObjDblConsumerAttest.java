@@ -59,9 +59,18 @@ public final class LBiObjDblConsumerAttest<T1, T2> extends FunctionalAttest.Simp
 		super(actual);
 	}
 
+	public LBiObjDblConsumerAttest(LBiObjDblConsumer<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LBiObjDblConsumerAttest<T1, T2> attestBiObjDblCons(LBiObjDblConsumer<T1, T2> func) {
 		return new LBiObjDblConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LBiObjDblConsumerAttest<T1, T2> attestBiObjDblCons(LBiObjDblConsumer<T1, T2> func, String name) {
+		return new LBiObjDblConsumerAttest(func, name);
 	}
 
 	@Nonnull

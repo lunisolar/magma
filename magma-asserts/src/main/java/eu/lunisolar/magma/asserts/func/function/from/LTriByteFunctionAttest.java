@@ -59,9 +59,18 @@ public final class LTriByteFunctionAttest<R> extends FunctionalAttest.Full<LTriB
 		super(actual);
 	}
 
+	public LTriByteFunctionAttest(LTriByteFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LTriByteFunctionAttest<R> attestTriByteFunc(LTriByteFunction<R> func) {
 		return new LTriByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LTriByteFunctionAttest<R> attestTriByteFunc(LTriByteFunction<R> func, String name) {
+		return new LTriByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

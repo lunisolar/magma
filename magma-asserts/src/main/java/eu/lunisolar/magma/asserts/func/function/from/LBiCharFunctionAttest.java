@@ -59,9 +59,18 @@ public final class LBiCharFunctionAttest<R> extends FunctionalAttest.Full<LBiCha
 		super(actual);
 	}
 
+	public LBiCharFunctionAttest(LBiCharFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LBiCharFunctionAttest<R> attestBiCharFunc(LBiCharFunction<R> func) {
 		return new LBiCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LBiCharFunctionAttest<R> attestBiCharFunc(LBiCharFunction<R> func, String name) {
+		return new LBiCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

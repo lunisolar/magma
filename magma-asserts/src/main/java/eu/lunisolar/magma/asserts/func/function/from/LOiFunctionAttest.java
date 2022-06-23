@@ -59,9 +59,18 @@ public final class LOiFunctionAttest<T, R> extends FunctionalAttest.Full<LOiFunc
 		super(actual);
 	}
 
+	public LOiFunctionAttest(LOiFunction<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LOiFunctionAttest<T, R> attestOiFunc(LOiFunction<T, R> func) {
 		return new LOiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LOiFunctionAttest<T, R> attestOiFunc(LOiFunction<T, R> func, String name) {
+		return new LOiFunctionAttest(func, name);
 	}
 
 	@Nonnull

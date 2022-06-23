@@ -59,9 +59,18 @@ public final class LToSrtFunctionAttest<T> extends FunctionalAttest.Full<LToSrtF
 		super(actual);
 	}
 
+	public LToSrtFunctionAttest(LToSrtFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LToSrtFunctionAttest<T> attestToSrtFunc(LToSrtFunction<T> func) {
 		return new LToSrtFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LToSrtFunctionAttest<T> attestToSrtFunc(LToSrtFunction<T> func, String name) {
+		return new LToSrtFunctionAttest(func, name);
 	}
 
 	@Nonnull

@@ -57,9 +57,18 @@ public final class JreIntSupplierAttest extends FunctionalAttest.Full<JreIntSupp
 		super(actual);
 	}
 
+	public JreIntSupplierAttest(IntSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreIntSupplierAttest attestIntSup(IntSupplier func) {
 		return new JreIntSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static JreIntSupplierAttest attestIntSup(IntSupplier func, String name) {
+		return new JreIntSupplierAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LTriByteConsumerAttest extends FunctionalAttest.Simple<LTriBy
 		super(actual);
 	}
 
+	public LTriByteConsumerAttest(LTriByteConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriByteConsumerAttest attestTriByteCons(LTriByteConsumer func) {
 		return new LTriByteConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LTriByteConsumerAttest attestTriByteCons(LTriByteConsumer func, String name) {
+		return new LTriByteConsumerAttest(func, name);
 	}
 
 	@Nonnull

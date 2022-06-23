@@ -59,9 +59,18 @@ public final class LObjIntObjPredicateAttest<T1, T2> extends FunctionalAttest.Fu
 		super(actual);
 	}
 
+	public LObjIntObjPredicateAttest(LObjIntObjPredicate<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LObjIntObjPredicateAttest<T1, T2> attestObjIntObjPred(LObjIntObjPredicate<T1, T2> func) {
 		return new LObjIntObjPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LObjIntObjPredicateAttest<T1, T2> attestObjIntObjPred(LObjIntObjPredicate<T1, T2> func, String name) {
+		return new LObjIntObjPredicateAttest(func, name);
 	}
 
 	@Nonnull

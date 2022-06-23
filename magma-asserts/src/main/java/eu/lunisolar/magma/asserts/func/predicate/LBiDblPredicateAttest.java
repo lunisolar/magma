@@ -59,9 +59,18 @@ public final class LBiDblPredicateAttest extends FunctionalAttest.Full<LBiDblPre
 		super(actual);
 	}
 
+	public LBiDblPredicateAttest(LBiDblPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiDblPredicateAttest attestBiDblPred(LBiDblPredicate func) {
 		return new LBiDblPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LBiDblPredicateAttest attestBiDblPred(LBiDblPredicate func, String name) {
+		return new LBiDblPredicateAttest(func, name);
 	}
 
 	@Nonnull

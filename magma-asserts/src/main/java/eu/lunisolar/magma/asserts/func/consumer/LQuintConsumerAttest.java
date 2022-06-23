@@ -59,9 +59,18 @@ public final class LQuintConsumerAttest<T1, T2, T3, T4, T5> extends FunctionalAt
 		super(actual);
 	}
 
+	public LQuintConsumerAttest(LQuintConsumer<T1, T2, T3, T4, T5> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3, T4, T5> LQuintConsumerAttest<T1, T2, T3, T4, T5> attestQuintCons(LQuintConsumer<T1, T2, T3, T4, T5> func) {
 		return new LQuintConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4, T5> LQuintConsumerAttest<T1, T2, T3, T4, T5> attestQuintCons(LQuintConsumer<T1, T2, T3, T4, T5> func, String name) {
+		return new LQuintConsumerAttest(func, name);
 	}
 
 	@Nonnull

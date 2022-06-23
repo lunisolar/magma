@@ -61,9 +61,18 @@ public final class LFlt1Flt0ConsAttest extends FunctionalAttest.Simple<LFlt1Flt0
 		super(actual);
 	}
 
+	public LFlt1Flt0ConsAttest(LFlt1Flt0Cons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFlt1Flt0ConsAttest attestFlt1Flt0Cons(LBiFltConsumer.LFlt1Flt0Cons func) {
 		return new LFlt1Flt0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static LFlt1Flt0ConsAttest attestFlt1Flt0Cons(LBiFltConsumer.LFlt1Flt0Cons func, String name) {
+		return new LFlt1Flt0ConsAttest(func, name);
 	}
 
 	@Nonnull

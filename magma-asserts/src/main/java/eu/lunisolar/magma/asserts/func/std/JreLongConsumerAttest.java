@@ -57,9 +57,18 @@ public final class JreLongConsumerAttest extends FunctionalAttest.Simple<JreLong
 		super(actual);
 	}
 
+	public JreLongConsumerAttest(LongConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreLongConsumerAttest attestLongCons(LongConsumer func) {
 		return new JreLongConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static JreLongConsumerAttest attestLongCons(LongConsumer func, String name) {
+		return new JreLongConsumerAttest(func, name);
 	}
 
 	@Nonnull

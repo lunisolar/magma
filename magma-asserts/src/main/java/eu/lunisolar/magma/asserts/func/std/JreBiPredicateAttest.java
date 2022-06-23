@@ -57,9 +57,18 @@ public final class JreBiPredicateAttest<T1, T2> extends FunctionalAttest.Full<Jr
 		super(actual);
 	}
 
+	public JreBiPredicateAttest(BiPredicate<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> JreBiPredicateAttest<T1, T2> attestBiPred(BiPredicate<T1, T2> func) {
 		return new JreBiPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> JreBiPredicateAttest<T1, T2> attestBiPred(BiPredicate<T1, T2> func, String name) {
+		return new JreBiPredicateAttest(func, name);
 	}
 
 	@Nonnull

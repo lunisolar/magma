@@ -59,9 +59,18 @@ public final class LIntConsumerAttest extends FunctionalAttest.Simple<LIntConsum
 		super(actual);
 	}
 
+	public LIntConsumerAttest(LIntConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntConsumerAttest attestIntCons(LIntConsumer func) {
 		return new LIntConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LIntConsumerAttest attestIntCons(LIntConsumer func, String name) {
+		return new LIntConsumerAttest(func, name);
 	}
 
 	@Nonnull

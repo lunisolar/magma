@@ -59,9 +59,18 @@ public final class LTriFltFunctionAttest<R> extends FunctionalAttest.Full<LTriFl
 		super(actual);
 	}
 
+	public LTriFltFunctionAttest(LTriFltFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LTriFltFunctionAttest<R> attestTriFltFunc(LTriFltFunction<R> func) {
 		return new LTriFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LTriFltFunctionAttest<R> attestTriFltFunc(LTriFltFunction<R> func, String name) {
+		return new LTriFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

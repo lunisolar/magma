@@ -62,9 +62,18 @@ public final class LLongIntObjToIntFuncAttest<T> extends FunctionalAttest.Full<L
 		super(actual);
 	}
 
+	public LLongIntObjToIntFuncAttest(LLongIntObjToIntFunc<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LLongIntObjToIntFuncAttest<T> attestLongIntObjToIntFunc(LTieLongFunction.LLongIntObjToIntFunc<T> func) {
 		return new LLongIntObjToIntFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LLongIntObjToIntFuncAttest<T> attestLongIntObjToIntFunc(LTieLongFunction.LLongIntObjToIntFunc<T> func, String name) {
+		return new LLongIntObjToIntFuncAttest(func, name);
 	}
 
 	@Nonnull

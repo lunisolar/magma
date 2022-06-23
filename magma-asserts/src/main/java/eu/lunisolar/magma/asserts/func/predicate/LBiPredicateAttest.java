@@ -59,9 +59,18 @@ public final class LBiPredicateAttest<T1, T2> extends FunctionalAttest.Full<LBiP
 		super(actual);
 	}
 
+	public LBiPredicateAttest(LBiPredicate<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LBiPredicateAttest<T1, T2> attestBiPred(LBiPredicate<T1, T2> func) {
 		return new LBiPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LBiPredicateAttest<T1, T2> attestBiPred(LBiPredicate<T1, T2> func, String name) {
+		return new LBiPredicateAttest(func, name);
 	}
 
 	@Nonnull

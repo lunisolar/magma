@@ -59,9 +59,18 @@ public final class LSrtToFltFunctionAttest extends FunctionalAttest.Full<LSrtToF
 		super(actual);
 	}
 
+	public LSrtToFltFunctionAttest(LSrtToFltFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtToFltFunctionAttest attestSrtToFltFunc(LSrtToFltFunction func) {
 		return new LSrtToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtToFltFunctionAttest attestSrtToFltFunc(LSrtToFltFunction func, String name) {
+		return new LSrtToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

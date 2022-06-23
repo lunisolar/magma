@@ -59,9 +59,18 @@ public final class LToCharFunctionAttest<T> extends FunctionalAttest.Full<LToCha
 		super(actual);
 	}
 
+	public LToCharFunctionAttest(LToCharFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LToCharFunctionAttest<T> attestToCharFunc(LToCharFunction<T> func) {
 		return new LToCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LToCharFunctionAttest<T> attestToCharFunc(LToCharFunction<T> func, String name) {
+		return new LToCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

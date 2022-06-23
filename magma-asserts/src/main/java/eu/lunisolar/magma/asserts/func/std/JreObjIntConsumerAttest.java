@@ -57,9 +57,18 @@ public final class JreObjIntConsumerAttest<T> extends FunctionalAttest.Simple<Jr
 		super(actual);
 	}
 
+	public JreObjIntConsumerAttest(ObjIntConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> JreObjIntConsumerAttest<T> attestObjIntCons(ObjIntConsumer<T> func) {
 		return new JreObjIntConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> JreObjIntConsumerAttest<T> attestObjIntCons(ObjIntConsumer<T> func, String name) {
+		return new JreObjIntConsumerAttest(func, name);
 	}
 
 	@Nonnull

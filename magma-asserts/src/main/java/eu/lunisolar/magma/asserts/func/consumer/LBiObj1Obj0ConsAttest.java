@@ -61,9 +61,18 @@ public final class LBiObj1Obj0ConsAttest<T3, T2, T1> extends FunctionalAttest.Si
 		super(actual);
 	}
 
+	public LBiObj1Obj0ConsAttest(LBiObj1Obj0Cons<T3, T2, T1> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T3, T2, T1> LBiObj1Obj0ConsAttest<T3, T2, T1> attestBiObj1Obj0Cons(LTriConsumer.LBiObj1Obj0Cons<T3, T2, T1> func) {
 		return new LBiObj1Obj0ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T3, T2, T1> LBiObj1Obj0ConsAttest<T3, T2, T1> attestBiObj1Obj0Cons(LTriConsumer.LBiObj1Obj0Cons<T3, T2, T1> func, String name) {
+		return new LBiObj1Obj0ConsAttest(func, name);
 	}
 
 	@Nonnull

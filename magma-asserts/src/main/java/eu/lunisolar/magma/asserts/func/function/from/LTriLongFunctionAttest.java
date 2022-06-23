@@ -59,9 +59,18 @@ public final class LTriLongFunctionAttest<R> extends FunctionalAttest.Full<LTriL
 		super(actual);
 	}
 
+	public LTriLongFunctionAttest(LTriLongFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LTriLongFunctionAttest<R> attestTriLongFunc(LTriLongFunction<R> func) {
 		return new LTriLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LTriLongFunctionAttest<R> attestTriLongFunc(LTriLongFunction<R> func, String name) {
+		return new LTriLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

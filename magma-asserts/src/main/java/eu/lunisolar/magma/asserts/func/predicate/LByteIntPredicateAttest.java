@@ -59,9 +59,18 @@ public final class LByteIntPredicateAttest extends FunctionalAttest.Full<LByteIn
 		super(actual);
 	}
 
+	public LByteIntPredicateAttest(LByteIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LByteIntPredicateAttest attestByteIntPred(LByteIntPredicate func) {
 		return new LByteIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LByteIntPredicateAttest attestByteIntPred(LByteIntPredicate func, String name) {
+		return new LByteIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

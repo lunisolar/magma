@@ -57,9 +57,18 @@ public final class JreLongToIntFunctionAttest extends FunctionalAttest.Full<JreL
 		super(actual);
 	}
 
+	public JreLongToIntFunctionAttest(LongToIntFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreLongToIntFunctionAttest attestLongToIntFunc(LongToIntFunction func) {
 		return new JreLongToIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static JreLongToIntFunctionAttest attestLongToIntFunc(LongToIntFunction func, String name) {
+		return new JreLongToIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

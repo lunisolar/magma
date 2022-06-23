@@ -59,9 +59,18 @@ public final class LLongTernaryOperatorAttest extends FunctionalAttest.Full<LLon
 		super(actual);
 	}
 
+	public LLongTernaryOperatorAttest(LLongTernaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongTernaryOperatorAttest attestLongTernaryOp(LLongTernaryOperator func) {
 		return new LLongTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LLongTernaryOperatorAttest attestLongTernaryOp(LLongTernaryOperator func, String name) {
+		return new LLongTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

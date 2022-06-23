@@ -59,9 +59,18 @@ public final class LIntSupplierAttest extends FunctionalAttest.Full<LIntSupplier
 		super(actual);
 	}
 
+	public LIntSupplierAttest(LIntSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntSupplierAttest attestIntSup(LIntSupplier func) {
 		return new LIntSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LIntSupplierAttest attestIntSup(LIntSupplier func, String name) {
+		return new LIntSupplierAttest(func, name);
 	}
 
 	@Nonnull

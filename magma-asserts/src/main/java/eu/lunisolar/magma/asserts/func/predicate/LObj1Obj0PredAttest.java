@@ -61,9 +61,18 @@ public final class LObj1Obj0PredAttest<T2, T1> extends FunctionalAttest.Full<LOb
 		super(actual);
 	}
 
+	public LObj1Obj0PredAttest(LObj1Obj0Pred<T2, T1> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T2, T1> LObj1Obj0PredAttest<T2, T1> attestObj1Obj0Pred(LBiPredicate.LObj1Obj0Pred<T2, T1> func) {
 		return new LObj1Obj0PredAttest(func);
+	}
+
+	@Nonnull
+	public static <T2, T1> LObj1Obj0PredAttest<T2, T1> attestObj1Obj0Pred(LBiPredicate.LObj1Obj0Pred<T2, T1> func, String name) {
+		return new LObj1Obj0PredAttest(func, name);
 	}
 
 	@Nonnull

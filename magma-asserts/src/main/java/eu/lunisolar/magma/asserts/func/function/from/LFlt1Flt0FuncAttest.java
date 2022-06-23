@@ -61,9 +61,18 @@ public final class LFlt1Flt0FuncAttest<R> extends FunctionalAttest.Full<LFlt1Flt
 		super(actual);
 	}
 
+	public LFlt1Flt0FuncAttest(LFlt1Flt0Func<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LFlt1Flt0FuncAttest<R> attestFlt1Flt0Func(LBiFltFunction.LFlt1Flt0Func<R> func) {
 		return new LFlt1Flt0FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LFlt1Flt0FuncAttest<R> attestFlt1Flt0Func(LBiFltFunction.LFlt1Flt0Func<R> func, String name) {
+		return new LFlt1Flt0FuncAttest(func, name);
 	}
 
 	@Nonnull

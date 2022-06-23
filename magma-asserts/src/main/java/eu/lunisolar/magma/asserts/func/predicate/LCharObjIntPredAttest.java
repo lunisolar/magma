@@ -62,9 +62,18 @@ public final class LCharObjIntPredAttest<T> extends FunctionalAttest.Full<LCharO
 		super(actual);
 	}
 
+	public LCharObjIntPredAttest(LCharObjIntPred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LCharObjIntPredAttest<T> attestCharObjIntPred(LObjIntCharPredicate.LCharObjIntPred<T> func) {
 		return new LCharObjIntPredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LCharObjIntPredAttest<T> attestCharObjIntPred(LObjIntCharPredicate.LCharObjIntPred<T> func, String name) {
+		return new LCharObjIntPredAttest(func, name);
 	}
 
 	@Nonnull

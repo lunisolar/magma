@@ -62,9 +62,18 @@ public final class LCharObjIntConsAttest<T> extends FunctionalAttest.Simple<LCha
 		super(actual);
 	}
 
+	public LCharObjIntConsAttest(LCharObjIntCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LCharObjIntConsAttest<T> attestCharObjIntCons(LTieCharConsumer.LCharObjIntCons<T> func) {
 		return new LCharObjIntConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LCharObjIntConsAttest<T> attestCharObjIntCons(LTieCharConsumer.LCharObjIntCons<T> func, String name) {
+		return new LCharObjIntConsAttest(func, name);
 	}
 
 	@Nonnull

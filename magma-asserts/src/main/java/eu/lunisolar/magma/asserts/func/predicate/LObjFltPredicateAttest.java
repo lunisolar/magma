@@ -59,9 +59,18 @@ public final class LObjFltPredicateAttest<T> extends FunctionalAttest.Full<LObjF
 		super(actual);
 	}
 
+	public LObjFltPredicateAttest(LObjFltPredicate<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjFltPredicateAttest<T> attestObjFltPred(LObjFltPredicate<T> func) {
 		return new LObjFltPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjFltPredicateAttest<T> attestObjFltPred(LObjFltPredicate<T> func, String name) {
+		return new LObjFltPredicateAttest(func, name);
 	}
 
 	@Nonnull

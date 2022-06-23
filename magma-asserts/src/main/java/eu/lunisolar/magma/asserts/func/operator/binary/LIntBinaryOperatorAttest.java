@@ -59,9 +59,18 @@ public final class LIntBinaryOperatorAttest extends FunctionalAttest.Full<LIntBi
 		super(actual);
 	}
 
+	public LIntBinaryOperatorAttest(LIntBinaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntBinaryOperatorAttest attestIntBinaryOp(LIntBinaryOperator func) {
 		return new LIntBinaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LIntBinaryOperatorAttest attestIntBinaryOp(LIntBinaryOperator func, String name) {
+		return new LIntBinaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

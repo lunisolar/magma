@@ -62,9 +62,18 @@ public final class LByte2Obj0Obj1FuncAttest<T1, T2, R> extends FunctionalAttest.
 		super(actual);
 	}
 
+	public LByte2Obj0Obj1FuncAttest(LByte2Obj0Obj1Func<T1, T2, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, R> LByte2Obj0Obj1FuncAttest<T1, T2, R> attestByte2Obj0Obj1Func(LBiObjByteFunction.LByte2Obj0Obj1Func<T1, T2, R> func) {
 		return new LByte2Obj0Obj1FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, R> LByte2Obj0Obj1FuncAttest<T1, T2, R> attestByte2Obj0Obj1Func(LBiObjByteFunction.LByte2Obj0Obj1Func<T1, T2, R> func, String name) {
+		return new LByte2Obj0Obj1FuncAttest(func, name);
 	}
 
 	@Nonnull

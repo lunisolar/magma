@@ -62,9 +62,18 @@ public final class LDblObjPredAttest<T> extends FunctionalAttest.Full<LDblObjPre
 		super(actual);
 	}
 
+	public LDblObjPredAttest(LDblObjPred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LDblObjPredAttest<T> attestDblObjPred(LObjDblPredicate.LDblObjPred<T> func) {
 		return new LDblObjPredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LDblObjPredAttest<T> attestDblObjPred(LObjDblPredicate.LDblObjPred<T> func, String name) {
+		return new LDblObjPredAttest(func, name);
 	}
 
 	@Nonnull

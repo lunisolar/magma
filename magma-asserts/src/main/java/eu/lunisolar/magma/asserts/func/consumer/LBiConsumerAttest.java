@@ -59,9 +59,18 @@ public final class LBiConsumerAttest<T1, T2> extends FunctionalAttest.Simple<LBi
 		super(actual);
 	}
 
+	public LBiConsumerAttest(LBiConsumer<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LBiConsumerAttest<T1, T2> attestBiCons(LBiConsumer<T1, T2> func) {
 		return new LBiConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LBiConsumerAttest<T1, T2> attestBiCons(LBiConsumer<T1, T2> func, String name) {
+		return new LBiConsumerAttest(func, name);
 	}
 
 	@Nonnull

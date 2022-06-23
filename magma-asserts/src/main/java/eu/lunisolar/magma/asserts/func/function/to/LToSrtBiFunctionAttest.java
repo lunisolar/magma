@@ -59,9 +59,18 @@ public final class LToSrtBiFunctionAttest<T1, T2> extends FunctionalAttest.Full<
 		super(actual);
 	}
 
+	public LToSrtBiFunctionAttest(LToSrtBiFunction<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LToSrtBiFunctionAttest<T1, T2> attestToSrtBiFunc(LToSrtBiFunction<T1, T2> func) {
 		return new LToSrtBiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LToSrtBiFunctionAttest<T1, T2> attestToSrtBiFunc(LToSrtBiFunction<T1, T2> func, String name) {
+		return new LToSrtBiFunctionAttest(func, name);
 	}
 
 	@Nonnull

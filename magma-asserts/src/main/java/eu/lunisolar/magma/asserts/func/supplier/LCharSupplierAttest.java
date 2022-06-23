@@ -59,9 +59,18 @@ public final class LCharSupplierAttest extends FunctionalAttest.Full<LCharSuppli
 		super(actual);
 	}
 
+	public LCharSupplierAttest(LCharSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LCharSupplierAttest attestCharSup(LCharSupplier func) {
 		return new LCharSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LCharSupplierAttest attestCharSup(LCharSupplier func, String name) {
+		return new LCharSupplierAttest(func, name);
 	}
 
 	@Nonnull

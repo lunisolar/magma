@@ -57,9 +57,18 @@ public final class JreBiConsumerAttest<T1, T2> extends FunctionalAttest.Simple<J
 		super(actual);
 	}
 
+	public JreBiConsumerAttest(BiConsumer<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> JreBiConsumerAttest<T1, T2> attestBiCons(BiConsumer<T1, T2> func) {
 		return new JreBiConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> JreBiConsumerAttest<T1, T2> attestBiCons(BiConsumer<T1, T2> func, String name) {
+		return new JreBiConsumerAttest(func, name);
 	}
 
 	@Nonnull

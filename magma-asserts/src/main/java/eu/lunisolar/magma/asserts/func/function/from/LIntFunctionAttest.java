@@ -59,9 +59,18 @@ public final class LIntFunctionAttest<R> extends FunctionalAttest.Full<LIntFunct
 		super(actual);
 	}
 
+	public LIntFunctionAttest(LIntFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> LIntFunctionAttest<R> attestIntFunc(LIntFunction<R> func) {
 		return new LIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> LIntFunctionAttest<R> attestIntFunc(LIntFunction<R> func, String name) {
+		return new LIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

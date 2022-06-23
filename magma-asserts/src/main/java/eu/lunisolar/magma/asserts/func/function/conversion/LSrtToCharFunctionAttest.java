@@ -59,9 +59,18 @@ public final class LSrtToCharFunctionAttest extends FunctionalAttest.Full<LSrtTo
 		super(actual);
 	}
 
+	public LSrtToCharFunctionAttest(LSrtToCharFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtToCharFunctionAttest attestSrtToCharFunc(LSrtToCharFunction func) {
 		return new LSrtToCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtToCharFunctionAttest attestSrtToCharFunc(LSrtToCharFunction func, String name) {
+		return new LSrtToCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

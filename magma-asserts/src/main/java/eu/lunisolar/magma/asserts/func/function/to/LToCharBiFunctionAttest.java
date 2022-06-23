@@ -59,9 +59,18 @@ public final class LToCharBiFunctionAttest<T1, T2> extends FunctionalAttest.Full
 		super(actual);
 	}
 
+	public LToCharBiFunctionAttest(LToCharBiFunction<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LToCharBiFunctionAttest<T1, T2> attestToCharBiFunc(LToCharBiFunction<T1, T2> func) {
 		return new LToCharBiFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LToCharBiFunctionAttest<T1, T2> attestToCharBiFunc(LToCharBiFunction<T1, T2> func, String name) {
+		return new LToCharBiFunctionAttest(func, name);
 	}
 
 	@Nonnull

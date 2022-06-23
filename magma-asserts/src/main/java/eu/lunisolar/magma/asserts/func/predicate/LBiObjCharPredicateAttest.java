@@ -59,9 +59,18 @@ public final class LBiObjCharPredicateAttest<T1, T2> extends FunctionalAttest.Fu
 		super(actual);
 	}
 
+	public LBiObjCharPredicateAttest(LBiObjCharPredicate<T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2> LBiObjCharPredicateAttest<T1, T2> attestBiObjCharPred(LBiObjCharPredicate<T1, T2> func) {
 		return new LBiObjCharPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2> LBiObjCharPredicateAttest<T1, T2> attestBiObjCharPred(LBiObjCharPredicate<T1, T2> func, String name) {
+		return new LBiObjCharPredicateAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LObjDblConsumerAttest<T> extends FunctionalAttest.Simple<LObj
 		super(actual);
 	}
 
+	public LObjDblConsumerAttest(LObjDblConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjDblConsumerAttest<T> attestObjDblCons(LObjDblConsumer<T> func) {
 		return new LObjDblConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjDblConsumerAttest<T> attestObjDblCons(LObjDblConsumer<T> func, String name) {
+		return new LObjDblConsumerAttest(func, name);
 	}
 
 	@Nonnull

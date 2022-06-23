@@ -62,9 +62,18 @@ public final class LIntObjCharPredAttest<T> extends FunctionalAttest.Full<LIntOb
 		super(actual);
 	}
 
+	public LIntObjCharPredAttest(LIntObjCharPred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LIntObjCharPredAttest<T> attestIntObjCharPred(LObjIntCharPredicate.LIntObjCharPred<T> func) {
 		return new LIntObjCharPredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LIntObjCharPredAttest<T> attestIntObjCharPred(LObjIntCharPredicate.LIntObjCharPred<T> func, String name) {
+		return new LIntObjCharPredAttest(func, name);
 	}
 
 	@Nonnull

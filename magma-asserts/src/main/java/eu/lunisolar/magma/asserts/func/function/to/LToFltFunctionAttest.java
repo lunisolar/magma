@@ -59,9 +59,18 @@ public final class LToFltFunctionAttest<T> extends FunctionalAttest.Full<LToFltF
 		super(actual);
 	}
 
+	public LToFltFunctionAttest(LToFltFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LToFltFunctionAttest<T> attestToFltFunc(LToFltFunction<T> func) {
 		return new LToFltFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LToFltFunctionAttest<T> attestToFltFunc(LToFltFunction<T> func, String name) {
+		return new LToFltFunctionAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LTernaryOperatorAttest<T> extends FunctionalAttest.Full<LTern
 		super(actual);
 	}
 
+	public LTernaryOperatorAttest(LTernaryOperator<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTernaryOperatorAttest<T> attestTernaryOp(LTernaryOperator<T> func) {
 		return new LTernaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTernaryOperatorAttest<T> attestTernaryOp(LTernaryOperator<T> func, String name) {
+		return new LTernaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

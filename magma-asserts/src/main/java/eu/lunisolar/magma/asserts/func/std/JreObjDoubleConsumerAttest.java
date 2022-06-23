@@ -57,9 +57,18 @@ public final class JreObjDoubleConsumerAttest<T> extends FunctionalAttest.Simple
 		super(actual);
 	}
 
+	public JreObjDoubleConsumerAttest(ObjDoubleConsumer<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> JreObjDoubleConsumerAttest<T> attestObjDblCons(ObjDoubleConsumer<T> func) {
 		return new JreObjDoubleConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T> JreObjDoubleConsumerAttest<T> attestObjDblCons(ObjDoubleConsumer<T> func, String name) {
+		return new JreObjDoubleConsumerAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LIntDblConsAttest extends FunctionalAttest.Simple<LIntDblCons
 		super(actual);
 	}
 
+	public LIntDblConsAttest(LIntDblCons actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntDblConsAttest attestIntDblCons(LDblIntConsumer.LIntDblCons func) {
 		return new LIntDblConsAttest(func);
+	}
+
+	@Nonnull
+	public static LIntDblConsAttest attestIntDblCons(LDblIntConsumer.LIntDblCons func, String name) {
+		return new LIntDblConsAttest(func, name);
 	}
 
 	@Nonnull

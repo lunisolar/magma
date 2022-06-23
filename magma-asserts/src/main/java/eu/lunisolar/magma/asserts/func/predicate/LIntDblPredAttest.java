@@ -62,9 +62,18 @@ public final class LIntDblPredAttest extends FunctionalAttest.Full<LIntDblPredAt
 		super(actual);
 	}
 
+	public LIntDblPredAttest(LIntDblPred actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntDblPredAttest attestIntDblPred(LDblIntPredicate.LIntDblPred func) {
 		return new LIntDblPredAttest(func);
+	}
+
+	@Nonnull
+	public static LIntDblPredAttest attestIntDblPred(LDblIntPredicate.LIntDblPred func, String name) {
+		return new LIntDblPredAttest(func, name);
 	}
 
 	@Nonnull

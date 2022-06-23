@@ -59,9 +59,18 @@ public final class LFltIntPredicateAttest extends FunctionalAttest.Full<LFltIntP
 		super(actual);
 	}
 
+	public LFltIntPredicateAttest(LFltIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltIntPredicateAttest attestFltIntPred(LFltIntPredicate func) {
 		return new LFltIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LFltIntPredicateAttest attestFltIntPred(LFltIntPredicate func, String name) {
+		return new LFltIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

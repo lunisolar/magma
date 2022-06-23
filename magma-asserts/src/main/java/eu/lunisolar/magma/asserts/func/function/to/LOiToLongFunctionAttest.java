@@ -59,9 +59,18 @@ public final class LOiToLongFunctionAttest<T> extends FunctionalAttest.Full<LOiT
 		super(actual);
 	}
 
+	public LOiToLongFunctionAttest(LOiToLongFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LOiToLongFunctionAttest<T> attestOiToLongFunc(LOiToLongFunction<T> func) {
 		return new LOiToLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LOiToLongFunctionAttest<T> attestOiToLongFunc(LOiToLongFunction<T> func, String name) {
+		return new LOiToLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

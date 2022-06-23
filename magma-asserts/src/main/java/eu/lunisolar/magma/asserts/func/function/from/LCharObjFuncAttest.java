@@ -62,9 +62,18 @@ public final class LCharObjFuncAttest<T, R> extends FunctionalAttest.Full<LCharO
 		super(actual);
 	}
 
+	public LCharObjFuncAttest(LCharObjFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LCharObjFuncAttest<T, R> attestCharObjFunc(LObjCharFunction.LCharObjFunc<T, R> func) {
 		return new LCharObjFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LCharObjFuncAttest<T, R> attestCharObjFunc(LObjCharFunction.LCharObjFunc<T, R> func, String name) {
+		return new LCharObjFuncAttest(func, name);
 	}
 
 	@Nonnull

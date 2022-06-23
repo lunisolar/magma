@@ -59,9 +59,18 @@ public final class LTriDblConsumerAttest extends FunctionalAttest.Simple<LTriDbl
 		super(actual);
 	}
 
+	public LTriDblConsumerAttest(LTriDblConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriDblConsumerAttest attestTriDblCons(LTriDblConsumer func) {
 		return new LTriDblConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LTriDblConsumerAttest attestTriDblCons(LTriDblConsumer func, String name) {
+		return new LTriDblConsumerAttest(func, name);
 	}
 
 	@Nonnull

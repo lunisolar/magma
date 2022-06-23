@@ -57,9 +57,18 @@ public final class JreIntUnaryOperatorAttest extends FunctionalAttest.Full<JreIn
 		super(actual);
 	}
 
+	public JreIntUnaryOperatorAttest(IntUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreIntUnaryOperatorAttest attestIntUnaryOp(IntUnaryOperator func) {
 		return new JreIntUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static JreIntUnaryOperatorAttest attestIntUnaryOp(IntUnaryOperator func, String name) {
+		return new JreIntUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LSrtObjConsAttest<T> extends FunctionalAttest.Simple<LSrtObjC
 		super(actual);
 	}
 
+	public LSrtObjConsAttest(LSrtObjCons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LSrtObjConsAttest<T> attestSrtObjCons(LObjSrtConsumer.LSrtObjCons<T> func) {
 		return new LSrtObjConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LSrtObjConsAttest<T> attestSrtObjCons(LObjSrtConsumer.LSrtObjCons<T> func, String name) {
+		return new LSrtObjConsAttest(func, name);
 	}
 
 	@Nonnull

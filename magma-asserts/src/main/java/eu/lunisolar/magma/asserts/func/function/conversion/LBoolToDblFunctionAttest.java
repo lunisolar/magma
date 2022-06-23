@@ -59,9 +59,18 @@ public final class LBoolToDblFunctionAttest extends FunctionalAttest.Full<LBoolT
 		super(actual);
 	}
 
+	public LBoolToDblFunctionAttest(LBoolToDblFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolToDblFunctionAttest attestBoolToDblFunc(LBoolToDblFunction func) {
 		return new LBoolToDblFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolToDblFunctionAttest attestBoolToDblFunc(LBoolToDblFunction func, String name) {
+		return new LBoolToDblFunctionAttest(func, name);
 	}
 
 	@Nonnull

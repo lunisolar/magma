@@ -59,9 +59,18 @@ public final class LFltSupplierAttest extends FunctionalAttest.Full<LFltSupplier
 		super(actual);
 	}
 
+	public LFltSupplierAttest(LFltSupplier actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LFltSupplierAttest attestFltSup(LFltSupplier func) {
 		return new LFltSupplierAttest(func);
+	}
+
+	@Nonnull
+	public static LFltSupplierAttest attestFltSup(LFltSupplier func, String name) {
+		return new LFltSupplierAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LTieByteFunctionAttest<T> extends FunctionalAttest.Full<LTieB
 		super(actual);
 	}
 
+	public LTieByteFunctionAttest(LTieByteFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LTieByteFunctionAttest<T> attestTieByteFunc(LTieByteFunction<T> func) {
 		return new LTieByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LTieByteFunctionAttest<T> attestTieByteFunc(LTieByteFunction<T> func, String name) {
+		return new LTieByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

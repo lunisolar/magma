@@ -62,9 +62,18 @@ public final class LDblObjFuncAttest<T, R> extends FunctionalAttest.Full<LDblObj
 		super(actual);
 	}
 
+	public LDblObjFuncAttest(LDblObjFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LDblObjFuncAttest<T, R> attestDblObjFunc(LObjDblFunction.LDblObjFunc<T, R> func) {
 		return new LDblObjFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LDblObjFuncAttest<T, R> attestDblObjFunc(LObjDblFunction.LDblObjFunc<T, R> func, String name) {
+		return new LDblObjFuncAttest(func, name);
 	}
 
 	@Nonnull

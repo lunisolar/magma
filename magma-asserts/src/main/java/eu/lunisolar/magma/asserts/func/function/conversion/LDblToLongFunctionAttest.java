@@ -59,9 +59,18 @@ public final class LDblToLongFunctionAttest extends FunctionalAttest.Full<LDblTo
 		super(actual);
 	}
 
+	public LDblToLongFunctionAttest(LDblToLongFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LDblToLongFunctionAttest attestDblToLongFunc(LDblToLongFunction func) {
 		return new LDblToLongFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LDblToLongFunctionAttest attestDblToLongFunc(LDblToLongFunction func, String name) {
+		return new LDblToLongFunctionAttest(func, name);
 	}
 
 	@Nonnull

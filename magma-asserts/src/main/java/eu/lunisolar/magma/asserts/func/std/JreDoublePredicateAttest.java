@@ -57,9 +57,18 @@ public final class JreDoublePredicateAttest extends FunctionalAttest.Full<JreDou
 		super(actual);
 	}
 
+	public JreDoublePredicateAttest(DoublePredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static JreDoublePredicateAttest attestDblPred(DoublePredicate func) {
 		return new JreDoublePredicateAttest(func);
+	}
+
+	@Nonnull
+	public static JreDoublePredicateAttest attestDblPred(DoublePredicate func, String name) {
+		return new JreDoublePredicateAttest(func, name);
 	}
 
 	@Nonnull

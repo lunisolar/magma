@@ -61,9 +61,18 @@ public final class LToIntObj2Obj0Obj1FuncAttest<T3, T1, T2> extends FunctionalAt
 		super(actual);
 	}
 
+	public LToIntObj2Obj0Obj1FuncAttest(LToIntObj2Obj0Obj1Func<T3, T1, T2> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T3, T1, T2> LToIntObj2Obj0Obj1FuncAttest<T3, T1, T2> attestToIntObj2Obj0Obj1Func(LToIntTriFunction.LToIntObj2Obj0Obj1Func<T3, T1, T2> func) {
 		return new LToIntObj2Obj0Obj1FuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T3, T1, T2> LToIntObj2Obj0Obj1FuncAttest<T3, T1, T2> attestToIntObj2Obj0Obj1Func(LToIntTriFunction.LToIntObj2Obj0Obj1Func<T3, T1, T2> func, String name) {
+		return new LToIntObj2Obj0Obj1FuncAttest(func, name);
 	}
 
 	@Nonnull

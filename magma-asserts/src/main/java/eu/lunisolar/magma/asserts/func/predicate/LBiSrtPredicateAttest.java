@@ -59,9 +59,18 @@ public final class LBiSrtPredicateAttest extends FunctionalAttest.Full<LBiSrtPre
 		super(actual);
 	}
 
+	public LBiSrtPredicateAttest(LBiSrtPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiSrtPredicateAttest attestBiSrtPred(LBiSrtPredicate func) {
 		return new LBiSrtPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LBiSrtPredicateAttest attestBiSrtPred(LBiSrtPredicate func, String name) {
+		return new LBiSrtPredicateAttest(func, name);
 	}
 
 	@Nonnull

@@ -62,9 +62,18 @@ public final class LLongObjIntFuncAttest<T, R> extends FunctionalAttest.Full<LLo
 		super(actual);
 	}
 
+	public LLongObjIntFuncAttest(LLongObjIntFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LLongObjIntFuncAttest<T, R> attestLongObjIntFunc(LObjIntLongFunction.LLongObjIntFunc<T, R> func) {
 		return new LLongObjIntFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LLongObjIntFuncAttest<T, R> attestLongObjIntFunc(LObjIntLongFunction.LLongObjIntFunc<T, R> func, String name) {
+		return new LLongObjIntFuncAttest(func, name);
 	}
 
 	@Nonnull

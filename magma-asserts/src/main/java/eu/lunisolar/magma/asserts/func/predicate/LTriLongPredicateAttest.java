@@ -59,9 +59,18 @@ public final class LTriLongPredicateAttest extends FunctionalAttest.Full<LTriLon
 		super(actual);
 	}
 
+	public LTriLongPredicateAttest(LTriLongPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriLongPredicateAttest attestTriLongPred(LTriLongPredicate func) {
 		return new LTriLongPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LTriLongPredicateAttest attestTriLongPred(LTriLongPredicate func, String name) {
+		return new LTriLongPredicateAttest(func, name);
 	}
 
 	@Nonnull

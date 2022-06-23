@@ -66,8 +66,12 @@ public final class FunctionalAttest {
 	@SuppressWarnings("unchecked")
 	public static abstract class Simple<SELF extends Simple<SELF, FUNC, PC>, FUNC, PC> extends RecurringAsserts.Base<SELF, FUNC, AssertionsCheck> implements FAttest<SELF, FUNC, PC, AssertionsCheck, AssertionsCheck> {
 
-		public Simple(FUNC func) {
-			super(func);
+		public Simple(FUNC value) {
+			super(value);
+		}
+
+		public Simple(FUNC value, String name) {
+			super(value, name);
 		}
 
 		@Nonnull
@@ -79,8 +83,12 @@ public final class FunctionalAttest {
 
 	public static abstract class Full<SELF extends Full<SELF, FUNC, PC, R_CHECK>, FUNC, PC, R_CHECK> extends RecurringAsserts.Base<SELF, FUNC, LConsumer<R_CHECK>> implements FAttest<SELF, FUNC, PC, R_CHECK, LConsumer<R_CHECK>> {
 
-		public Full(FUNC func) {
-			super(func);
+		public Full(FUNC value) {
+			super(value);
+		}
+
+		public Full(FUNC value, String name) {
+			super(value, name);
 		}
 
 	}
@@ -97,8 +105,13 @@ public final class FunctionalAttest {
 		static abstract class Base<SELF extends Base<SELF, FUNC, RA>, FUNC, RA> extends Attest.Base<SELF, FUNC> implements RecurringAsserts<SELF, RA> {
 
 			protected List<RA> recurringAssert = new ArrayList<>();
-			public Base(FUNC func) {
-				super(func);
+
+			public Base(FUNC value) {
+				super(value);
+			}
+
+			public Base(FUNC value, String name) {
+				super(value, name);
 			}
 
 			@Override

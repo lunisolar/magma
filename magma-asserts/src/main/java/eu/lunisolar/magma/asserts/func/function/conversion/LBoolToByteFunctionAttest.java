@@ -59,9 +59,18 @@ public final class LBoolToByteFunctionAttest extends FunctionalAttest.Full<LBool
 		super(actual);
 	}
 
+	public LBoolToByteFunctionAttest(LBoolToByteFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBoolToByteFunctionAttest attestBoolToByteFunc(LBoolToByteFunction func) {
 		return new LBoolToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LBoolToByteFunctionAttest attestBoolToByteFunc(LBoolToByteFunction func, String name) {
+		return new LBoolToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

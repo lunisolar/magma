@@ -59,9 +59,18 @@ public final class LOiToByteFunctionAttest<T> extends FunctionalAttest.Full<LOiT
 		super(actual);
 	}
 
+	public LOiToByteFunctionAttest(LOiToByteFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LOiToByteFunctionAttest<T> attestOiToByteFunc(LOiToByteFunction<T> func) {
 		return new LOiToByteFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LOiToByteFunctionAttest<T> attestOiToByteFunc(LOiToByteFunction<T> func, String name) {
+		return new LOiToByteFunctionAttest(func, name);
 	}
 
 	@Nonnull

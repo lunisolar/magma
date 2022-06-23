@@ -59,9 +59,18 @@ public final class LOiToIntFunctionAttest<T> extends FunctionalAttest.Full<LOiTo
 		super(actual);
 	}
 
+	public LOiToIntFunctionAttest(LOiToIntFunction<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LOiToIntFunctionAttest<T> attestOiToIntFunc(LOiToIntFunction<T> func) {
 		return new LOiToIntFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LOiToIntFunctionAttest<T> attestOiToIntFunc(LOiToIntFunction<T> func, String name) {
+		return new LOiToIntFunctionAttest(func, name);
 	}
 
 	@Nonnull

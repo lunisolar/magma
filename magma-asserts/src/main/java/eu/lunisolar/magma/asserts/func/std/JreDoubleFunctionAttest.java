@@ -57,9 +57,18 @@ public final class JreDoubleFunctionAttest<R> extends FunctionalAttest.Full<JreD
 		super(actual);
 	}
 
+	public JreDoubleFunctionAttest(DoubleFunction<R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <R> JreDoubleFunctionAttest<R> attestDblFunc(DoubleFunction<R> func) {
 		return new JreDoubleFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static <R> JreDoubleFunctionAttest<R> attestDblFunc(DoubleFunction<R> func, String name) {
+		return new JreDoubleFunctionAttest(func, name);
 	}
 
 	@Nonnull

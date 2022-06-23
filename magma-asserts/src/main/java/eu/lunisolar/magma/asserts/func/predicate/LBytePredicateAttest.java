@@ -59,9 +59,18 @@ public final class LBytePredicateAttest extends FunctionalAttest.Full<LBytePredi
 		super(actual);
 	}
 
+	public LBytePredicateAttest(LBytePredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBytePredicateAttest attestBytePred(LBytePredicate func) {
 		return new LBytePredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LBytePredicateAttest attestBytePred(LBytePredicate func, String name) {
+		return new LBytePredicateAttest(func, name);
 	}
 
 	@Nonnull

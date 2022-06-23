@@ -61,9 +61,18 @@ public final class LObj0Long2Long1ConsAttest<T> extends FunctionalAttest.Simple<
 		super(actual);
 	}
 
+	public LObj0Long2Long1ConsAttest(LObj0Long2Long1Cons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObj0Long2Long1ConsAttest<T> attestObj0Long2Long1Cons(LObjBiLongConsumer.LObj0Long2Long1Cons<T> func) {
 		return new LObj0Long2Long1ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObj0Long2Long1ConsAttest<T> attestObj0Long2Long1Cons(LObjBiLongConsumer.LObj0Long2Long1Cons<T> func, String name) {
+		return new LObj0Long2Long1ConsAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LSrtIntPredicateAttest extends FunctionalAttest.Full<LSrtIntP
 		super(actual);
 	}
 
+	public LSrtIntPredicateAttest(LSrtIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LSrtIntPredicateAttest attestSrtIntPred(LSrtIntPredicate func) {
 		return new LSrtIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LSrtIntPredicateAttest attestSrtIntPred(LSrtIntPredicate func, String name) {
+		return new LSrtIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

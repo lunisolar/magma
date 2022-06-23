@@ -59,9 +59,18 @@ public final class LObjLongPredicateAttest<T> extends FunctionalAttest.Full<LObj
 		super(actual);
 	}
 
+	public LObjLongPredicateAttest(LObjLongPredicate<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LObjLongPredicateAttest<T> attestObjLongPred(LObjLongPredicate<T> func) {
 		return new LObjLongPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LObjLongPredicateAttest<T> attestObjLongPred(LObjLongPredicate<T> func, String name) {
+		return new LObjLongPredicateAttest(func, name);
 	}
 
 	@Nonnull

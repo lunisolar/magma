@@ -62,9 +62,18 @@ public final class LFltObjFuncAttest<T, R> extends FunctionalAttest.Full<LFltObj
 		super(actual);
 	}
 
+	public LFltObjFuncAttest(LFltObjFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LFltObjFuncAttest<T, R> attestFltObjFunc(LObjFltFunction.LFltObjFunc<T, R> func) {
 		return new LFltObjFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LFltObjFuncAttest<T, R> attestFltObjFunc(LObjFltFunction.LFltObjFunc<T, R> func, String name) {
+		return new LFltObjFuncAttest(func, name);
 	}
 
 	@Nonnull

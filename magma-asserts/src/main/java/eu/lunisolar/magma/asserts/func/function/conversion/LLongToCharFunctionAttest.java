@@ -59,9 +59,18 @@ public final class LLongToCharFunctionAttest extends FunctionalAttest.Full<LLong
 		super(actual);
 	}
 
+	public LLongToCharFunctionAttest(LLongToCharFunction actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LLongToCharFunctionAttest attestLongToCharFunc(LLongToCharFunction func) {
 		return new LLongToCharFunctionAttest(func);
+	}
+
+	@Nonnull
+	public static LLongToCharFunctionAttest attestLongToCharFunc(LLongToCharFunction func, String name) {
+		return new LLongToCharFunctionAttest(func, name);
 	}
 
 	@Nonnull

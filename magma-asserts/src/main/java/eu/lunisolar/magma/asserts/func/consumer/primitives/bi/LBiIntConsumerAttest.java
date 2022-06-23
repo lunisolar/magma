@@ -59,9 +59,18 @@ public final class LBiIntConsumerAttest extends FunctionalAttest.Simple<LBiIntCo
 		super(actual);
 	}
 
+	public LBiIntConsumerAttest(LBiIntConsumer actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LBiIntConsumerAttest attestBiIntCons(LBiIntConsumer func) {
 		return new LBiIntConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static LBiIntConsumerAttest attestBiIntCons(LBiIntConsumer func, String name) {
+		return new LBiIntConsumerAttest(func, name);
 	}
 
 	@Nonnull

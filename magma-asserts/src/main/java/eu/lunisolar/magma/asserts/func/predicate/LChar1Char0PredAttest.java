@@ -61,9 +61,18 @@ public final class LChar1Char0PredAttest extends FunctionalAttest.Full<LChar1Cha
 		super(actual);
 	}
 
+	public LChar1Char0PredAttest(LChar1Char0Pred actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LChar1Char0PredAttest attestChar1Char0Pred(LBiCharPredicate.LChar1Char0Pred func) {
 		return new LChar1Char0PredAttest(func);
+	}
+
+	@Nonnull
+	public static LChar1Char0PredAttest attestChar1Char0Pred(LBiCharPredicate.LChar1Char0Pred func, String name) {
+		return new LChar1Char0PredAttest(func, name);
 	}
 
 	@Nonnull

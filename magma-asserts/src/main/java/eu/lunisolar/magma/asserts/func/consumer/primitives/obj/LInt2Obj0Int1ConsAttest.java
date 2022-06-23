@@ -62,9 +62,18 @@ public final class LInt2Obj0Int1ConsAttest<T> extends FunctionalAttest.Simple<LI
 		super(actual);
 	}
 
+	public LInt2Obj0Int1ConsAttest(LInt2Obj0Int1Cons<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LInt2Obj0Int1ConsAttest<T> attestInt2Obj0Int1Cons(LTieIntConsumer.LInt2Obj0Int1Cons<T> func) {
 		return new LInt2Obj0Int1ConsAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LInt2Obj0Int1ConsAttest<T> attestInt2Obj0Int1Cons(LTieIntConsumer.LInt2Obj0Int1Cons<T> func, String name) {
+		return new LInt2Obj0Int1ConsAttest(func, name);
 	}
 
 	@Nonnull

@@ -59,9 +59,18 @@ public final class LPredicateAttest<T> extends FunctionalAttest.Full<LPredicateA
 		super(actual);
 	}
 
+	public LPredicateAttest(LPredicate<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LPredicateAttest<T> attestPred(LPredicate<T> func) {
 		return new LPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LPredicateAttest<T> attestPred(LPredicate<T> func, String name) {
+		return new LPredicateAttest(func, name);
 	}
 
 	@Nonnull

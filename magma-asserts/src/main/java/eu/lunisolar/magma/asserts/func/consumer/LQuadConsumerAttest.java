@@ -59,9 +59,18 @@ public final class LQuadConsumerAttest<T1, T2, T3, T4> extends FunctionalAttest.
 		super(actual);
 	}
 
+	public LQuadConsumerAttest(LQuadConsumer<T1, T2, T3, T4> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T1, T2, T3, T4> LQuadConsumerAttest<T1, T2, T3, T4> attestQuadCons(LQuadConsumer<T1, T2, T3, T4> func) {
 		return new LQuadConsumerAttest(func);
+	}
+
+	@Nonnull
+	public static <T1, T2, T3, T4> LQuadConsumerAttest<T1, T2, T3, T4> attestQuadCons(LQuadConsumer<T1, T2, T3, T4> func, String name) {
+		return new LQuadConsumerAttest(func, name);
 	}
 
 	@Nonnull

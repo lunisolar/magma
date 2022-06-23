@@ -62,9 +62,18 @@ public final class LIntCharObjFuncAttest<T, R> extends FunctionalAttest.Full<LIn
 		super(actual);
 	}
 
+	public LIntCharObjFuncAttest(LIntCharObjFunc<T, R> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T, R> LIntCharObjFuncAttest<T, R> attestIntCharObjFunc(LObjIntCharFunction.LIntCharObjFunc<T, R> func) {
 		return new LIntCharObjFuncAttest(func);
+	}
+
+	@Nonnull
+	public static <T, R> LIntCharObjFuncAttest<T, R> attestIntCharObjFunc(LObjIntCharFunction.LIntCharObjFunc<T, R> func, String name) {
+		return new LIntCharObjFuncAttest(func, name);
 	}
 
 	@Nonnull

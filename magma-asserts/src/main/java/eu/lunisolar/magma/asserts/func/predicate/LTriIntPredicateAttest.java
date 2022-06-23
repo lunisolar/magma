@@ -59,9 +59,18 @@ public final class LTriIntPredicateAttest extends FunctionalAttest.Full<LTriIntP
 		super(actual);
 	}
 
+	public LTriIntPredicateAttest(LTriIntPredicate actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LTriIntPredicateAttest attestTriIntPred(LTriIntPredicate func) {
 		return new LTriIntPredicateAttest(func);
+	}
+
+	@Nonnull
+	public static LTriIntPredicateAttest attestTriIntPred(LTriIntPredicate func, String name) {
+		return new LTriIntPredicateAttest(func, name);
 	}
 
 	@Nonnull

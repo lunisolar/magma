@@ -62,9 +62,18 @@ public final class LSrtIntObjPredAttest<T> extends FunctionalAttest.Full<LSrtInt
 		super(actual);
 	}
 
+	public LSrtIntObjPredAttest(LSrtIntObjPred<T> actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static <T> LSrtIntObjPredAttest<T> attestSrtIntObjPred(LObjIntSrtPredicate.LSrtIntObjPred<T> func) {
 		return new LSrtIntObjPredAttest(func);
+	}
+
+	@Nonnull
+	public static <T> LSrtIntObjPredAttest<T> attestSrtIntObjPred(LObjIntSrtPredicate.LSrtIntObjPred<T> func, String name) {
+		return new LSrtIntObjPredAttest(func, name);
 	}
 
 	@Nonnull

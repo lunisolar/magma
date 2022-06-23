@@ -59,9 +59,18 @@ public final class LIntUnaryOperatorAttest extends FunctionalAttest.Full<LIntUna
 		super(actual);
 	}
 
+	public LIntUnaryOperatorAttest(LIntUnaryOperator actual, String name) {
+		super(actual, name);
+	}
+
 	@Nonnull
 	public static LIntUnaryOperatorAttest attestIntUnaryOp(LIntUnaryOperator func) {
 		return new LIntUnaryOperatorAttest(func);
+	}
+
+	@Nonnull
+	public static LIntUnaryOperatorAttest attestIntUnaryOp(LIntUnaryOperator func, String name) {
+		return new LIntUnaryOperatorAttest(func, name);
 	}
 
 	@Nonnull
