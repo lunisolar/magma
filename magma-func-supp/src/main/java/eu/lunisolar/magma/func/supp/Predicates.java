@@ -4007,27 +4007,50 @@ public class Predicates implements FluentSyntax {
 		return notExactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
-	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>..*/
-	public static boolean assignableFrom(Class<?> specialization, Class<?> clazz) {
-		Null.nonNullArg(clazz, "clazz");
-		return clazz.isAssignableFrom(specialization);
+	/** Predicate: Class <%s> must be assignable from <%s>..*/
+	public static boolean assignableFrom(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return clazz.isAssignableFrom(from);
 	}
 
-	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. */
-	public static @Nullable String assignableFrom$(Class<?> specialization, Class<?> clazz) {
-		Null.nonNullArg(clazz, "clazz");
-		return assignableFrom(specialization, clazz) ? null : String.format("Class <%s> of class <%s> must ---NOT-- be specialization of <%s>.", specialization, specialization != null ? specialization.getClass() : null, clazz);
+	/** "Special" predicate: Class <%s> must be assignable from <%s>. */
+	public static @Nullable String assignableFrom$(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return assignableFrom(clazz, from) ? null : String.format("Class <%s> must be assignable from <%s>.", clazz, from);
 	}
-	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>..*/
-	public static boolean notAssignableFrom(Class<?> specialization, Class<?> clazz) {
-		Null.nonNullArg(clazz, "clazz");
-		return !assignableFrom(specialization, clazz);
+	/** Predicate: Class <%s> must NOT be assignable from <%s>..*/
+	public static boolean notAssignableFrom(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return !assignableFrom(clazz, from);
 	}
 
-	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. */
-	public static @Nullable String notAssignableFrom$(Class<?> specialization, Class<?> clazz) {
-		Null.nonNullArg(clazz, "clazz");
-		return notAssignableFrom(specialization, clazz) ? null : String.format("Class <%s> of class <%s> must ---NOT-- be specialization of <%s>.", specialization, specialization != null ? specialization.getClass() : null, clazz);
+	/** "Special" predicate: Class <%s> must NOT be assignable from <%s>. */
+	public static @Nullable String notAssignableFrom$(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return notAssignableFrom(clazz, from) ? null : String.format("Class <%s> must NOT be assignable from <%s>.", clazz, from);
+	}
+
+	/** Predicate: Class <%s> must be assignable to <%s>..*/
+	public static boolean assignableTo(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return from.isAssignableFrom(clazz);
+	}
+
+	/** "Special" predicate: Class <%s> must be assignable to <%s>. */
+	public static @Nullable String assignableTo$(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return assignableTo(clazz, from) ? null : String.format("Class <%s> must be assignable to <%s>.", clazz, from);
+	}
+	/** Predicate: Class <%s> must NOT be assignable to <%s>..*/
+	public static boolean notAssignableTo(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return !assignableTo(clazz, from);
+	}
+
+	/** "Special" predicate: Class <%s> must NOT be assignable to <%s>. */
+	public static @Nullable String notAssignableTo$(Class<?> clazz, Class<?> from) {
+		Null.nonNullArg(from, "from");
+		return notAssignableTo(clazz, from) ? null : String.format("Class <%s> must NOT be assignable to <%s>.", clazz, from);
 	}
 
 	// </editor-fold>

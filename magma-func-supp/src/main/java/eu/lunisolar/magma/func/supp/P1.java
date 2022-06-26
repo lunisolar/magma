@@ -3343,27 +3343,50 @@ public class P1 implements FluentSyntax {
 		return Predicates.notExactlyInstanceOf$(object, clazz);
 	}
 
-	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>..*/
-	public static <MP1> boolean assignableFrom(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
-		Null.nonNullArg(clazz, "clazz");
-		return Predicates.assignableFrom(specialization, clazz);
+	/** Predicate: Class <%s> must be assignable from <%s>..*/
+	public static <MP1> boolean assignableFrom(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.assignableFrom(clazz, from);
 	}
 
-	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. */
-	public static <MP1> @Nullable String assignableFrom$(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
-		Null.nonNullArg(clazz, "clazz");
-		return Predicates.assignableFrom$(specialization, clazz);
+	/** "Special" predicate: Class <%s> must be assignable from <%s>. */
+	public static <MP1> @Nullable String assignableFrom$(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.assignableFrom$(clazz, from);
 	}
-	/** Predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>..*/
-	public static <MP1> boolean notAssignableFrom(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
-		Null.nonNullArg(clazz, "clazz");
-		return Predicates.notAssignableFrom(specialization, clazz);
+	/** Predicate: Class <%s> must NOT be assignable from <%s>..*/
+	public static <MP1> boolean notAssignableFrom(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.notAssignableFrom(clazz, from);
 	}
 
-	/** "Special" predicate: Class <%s> of class <%s> must ---NOT-- be specialization of <%s>. */
-	public static <MP1> @Nullable String notAssignableFrom$(Class<?> specialization, Class<?> clazz, MP1 msgParamOnly) {
-		Null.nonNullArg(clazz, "clazz");
-		return Predicates.notAssignableFrom$(specialization, clazz);
+	/** "Special" predicate: Class <%s> must NOT be assignable from <%s>. */
+	public static <MP1> @Nullable String notAssignableFrom$(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.notAssignableFrom$(clazz, from);
+	}
+
+	/** Predicate: Class <%s> must be assignable to <%s>..*/
+	public static <MP1> boolean assignableTo(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.assignableTo(clazz, from);
+	}
+
+	/** "Special" predicate: Class <%s> must be assignable to <%s>. */
+	public static <MP1> @Nullable String assignableTo$(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.assignableTo$(clazz, from);
+	}
+	/** Predicate: Class <%s> must NOT be assignable to <%s>..*/
+	public static <MP1> boolean notAssignableTo(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.notAssignableTo(clazz, from);
+	}
+
+	/** "Special" predicate: Class <%s> must NOT be assignable to <%s>. */
+	public static <MP1> @Nullable String notAssignableTo$(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
+		Null.nonNullArg(from, "from");
+		return Predicates.notAssignableTo$(clazz, from);
 	}
 
 	// </editor-fold>
