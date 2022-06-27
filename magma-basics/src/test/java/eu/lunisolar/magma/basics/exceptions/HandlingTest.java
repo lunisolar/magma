@@ -263,8 +263,18 @@ public class HandlingTest {
 
         // new Exception()
         Exception e4 = new Exception();
-        assertEquals(Handling.aggregateMessage("; ", e4), "");
-        assertEquals(Handling.aggregateMessage("; ", e4, true), "");
+        assertEquals(Handling.aggregateMessage("; ", e4), "Exception");
+        assertEquals(Handling.aggregateMessage("; ", e4, true), "Exception");
+
+        // new Exception(new Exception())
+        Exception e5 = new Exception(new Exception());
+        assertEquals(Handling.aggregateMessage("; ", e5), "java.lang.Exception; Exception");
+        assertEquals(Handling.aggregateMessage("; ", e5, true), "java.lang.Exception");
+
+        // new Exception(new Exception())
+        Exception e6 = new Exception(new Exception("Message1")); // new Exception(e) creates message: java.lang.Exception: Message1
+        assertEquals(Handling.aggregateMessage("; ", e6), "java.lang.Exception: Message1; Message1");
+        assertEquals(Handling.aggregateMessage("; ", e6, true), "java.lang.Exception: Message1");
     }
 
     @Nonnull private IllegalArgumentException exception(String message1, String message2, String message3) {

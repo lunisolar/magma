@@ -59,7 +59,8 @@ public final class Handling implements Serializable {
     }
 
     static <X extends Throwable, Y extends Throwable> Handler<X> handleInstructions(
-            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions
+    ) throws Y {
         nonNullArg(throwable, "throwable");
         nonNullArg(instructions, "instructions");
         Handler<X> handler = Handler.handler(throwable);
@@ -141,7 +142,8 @@ public final class Handling implements Serializable {
     }
 
     public static <X extends Throwable> X create(
-            @Nonnull ExMF<X> fx, @Nullable String msg1, @Nullable Object[] args1, @Nullable String msg2, @Nullable Object... args2) {
+            @Nonnull ExMF<X> fx, @Nullable String msg1, @Nullable Object[] args1, @Nullable String msg2, @Nullable Object... args2
+    ) {
         return nonNullArg(fx, "Exception factory cannot be null.").produce(constructMessage(null, msg1, args1) + ' ' + constructMessage(null, msg2, args2));
     }
 
@@ -198,7 +200,8 @@ public final class Handling implements Serializable {
     }
 
     public static <X extends Throwable> X wrapIfNot(
-            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
+            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args
+    ) {
         return wrapIfNot(clazz, e, fx, false, msg, args);
     }
 
@@ -207,7 +210,8 @@ public final class Handling implements Serializable {
     }
 
     public static <X extends Throwable> X combineIfNot(
-            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args) {
+            @Nonnull Class<X> clazz, @Nullable Throwable e, @Nonnull ExWMF<X> fx, @Nullable String msg, @Nullable Object... args
+    ) {
         return wrapIfNot(clazz, e, fx, false, msg, args);
     }
 
@@ -270,7 +274,8 @@ public final class Handling implements Serializable {
 
     public static <X extends Throwable> X combine(
             @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) {
+            @Nonnull String newMessage, @Nullable Object... messageParams
+    ) {
         handleErrors(e);
         String message = constructMessage(null, newMessage, messageParams);
         String causeMessage = e.getMessage();
@@ -284,7 +289,8 @@ public final class Handling implements Serializable {
 
     public static <X extends Throwable> X combine(
             @Nullable Throwable e, @Nonnull ExWMF<X> exceptionFactory,
-            @Nonnull String newMessage) {
+            @Nonnull String newMessage
+    ) {
         handleErrors(e);
         String message = constructMessage(null, newMessage);
         String causeMessage = e.getMessage();
@@ -355,7 +361,8 @@ public final class Handling implements Serializable {
     }
 
     protected static <Y extends Throwable, X extends Throwable> void throwCombineIf(
-            boolean conditionMeet, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args) throws Y {
+            boolean conditionMeet, @Nonnull X e, @Nonnull ExWMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
         if (conditionMeet) {
             throw Handling.combine(e, fx, format, args);
         }
@@ -394,7 +401,8 @@ public final class Handling implements Serializable {
     }
 
     protected static <Y extends Throwable, X extends Throwable> Y throwReplacement(
-            @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... args) throws Y {
+            @Nonnull ExMF<Y> fx, @Nonnull String format, @Nullable Object... args
+    ) throws Y {
         throw Handling.create(fx, format, args);
     }
 
@@ -429,7 +437,8 @@ public final class Handling implements Serializable {
      * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
     public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
-            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions
+    ) throws Y {
 
         handleErrors(throwable);
 
@@ -448,7 +457,8 @@ public final class Handling implements Serializable {
      * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
     public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
-            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions
+    ) throws Y {
 
         handleErrors(throwable);
 
@@ -467,7 +477,8 @@ public final class Handling implements Serializable {
      * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
     public static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
-            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+            @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions
+    ) throws Y {
 
         handleErrors(throwable);
 
@@ -535,15 +546,17 @@ public final class Handling implements Serializable {
         nonNullArg(separator, "separator");
         nonNullArg(main, "main");
 
-        Stream<String> stream = causeChain(main).stream()
-                                                .filter(e -> e.getMessage() != null && !e.getMessage().isBlank())
-                                                .map(Throwable::getMessage);
+        Stream<String> stream = causeChain(main).stream().map(e-> isUselessMessage(e)? e.getClass().getSimpleName(): e.getMessage());
 
         if (reduce) {
             return stream.reduce((s1, s2) -> s1.endsWith(s2) ? s1 : s1 + separator + s2).orElse("");
         }
 
         return stream.collect(joining(separator));
+    }
+
+    public static boolean isUselessMessage(Throwable e) {
+        return e.getMessage() == null || e.getMessage().isBlank();
     }
 
     private static List<Throwable> causeChain(@Nonnull Throwable main) {
