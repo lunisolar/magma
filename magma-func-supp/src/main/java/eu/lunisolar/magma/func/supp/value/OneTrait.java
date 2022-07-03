@@ -27,6 +27,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.*;
 import java.time.*;
+import java.time.temporal.*;
+import java.util.*;
 
 import static eu.lunisolar.magma.func.supp.Clazz.assuredClass;
 import static eu.lunisolar.magma.func.supp.check.Checks.state;
@@ -120,6 +122,58 @@ public interface OneTrait<T> {
 		return theValue(LocalTime.class);
 	}
 
+	default @Nonnull OffsetDateTime theOffsetDateTime() {
+		return theValue(OffsetDateTime.class);
+	}
+
+	default @Nonnull OffsetTime theOffsetTime() {
+		return theValue(OffsetTime.class);
+	}
+
+	default @Nonnull ZonedDateTime theZonedDateTime() {
+		return theValue(ZonedDateTime.class);
+	}
+
+	default @Nonnull Temporal theTemporal() {
+		return theValue(Temporal.class);
+	}
+
+	default @Nonnull Duration theDuration() {
+		return theValue(Duration.class);
+	}
+
+	default @Nonnull Period thePeriod() {
+		return theValue(Period.class);
+	}
+
+	default @Nonnull Instant theInstant() {
+		return theValue(Instant.class);
+	}
+
+	default @Nonnull MonthDay theMonthDay() {
+		return theValue(MonthDay.class);
+	}
+
+	default @Nonnull DayOfWeek theDayOfWeek() {
+		return theValue(DayOfWeek.class);
+	}
+
+	default @Nonnull Month theMonth() {
+		return theValue(Month.class);
+	}
+
+	default @Nonnull Year theYear() {
+		return theValue(Year.class);
+	}
+
+	default @Nonnull YearMonth theYearMonth() {
+		return theValue(YearMonth.class);
+	}
+
+	default @Nonnull byte[] theByteArr() {
+		return theValue(byte[].class);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="a...">
@@ -196,6 +250,58 @@ public interface OneTrait<T> {
 		return aValue(LocalTime.class);
 	}
 
+	default @Nonnull Opt<OffsetDateTime> aOffsetDateTime() {
+		return aValue(OffsetDateTime.class);
+	}
+
+	default @Nonnull Opt<OffsetTime> aOffsetTime() {
+		return aValue(OffsetTime.class);
+	}
+
+	default @Nonnull Opt<ZonedDateTime> aZonedDateTime() {
+		return aValue(ZonedDateTime.class);
+	}
+
+	default @Nonnull Opt<Temporal> aTemporal() {
+		return aValue(Temporal.class);
+	}
+
+	default @Nonnull Opt<Duration> aDuration() {
+		return aValue(Duration.class);
+	}
+
+	default @Nonnull Opt<Period> aPeriod() {
+		return aValue(Period.class);
+	}
+
+	default @Nonnull Opt<Instant> aInstant() {
+		return aValue(Instant.class);
+	}
+
+	default @Nonnull Opt<MonthDay> aMonthDay() {
+		return aValue(MonthDay.class);
+	}
+
+	default @Nonnull Opt<DayOfWeek> aDayOfWeek() {
+		return aValue(DayOfWeek.class);
+	}
+
+	default @Nonnull Opt<Month> aMonth() {
+		return aValue(Month.class);
+	}
+
+	default @Nonnull Opt<Year> aYear() {
+		return aValue(Year.class);
+	}
+
+	default @Nonnull Opt<YearMonth> aYearMonth() {
+		return aValue(YearMonth.class);
+	}
+
+	default @Nonnull Opt<byte[]> aByteArr() {
+		return aValue(byte[].class);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="aSafe...">
@@ -260,6 +366,58 @@ public interface OneTrait<T> {
 
 	default @Nonnull Opt<LocalTime> aSafeTime() {
 		return aSafeValue(LocalTime.class);
+	}
+
+	default @Nonnull Opt<OffsetDateTime> aSafeOffsetDateTime() {
+		return aSafeValue(OffsetDateTime.class);
+	}
+
+	default @Nonnull Opt<OffsetTime> aSafeOffsetTime() {
+		return aSafeValue(OffsetTime.class);
+	}
+
+	default @Nonnull Opt<ZonedDateTime> aSafeZonedDateTime() {
+		return aSafeValue(ZonedDateTime.class);
+	}
+
+	default @Nonnull Opt<Temporal> aSafeTemporal() {
+		return aSafeValue(Temporal.class);
+	}
+
+	default @Nonnull Opt<Duration> aSafeDuration() {
+		return aSafeValue(Duration.class);
+	}
+
+	default @Nonnull Opt<Period> aSafePeriod() {
+		return aSafeValue(Period.class);
+	}
+
+	default @Nonnull Opt<Instant> aSafeInstant() {
+		return aSafeValue(Instant.class);
+	}
+
+	default @Nonnull Opt<MonthDay> aSafeMonthDay() {
+		return aSafeValue(MonthDay.class);
+	}
+
+	default @Nonnull Opt<DayOfWeek> aSafeDayOfWeek() {
+		return aSafeValue(DayOfWeek.class);
+	}
+
+	default @Nonnull Opt<Month> aSafeMonth() {
+		return aSafeValue(Month.class);
+	}
+
+	default @Nonnull Opt<Year> aSafeYear() {
+		return aSafeValue(Year.class);
+	}
+
+	default @Nonnull Opt<YearMonth> aSafeYearMonth() {
+		return aSafeValue(YearMonth.class);
+	}
+
+	default @Nonnull Opt<byte[]> aSafeByteArr() {
+		return aSafeValue(byte[].class);
 	}
 
 	// </editor-fold>
@@ -401,6 +559,123 @@ public interface OneTrait<T> {
 		return orElseTime(defaultValue);
 	}
 
+	default OffsetDateTime orElseOffsetDateTime(OffsetDateTime defaultValue) {
+		return aOffsetDateTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default OffsetDateTime alt(OffsetDateTime defaultValue) {
+		return orElseOffsetDateTime(defaultValue);
+	}
+
+	default OffsetTime orElseOffsetTime(OffsetTime defaultValue) {
+		return aOffsetTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default OffsetTime alt(OffsetTime defaultValue) {
+		return orElseOffsetTime(defaultValue);
+	}
+
+	default ZonedDateTime orElseZonedDateTime(ZonedDateTime defaultValue) {
+		return aZonedDateTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default ZonedDateTime alt(ZonedDateTime defaultValue) {
+		return orElseZonedDateTime(defaultValue);
+	}
+
+	default Temporal orElseTemporal(Temporal defaultValue) {
+		return aTemporal().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Temporal alt(Temporal defaultValue) {
+		return orElseTemporal(defaultValue);
+	}
+
+	default Duration orElseDuration(Duration defaultValue) {
+		return aDuration().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Duration alt(Duration defaultValue) {
+		return orElseDuration(defaultValue);
+	}
+
+	default Period orElsePeriod(Period defaultValue) {
+		return aPeriod().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Period alt(Period defaultValue) {
+		return orElsePeriod(defaultValue);
+	}
+
+	default Instant orElseInstant(Instant defaultValue) {
+		return aInstant().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Instant alt(Instant defaultValue) {
+		return orElseInstant(defaultValue);
+	}
+
+	default MonthDay orElseMonthDay(MonthDay defaultValue) {
+		return aMonthDay().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default MonthDay alt(MonthDay defaultValue) {
+		return orElseMonthDay(defaultValue);
+	}
+
+	default DayOfWeek orElseDayOfWeek(DayOfWeek defaultValue) {
+		return aDayOfWeek().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default DayOfWeek alt(DayOfWeek defaultValue) {
+		return orElseDayOfWeek(defaultValue);
+	}
+
+	default Month orElseMonth(Month defaultValue) {
+		return aMonth().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Month alt(Month defaultValue) {
+		return orElseMonth(defaultValue);
+	}
+
+	default Year orElseYear(Year defaultValue) {
+		return aYear().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Year alt(Year defaultValue) {
+		return orElseYear(defaultValue);
+	}
+
+	default YearMonth orElseYearMonth(YearMonth defaultValue) {
+		return aYearMonth().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default YearMonth alt(YearMonth defaultValue) {
+		return orElseYearMonth(defaultValue);
+	}
+
+	default byte[] orElseByteArr(byte[] defaultValue) {
+		return aByteArr().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default byte[] alt(byte[] defaultValue) {
+		return orElseByteArr(defaultValue);
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="orSafe...">
@@ -538,6 +813,123 @@ public interface OneTrait<T> {
 	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
 	default LocalTime altSafe(LocalTime defaultValue) {
 		return orSafeElseTime(defaultValue);
+	}
+
+	default OffsetDateTime orSafeElseOffsetDateTime(OffsetDateTime defaultValue) {
+		return aSafeOffsetDateTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default OffsetDateTime altSafe(OffsetDateTime defaultValue) {
+		return orSafeElseOffsetDateTime(defaultValue);
+	}
+
+	default OffsetTime orSafeElseOffsetTime(OffsetTime defaultValue) {
+		return aSafeOffsetTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default OffsetTime altSafe(OffsetTime defaultValue) {
+		return orSafeElseOffsetTime(defaultValue);
+	}
+
+	default ZonedDateTime orSafeElseZonedDateTime(ZonedDateTime defaultValue) {
+		return aSafeZonedDateTime().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default ZonedDateTime altSafe(ZonedDateTime defaultValue) {
+		return orSafeElseZonedDateTime(defaultValue);
+	}
+
+	default Temporal orSafeElseTemporal(Temporal defaultValue) {
+		return aSafeTemporal().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Temporal altSafe(Temporal defaultValue) {
+		return orSafeElseTemporal(defaultValue);
+	}
+
+	default Duration orSafeElseDuration(Duration defaultValue) {
+		return aSafeDuration().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Duration altSafe(Duration defaultValue) {
+		return orSafeElseDuration(defaultValue);
+	}
+
+	default Period orSafeElsePeriod(Period defaultValue) {
+		return aSafePeriod().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Period altSafe(Period defaultValue) {
+		return orSafeElsePeriod(defaultValue);
+	}
+
+	default Instant orSafeElseInstant(Instant defaultValue) {
+		return aSafeInstant().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Instant altSafe(Instant defaultValue) {
+		return orSafeElseInstant(defaultValue);
+	}
+
+	default MonthDay orSafeElseMonthDay(MonthDay defaultValue) {
+		return aSafeMonthDay().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default MonthDay altSafe(MonthDay defaultValue) {
+		return orSafeElseMonthDay(defaultValue);
+	}
+
+	default DayOfWeek orSafeElseDayOfWeek(DayOfWeek defaultValue) {
+		return aSafeDayOfWeek().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default DayOfWeek altSafe(DayOfWeek defaultValue) {
+		return orSafeElseDayOfWeek(defaultValue);
+	}
+
+	default Month orSafeElseMonth(Month defaultValue) {
+		return aSafeMonth().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Month altSafe(Month defaultValue) {
+		return orSafeElseMonth(defaultValue);
+	}
+
+	default Year orSafeElseYear(Year defaultValue) {
+		return aSafeYear().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default Year altSafe(Year defaultValue) {
+		return orSafeElseYear(defaultValue);
+	}
+
+	default YearMonth orSafeElseYearMonth(YearMonth defaultValue) {
+		return aSafeYearMonth().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default YearMonth altSafe(YearMonth defaultValue) {
+		return orSafeElseYearMonth(defaultValue);
+	}
+
+	default byte[] orSafeElseByteArr(byte[] defaultValue) {
+		return aSafeByteArr().orElseObj(defaultValue);
+	}
+
+	/** Name non-conflicting alternative to Opt.orElse. It will probably conflict with its own variants when trying to reference OneTrait::alt */
+	default byte[] altSafe(byte[] defaultValue) {
+		return orSafeElseByteArr(defaultValue);
 	}
 
 	// </editor-fold>
