@@ -6960,11 +6960,11 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 
 	// </editor-fold>
 
-	default @Nonnull SELF mustBeEqual(T expected) {
+	default @Nonnull SELF mustBeEqual(Object expected) {
 		return must$(Be::equal$, expected);
 	}
 
-	default @Nonnull SELF mustBeNotEqual(T expected) {
+	default @Nonnull SELF mustBeNotEqual(Object expected) {
 		return must$(Be::notEqual$, expected);
 	}
 
