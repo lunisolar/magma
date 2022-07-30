@@ -2367,9 +2367,15 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeEqual(char expected) {
 		return must$(Be::equal$, expected);
 	}
+	default @Nonnull SELF mustBeEqual(char expected, String message) {
+		return must$0(Be::equal$, expected, message);
+	}
 
 	default @Nonnull SELF mustBeNotEqual(char expected) {
 		return must$(Be::notEqual$, expected);
+	}
+	default @Nonnull SELF mustBeNotEqual(char expected, String message) {
+		return must$0(Be::notEqual$, expected, message);
 	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {

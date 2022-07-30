@@ -2367,22 +2367,40 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 	default @Nonnull SELF mustBeEqual(float expected) {
 		return must$(Be::equal$, expected);
 	}
+	default @Nonnull SELF mustBeEqual(float expected, String message) {
+		return must$0(Be::equal$, expected, message);
+	}
 
 	default @Nonnull SELF mustBeNotEqual(float expected) {
 		return must$(Be::notEqual$, expected);
+	}
+	default @Nonnull SELF mustBeNotEqual(float expected, String message) {
+		return must$0(Be::notEqual$, expected, message);
 	}
 
 	default @Nonnull SELF mustBeGreater(float value) {
 		return must$(Be::gt$, value);
 	}
+	default @Nonnull SELF mustBeGreater(float value, String message) {
+		return must$0(Be::gt$, value, message);
+	}
 	default @Nonnull SELF mustBeGreaterEqual(float value) {
 		return must$(Be::gtEq$, value);
+	}
+	default @Nonnull SELF mustBeGreaterEqual(float value, String message) {
+		return must$0(Be::gtEq$, value, message);
 	}
 	default @Nonnull SELF mustBeLessThan(float value) {
 		return must$(Be::lt$, value);
 	}
+	default @Nonnull SELF mustBeLessThan(float value, String message) {
+		return must$0(Be::lt$, value, message);
+	}
 	default @Nonnull SELF mustBeLessEqual(float value) {
 		return must$(Be::ltEq$, value);
+	}
+	default @Nonnull SELF mustBeLessEqual(float value, String message) {
+		return must$0(Be::ltEq$, value, message);
 	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {

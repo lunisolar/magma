@@ -3519,22 +3519,40 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FailPoi
 	default @Nonnull SELF mustBeEqual(int expected) {
 		return must$(Be::equal$, expected);
 	}
+	default @Nonnull SELF mustBeEqual(int expected, String message) {
+		return must$0(Be::equal$, expected, message);
+	}
 
 	default @Nonnull SELF mustBeNotEqual(int expected) {
 		return must$(Be::notEqual$, expected);
+	}
+	default @Nonnull SELF mustBeNotEqual(int expected, String message) {
+		return must$0(Be::notEqual$, expected, message);
 	}
 
 	default @Nonnull SELF mustBeGreater(int value) {
 		return must$(Be::gt$, value);
 	}
+	default @Nonnull SELF mustBeGreater(int value, String message) {
+		return must$0(Be::gt$, value, message);
+	}
 	default @Nonnull SELF mustBeGreaterEqual(int value) {
 		return must$(Be::gtEq$, value);
+	}
+	default @Nonnull SELF mustBeGreaterEqual(int value, String message) {
+		return must$0(Be::gtEq$, value, message);
 	}
 	default @Nonnull SELF mustBeLessThan(int value) {
 		return must$(Be::lt$, value);
 	}
+	default @Nonnull SELF mustBeLessThan(int value, String message) {
+		return must$0(Be::lt$, value, message);
+	}
 	default @Nonnull SELF mustBeLessEqual(int value) {
 		return must$(Be::ltEq$, value);
+	}
+	default @Nonnull SELF mustBeLessEqual(int value, String message) {
+		return must$0(Be::ltEq$, value, message);
 	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {

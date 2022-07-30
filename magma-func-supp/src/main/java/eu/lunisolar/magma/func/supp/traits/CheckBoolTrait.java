@@ -2367,17 +2367,29 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeEqual(boolean expected) {
 		return must$(Be::equal$, expected);
 	}
+	default @Nonnull SELF mustBeEqual(boolean expected, String message) {
+		return must$0(Be::equal$, expected, message);
+	}
 
 	default @Nonnull SELF mustBeNotEqual(boolean expected) {
 		return must$(Be::notEqual$, expected);
+	}
+	default @Nonnull SELF mustBeNotEqual(boolean expected, String message) {
+		return must$0(Be::notEqual$, expected, message);
 	}
 
 	default @Nonnull SELF mustBeTrue() {
 		return must$(Be::True$);
 	}
+	default @Nonnull SELF mustBeTrue(String message) {
+		return must$0(Be::True$, message);
+	}
 
 	default @Nonnull SELF mustBeFalse() {
 		return must$(Be::False$);
+	}
+	default @Nonnull SELF mustBeFalse(String message) {
+		return must$0(Be::False$, message);
 	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {

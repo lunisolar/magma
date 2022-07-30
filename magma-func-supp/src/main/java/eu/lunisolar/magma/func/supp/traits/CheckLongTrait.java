@@ -2367,22 +2367,40 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeEqual(long expected) {
 		return must$(Be::equal$, expected);
 	}
+	default @Nonnull SELF mustBeEqual(long expected, String message) {
+		return must$0(Be::equal$, expected, message);
+	}
 
 	default @Nonnull SELF mustBeNotEqual(long expected) {
 		return must$(Be::notEqual$, expected);
+	}
+	default @Nonnull SELF mustBeNotEqual(long expected, String message) {
+		return must$0(Be::notEqual$, expected, message);
 	}
 
 	default @Nonnull SELF mustBeGreater(long value) {
 		return must$(Be::gt$, value);
 	}
+	default @Nonnull SELF mustBeGreater(long value, String message) {
+		return must$0(Be::gt$, value, message);
+	}
 	default @Nonnull SELF mustBeGreaterEqual(long value) {
 		return must$(Be::gtEq$, value);
+	}
+	default @Nonnull SELF mustBeGreaterEqual(long value, String message) {
+		return must$0(Be::gtEq$, value, message);
 	}
 	default @Nonnull SELF mustBeLessThan(long value) {
 		return must$(Be::lt$, value);
 	}
+	default @Nonnull SELF mustBeLessThan(long value, String message) {
+		return must$0(Be::lt$, value, message);
+	}
 	default @Nonnull SELF mustBeLessEqual(long value) {
 		return must$(Be::ltEq$, value);
+	}
+	default @Nonnull SELF mustBeLessEqual(long value, String message) {
+		return must$0(Be::ltEq$, value, message);
 	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {

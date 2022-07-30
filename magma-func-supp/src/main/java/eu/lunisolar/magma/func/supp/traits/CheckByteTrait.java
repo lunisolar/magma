@@ -2367,22 +2367,40 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeEqual(byte expected) {
 		return must$(Be::equal$, expected);
 	}
+	default @Nonnull SELF mustBeEqual(byte expected, String message) {
+		return must$0(Be::equal$, expected, message);
+	}
 
 	default @Nonnull SELF mustBeNotEqual(byte expected) {
 		return must$(Be::notEqual$, expected);
+	}
+	default @Nonnull SELF mustBeNotEqual(byte expected, String message) {
+		return must$0(Be::notEqual$, expected, message);
 	}
 
 	default @Nonnull SELF mustBeGreater(byte value) {
 		return must$(Be::gt$, value);
 	}
+	default @Nonnull SELF mustBeGreater(byte value, String message) {
+		return must$0(Be::gt$, value, message);
+	}
 	default @Nonnull SELF mustBeGreaterEqual(byte value) {
 		return must$(Be::gtEq$, value);
+	}
+	default @Nonnull SELF mustBeGreaterEqual(byte value, String message) {
+		return must$0(Be::gtEq$, value, message);
 	}
 	default @Nonnull SELF mustBeLessThan(byte value) {
 		return must$(Be::lt$, value);
 	}
+	default @Nonnull SELF mustBeLessThan(byte value, String message) {
+		return must$0(Be::lt$, value, message);
+	}
 	default @Nonnull SELF mustBeLessEqual(byte value) {
 		return must$(Be::ltEq$, value);
+	}
+	default @Nonnull SELF mustBeLessEqual(byte value, String message) {
+		return must$0(Be::ltEq$, value, message);
 	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {
