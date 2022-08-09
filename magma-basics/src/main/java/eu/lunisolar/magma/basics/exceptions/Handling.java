@@ -428,6 +428,10 @@ public final class Handling implements Serializable {
         // noop
     }
 
+    public static void ignore(@Nullable Throwable e, String comment) {
+        // noop
+    }
+
     //<editor-fold desc="handleOr...">
 
     /**
@@ -546,7 +550,7 @@ public final class Handling implements Serializable {
         nonNullArg(separator, "separator");
         nonNullArg(main, "main");
 
-        Stream<String> stream = causeChain(main).stream().map(e-> isUselessMessage(e)? e.getClass().getSimpleName(): e.getMessage());
+        Stream<String> stream = causeChain(main).stream().map(e -> isUselessMessage(e) ? e.getClass().getSimpleName() : e.getMessage());
 
         if (reduce) {
             return stream.reduce((s1, s2) -> s1.endsWith(s2) ? s1 : s1 + separator + s2).orElse("");
