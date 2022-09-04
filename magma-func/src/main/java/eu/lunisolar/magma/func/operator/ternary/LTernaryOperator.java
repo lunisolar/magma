@@ -637,13 +637,6 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T> LTernaryOperator<T> ternaryOp(@Nullable Class<T> c1, final @Nonnull LTernaryOperator<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T> implements LTernaryOperator<T> {

@@ -335,13 +335,6 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T1, T2> LBiObjFltConsumer<T1, T2> biObjFltCons(@Nullable Class<T1> c1, @Nullable Class<T2> c2, final @Nonnull LBiObjFltConsumer<T1, T2> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T1, T2> implements LBiObjFltConsumer<T1, T2> {

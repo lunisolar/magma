@@ -361,13 +361,6 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T> LToIntFunction<T> toIntFunc(@Nullable Class<T> c1, final @Nonnull LToIntFunction<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T> implements LToIntFunction<T> {

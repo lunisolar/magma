@@ -369,13 +369,6 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T, R> LObjLongFunction<T, R> objLongFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LObjLongFunction<T, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T, R> implements LObjLongFunction<T, R> {

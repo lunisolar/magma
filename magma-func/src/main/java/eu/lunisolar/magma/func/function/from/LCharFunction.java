@@ -350,13 +350,6 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <R> LCharFunction<R> charFunc(@Nullable Class<R> c1, final @Nonnull LCharFunction<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<R> implements LCharFunction<R> {

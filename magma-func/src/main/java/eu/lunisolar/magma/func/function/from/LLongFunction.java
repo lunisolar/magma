@@ -350,13 +350,6 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <R> LLongFunction<R> longFunc(@Nullable Class<R> c1, final @Nonnull LLongFunction<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<R> implements LLongFunction<R> {

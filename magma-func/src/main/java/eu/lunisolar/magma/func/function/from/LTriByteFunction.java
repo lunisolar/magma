@@ -356,13 +356,6 @@ public interface LTriByteFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <R> LTriByteFunction<R> triByteFunc(@Nullable Class<R> c1, final @Nonnull LTriByteFunction<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<R> implements LTriByteFunction<R> {

@@ -785,13 +785,6 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T> LObjBiIntPredicate<T> objBiIntPred(@Nullable Class<T> c1, final @Nonnull LObjBiIntPredicate<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T> implements LObjBiIntPredicate<T> {

@@ -356,13 +356,6 @@ public interface LTriDblFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <R> LTriDblFunction<R> triDblFunc(@Nullable Class<R> c1, final @Nonnull LTriDblFunction<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<R> implements LTriDblFunction<R> {

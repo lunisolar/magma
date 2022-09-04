@@ -367,13 +367,6 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T> LTieLongFunction<T> tieLongFunc(@Nullable Class<T> c1, final @Nonnull LTieLongFunction<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T> implements LTieLongFunction<T> {

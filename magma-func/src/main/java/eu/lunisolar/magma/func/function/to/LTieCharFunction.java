@@ -367,13 +367,6 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T> LTieCharFunction<T> tieCharFunc(@Nullable Class<T> c1, final @Nonnull LTieCharFunction<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T> implements LTieCharFunction<T> {

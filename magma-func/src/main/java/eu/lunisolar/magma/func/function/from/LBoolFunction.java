@@ -350,13 +350,6 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <R> LBoolFunction<R> boolFunc(@Nullable Class<R> c1, final @Nonnull LBoolFunction<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<R> implements LBoolFunction<R> {

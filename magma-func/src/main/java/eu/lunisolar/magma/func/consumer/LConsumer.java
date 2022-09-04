@@ -613,13 +613,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T> LConsumer<T> cons(@Nullable Class<T> c1, final @Nonnull LConsumer<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T> implements LConsumer<T> {

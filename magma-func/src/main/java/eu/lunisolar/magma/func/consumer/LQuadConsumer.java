@@ -620,33 +620,6 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> quadCons(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<T3> c3, @Nullable Class<T4> c4, final @Nonnull LQuadConsumer<T1, T2, T3, T4> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// <editor-fold desc="recursive">
-
-	final class S<T1, T2, T3, T4> implements LQuadConsumer<T1, T2, T3, T4> {
-		private LQuadConsumer<T1, T2, T3, T4> target = null;
-		@Override
-		public void acceptX(T1 a1, T2 a2, T3 a3, T4 a4) throws Throwable {
-			target.acceptX(a1, a2, a3, a4);
-		}
-	}
-
-	@Nonnull
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> recursive(final @Nonnull LFunction<LQuadConsumer<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>> selfLambda) {
-		final S<T1, T2, T3, T4> single = new S();
-		LQuadConsumer<T1, T2, T3, T4> func = selfLambda.apply(single);
-		single.target = func;
-		return func;
-	}
-
-	// </editor-fold>
-
 	@Nonnull
 	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> quadConsThrowing(final @Nonnull ExF<Throwable> exF) {
 		Null.nonNullArg(exF, "exF");

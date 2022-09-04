@@ -369,13 +369,6 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T1, T2, R> LBiObjCharFunction<T1, T2, R> biObjCharFunc(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<R> c3, final @Nonnull LBiObjCharFunction<T1, T2, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T1, T2, R> implements LBiObjCharFunction<T1, T2, R> {

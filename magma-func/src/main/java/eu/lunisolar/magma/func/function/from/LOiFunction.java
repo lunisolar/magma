@@ -371,13 +371,6 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T, R> LOiFunction<T, R> oiFunc(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LOiFunction<T, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T, R> implements LOiFunction<T, R> {

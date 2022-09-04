@@ -649,13 +649,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T, R> LFunction<T, R> func(@Nullable Class<T> c1, @Nullable Class<R> c2, final @Nonnull LFunction<T, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T, R> implements LFunction<T, R> {

@@ -337,13 +337,6 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T> LObjByteConsumer<T> objByteCons(@Nullable Class<T> c1, final @Nonnull LObjByteConsumer<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T> implements LObjByteConsumer<T> {

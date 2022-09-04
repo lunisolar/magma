@@ -365,13 +365,6 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T1, T2> LToIntBiFunction<T1, T2> toIntBiFunc(@Nullable Class<T1> c1, @Nullable Class<T2> c2, final @Nonnull LToIntBiFunction<T1, T2> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T1, T2> implements LToIntBiFunction<T1, T2> {

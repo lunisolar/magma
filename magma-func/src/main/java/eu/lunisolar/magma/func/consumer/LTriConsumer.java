@@ -620,13 +620,6 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <T1, T2, T3> LTriConsumer<T1, T2, T3> triCons(@Nullable Class<T1> c1, @Nullable Class<T2> c2, @Nullable Class<T3> c3, final @Nonnull LTriConsumer<T1, T2, T3> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<T1, T2, T3> implements LTriConsumer<T1, T2, T3> {

@@ -356,13 +356,6 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
-	/** A completely inconvenient method in case lambda expression and generic arguments are ambiguous for the compiler. */
-	@Nonnull
-	static <R> LBiByteFunction<R> biByteFunc(@Nullable Class<R> c1, final @Nonnull LBiByteFunction<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
 	// <editor-fold desc="recursive">
 
 	final class S<R> implements LBiByteFunction<R> {
