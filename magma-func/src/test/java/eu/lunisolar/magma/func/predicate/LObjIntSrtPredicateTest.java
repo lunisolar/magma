@@ -242,7 +242,7 @@ public class LObjIntSrtPredicateTest<T> {
 
 
     @Test
-    public void testObjIntSrtPredCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -273,7 +273,7 @@ public class LObjIntSrtPredicateTest<T> {
         };
 
         //when
-        LTriPredicate<Integer,Integer,Integer> function = sutO.objIntSrtPredCompose(before1,before2,before3);
+        LTriPredicate<Integer,Integer,Integer> function = sutO.unboxingCompose(before1,before2,before3);
         function.test(80,81,82);
 
         //then - finals

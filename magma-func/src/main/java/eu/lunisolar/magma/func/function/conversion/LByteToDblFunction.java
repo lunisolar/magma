@@ -466,19 +466,11 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsDbl(before.applyAsByte(v));
 	}
 
-	public static LByteToDblFunction composed(@Nonnull final LByteUnaryOperator before, LByteToDblFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToDblFunction<V> byteToDblFuncCompose(@Nonnull final LToByteFunction<? super V> before) {
+	default <V> LToDblFunction<V> unboxingCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsDbl(before.applyAsByte(v));
-	}
-
-	public static <V> LToDblFunction<V> composed(@Nonnull final LToByteFunction<? super V> before, LByteToDblFunction after) {
-		return after.byteToDblFuncCompose(before);
 	}
 
 	// </editor-fold>

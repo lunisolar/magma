@@ -474,10 +474,6 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (v1, v2, v3) -> this.applyAsByte(before1.applyAsByte(v1), before2.applyAsByte(v2), before3.applyAsByte(v3));
 	}
 
-	public static LByteTernaryOperator composed(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, @Nonnull final LByteUnaryOperator before3, LByteTernaryOperator after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

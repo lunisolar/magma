@@ -390,20 +390,12 @@ public interface LBiSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		return (v1, v2) -> this.accept(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
 	}
 
-	public static LBiSrtConsumer composed(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2, LBiSrtConsumer after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> biSrtConsCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> unboxingCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.accept(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
-	}
-
-	public static <V1, V2> LBiConsumer<V1, V2> composed(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2, LBiSrtConsumer after) {
-		return after.biSrtConsCompose(before1, before2);
 	}
 
 	// </editor-fold>

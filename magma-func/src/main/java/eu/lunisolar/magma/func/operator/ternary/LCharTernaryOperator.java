@@ -474,10 +474,6 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (v1, v2, v3) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2), before3.applyAsChar(v3));
 	}
 
-	public static LCharTernaryOperator composed(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, @Nonnull final LCharUnaryOperator before3, LCharTernaryOperator after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

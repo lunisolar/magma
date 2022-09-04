@@ -470,19 +470,11 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		return v -> this.apply(before.applyAsLong(v));
 	}
 
-	public static <R> LLongFunction<R> composed(@Nonnull final LLongUnaryOperator before, LLongFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> longFuncCompose(@Nonnull final LToLongFunction<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.applyAsLong(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LToLongFunction<? super V> before, LLongFunction<R> after) {
-		return after.longFuncCompose(before);
 	}
 
 	// </editor-fold>

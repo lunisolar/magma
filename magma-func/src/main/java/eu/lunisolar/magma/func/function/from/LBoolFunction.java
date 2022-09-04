@@ -465,19 +465,11 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return v -> this.apply(before.apply(v));
 	}
 
-	public static <R> LBoolFunction<R> composed(@Nonnull final LLogicalOperator before, LBoolFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> boolFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.test(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LPredicate<? super V> before, LBoolFunction<R> after) {
-		return after.boolFuncCompose(before);
 	}
 
 	// </editor-fold>

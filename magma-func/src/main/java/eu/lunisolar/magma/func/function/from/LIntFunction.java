@@ -470,19 +470,11 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		return v -> this.apply(before.applyAsInt(v));
 	}
 
-	public static <R> LIntFunction<R> composed(@Nonnull final LIntUnaryOperator before, LIntFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> intFuncCompose(@Nonnull final LToIntFunction<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.applyAsInt(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LToIntFunction<? super V> before, LIntFunction<R> after) {
-		return after.intFuncCompose(before);
 	}
 
 	// </editor-fold>

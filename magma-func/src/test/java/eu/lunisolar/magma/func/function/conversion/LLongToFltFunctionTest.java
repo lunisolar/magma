@@ -178,7 +178,7 @@ public class LLongToFltFunctionTest {
 
 
     @Test
-    public void testLongToFltFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LLongToFltFunctionTest {
         };
 
         //when
-        LToFltFunction<Integer> function = sutO.longToFltFuncCompose(before);
+        LToFltFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsFlt(80);
 
         //then - finals

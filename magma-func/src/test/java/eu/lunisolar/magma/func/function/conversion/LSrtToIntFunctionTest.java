@@ -178,7 +178,7 @@ public class LSrtToIntFunctionTest {
 
 
     @Test
-    public void testSrtToIntFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LSrtToIntFunctionTest {
         };
 
         //when
-        LToIntFunction<Integer> function = sutO.srtToIntFuncCompose(before);
+        LToIntFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsInt(80);
 
         //then - finals

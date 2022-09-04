@@ -681,10 +681,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return (v1, v2) -> this.accept(before1.apply(v1), before2.apply(v2));
 	}
 
-	public static <V1, V2, T1, T2> LBiConsumer<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, LBiConsumer<T1, T2> after) {
-		return after.compose(before1, before2);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="andThen (consumer/action)">

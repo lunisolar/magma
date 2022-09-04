@@ -465,19 +465,11 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return v -> this.apply(before.applyAsFlt(v));
 	}
 
-	public static <R> LFltFunction<R> composed(@Nonnull final LFltUnaryOperator before, LFltFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> fltFuncCompose(@Nonnull final LToFltFunction<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.applyAsFlt(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LToFltFunction<? super V> before, LFltFunction<R> after) {
-		return after.fltFuncCompose(before);
 	}
 
 	// </editor-fold>

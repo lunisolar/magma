@@ -383,19 +383,11 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return v -> this.accept(before.applyAsChar(v));
 	}
 
-	public static LCharConsumer composed(@Nonnull final LCharUnaryOperator before, LCharConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> charConsCompose(@Nonnull final LToCharFunction<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.applyAsChar(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharConsumer after) {
-		return after.charConsCompose(before);
 	}
 
 	// </editor-fold>

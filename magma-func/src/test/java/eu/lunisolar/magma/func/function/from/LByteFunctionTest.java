@@ -189,7 +189,7 @@ public class LByteFunctionTest<R> {
 
 
     @Test
-    public void testByteFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -208,7 +208,7 @@ public class LByteFunctionTest<R> {
         };
 
         //when
-        LFunction<Integer,Integer> function = sutO.byteFuncCompose(before);
+        LFunction<Integer,Integer> function = sutO.unboxingCompose(before);
         function.apply(80);
 
         //then - finals

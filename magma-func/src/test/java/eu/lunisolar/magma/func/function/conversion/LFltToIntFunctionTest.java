@@ -178,7 +178,7 @@ public class LFltToIntFunctionTest {
 
 
     @Test
-    public void testFltToIntFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LFltToIntFunctionTest {
         };
 
         //when
-        LToIntFunction<Integer> function = sutO.fltToIntFuncCompose(before);
+        LToIntFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsInt(80);
 
         //then - finals

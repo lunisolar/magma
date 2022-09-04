@@ -237,7 +237,7 @@ public class LLongPredicateTest {
 
 
     @Test
-    public void testLongPredCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -256,7 +256,7 @@ public class LLongPredicateTest {
         };
 
         //when
-        LPredicate<Integer> function = sutO.longPredCompose(before);
+        LPredicate<Integer> function = sutO.unboxingCompose(before);
         function.test(80);
 
         //then - finals

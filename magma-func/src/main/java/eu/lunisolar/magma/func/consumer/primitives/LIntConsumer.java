@@ -388,19 +388,11 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		return v -> this.accept(before.applyAsInt(v));
 	}
 
-	public static LIntConsumer composed(@Nonnull final LIntUnaryOperator before, LIntConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> intConsCompose(@Nonnull final LToIntFunction<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.applyAsInt(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntConsumer after) {
-		return after.intConsCompose(before);
 	}
 
 	// </editor-fold>

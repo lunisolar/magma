@@ -466,19 +466,11 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsChar(before.applyAsDbl(v));
 	}
 
-	public static LDblToCharFunction composed(@Nonnull final LDblUnaryOperator before, LDblToCharFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToCharFunction<V> dblToCharFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LToCharFunction<V> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsChar(before.applyAsDbl(v));
-	}
-
-	public static <V> LToCharFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToCharFunction after) {
-		return after.dblToCharFuncCompose(before);
 	}
 
 	// </editor-fold>

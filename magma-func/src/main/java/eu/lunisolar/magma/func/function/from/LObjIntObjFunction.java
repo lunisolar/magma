@@ -486,23 +486,13 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.applyAsInt(v2), before3.apply(v3));
 	}
 
-	public static <V1, V3, T1, T2, R> LObjIntObjFunction<V1, V3, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LFunction<? super V3, ? extends T2> before3,
-			LObjIntObjFunction<T1, T2, R> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> objIntObjFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LFunction<? super V3, ? extends T2> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LFunction<? super V3, ? extends T2> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.applyAsInt(v2), before3.apply(v3));
-	}
-
-	public static <V1, V2, V3, T1, T2, R> LTriFunction<V1, V2, V3, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LFunction<? super V3, ? extends T2> before3,
-			LObjIntObjFunction<T1, T2, R> after) {
-		return after.objIntObjFuncCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

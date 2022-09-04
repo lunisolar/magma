@@ -1018,20 +1018,12 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return (v1, v2) -> this.test(before1.apply(v1), before2.applyAsInt(v2));
 	}
 
-	public static <V1, T> LObjIntPredicate<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, LObjIntPredicate<T> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> objIntPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.test(before1.apply(v1), before2.applyAsInt(v2));
-	}
-
-	public static <V1, V2, T> LBiPredicate<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, LObjIntPredicate<T> after) {
-		return after.objIntPredCompose(before1, before2);
 	}
 
 	// </editor-fold>

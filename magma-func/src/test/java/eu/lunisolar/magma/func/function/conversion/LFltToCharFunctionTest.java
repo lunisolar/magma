@@ -178,7 +178,7 @@ public class LFltToCharFunctionTest {
 
 
     @Test
-    public void testFltToCharFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LFltToCharFunctionTest {
         };
 
         //when
-        LToCharFunction<Integer> function = sutO.fltToCharFuncCompose(before);
+        LToCharFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsChar(80);
 
         //then - finals

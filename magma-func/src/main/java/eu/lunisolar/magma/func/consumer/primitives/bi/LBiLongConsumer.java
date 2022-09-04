@@ -390,20 +390,12 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (v1, v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
 	}
 
-	public static LBiLongConsumer composed(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2, LBiLongConsumer after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> biLongConsCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> unboxingCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
-	}
-
-	public static <V1, V2> LBiConsumer<V1, V2> composed(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, LBiLongConsumer after) {
-		return after.biLongConsCompose(before1, before2);
 	}
 
 	// </editor-fold>

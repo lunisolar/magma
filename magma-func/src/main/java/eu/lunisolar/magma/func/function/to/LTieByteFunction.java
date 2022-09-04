@@ -489,22 +489,13 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (v1, v2, v3) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsByte(v3));
 	}
 
-	public static <V1, T> LTieByteFunction<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LByteUnaryOperator before3, LTieByteFunction<T> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LToIntTriFunction<V1, V2, V3> tieByteFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToByteFunction<? super V3> before3) {
+	default <V1, V2, V3> LToIntTriFunction<V1, V2, V3> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToByteFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsByte(v3));
-	}
-
-	public static <V1, V2, V3, T> LToIntTriFunction<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToByteFunction<? super V3> before3,
-			LTieByteFunction<T> after) {
-		return after.tieByteFuncCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

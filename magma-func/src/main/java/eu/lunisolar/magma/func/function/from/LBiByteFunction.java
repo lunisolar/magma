@@ -472,20 +472,12 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (v1, v2) -> this.apply(before1.applyAsByte(v1), before2.applyAsByte(v2));
 	}
 
-	public static <R> LBiByteFunction<R> composed(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, LBiByteFunction<R> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> biByteFuncCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> unboxingCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.apply(before1.applyAsByte(v1), before2.applyAsByte(v2));
-	}
-
-	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2, LBiByteFunction<R> after) {
-		return after.biByteFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

@@ -466,19 +466,11 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return v -> this.applyAsFlt(before.applyAsDbl(v));
 	}
 
-	public static LDblToFltFunction composed(@Nonnull final LDblUnaryOperator before, LDblToFltFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToFltFunction<V> dblToFltFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LToFltFunction<V> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsFlt(before.applyAsDbl(v));
-	}
-
-	public static <V> LToFltFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToFltFunction after) {
-		return after.dblToFltFuncCompose(before);
 	}
 
 	// </editor-fold>

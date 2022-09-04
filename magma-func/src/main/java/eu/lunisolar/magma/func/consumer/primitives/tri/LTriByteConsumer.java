@@ -391,21 +391,13 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		return (v1, v2, v3) -> this.accept(before1.applyAsByte(v1), before2.applyAsByte(v2), before3.applyAsByte(v3));
 	}
 
-	public static LTriByteConsumer composed(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, @Nonnull final LByteUnaryOperator before3, LTriByteConsumer after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumer<V1, V2, V3> triByteConsCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2, @Nonnull final LToByteFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriConsumer<V1, V2, V3> unboxingCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2, @Nonnull final LToByteFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.accept(before1.applyAsByte(v1), before2.applyAsByte(v2), before3.applyAsByte(v3));
-	}
-
-	public static <V1, V2, V3> LTriConsumer<V1, V2, V3> composed(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2, @Nonnull final LToByteFunction<? super V3> before3, LTriByteConsumer after) {
-		return after.triByteConsCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

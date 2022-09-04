@@ -474,10 +474,6 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (v1, v2, v3) -> this.applyAsLong(before1.applyAsLong(v1), before2.applyAsLong(v2), before3.applyAsLong(v3));
 	}
 
-	public static LLongTernaryOperator composed(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2, @Nonnull final LLongUnaryOperator before3, LLongTernaryOperator after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

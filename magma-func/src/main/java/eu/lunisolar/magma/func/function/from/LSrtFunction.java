@@ -465,19 +465,11 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return v -> this.apply(before.applyAsSrt(v));
 	}
 
-	public static <R> LSrtFunction<R> composed(@Nonnull final LSrtUnaryOperator before, LSrtFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> srtFuncCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.applyAsSrt(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtFunction<R> after) {
-		return after.srtFuncCompose(before);
 	}
 
 	// </editor-fold>

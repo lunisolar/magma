@@ -466,19 +466,11 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsDbl(before.apply(v));
 	}
 
-	public static LBoolToDblFunction composed(@Nonnull final LLogicalOperator before, LBoolToDblFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToDblFunction<V> boolToDblFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LToDblFunction<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsDbl(before.test(v));
-	}
-
-	public static <V> LToDblFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToDblFunction after) {
-		return after.boolToDblFuncCompose(before);
 	}
 
 	// </editor-fold>

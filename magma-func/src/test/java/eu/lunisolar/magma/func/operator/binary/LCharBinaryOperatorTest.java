@@ -236,7 +236,7 @@ public class LCharBinaryOperatorTest {
 
 
     @Test
-    public void testCharBinaryOpCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -261,7 +261,7 @@ public class LCharBinaryOperatorTest {
         };
 
         //when
-        LToCharBiFunction<Integer,Integer> function = sutO.charBinaryOpCompose(before1,before2);
+        LToCharBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsChar(80,81);
 
         //then - finals

@@ -236,7 +236,7 @@ public class LObjCharPredicateTest<T> {
 
 
     @Test
-    public void testObjCharPredCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -261,7 +261,7 @@ public class LObjCharPredicateTest<T> {
         };
 
         //when
-        LBiPredicate<Integer,Integer> function = sutO.objCharPredCompose(before1,before2);
+        LBiPredicate<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.test(80,81);
 
         //then - finals

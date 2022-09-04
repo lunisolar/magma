@@ -201,7 +201,7 @@ public class LTriDblFunctionTest<R> {
 
 
     @Test
-    public void testTriDblFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -232,7 +232,7 @@ public class LTriDblFunctionTest<R> {
         };
 
         //when
-        LTriFunction<Integer,Integer,Integer,Integer> function = sutO.triDblFuncCompose(before1,before2,before3);
+        LTriFunction<Integer,Integer,Integer,Integer> function = sutO.unboxingCompose(before1,before2,before3);
         function.apply(80,81,82);
 
         //then - finals

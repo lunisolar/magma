@@ -806,19 +806,11 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return v -> this.test(before.applyAsChar(v));
 	}
 
-	public static LCharPredicate composed(@Nonnull final LCharUnaryOperator before, LCharPredicate after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> charPredCompose(@Nonnull final LToCharFunction<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.test(before.applyAsChar(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharPredicate after) {
-		return after.charPredCompose(before);
 	}
 
 	// </editor-fold>

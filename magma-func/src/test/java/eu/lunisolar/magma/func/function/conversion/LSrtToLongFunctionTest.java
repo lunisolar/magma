@@ -178,7 +178,7 @@ public class LSrtToLongFunctionTest {
 
 
     @Test
-    public void testSrtToLongFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LSrtToLongFunctionTest {
         };
 
         //when
-        LToLongFunction<Integer> function = sutO.srtToLongFuncCompose(before);
+        LToLongFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsLong(80);
 
         //then - finals

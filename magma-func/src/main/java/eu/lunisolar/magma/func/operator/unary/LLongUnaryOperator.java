@@ -471,19 +471,11 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		return v -> this.applyAsLong(before.applyAsLong(v));
 	}
 
-	public static LLongUnaryOperator composed(@Nonnull final LLongUnaryOperator before, LLongUnaryOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToLongFunction<V> longUnaryOpCompose(@Nonnull final LToLongFunction<? super V> before) {
+	default <V> LToLongFunction<V> unboxingCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsLong(before.applyAsLong(v));
-	}
-
-	public static <V> LToLongFunction<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongUnaryOperator after) {
-		return after.longUnaryOpCompose(before);
 	}
 
 	// </editor-fold>

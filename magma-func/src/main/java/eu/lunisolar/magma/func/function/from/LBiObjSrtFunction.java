@@ -486,23 +486,13 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.applyAsSrt(v3));
 	}
 
-	public static <V1, V2, T1, T2, R> LBiObjSrtFunction<V1, V2, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LSrtUnaryOperator before3,
-			LBiObjSrtFunction<T1, T2, R> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> biObjSrtFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToSrtFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToSrtFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.applyAsSrt(v3));
-	}
-
-	public static <V1, V2, V3, T1, T2, R> LTriFunction<V1, V2, V3, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToSrtFunction<? super V3> before3,
-			LBiObjSrtFunction<T1, T2, R> after) {
-		return after.biObjSrtFuncCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

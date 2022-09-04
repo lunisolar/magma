@@ -489,22 +489,13 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (v1, v2, v3) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsChar(v3));
 	}
 
-	public static <V1, T> LTieCharFunction<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LCharUnaryOperator before3, LTieCharFunction<T> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LToIntTriFunction<V1, V2, V3> tieCharFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToCharFunction<? super V3> before3) {
+	default <V1, V2, V3> LToIntTriFunction<V1, V2, V3> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToCharFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsChar(v3));
-	}
-
-	public static <V1, V2, V3, T> LToIntTriFunction<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToCharFunction<? super V3> before3,
-			LTieCharFunction<T> after) {
-		return after.tieCharFuncCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

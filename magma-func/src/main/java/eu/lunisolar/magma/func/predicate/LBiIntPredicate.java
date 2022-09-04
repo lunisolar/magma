@@ -1013,20 +1013,12 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return (v1, v2) -> this.test(before1.applyAsInt(v1), before2.applyAsInt(v2));
 	}
 
-	public static LBiIntPredicate composed(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2, LBiIntPredicate after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> biIntPredCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> unboxingCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.test(before1.applyAsInt(v1), before2.applyAsInt(v2));
-	}
-
-	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2, LBiIntPredicate after) {
-		return after.biIntPredCompose(before1, before2);
 	}
 
 	// </editor-fold>

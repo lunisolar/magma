@@ -466,19 +466,11 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return v -> this.applyAsByte(before.applyAsByte(v));
 	}
 
-	public static LByteUnaryOperator composed(@Nonnull final LByteUnaryOperator before, LByteUnaryOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToByteFunction<V> byteUnaryOpCompose(@Nonnull final LToByteFunction<? super V> before) {
+	default <V> LToByteFunction<V> unboxingCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsByte(before.applyAsByte(v));
-	}
-
-	public static <V> LToByteFunction<V> composed(@Nonnull final LToByteFunction<? super V> before, LByteUnaryOperator after) {
-		return after.byteUnaryOpCompose(before);
 	}
 
 	// </editor-fold>

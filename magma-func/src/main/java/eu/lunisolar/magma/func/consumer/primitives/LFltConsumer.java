@@ -383,19 +383,11 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return v -> this.accept(before.applyAsFlt(v));
 	}
 
-	public static LFltConsumer composed(@Nonnull final LFltUnaryOperator before, LFltConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> fltConsCompose(@Nonnull final LToFltFunction<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.applyAsFlt(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LToFltFunction<? super V> before, LFltConsumer after) {
-		return after.fltConsCompose(before);
 	}
 
 	// </editor-fold>

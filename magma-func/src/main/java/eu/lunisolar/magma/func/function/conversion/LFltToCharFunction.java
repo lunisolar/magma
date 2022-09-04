@@ -466,19 +466,11 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsChar(before.applyAsFlt(v));
 	}
 
-	public static LFltToCharFunction composed(@Nonnull final LFltUnaryOperator before, LFltToCharFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToCharFunction<V> fltToCharFuncCompose(@Nonnull final LToFltFunction<? super V> before) {
+	default <V> LToCharFunction<V> unboxingCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsChar(before.applyAsFlt(v));
-	}
-
-	public static <V> LToCharFunction<V> composed(@Nonnull final LToFltFunction<? super V> before, LFltToCharFunction after) {
-		return after.fltToCharFuncCompose(before);
 	}
 
 	// </editor-fold>

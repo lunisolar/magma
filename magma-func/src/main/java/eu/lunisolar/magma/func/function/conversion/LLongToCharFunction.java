@@ -466,19 +466,11 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return v -> this.applyAsChar(before.applyAsLong(v));
 	}
 
-	public static LLongToCharFunction composed(@Nonnull final LLongUnaryOperator before, LLongToCharFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToCharFunction<V> longToCharFuncCompose(@Nonnull final LToLongFunction<? super V> before) {
+	default <V> LToCharFunction<V> unboxingCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsChar(before.applyAsLong(v));
-	}
-
-	public static <V> LToCharFunction<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongToCharFunction after) {
-		return after.longToCharFuncCompose(before);
 	}
 
 	// </editor-fold>

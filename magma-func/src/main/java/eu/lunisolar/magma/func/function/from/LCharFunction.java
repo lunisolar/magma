@@ -465,19 +465,11 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return v -> this.apply(before.applyAsChar(v));
 	}
 
-	public static <R> LCharFunction<R> composed(@Nonnull final LCharUnaryOperator before, LCharFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> charFuncCompose(@Nonnull final LToCharFunction<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.applyAsChar(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LToCharFunction<? super V> before, LCharFunction<R> after) {
-		return after.charFuncCompose(before);
 	}
 
 	// </editor-fold>

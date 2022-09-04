@@ -466,19 +466,11 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsChar(before.applyAsSrt(v));
 	}
 
-	public static LSrtToCharFunction composed(@Nonnull final LSrtUnaryOperator before, LSrtToCharFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToCharFunction<V> srtToCharFuncCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LToCharFunction<V> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsChar(before.applyAsSrt(v));
-	}
-
-	public static <V> LToCharFunction<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtToCharFunction after) {
-		return after.srtToCharFuncCompose(before);
 	}
 
 	// </editor-fold>

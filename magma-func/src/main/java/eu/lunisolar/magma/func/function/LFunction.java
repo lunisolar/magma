@@ -769,10 +769,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return v -> this.apply(before.apply(v));
 	}
 
-	public static <V, T, R> LFunction<V, R> composed(@Nonnull final LFunction<? super V, ? extends T> before, LFunction<T, R> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

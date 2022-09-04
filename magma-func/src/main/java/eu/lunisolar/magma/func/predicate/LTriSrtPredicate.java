@@ -977,21 +977,13 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (v1, v2, v3) -> this.test(before1.applyAsSrt(v1), before2.applyAsSrt(v2), before3.applyAsSrt(v3));
 	}
 
-	public static LTriSrtPredicate composed(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2, @Nonnull final LSrtUnaryOperator before3, LTriSrtPredicate after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> triSrtPredCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2, @Nonnull final LToSrtFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> unboxingCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2, @Nonnull final LToSrtFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.test(before1.applyAsSrt(v1), before2.applyAsSrt(v2), before3.applyAsSrt(v3));
-	}
-
-	public static <V1, V2, V3> LTriPredicate<V1, V2, V3> composed(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2, @Nonnull final LToSrtFunction<? super V3> before3, LTriSrtPredicate after) {
-		return after.triSrtPredCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

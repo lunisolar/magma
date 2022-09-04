@@ -466,19 +466,11 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsFlt(before.apply(v));
 	}
 
-	public static LBoolToFltFunction composed(@Nonnull final LLogicalOperator before, LBoolToFltFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToFltFunction<V> boolToFltFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LToFltFunction<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsFlt(before.test(v));
-	}
-
-	public static <V> LToFltFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToFltFunction after) {
-		return after.boolToFltFuncCompose(before);
 	}
 
 	// </editor-fold>

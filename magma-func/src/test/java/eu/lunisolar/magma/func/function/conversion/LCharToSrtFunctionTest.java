@@ -178,7 +178,7 @@ public class LCharToSrtFunctionTest {
 
 
     @Test
-    public void testCharToSrtFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LCharToSrtFunctionTest {
         };
 
         //when
-        LToSrtFunction<Integer> function = sutO.charToSrtFuncCompose(before);
+        LToSrtFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsSrt(80);
 
         //then - finals

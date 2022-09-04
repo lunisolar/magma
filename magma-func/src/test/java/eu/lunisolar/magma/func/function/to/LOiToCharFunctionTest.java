@@ -184,7 +184,7 @@ public class LOiToCharFunctionTest<T> {
 
 
     @Test
-    public void testOiToCharFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -209,7 +209,7 @@ public class LOiToCharFunctionTest<T> {
         };
 
         //when
-        LToCharBiFunction<Integer,Integer> function = sutO.oiToCharFuncCompose(before1,before2);
+        LToCharBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsChar(80,81);
 
         //then - finals

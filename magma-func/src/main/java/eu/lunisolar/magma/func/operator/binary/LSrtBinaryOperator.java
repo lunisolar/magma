@@ -511,20 +511,12 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return (v1, v2) -> this.applyAsSrt(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
 	}
 
-	public static LSrtBinaryOperator composed(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2, LSrtBinaryOperator after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToSrtBiFunction<V1, V2> srtBinaryOpCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
+	default <V1, V2> LToSrtBiFunction<V1, V2> unboxingCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.applyAsSrt(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
-	}
-
-	public static <V1, V2> LToSrtBiFunction<V1, V2> composed(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2, LSrtBinaryOperator after) {
-		return after.srtBinaryOpCompose(before1, before2);
 	}
 
 	// </editor-fold>

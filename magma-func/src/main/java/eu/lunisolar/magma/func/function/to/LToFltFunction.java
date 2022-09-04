@@ -481,10 +481,6 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return v -> this.applyAsFlt(before.apply(v));
 	}
 
-	public static <V, T> LToFltFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToFltFunction<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

@@ -472,20 +472,12 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (v1, v2) -> this.apply(before1.applyAsInt(v1), before2.applyAsInt(v2));
 	}
 
-	public static <R> LBiIntFunction<R> composed(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2, LBiIntFunction<R> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> biIntFuncCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> unboxingCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.apply(before1.applyAsInt(v1), before2.applyAsInt(v2));
-	}
-
-	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2, LBiIntFunction<R> after) {
-		return after.biIntFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

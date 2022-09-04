@@ -178,7 +178,7 @@ public class LIntToCharFunctionTest {
 
 
     @Test
-    public void testIntToCharFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LIntToCharFunctionTest {
         };
 
         //when
-        LToCharFunction<Integer> function = sutO.intToCharFuncCompose(before);
+        LToCharFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsChar(80);
 
         //then - finals

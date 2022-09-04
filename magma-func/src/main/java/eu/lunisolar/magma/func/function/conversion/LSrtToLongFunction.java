@@ -466,19 +466,11 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsLong(before.applyAsSrt(v));
 	}
 
-	public static LSrtToLongFunction composed(@Nonnull final LSrtUnaryOperator before, LSrtToLongFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToLongFunction<V> srtToLongFuncCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LToLongFunction<V> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsLong(before.applyAsSrt(v));
-	}
-
-	public static <V> LToLongFunction<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtToLongFunction after) {
-		return after.srtToLongFuncCompose(before);
 	}
 
 	// </editor-fold>

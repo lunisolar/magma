@@ -471,19 +471,11 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		return v -> this.applyAsLong(before.applyAsDbl(v));
 	}
 
-	public static LDblToLongFunction composed(@Nonnull final LDblUnaryOperator before, LDblToLongFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToLongFunction<V> dblToLongFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LToLongFunction<V> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsLong(before.applyAsDbl(v));
-	}
-
-	public static <V> LToLongFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToLongFunction after) {
-		return after.dblToLongFuncCompose(before);
 	}
 
 	// </editor-fold>

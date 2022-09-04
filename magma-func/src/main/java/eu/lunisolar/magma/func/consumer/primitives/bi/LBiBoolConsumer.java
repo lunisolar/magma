@@ -390,20 +390,12 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (v1, v2) -> this.accept(before1.apply(v1), before2.apply(v2));
 	}
 
-	public static LBiBoolConsumer composed(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, LBiBoolConsumer after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> biBoolConsCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> unboxingCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.accept(before1.test(v1), before2.test(v2));
-	}
-
-	public static <V1, V2> LBiConsumer<V1, V2> composed(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, LBiBoolConsumer after) {
-		return after.biBoolConsCompose(before1, before2);
 	}
 
 	// </editor-fold>

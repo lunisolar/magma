@@ -511,20 +511,12 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (v1, v2) -> this.applyAsByte(before1.applyAsByte(v1), before2.applyAsByte(v2));
 	}
 
-	public static LByteBinaryOperator composed(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2, LByteBinaryOperator after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToByteBiFunction<V1, V2> byteBinaryOpCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LToByteBiFunction<V1, V2> unboxingCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.applyAsByte(before1.applyAsByte(v1), before2.applyAsByte(v2));
-	}
-
-	public static <V1, V2> LToByteBiFunction<V1, V2> composed(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2, LByteBinaryOperator after) {
-		return after.byteBinaryOpCompose(before1, before2);
 	}
 
 	// </editor-fold>

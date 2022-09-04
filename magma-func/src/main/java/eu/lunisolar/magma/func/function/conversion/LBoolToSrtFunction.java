@@ -466,19 +466,11 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsSrt(before.apply(v));
 	}
 
-	public static LBoolToSrtFunction composed(@Nonnull final LLogicalOperator before, LBoolToSrtFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToSrtFunction<V> boolToSrtFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LToSrtFunction<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsSrt(before.test(v));
-	}
-
-	public static <V> LToSrtFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToSrtFunction after) {
-		return after.boolToSrtFuncCompose(before);
 	}
 
 	// </editor-fold>

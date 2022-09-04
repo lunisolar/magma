@@ -178,7 +178,7 @@ public class LTriCharConsumerTest {
 
 
     @Test
-    public void testTriCharConsCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -208,7 +208,7 @@ public class LTriCharConsumerTest {
         };
 
         //when
-        LTriConsumer<Integer,Integer,Integer> function = sutO.triCharConsCompose(before1,before2,before3);
+        LTriConsumer<Integer,Integer,Integer> function = sutO.unboxingCompose(before1,before2,before3);
         function.accept(80,81,82);
 
         //then - finals

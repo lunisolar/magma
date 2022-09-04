@@ -388,19 +388,11 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		return v -> this.accept(before.applyAsDbl(v));
 	}
 
-	public static LDblConsumer composed(@Nonnull final LDblUnaryOperator before, LDblConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> dblConsCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.applyAsDbl(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblConsumer after) {
-		return after.dblConsCompose(before);
 	}
 
 	// </editor-fold>

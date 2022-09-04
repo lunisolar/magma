@@ -481,10 +481,6 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return v -> this.applyAsSrt(before.apply(v));
 	}
 
-	public static <V, T> LToSrtFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToSrtFunction<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

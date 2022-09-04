@@ -471,19 +471,11 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		return v -> this.applyAsInt(before.applyAsDbl(v));
 	}
 
-	public static LDblToIntFunction composed(@Nonnull final LDblUnaryOperator before, LDblToIntFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToIntFunction<V> dblToIntFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LToIntFunction<V> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsInt(before.applyAsDbl(v));
-	}
-
-	public static <V> LToIntFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblToIntFunction after) {
-		return after.dblToIntFuncCompose(before);
 	}
 
 	// </editor-fold>

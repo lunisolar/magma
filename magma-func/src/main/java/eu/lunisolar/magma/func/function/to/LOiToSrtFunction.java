@@ -488,20 +488,12 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (v1, v2) -> this.applyAsSrt(before1.apply(v1), before2.applyAsInt(v2));
 	}
 
-	public static <V1, T> LOiToSrtFunction<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, LOiToSrtFunction<T> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToSrtBiFunction<V1, V2> oiToSrtFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LToSrtBiFunction<V1, V2> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.applyAsSrt(before1.apply(v1), before2.applyAsInt(v2));
-	}
-
-	public static <V1, V2, T> LToSrtBiFunction<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, LOiToSrtFunction<T> after) {
-		return after.oiToSrtFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

@@ -466,19 +466,11 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return v -> this.applyAsByte(before.apply(v));
 	}
 
-	public static LBoolToByteFunction composed(@Nonnull final LLogicalOperator before, LBoolToByteFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToByteFunction<V> boolToByteFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LToByteFunction<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsByte(before.test(v));
-	}
-
-	public static <V> LToByteFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToByteFunction after) {
-		return after.boolToByteFuncCompose(before);
 	}
 
 	// </editor-fold>

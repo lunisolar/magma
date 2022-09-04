@@ -400,21 +400,13 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return (v1, v2, v3) -> this.accept(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsSrt(v3));
 	}
 
-	public static <V1, T> LTieSrtConsumer<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LSrtUnaryOperator before3, LTieSrtConsumer<T> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumer<V1, V2, V3> tieSrtConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToSrtFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriConsumer<V1, V2, V3> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToSrtFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.accept(before1.apply(v1), before2.applyAsInt(v2), before3.applyAsSrt(v3));
-	}
-
-	public static <V1, V2, V3, T> LTriConsumer<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToSrtFunction<? super V3> before3, LTieSrtConsumer<T> after) {
-		return after.tieSrtConsCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

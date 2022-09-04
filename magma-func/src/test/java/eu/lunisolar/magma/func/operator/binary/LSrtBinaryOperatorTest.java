@@ -236,7 +236,7 @@ public class LSrtBinaryOperatorTest {
 
 
     @Test
-    public void testSrtBinaryOpCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -261,7 +261,7 @@ public class LSrtBinaryOperatorTest {
         };
 
         //when
-        LToSrtBiFunction<Integer,Integer> function = sutO.srtBinaryOpCompose(before1,before2);
+        LToSrtBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsSrt(80,81);
 
         //then - finals

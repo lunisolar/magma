@@ -470,19 +470,11 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		return v -> this.apply(before.applyAsDbl(v));
 	}
 
-	public static <R> LDblFunction<R> composed(@Nonnull final LDblUnaryOperator before, LDblFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> dblFuncCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.applyAsDbl(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LToDblFunction<? super V> before, LDblFunction<R> after) {
-		return after.dblFuncCompose(before);
 	}
 
 	// </editor-fold>

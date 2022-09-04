@@ -811,19 +811,11 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return v -> this.test(before.applyAsLong(v));
 	}
 
-	public static LLongPredicate composed(@Nonnull final LLongUnaryOperator before, LLongPredicate after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> longPredCompose(@Nonnull final LToLongFunction<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.test(before.applyAsLong(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongPredicate after) {
-		return after.longPredCompose(before);
 	}
 
 	// </editor-fold>

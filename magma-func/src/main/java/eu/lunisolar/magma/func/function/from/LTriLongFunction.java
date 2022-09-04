@@ -473,21 +473,13 @@ public interface LTriLongFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return (v1, v2, v3) -> this.apply(before1.applyAsLong(v1), before2.applyAsLong(v2), before3.applyAsLong(v3));
 	}
 
-	public static <R> LTriLongFunction<R> composed(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2, @Nonnull final LLongUnaryOperator before3, LTriLongFunction<R> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> triLongFuncCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> unboxingCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.apply(before1.applyAsLong(v1), before2.applyAsLong(v2), before3.applyAsLong(v3));
-	}
-
-	public static <V1, V2, V3, R> LTriFunction<V1, V2, V3, R> composed(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3, LTriLongFunction<R> after) {
-		return after.triLongFuncCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

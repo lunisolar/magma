@@ -487,11 +487,6 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return (v1, v2, v3) -> this.applyAsInt(before1.apply(v1), before2.apply(v2), before3.apply(v3));
 	}
 
-	public static <V1, V2, V3, T1, T2, T3> LToIntTriFunction<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2,
-			@Nonnull final LFunction<? super V3, ? extends T3> before3, LToIntTriFunction<T1, T2, T3> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

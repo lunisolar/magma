@@ -189,7 +189,7 @@ public class LFltFunctionTest<R> {
 
 
     @Test
-    public void testFltFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -208,7 +208,7 @@ public class LFltFunctionTest<R> {
         };
 
         //when
-        LFunction<Integer,Integer> function = sutO.fltFuncCompose(before);
+        LFunction<Integer,Integer> function = sutO.unboxingCompose(before);
         function.apply(80);
 
         //then - finals

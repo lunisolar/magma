@@ -466,19 +466,11 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return v -> this.applyAsSrt(before.applyAsInt(v));
 	}
 
-	public static LIntToSrtFunction composed(@Nonnull final LIntUnaryOperator before, LIntToSrtFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToSrtFunction<V> intToSrtFuncCompose(@Nonnull final LToIntFunction<? super V> before) {
+	default <V> LToSrtFunction<V> unboxingCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsSrt(before.applyAsInt(v));
-	}
-
-	public static <V> LToSrtFunction<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntToSrtFunction after) {
-		return after.intToSrtFuncCompose(before);
 	}
 
 	// </editor-fold>

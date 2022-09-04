@@ -178,7 +178,7 @@ public class LFltToByteFunctionTest {
 
 
     @Test
-    public void testFltToByteFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LFltToByteFunctionTest {
         };
 
         //when
-        LToByteFunction<Integer> function = sutO.fltToByteFuncCompose(before);
+        LToByteFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsByte(80);
 
         //then - finals

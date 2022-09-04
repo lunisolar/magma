@@ -474,10 +474,6 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (v1, v2, v3) -> this.applyAsDbl(before1.applyAsDbl(v1), before2.applyAsDbl(v2), before3.applyAsDbl(v3));
 	}
 
-	public static LDblTernaryOperator composed(@Nonnull final LDblUnaryOperator before1, @Nonnull final LDblUnaryOperator before2, @Nonnull final LDblUnaryOperator before3, LDblTernaryOperator after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

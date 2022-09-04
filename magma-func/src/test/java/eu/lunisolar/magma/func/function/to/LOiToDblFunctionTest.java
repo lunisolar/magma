@@ -184,7 +184,7 @@ public class LOiToDblFunctionTest<T> {
 
 
     @Test
-    public void testOiToDblFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -209,7 +209,7 @@ public class LOiToDblFunctionTest<T> {
         };
 
         //when
-        LToDblBiFunction<Integer,Integer> function = sutO.oiToDblFuncCompose(before1,before2);
+        LToDblBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsDbl(80,81);
 
         //then - finals

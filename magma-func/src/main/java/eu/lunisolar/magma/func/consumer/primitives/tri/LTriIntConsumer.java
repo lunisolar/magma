@@ -391,21 +391,13 @@ public interface LTriIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return (v1, v2, v3) -> this.accept(before1.applyAsInt(v1), before2.applyAsInt(v2), before3.applyAsInt(v3));
 	}
 
-	public static LTriIntConsumer composed(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2, @Nonnull final LIntUnaryOperator before3, LTriIntConsumer after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumer<V1, V2, V3> triIntConsCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToIntFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriConsumer<V1, V2, V3> unboxingCompose(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToIntFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.accept(before1.applyAsInt(v1), before2.applyAsInt(v2), before3.applyAsInt(v3));
-	}
-
-	public static <V1, V2, V3> LTriConsumer<V1, V2, V3> composed(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2, @Nonnull final LToIntFunction<? super V3> before3, LTriIntConsumer after) {
-		return after.triIntConsCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

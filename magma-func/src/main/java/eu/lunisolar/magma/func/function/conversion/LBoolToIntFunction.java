@@ -466,19 +466,11 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsInt(before.apply(v));
 	}
 
-	public static LBoolToIntFunction composed(@Nonnull final LLogicalOperator before, LBoolToIntFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToIntFunction<V> boolToIntFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LToIntFunction<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsInt(before.test(v));
-	}
-
-	public static <V> LToIntFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToIntFunction after) {
-		return after.boolToIntFuncCompose(before);
 	}
 
 	// </editor-fold>

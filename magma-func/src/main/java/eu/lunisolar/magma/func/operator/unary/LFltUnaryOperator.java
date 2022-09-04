@@ -466,19 +466,11 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return v -> this.applyAsFlt(before.applyAsFlt(v));
 	}
 
-	public static LFltUnaryOperator composed(@Nonnull final LFltUnaryOperator before, LFltUnaryOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToFltFunction<V> fltUnaryOpCompose(@Nonnull final LToFltFunction<? super V> before) {
+	default <V> LToFltFunction<V> unboxingCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsFlt(before.applyAsFlt(v));
-	}
-
-	public static <V> LToFltFunction<V> composed(@Nonnull final LToFltFunction<? super V> before, LFltUnaryOperator after) {
-		return after.fltUnaryOpCompose(before);
 	}
 
 	// </editor-fold>

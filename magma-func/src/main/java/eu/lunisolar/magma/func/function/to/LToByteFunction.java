@@ -481,10 +481,6 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsByte(before.apply(v));
 	}
 
-	public static <V, T> LToByteFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToByteFunction<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

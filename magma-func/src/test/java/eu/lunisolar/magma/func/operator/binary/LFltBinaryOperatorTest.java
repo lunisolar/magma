@@ -236,7 +236,7 @@ public class LFltBinaryOperatorTest {
 
 
     @Test
-    public void testFltBinaryOpCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -261,7 +261,7 @@ public class LFltBinaryOperatorTest {
         };
 
         //when
-        LToFltBiFunction<Integer,Integer> function = sutO.fltBinaryOpCompose(before1,before2);
+        LToFltBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsFlt(80,81);
 
         //then - finals

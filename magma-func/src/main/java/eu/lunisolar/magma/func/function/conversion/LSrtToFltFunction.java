@@ -466,19 +466,11 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return v -> this.applyAsFlt(before.applyAsSrt(v));
 	}
 
-	public static LSrtToFltFunction composed(@Nonnull final LSrtUnaryOperator before, LSrtToFltFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToFltFunction<V> srtToFltFuncCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LToFltFunction<V> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsFlt(before.applyAsSrt(v));
-	}
-
-	public static <V> LToFltFunction<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtToFltFunction after) {
-		return after.srtToFltFuncCompose(before);
 	}
 
 	// </editor-fold>

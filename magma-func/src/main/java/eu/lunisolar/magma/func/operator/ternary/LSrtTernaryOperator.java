@@ -474,10 +474,6 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (v1, v2, v3) -> this.applyAsSrt(before1.applyAsSrt(v1), before2.applyAsSrt(v2), before3.applyAsSrt(v3));
 	}
 
-	public static LSrtTernaryOperator composed(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2, @Nonnull final LSrtUnaryOperator before3, LSrtTernaryOperator after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

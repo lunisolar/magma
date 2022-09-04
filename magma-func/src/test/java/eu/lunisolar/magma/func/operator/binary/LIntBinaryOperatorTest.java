@@ -243,7 +243,7 @@ public class LIntBinaryOperatorTest {
 
 
     @Test
-    public void testIntBinaryOpCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -268,7 +268,7 @@ public class LIntBinaryOperatorTest {
         };
 
         //when
-        LToIntBiFunction<Integer,Integer> function = sutO.intBinaryOpCompose(before1,before2);
+        LToIntBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsInt(80,81);
 
         //then - finals

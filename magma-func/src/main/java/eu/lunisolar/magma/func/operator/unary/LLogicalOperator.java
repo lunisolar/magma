@@ -805,19 +805,11 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return v -> this.apply(before.apply(v));
 	}
 
-	public static LLogicalOperator composed(@Nonnull final LLogicalOperator before, LLogicalOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> logicalOpCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.test(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LPredicate<? super V> before, LLogicalOperator after) {
-		return after.logicalOpCompose(before);
 	}
 
 	// </editor-fold>

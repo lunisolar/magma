@@ -471,19 +471,11 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		return v -> this.applyAsInt(before.applyAsInt(v));
 	}
 
-	public static LIntUnaryOperator composed(@Nonnull final LIntUnaryOperator before, LIntUnaryOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToIntFunction<V> intUnaryOpCompose(@Nonnull final LToIntFunction<? super V> before) {
+	default <V> LToIntFunction<V> unboxingCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsInt(before.applyAsInt(v));
-	}
-
-	public static <V> LToIntFunction<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntUnaryOperator after) {
-		return after.intUnaryOpCompose(before);
 	}
 
 	// </editor-fold>

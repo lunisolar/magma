@@ -392,20 +392,12 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return (v1, v2) -> this.accept(before1.apply(v1), before2.apply(v2));
 	}
 
-	public static <V1, T> LObjBoolConsumer<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2, LObjBoolConsumer<T> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> objBoolConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.accept(before1.apply(v1), before2.test(v2));
-	}
-
-	public static <V1, V2, T> LBiConsumer<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2, LObjBoolConsumer<T> after) {
-		return after.objBoolConsCompose(before1, before2);
 	}
 
 	// </editor-fold>

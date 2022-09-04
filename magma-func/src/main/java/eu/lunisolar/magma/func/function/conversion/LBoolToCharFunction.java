@@ -466,19 +466,11 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return v -> this.applyAsChar(before.apply(v));
 	}
 
-	public static LBoolToCharFunction composed(@Nonnull final LLogicalOperator before, LBoolToCharFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToCharFunction<V> boolToCharFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LToCharFunction<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsChar(before.test(v));
-	}
-
-	public static <V> LToCharFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToCharFunction after) {
-		return after.boolToCharFuncCompose(before);
 	}
 
 	// </editor-fold>

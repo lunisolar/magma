@@ -190,7 +190,7 @@ public class LTieCharFunctionTest<T> {
 
 
     @Test
-    public void testTieCharFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -221,7 +221,7 @@ public class LTieCharFunctionTest<T> {
         };
 
         //when
-        LToIntTriFunction<Integer,Integer,Integer> function = sutO.tieCharFuncCompose(before1,before2,before3);
+        LToIntTriFunction<Integer,Integer,Integer> function = sutO.unboxingCompose(before1,before2,before3);
         function.applyAsInt(80,81,82);
 
         //then - finals

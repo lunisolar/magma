@@ -390,20 +390,12 @@ public interface LBiDblConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		return (v1, v2) -> this.accept(before1.applyAsDbl(v1), before2.applyAsDbl(v2));
 	}
 
-	public static LBiDblConsumer composed(@Nonnull final LDblUnaryOperator before1, @Nonnull final LDblUnaryOperator before2, LBiDblConsumer after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> biDblConsCompose(@Nonnull final LToDblFunction<? super V1> before1, @Nonnull final LToDblFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> unboxingCompose(@Nonnull final LToDblFunction<? super V1> before1, @Nonnull final LToDblFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.accept(before1.applyAsDbl(v1), before2.applyAsDbl(v2));
-	}
-
-	public static <V1, V2> LBiConsumer<V1, V2> composed(@Nonnull final LToDblFunction<? super V1> before1, @Nonnull final LToDblFunction<? super V2> before2, LBiDblConsumer after) {
-		return after.biDblConsCompose(before1, before2);
 	}
 
 	// </editor-fold>

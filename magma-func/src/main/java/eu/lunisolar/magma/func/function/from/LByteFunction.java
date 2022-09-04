@@ -465,19 +465,11 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return v -> this.apply(before.applyAsByte(v));
 	}
 
-	public static <R> LByteFunction<R> composed(@Nonnull final LByteUnaryOperator before, LByteFunction<R> after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LFunction<V, R> byteFuncCompose(@Nonnull final LToByteFunction<? super V> before) {
+	default <V> LFunction<V, R> unboxingCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.apply(before.applyAsByte(v));
-	}
-
-	public static <V, R> LFunction<V, R> composed(@Nonnull final LToByteFunction<? super V> before, LByteFunction<R> after) {
-		return after.byteFuncCompose(before);
 	}
 
 	// </editor-fold>

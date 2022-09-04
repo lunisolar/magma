@@ -486,10 +486,6 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return v -> this.applyAsLong(before.apply(v));
 	}
 
-	public static <V, T> LToLongFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToLongFunction<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

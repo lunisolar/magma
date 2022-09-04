@@ -383,19 +383,11 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return v -> this.accept(before.applyAsSrt(v));
 	}
 
-	public static LSrtConsumer composed(@Nonnull final LSrtUnaryOperator before, LSrtConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> srtConsCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.applyAsSrt(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtConsumer after) {
-		return after.srtConsCompose(before);
 	}
 
 	// </editor-fold>

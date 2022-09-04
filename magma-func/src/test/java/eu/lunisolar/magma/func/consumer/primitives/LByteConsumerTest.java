@@ -166,7 +166,7 @@ public class LByteConsumerTest {
 
 
     @Test
-    public void testByteConsCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -184,7 +184,7 @@ public class LByteConsumerTest {
         };
 
         //when
-        LConsumer<Integer> function = sutO.byteConsCompose(before);
+        LConsumer<Integer> function = sutO.unboxingCompose(before);
         function.accept(80);
 
         //then - finals

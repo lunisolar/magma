@@ -466,19 +466,11 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return v -> this.applyAsChar(before.applyAsChar(v));
 	}
 
-	public static LCharUnaryOperator composed(@Nonnull final LCharUnaryOperator before, LCharUnaryOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToCharFunction<V> charUnaryOpCompose(@Nonnull final LToCharFunction<? super V> before) {
+	default <V> LToCharFunction<V> unboxingCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsChar(before.applyAsChar(v));
-	}
-
-	public static <V> LToCharFunction<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharUnaryOperator after) {
-		return after.charUnaryOpCompose(before);
 	}
 
 	// </editor-fold>

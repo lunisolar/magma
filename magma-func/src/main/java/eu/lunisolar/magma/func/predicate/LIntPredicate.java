@@ -821,19 +821,11 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		return v -> this.test(before.applyAsInt(v));
 	}
 
-	public static LIntPredicate composed(@Nonnull final LIntUnaryOperator before, LIntPredicate after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> intPredCompose(@Nonnull final LToIntFunction<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.test(before.applyAsInt(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntPredicate after) {
-		return after.intPredCompose(before);
 	}
 
 	// </editor-fold>

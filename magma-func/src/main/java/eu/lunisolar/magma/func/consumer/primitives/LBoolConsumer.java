@@ -383,19 +383,11 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return v -> this.accept(before.apply(v));
 	}
 
-	public static LBoolConsumer composed(@Nonnull final LLogicalOperator before, LBoolConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> boolConsCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.test(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LPredicate<? super V> before, LBoolConsumer after) {
-		return after.boolConsCompose(before);
 	}
 
 	// </editor-fold>

@@ -696,11 +696,6 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return (v1, v2, v3, v4, v5) -> this.apply(before1.apply(v1), before2.apply(v2), before3.apply(v3), before4.apply(v4), before5.apply(v5));
 	}
 
-	public static <V1, V2, V3, V4, V5, T1, T2, T3, T4, T5, R> LQuintFunction<V1, V2, V3, V4, V5, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2,
-			@Nonnull final LFunction<? super V3, ? extends T3> before3, @Nonnull final LFunction<? super V4, ? extends T4> before4, @Nonnull final LFunction<? super V5, ? extends T5> before5, LQuintFunction<T1, T2, T3, T4, T5, R> after) {
-		return after.compose(before1, before2, before3, before4, before5);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

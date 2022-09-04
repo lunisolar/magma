@@ -184,7 +184,7 @@ public class LOiToByteFunctionTest<T> {
 
 
     @Test
-    public void testOiToByteFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -209,7 +209,7 @@ public class LOiToByteFunctionTest<T> {
         };
 
         //when
-        LToByteBiFunction<Integer,Integer> function = sutO.oiToByteFuncCompose(before1,before2);
+        LToByteBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsByte(80,81);
 
         //then - finals

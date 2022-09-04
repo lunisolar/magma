@@ -466,19 +466,11 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsByte(before.applyAsFlt(v));
 	}
 
-	public static LFltToByteFunction composed(@Nonnull final LFltUnaryOperator before, LFltToByteFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToByteFunction<V> fltToByteFuncCompose(@Nonnull final LToFltFunction<? super V> before) {
+	default <V> LToByteFunction<V> unboxingCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsByte(before.applyAsFlt(v));
-	}
-
-	public static <V> LToByteFunction<V> composed(@Nonnull final LToFltFunction<? super V> before, LFltToByteFunction after) {
-		return after.fltToByteFuncCompose(before);
 	}
 
 	// </editor-fold>

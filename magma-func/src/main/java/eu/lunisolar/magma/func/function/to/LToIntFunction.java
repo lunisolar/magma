@@ -486,10 +486,6 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return v -> this.applyAsInt(before.apply(v));
 	}
 
-	public static <V, T> LToIntFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToIntFunction<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

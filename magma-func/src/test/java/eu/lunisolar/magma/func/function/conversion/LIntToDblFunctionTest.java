@@ -185,7 +185,7 @@ public class LIntToDblFunctionTest {
 
 
     @Test
-    public void testIntToDblFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -204,7 +204,7 @@ public class LIntToDblFunctionTest {
         };
 
         //when
-        LToDblFunction<Integer> function = sutO.intToDblFuncCompose(before);
+        LToDblFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsDbl(80);
 
         //then - finals

@@ -178,7 +178,7 @@ public class LByteToDblFunctionTest {
 
 
     @Test
-    public void testByteToDblFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LByteToDblFunctionTest {
         };
 
         //when
-        LToDblFunction<Integer> function = sutO.byteToDblFuncCompose(before);
+        LToDblFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsDbl(80);
 
         //then - finals

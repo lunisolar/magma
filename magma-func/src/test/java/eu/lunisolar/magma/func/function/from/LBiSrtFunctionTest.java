@@ -195,7 +195,7 @@ public class LBiSrtFunctionTest<R> {
 
 
     @Test
-    public void testBiSrtFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -220,7 +220,7 @@ public class LBiSrtFunctionTest<R> {
         };
 
         //when
-        LBiFunction<Integer,Integer,Integer> function = sutO.biSrtFuncCompose(before1,before2);
+        LBiFunction<Integer,Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.apply(80,81);
 
         //then - finals

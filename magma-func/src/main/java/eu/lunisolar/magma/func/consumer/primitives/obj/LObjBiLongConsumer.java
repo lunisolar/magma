@@ -391,22 +391,13 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 		return (v1, v2, v3) -> this.accept(before1.apply(v1), before2.applyAsLong(v2), before3.applyAsLong(v3));
 	}
 
-	public static <V1, T> LObjBiLongConsumer<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2, @Nonnull final LLongUnaryOperator before3, LObjBiLongConsumer<T> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumer<V1, V2, V3> objBiLongConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriConsumer<V1, V2, V3> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.accept(before1.apply(v1), before2.applyAsLong(v2), before3.applyAsLong(v3));
-	}
-
-	public static <V1, V2, V3, T> LTriConsumer<V1, V2, V3> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3,
-			LObjBiLongConsumer<T> after) {
-		return after.objBiLongConsCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

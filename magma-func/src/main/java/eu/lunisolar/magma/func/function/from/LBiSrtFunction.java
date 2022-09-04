@@ -472,20 +472,12 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (v1, v2) -> this.apply(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
 	}
 
-	public static <R> LBiSrtFunction<R> composed(@Nonnull final LSrtUnaryOperator before1, @Nonnull final LSrtUnaryOperator before2, LBiSrtFunction<R> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> biSrtFuncCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> unboxingCompose(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.apply(before1.applyAsSrt(v1), before2.applyAsSrt(v2));
-	}
-
-	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LToSrtFunction<? super V1> before1, @Nonnull final LToSrtFunction<? super V2> before2, LBiSrtFunction<R> after) {
-		return after.biSrtFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

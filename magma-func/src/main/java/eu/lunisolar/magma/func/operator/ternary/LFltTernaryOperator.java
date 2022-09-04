@@ -474,10 +474,6 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (v1, v2, v3) -> this.applyAsFlt(before1.applyAsFlt(v1), before2.applyAsFlt(v2), before3.applyAsFlt(v3));
 	}
 
-	public static LFltTernaryOperator composed(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2, @Nonnull final LFltUnaryOperator before3, LFltTernaryOperator after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

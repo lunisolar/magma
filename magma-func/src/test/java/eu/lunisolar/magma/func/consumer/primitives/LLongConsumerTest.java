@@ -173,7 +173,7 @@ public class LLongConsumerTest {
 
 
     @Test
-    public void testLongConsCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -191,7 +191,7 @@ public class LLongConsumerTest {
         };
 
         //when
-        LConsumer<Integer> function = sutO.longConsCompose(before);
+        LConsumer<Integer> function = sutO.unboxingCompose(before);
         function.accept(80);
 
         //then - finals

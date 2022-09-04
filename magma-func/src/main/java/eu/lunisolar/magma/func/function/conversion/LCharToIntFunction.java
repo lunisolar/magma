@@ -466,19 +466,11 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsInt(before.applyAsChar(v));
 	}
 
-	public static LCharToIntFunction composed(@Nonnull final LCharUnaryOperator before, LCharToIntFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToIntFunction<V> charToIntFuncCompose(@Nonnull final LToCharFunction<? super V> before) {
+	default <V> LToIntFunction<V> unboxingCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsInt(before.applyAsChar(v));
-	}
-
-	public static <V> LToIntFunction<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharToIntFunction after) {
-		return after.charToIntFuncCompose(before);
 	}
 
 	// </editor-fold>

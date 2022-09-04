@@ -471,19 +471,11 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 		return v -> this.applyAsLong(before.applyAsInt(v));
 	}
 
-	public static LIntToLongFunction composed(@Nonnull final LIntUnaryOperator before, LIntToLongFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToLongFunction<V> intToLongFuncCompose(@Nonnull final LToIntFunction<? super V> before) {
+	default <V> LToLongFunction<V> unboxingCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsLong(before.applyAsInt(v));
-	}
-
-	public static <V> LToLongFunction<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntToLongFunction after) {
-		return after.intToLongFuncCompose(before);
 	}
 
 	// </editor-fold>

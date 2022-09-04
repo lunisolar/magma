@@ -485,20 +485,12 @@ public interface LObjSrtFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return (v1, v2) -> this.apply(before1.apply(v1), before2.applyAsSrt(v2));
 	}
 
-	public static <V1, T, R> LObjSrtFunction<V1, R> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LSrtUnaryOperator before2, LObjSrtFunction<T, R> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> objSrtFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.apply(before1.apply(v1), before2.applyAsSrt(v2));
-	}
-
-	public static <V1, V2, T, R> LBiFunction<V1, V2, R> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToSrtFunction<? super V2> before2, LObjSrtFunction<T, R> after) {
-		return after.objSrtFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

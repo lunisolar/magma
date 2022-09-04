@@ -977,21 +977,13 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return (v1, v2, v3) -> this.test(before1.applyAsLong(v1), before2.applyAsLong(v2), before3.applyAsLong(v3));
 	}
 
-	public static LTriLongPredicate composed(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2, @Nonnull final LLongUnaryOperator before3, LTriLongPredicate after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> triLongPredCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> unboxingCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.test(before1.applyAsLong(v1), before2.applyAsLong(v2), before3.applyAsLong(v3));
-	}
-
-	public static <V1, V2, V3> LTriPredicate<V1, V2, V3> composed(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2, @Nonnull final LToLongFunction<? super V3> before3, LTriLongPredicate after) {
-		return after.triLongPredCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

@@ -383,19 +383,11 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return v -> this.accept(before.applyAsByte(v));
 	}
 
-	public static LByteConsumer composed(@Nonnull final LByteUnaryOperator before, LByteConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> byteConsCompose(@Nonnull final LToByteFunction<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.applyAsByte(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LToByteFunction<? super V> before, LByteConsumer after) {
-		return after.byteConsCompose(before);
 	}
 
 	// </editor-fold>

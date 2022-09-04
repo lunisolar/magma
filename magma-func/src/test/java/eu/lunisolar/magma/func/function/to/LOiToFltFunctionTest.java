@@ -184,7 +184,7 @@ public class LOiToFltFunctionTest<T> {
 
 
     @Test
-    public void testOiToFltFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -209,7 +209,7 @@ public class LOiToFltFunctionTest<T> {
         };
 
         //when
-        LToFltBiFunction<Integer,Integer> function = sutO.oiToFltFuncCompose(before1,before2);
+        LToFltBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsFlt(80,81);
 
         //then - finals

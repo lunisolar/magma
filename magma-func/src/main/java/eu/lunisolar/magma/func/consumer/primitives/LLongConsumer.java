@@ -388,19 +388,11 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		return v -> this.accept(before.applyAsLong(v));
 	}
 
-	public static LLongConsumer composed(@Nonnull final LLongUnaryOperator before, LLongConsumer after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LConsumer<V> longConsCompose(@Nonnull final LToLongFunction<? super V> before) {
+	default <V> LConsumer<V> unboxingCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.accept(before.applyAsLong(v));
-	}
-
-	public static <V> LConsumer<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongConsumer after) {
-		return after.longConsCompose(before);
 	}
 
 	// </editor-fold>

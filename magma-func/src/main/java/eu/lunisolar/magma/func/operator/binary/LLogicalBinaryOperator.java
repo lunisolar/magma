@@ -999,20 +999,12 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return (v1, v2) -> this.apply(before1.apply(v1), before2.apply(v2));
 	}
 
-	public static LLogicalBinaryOperator composed(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, LLogicalBinaryOperator after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> logicalBinaryOpCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> unboxingCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.apply(before1.test(v1), before2.test(v2));
-	}
-
-	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, LLogicalBinaryOperator after) {
-		return after.logicalBinaryOpCompose(before1, before2);
 	}
 
 	// </editor-fold>

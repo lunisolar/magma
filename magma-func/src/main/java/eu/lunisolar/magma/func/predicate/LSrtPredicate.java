@@ -806,19 +806,11 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		return v -> this.test(before.applyAsSrt(v));
 	}
 
-	public static LSrtPredicate composed(@Nonnull final LSrtUnaryOperator before, LSrtPredicate after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> srtPredCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.test(before.applyAsSrt(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtPredicate after) {
-		return after.srtPredCompose(before);
 	}
 
 	// </editor-fold>

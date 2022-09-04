@@ -481,19 +481,11 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		return v -> this.applyAsDbl(before.applyAsDbl(v));
 	}
 
-	public static LDblUnaryOperator composed(@Nonnull final LDblUnaryOperator before, LDblUnaryOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToDblFunction<V> dblUnaryOpCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LToDblFunction<V> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsDbl(before.applyAsDbl(v));
-	}
-
-	public static <V> LToDblFunction<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblUnaryOperator after) {
-		return after.dblUnaryOpCompose(before);
 	}
 
 	// </editor-fold>

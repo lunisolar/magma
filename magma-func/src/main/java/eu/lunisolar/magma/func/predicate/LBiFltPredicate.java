@@ -974,20 +974,12 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return (v1, v2) -> this.test(before1.applyAsFlt(v1), before2.applyAsFlt(v2));
 	}
 
-	public static LBiFltPredicate composed(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2, LBiFltPredicate after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> biFltPredCompose(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> unboxingCompose(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.test(before1.applyAsFlt(v1), before2.applyAsFlt(v2));
-	}
-
-	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2, LBiFltPredicate after) {
-		return after.biFltPredCompose(before1, before2);
 	}
 
 	// </editor-fold>

@@ -178,7 +178,7 @@ public class LBoolToCharFunctionTest {
 
 
     @Test
-    public void testBoolToCharFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LBoolToCharFunctionTest {
         };
 
         //when
-        LToCharFunction<Integer> function = sutO.boolToCharFuncCompose(before);
+        LToCharFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsChar(80);
 
         //then - finals

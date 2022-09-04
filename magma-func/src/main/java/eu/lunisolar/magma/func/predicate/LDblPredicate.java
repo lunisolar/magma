@@ -811,19 +811,11 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return v -> this.test(before.applyAsDbl(v));
 	}
 
-	public static LDblPredicate composed(@Nonnull final LDblUnaryOperator before, LDblPredicate after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> dblPredCompose(@Nonnull final LToDblFunction<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LToDblFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.test(before.applyAsDbl(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LToDblFunction<? super V> before, LDblPredicate after) {
-		return after.dblPredCompose(before);
 	}
 
 	// </editor-fold>

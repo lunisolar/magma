@@ -472,20 +472,12 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (v1, v2) -> this.apply(before1.apply(v1), before2.apply(v2));
 	}
 
-	public static <R> LBiBoolFunction<R> composed(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, LBiBoolFunction<R> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> biBoolFuncCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> unboxingCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.apply(before1.test(v1), before2.test(v2));
-	}
-
-	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, LBiBoolFunction<R> after) {
-		return after.biBoolFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

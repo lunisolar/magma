@@ -1302,10 +1302,6 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return (v1, v2) -> this.test(before1.apply(v1), before2.apply(v2));
 	}
 
-	public static <V1, V2, T1, T2> LBiPredicate<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, LBiPredicate<T1, T2> after) {
-		return after.compose(before1, before2);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

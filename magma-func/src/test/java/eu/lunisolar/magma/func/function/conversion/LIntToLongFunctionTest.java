@@ -185,7 +185,7 @@ public class LIntToLongFunctionTest {
 
 
     @Test
-    public void testIntToLongFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -204,7 +204,7 @@ public class LIntToLongFunctionTest {
         };
 
         //when
-        LToLongFunction<Integer> function = sutO.intToLongFuncCompose(before);
+        LToLongFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsLong(80);
 
         //then - finals

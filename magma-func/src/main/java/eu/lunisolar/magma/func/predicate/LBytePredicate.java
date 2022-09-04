@@ -806,19 +806,11 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return v -> this.test(before.applyAsByte(v));
 	}
 
-	public static LBytePredicate composed(@Nonnull final LByteUnaryOperator before, LBytePredicate after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> bytePredCompose(@Nonnull final LToByteFunction<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.test(before.applyAsByte(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LToByteFunction<? super V> before, LBytePredicate after) {
-		return after.bytePredCompose(before);
 	}
 
 	// </editor-fold>

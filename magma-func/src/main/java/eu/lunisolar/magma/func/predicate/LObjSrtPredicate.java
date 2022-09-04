@@ -997,20 +997,12 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return (v1, v2) -> this.test(before1.apply(v1), before2.applyAsSrt(v2));
 	}
 
-	public static <V1, T> LObjSrtPredicate<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LSrtUnaryOperator before2, LObjSrtPredicate<T> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> objSrtPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToSrtFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.test(before1.apply(v1), before2.applyAsSrt(v2));
-	}
-
-	public static <V1, V2, T> LBiPredicate<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToSrtFunction<? super V2> before2, LObjSrtPredicate<T> after) {
-		return after.objSrtPredCompose(before1, before2);
 	}
 
 	// </editor-fold>

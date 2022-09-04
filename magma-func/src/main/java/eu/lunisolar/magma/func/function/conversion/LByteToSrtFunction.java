@@ -466,19 +466,11 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsSrt(before.applyAsByte(v));
 	}
 
-	public static LByteToSrtFunction composed(@Nonnull final LByteUnaryOperator before, LByteToSrtFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToSrtFunction<V> byteToSrtFuncCompose(@Nonnull final LToByteFunction<? super V> before) {
+	default <V> LToSrtFunction<V> unboxingCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsSrt(before.applyAsByte(v));
-	}
-
-	public static <V> LToSrtFunction<V> composed(@Nonnull final LToByteFunction<? super V> before, LByteToSrtFunction after) {
-		return after.byteToSrtFuncCompose(before);
 	}
 
 	// </editor-fold>

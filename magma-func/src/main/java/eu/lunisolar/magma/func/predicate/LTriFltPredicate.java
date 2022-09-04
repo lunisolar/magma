@@ -977,21 +977,13 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (v1, v2, v3) -> this.test(before1.applyAsFlt(v1), before2.applyAsFlt(v2), before3.applyAsFlt(v3));
 	}
 
-	public static LTriFltPredicate composed(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2, @Nonnull final LFltUnaryOperator before3, LTriFltPredicate after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> triFltPredCompose(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2, @Nonnull final LToFltFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> unboxingCompose(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2, @Nonnull final LToFltFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.test(before1.applyAsFlt(v1), before2.applyAsFlt(v2), before3.applyAsFlt(v3));
-	}
-
-	public static <V1, V2, V3> LTriPredicate<V1, V2, V3> composed(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2, @Nonnull final LToFltFunction<? super V3> before3, LTriFltPredicate after) {
-		return after.triFltPredCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

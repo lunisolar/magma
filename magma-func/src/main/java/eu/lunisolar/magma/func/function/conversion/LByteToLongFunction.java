@@ -466,19 +466,11 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return v -> this.applyAsLong(before.applyAsByte(v));
 	}
 
-	public static LByteToLongFunction composed(@Nonnull final LByteUnaryOperator before, LByteToLongFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToLongFunction<V> byteToLongFuncCompose(@Nonnull final LToByteFunction<? super V> before) {
+	default <V> LToLongFunction<V> unboxingCompose(@Nonnull final LToByteFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsLong(before.applyAsByte(v));
-	}
-
-	public static <V> LToLongFunction<V> composed(@Nonnull final LToByteFunction<? super V> before, LByteToLongFunction after) {
-		return after.byteToLongFuncCompose(before);
 	}
 
 	// </editor-fold>

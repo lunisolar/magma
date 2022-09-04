@@ -178,7 +178,7 @@ public class LLongToCharFunctionTest {
 
 
     @Test
-    public void testLongToCharFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LLongToCharFunctionTest {
         };
 
         //when
-        LToCharFunction<Integer> function = sutO.longToCharFuncCompose(before);
+        LToCharFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsChar(80);
 
         //then - finals

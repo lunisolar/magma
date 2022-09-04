@@ -774,10 +774,6 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return (v1, v2) -> this.apply(before1.apply(v1), before2.apply(v2));
 	}
 
-	public static <V1, V2, T1, T2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, LBiFunction<T1, T2, R> after) {
-		return after.compose(before1, before2);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

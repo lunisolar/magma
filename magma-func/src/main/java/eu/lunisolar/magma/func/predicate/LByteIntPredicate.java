@@ -829,20 +829,12 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return (v1, v2) -> this.test(before1.applyAsByte(v1), before2.applyAsInt(v2));
 	}
 
-	public static LByteIntPredicate composed(@Nonnull final LByteUnaryOperator before1, @Nonnull final LIntUnaryOperator before2, LByteIntPredicate after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> byteIntPredCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> unboxingCompose(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.test(before1.applyAsByte(v1), before2.applyAsInt(v2));
-	}
-
-	public static <V1, V2> LBiPredicate<V1, V2> composed(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2, LByteIntPredicate after) {
-		return after.byteIntPredCompose(before1, before2);
 	}
 
 	// </editor-fold>

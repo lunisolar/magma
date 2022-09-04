@@ -511,20 +511,12 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (v1, v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
-	public static LCharBinaryOperator composed(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LCharBinaryOperator after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToCharBiFunction<V1, V2> charBinaryOpCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LToCharBiFunction<V1, V2> unboxingCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
-	}
-
-	public static <V1, V2> LToCharBiFunction<V1, V2> composed(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2, LCharBinaryOperator after) {
-		return after.charBinaryOpCompose(before1, before2);
 	}
 
 	// </editor-fold>

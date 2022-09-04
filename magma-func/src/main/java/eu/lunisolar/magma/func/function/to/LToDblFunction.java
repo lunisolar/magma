@@ -496,10 +496,6 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return v -> this.applyAsDbl(before.apply(v));
 	}
 
-	public static <V, T> LToDblFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToDblFunction<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

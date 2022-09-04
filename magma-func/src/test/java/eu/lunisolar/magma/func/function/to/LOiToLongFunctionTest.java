@@ -184,7 +184,7 @@ public class LOiToLongFunctionTest<T> {
 
 
     @Test
-    public void testOiToLongFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -209,7 +209,7 @@ public class LOiToLongFunctionTest<T> {
         };
 
         //when
-        LToLongBiFunction<Integer,Integer> function = sutO.oiToLongFuncCompose(before1,before2);
+        LToLongBiFunction<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.applyAsLong(80,81);
 
         //then - finals

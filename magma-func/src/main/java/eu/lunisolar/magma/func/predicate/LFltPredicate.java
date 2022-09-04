@@ -806,19 +806,11 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		return v -> this.test(before.applyAsFlt(v));
 	}
 
-	public static LFltPredicate composed(@Nonnull final LFltUnaryOperator before, LFltPredicate after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LPredicate<V> fltPredCompose(@Nonnull final LToFltFunction<? super V> before) {
+	default <V> LPredicate<V> unboxingCompose(@Nonnull final LToFltFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.test(before.applyAsFlt(v));
-	}
-
-	public static <V> LPredicate<V> composed(@Nonnull final LToFltFunction<? super V> before, LFltPredicate after) {
-		return after.fltPredCompose(before);
 	}
 
 	// </editor-fold>

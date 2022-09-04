@@ -466,19 +466,11 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return v -> this.applyAsDbl(before.applyAsSrt(v));
 	}
 
-	public static LSrtToDblFunction composed(@Nonnull final LSrtUnaryOperator before, LSrtToDblFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToDblFunction<V> srtToDblFuncCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LToDblFunction<V> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsDbl(before.applyAsSrt(v));
-	}
-
-	public static <V> LToDblFunction<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtToDblFunction after) {
-		return after.srtToDblFuncCompose(before);
 	}
 
 	// </editor-fold>

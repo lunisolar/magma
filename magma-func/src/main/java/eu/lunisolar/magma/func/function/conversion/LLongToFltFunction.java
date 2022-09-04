@@ -466,19 +466,11 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsFlt(before.applyAsLong(v));
 	}
 
-	public static LLongToFltFunction composed(@Nonnull final LLongUnaryOperator before, LLongToFltFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToFltFunction<V> longToFltFuncCompose(@Nonnull final LToLongFunction<? super V> before) {
+	default <V> LToFltFunction<V> unboxingCompose(@Nonnull final LToLongFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsFlt(before.applyAsLong(v));
-	}
-
-	public static <V> LToFltFunction<V> composed(@Nonnull final LToLongFunction<? super V> before, LLongToFltFunction after) {
-		return after.longToFltFuncCompose(before);
 	}
 
 	// </editor-fold>

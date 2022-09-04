@@ -466,19 +466,11 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsByte(before.applyAsInt(v));
 	}
 
-	public static LIntToByteFunction composed(@Nonnull final LIntUnaryOperator before, LIntToByteFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToByteFunction<V> intToByteFuncCompose(@Nonnull final LToIntFunction<? super V> before) {
+	default <V> LToByteFunction<V> unboxingCompose(@Nonnull final LToIntFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsByte(before.applyAsInt(v));
-	}
-
-	public static <V> LToByteFunction<V> composed(@Nonnull final LToIntFunction<? super V> before, LIntToByteFunction after) {
-		return after.intToByteFuncCompose(before);
 	}
 
 	// </editor-fold>

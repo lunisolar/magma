@@ -1004,21 +1004,13 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.apply(v3));
 	}
 
-	public static LLogicalTernaryOperator composed(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, @Nonnull final LLogicalOperator before3, LLogicalTernaryOperator after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> logicalTernaryOpCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> unboxingCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.apply(before1.test(v1), before2.test(v2), before3.test(v3));
-	}
-
-	public static <V1, V2, V3> LTriPredicate<V1, V2, V3> composed(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3, LLogicalTernaryOperator after) {
-		return after.logicalTernaryOpCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

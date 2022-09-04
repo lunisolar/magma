@@ -481,10 +481,6 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return v -> this.applyAsChar(before.apply(v));
 	}
 
-	public static <V, T> LToCharFunction<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LToCharFunction<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">

@@ -473,21 +473,13 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return (v1, v2, v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.apply(v3));
 	}
 
-	public static <R> LTriBoolFunction<R> composed(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, @Nonnull final LLogicalOperator before3, LTriBoolFunction<R> after) {
-		return after.compose(before1, before2, before3);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> triBoolFuncCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> unboxingCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (v1, v2, v3) -> this.apply(before1.test(v1), before2.test(v2), before3.test(v3));
-	}
-
-	public static <V1, V2, V3, R> LTriFunction<V1, V2, V3, R> composed(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3, LTriBoolFunction<R> after) {
-		return after.triBoolFuncCompose(before1, before2, before3);
 	}
 
 	// </editor-fold>

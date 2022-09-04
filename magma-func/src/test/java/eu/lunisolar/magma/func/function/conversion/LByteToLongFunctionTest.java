@@ -178,7 +178,7 @@ public class LByteToLongFunctionTest {
 
 
     @Test
-    public void testByteToLongFuncCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -197,7 +197,7 @@ public class LByteToLongFunctionTest {
         };
 
         //when
-        LToLongFunction<Integer> function = sutO.byteToLongFuncCompose(before);
+        LToLongFunction<Integer> function = sutO.unboxingCompose(before);
         function.applyAsLong(80);
 
         //then - finals

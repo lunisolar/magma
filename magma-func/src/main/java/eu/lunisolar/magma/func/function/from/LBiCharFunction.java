@@ -472,20 +472,12 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (v1, v2) -> this.apply(before1.applyAsChar(v1), before2.applyAsChar(v2));
 	}
 
-	public static <R> LBiCharFunction<R> composed(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2, LBiCharFunction<R> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> biCharFuncCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> unboxingCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.apply(before1.applyAsChar(v1), before2.applyAsChar(v2));
-	}
-
-	public static <V1, V2, R> LBiFunction<V1, V2, R> composed(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2, LBiCharFunction<R> after) {
-		return after.biCharFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

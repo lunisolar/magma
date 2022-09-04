@@ -466,19 +466,11 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return v -> this.applyAsByte(before.applyAsChar(v));
 	}
 
-	public static LCharToByteFunction composed(@Nonnull final LCharUnaryOperator before, LCharToByteFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToByteFunction<V> charToByteFuncCompose(@Nonnull final LToCharFunction<? super V> before) {
+	default <V> LToByteFunction<V> unboxingCompose(@Nonnull final LToCharFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsByte(before.applyAsChar(v));
-	}
-
-	public static <V> LToByteFunction<V> composed(@Nonnull final LToCharFunction<? super V> before, LCharToByteFunction after) {
-		return after.charToByteFuncCompose(before);
 	}
 
 	// </editor-fold>

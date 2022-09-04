@@ -466,19 +466,11 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return v -> this.applyAsSrt(before.applyAsSrt(v));
 	}
 
-	public static LSrtUnaryOperator composed(@Nonnull final LSrtUnaryOperator before, LSrtUnaryOperator after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToSrtFunction<V> srtUnaryOpCompose(@Nonnull final LToSrtFunction<? super V> before) {
+	default <V> LToSrtFunction<V> unboxingCompose(@Nonnull final LToSrtFunction<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsSrt(before.applyAsSrt(v));
-	}
-
-	public static <V> LToSrtFunction<V> composed(@Nonnull final LToSrtFunction<? super V> before, LSrtUnaryOperator after) {
-		return after.srtUnaryOpCompose(before);
 	}
 
 	// </editor-fold>

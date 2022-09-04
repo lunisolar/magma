@@ -230,7 +230,7 @@ public class LFltPredicateTest {
 
 
     @Test
-    public void testFltPredCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -249,7 +249,7 @@ public class LFltPredicateTest {
         };
 
         //when
-        LPredicate<Integer> function = sutO.fltPredCompose(before);
+        LPredicate<Integer> function = sutO.unboxingCompose(before);
         function.test(80);
 
         //then - finals

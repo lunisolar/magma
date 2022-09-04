@@ -172,7 +172,7 @@ public class LBiBoolConsumerTest {
 
 
     @Test
-    public void testBiBoolConsCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -196,7 +196,7 @@ public class LBiBoolConsumerTest {
         };
 
         //when
-        LBiConsumer<Integer,Integer> function = sutO.biBoolConsCompose(before1,before2);
+        LBiConsumer<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.accept(80,81);
 
         //then - finals

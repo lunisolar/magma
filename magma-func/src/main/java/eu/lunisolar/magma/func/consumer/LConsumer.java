@@ -672,10 +672,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		return v -> this.accept(before.apply(v));
 	}
 
-	public static <V, T> LConsumer<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LConsumer<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="andThen (consumer/action)">

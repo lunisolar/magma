@@ -511,20 +511,12 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return (v1, v2) -> this.applyAsFlt(before1.applyAsFlt(v1), before2.applyAsFlt(v2));
 	}
 
-	public static LFltBinaryOperator composed(@Nonnull final LFltUnaryOperator before1, @Nonnull final LFltUnaryOperator before2, LFltBinaryOperator after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToFltBiFunction<V1, V2> fltBinaryOpCompose(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2) {
+	default <V1, V2> LToFltBiFunction<V1, V2> unboxingCompose(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.applyAsFlt(before1.applyAsFlt(v1), before2.applyAsFlt(v2));
-	}
-
-	public static <V1, V2> LToFltBiFunction<V1, V2> composed(@Nonnull final LToFltFunction<? super V1> before1, @Nonnull final LToFltFunction<? super V2> before2, LFltBinaryOperator after) {
-		return after.fltBinaryOpCompose(before1, before2);
 	}
 
 	// </editor-fold>

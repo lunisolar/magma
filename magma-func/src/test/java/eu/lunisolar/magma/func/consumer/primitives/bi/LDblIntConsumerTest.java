@@ -172,7 +172,7 @@ public class LDblIntConsumerTest {
 
 
     @Test
-    public void testDblIntConsCompose() throws Throwable {
+    public void testUnboxingCompose() throws Throwable {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -196,7 +196,7 @@ public class LDblIntConsumerTest {
         };
 
         //when
-        LBiConsumer<Integer,Integer> function = sutO.dblIntConsCompose(before1,before2);
+        LBiConsumer<Integer,Integer> function = sutO.unboxingCompose(before1,before2);
         function.accept(80,81);
 
         //then - finals

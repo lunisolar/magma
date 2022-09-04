@@ -488,20 +488,12 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return (v1, v2) -> this.applyAsLong(before1.apply(v1), before2.applyAsInt(v2));
 	}
 
-	public static <V1, T> LOiToLongFunction<V1> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2, LOiToLongFunction<T> after) {
-		return after.compose(before1, before2);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToLongBiFunction<V1, V2> oiToLongFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LToLongBiFunction<V1, V2> unboxingCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (v1, v2) -> this.applyAsLong(before1.apply(v1), before2.applyAsInt(v2));
-	}
-
-	public static <V1, V2, T> LToLongBiFunction<V1, V2> composed(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2, LOiToLongFunction<T> after) {
-		return after.oiToLongFuncCompose(before1, before2);
 	}
 
 	// </editor-fold>

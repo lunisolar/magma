@@ -466,19 +466,11 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return v -> this.applyAsLong(before.apply(v));
 	}
 
-	public static LBoolToLongFunction composed(@Nonnull final LLogicalOperator before, LBoolToLongFunction after) {
-		return after.compose(before);
-	}
-
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V> LToLongFunction<V> boolToLongFuncCompose(@Nonnull final LPredicate<? super V> before) {
+	default <V> LToLongFunction<V> unboxingCompose(@Nonnull final LPredicate<? super V> before) {
 		Null.nonNullArg(before, "before");
 		return v -> this.applyAsLong(before.test(v));
-	}
-
-	public static <V> LToLongFunction<V> composed(@Nonnull final LPredicate<? super V> before, LBoolToLongFunction after) {
-		return after.boolToLongFuncCompose(before);
 	}
 
 	// </editor-fold>

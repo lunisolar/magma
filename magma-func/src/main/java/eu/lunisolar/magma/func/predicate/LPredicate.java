@@ -1130,10 +1130,6 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return v -> this.test(before.apply(v));
 	}
 
-	public static <V, T> LPredicate<V> composed(@Nonnull final LFunction<? super V, ? extends T> before, LPredicate<T> after) {
-		return after.compose(before);
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="then (functional)">
