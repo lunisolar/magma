@@ -328,46 +328,6 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return null;
 	}
 
-	default LQuadFunction<T2, T3, T4, T5, R> lShrink(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3, a4, a5) -> apply(left.apply(a2, a3, a4, a5), a2, a3, a4, a5);
-	}
-
-	default LQuadFunction<T2, T3, T4, T5, R> lShrink_(T1 a1) {
-		return (a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5);
-	}
-
-	public static <T2, T3, T4, T5, R, T1> LQuadFunction<T2, T3, T4, T5, R> lShrunken(@Nonnull LQuadFunction<T2, T3, T4, T5, T1> left, @Nonnull LQuintFunction<T1, T2, T3, T4, T5, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T3, T4, T5, R, T1> LQuadFunction<T2, T3, T4, T5, R> lShrunken_(T1 a1, @Nonnull LQuintFunction<T1, T2, T3, T4, T5, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LQuadFunction<T1, T2, T3, T4, R> rShrink(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2, a3, a4) -> apply(a1, a2, a3, a4, right.apply(a1, a2, a3, a4));
-	}
-
-	default LQuadFunction<T1, T2, T3, T4, R> rShrink_(T5 a5) {
-		return (a1, a2, a3, a4) -> apply(a1, a2, a3, a4, a5);
-	}
-
-	public static <T1, T2, T3, T4, R, T5> LQuadFunction<T1, T2, T3, T4, R> rShrunken(@Nonnull LQuadFunction<T1, T2, T3, T4, T5> right, @Nonnull LQuintFunction<T1, T2, T3, T4, T5, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2, T3, T4, R, T5> LQuadFunction<T1, T2, T3, T4, R> rShrunken_(T5 a5, @Nonnull LQuintFunction<T1, T2, T3, T4, T5, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a5);
-	}
-
 	/**  */
 	public static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LFunction<T4, LFunction<T5, R>>>>> func) {
 		Null.nonNullArg(func, "func");

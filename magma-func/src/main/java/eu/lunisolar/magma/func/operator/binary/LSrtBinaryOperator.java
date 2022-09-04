@@ -310,46 +310,6 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LSrtUnaryOperator lShrink(@Nonnull LSrtUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsSrt(left.applyAsSrt(a2), a2);
-	}
-
-	default LSrtUnaryOperator lShrink_(short a1) {
-		return a2 -> applyAsSrt(a1, a2);
-	}
-
-	public static LSrtUnaryOperator lShrunken(@Nonnull LSrtUnaryOperator left, @Nonnull LSrtBinaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LSrtUnaryOperator lShrunken_(short a1, @Nonnull LSrtBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LSrtUnaryOperator rShrink(@Nonnull LSrtUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsSrt(a1, right.applyAsSrt(a1));
-	}
-
-	default LSrtUnaryOperator rShrink_(short a2) {
-		return a1 -> applyAsSrt(a1, a2);
-	}
-
-	public static LSrtUnaryOperator rShrunken(@Nonnull LSrtUnaryOperator right, @Nonnull LSrtBinaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LSrtUnaryOperator rShrunken_(short a2, @Nonnull LSrtBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LSrtBinaryOperator uncurry(@Nonnull LSrtFunction<LSrtUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

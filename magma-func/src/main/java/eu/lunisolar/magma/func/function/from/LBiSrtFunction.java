@@ -314,46 +314,6 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LSrtFunction<R> lShrink(@Nonnull LSrtUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.applyAsSrt(a2), a2);
-	}
-
-	default LSrtFunction<R> lShrink_(short a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R> LSrtFunction<R> lShrunken(@Nonnull LSrtUnaryOperator left, @Nonnull LBiSrtFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LSrtFunction<R> lShrunken_(short a1, @Nonnull LBiSrtFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LSrtFunction<R> rShrink(@Nonnull LSrtUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsSrt(a1));
-	}
-
-	default LSrtFunction<R> rShrink_(short a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <R> LSrtFunction<R> rShrunken(@Nonnull LSrtUnaryOperator right, @Nonnull LBiSrtFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LSrtFunction<R> rShrunken_(short a2, @Nonnull LBiSrtFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <R> LBiSrtFunction<R> uncurry(@Nonnull LSrtFunction<LSrtFunction<R>> func) {
 		Null.nonNullArg(func, "func");

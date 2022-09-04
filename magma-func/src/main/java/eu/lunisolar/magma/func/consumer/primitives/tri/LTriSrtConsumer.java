@@ -305,46 +305,6 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiSrtConsumer lShrink(@Nonnull LSrtBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> accept(left.applyAsSrt(a2, a3), a2, a3);
-	}
-
-	default LBiSrtConsumer lShrink_(short a1) {
-		return (a2, a3) -> accept(a1, a2, a3);
-	}
-
-	public static LBiSrtConsumer lShrunken(@Nonnull LSrtBinaryOperator left, @Nonnull LTriSrtConsumer func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LBiSrtConsumer lShrunken_(short a1, @Nonnull LTriSrtConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiSrtConsumer rShrink(@Nonnull LSrtBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.applyAsSrt(a1, a2));
-	}
-
-	default LBiSrtConsumer rShrink_(short a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static LBiSrtConsumer rShrunken(@Nonnull LSrtBinaryOperator right, @Nonnull LTriSrtConsumer func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LBiSrtConsumer rShrunken_(short a3, @Nonnull LTriSrtConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LTriSrtConsumer uncurry(@Nonnull LSrtFunction<LSrtFunction<LSrtConsumer>> func) {
 		Null.nonNullArg(func, "func");

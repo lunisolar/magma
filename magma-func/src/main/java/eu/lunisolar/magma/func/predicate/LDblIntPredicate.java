@@ -365,46 +365,6 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_a2, a1, func);
 	}
 
-	default LIntPredicate lShrink(@Nonnull LIntToDblFunction left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.applyAsDbl(a2), a2);
-	}
-
-	default LIntPredicate lShrink_(double a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static LIntPredicate lShrunken(@Nonnull LIntToDblFunction left, @Nonnull LDblIntPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LIntPredicate lShrunken_(double a1, @Nonnull LDblIntPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LDblPredicate rShrink(@Nonnull LDblToIntFunction right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsInt(a1));
-	}
-
-	default LDblPredicate rShrink_(int a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static LDblPredicate rShrunken(@Nonnull LDblToIntFunction right, @Nonnull LDblIntPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LDblPredicate rShrunken_(int a2, @Nonnull LDblIntPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LDblIntPredicate uncurry(@Nonnull LDblFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

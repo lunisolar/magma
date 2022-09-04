@@ -369,46 +369,6 @@ public interface LObjBytePredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return false;
 	}
 
-	default LBytePredicate lShrink(@Nonnull LByteFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.apply(a2), a2);
-	}
-
-	default LBytePredicate lShrink_(T a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static <T> LBytePredicate lShrunken(@Nonnull LByteFunction<T> left, @Nonnull LObjBytePredicate<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LBytePredicate lShrunken_(T a1, @Nonnull LObjBytePredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LPredicate<T> rShrink(@Nonnull LToByteFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsByte(a1));
-	}
-
-	default LPredicate<T> rShrink_(byte a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static <T> LPredicate<T> rShrunken(@Nonnull LToByteFunction<T> right, @Nonnull LObjBytePredicate<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LPredicate<T> rShrunken_(byte a2, @Nonnull LObjBytePredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LObjBytePredicate<T> uncurry(@Nonnull LFunction<T, LBytePredicate> func) {
 		Null.nonNullArg(func, "func");

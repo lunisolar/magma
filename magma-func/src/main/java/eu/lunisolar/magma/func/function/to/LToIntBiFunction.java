@@ -323,46 +323,6 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return orElse;
 	}
 
-	default LToIntFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsInt(left.apply(a2), a2);
-	}
-
-	default LToIntFunction<T2> lShrink_(T1 a1) {
-		return a2 -> applyAsInt(a1, a2);
-	}
-
-	public static <T2, T1> LToIntFunction<T2> lShrunken(@Nonnull LFunction<T2, T1> left, @Nonnull LToIntBiFunction<T1, T2> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T1> LToIntFunction<T2> lShrunken_(T1 a1, @Nonnull LToIntBiFunction<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LToIntFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsInt(a1, right.apply(a1));
-	}
-
-	default LToIntFunction<T1> rShrink_(T2 a2) {
-		return a1 -> applyAsInt(a1, a2);
-	}
-
-	public static <T1, T2> LToIntFunction<T1> rShrunken(@Nonnull LFunction<T1, T2> right, @Nonnull LToIntBiFunction<T1, T2> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2> LToIntFunction<T1> rShrunken_(T2 a2, @Nonnull LToIntBiFunction<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T1, T2> LToIntBiFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LToIntFunction<T2>> func) {
 		Null.nonNullArg(func, "func");

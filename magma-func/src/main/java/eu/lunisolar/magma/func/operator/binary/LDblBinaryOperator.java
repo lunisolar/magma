@@ -320,46 +320,6 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LDblUnaryOperator lShrink(@Nonnull LDblUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsDbl(left.applyAsDbl(a2), a2);
-	}
-
-	default LDblUnaryOperator lShrink_(double a1) {
-		return a2 -> applyAsDbl(a1, a2);
-	}
-
-	public static LDblUnaryOperator lShrunken(@Nonnull LDblUnaryOperator left, @Nonnull LDblBinaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LDblUnaryOperator lShrunken_(double a1, @Nonnull LDblBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LDblUnaryOperator rShrink(@Nonnull LDblUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsDbl(a1, right.applyAsDbl(a1));
-	}
-
-	default LDblUnaryOperator rShrink_(double a2) {
-		return a1 -> applyAsDbl(a1, a2);
-	}
-
-	public static LDblUnaryOperator rShrunken(@Nonnull LDblUnaryOperator right, @Nonnull LDblBinaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LDblUnaryOperator rShrunken_(double a2, @Nonnull LDblBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LDblBinaryOperator uncurry(@Nonnull LDblFunction<LDblUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

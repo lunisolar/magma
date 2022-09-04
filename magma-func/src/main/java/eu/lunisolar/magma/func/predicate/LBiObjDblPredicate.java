@@ -359,46 +359,6 @@ public interface LBiObjDblPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return false;
 	}
 
-	default LObjDblPredicate<T2> lShrink(@Nonnull LObjDblFunction<T2, T1> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
-	}
-
-	default LObjDblPredicate<T2> lShrink_(T1 a1) {
-		return (a2, a3) -> test(a1, a2, a3);
-	}
-
-	public static <T2, T1> LObjDblPredicate<T2> lShrunken(@Nonnull LObjDblFunction<T2, T1> left, @Nonnull LBiObjDblPredicate<T1, T2> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T1> LObjDblPredicate<T2> lShrunken_(T1 a1, @Nonnull LBiObjDblPredicate<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiPredicate<T1, T2> rShrink(@Nonnull LToDblBiFunction<T1, T2> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> test(a1, a2, right.applyAsDbl(a1, a2));
-	}
-
-	default LBiPredicate<T1, T2> rShrink_(double a3) {
-		return (a1, a2) -> test(a1, a2, a3);
-	}
-
-	public static <T1, T2> LBiPredicate<T1, T2> rShrunken(@Nonnull LToDblBiFunction<T1, T2> right, @Nonnull LBiObjDblPredicate<T1, T2> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2> LBiPredicate<T1, T2> rShrunken_(double a3, @Nonnull LBiObjDblPredicate<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T1, T2> LBiObjDblPredicate<T1, T2> uncurry(@Nonnull LFunction<T1, LFunction<T2, LDblPredicate>> func) {
 		Null.nonNullArg(func, "func");

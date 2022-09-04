@@ -359,46 +359,6 @@ public interface LObjBiIntPredicate<T> extends MetaPredicate, MetaInterface.NonT
 		return false;
 	}
 
-	default LBiIntPredicate lShrink(@Nonnull LBiIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBiIntPredicate lShrink_(T a1) {
-		return (a2, a3) -> test(a1, a2, a3);
-	}
-
-	public static <T> LBiIntPredicate lShrunken(@Nonnull LBiIntFunction<T> left, @Nonnull LObjBiIntPredicate<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LBiIntPredicate lShrunken_(T a1, @Nonnull LObjBiIntPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LObjIntPredicate<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> test(a1, a2, right.applyAsInt(a1, a2));
-	}
-
-	default LObjIntPredicate<T> rShrink_(int a3) {
-		return (a1, a2) -> test(a1, a2, a3);
-	}
-
-	public static <T> LObjIntPredicate<T> rShrunken(@Nonnull LOiToIntFunction<T> right, @Nonnull LObjBiIntPredicate<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LObjIntPredicate<T> rShrunken_(int a3, @Nonnull LObjBiIntPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LObjBiIntPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LIntPredicate>> func) {
 		Null.nonNullArg(func, "func");

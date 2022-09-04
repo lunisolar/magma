@@ -327,46 +327,6 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
-	default LCharFunction<R> lShrink(@Nonnull LCharFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.apply(a2), a2);
-	}
-
-	default LCharFunction<R> lShrink_(T a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R, T> LCharFunction<R> lShrunken(@Nonnull LCharFunction<T> left, @Nonnull LObjCharFunction<T, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R, T> LCharFunction<R> lShrunken_(T a1, @Nonnull LObjCharFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LFunction<T, R> rShrink(@Nonnull LToCharFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsChar(a1));
-	}
-
-	default LFunction<T, R> rShrink_(char a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <T, R> LFunction<T, R> rShrunken(@Nonnull LToCharFunction<T> right, @Nonnull LObjCharFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LFunction<T, R> rShrunken_(char a2, @Nonnull LObjCharFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T, R> LObjCharFunction<T, R> uncurry(@Nonnull LFunction<T, LCharFunction<R>> func) {
 		Null.nonNullArg(func, "func");

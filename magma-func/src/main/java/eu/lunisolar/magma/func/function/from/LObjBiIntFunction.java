@@ -327,46 +327,6 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return null;
 	}
 
-	default LBiIntFunction<R> lShrink(@Nonnull LBiIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBiIntFunction<R> lShrink_(T a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static <R, T> LBiIntFunction<R> lShrunken(@Nonnull LBiIntFunction<T> left, @Nonnull LObjBiIntFunction<T, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R, T> LBiIntFunction<R> lShrunken_(T a1, @Nonnull LObjBiIntFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LOiFunction<T, R> rShrink(@Nonnull LOiToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.applyAsInt(a1, a2));
-	}
-
-	default LOiFunction<T, R> rShrink_(int a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LOiToIntFunction<T> right, @Nonnull LObjBiIntFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken_(int a3, @Nonnull LObjBiIntFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T, R> LObjBiIntFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LIntFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

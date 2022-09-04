@@ -314,46 +314,6 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiIntConsumer lShrink(@Nonnull LBiIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBiIntConsumer lShrink_(T a1) {
-		return (a2, a3) -> accept(a1, a2, a3);
-	}
-
-	public static <T> LBiIntConsumer lShrunken(@Nonnull LBiIntFunction<T> left, @Nonnull LTieIntConsumer<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LBiIntConsumer lShrunken_(T a1, @Nonnull LTieIntConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LObjIntConsumer<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.applyAsInt(a1, a2));
-	}
-
-	default LObjIntConsumer<T> rShrink_(int a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken(@Nonnull LOiToIntFunction<T> right, @Nonnull LTieIntConsumer<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken_(int a3, @Nonnull LTieIntConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTieIntConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LIntConsumer>> func) {
 		Null.nonNullArg(func, "func");

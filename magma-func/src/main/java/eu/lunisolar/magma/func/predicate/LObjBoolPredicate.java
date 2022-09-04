@@ -369,46 +369,6 @@ public interface LObjBoolPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return false;
 	}
 
-	default LLogicalOperator lShrink(@Nonnull LBoolFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.apply(a2), a2);
-	}
-
-	default LLogicalOperator lShrink_(T a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static <T> LLogicalOperator lShrunken(@Nonnull LBoolFunction<T> left, @Nonnull LObjBoolPredicate<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LLogicalOperator lShrunken_(T a1, @Nonnull LObjBoolPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LPredicate<T> rShrink(@Nonnull LPredicate<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.test(a1));
-	}
-
-	default LPredicate<T> rShrink_(boolean a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static <T> LPredicate<T> rShrunken(@Nonnull LPredicate<T> right, @Nonnull LObjBoolPredicate<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LPredicate<T> rShrunken_(boolean a2, @Nonnull LObjBoolPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LObjBoolPredicate<T> uncurry(@Nonnull LFunction<T, LLogicalOperator> func) {
 		Null.nonNullArg(func, "func");

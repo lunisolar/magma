@@ -359,26 +359,6 @@ public interface LObjIntFltPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return false;
 	}
 
-	default LObjIntPredicate<T> rShrink(@Nonnull LOiToFltFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> test(a1, a2, right.applyAsFlt(a1, a2));
-	}
-
-	default LObjIntPredicate<T> rShrink_(float a3) {
-		return (a1, a2) -> test(a1, a2, a3);
-	}
-
-	public static <T> LObjIntPredicate<T> rShrunken(@Nonnull LOiToFltFunction<T> right, @Nonnull LObjIntFltPredicate<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LObjIntPredicate<T> rShrunken_(float a3, @Nonnull LObjIntFltPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LObjIntFltPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LFltPredicate>> func) {
 		Null.nonNullArg(func, "func");

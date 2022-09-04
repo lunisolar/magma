@@ -305,46 +305,6 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		fromTill(0, max_i, a1, a2, a3, a4, func);
 	}
 
-	default LTriConsumer<T2, T3, T4> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3, a4) -> accept(left.apply(a2, a3, a4), a2, a3, a4);
-	}
-
-	default LTriConsumer<T2, T3, T4> lShrink_(T1 a1) {
-		return (a2, a3, a4) -> accept(a1, a2, a3, a4);
-	}
-
-	public static <T2, T3, T4, T1> LTriConsumer<T2, T3, T4> lShrunken(@Nonnull LTriFunction<T2, T3, T4, T1> left, @Nonnull LQuadConsumer<T1, T2, T3, T4> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T3, T4, T1> LTriConsumer<T2, T3, T4> lShrunken_(T1 a1, @Nonnull LQuadConsumer<T1, T2, T3, T4> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LTriConsumer<T1, T2, T3> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2, a3) -> accept(a1, a2, a3, right.apply(a1, a2, a3));
-	}
-
-	default LTriConsumer<T1, T2, T3> rShrink_(T4 a4) {
-		return (a1, a2, a3) -> accept(a1, a2, a3, a4);
-	}
-
-	public static <T1, T2, T3, T4> LTriConsumer<T1, T2, T3> rShrunken(@Nonnull LTriFunction<T1, T2, T3, T4> right, @Nonnull LQuadConsumer<T1, T2, T3, T4> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2, T3, T4> LTriConsumer<T1, T2, T3> rShrunken_(T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a4);
-	}
-
 	/**  */
 	public static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LConsumer<T4>>>> func) {
 		Null.nonNullArg(func, "func");

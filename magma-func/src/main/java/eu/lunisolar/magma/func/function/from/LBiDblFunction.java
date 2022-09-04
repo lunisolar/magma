@@ -314,46 +314,6 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LDblFunction<R> lShrink(@Nonnull LDblUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.applyAsDbl(a2), a2);
-	}
-
-	default LDblFunction<R> lShrink_(double a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R> LDblFunction<R> lShrunken(@Nonnull LDblUnaryOperator left, @Nonnull LBiDblFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LDblFunction<R> lShrunken_(double a1, @Nonnull LBiDblFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LDblFunction<R> rShrink(@Nonnull LDblUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsDbl(a1));
-	}
-
-	default LDblFunction<R> rShrink_(double a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <R> LDblFunction<R> rShrunken(@Nonnull LDblUnaryOperator right, @Nonnull LBiDblFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LDblFunction<R> rShrunken_(double a2, @Nonnull LBiDblFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <R> LBiDblFunction<R> uncurry(@Nonnull LDblFunction<LDblFunction<R>> func) {
 		Null.nonNullArg(func, "func");

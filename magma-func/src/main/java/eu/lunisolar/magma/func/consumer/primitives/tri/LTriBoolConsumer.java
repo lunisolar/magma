@@ -305,46 +305,6 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiBoolConsumer lShrink(@Nonnull LLogicalBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBiBoolConsumer lShrink_(boolean a1) {
-		return (a2, a3) -> accept(a1, a2, a3);
-	}
-
-	public static LBiBoolConsumer lShrunken(@Nonnull LLogicalBinaryOperator left, @Nonnull LTriBoolConsumer func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LBiBoolConsumer lShrunken_(boolean a1, @Nonnull LTriBoolConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiBoolConsumer rShrink(@Nonnull LLogicalBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.apply(a1, a2));
-	}
-
-	default LBiBoolConsumer rShrink_(boolean a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static LBiBoolConsumer rShrunken(@Nonnull LLogicalBinaryOperator right, @Nonnull LTriBoolConsumer func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LBiBoolConsumer rShrunken_(boolean a3, @Nonnull LTriBoolConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LTriBoolConsumer uncurry(@Nonnull LBoolFunction<LBoolFunction<LBoolConsumer>> func) {
 		Null.nonNullArg(func, "func");

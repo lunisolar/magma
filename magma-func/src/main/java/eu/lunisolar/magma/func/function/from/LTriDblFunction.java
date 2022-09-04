@@ -314,46 +314,6 @@ public interface LTriDblFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiDblFunction<R> lShrink(@Nonnull LDblBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.applyAsDbl(a2, a3), a2, a3);
-	}
-
-	default LBiDblFunction<R> lShrink_(double a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static <R> LBiDblFunction<R> lShrunken(@Nonnull LDblBinaryOperator left, @Nonnull LTriDblFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LBiDblFunction<R> lShrunken_(double a1, @Nonnull LTriDblFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiDblFunction<R> rShrink(@Nonnull LDblBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.applyAsDbl(a1, a2));
-	}
-
-	default LBiDblFunction<R> rShrink_(double a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <R> LBiDblFunction<R> rShrunken(@Nonnull LDblBinaryOperator right, @Nonnull LTriDblFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LBiDblFunction<R> rShrunken_(double a3, @Nonnull LTriDblFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <R> LTriDblFunction<R> uncurry(@Nonnull LDblFunction<LDblFunction<LDblFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -365,46 +365,6 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_a2, a1, func);
 	}
 
-	default LIntPredicate lShrink(@Nonnull LIntPredicate left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.test(a2), a2);
-	}
-
-	default LIntPredicate lShrink_(boolean a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static LIntPredicate lShrunken(@Nonnull LIntPredicate left, @Nonnull LBoolIntPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LIntPredicate lShrunken_(boolean a1, @Nonnull LBoolIntPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LLogicalOperator rShrink(@Nonnull LBoolToIntFunction right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsInt(a1));
-	}
-
-	default LLogicalOperator rShrink_(int a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static LLogicalOperator rShrunken(@Nonnull LBoolToIntFunction right, @Nonnull LBoolIntPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LLogicalOperator rShrunken_(int a2, @Nonnull LBoolIntPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBoolIntPredicate uncurry(@Nonnull LBoolFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

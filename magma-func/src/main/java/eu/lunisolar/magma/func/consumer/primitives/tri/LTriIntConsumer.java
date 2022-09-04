@@ -305,46 +305,6 @@ public interface LTriIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiIntConsumer lShrink(@Nonnull LIntBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> accept(left.applyAsInt(a2, a3), a2, a3);
-	}
-
-	default LBiIntConsumer lShrink_(int a1) {
-		return (a2, a3) -> accept(a1, a2, a3);
-	}
-
-	public static LBiIntConsumer lShrunken(@Nonnull LIntBinaryOperator left, @Nonnull LTriIntConsumer func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LBiIntConsumer lShrunken_(int a1, @Nonnull LTriIntConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiIntConsumer rShrink(@Nonnull LIntBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.applyAsInt(a1, a2));
-	}
-
-	default LBiIntConsumer rShrink_(int a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static LBiIntConsumer rShrunken(@Nonnull LIntBinaryOperator right, @Nonnull LTriIntConsumer func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LBiIntConsumer rShrunken_(int a3, @Nonnull LTriIntConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LTriIntConsumer uncurry(@Nonnull LIntFunction<LIntFunction<LIntConsumer>> func) {
 		Null.nonNullArg(func, "func");

@@ -325,46 +325,6 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	default LIntUnaryOperator lShrink(@Nonnull LIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsInt(left.apply(a2), a2);
-	}
-
-	default LIntUnaryOperator lShrink_(T a1) {
-		return a2 -> applyAsInt(a1, a2);
-	}
-
-	public static <T> LIntUnaryOperator lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToIntFunction<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LIntUnaryOperator lShrunken_(T a1, @Nonnull LOiToIntFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LToIntFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsInt(a1, right.applyAsInt(a1));
-	}
-
-	default LToIntFunction<T> rShrink_(int a2) {
-		return a1 -> applyAsInt(a1, a2);
-	}
-
-	public static <T> LToIntFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToIntFunction<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LToIntFunction<T> rShrunken_(int a2, @Nonnull LOiToIntFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LOiToIntFunction<T> uncurry(@Nonnull LFunction<T, LIntUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

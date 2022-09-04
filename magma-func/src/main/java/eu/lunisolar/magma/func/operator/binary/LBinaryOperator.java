@@ -311,46 +311,6 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return null;
 	}
 
-	default LUnaryOperator<T> lShrink(@Nonnull LUnaryOperator<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.apply(a2), a2);
-	}
-
-	default LUnaryOperator<T> lShrink_(T a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <T> LUnaryOperator<T> lShrunken(@Nonnull LUnaryOperator<T> left, @Nonnull LBinaryOperator<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LUnaryOperator<T> lShrunken_(T a1, @Nonnull LBinaryOperator<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LUnaryOperator<T> rShrink(@Nonnull LUnaryOperator<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.apply(a1));
-	}
-
-	default LUnaryOperator<T> rShrink_(T a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <T> LUnaryOperator<T> rShrunken(@Nonnull LUnaryOperator<T> right, @Nonnull LBinaryOperator<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LUnaryOperator<T> rShrunken_(T a2, @Nonnull LBinaryOperator<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LBinaryOperator<T> uncurry(@Nonnull LFunction<T, LUnaryOperator<T>> func) {
 		Null.nonNullArg(func, "func");

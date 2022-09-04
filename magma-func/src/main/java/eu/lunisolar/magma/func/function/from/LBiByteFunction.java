@@ -314,46 +314,6 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LByteFunction<R> lShrink(@Nonnull LByteUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.applyAsByte(a2), a2);
-	}
-
-	default LByteFunction<R> lShrink_(byte a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R> LByteFunction<R> lShrunken(@Nonnull LByteUnaryOperator left, @Nonnull LBiByteFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LByteFunction<R> lShrunken_(byte a1, @Nonnull LBiByteFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LByteFunction<R> rShrink(@Nonnull LByteUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsByte(a1));
-	}
-
-	default LByteFunction<R> rShrink_(byte a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <R> LByteFunction<R> rShrunken(@Nonnull LByteUnaryOperator right, @Nonnull LBiByteFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LByteFunction<R> rShrunken_(byte a2, @Nonnull LBiByteFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <R> LBiByteFunction<R> uncurry(@Nonnull LByteFunction<LByteFunction<R>> func) {
 		Null.nonNullArg(func, "func");

@@ -346,46 +346,6 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LSrtPredicate lShrink(@Nonnull LSrtUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.applyAsSrt(a2), a2);
-	}
-
-	default LSrtPredicate lShrink_(short a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static LSrtPredicate lShrunken(@Nonnull LSrtUnaryOperator left, @Nonnull LBiSrtPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LSrtPredicate lShrunken_(short a1, @Nonnull LBiSrtPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LSrtPredicate rShrink(@Nonnull LSrtUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsSrt(a1));
-	}
-
-	default LSrtPredicate rShrink_(short a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static LSrtPredicate rShrunken(@Nonnull LSrtUnaryOperator right, @Nonnull LBiSrtPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LSrtPredicate rShrunken_(short a2, @Nonnull LBiSrtPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiSrtPredicate uncurry(@Nonnull LSrtFunction<LSrtPredicate> func) {
 		Null.nonNullArg(func, "func");

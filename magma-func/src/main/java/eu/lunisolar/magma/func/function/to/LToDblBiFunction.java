@@ -333,46 +333,6 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return orElse;
 	}
 
-	default LToDblFunction<T2> lShrink(@Nonnull LFunction<T2, T1> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsDbl(left.apply(a2), a2);
-	}
-
-	default LToDblFunction<T2> lShrink_(T1 a1) {
-		return a2 -> applyAsDbl(a1, a2);
-	}
-
-	public static <T2, T1> LToDblFunction<T2> lShrunken(@Nonnull LFunction<T2, T1> left, @Nonnull LToDblBiFunction<T1, T2> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T1> LToDblFunction<T2> lShrunken_(T1 a1, @Nonnull LToDblBiFunction<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LToDblFunction<T1> rShrink(@Nonnull LFunction<T1, T2> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsDbl(a1, right.apply(a1));
-	}
-
-	default LToDblFunction<T1> rShrink_(T2 a2) {
-		return a1 -> applyAsDbl(a1, a2);
-	}
-
-	public static <T1, T2> LToDblFunction<T1> rShrunken(@Nonnull LFunction<T1, T2> right, @Nonnull LToDblBiFunction<T1, T2> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2> LToDblFunction<T1> rShrunken_(T2 a2, @Nonnull LToDblBiFunction<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T1, T2> LToDblBiFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LToDblFunction<T2>> func) {
 		Null.nonNullArg(func, "func");

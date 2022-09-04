@@ -327,46 +327,6 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return null;
 	}
 
-	default LFltFunction<R> lShrink(@Nonnull LFltFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.apply(a2), a2);
-	}
-
-	default LFltFunction<R> lShrink_(T a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R, T> LFltFunction<R> lShrunken(@Nonnull LFltFunction<T> left, @Nonnull LObjFltFunction<T, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R, T> LFltFunction<R> lShrunken_(T a1, @Nonnull LObjFltFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LFunction<T, R> rShrink(@Nonnull LToFltFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsFlt(a1));
-	}
-
-	default LFunction<T, R> rShrink_(float a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <T, R> LFunction<T, R> rShrunken(@Nonnull LToFltFunction<T> right, @Nonnull LObjFltFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LFunction<T, R> rShrunken_(float a2, @Nonnull LObjFltFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T, R> LObjFltFunction<T, R> uncurry(@Nonnull LFunction<T, LFltFunction<R>> func) {
 		Null.nonNullArg(func, "func");

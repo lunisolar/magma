@@ -346,46 +346,6 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LBytePredicate lShrink(@Nonnull LByteUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.applyAsByte(a2), a2);
-	}
-
-	default LBytePredicate lShrink_(byte a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static LBytePredicate lShrunken(@Nonnull LByteUnaryOperator left, @Nonnull LBiBytePredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LBytePredicate lShrunken_(byte a1, @Nonnull LBiBytePredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBytePredicate rShrink(@Nonnull LByteUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsByte(a1));
-	}
-
-	default LBytePredicate rShrink_(byte a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static LBytePredicate rShrunken(@Nonnull LByteUnaryOperator right, @Nonnull LBiBytePredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LBytePredicate rShrunken_(byte a2, @Nonnull LBiBytePredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiBytePredicate uncurry(@Nonnull LByteFunction<LBytePredicate> func) {
 		Null.nonNullArg(func, "func");

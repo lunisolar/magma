@@ -325,26 +325,6 @@ public interface LTieDblFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
-	default LOiToIntFunction<T> rShrink(@Nonnull LOiToDblFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> applyAsInt(a1, a2, right.applyAsDbl(a1, a2));
-	}
-
-	default LOiToIntFunction<T> rShrink_(double a3) {
-		return (a1, a2) -> applyAsInt(a1, a2, a3);
-	}
-
-	public static <T> LOiToIntFunction<T> rShrunken(@Nonnull LOiToDblFunction<T> right, @Nonnull LTieDblFunction<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LOiToIntFunction<T> rShrunken_(double a3, @Nonnull LTieDblFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTieDblFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LDblToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

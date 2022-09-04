@@ -346,46 +346,6 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LCharPredicate lShrink(@Nonnull LCharUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.applyAsChar(a2), a2);
-	}
-
-	default LCharPredicate lShrink_(char a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static LCharPredicate lShrunken(@Nonnull LCharUnaryOperator left, @Nonnull LBiCharPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LCharPredicate lShrunken_(char a1, @Nonnull LBiCharPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LCharPredicate rShrink(@Nonnull LCharUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsChar(a1));
-	}
-
-	default LCharPredicate rShrink_(char a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static LCharPredicate rShrunken(@Nonnull LCharUnaryOperator right, @Nonnull LBiCharPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LCharPredicate rShrunken_(char a2, @Nonnull LBiCharPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiCharPredicate uncurry(@Nonnull LCharFunction<LCharPredicate> func) {
 		Null.nonNullArg(func, "func");

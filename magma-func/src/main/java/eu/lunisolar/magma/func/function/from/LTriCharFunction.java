@@ -314,46 +314,6 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiCharFunction<R> lShrink(@Nonnull LCharBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.applyAsChar(a2, a3), a2, a3);
-	}
-
-	default LBiCharFunction<R> lShrink_(char a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static <R> LBiCharFunction<R> lShrunken(@Nonnull LCharBinaryOperator left, @Nonnull LTriCharFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LBiCharFunction<R> lShrunken_(char a1, @Nonnull LTriCharFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiCharFunction<R> rShrink(@Nonnull LCharBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.applyAsChar(a1, a2));
-	}
-
-	default LBiCharFunction<R> rShrink_(char a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <R> LBiCharFunction<R> rShrunken(@Nonnull LCharBinaryOperator right, @Nonnull LTriCharFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LBiCharFunction<R> rShrunken_(char a3, @Nonnull LTriCharFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <R> LTriCharFunction<R> uncurry(@Nonnull LCharFunction<LCharFunction<LCharFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -314,26 +314,6 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
-	default LObjIntConsumer<T> rShrink(@Nonnull LOiToByteFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.applyAsByte(a1, a2));
-	}
-
-	default LObjIntConsumer<T> rShrink_(byte a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken(@Nonnull LOiToByteFunction<T> right, @Nonnull LTieByteConsumer<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken_(byte a3, @Nonnull LTieByteConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTieByteConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LByteConsumer>> func) {
 		Null.nonNullArg(func, "func");

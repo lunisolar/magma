@@ -310,46 +310,6 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LLongBinaryOperator lShrink(@Nonnull LLongBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> applyAsLong(left.applyAsLong(a2, a3), a2, a3);
-	}
-
-	default LLongBinaryOperator lShrink_(long a1) {
-		return (a2, a3) -> applyAsLong(a1, a2, a3);
-	}
-
-	public static LLongBinaryOperator lShrunken(@Nonnull LLongBinaryOperator left, @Nonnull LLongTernaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LLongBinaryOperator lShrunken_(long a1, @Nonnull LLongTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LLongBinaryOperator rShrink(@Nonnull LLongBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> applyAsLong(a1, a2, right.applyAsLong(a1, a2));
-	}
-
-	default LLongBinaryOperator rShrink_(long a3) {
-		return (a1, a2) -> applyAsLong(a1, a2, a3);
-	}
-
-	public static LLongBinaryOperator rShrunken(@Nonnull LLongBinaryOperator right, @Nonnull LLongTernaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LLongBinaryOperator rShrunken_(long a3, @Nonnull LLongTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LLongTernaryOperator uncurry(@Nonnull LLongFunction<LLongFunction<LLongUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

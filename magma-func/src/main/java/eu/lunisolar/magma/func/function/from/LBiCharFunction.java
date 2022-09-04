@@ -314,46 +314,6 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LCharFunction<R> lShrink(@Nonnull LCharUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.applyAsChar(a2), a2);
-	}
-
-	default LCharFunction<R> lShrink_(char a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R> LCharFunction<R> lShrunken(@Nonnull LCharUnaryOperator left, @Nonnull LBiCharFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LCharFunction<R> lShrunken_(char a1, @Nonnull LBiCharFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LCharFunction<R> rShrink(@Nonnull LCharUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsChar(a1));
-	}
-
-	default LCharFunction<R> rShrink_(char a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <R> LCharFunction<R> rShrunken(@Nonnull LCharUnaryOperator right, @Nonnull LBiCharFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LCharFunction<R> rShrunken_(char a2, @Nonnull LBiCharFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <R> LBiCharFunction<R> uncurry(@Nonnull LCharFunction<LCharFunction<R>> func) {
 		Null.nonNullArg(func, "func");

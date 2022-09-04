@@ -369,46 +369,6 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return false;
 	}
 
-	default LTriPredicate<T2, T3, T4> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3, a4) -> test(left.apply(a2, a3, a4), a2, a3, a4);
-	}
-
-	default LTriPredicate<T2, T3, T4> lShrink_(T1 a1) {
-		return (a2, a3, a4) -> test(a1, a2, a3, a4);
-	}
-
-	public static <T2, T3, T4, T1> LTriPredicate<T2, T3, T4> lShrunken(@Nonnull LTriFunction<T2, T3, T4, T1> left, @Nonnull LQuadPredicate<T1, T2, T3, T4> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T3, T4, T1> LTriPredicate<T2, T3, T4> lShrunken_(T1 a1, @Nonnull LQuadPredicate<T1, T2, T3, T4> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LTriPredicate<T1, T2, T3> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2, a3) -> test(a1, a2, a3, right.apply(a1, a2, a3));
-	}
-
-	default LTriPredicate<T1, T2, T3> rShrink_(T4 a4) {
-		return (a1, a2, a3) -> test(a1, a2, a3, a4);
-	}
-
-	public static <T1, T2, T3, T4> LTriPredicate<T1, T2, T3> rShrunken(@Nonnull LTriFunction<T1, T2, T3, T4> right, @Nonnull LQuadPredicate<T1, T2, T3, T4> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2, T3, T4> LTriPredicate<T1, T2, T3> rShrunken_(T4 a4, @Nonnull LQuadPredicate<T1, T2, T3, T4> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a4);
-	}
-
 	/**  */
 	public static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LPredicate<T4>>>> func) {
 		Null.nonNullArg(func, "func");

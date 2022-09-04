@@ -325,46 +325,6 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	default LIntToSrtFunction lShrink(@Nonnull LIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsSrt(left.apply(a2), a2);
-	}
-
-	default LIntToSrtFunction lShrink_(T a1) {
-		return a2 -> applyAsSrt(a1, a2);
-	}
-
-	public static <T> LIntToSrtFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToSrtFunction<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LIntToSrtFunction lShrunken_(T a1, @Nonnull LOiToSrtFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LToSrtFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsSrt(a1, right.applyAsInt(a1));
-	}
-
-	default LToSrtFunction<T> rShrink_(int a2) {
-		return a1 -> applyAsSrt(a1, a2);
-	}
-
-	public static <T> LToSrtFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToSrtFunction<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LToSrtFunction<T> rShrunken_(int a2, @Nonnull LOiToSrtFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LOiToSrtFunction<T> uncurry(@Nonnull LFunction<T, LIntToSrtFunction> func) {
 		Null.nonNullArg(func, "func");

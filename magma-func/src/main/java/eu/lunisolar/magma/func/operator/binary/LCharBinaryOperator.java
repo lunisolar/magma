@@ -310,46 +310,6 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LCharUnaryOperator lShrink(@Nonnull LCharUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsChar(left.applyAsChar(a2), a2);
-	}
-
-	default LCharUnaryOperator lShrink_(char a1) {
-		return a2 -> applyAsChar(a1, a2);
-	}
-
-	public static LCharUnaryOperator lShrunken(@Nonnull LCharUnaryOperator left, @Nonnull LCharBinaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LCharUnaryOperator lShrunken_(char a1, @Nonnull LCharBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LCharUnaryOperator rShrink(@Nonnull LCharUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsChar(a1, right.applyAsChar(a1));
-	}
-
-	default LCharUnaryOperator rShrink_(char a2) {
-		return a1 -> applyAsChar(a1, a2);
-	}
-
-	public static LCharUnaryOperator rShrunken(@Nonnull LCharUnaryOperator right, @Nonnull LCharBinaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LCharUnaryOperator rShrunken_(char a2, @Nonnull LCharBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LCharBinaryOperator uncurry(@Nonnull LCharFunction<LCharUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

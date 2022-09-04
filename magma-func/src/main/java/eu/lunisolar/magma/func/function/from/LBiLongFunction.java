@@ -314,46 +314,6 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LLongFunction<R> lShrink(@Nonnull LLongUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.applyAsLong(a2), a2);
-	}
-
-	default LLongFunction<R> lShrink_(long a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R> LLongFunction<R> lShrunken(@Nonnull LLongUnaryOperator left, @Nonnull LBiLongFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LLongFunction<R> lShrunken_(long a1, @Nonnull LBiLongFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LLongFunction<R> rShrink(@Nonnull LLongUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsLong(a1));
-	}
-
-	default LLongFunction<R> rShrink_(long a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <R> LLongFunction<R> rShrunken(@Nonnull LLongUnaryOperator right, @Nonnull LBiLongFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LLongFunction<R> rShrunken_(long a2, @Nonnull LBiLongFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <R> LBiLongFunction<R> uncurry(@Nonnull LLongFunction<LLongFunction<R>> func) {
 		Null.nonNullArg(func, "func");

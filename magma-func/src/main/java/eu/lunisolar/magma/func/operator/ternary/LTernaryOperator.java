@@ -311,46 +311,6 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return null;
 	}
 
-	default LBinaryOperator<T> lShrink(@Nonnull LBinaryOperator<T> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBinaryOperator<T> lShrink_(T a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static <T> LBinaryOperator<T> lShrunken(@Nonnull LBinaryOperator<T> left, @Nonnull LTernaryOperator<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LBinaryOperator<T> lShrunken_(T a1, @Nonnull LTernaryOperator<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBinaryOperator<T> rShrink(@Nonnull LBinaryOperator<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
-	}
-
-	default LBinaryOperator<T> rShrink_(T a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T> LBinaryOperator<T> rShrunken(@Nonnull LBinaryOperator<T> right, @Nonnull LTernaryOperator<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LBinaryOperator<T> rShrunken_(T a3, @Nonnull LTernaryOperator<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTernaryOperator<T> uncurry(@Nonnull LFunction<T, LFunction<T, LUnaryOperator<T>>> func) {
 		Null.nonNullArg(func, "func");

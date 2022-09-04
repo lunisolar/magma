@@ -305,46 +305,6 @@ public interface LBiDblConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LDblConsumer lShrink(@Nonnull LDblUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> accept(left.applyAsDbl(a2), a2);
-	}
-
-	default LDblConsumer lShrink_(double a1) {
-		return a2 -> accept(a1, a2);
-	}
-
-	public static LDblConsumer lShrunken(@Nonnull LDblUnaryOperator left, @Nonnull LBiDblConsumer func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LDblConsumer lShrunken_(double a1, @Nonnull LBiDblConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LDblConsumer rShrink(@Nonnull LDblUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> accept(a1, right.applyAsDbl(a1));
-	}
-
-	default LDblConsumer rShrink_(double a2) {
-		return a1 -> accept(a1, a2);
-	}
-
-	public static LDblConsumer rShrunken(@Nonnull LDblUnaryOperator right, @Nonnull LBiDblConsumer func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LDblConsumer rShrunken_(double a2, @Nonnull LBiDblConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiDblConsumer uncurry(@Nonnull LDblFunction<LDblConsumer> func) {
 		Null.nonNullArg(func, "func");

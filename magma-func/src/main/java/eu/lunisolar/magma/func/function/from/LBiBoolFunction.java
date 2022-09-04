@@ -314,46 +314,6 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LBoolFunction<R> lShrink(@Nonnull LLogicalOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.apply(a2), a2);
-	}
-
-	default LBoolFunction<R> lShrink_(boolean a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R> LBoolFunction<R> lShrunken(@Nonnull LLogicalOperator left, @Nonnull LBiBoolFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LBoolFunction<R> lShrunken_(boolean a1, @Nonnull LBiBoolFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBoolFunction<R> rShrink(@Nonnull LLogicalOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.apply(a1));
-	}
-
-	default LBoolFunction<R> rShrink_(boolean a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <R> LBoolFunction<R> rShrunken(@Nonnull LLogicalOperator right, @Nonnull LBiBoolFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LBoolFunction<R> rShrunken_(boolean a2, @Nonnull LBiBoolFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <R> LBiBoolFunction<R> uncurry(@Nonnull LBoolFunction<LBoolFunction<R>> func) {
 		Null.nonNullArg(func, "func");

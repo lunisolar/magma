@@ -369,46 +369,6 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return false;
 	}
 
-	default LSrtPredicate lShrink(@Nonnull LSrtFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.apply(a2), a2);
-	}
-
-	default LSrtPredicate lShrink_(T a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static <T> LSrtPredicate lShrunken(@Nonnull LSrtFunction<T> left, @Nonnull LObjSrtPredicate<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LSrtPredicate lShrunken_(T a1, @Nonnull LObjSrtPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LPredicate<T> rShrink(@Nonnull LToSrtFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsSrt(a1));
-	}
-
-	default LPredicate<T> rShrink_(short a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static <T> LPredicate<T> rShrunken(@Nonnull LToSrtFunction<T> right, @Nonnull LObjSrtPredicate<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LPredicate<T> rShrunken_(short a2, @Nonnull LObjSrtPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LObjSrtPredicate<T> uncurry(@Nonnull LFunction<T, LSrtPredicate> func) {
 		Null.nonNullArg(func, "func");

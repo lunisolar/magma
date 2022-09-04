@@ -305,46 +305,6 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LFltConsumer lShrink(@Nonnull LFltUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> accept(left.applyAsFlt(a2), a2);
-	}
-
-	default LFltConsumer lShrink_(float a1) {
-		return a2 -> accept(a1, a2);
-	}
-
-	public static LFltConsumer lShrunken(@Nonnull LFltUnaryOperator left, @Nonnull LBiFltConsumer func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LFltConsumer lShrunken_(float a1, @Nonnull LBiFltConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LFltConsumer rShrink(@Nonnull LFltUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> accept(a1, right.applyAsFlt(a1));
-	}
-
-	default LFltConsumer rShrink_(float a2) {
-		return a1 -> accept(a1, a2);
-	}
-
-	public static LFltConsumer rShrunken(@Nonnull LFltUnaryOperator right, @Nonnull LBiFltConsumer func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LFltConsumer rShrunken_(float a2, @Nonnull LBiFltConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiFltConsumer uncurry(@Nonnull LFltFunction<LFltConsumer> func) {
 		Null.nonNullArg(func, "func");

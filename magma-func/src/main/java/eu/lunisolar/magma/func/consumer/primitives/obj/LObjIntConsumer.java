@@ -307,46 +307,6 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		fromTill(0, max_a2, a1, func);
 	}
 
-	default LIntConsumer lShrink(@Nonnull LIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> accept(left.apply(a2), a2);
-	}
-
-	default LIntConsumer lShrink_(T a1) {
-		return a2 -> accept(a1, a2);
-	}
-
-	public static <T> LIntConsumer lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LObjIntConsumer<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LIntConsumer lShrunken_(T a1, @Nonnull LObjIntConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LConsumer<T> rShrink(@Nonnull LToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> accept(a1, right.applyAsInt(a1));
-	}
-
-	default LConsumer<T> rShrink_(int a2) {
-		return a1 -> accept(a1, a2);
-	}
-
-	public static <T> LConsumer<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LObjIntConsumer<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LConsumer<T> rShrunken_(int a2, @Nonnull LObjIntConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LObjIntConsumer<T> uncurry(@Nonnull LFunction<T, LIntConsumer> func) {
 		Null.nonNullArg(func, "func");

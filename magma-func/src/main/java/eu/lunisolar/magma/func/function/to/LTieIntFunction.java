@@ -325,46 +325,6 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
-	default LIntBinaryOperator lShrink(@Nonnull LBiIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> applyAsInt(left.apply(a2, a3), a2, a3);
-	}
-
-	default LIntBinaryOperator lShrink_(T a1) {
-		return (a2, a3) -> applyAsInt(a1, a2, a3);
-	}
-
-	public static <T> LIntBinaryOperator lShrunken(@Nonnull LBiIntFunction<T> left, @Nonnull LTieIntFunction<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LIntBinaryOperator lShrunken_(T a1, @Nonnull LTieIntFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LOiToIntFunction<T> rShrink(@Nonnull LOiToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> applyAsInt(a1, a2, right.applyAsInt(a1, a2));
-	}
-
-	default LOiToIntFunction<T> rShrink_(int a3) {
-		return (a1, a2) -> applyAsInt(a1, a2, a3);
-	}
-
-	public static <T> LOiToIntFunction<T> rShrunken(@Nonnull LOiToIntFunction<T> right, @Nonnull LTieIntFunction<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LOiToIntFunction<T> rShrunken_(int a3, @Nonnull LTieIntFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTieIntFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LIntUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

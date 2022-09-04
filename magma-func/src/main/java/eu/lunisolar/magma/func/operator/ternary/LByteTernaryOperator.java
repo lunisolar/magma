@@ -310,46 +310,6 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LByteBinaryOperator lShrink(@Nonnull LByteBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> applyAsByte(left.applyAsByte(a2, a3), a2, a3);
-	}
-
-	default LByteBinaryOperator lShrink_(byte a1) {
-		return (a2, a3) -> applyAsByte(a1, a2, a3);
-	}
-
-	public static LByteBinaryOperator lShrunken(@Nonnull LByteBinaryOperator left, @Nonnull LByteTernaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LByteBinaryOperator lShrunken_(byte a1, @Nonnull LByteTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LByteBinaryOperator rShrink(@Nonnull LByteBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> applyAsByte(a1, a2, right.applyAsByte(a1, a2));
-	}
-
-	default LByteBinaryOperator rShrink_(byte a3) {
-		return (a1, a2) -> applyAsByte(a1, a2, a3);
-	}
-
-	public static LByteBinaryOperator rShrunken(@Nonnull LByteBinaryOperator right, @Nonnull LByteTernaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LByteBinaryOperator rShrunken_(byte a3, @Nonnull LByteTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LByteTernaryOperator uncurry(@Nonnull LByteFunction<LByteFunction<LByteUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

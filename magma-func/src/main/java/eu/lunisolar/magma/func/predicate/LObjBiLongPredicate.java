@@ -359,35 +359,6 @@ public interface LObjBiLongPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return false;
 	}
 
-	default LBiLongPredicate lShrink(@Nonnull LBiLongFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> test(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBiLongPredicate lShrink_(T a1) {
-		return (a2, a3) -> test(a1, a2, a3);
-	}
-
-	public static <T> LBiLongPredicate lShrunken(@Nonnull LBiLongFunction<T> left, @Nonnull LObjBiLongPredicate<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LBiLongPredicate lShrunken_(T a1, @Nonnull LObjBiLongPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LObjLongPredicate<T> rShrink_(long a3) {
-		return (a1, a2) -> test(a1, a2, a3);
-	}
-
-	public static <T> LObjLongPredicate<T> rShrunken_(long a3, @Nonnull LObjBiLongPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LObjBiLongPredicate<T> uncurry(@Nonnull LFunction<T, LLongFunction<LLongPredicate>> func) {
 		Null.nonNullArg(func, "func");

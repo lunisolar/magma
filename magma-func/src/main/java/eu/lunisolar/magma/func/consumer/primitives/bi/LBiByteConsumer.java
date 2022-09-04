@@ -305,46 +305,6 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LByteConsumer lShrink(@Nonnull LByteUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> accept(left.applyAsByte(a2), a2);
-	}
-
-	default LByteConsumer lShrink_(byte a1) {
-		return a2 -> accept(a1, a2);
-	}
-
-	public static LByteConsumer lShrunken(@Nonnull LByteUnaryOperator left, @Nonnull LBiByteConsumer func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LByteConsumer lShrunken_(byte a1, @Nonnull LBiByteConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LByteConsumer rShrink(@Nonnull LByteUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> accept(a1, right.applyAsByte(a1));
-	}
-
-	default LByteConsumer rShrink_(byte a2) {
-		return a1 -> accept(a1, a2);
-	}
-
-	public static LByteConsumer rShrunken(@Nonnull LByteUnaryOperator right, @Nonnull LBiByteConsumer func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LByteConsumer rShrunken_(byte a2, @Nonnull LBiByteConsumer func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiByteConsumer uncurry(@Nonnull LByteFunction<LByteConsumer> func) {
 		Null.nonNullArg(func, "func");

@@ -327,26 +327,6 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
-	default LOiFunction<T, R> rShrink(@Nonnull LOiToDblFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.applyAsDbl(a1, a2));
-	}
-
-	default LOiFunction<T, R> rShrink_(double a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LOiToDblFunction<T> right, @Nonnull LObjIntDblFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken_(double a3, @Nonnull LObjIntDblFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T, R> LObjIntDblFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LDblFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -314,26 +314,6 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LObjIntConsumer<T> rShrink(@Nonnull LOiToLongFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.applyAsLong(a1, a2));
-	}
-
-	default LObjIntConsumer<T> rShrink_(long a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken(@Nonnull LOiToLongFunction<T> right, @Nonnull LTieLongConsumer<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken_(long a3, @Nonnull LTieLongConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTieLongConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLongConsumer>> func) {
 		Null.nonNullArg(func, "func");

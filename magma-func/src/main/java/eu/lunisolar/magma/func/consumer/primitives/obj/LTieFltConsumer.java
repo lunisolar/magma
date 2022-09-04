@@ -314,26 +314,6 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
-	default LObjIntConsumer<T> rShrink(@Nonnull LOiToFltFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.applyAsFlt(a1, a2));
-	}
-
-	default LObjIntConsumer<T> rShrink_(float a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken(@Nonnull LOiToFltFunction<T> right, @Nonnull LTieFltConsumer<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LObjIntConsumer<T> rShrunken_(float a3, @Nonnull LTieFltConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTieFltConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LFltConsumer>> func) {
 		Null.nonNullArg(func, "func");

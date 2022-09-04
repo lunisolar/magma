@@ -310,46 +310,6 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LDblBinaryOperator lShrink(@Nonnull LDblBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> applyAsDbl(left.applyAsDbl(a2, a3), a2, a3);
-	}
-
-	default LDblBinaryOperator lShrink_(double a1) {
-		return (a2, a3) -> applyAsDbl(a1, a2, a3);
-	}
-
-	public static LDblBinaryOperator lShrunken(@Nonnull LDblBinaryOperator left, @Nonnull LDblTernaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LDblBinaryOperator lShrunken_(double a1, @Nonnull LDblTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LDblBinaryOperator rShrink(@Nonnull LDblBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> applyAsDbl(a1, a2, right.applyAsDbl(a1, a2));
-	}
-
-	default LDblBinaryOperator rShrink_(double a3) {
-		return (a1, a2) -> applyAsDbl(a1, a2, a3);
-	}
-
-	public static LDblBinaryOperator rShrunken(@Nonnull LDblBinaryOperator right, @Nonnull LDblTernaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LDblBinaryOperator rShrunken_(double a3, @Nonnull LDblTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LDblTernaryOperator uncurry(@Nonnull LDblFunction<LDblFunction<LDblUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

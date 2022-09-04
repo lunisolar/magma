@@ -346,46 +346,6 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiFltPredicate lShrink(@Nonnull LFltBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> test(left.applyAsFlt(a2, a3), a2, a3);
-	}
-
-	default LBiFltPredicate lShrink_(float a1) {
-		return (a2, a3) -> test(a1, a2, a3);
-	}
-
-	public static LBiFltPredicate lShrunken(@Nonnull LFltBinaryOperator left, @Nonnull LTriFltPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LBiFltPredicate lShrunken_(float a1, @Nonnull LTriFltPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiFltPredicate rShrink(@Nonnull LFltBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> test(a1, a2, right.applyAsFlt(a1, a2));
-	}
-
-	default LBiFltPredicate rShrink_(float a3) {
-		return (a1, a2) -> test(a1, a2, a3);
-	}
-
-	public static LBiFltPredicate rShrunken(@Nonnull LFltBinaryOperator right, @Nonnull LTriFltPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LBiFltPredicate rShrunken_(float a3, @Nonnull LTriFltPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LTriFltPredicate uncurry(@Nonnull LFltFunction<LFltFunction<LFltPredicate>> func) {
 		Null.nonNullArg(func, "func");

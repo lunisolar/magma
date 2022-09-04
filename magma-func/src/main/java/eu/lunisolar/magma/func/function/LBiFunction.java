@@ -327,46 +327,6 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return null;
 	}
 
-	default LFunction<T2, R> lShrink(@Nonnull LFunction<T2, T1> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.apply(a2), a2);
-	}
-
-	default LFunction<T2, R> lShrink_(T1 a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <T2, R, T1> LFunction<T2, R> lShrunken(@Nonnull LFunction<T2, T1> left, @Nonnull LBiFunction<T1, T2, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, R, T1> LFunction<T2, R> lShrunken_(T1 a1, @Nonnull LBiFunction<T1, T2, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LFunction<T1, R> rShrink(@Nonnull LFunction<T1, T2> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.apply(a1));
-	}
-
-	default LFunction<T1, R> rShrink_(T2 a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <T1, R, T2> LFunction<T1, R> rShrunken(@Nonnull LFunction<T1, T2> right, @Nonnull LBiFunction<T1, T2, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, R, T2> LFunction<T1, R> rShrunken_(T2 a2, @Nonnull LBiFunction<T1, T2, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T1, T2, R> LBiFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, R>> func) {
 		Null.nonNullArg(func, "func");

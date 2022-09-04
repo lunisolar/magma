@@ -314,46 +314,6 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LIntFunction<R> lShrink(@Nonnull LIntUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.applyAsInt(a2), a2);
-	}
-
-	default LIntFunction<R> lShrink_(int a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R> LIntFunction<R> lShrunken(@Nonnull LIntUnaryOperator left, @Nonnull LBiIntFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LIntFunction<R> lShrunken_(int a1, @Nonnull LBiIntFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LIntFunction<R> rShrink(@Nonnull LIntUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsInt(a1));
-	}
-
-	default LIntFunction<R> rShrink_(int a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <R> LIntFunction<R> rShrunken(@Nonnull LIntUnaryOperator right, @Nonnull LBiIntFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LIntFunction<R> rShrunken_(int a2, @Nonnull LBiIntFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <R> LBiIntFunction<R> uncurry(@Nonnull LIntFunction<LIntFunction<R>> func) {
 		Null.nonNullArg(func, "func");

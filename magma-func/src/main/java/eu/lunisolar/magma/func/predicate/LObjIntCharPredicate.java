@@ -359,26 +359,6 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
-	default LObjIntPredicate<T> rShrink(@Nonnull LOiToCharFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> test(a1, a2, right.applyAsChar(a1, a2));
-	}
-
-	default LObjIntPredicate<T> rShrink_(char a3) {
-		return (a1, a2) -> test(a1, a2, a3);
-	}
-
-	public static <T> LObjIntPredicate<T> rShrunken(@Nonnull LOiToCharFunction<T> right, @Nonnull LObjIntCharPredicate<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LObjIntPredicate<T> rShrunken_(char a3, @Nonnull LObjIntCharPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LObjIntCharPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LCharPredicate>> func) {
 		Null.nonNullArg(func, "func");

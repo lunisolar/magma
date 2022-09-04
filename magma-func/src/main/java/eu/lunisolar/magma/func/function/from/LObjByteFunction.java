@@ -327,46 +327,6 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
-	default LByteFunction<R> lShrink(@Nonnull LByteFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> apply(left.apply(a2), a2);
-	}
-
-	default LByteFunction<R> lShrink_(T a1) {
-		return a2 -> apply(a1, a2);
-	}
-
-	public static <R, T> LByteFunction<R> lShrunken(@Nonnull LByteFunction<T> left, @Nonnull LObjByteFunction<T, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R, T> LByteFunction<R> lShrunken_(T a1, @Nonnull LObjByteFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LFunction<T, R> rShrink(@Nonnull LToByteFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> apply(a1, right.applyAsByte(a1));
-	}
-
-	default LFunction<T, R> rShrink_(byte a2) {
-		return a1 -> apply(a1, a2);
-	}
-
-	public static <T, R> LFunction<T, R> rShrunken(@Nonnull LToByteFunction<T> right, @Nonnull LObjByteFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LFunction<T, R> rShrunken_(byte a2, @Nonnull LObjByteFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T, R> LObjByteFunction<T, R> uncurry(@Nonnull LFunction<T, LByteFunction<R>> func) {
 		Null.nonNullArg(func, "func");

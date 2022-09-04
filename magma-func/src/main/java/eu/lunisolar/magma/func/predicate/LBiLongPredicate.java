@@ -356,46 +356,6 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LLongPredicate lShrink(@Nonnull LLongUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.applyAsLong(a2), a2);
-	}
-
-	default LLongPredicate lShrink_(long a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static LLongPredicate lShrunken(@Nonnull LLongUnaryOperator left, @Nonnull LBiLongPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LLongPredicate lShrunken_(long a1, @Nonnull LBiLongPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LLongPredicate rShrink(@Nonnull LLongUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsLong(a1));
-	}
-
-	default LLongPredicate rShrink_(long a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static LLongPredicate rShrunken(@Nonnull LLongUnaryOperator right, @Nonnull LBiLongPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LLongPredicate rShrunken_(long a2, @Nonnull LBiLongPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiLongPredicate uncurry(@Nonnull LLongFunction<LLongPredicate> func) {
 		Null.nonNullArg(func, "func");

@@ -325,46 +325,6 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	default LIntToDblFunction lShrink(@Nonnull LIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsDbl(left.apply(a2), a2);
-	}
-
-	default LIntToDblFunction lShrink_(T a1) {
-		return a2 -> applyAsDbl(a1, a2);
-	}
-
-	public static <T> LIntToDblFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToDblFunction<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LIntToDblFunction lShrunken_(T a1, @Nonnull LOiToDblFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LToDblFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsDbl(a1, right.applyAsInt(a1));
-	}
-
-	default LToDblFunction<T> rShrink_(int a2) {
-		return a1 -> applyAsDbl(a1, a2);
-	}
-
-	public static <T> LToDblFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToDblFunction<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LToDblFunction<T> rShrunken_(int a2, @Nonnull LOiToDblFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LOiToDblFunction<T> uncurry(@Nonnull LFunction<T, LIntToDblFunction> func) {
 		Null.nonNullArg(func, "func");

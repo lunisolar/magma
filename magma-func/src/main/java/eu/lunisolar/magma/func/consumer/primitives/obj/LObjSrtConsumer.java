@@ -307,46 +307,6 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LSrtConsumer lShrink(@Nonnull LSrtFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> accept(left.apply(a2), a2);
-	}
-
-	default LSrtConsumer lShrink_(T a1) {
-		return a2 -> accept(a1, a2);
-	}
-
-	public static <T> LSrtConsumer lShrunken(@Nonnull LSrtFunction<T> left, @Nonnull LObjSrtConsumer<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LSrtConsumer lShrunken_(T a1, @Nonnull LObjSrtConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LConsumer<T> rShrink(@Nonnull LToSrtFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> accept(a1, right.applyAsSrt(a1));
-	}
-
-	default LConsumer<T> rShrink_(short a2) {
-		return a1 -> accept(a1, a2);
-	}
-
-	public static <T> LConsumer<T> rShrunken(@Nonnull LToSrtFunction<T> right, @Nonnull LObjSrtConsumer<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LConsumer<T> rShrunken_(short a2, @Nonnull LObjSrtConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LObjSrtConsumer<T> uncurry(@Nonnull LFunction<T, LSrtConsumer> func) {
 		Null.nonNullArg(func, "func");

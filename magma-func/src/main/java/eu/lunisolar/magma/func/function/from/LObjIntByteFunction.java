@@ -327,26 +327,6 @@ public interface LObjIntByteFunction<T, R> extends MetaFunction, MetaInterface.N
 		return null;
 	}
 
-	default LOiFunction<T, R> rShrink(@Nonnull LOiToByteFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.applyAsByte(a1, a2));
-	}
-
-	default LOiFunction<T, R> rShrink_(byte a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LOiToByteFunction<T> right, @Nonnull LObjIntByteFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken_(byte a3, @Nonnull LObjIntByteFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T, R> LObjIntByteFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LByteFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -385,46 +385,6 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LIntPredicate lShrink(@Nonnull LIntUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.applyAsInt(a2), a2);
-	}
-
-	default LIntPredicate lShrink_(int a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static LIntPredicate lShrunken(@Nonnull LIntUnaryOperator left, @Nonnull LBiIntPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LIntPredicate lShrunken_(int a1, @Nonnull LBiIntPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LIntPredicate rShrink(@Nonnull LIntUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsInt(a1));
-	}
-
-	default LIntPredicate rShrink_(int a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static LIntPredicate rShrunken(@Nonnull LIntUnaryOperator right, @Nonnull LBiIntPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LIntPredicate rShrunken_(int a2, @Nonnull LBiIntPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LBiIntPredicate uncurry(@Nonnull LIntFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

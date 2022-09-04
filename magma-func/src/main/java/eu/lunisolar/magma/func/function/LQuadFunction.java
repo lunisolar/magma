@@ -327,46 +327,6 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return null;
 	}
 
-	default LTriFunction<T2, T3, T4, R> lShrink(@Nonnull LTriFunction<T2, T3, T4, T1> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3, a4) -> apply(left.apply(a2, a3, a4), a2, a3, a4);
-	}
-
-	default LTriFunction<T2, T3, T4, R> lShrink_(T1 a1) {
-		return (a2, a3, a4) -> apply(a1, a2, a3, a4);
-	}
-
-	public static <T2, T3, T4, R, T1> LTriFunction<T2, T3, T4, R> lShrunken(@Nonnull LTriFunction<T2, T3, T4, T1> left, @Nonnull LQuadFunction<T1, T2, T3, T4, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T3, T4, R, T1> LTriFunction<T2, T3, T4, R> lShrunken_(T1 a1, @Nonnull LQuadFunction<T1, T2, T3, T4, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LTriFunction<T1, T2, T3, R> rShrink(@Nonnull LTriFunction<T1, T2, T3, T4> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2, a3) -> apply(a1, a2, a3, right.apply(a1, a2, a3));
-	}
-
-	default LTriFunction<T1, T2, T3, R> rShrink_(T4 a4) {
-		return (a1, a2, a3) -> apply(a1, a2, a3, a4);
-	}
-
-	public static <T1, T2, T3, R, T4> LTriFunction<T1, T2, T3, R> rShrunken(@Nonnull LTriFunction<T1, T2, T3, T4> right, @Nonnull LQuadFunction<T1, T2, T3, T4, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2, T3, R, T4> LTriFunction<T1, T2, T3, R> rShrunken_(T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a4);
-	}
-
 	/**  */
 	public static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LFunction<T4, R>>>> func) {
 		Null.nonNullArg(func, "func");

@@ -325,26 +325,6 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
-	default LOiToIntFunction<T> rShrink(@Nonnull LOiToLongFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> applyAsInt(a1, a2, right.applyAsLong(a1, a2));
-	}
-
-	default LOiToIntFunction<T> rShrink_(long a3) {
-		return (a1, a2) -> applyAsInt(a1, a2, a3);
-	}
-
-	public static <T> LOiToIntFunction<T> rShrunken(@Nonnull LOiToLongFunction<T> right, @Nonnull LTieLongFunction<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LOiToIntFunction<T> rShrunken_(long a3, @Nonnull LTieLongFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T> LTieLongFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLongToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

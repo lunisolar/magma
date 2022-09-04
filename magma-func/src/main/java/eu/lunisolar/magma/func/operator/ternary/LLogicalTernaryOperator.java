@@ -345,46 +345,6 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LLogicalBinaryOperator lShrink(@Nonnull LLogicalBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
-	}
-
-	default LLogicalBinaryOperator lShrink_(boolean a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static LLogicalBinaryOperator lShrunken(@Nonnull LLogicalBinaryOperator left, @Nonnull LLogicalTernaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LLogicalBinaryOperator lShrunken_(boolean a1, @Nonnull LLogicalTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LLogicalBinaryOperator rShrink(@Nonnull LLogicalBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
-	}
-
-	default LLogicalBinaryOperator rShrink_(boolean a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static LLogicalBinaryOperator rShrunken(@Nonnull LLogicalBinaryOperator right, @Nonnull LLogicalTernaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LLogicalBinaryOperator rShrunken_(boolean a3, @Nonnull LLogicalTernaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LLogicalTernaryOperator uncurry(@Nonnull LBoolFunction<LBoolFunction<LLogicalOperator>> func) {
 		Null.nonNullArg(func, "func");

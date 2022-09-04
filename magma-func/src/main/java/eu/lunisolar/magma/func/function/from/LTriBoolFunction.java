@@ -314,46 +314,6 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiBoolFunction<R> lShrink(@Nonnull LLogicalBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBiBoolFunction<R> lShrink_(boolean a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static <R> LBiBoolFunction<R> lShrunken(@Nonnull LLogicalBinaryOperator left, @Nonnull LTriBoolFunction<R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R> LBiBoolFunction<R> lShrunken_(boolean a1, @Nonnull LTriBoolFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiBoolFunction<R> rShrink(@Nonnull LLogicalBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.apply(a1, a2));
-	}
-
-	default LBiBoolFunction<R> rShrink_(boolean a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <R> LBiBoolFunction<R> rShrunken(@Nonnull LLogicalBinaryOperator right, @Nonnull LTriBoolFunction<R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <R> LBiBoolFunction<R> rShrunken_(boolean a3, @Nonnull LTriBoolFunction<R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <R> LTriBoolFunction<R> uncurry(@Nonnull LBoolFunction<LBoolFunction<LBoolFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

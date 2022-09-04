@@ -327,26 +327,6 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 		return null;
 	}
 
-	default LOiFunction<T, R> rShrink(@Nonnull LOiToLongFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.applyAsLong(a1, a2));
-	}
-
-	default LOiFunction<T, R> rShrink_(long a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LOiToLongFunction<T> right, @Nonnull LObjIntLongFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken_(long a3, @Nonnull LObjIntLongFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T, R> LObjIntLongFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LLongFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

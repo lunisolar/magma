@@ -346,46 +346,6 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
-	default LBiDblPredicate lShrink(@Nonnull LDblBinaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> test(left.applyAsDbl(a2, a3), a2, a3);
-	}
-
-	default LBiDblPredicate lShrink_(double a1) {
-		return (a2, a3) -> test(a1, a2, a3);
-	}
-
-	public static LBiDblPredicate lShrunken(@Nonnull LDblBinaryOperator left, @Nonnull LTriDblPredicate func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LBiDblPredicate lShrunken_(double a1, @Nonnull LTriDblPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiDblPredicate rShrink(@Nonnull LDblBinaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> test(a1, a2, right.applyAsDbl(a1, a2));
-	}
-
-	default LBiDblPredicate rShrink_(double a3) {
-		return (a1, a2) -> test(a1, a2, a3);
-	}
-
-	public static LBiDblPredicate rShrunken(@Nonnull LDblBinaryOperator right, @Nonnull LTriDblPredicate func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LBiDblPredicate rShrunken_(double a3, @Nonnull LTriDblPredicate func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static LTriDblPredicate uncurry(@Nonnull LDblFunction<LDblFunction<LDblPredicate>> func) {
 		Null.nonNullArg(func, "func");

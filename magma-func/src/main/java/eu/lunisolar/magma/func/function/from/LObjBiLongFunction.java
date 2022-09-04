@@ -327,35 +327,6 @@ public interface LObjBiLongFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
-	default LBiLongFunction<R> lShrink(@Nonnull LBiLongFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
-	}
-
-	default LBiLongFunction<R> lShrink_(T a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static <R, T> LBiLongFunction<R> lShrunken(@Nonnull LBiLongFunction<T> left, @Nonnull LObjBiLongFunction<T, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <R, T> LBiLongFunction<R> lShrunken_(T a1, @Nonnull LObjBiLongFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LObjLongFunction<T, R> rShrink_(long a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T, R> LObjLongFunction<T, R> rShrunken_(long a3, @Nonnull LObjBiLongFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T, R> LObjBiLongFunction<T, R> uncurry(@Nonnull LFunction<T, LLongFunction<LLongFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

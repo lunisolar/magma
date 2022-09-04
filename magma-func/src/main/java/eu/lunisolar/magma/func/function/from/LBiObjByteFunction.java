@@ -327,46 +327,6 @@ public interface LBiObjByteFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return null;
 	}
 
-	default LObjByteFunction<T2, R> lShrink(@Nonnull LObjByteFunction<T2, T1> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> apply(left.apply(a2, a3), a2, a3);
-	}
-
-	default LObjByteFunction<T2, R> lShrink_(T1 a1) {
-		return (a2, a3) -> apply(a1, a2, a3);
-	}
-
-	public static <T2, R, T1> LObjByteFunction<T2, R> lShrunken(@Nonnull LObjByteFunction<T2, T1> left, @Nonnull LBiObjByteFunction<T1, T2, R> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, R, T1> LObjByteFunction<T2, R> lShrunken_(T1 a1, @Nonnull LBiObjByteFunction<T1, T2, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiFunction<T1, T2, R> rShrink(@Nonnull LToByteBiFunction<T1, T2> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.applyAsByte(a1, a2));
-	}
-
-	default LBiFunction<T1, T2, R> rShrink_(byte a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T1, T2, R> LBiFunction<T1, T2, R> rShrunken(@Nonnull LToByteBiFunction<T1, T2> right, @Nonnull LBiObjByteFunction<T1, T2, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2, R> LBiFunction<T1, T2, R> rShrunken_(byte a3, @Nonnull LBiObjByteFunction<T1, T2, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T1, T2, R> LBiObjByteFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, LByteFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

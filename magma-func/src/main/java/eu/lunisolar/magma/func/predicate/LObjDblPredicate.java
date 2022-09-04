@@ -369,46 +369,6 @@ public interface LObjDblPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return false;
 	}
 
-	default LDblPredicate lShrink(@Nonnull LDblFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> test(left.apply(a2), a2);
-	}
-
-	default LDblPredicate lShrink_(T a1) {
-		return a2 -> test(a1, a2);
-	}
-
-	public static <T> LDblPredicate lShrunken(@Nonnull LDblFunction<T> left, @Nonnull LObjDblPredicate<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LDblPredicate lShrunken_(T a1, @Nonnull LObjDblPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LPredicate<T> rShrink(@Nonnull LToDblFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> test(a1, right.applyAsDbl(a1));
-	}
-
-	default LPredicate<T> rShrink_(double a2) {
-		return a1 -> test(a1, a2);
-	}
-
-	public static <T> LPredicate<T> rShrunken(@Nonnull LToDblFunction<T> right, @Nonnull LObjDblPredicate<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LPredicate<T> rShrunken_(double a2, @Nonnull LObjDblPredicate<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LObjDblPredicate<T> uncurry(@Nonnull LFunction<T, LDblPredicate> func) {
 		Null.nonNullArg(func, "func");

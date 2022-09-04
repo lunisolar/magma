@@ -307,46 +307,6 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LBoolConsumer lShrink(@Nonnull LBoolFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> accept(left.apply(a2), a2);
-	}
-
-	default LBoolConsumer lShrink_(T a1) {
-		return a2 -> accept(a1, a2);
-	}
-
-	public static <T> LBoolConsumer lShrunken(@Nonnull LBoolFunction<T> left, @Nonnull LObjBoolConsumer<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LBoolConsumer lShrunken_(T a1, @Nonnull LObjBoolConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LConsumer<T> rShrink(@Nonnull LPredicate<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> accept(a1, right.test(a1));
-	}
-
-	default LConsumer<T> rShrink_(boolean a2) {
-		return a1 -> accept(a1, a2);
-	}
-
-	public static <T> LConsumer<T> rShrunken(@Nonnull LPredicate<T> right, @Nonnull LObjBoolConsumer<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LConsumer<T> rShrunken_(boolean a2, @Nonnull LObjBoolConsumer<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LObjBoolConsumer<T> uncurry(@Nonnull LFunction<T, LBoolConsumer> func) {
 		Null.nonNullArg(func, "func");

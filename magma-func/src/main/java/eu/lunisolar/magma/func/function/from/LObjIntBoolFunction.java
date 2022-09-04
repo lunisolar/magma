@@ -327,26 +327,6 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 		return null;
 	}
 
-	default LOiFunction<T, R> rShrink(@Nonnull LObjIntPredicate<T> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> apply(a1, a2, right.test(a1, a2));
-	}
-
-	default LOiFunction<T, R> rShrink_(boolean a3) {
-		return (a1, a2) -> apply(a1, a2, a3);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken(@Nonnull LObjIntPredicate<T> right, @Nonnull LObjIntBoolFunction<T, R> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T, R> LOiFunction<T, R> rShrunken_(boolean a3, @Nonnull LObjIntBoolFunction<T, R> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T, R> LObjIntBoolFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LBoolFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

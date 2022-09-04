@@ -305,46 +305,6 @@ public interface LBiObjIntConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		fromTill(0, max_a3, a1, a2, func);
 	}
 
-	default LObjIntConsumer<T2> lShrink(@Nonnull LOiFunction<T2, T1> left) {
-		Null.nonNullArg(left, "left");
-		return (a2, a3) -> accept(left.apply(a2, a3), a2, a3);
-	}
-
-	default LObjIntConsumer<T2> lShrink_(T1 a1) {
-		return (a2, a3) -> accept(a1, a2, a3);
-	}
-
-	public static <T2, T1> LObjIntConsumer<T2> lShrunken(@Nonnull LOiFunction<T2, T1> left, @Nonnull LBiObjIntConsumer<T1, T2> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T2, T1> LObjIntConsumer<T2> lShrunken_(T1 a1, @Nonnull LBiObjIntConsumer<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LBiConsumer<T1, T2> rShrink(@Nonnull LToIntBiFunction<T1, T2> right) {
-		Null.nonNullArg(right, "right");
-		return (a1, a2) -> accept(a1, a2, right.applyAsInt(a1, a2));
-	}
-
-	default LBiConsumer<T1, T2> rShrink_(int a3) {
-		return (a1, a2) -> accept(a1, a2, a3);
-	}
-
-	public static <T1, T2> LBiConsumer<T1, T2> rShrunken(@Nonnull LToIntBiFunction<T1, T2> right, @Nonnull LBiObjIntConsumer<T1, T2> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T1, T2> LBiConsumer<T1, T2> rShrunken_(int a3, @Nonnull LBiObjIntConsumer<T1, T2> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a3);
-	}
-
 	/**  */
 	public static <T1, T2> LBiObjIntConsumer<T1, T2> uncurry(@Nonnull LFunction<T1, LFunction<T2, LIntConsumer>> func) {
 		Null.nonNullArg(func, "func");

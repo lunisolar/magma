@@ -325,46 +325,6 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
-	default LIntToCharFunction lShrink(@Nonnull LIntFunction<T> left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsChar(left.apply(a2), a2);
-	}
-
-	default LIntToCharFunction lShrink_(T a1) {
-		return a2 -> applyAsChar(a1, a2);
-	}
-
-	public static <T> LIntToCharFunction lShrunken(@Nonnull LIntFunction<T> left, @Nonnull LOiToCharFunction<T> func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static <T> LIntToCharFunction lShrunken_(T a1, @Nonnull LOiToCharFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LToCharFunction<T> rShrink(@Nonnull LToIntFunction<T> right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsChar(a1, right.applyAsInt(a1));
-	}
-
-	default LToCharFunction<T> rShrink_(int a2) {
-		return a1 -> applyAsChar(a1, a2);
-	}
-
-	public static <T> LToCharFunction<T> rShrunken(@Nonnull LToIntFunction<T> right, @Nonnull LOiToCharFunction<T> func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static <T> LToCharFunction<T> rShrunken_(int a2, @Nonnull LOiToCharFunction<T> func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static <T> LOiToCharFunction<T> uncurry(@Nonnull LFunction<T, LIntToCharFunction> func) {
 		Null.nonNullArg(func, "func");

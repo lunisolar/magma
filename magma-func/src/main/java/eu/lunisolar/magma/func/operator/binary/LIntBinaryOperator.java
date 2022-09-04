@@ -310,46 +310,6 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		fromTill(0, max_i, a1, a2, func);
 	}
 
-	default LIntUnaryOperator lShrink(@Nonnull LIntUnaryOperator left) {
-		Null.nonNullArg(left, "left");
-		return a2 -> applyAsInt(left.applyAsInt(a2), a2);
-	}
-
-	default LIntUnaryOperator lShrink_(int a1) {
-		return a2 -> applyAsInt(a1, a2);
-	}
-
-	public static LIntUnaryOperator lShrunken(@Nonnull LIntUnaryOperator left, @Nonnull LIntBinaryOperator func) {
-		Null.nonNullArg(left, "left");
-		Null.nonNullArg(func, "func");
-		return func.lShrink(left);
-	}
-
-	public static LIntUnaryOperator lShrunken_(int a1, @Nonnull LIntBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.lShrink_(a1);
-	}
-
-	default LIntUnaryOperator rShrink(@Nonnull LIntUnaryOperator right) {
-		Null.nonNullArg(right, "right");
-		return a1 -> applyAsInt(a1, right.applyAsInt(a1));
-	}
-
-	default LIntUnaryOperator rShrink_(int a2) {
-		return a1 -> applyAsInt(a1, a2);
-	}
-
-	public static LIntUnaryOperator rShrunken(@Nonnull LIntUnaryOperator right, @Nonnull LIntBinaryOperator func) {
-		Null.nonNullArg(right, "right");
-		Null.nonNullArg(func, "func");
-		return func.rShrink(right);
-	}
-
-	public static LIntUnaryOperator rShrunken_(int a2, @Nonnull LIntBinaryOperator func) {
-		Null.nonNullArg(func, "func");
-		return func.rShrink_(a2);
-	}
-
 	/**  */
 	public static LIntBinaryOperator uncurry(@Nonnull LIntFunction<LIntUnaryOperator> func) {
 		Null.nonNullArg(func, "func");
