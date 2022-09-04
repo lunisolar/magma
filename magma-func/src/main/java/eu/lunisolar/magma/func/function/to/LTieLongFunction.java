@@ -331,21 +331,6 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (T a1, int a2, long a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieLongFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieLongFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieLongFunction<V2> cast(LTieLongFunction<?> function) {
-		return (LTieLongFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieLongConsumer<T> toConsumer() {
 		return this::applyAsInt;

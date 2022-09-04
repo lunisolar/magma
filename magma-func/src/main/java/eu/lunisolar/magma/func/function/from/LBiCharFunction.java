@@ -320,21 +320,6 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (char a1, char a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiCharFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBiCharFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBiCharFunction<V2> cast(LBiCharFunction<?> function) {
-		return (LBiCharFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiCharConsumer toConsumer() {
 		return this::apply;

@@ -311,21 +311,6 @@ public interface LBiObjBoolConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 		return (T1 a1, T2 a2, boolean a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LBiObjBoolConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LBiObjBoolConsumer<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LBiObjBoolConsumer<V2, V3> cast(LBiObjBoolConsumer<?, ?> function) {
-		return (LBiObjBoolConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default <T> LBiObjBoolFunction<T1, T2, T> returning(T value) {
 		return (a1, a2, a3) -> {

@@ -365,21 +365,6 @@ public interface LBiObjBytePredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return (T1 a1, T2 a2, byte a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LBiObjBytePredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LBiObjBytePredicate<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LBiObjBytePredicate<V2, V3> cast(LBiObjBytePredicate<?, ?> function) {
-		return (LBiObjBytePredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiObjByteConsumer<T1, T2> toConsumer() {
 		return this::test;

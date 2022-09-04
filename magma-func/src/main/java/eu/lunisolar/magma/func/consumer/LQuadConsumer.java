@@ -311,21 +311,6 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> func.apply(a1).apply(a2).apply(a3).accept(a4);
 	}
 
-	/** Cast that removes generics. */
-	default LQuadConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4, V5> LQuadConsumer<V2, V3, V4, V5> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5> LQuadConsumer<V2, V3, V4, V5> cast(LQuadConsumer<?, ?, ?, ?> function) {
-		return (LQuadConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default <T> LQuadFunction<T1, T2, T3, T4, T> returning(T value) {
 		return (a1, a2, a3, a4) -> {

@@ -331,21 +331,6 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (T a1, int a2, char a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieCharFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieCharFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieCharFunction<V2> cast(LTieCharFunction<?> function) {
-		return (LTieCharFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieCharConsumer<T> toConsumer() {
 		return this::applyAsInt;

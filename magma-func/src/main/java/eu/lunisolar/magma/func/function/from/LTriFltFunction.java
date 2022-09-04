@@ -320,21 +320,6 @@ public interface LTriFltFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (float a1, float a2, float a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriFltFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTriFltFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTriFltFunction<V2> cast(LTriFltFunction<?> function) {
-		return (LTriFltFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriFltConsumer toConsumer() {
 		return this::apply;

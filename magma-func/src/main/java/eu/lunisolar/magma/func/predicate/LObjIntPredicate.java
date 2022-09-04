@@ -396,21 +396,6 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return (T a1, int a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjIntPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjIntPredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjIntPredicate<V2> cast(LObjIntPredicate<?> function) {
-		return (LObjIntPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjIntConsumer<T> toConsumer() {
 		return this::test;

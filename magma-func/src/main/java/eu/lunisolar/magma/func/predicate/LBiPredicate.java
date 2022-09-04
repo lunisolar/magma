@@ -385,21 +385,6 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return (T1 a1, T2 a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LBiPredicate<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LBiPredicate<V2, V3> cast(LBiPredicate<?, ?> function) {
-		return (LBiPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::test;

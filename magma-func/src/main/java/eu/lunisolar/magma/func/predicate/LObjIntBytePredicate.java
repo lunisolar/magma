@@ -365,21 +365,6 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 		return (T a1, int a2, byte a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjIntBytePredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjIntBytePredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjIntBytePredicate<V2> cast(LObjIntBytePredicate<?> function) {
-		return (LObjIntBytePredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieByteConsumer<T> toConsumer() {
 		return this::test;

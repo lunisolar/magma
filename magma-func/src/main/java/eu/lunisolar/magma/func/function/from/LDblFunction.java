@@ -314,21 +314,6 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LDblFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LDblFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LDblFunction<V2> cast(LDblFunction<?> function) {
-		return (LDblFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LDblConsumer toConsumer() {
 		return this::apply;

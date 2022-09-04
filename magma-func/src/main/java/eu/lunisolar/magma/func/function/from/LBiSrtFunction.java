@@ -320,21 +320,6 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (short a1, short a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiSrtFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBiSrtFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBiSrtFunction<V2> cast(LBiSrtFunction<?> function) {
-		return (LBiSrtFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiSrtConsumer toConsumer() {
 		return this::apply;

@@ -375,21 +375,6 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return (T a1, long a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjLongPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjLongPredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjLongPredicate<V2> cast(LObjLongPredicate<?> function) {
-		return (LObjLongPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjLongConsumer<T> toConsumer() {
 		return this::test;

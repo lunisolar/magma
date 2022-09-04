@@ -329,21 +329,6 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsChar(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LToCharBiFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LToCharBiFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LToCharBiFunction<V2, V3> cast(LToCharBiFunction<?, ?> function) {
-		return (LToCharBiFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsChar;

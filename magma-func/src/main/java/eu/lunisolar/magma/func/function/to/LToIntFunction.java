@@ -325,21 +325,6 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return orElse;
 	}
 
-	/** Cast that removes generics. */
-	default LToIntFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LToIntFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LToIntFunction<V2> cast(LToIntFunction<?> function) {
-		return (LToIntFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsInt;

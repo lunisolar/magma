@@ -333,21 +333,6 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return (T1 a1, T2 a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4> LBiFunction<V2, V3, V4> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4> LBiFunction<V2, V3, V4> cast(LBiFunction<?, ?, ?> function) {
-		return (LBiFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::apply;

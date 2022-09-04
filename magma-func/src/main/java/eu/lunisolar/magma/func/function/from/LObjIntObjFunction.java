@@ -333,21 +333,6 @@ public interface LObjIntObjFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjIntObjFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4> LObjIntObjFunction<V2, V3, V4> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4> LObjIntObjFunction<V2, V3, V4> cast(LObjIntObjFunction<?, ?, ?> function) {
-		return (LObjIntObjFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieConsumer<T1, T2> toConsumer() {
 		return this::apply;

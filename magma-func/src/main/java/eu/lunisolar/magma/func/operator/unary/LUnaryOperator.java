@@ -313,21 +313,6 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return null;
 	}
 
-	/** Cast that removes generics. */
-	default LUnaryOperator untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default LUnaryOperator cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static LUnaryOperator cast(LUnaryOperator<?> function) {
-		return (LUnaryOperator) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::apply;

@@ -325,21 +325,6 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return orElse;
 	}
 
-	/** Cast that removes generics. */
-	default LToLongFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LToLongFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LToLongFunction<V2> cast(LToLongFunction<?> function) {
-		return (LToLongFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsLong;

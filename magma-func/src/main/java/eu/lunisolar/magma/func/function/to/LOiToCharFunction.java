@@ -331,21 +331,6 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return (T a1, int a2) -> func.apply(a1).applyAsChar(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LOiToCharFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LOiToCharFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LOiToCharFunction<V2> cast(LOiToCharFunction<?> function) {
-		return (LOiToCharFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsChar;

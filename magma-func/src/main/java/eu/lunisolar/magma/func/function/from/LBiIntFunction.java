@@ -320,21 +320,6 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (int a1, int a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiIntFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBiIntFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBiIntFunction<V2> cast(LBiIntFunction<?> function) {
-		return (LBiIntFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiIntConsumer toConsumer() {
 		return this::apply;

@@ -320,21 +320,6 @@ public interface LTieCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return (T a1, int a2, char a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieCharConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieCharConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieCharConsumer<V2> cast(LTieCharConsumer<?> function) {
-		return (LTieCharConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjIntCharFunction<T, T> returning(T value) {
 		return (a1, a2, a3) -> {

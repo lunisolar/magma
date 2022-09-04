@@ -314,21 +314,6 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		fromTill(0, max_a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LIntFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LIntFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LIntFunction<V2> cast(LIntFunction<?> function) {
-		return (LIntFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LIntConsumer toConsumer() {
 		return this::apply;

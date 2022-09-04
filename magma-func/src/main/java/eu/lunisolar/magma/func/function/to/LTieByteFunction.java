@@ -331,21 +331,6 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (T a1, int a2, byte a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieByteFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieByteFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieByteFunction<V2> cast(LTieByteFunction<?> function) {
-		return (LTieByteFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieByteConsumer<T> toConsumer() {
 		return this::applyAsInt;

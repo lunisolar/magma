@@ -325,21 +325,6 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
-	/** Cast that removes generics. */
-	default LToCharFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LToCharFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LToCharFunction<V2> cast(LToCharFunction<?> function) {
-		return (LToCharFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsChar;

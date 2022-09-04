@@ -333,21 +333,6 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return (T1 a1, T2 a2, T3 a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4, V5> LTriFunction<V2, V3, V4, V5> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5> LTriFunction<V2, V3, V4, V5> cast(LTriFunction<?, ?, ?, ?> function) {
-		return (LTriFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriConsumer<T1, T2, T3> toConsumer() {
 		return this::apply;

@@ -365,21 +365,6 @@ public interface LObjIntSrtPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return (T a1, int a2, short a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjIntSrtPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjIntSrtPredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjIntSrtPredicate<V2> cast(LObjIntSrtPredicate<?> function) {
-		return (LObjIntSrtPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieSrtConsumer<T> toConsumer() {
 		return this::test;

@@ -333,21 +333,6 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return (T a1, char a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjCharFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjCharFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjCharFunction<V2, V3> cast(LObjCharFunction<?, ?> function) {
-		return (LObjCharFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjCharConsumer<T> toConsumer() {
 		return this::apply;

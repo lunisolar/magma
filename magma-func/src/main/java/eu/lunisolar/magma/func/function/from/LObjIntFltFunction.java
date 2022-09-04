@@ -333,21 +333,6 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		return (T a1, int a2, float a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjIntFltFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjIntFltFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjIntFltFunction<V2, V3> cast(LObjIntFltFunction<?, ?> function) {
-		return (LObjIntFltFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieFltConsumer<T> toConsumer() {
 		return this::apply;

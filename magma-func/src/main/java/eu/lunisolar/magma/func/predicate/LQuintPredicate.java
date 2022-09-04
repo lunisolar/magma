@@ -366,21 +366,6 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> func.apply(a1).apply(a2).apply(a3).apply(a4).test(a5);
 	}
 
-	/** Cast that removes generics. */
-	default LQuintPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4, V5, V6> LQuintPredicate<V2, V3, V4, V5, V6> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, V6> LQuintPredicate<V2, V3, V4, V5, V6> cast(LQuintPredicate<?, ?, ?, ?, ?> function) {
-		return (LQuintPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LQuintConsumer<T1, T2, T3, T4, T5> toConsumer() {
 		return this::test;

@@ -320,21 +320,6 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return (boolean a1, boolean a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriBoolFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTriBoolFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTriBoolFunction<V2> cast(LTriBoolFunction<?> function) {
-		return (LTriBoolFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriBoolConsumer toConsumer() {
 		return this::apply;

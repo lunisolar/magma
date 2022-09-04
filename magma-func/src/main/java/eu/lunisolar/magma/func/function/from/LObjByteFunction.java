@@ -333,21 +333,6 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return (T a1, byte a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjByteFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjByteFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjByteFunction<V2, V3> cast(LObjByteFunction<?, ?> function) {
-		return (LObjByteFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjByteConsumer<T> toConsumer() {
 		return this::apply;

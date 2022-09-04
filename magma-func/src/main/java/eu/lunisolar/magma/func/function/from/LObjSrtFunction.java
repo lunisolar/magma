@@ -333,21 +333,6 @@ public interface LObjSrtFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return (T a1, short a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjSrtFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjSrtFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjSrtFunction<V2, V3> cast(LObjSrtFunction<?, ?> function) {
-		return (LObjSrtFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjSrtConsumer<T> toConsumer() {
 		return this::apply;

@@ -331,21 +331,6 @@ public interface LTieDblFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return (T a1, int a2, double a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieDblFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieDblFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieDblFunction<V2> cast(LTieDblFunction<?> function) {
-		return (LTieDblFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieDblConsumer<T> toConsumer() {
 		return this::applyAsInt;

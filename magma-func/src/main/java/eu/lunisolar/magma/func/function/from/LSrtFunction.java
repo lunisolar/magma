@@ -314,21 +314,6 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LSrtFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LSrtFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LSrtFunction<V2> cast(LSrtFunction<?> function) {
-		return (LSrtFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LSrtConsumer toConsumer() {
 		return this::apply;

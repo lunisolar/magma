@@ -313,21 +313,6 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return (T a1, byte a2) -> func.apply(a1).accept(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjByteConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjByteConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjByteConsumer<V2> cast(LObjByteConsumer<?> function) {
-		return (LObjByteConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjByteFunction<T, T> returning(T value) {
 		return (a1, a2) -> {

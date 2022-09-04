@@ -329,21 +329,6 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsSrt(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LToSrtBiFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LToSrtBiFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LToSrtBiFunction<V2, V3> cast(LToSrtBiFunction<?, ?> function) {
-		return (LToSrtBiFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsSrt;

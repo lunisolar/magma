@@ -331,21 +331,6 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (T a1, int a2, boolean a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieBoolFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieBoolFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieBoolFunction<V2> cast(LTieBoolFunction<?> function) {
-		return (LTieBoolFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieBoolConsumer<T> toConsumer() {
 		return this::applyAsInt;

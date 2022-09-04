@@ -320,21 +320,6 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (double a1, double a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiDblFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBiDblFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBiDblFunction<V2> cast(LBiDblFunction<?> function) {
-		return (LBiDblFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiDblConsumer toConsumer() {
 		return this::apply;

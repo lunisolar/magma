@@ -313,21 +313,6 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		return (T a1, long a2) -> func.apply(a1).accept(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjLongConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjLongConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjLongConsumer<V2> cast(LObjLongConsumer<?> function) {
-		return (LObjLongConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjLongFunction<T, T> returning(T value) {
 		return (a1, a2) -> {

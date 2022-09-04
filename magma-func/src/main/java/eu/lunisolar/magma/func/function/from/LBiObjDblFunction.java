@@ -333,21 +333,6 @@ public interface LBiObjDblFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		return (T1 a1, T2 a2, double a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LBiObjDblFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4> LBiObjDblFunction<V2, V3, V4> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4> LBiObjDblFunction<V2, V3, V4> cast(LBiObjDblFunction<?, ?, ?> function) {
-		return (LBiObjDblFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiObjDblConsumer<T1, T2> toConsumer() {
 		return this::apply;

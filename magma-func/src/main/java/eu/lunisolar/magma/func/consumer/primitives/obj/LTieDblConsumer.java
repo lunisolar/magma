@@ -320,21 +320,6 @@ public interface LTieDblConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return (T a1, int a2, double a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieDblConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieDblConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieDblConsumer<V2> cast(LTieDblConsumer<?> function) {
-		return (LTieDblConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjIntDblFunction<T, T> returning(T value) {
 		return (a1, a2, a3) -> {

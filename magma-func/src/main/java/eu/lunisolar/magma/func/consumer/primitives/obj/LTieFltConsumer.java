@@ -320,21 +320,6 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return (T a1, int a2, float a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieFltConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTieFltConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTieFltConsumer<V2> cast(LTieFltConsumer<?> function) {
-		return (LTieFltConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjIntFltFunction<T, T> returning(T value) {
 		return (a1, a2, a3) -> {

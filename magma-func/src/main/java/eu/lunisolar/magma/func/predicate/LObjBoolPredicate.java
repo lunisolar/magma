@@ -375,21 +375,6 @@ public interface LObjBoolPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return (T a1, boolean a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjBoolPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjBoolPredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjBoolPredicate<V2> cast(LObjBoolPredicate<?> function) {
-		return (LObjBoolPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjBoolConsumer<T> toConsumer() {
 		return this::test;

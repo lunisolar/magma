@@ -320,21 +320,6 @@ public interface LTriByteFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return (byte a1, byte a2, byte a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriByteFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTriByteFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTriByteFunction<V2> cast(LTriByteFunction<?> function) {
-		return (LTriByteFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriByteConsumer toConsumer() {
 		return this::apply;

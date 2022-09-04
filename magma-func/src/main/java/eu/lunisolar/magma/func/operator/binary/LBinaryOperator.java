@@ -317,21 +317,6 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return (T a1, T a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBinaryOperator untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default LBinaryOperator cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static LBinaryOperator cast(LBinaryOperator<?> function) {
-		return (LBinaryOperator) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiConsumer<T, T> toConsumer() {
 		return this::apply;

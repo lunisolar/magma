@@ -313,21 +313,6 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 		return (T a1, double a2) -> func.apply(a1).accept(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjDblConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjDblConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjDblConsumer<V2> cast(LObjDblConsumer<?> function) {
-		return (LObjDblConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjDblFunction<T, T> returning(T value) {
 		return (a1, a2) -> {

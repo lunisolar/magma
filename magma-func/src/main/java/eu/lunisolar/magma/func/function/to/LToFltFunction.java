@@ -325,21 +325,6 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return orElse;
 	}
 
-	/** Cast that removes generics. */
-	default LToFltFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LToFltFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LToFltFunction<V2> cast(LToFltFunction<?> function) {
-		return (LToFltFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsFlt;

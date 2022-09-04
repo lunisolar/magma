@@ -320,21 +320,6 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (boolean a1, boolean a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiBoolFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBiBoolFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBiBoolFunction<V2> cast(LBiBoolFunction<?> function) {
-		return (LBiBoolFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiBoolConsumer toConsumer() {
 		return this::apply;

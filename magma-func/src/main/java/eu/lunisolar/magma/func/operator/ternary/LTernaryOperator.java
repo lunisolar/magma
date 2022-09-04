@@ -317,21 +317,6 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return (T a1, T a2, T a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTernaryOperator untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default LTernaryOperator cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static LTernaryOperator cast(LTernaryOperator<?> function) {
-		return (LTernaryOperator) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriConsumer<T, T, T> toConsumer() {
 		return this::apply;

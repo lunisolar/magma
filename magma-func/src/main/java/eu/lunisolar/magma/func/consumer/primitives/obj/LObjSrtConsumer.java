@@ -313,21 +313,6 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return (T a1, short a2) -> func.apply(a1).accept(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjSrtConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjSrtConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjSrtConsumer<V2> cast(LObjSrtConsumer<?> function) {
-		return (LObjSrtConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjSrtFunction<T, T> returning(T value) {
 		return (a1, a2) -> {

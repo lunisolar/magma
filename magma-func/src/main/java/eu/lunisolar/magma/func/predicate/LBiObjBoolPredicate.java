@@ -365,21 +365,6 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return (T1 a1, T2 a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LBiObjBoolPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LBiObjBoolPredicate<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LBiObjBoolPredicate<V2, V3> cast(LBiObjBoolPredicate<?, ?> function) {
-		return (LBiObjBoolPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiObjBoolConsumer<T1, T2> toConsumer() {
 		return this::test;

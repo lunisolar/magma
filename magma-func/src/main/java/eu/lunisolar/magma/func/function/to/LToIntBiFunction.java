@@ -329,21 +329,6 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsInt(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LToIntBiFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LToIntBiFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LToIntBiFunction<V2, V3> cast(LToIntBiFunction<?, ?> function) {
-		return (LToIntBiFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsInt;

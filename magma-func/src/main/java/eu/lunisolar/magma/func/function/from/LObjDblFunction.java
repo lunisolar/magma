@@ -333,21 +333,6 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return (T a1, double a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjDblFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjDblFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjDblFunction<V2, V3> cast(LObjDblFunction<?, ?> function) {
-		return (LObjDblFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjDblConsumer<T> toConsumer() {
 		return this::apply;

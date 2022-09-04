@@ -375,21 +375,6 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return (T1 a1, T2 a2, T3 a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4> LTriPredicate<V2, V3, V4> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4> LTriPredicate<V2, V3, V4> cast(LTriPredicate<?, ?, ?> function) {
-		return (LTriPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriConsumer<T1, T2, T3> toConsumer() {
 		return this::test;

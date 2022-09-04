@@ -365,21 +365,6 @@ public interface LBiObjLongPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return (T1 a1, T2 a2, long a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LBiObjLongPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LBiObjLongPredicate<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LBiObjLongPredicate<V2, V3> cast(LBiObjLongPredicate<?, ?> function) {
-		return (LBiObjLongPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiObjLongConsumer<T1, T2> toConsumer() {
 		return this::test;

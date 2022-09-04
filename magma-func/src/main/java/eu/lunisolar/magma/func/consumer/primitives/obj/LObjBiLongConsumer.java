@@ -311,21 +311,6 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 		return (T a1, long a2, long a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjBiLongConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjBiLongConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjBiLongConsumer<V2> cast(LObjBiLongConsumer<?> function) {
-		return (LObjBiLongConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjBiLongFunction<T, T> returning(T value) {
 		return (a1, a2, a3) -> {

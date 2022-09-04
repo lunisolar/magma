@@ -331,21 +331,6 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LTieFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LTieFunction<V2, V3> cast(LTieFunction<?, ?> function) {
-		return (LTieFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieConsumer<T1, T2> toConsumer() {
 		return this::applyAsInt;

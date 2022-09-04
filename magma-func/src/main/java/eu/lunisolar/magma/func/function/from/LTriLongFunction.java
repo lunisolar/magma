@@ -320,21 +320,6 @@ public interface LTriLongFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return (long a1, long a2, long a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriLongFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTriLongFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTriLongFunction<V2> cast(LTriLongFunction<?> function) {
-		return (LTriLongFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriLongConsumer toConsumer() {
 		return this::apply;

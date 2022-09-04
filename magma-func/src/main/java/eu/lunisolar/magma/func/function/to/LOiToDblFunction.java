@@ -331,21 +331,6 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (T a1, int a2) -> func.apply(a1).applyAsDbl(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LOiToDblFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LOiToDblFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LOiToDblFunction<V2> cast(LOiToDblFunction<?> function) {
-		return (LOiToDblFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsDbl;

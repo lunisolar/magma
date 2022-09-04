@@ -329,21 +329,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return null;
 	}
 
-	/** Cast that removes generics. */
-	default LFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LFunction<V2, V3> cast(LFunction<?, ?> function) {
-		return (LFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::apply;

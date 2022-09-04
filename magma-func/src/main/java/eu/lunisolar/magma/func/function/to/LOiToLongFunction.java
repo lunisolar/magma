@@ -331,21 +331,6 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return (T a1, int a2) -> func.apply(a1).applyAsLong(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LOiToLongFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LOiToLongFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LOiToLongFunction<V2> cast(LOiToLongFunction<?> function) {
-		return (LOiToLongFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsLong;

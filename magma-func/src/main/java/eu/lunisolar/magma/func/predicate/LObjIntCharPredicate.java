@@ -365,21 +365,6 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 		return (T a1, int a2, char a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjIntCharPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjIntCharPredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjIntCharPredicate<V2> cast(LObjIntCharPredicate<?> function) {
-		return (LObjIntCharPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieCharConsumer<T> toConsumer() {
 		return this::test;

@@ -320,21 +320,6 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (int a1, int a2, int a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriIntFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTriIntFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTriIntFunction<V2> cast(LTriIntFunction<?> function) {
-		return (LTriIntFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriIntConsumer toConsumer() {
 		return this::apply;

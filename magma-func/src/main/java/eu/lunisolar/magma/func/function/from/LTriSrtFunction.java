@@ -320,21 +320,6 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (short a1, short a2, short a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTriSrtFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LTriSrtFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LTriSrtFunction<V2> cast(LTriSrtFunction<?> function) {
-		return (LTriSrtFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTriSrtConsumer toConsumer() {
 		return this::apply;

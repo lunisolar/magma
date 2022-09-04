@@ -314,21 +314,6 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LFltFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LFltFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LFltFunction<V2> cast(LFltFunction<?> function) {
-		return (LFltFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LFltConsumer toConsumer() {
 		return this::apply;

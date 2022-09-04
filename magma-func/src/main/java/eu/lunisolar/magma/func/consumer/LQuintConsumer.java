@@ -312,21 +312,6 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> func.apply(a1).apply(a2).apply(a3).apply(a4).accept(a5);
 	}
 
-	/** Cast that removes generics. */
-	default LQuintConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4, V5, V6> LQuintConsumer<V2, V3, V4, V5, V6> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, V6> LQuintConsumer<V2, V3, V4, V5, V6> cast(LQuintConsumer<?, ?, ?, ?, ?> function) {
-		return (LQuintConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default <T> LQuintFunction<T1, T2, T3, T4, T5, T> returning(T value) {
 		return (a1, a2, a3, a4, a5) -> {

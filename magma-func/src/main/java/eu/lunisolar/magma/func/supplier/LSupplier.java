@@ -313,21 +313,6 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		fromTill(0, max_i, func);
 	}
 
-	/** Cast that removes generics. */
-	default LSupplier untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LSupplier<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LSupplier<V2> cast(LSupplier<?> function) {
-		return (LSupplier) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LAction toConsumer() {
 		return this::get;

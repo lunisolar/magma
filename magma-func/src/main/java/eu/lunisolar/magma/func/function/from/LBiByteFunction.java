@@ -320,21 +320,6 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (byte a1, byte a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiByteFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBiByteFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBiByteFunction<V2> cast(LBiByteFunction<?> function) {
-		return (LBiByteFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiByteConsumer toConsumer() {
 		return this::apply;

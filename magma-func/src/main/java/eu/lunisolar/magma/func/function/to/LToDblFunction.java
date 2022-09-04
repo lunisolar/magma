@@ -335,21 +335,6 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return orElse;
 	}
 
-	/** Cast that removes generics. */
-	default LToDblFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LToDblFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LToDblFunction<V2> cast(LToDblFunction<?> function) {
-		return (LToDblFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsDbl;

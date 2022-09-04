@@ -313,21 +313,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return (T1 a1, T2 a2) -> func.apply(a1).accept(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LBiConsumer<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LBiConsumer<V2, V3> cast(LBiConsumer<?, ?> function) {
-		return (LBiConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default <T> LBiFunction<T1, T2, T> returning(T value) {
 		return (a1, a2) -> {

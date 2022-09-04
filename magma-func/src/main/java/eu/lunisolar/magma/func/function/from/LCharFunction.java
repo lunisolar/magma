@@ -314,21 +314,6 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LCharFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LCharFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LCharFunction<V2> cast(LCharFunction<?> function) {
-		return (LCharFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LCharConsumer toConsumer() {
 		return this::apply;

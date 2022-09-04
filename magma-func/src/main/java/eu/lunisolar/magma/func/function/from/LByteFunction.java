@@ -314,21 +314,6 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LByteFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LByteFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LByteFunction<V2> cast(LByteFunction<?> function) {
-		return (LByteFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LByteConsumer toConsumer() {
 		return this::apply;

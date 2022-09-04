@@ -410,21 +410,6 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return false;
 	}
 
-	/** Cast that removes generics. */
-	default LPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LPredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LPredicate<V2> cast(LPredicate<?> function) {
-		return (LPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::test;

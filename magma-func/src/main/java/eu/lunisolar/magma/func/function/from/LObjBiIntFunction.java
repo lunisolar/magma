@@ -333,21 +333,6 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return (T a1, int a2, int a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjBiIntFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjBiIntFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjBiIntFunction<V2, V3> cast(LObjBiIntFunction<?, ?> function) {
-		return (LObjBiIntFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieIntConsumer<T> toConsumer() {
 		return this::apply;

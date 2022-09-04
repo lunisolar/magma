@@ -329,21 +329,6 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsByte(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LToByteBiFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LToByteBiFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LToByteBiFunction<V2, V3> cast(LToByteBiFunction<?, ?> function) {
-		return (LToByteBiFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsByte;

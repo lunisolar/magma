@@ -325,21 +325,6 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
-	/** Cast that removes generics. */
-	default LToByteFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LToByteFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LToByteFunction<V2> cast(LToByteFunction<?> function) {
-		return (LToByteFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsByte;

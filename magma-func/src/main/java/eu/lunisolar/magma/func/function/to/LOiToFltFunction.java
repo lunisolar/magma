@@ -331,21 +331,6 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return (T a1, int a2) -> func.apply(a1).applyAsFlt(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LOiToFltFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LOiToFltFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LOiToFltFunction<V2> cast(LOiToFltFunction<?> function) {
-		return (LOiToFltFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjIntConsumer<T> toConsumer() {
 		return this::applyAsFlt;

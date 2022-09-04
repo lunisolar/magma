@@ -325,21 +325,6 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return orElse;
 	}
 
-	/** Cast that removes generics. */
-	default LToSrtFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LToSrtFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LToSrtFunction<V2> cast(LToSrtFunction<?> function) {
-		return (LToSrtFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsSrt;

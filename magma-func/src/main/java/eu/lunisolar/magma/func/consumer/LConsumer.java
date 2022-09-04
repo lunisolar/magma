@@ -305,21 +305,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LConsumer<V2> cast(LConsumer<?> function) {
-		return (LConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LUnaryOperator<T> returning(T value) {
 		return a -> {

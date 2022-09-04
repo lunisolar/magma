@@ -311,21 +311,6 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		return (T1 a1, T2 a2, float a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LBiObjFltConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LBiObjFltConsumer<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LBiObjFltConsumer<V2, V3> cast(LBiObjFltConsumer<?, ?> function) {
-		return (LBiObjFltConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default <T> LBiObjFltFunction<T1, T2, T> returning(T value) {
 		return (a1, a2, a3) -> {

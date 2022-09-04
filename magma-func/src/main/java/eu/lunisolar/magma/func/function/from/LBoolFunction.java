@@ -314,21 +314,6 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LBoolFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBoolFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBoolFunction<V2> cast(LBoolFunction<?> function) {
-		return (LBoolFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBoolConsumer toConsumer() {
 		return this::apply;

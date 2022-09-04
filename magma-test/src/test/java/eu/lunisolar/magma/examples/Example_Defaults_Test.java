@@ -222,27 +222,6 @@ public class Example_Defaults_Test {
     //>example<
 
     /**
-     * ### untyped(), cast()
-     *
-     * Both methods have the same purpose - sometimes it is faster and actually more readable to make compiler just stop complaining,
-     * than fully declare the whole set of generic parameters.
-     *
-     * It is not recommended to use those methods freely.
-     */
-    //>example<
-    @Test
-    public void untyped() {
-        List<LConsumer<Integer>> list = new ArrayList<>();
-        LConsumer<?>             f1   = LConsumer::doNothing;
-
-        list.add(f1.untyped());                 // untyped changes compilation error to warning
-        list.add(f1.cast());                    // cast make sure there are no complains
-        list.add(LConsumer.<Integer>cast(f1));  // static version of the cast()
-
-    }
-    //>example<
-
-    /**
      * ### beforeDo(), afterDo()
      *
      * Both methods allow to 'visit' actual values of either domain or codomain on each call of newly created function.

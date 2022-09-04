@@ -320,21 +320,6 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).accept(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LTieConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LTieConsumer<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LTieConsumer<V2, V3> cast(LTieConsumer<?, ?> function) {
-		return (LTieConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default <T> LObjIntObjFunction<T1, T2, T> returning(T value) {
 		return (a1, a2, a3) -> {

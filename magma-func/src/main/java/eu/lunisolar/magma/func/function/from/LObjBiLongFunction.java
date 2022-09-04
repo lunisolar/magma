@@ -333,21 +333,6 @@ public interface LObjBiLongFunction<T, R> extends MetaFunction, MetaInterface.No
 		return (T a1, long a2, long a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjBiLongFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjBiLongFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjBiLongFunction<V2, V3> cast(LObjBiLongFunction<?, ?> function) {
-		return (LObjBiLongFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjBiLongConsumer<T> toConsumer() {
 		return this::apply;

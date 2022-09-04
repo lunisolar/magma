@@ -375,21 +375,6 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> func.apply(a1).apply(a2).apply(a3).test(a4);
 	}
 
-	/** Cast that removes generics. */
-	default LQuadPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4, V5> LQuadPredicate<V2, V3, V4, V5> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5> LQuadPredicate<V2, V3, V4, V5> cast(LQuadPredicate<?, ?, ?, ?> function) {
-		return (LQuadPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LQuadConsumer<T1, T2, T3, T4> toConsumer() {
 		return this::test;

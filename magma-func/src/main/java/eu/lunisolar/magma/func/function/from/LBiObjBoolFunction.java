@@ -333,21 +333,6 @@ public interface LBiObjBoolFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return (T1 a1, T2 a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LBiObjBoolFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4> LBiObjBoolFunction<V2, V3, V4> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4> LBiObjBoolFunction<V2, V3, V4> cast(LBiObjBoolFunction<?, ?, ?> function) {
-		return (LBiObjBoolFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiObjBoolConsumer<T1, T2> toConsumer() {
 		return this::apply;

@@ -333,21 +333,6 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return (T a1, boolean a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjBoolFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3> LObjBoolFunction<V2, V3> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3> LObjBoolFunction<V2, V3> cast(LObjBoolFunction<?, ?> function) {
-		return (LObjBoolFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LObjBoolConsumer<T> toConsumer() {
 		return this::apply;

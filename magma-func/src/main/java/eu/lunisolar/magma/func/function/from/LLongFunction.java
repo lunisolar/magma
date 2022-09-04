@@ -314,21 +314,6 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		fromTill(0, max_a, func);
 	}
 
-	/** Cast that removes generics. */
-	default LLongFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LLongFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LLongFunction<V2> cast(LLongFunction<?> function) {
-		return (LLongFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LLongConsumer toConsumer() {
 		return this::apply;

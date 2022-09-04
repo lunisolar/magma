@@ -313,21 +313,6 @@ public interface LObjCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return (T a1, char a2) -> func.apply(a1).accept(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LObjCharConsumer untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjCharConsumer<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjCharConsumer<V2> cast(LObjCharConsumer<?> function) {
-		return (LObjCharConsumer) function;
-	}
-
 	/** Change function to one with codomain (always returning same value provided in argument). */
 	default LObjCharFunction<T, T> returning(T value) {
 		return (a1, a2) -> {

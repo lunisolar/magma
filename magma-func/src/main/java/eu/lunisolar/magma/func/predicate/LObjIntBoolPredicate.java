@@ -365,21 +365,6 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 		return (T a1, int a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Cast that removes generics. */
-	default LObjIntBoolPredicate untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LObjIntBoolPredicate<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LObjIntBoolPredicate<V2> cast(LObjIntBoolPredicate<?> function) {
-		return (LObjIntBoolPredicate) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LTieBoolConsumer<T> toConsumer() {
 		return this::test;

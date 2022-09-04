@@ -334,21 +334,6 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> func.apply(a1).apply(a2).apply(a3).apply(a4).apply(a5);
 	}
 
-	/** Cast that removes generics. */
-	default LQuintFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2, V3, V4, V5, V6, V7> LQuintFunction<V2, V3, V4, V5, V6, V7> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2, V3, V4, V5, V6, V7> LQuintFunction<V2, V3, V4, V5, V6, V7> cast(LQuintFunction<?, ?, ?, ?, ?, ?> function) {
-		return (LQuintFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LQuintConsumer<T1, T2, T3, T4, T5> toConsumer() {
 		return this::apply;

@@ -320,21 +320,6 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (long a1, long a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Cast that removes generics. */
-	default LBiLongFunction untyped() {
-		return this;
-	}
-
-	/** Cast that replace generics. */
-	default <V2> LBiLongFunction<V2> cast() {
-		return untyped();
-	}
-
-	/** Cast that replace generics. */
-	public static <V2> LBiLongFunction<V2> cast(LBiLongFunction<?> function) {
-		return (LBiLongFunction) function;
-	}
-
 	/** Change function to consumer that ignores output. */
 	default LBiLongConsumer toConsumer() {
 		return this::apply;
