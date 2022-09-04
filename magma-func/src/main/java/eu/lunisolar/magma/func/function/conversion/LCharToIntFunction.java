@@ -334,11 +334,6 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(char a) {
-		return () -> this.applyAsInt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LCharToIntFunction constant(int r) {
 		return a -> r;

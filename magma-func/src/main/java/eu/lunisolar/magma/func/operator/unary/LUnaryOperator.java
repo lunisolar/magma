@@ -636,11 +636,6 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<T> capture(T a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LUnaryOperator<T> constant(T r) {
 		return a -> r;

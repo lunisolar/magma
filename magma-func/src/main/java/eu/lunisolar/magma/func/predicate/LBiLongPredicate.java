@@ -766,26 +766,9 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return a1;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(long a1, long a2) {
-		return () -> this.test(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBiLongPredicate constant(boolean r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LBiLongPredicate test1st(@Nonnull LLongPredicate func) {
-		return (a1, a2) -> func.test(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LBiLongPredicate test2nd(@Nonnull LLongPredicate func) {
-		return (a1, a2) -> func.test(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

@@ -359,26 +359,9 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(char a1, char a2) {
-		return () -> this.apply(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LBiCharFunction<R> constant(R r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <R> LBiCharFunction<R> apply1st(@Nonnull LCharFunction<R> func) {
-		return (a1, a2) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <R> LBiCharFunction<R> apply2nd(@Nonnull LCharFunction<R> func) {
-		return (a1, a2) -> func.apply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

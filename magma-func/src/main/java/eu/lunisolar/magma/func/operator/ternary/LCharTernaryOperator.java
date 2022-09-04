@@ -340,32 +340,9 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(char a1, char a2, char a3) {
-		return () -> this.applyAsChar(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LCharTernaryOperator constant(char r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LCharTernaryOperator apply1stAsChar(@Nonnull LCharUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsChar(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LCharTernaryOperator apply2ndAsChar(@Nonnull LCharUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsChar(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LCharTernaryOperator apply3rdAsChar(@Nonnull LCharUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsChar(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

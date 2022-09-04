@@ -923,11 +923,6 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(T a) {
-		return () -> this.test(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LPredicate<T> constant(boolean r) {
 		return a -> r;

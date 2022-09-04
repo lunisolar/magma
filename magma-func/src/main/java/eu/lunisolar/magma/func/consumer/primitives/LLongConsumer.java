@@ -322,11 +322,6 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(long a) {
-		return () -> this.accept(a);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LLongConsumer longCons(final @Nonnull LLongConsumer lambda) {

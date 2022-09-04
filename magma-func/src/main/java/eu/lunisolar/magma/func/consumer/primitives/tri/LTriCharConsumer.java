@@ -328,29 +328,6 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(char a1, char a2, char a3) {
-		return () -> this.accept(a1, a2, a3);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LTriCharConsumer accept1st(@Nonnull LCharConsumer func) {
-		return (a1, a2, a3) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LTriCharConsumer accept2nd(@Nonnull LCharConsumer func) {
-		return (a1, a2, a3) -> func.accept(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LTriCharConsumer accept3rd(@Nonnull LCharConsumer func) {
-		return (a1, a2, a3) -> func.accept(a3);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LTriCharConsumer triCharCons(final @Nonnull LTriCharConsumer lambda) {

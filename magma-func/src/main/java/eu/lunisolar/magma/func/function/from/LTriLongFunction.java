@@ -359,32 +359,9 @@ public interface LTriLongFunction<R> extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(long a1, long a2, long a3) {
-		return () -> this.apply(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LTriLongFunction<R> constant(R r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <R> LTriLongFunction<R> apply1st(@Nonnull LLongFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <R> LTriLongFunction<R> apply2nd(@Nonnull LLongFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <R> LTriLongFunction<R> apply3rd(@Nonnull LLongFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

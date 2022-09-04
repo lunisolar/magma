@@ -334,11 +334,6 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(char a) {
-		return () -> this.applyAsByte(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LCharToByteFunction constant(byte r) {
 		return a -> r;

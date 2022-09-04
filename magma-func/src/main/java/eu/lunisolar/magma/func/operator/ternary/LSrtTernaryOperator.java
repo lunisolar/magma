@@ -340,32 +340,9 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(short a1, short a2, short a3) {
-		return () -> this.applyAsSrt(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LSrtTernaryOperator constant(short r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LSrtTernaryOperator apply1stAsSrt(@Nonnull LSrtUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsSrt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LSrtTernaryOperator apply2ndAsSrt(@Nonnull LSrtUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsSrt(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LSrtTernaryOperator apply3rdAsSrt(@Nonnull LSrtUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsSrt(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

@@ -761,32 +761,9 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return a1;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(boolean a1, boolean a2, boolean a3) {
-		return () -> this.apply(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLogicalTernaryOperator constant(boolean r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LLogicalTernaryOperator apply1st(@Nonnull LLogicalOperator func) {
-		return (a1, a2, a3) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LLogicalTernaryOperator apply2nd(@Nonnull LLogicalOperator func) {
-		return (a1, a2, a3) -> func.apply(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LLogicalTernaryOperator apply3rd(@Nonnull LLogicalOperator func) {
-		return (a1, a2, a3) -> func.apply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

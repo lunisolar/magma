@@ -328,29 +328,6 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(float a1, float a2, float a3) {
-		return () -> this.accept(a1, a2, a3);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LTriFltConsumer accept1st(@Nonnull LFltConsumer func) {
-		return (a1, a2, a3) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LTriFltConsumer accept2nd(@Nonnull LFltConsumer func) {
-		return (a1, a2, a3) -> func.accept(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LTriFltConsumer accept3rd(@Nonnull LFltConsumer func) {
-		return (a1, a2, a3) -> func.accept(a3);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LTriFltConsumer triFltCons(final @Nonnull LTriFltConsumer lambda) {

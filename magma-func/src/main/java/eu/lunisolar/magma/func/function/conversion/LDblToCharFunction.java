@@ -334,11 +334,6 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(double a) {
-		return () -> this.applyAsChar(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LDblToCharFunction constant(char r) {
 		return a -> r;

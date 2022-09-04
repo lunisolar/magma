@@ -652,11 +652,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T, R> LFunction<T, R> constant(R r) {
 		return a -> r;

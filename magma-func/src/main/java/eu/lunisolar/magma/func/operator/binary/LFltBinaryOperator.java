@@ -340,26 +340,9 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(float a1, float a2) {
-		return () -> this.applyAsFlt(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LFltBinaryOperator constant(float r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LFltBinaryOperator apply1stAsFlt(@Nonnull LFltUnaryOperator func) {
-		return (a1, a2) -> func.applyAsFlt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LFltBinaryOperator apply2ndAsFlt(@Nonnull LFltUnaryOperator func) {
-		return (a1, a2) -> func.applyAsFlt(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

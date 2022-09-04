@@ -374,11 +374,6 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier capture(T a) {
-		return () -> this.applyAsDbl(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LToDblFunction<T> constant(double r) {
 		return a -> r;

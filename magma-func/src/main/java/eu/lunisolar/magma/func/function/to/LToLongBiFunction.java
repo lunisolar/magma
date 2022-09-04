@@ -368,26 +368,9 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(T1 a1, T2 a2) {
-		return () -> this.applyAsLong(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToLongBiFunction<T1, T2> constant(long r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToLongBiFunction<T1, T2> apply1stAsLong(@Nonnull LToLongFunction<T1> func) {
-		return (a1, a2) -> func.applyAsLong(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToLongBiFunction<T1, T2> apply2ndAsLong(@Nonnull LToLongFunction<T2> func) {
-		return (a1, a2) -> func.applyAsLong(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

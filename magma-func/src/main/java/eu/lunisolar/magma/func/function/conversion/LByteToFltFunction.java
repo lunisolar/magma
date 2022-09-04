@@ -334,11 +334,6 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(byte a) {
-		return () -> this.applyAsFlt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LByteToFltFunction constant(float r) {
 		return a -> r;

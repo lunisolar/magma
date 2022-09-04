@@ -334,11 +334,6 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(int a) {
-		return () -> this.applyAsSrt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LIntToSrtFunction constant(short r) {
 		return a -> r;

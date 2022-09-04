@@ -334,11 +334,6 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(boolean a) {
-		return () -> this.applyAsLong(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBoolToLongFunction constant(long r) {
 		return a -> r;

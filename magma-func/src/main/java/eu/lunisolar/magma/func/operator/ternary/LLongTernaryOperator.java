@@ -340,32 +340,9 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(long a1, long a2, long a3) {
-		return () -> this.applyAsLong(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLongTernaryOperator constant(long r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LLongTernaryOperator apply1stAsLong(@Nonnull LLongUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsLong(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LLongTernaryOperator apply2ndAsLong(@Nonnull LLongUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsLong(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LLongTernaryOperator apply3rdAsLong(@Nonnull LLongUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsLong(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

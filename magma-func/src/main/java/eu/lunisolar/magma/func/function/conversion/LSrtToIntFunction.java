@@ -334,11 +334,6 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(short a) {
-		return () -> this.applyAsInt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LSrtToIntFunction constant(int r) {
 		return a -> r;

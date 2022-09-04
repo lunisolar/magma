@@ -334,11 +334,6 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier capture(boolean a) {
-		return () -> this.applyAsDbl(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBoolToDblFunction constant(double r) {
 		return a -> r;

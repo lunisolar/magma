@@ -344,11 +344,6 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier capture(int a) {
-		return () -> this.applyAsDbl(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LIntToDblFunction constant(double r) {
 		return a -> r;

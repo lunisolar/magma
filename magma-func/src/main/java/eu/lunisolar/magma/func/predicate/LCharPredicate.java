@@ -589,11 +589,6 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return a;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(char a) {
-		return () -> this.test(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LCharPredicate constant(boolean r) {
 		return a -> r;

@@ -345,23 +345,6 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T a1, long a2) {
-		return () -> this.accept(a1, a2);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T> LObjLongConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
-		return (a1, a2) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T> LObjLongConsumer<T> accept2nd(@Nonnull LLongConsumer func) {
-		return (a1, a2) -> func.accept(a2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T> LObjLongConsumer<T> objLongCons(final @Nonnull LObjLongConsumer<T> lambda) {

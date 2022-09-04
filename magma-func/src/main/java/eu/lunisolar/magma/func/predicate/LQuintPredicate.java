@@ -1098,44 +1098,9 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-		return () -> this.test(a1, a2, a3, a4, a5);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> constant(boolean r) {
 		return (a1, a2, a3, a4, a5) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> test1st(@Nonnull LPredicate<T1> func) {
-		return (a1, a2, a3, a4, a5) -> func.test(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> test2nd(@Nonnull LPredicate<T2> func) {
-		return (a1, a2, a3, a4, a5) -> func.test(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> test3rd(@Nonnull LPredicate<T3> func) {
-		return (a1, a2, a3, a4, a5) -> func.test(a3);
-	}
-
-	/** Captures single parameter function into this interface where only 4th parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> test4th(@Nonnull LPredicate<T4> func) {
-		return (a1, a2, a3, a4, a5) -> func.test(a4);
-	}
-
-	/** Captures single parameter function into this interface where only 5th parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> test5th(@Nonnull LPredicate<T5> func) {
-		return (a1, a2, a3, a4, a5) -> func.test(a5);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

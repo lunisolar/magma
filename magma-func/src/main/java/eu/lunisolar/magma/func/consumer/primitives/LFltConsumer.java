@@ -322,11 +322,6 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(float a) {
-		return () -> this.accept(a);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LFltConsumer fltCons(final @Nonnull LFltConsumer lambda) {

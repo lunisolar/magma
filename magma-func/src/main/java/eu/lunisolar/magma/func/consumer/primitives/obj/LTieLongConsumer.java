@@ -352,29 +352,6 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T a1, int a2, long a3) {
-		return () -> this.accept(a1, a2, a3);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T> LTieLongConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
-		return (a1, a2, a3) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T> LTieLongConsumer<T> accept2nd(@Nonnull LIntConsumer func) {
-		return (a1, a2, a3) -> func.accept(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T> LTieLongConsumer<T> accept3rd(@Nonnull LLongConsumer func) {
-		return (a1, a2, a3) -> func.accept(a3);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T> LTieLongConsumer<T> tieLongCons(final @Nonnull LTieLongConsumer<T> lambda) {

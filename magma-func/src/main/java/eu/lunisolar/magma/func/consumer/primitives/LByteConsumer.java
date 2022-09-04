@@ -322,11 +322,6 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(byte a) {
-		return () -> this.accept(a);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LByteConsumer byteCons(final @Nonnull LByteConsumer lambda) {

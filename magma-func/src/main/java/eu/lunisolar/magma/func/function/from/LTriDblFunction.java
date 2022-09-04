@@ -359,32 +359,9 @@ public interface LTriDblFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(double a1, double a2, double a3) {
-		return () -> this.apply(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LTriDblFunction<R> constant(R r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <R> LTriDblFunction<R> apply1st(@Nonnull LDblFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <R> LTriDblFunction<R> apply2nd(@Nonnull LDblFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <R> LTriDblFunction<R> apply3rd(@Nonnull LDblFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

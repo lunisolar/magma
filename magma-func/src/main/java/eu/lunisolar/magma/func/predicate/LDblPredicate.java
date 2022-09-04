@@ -589,11 +589,6 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return a;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(double a) {
-		return () -> this.test(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LDblPredicate constant(boolean r) {
 		return a -> r;

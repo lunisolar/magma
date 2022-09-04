@@ -364,11 +364,6 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(T a) {
-		return () -> this.applyAsChar(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LToCharFunction<T> constant(char r) {
 		return a -> r;

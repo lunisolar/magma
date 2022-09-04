@@ -334,11 +334,6 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(byte a) {
-		return () -> this.applyAsSrt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LByteToSrtFunction constant(short r) {
 		return a -> r;

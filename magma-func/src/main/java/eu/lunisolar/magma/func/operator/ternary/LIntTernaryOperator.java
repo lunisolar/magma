@@ -340,32 +340,9 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(int a1, int a2, int a3) {
-		return () -> this.applyAsInt(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LIntTernaryOperator constant(int r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LIntTernaryOperator apply1stAsInt(@Nonnull LIntUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsInt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LIntTernaryOperator apply2ndAsInt(@Nonnull LIntUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsInt(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LIntTernaryOperator apply3rdAsInt(@Nonnull LIntUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsInt(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

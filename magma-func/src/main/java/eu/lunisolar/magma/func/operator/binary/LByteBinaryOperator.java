@@ -340,26 +340,9 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(byte a1, byte a2) {
-		return () -> this.applyAsByte(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LByteBinaryOperator constant(byte r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LByteBinaryOperator apply1stAsByte(@Nonnull LByteUnaryOperator func) {
-		return (a1, a2) -> func.applyAsByte(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LByteBinaryOperator apply2ndAsByte(@Nonnull LByteUnaryOperator func) {
-		return (a1, a2) -> func.applyAsByte(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

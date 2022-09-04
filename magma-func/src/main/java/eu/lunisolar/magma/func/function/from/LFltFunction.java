@@ -353,11 +353,6 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(float a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LFltFunction<R> constant(R r) {
 		return a -> r;

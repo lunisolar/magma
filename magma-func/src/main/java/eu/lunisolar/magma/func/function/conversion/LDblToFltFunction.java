@@ -334,11 +334,6 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(double a) {
-		return () -> this.applyAsFlt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LDblToFltFunction constant(float r) {
 		return a -> r;

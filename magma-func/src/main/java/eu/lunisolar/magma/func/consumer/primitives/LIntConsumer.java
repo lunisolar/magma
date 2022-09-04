@@ -322,11 +322,6 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(int a) {
-		return () -> this.accept(a);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LIntConsumer intCons(final @Nonnull LIntConsumer lambda) {

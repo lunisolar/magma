@@ -334,11 +334,6 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(char a) {
-		return () -> this.applyAsFlt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LCharToFltFunction constant(float r) {
 		return a -> r;

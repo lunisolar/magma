@@ -353,11 +353,6 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(long a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LLongFunction<R> constant(R r) {
 		return a -> r;

@@ -370,32 +370,9 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(T1 a1, int a2, T2 a3) {
-		return () -> this.applyAsInt(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LTieFunction<T1, T2> constant(int r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2> LTieFunction<T1, T2> apply1stAsInt(@Nonnull LToIntFunction<T1> func) {
-		return (a1, a2, a3) -> func.applyAsInt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LTieFunction<T1, T2> apply2ndAsInt(@Nonnull LIntUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsInt(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LTieFunction<T1, T2> apply3rdAsInt(@Nonnull LToIntFunction<T2> func) {
-		return (a1, a2, a3) -> func.applyAsInt(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

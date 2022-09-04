@@ -36,8 +36,6 @@ import java.util.concurrent.atomic.*;
 import static eu.lunisolar.magma.asserts.func.FuncAttests.attestToIntBiFunc;
 import static eu.lunisolar.magma.asserts.func.FuncAttests.attestToIntFunc;
 import static eu.lunisolar.magma.basics.exceptions.Handling.throwThe;
-import static eu.lunisolar.magma.func.function.to.LToIntBiFunction.apply1stAsInt;
-import static eu.lunisolar.magma.func.predicate.LBiPredicate.test1st;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 
 //>transform-to-MD<
@@ -101,12 +99,12 @@ public class Example_Builders_Test {
         LToIntBiFunction<Object, Object> function = LToIntBiFunctionBuilder
                 .toIntBiFunction()
                 .casesOf(Long.class, null, pcp -> pcp
-                        .inCase(test1st(l -> isInIntRange((long) l))).evaluate(apply1stAsInt(Long::intValue))
+                        .inCase((l, a2) -> isInIntRange((long) l)).evaluate((a1, a2) -> a1.intValue())
                         .otherwise((l, o) -> throwThe(new IllegalArgumentException("To large for int."))))
-                .aCase(test1st(s -> s instanceof Short), apply1stAsInt(s -> ((Short) s).intValue()))
-                .aCase(Number.class, null, apply1stAsInt((Number::intValue)))
-                .inCase(test1st(s -> s instanceof String)).evaluate(apply1stAsInt(s -> Integer.parseInt((String) s)))
-                .otherwise(apply1stAsInt(s -> throwThe(new IllegalArgumentException())))
+                .aCase((s, a2) -> s instanceof Short, (s, a2) -> ((Short) s).intValue())
+                .aCase(Number.class, null, (a1, a2) -> a1.intValue())
+                .inCase((s, a2) -> s instanceof String).evaluate((s, a2) -> Integer.parseInt((String) s))
+                .otherwise((s, a2) -> throwThe(new IllegalArgumentException()))
                 .build();
         //>example<
 
@@ -180,8 +178,8 @@ public class Example_Builders_Test {
     //>example<
     @Test
     public <T, V> void testGeneric2() {
-        LToIntTriFunction<T, String, V> function = LToIntTriFunctionBuilder.toIntTriFunctionFrom(b -> b
-                .inCase(LTriPredicate.test2nd(String.class::isInstance)).evaluate((t, s, v) -> Integer.parseInt(s))
+        LToIntTriFunction<T, Object, V> function = LToIntTriFunctionBuilder.toIntTriFunctionFrom(b -> b
+                .inCase((a1, s, a3) -> s instanceof String).evaluate((t, s, v) -> Integer.parseInt((String) s))
                 .otherwise((t, s, v) -> throwThe(new IllegalArgumentException()))
         );
     }

@@ -334,11 +334,6 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(short a) {
-		return () -> this.applyAsChar(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LSrtToCharFunction constant(char r) {
 		return a -> r;

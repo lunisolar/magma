@@ -334,11 +334,6 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(byte a) {
-		return () -> this.applyAsByte(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LByteUnaryOperator constant(byte r) {
 		return a -> r;

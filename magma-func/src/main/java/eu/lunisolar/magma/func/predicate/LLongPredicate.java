@@ -589,11 +589,6 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return a;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(long a) {
-		return () -> this.test(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLongPredicate constant(boolean r) {
 		return a -> r;

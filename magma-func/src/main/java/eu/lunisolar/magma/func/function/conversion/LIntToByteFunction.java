@@ -334,11 +334,6 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(int a) {
-		return () -> this.applyAsByte(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LIntToByteFunction constant(byte r) {
 		return a -> r;

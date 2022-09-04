@@ -343,29 +343,6 @@ public interface LBiObjIntConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T1 a1, T2 a2, int a3) {
-		return () -> this.accept(a1, a2, a3);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2> LBiObjIntConsumer<T1, T2> accept1st(@Nonnull LConsumer<T1> func) {
-		return (a1, a2, a3) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LBiObjIntConsumer<T1, T2> accept2nd(@Nonnull LConsumer<T2> func) {
-		return (a1, a2, a3) -> func.accept(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LBiObjIntConsumer<T1, T2> accept3rd(@Nonnull LIntConsumer func) {
-		return (a1, a2, a3) -> func.accept(a3);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T1, T2> LBiObjIntConsumer<T1, T2> biObjIntCons(final @Nonnull LBiObjIntConsumer<T1, T2> lambda) {

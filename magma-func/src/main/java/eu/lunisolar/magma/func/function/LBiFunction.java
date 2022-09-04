@@ -656,26 +656,9 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T1 a1, T2 a2) {
-		return () -> this.apply(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2, R> LBiFunction<T1, T2, R> constant(R r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2, R> LBiFunction<T1, T2, R> apply1st(@Nonnull LFunction<T1, R> func) {
-		return (a1, a2) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2, R> LBiFunction<T1, T2, R> apply2nd(@Nonnull LFunction<T2, R> func) {
-		return (a1, a2) -> func.apply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

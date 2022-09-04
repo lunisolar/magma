@@ -364,11 +364,6 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(T a) {
-		return () -> this.applyAsInt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LToIntFunction<T> constant(int r) {
 		return a -> r;

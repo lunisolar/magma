@@ -334,11 +334,6 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(long a) {
-		return () -> this.applyAsLong(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLongUnaryOperator constant(long r) {
 		return a -> r;

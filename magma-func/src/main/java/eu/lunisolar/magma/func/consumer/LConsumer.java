@@ -621,11 +621,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T a) {
-		return () -> this.accept(a);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T> LConsumer<T> cons(final @Nonnull LConsumer<T> lambda) {

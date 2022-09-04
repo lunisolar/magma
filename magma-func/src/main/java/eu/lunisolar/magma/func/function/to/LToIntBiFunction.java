@@ -368,26 +368,9 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(T1 a1, T2 a2) {
-		return () -> this.applyAsInt(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToIntBiFunction<T1, T2> constant(int r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToIntBiFunction<T1, T2> apply1stAsInt(@Nonnull LToIntFunction<T1> func) {
-		return (a1, a2) -> func.applyAsInt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToIntBiFunction<T1, T2> apply2ndAsInt(@Nonnull LToIntFunction<T2> func) {
-		return (a1, a2) -> func.applyAsInt(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

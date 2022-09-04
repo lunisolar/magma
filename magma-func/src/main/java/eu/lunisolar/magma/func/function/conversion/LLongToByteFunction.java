@@ -334,11 +334,6 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(long a) {
-		return () -> this.applyAsByte(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLongToByteFunction constant(byte r) {
 		return a -> r;

@@ -794,32 +794,9 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return a1;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(T1 a1, T2 a2, float a3) {
-		return () -> this.test(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LBiObjFltPredicate<T1, T2> constant(boolean r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2> LBiObjFltPredicate<T1, T2> test1st(@Nonnull LPredicate<T1> func) {
-		return (a1, a2, a3) -> func.test(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LBiObjFltPredicate<T1, T2> test2nd(@Nonnull LPredicate<T2> func) {
-		return (a1, a2, a3) -> func.test(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LBiObjFltPredicate<T1, T2> test3rd(@Nonnull LFltPredicate func) {
-		return (a1, a2, a3) -> func.test(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

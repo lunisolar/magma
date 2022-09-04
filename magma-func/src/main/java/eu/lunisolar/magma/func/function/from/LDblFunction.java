@@ -353,11 +353,6 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(double a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LDblFunction<R> constant(R r) {
 		return a -> r;

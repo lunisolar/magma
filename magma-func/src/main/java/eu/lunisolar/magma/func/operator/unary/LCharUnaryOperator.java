@@ -334,11 +334,6 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(char a) {
-		return () -> this.applyAsChar(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LCharUnaryOperator constant(char r) {
 		return a -> r;

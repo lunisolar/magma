@@ -353,11 +353,6 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(boolean a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LBoolFunction<R> constant(R r) {
 		return a -> r;

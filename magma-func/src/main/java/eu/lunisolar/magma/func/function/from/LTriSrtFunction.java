@@ -359,32 +359,9 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(short a1, short a2, short a3) {
-		return () -> this.apply(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LTriSrtFunction<R> constant(R r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <R> LTriSrtFunction<R> apply1st(@Nonnull LSrtFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <R> LTriSrtFunction<R> apply2nd(@Nonnull LSrtFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <R> LTriSrtFunction<R> apply3rd(@Nonnull LSrtFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

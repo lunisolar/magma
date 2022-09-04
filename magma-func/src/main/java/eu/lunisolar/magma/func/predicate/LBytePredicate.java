@@ -589,11 +589,6 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return a;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(byte a) {
-		return () -> this.test(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBytePredicate constant(boolean r) {
 		return a -> r;

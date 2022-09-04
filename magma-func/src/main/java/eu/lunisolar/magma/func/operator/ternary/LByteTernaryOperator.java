@@ -340,32 +340,9 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(byte a1, byte a2, byte a3) {
-		return () -> this.applyAsByte(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LByteTernaryOperator constant(byte r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LByteTernaryOperator apply1stAsByte(@Nonnull LByteUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsByte(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LByteTernaryOperator apply2ndAsByte(@Nonnull LByteUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsByte(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LByteTernaryOperator apply3rdAsByte(@Nonnull LByteUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsByte(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

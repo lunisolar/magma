@@ -334,11 +334,6 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(double a) {
-		return () -> this.applyAsSrt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LDblToSrtFunction constant(short r) {
 		return a -> r;

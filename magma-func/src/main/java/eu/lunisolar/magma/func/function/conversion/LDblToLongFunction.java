@@ -334,11 +334,6 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(double a) {
-		return () -> this.applyAsLong(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LDblToLongFunction constant(long r) {
 		return a -> r;

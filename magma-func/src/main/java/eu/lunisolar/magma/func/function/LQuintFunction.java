@@ -660,44 +660,9 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-		return () -> this.apply(a1, a2, a3, a4, a5);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> constant(R r) {
 		return (a1, a2, a3, a4, a5) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> apply1st(@Nonnull LFunction<T1, R> func) {
-		return (a1, a2, a3, a4, a5) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> apply2nd(@Nonnull LFunction<T2, R> func) {
-		return (a1, a2, a3, a4, a5) -> func.apply(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> apply3rd(@Nonnull LFunction<T3, R> func) {
-		return (a1, a2, a3, a4, a5) -> func.apply(a3);
-	}
-
-	/** Captures single parameter function into this interface where only 4th parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> apply4th(@Nonnull LFunction<T4, R> func) {
-		return (a1, a2, a3, a4, a5) -> func.apply(a4);
-	}
-
-	/** Captures single parameter function into this interface where only 5th parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> apply5th(@Nonnull LFunction<T5, R> func) {
-		return (a1, a2, a3, a4, a5) -> func.apply(a5);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

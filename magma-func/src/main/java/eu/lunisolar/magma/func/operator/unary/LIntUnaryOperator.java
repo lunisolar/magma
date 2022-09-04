@@ -334,11 +334,6 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(int a) {
-		return () -> this.applyAsInt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LIntUnaryOperator constant(int r) {
 		return a -> r;

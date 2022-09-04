@@ -345,23 +345,6 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T a1, byte a2) {
-		return () -> this.accept(a1, a2);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T> LObjByteConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
-		return (a1, a2) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T> LObjByteConsumer<T> accept2nd(@Nonnull LByteConsumer func) {
-		return (a1, a2) -> func.accept(a2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T> LObjByteConsumer<T> objByteCons(final @Nonnull LObjByteConsumer<T> lambda) {

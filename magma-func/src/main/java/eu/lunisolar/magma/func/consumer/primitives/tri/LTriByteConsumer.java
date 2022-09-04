@@ -328,29 +328,6 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(byte a1, byte a2, byte a3) {
-		return () -> this.accept(a1, a2, a3);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LTriByteConsumer accept1st(@Nonnull LByteConsumer func) {
-		return (a1, a2, a3) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LTriByteConsumer accept2nd(@Nonnull LByteConsumer func) {
-		return (a1, a2, a3) -> func.accept(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LTriByteConsumer accept3rd(@Nonnull LByteConsumer func) {
-		return (a1, a2, a3) -> func.accept(a3);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LTriByteConsumer triByteCons(final @Nonnull LTriByteConsumer lambda) {

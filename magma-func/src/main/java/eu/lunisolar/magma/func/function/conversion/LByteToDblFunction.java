@@ -334,11 +334,6 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier capture(byte a) {
-		return () -> this.applyAsDbl(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LByteToDblFunction constant(double r) {
 		return a -> r;

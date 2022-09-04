@@ -320,23 +320,6 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(long a1, int a2) {
-		return () -> this.accept(a1, a2);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LLongIntConsumer accept1st(@Nonnull LLongConsumer func) {
-		return (a1, a2) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LLongIntConsumer accept2nd(@Nonnull LIntConsumer func) {
-		return (a1, a2) -> func.accept(a2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LLongIntConsumer longIntCons(final @Nonnull LLongIntConsumer lambda) {

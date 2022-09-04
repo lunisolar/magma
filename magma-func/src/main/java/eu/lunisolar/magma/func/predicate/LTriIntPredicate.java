@@ -756,32 +756,9 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return a1;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(int a1, int a2, int a3) {
-		return () -> this.test(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LTriIntPredicate constant(boolean r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LTriIntPredicate test1st(@Nonnull LIntPredicate func) {
-		return (a1, a2, a3) -> func.test(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LTriIntPredicate test2nd(@Nonnull LIntPredicate func) {
-		return (a1, a2, a3) -> func.test(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LTriIntPredicate test3rd(@Nonnull LIntPredicate func) {
-		return (a1, a2, a3) -> func.test(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

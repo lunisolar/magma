@@ -334,11 +334,6 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(float a) {
-		return () -> this.applyAsFlt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LFltUnaryOperator constant(float r) {
 		return a -> r;

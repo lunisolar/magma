@@ -344,11 +344,6 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier capture(double a) {
-		return () -> this.applyAsDbl(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LDblUnaryOperator constant(double r) {
 		return a -> r;

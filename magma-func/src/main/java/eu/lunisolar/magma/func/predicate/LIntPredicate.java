@@ -599,11 +599,6 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		return a;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(int a) {
-		return () -> this.test(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LIntPredicate constant(boolean r) {
 		return a -> r;

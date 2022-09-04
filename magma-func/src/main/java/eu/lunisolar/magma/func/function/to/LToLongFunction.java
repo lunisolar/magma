@@ -364,11 +364,6 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(T a) {
-		return () -> this.applyAsLong(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LToLongFunction<T> constant(long r) {
 		return a -> r;

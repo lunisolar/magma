@@ -630,41 +630,6 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-		return () -> this.accept(a1, a2, a3, a4, a5);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> accept1st(@Nonnull LConsumer<T1> func) {
-		return (a1, a2, a3, a4, a5) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> accept2nd(@Nonnull LConsumer<T2> func) {
-		return (a1, a2, a3, a4, a5) -> func.accept(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> accept3rd(@Nonnull LConsumer<T3> func) {
-		return (a1, a2, a3, a4, a5) -> func.accept(a3);
-	}
-
-	/** Captures single parameter function into this interface where only 4th parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> accept4th(@Nonnull LConsumer<T4> func) {
-		return (a1, a2, a3, a4, a5) -> func.accept(a4);
-	}
-
-	/** Captures single parameter function into this interface where only 5th parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> accept5th(@Nonnull LConsumer<T5> func) {
-		return (a1, a2, a3, a4, a5) -> func.accept(a5);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> quintCons(final @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> lambda) {

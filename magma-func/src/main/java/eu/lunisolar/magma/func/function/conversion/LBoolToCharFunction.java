@@ -334,11 +334,6 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(boolean a) {
-		return () -> this.applyAsChar(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBoolToCharFunction constant(char r) {
 		return a -> r;

@@ -364,11 +364,6 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(T a) {
-		return () -> this.applyAsFlt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LToFltFunction<T> constant(float r) {
 		return a -> r;

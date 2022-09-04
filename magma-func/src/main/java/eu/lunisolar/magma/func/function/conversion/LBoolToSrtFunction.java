@@ -334,11 +334,6 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(boolean a) {
-		return () -> this.applyAsSrt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBoolToSrtFunction constant(short r) {
 		return a -> r;

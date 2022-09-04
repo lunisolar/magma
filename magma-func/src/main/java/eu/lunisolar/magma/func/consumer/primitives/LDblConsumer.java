@@ -322,11 +322,6 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(double a) {
-		return () -> this.accept(a);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LDblConsumer dblCons(final @Nonnull LDblConsumer lambda) {

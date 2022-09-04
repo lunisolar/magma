@@ -328,23 +328,6 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(float a1, float a2) {
-		return () -> this.accept(a1, a2);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LBiFltConsumer accept1st(@Nonnull LFltConsumer func) {
-		return (a1, a2) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LBiFltConsumer accept2nd(@Nonnull LFltConsumer func) {
-		return (a1, a2) -> func.accept(a2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static LBiFltConsumer biFltCons(final @Nonnull LBiFltConsumer lambda) {

@@ -372,32 +372,9 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T a1, int a2, float a3) {
-		return () -> this.apply(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T, R> LObjIntFltFunction<T, R> constant(R r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T, R> LObjIntFltFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
-		return (a1, a2, a3) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T, R> LObjIntFltFunction<T, R> apply2nd(@Nonnull LIntFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T, R> LObjIntFltFunction<T, R> apply3rd(@Nonnull LFltFunction<R> func) {
-		return (a1, a2, a3) -> func.apply(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

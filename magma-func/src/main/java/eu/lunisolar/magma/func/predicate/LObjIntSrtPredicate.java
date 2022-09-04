@@ -790,32 +790,9 @@ public interface LObjIntSrtPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return a1;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(T a1, int a2, short a3) {
-		return () -> this.test(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LObjIntSrtPredicate<T> constant(boolean r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T> LObjIntSrtPredicate<T> test1st(@Nonnull LPredicate<T> func) {
-		return (a1, a2, a3) -> func.test(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T> LObjIntSrtPredicate<T> test2nd(@Nonnull LIntPredicate func) {
-		return (a1, a2, a3) -> func.test(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T> LObjIntSrtPredicate<T> test3rd(@Nonnull LSrtPredicate func) {
-		return (a1, a2, a3) -> func.test(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

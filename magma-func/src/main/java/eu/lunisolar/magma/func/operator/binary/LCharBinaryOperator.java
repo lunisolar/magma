@@ -340,26 +340,9 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(char a1, char a2) {
-		return () -> this.applyAsChar(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LCharBinaryOperator constant(char r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LCharBinaryOperator apply1stAsChar(@Nonnull LCharUnaryOperator func) {
-		return (a1, a2) -> func.applyAsChar(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LCharBinaryOperator apply2ndAsChar(@Nonnull LCharUnaryOperator func) {
-		return (a1, a2) -> func.applyAsChar(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

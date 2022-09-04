@@ -340,26 +340,9 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(long a1, long a2) {
-		return () -> this.applyAsLong(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLongBinaryOperator constant(long r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LLongBinaryOperator apply1stAsLong(@Nonnull LLongUnaryOperator func) {
-		return (a1, a2) -> func.applyAsLong(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LLongBinaryOperator apply2ndAsLong(@Nonnull LLongUnaryOperator func) {
-		return (a1, a2) -> func.applyAsLong(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

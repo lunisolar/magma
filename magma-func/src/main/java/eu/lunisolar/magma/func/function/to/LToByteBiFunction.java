@@ -368,26 +368,9 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(T1 a1, T2 a2) {
-		return () -> this.applyAsByte(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToByteBiFunction<T1, T2> constant(byte r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToByteBiFunction<T1, T2> apply1stAsByte(@Nonnull LToByteFunction<T1> func) {
-		return (a1, a2) -> func.applyAsByte(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToByteBiFunction<T1, T2> apply2ndAsByte(@Nonnull LToByteFunction<T2> func) {
-		return (a1, a2) -> func.applyAsByte(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

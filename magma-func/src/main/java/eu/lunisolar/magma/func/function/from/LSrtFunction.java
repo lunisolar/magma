@@ -353,11 +353,6 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(short a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LSrtFunction<R> constant(R r) {
 		return a -> r;

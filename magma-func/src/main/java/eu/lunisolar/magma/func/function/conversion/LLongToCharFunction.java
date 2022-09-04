@@ -334,11 +334,6 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(long a) {
-		return () -> this.applyAsChar(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLongToCharFunction constant(char r) {
 		return a -> r;

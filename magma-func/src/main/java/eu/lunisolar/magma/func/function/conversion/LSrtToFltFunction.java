@@ -334,11 +334,6 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(short a) {
-		return () -> this.applyAsFlt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LSrtToFltFunction constant(float r) {
 		return a -> r;

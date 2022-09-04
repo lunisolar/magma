@@ -334,11 +334,6 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(short a) {
-		return () -> this.applyAsLong(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LSrtToLongFunction constant(long r) {
 		return a -> r;

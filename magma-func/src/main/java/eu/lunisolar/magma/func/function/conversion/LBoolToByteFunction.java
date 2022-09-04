@@ -334,11 +334,6 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(boolean a) {
-		return () -> this.applyAsByte(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBoolToByteFunction constant(byte r) {
 		return a -> r;

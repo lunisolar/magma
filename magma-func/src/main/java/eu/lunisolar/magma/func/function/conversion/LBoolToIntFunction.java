@@ -334,11 +334,6 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(boolean a) {
-		return () -> this.applyAsInt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LBoolToIntFunction constant(int r) {
 		return a -> r;

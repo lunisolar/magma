@@ -334,11 +334,6 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(short a) {
-		return () -> this.applyAsSrt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LSrtUnaryOperator constant(short r) {
 		return a -> r;

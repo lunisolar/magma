@@ -378,26 +378,9 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier capture(T1 a1, T2 a2) {
-		return () -> this.applyAsDbl(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T1, T2> LToDblBiFunction<T1, T2> constant(double r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToDblBiFunction<T1, T2> apply1stAsDbl(@Nonnull LToDblFunction<T1> func) {
-		return (a1, a2) -> func.applyAsDbl(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2> LToDblBiFunction<T1, T2> apply2ndAsDbl(@Nonnull LToDblFunction<T2> func) {
-		return (a1, a2) -> func.applyAsDbl(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

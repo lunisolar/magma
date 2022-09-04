@@ -588,11 +588,6 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return a;
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LBoolSupplier capture(boolean a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLogicalOperator constant(boolean r) {
 		return a -> r;

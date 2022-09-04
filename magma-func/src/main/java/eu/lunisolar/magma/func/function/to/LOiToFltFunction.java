@@ -370,26 +370,9 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(T a1, int a2) {
-		return () -> this.applyAsFlt(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LOiToFltFunction<T> constant(float r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T> LOiToFltFunction<T> apply1stAsFlt(@Nonnull LToFltFunction<T> func) {
-		return (a1, a2) -> func.applyAsFlt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T> LOiToFltFunction<T> apply2ndAsFlt(@Nonnull LIntToFltFunction func) {
-		return (a1, a2) -> func.applyAsFlt(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

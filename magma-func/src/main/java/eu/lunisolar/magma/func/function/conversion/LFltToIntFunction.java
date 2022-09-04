@@ -334,11 +334,6 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(float a) {
-		return () -> this.applyAsInt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LFltToIntFunction constant(int r) {
 		return a -> r;

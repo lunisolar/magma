@@ -628,35 +628,6 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 
 	// </editor-fold>
 
-	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T1 a1, T2 a2, T3 a3, T4 a4) {
-		return () -> this.accept(a1, a2, a3, a4);
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> accept1st(@Nonnull LConsumer<T1> func) {
-		return (a1, a2, a3, a4) -> func.accept(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> accept2nd(@Nonnull LConsumer<T2> func) {
-		return (a1, a2, a3, a4) -> func.accept(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> accept3rd(@Nonnull LConsumer<T3> func) {
-		return (a1, a2, a3, a4) -> func.accept(a3);
-	}
-
-	/** Captures single parameter function into this interface where only 4th parameter will be used. */
-	@Nonnull
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> accept4th(@Nonnull LConsumer<T4> func) {
-		return (a1, a2, a3, a4) -> func.accept(a4);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> quadCons(final @Nonnull LQuadConsumer<T1, T2, T3, T4> lambda) {

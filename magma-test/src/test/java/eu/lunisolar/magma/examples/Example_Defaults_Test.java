@@ -125,7 +125,7 @@ public class Example_Defaults_Test {
     //>example<
     @Test
     public void wrapJre() {
-        Function<String, String> f1 = s-> s;
+        Function<String, String>  f1 = s -> s;
         LFunction<String, String> f2 = LFunction.wrap(f1);
     }
     //>example<
@@ -162,8 +162,8 @@ public class Example_Defaults_Test {
         LBinaryOperator<Integer> badFunction = Math::addExact;
 
         attestBinaryOp(badFunction)
-                   .doesApply(2, 5).asEqualTo(7)
-                   .doesApply(null, 7).withException(e -> e.must$(Be::exactlyInstanceOf$, NullPointerException.class));
+                .doesApply(2, 5).asEqualTo(7)
+                .doesApply(null, 7).withException(e -> e.must$(Be::exactlyInstanceOf$, NullPointerException.class));
 
     }
     //>example<
@@ -233,7 +233,7 @@ public class Example_Defaults_Test {
     @Test
     public void untyped() {
         List<LConsumer<Integer>> list = new ArrayList<>();
-        LConsumer<?> f1 = LConsumer::doNothing;
+        LConsumer<?>             f1   = LConsumer::doNothing;
 
         list.add(f1.untyped());                 // untyped changes compilation error to warning
         list.add(f1.cast());                    // cast make sure there are no complains
@@ -278,7 +278,7 @@ public class Example_Defaults_Test {
     public void capture() {
 
         LUnaryOperator<String> f1 = s -> s;
-        LSupplier<String> f2 = f1.capture("345");
+        LSupplier<String> f2 = () -> f1.apply("345");
 
         attestSup(f2).doesGet().asEqualTo("345");
     }
@@ -320,7 +320,7 @@ public class Example_Defaults_Test {
     public void memento() {
         LLongUnaryOperator originalFunction = i -> i; // lets keep it simple
 
-        LLongUnaryOperator.M sum = LLongUnaryOperator.memento(0, 0, originalFunction, (lastR_bis, lastR, r) -> lastR_bis + r);
+        LLongUnaryOperator.M sum   = LLongUnaryOperator.memento(0, 0, originalFunction, (lastR_bis, lastR, r) -> lastR_bis + r);
         LLongUnaryOperator.M delta = LLongUnaryOperator.memento(0, 0, originalFunction, (lastR_bis, lastR, r) -> r - lastR);
 
         attestLongUnaryOp(sum)
@@ -340,7 +340,7 @@ public class Example_Defaults_Test {
     //>example<
 
     /**
-     *  An example that actually could be used more frequently is:
+     * An example that actually could be used more frequently is:
      */
     //>example<
     @Test

@@ -353,11 +353,6 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(byte a) {
-		return () -> this.apply(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LByteFunction<R> constant(R r) {
 		return a -> r;

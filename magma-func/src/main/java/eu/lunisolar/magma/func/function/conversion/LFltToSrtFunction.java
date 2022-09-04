@@ -334,11 +334,6 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(float a) {
-		return () -> this.applyAsSrt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LFltToSrtFunction constant(short r) {
 		return a -> r;

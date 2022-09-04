@@ -334,11 +334,6 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(int a) {
-		return () -> this.applyAsLong(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LIntToLongFunction constant(long r) {
 		return a -> r;

@@ -350,26 +350,9 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LDblSupplier capture(double a1, double a2) {
-		return () -> this.applyAsDbl(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LDblBinaryOperator constant(double r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LDblBinaryOperator apply1stAsDbl(@Nonnull LDblUnaryOperator func) {
-		return (a1, a2) -> func.applyAsDbl(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LDblBinaryOperator apply2ndAsDbl(@Nonnull LDblUnaryOperator func) {
-		return (a1, a2) -> func.applyAsDbl(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

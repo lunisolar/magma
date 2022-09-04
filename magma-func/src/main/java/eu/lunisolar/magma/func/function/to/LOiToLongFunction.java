@@ -370,26 +370,9 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(T a1, int a2) {
-		return () -> this.applyAsLong(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T> LOiToLongFunction<T> constant(long r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T> LOiToLongFunction<T> apply1stAsLong(@Nonnull LToLongFunction<T> func) {
-		return (a1, a2) -> func.applyAsLong(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T> LOiToLongFunction<T> apply2ndAsLong(@Nonnull LIntToLongFunction func) {
-		return (a1, a2) -> func.applyAsLong(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

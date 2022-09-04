@@ -359,26 +359,9 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(double a1, double a2) {
-		return () -> this.apply(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <R> LBiDblFunction<R> constant(R r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <R> LBiDblFunction<R> apply1st(@Nonnull LDblFunction<R> func) {
-		return (a1, a2) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <R> LBiDblFunction<R> apply2nd(@Nonnull LDblFunction<R> func) {
-		return (a1, a2) -> func.apply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

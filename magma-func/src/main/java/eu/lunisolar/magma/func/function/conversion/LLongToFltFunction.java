@@ -334,11 +334,6 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(long a) {
-		return () -> this.applyAsFlt(a);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LLongToFltFunction constant(float r) {
 		return a -> r;

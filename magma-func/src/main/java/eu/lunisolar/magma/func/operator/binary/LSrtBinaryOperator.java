@@ -340,26 +340,9 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSrtSupplier capture(short a1, short a2) {
-		return () -> this.applyAsSrt(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LSrtBinaryOperator constant(short r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LSrtBinaryOperator apply1stAsSrt(@Nonnull LSrtUnaryOperator func) {
-		return (a1, a2) -> func.applyAsSrt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LSrtBinaryOperator apply2ndAsSrt(@Nonnull LSrtUnaryOperator func) {
-		return (a1, a2) -> func.applyAsSrt(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

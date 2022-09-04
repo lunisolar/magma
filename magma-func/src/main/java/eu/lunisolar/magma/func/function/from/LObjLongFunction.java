@@ -372,26 +372,9 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T a1, long a2) {
-		return () -> this.apply(a1, a2);
-	}
-
 	/** Creates function that always returns the same value. */
 	static <T, R> LObjLongFunction<T, R> constant(R r) {
 		return (a1, a2) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static <T, R> LObjLongFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
-		return (a1, a2) -> func.apply(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static <T, R> LObjLongFunction<T, R> apply2nd(@Nonnull LLongFunction<R> func) {
-		return (a1, a2) -> func.apply(a2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */

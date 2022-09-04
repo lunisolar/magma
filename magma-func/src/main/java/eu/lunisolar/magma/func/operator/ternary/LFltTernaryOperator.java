@@ -340,32 +340,9 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		};
 	}
 
-	/** Captures arguments but delays the evaluation. */
-	default LFltSupplier capture(float a1, float a2, float a3) {
-		return () -> this.applyAsFlt(a1, a2, a3);
-	}
-
 	/** Creates function that always returns the same value. */
 	static LFltTernaryOperator constant(float r) {
 		return (a1, a2, a3) -> r;
-	}
-
-	/** Captures single parameter function into this interface where only 1st parameter will be used. */
-	@Nonnull
-	static LFltTernaryOperator apply1stAsFlt(@Nonnull LFltUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsFlt(a1);
-	}
-
-	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
-	@Nonnull
-	static LFltTernaryOperator apply2ndAsFlt(@Nonnull LFltUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsFlt(a2);
-	}
-
-	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
-	@Nonnull
-	static LFltTernaryOperator apply3rdAsFlt(@Nonnull LFltUnaryOperator func) {
-		return (a1, a2, a3) -> func.applyAsFlt(a3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
