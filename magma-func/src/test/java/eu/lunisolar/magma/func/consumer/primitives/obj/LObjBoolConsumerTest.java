@@ -265,19 +265,4 @@ public class LObjBoolConsumerTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLBoolObjCons(boolean a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLBoolObjCons() {
-        LObjBoolConsumer lambda = LObjBoolConsumer./*<T>*/boolObjCons(this::variantLBoolObjCons);
-
-        Assert.assertTrue(lambda instanceof LObjBoolConsumer.LBoolObjCons);
-    }
-
-    //</editor-fold>
-
-
 }

@@ -368,20 +368,4 @@ public class LObjByteFunctionTest<T,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLByteObjFunc(byte a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLByteObjFunc() {
-        LObjByteFunction lambda = LObjByteFunction./*<T,R>*/byteObjFunc(this::variantLByteObjFunc);
-
-        Assert.assertTrue(lambda instanceof LObjByteFunction.LByteObjFunc);
-    }
-
-    //</editor-fold>
-
-
 }

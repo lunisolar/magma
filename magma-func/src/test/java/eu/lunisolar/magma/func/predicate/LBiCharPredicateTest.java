@@ -412,20 +412,4 @@ public class LBiCharPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLChar1Char0Pred(char a2,char a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLChar1Char0Pred() {
-        LBiCharPredicate lambda = LBiCharPredicate./**/char1Char0Pred(this::variantLChar1Char0Pred);
-
-        Assert.assertTrue(lambda instanceof LBiCharPredicate.LChar1Char0Pred);
-    }
-
-    //</editor-fold>
-
-
 }

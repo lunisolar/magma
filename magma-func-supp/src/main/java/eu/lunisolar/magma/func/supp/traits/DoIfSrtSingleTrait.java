@@ -137,28 +137,6 @@ public interface DoIfSrtSingleTrait<SELF extends DoIfSrtSingleTrait<SELF>> exten
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, @Nonnull LSrtConsumer action) {
-		if (is_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, @Nonnull LSrtConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, @Nonnull LSrtConsumer action) {
-		if (isNot_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, @Nonnull LSrtConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
 		if (isWithSrt(with1, predicate))
 			action.accept(value());

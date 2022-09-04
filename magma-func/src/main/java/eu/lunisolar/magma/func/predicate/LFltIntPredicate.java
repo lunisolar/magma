@@ -717,17 +717,6 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LFltIntPredicate.LIntFltPred intFltPred(final @Nonnull LFltIntPredicate.LIntFltPred lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static boolean call(float a1, int a2, final @Nonnull LFltIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -862,37 +851,6 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LFltIntPredicate for method references. */
-	@FunctionalInterface
-	interface LIntFltPred extends LFltIntPredicate {
-
-		/**
-		 * Implement this, but call test(float a1,int a2)
-		 */
-		default boolean testX(float a1, int a2) {
-			return this.testIntFlt(a2, a1);
-		}
-
-		// boolean testIntFlt(int a2,float a1) ;
-		default boolean testIntFlt(int a2, float a1) {
-			// return nestingTestIntFlt(a2,a1);
-			try {
-				return this.testIntFltX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testIntFlt(int a2,float a1)
-		 */
-		boolean testIntFltX(int a2, float a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

@@ -377,20 +377,4 @@ public class LObjBytePredicateTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLByteObjPred(byte a2,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLByteObjPred() {
-        LObjBytePredicate lambda = LObjBytePredicate./*<T>*/byteObjPred(this::variantLByteObjPred);
-
-        Assert.assertTrue(lambda instanceof LObjBytePredicate.LByteObjPred);
-    }
-
-    //</editor-fold>
-
-
 }

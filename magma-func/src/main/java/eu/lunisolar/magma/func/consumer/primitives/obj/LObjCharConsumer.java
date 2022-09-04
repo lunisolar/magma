@@ -376,17 +376,6 @@ public interface LObjCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjCharConsumer.LCharObjCons<T> charObjCons(final @Nonnull LObjCharConsumer.LCharObjCons<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> void call(T a1, char a2, final @Nonnull LObjCharConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -442,44 +431,8 @@ public interface LObjCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjCharConsumer for method references. */
-	@FunctionalInterface
-	interface LCharObjCons<T> extends LObjCharConsumer<T> {
-
-		/**
-		 * Implement this, but call accept(T a1,char a2)
-		 */
-		default void acceptX(T a1, char a2) {
-			this.acceptCharObj(a2, a1);
-		}
-
-		// void acceptCharObj(char a2,T a1) ;
-		default void acceptCharObj(char a2, T a1) {
-			// nestingAcceptCharObj(a2,a1);
-			try {
-				this.acceptCharObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptCharObj(char a2,T a1)
-		 */
-		void acceptCharObjX(char a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LObjCharConsumer) */
 	public static <T> void doNothing(T a1, char a2) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LObjCharConsumer.LCharObjCons) */
-	public static <T> void doNothing(char a2, T a1) {
 		// NOSONAR
 	}
 

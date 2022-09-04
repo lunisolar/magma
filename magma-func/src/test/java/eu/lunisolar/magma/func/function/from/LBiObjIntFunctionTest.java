@@ -383,44 +383,4 @@ public class LBiObjIntFunctionTest<T1,T2,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLObj1Obj0Int2Func(Integer a2,Integer a1,int a3) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Obj0Int2Func() {
-        LBiObjIntFunction lambda = LBiObjIntFunction./*<T1,T2,R>*/obj1Obj0Int2Func(this::variantLObj1Obj0Int2Func);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntFunction.LObj1Obj0Int2Func);
-    }
-
-
-    private Integer variantLInt2Obj0Obj1Func(int a3,Integer a1,Integer a2) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt2Obj0Obj1Func() {
-        LBiObjIntFunction lambda = LBiObjIntFunction./*<T1,T2,R>*/int2Obj0Obj1Func(this::variantLInt2Obj0Obj1Func);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntFunction.LInt2Obj0Obj1Func);
-    }
-
-
-    private Integer variantLInt2Obj1Obj0Func(int a3,Integer a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt2Obj1Obj0Func() {
-        LBiObjIntFunction lambda = LBiObjIntFunction./*<T1,T2,R>*/int2Obj1Obj0Func(this::variantLInt2Obj1Obj0Func);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntFunction.LInt2Obj1Obj0Func);
-    }
-
-    //</editor-fold>
-
-
 }

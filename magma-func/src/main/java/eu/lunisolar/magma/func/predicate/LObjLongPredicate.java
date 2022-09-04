@@ -892,17 +892,6 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjLongPredicate.LLongObjPred<T> longObjPred(final @Nonnull LObjLongPredicate.LLongObjPred<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> boolean call(T a1, long a2, final @Nonnull LObjLongPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -1044,37 +1033,6 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjLongPredicate for method references. */
-	@FunctionalInterface
-	interface LLongObjPred<T> extends LObjLongPredicate<T> {
-
-		/**
-		 * Implement this, but call test(T a1,long a2)
-		 */
-		default boolean testX(T a1, long a2) {
-			return this.testLongObj(a2, a1);
-		}
-
-		// boolean testLongObj(long a2,T a1) ;
-		default boolean testLongObj(long a2, T a1) {
-			// return nestingTestLongObj(a2,a1);
-			try {
-				return this.testLongObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testLongObj(long a2,T a1)
-		 */
-		boolean testLongObjX(long a2, T a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

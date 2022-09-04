@@ -238,19 +238,4 @@ public class LBiConsumerTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLObj1Obj0Cons(Integer a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Obj0Cons() {
-        LBiConsumer lambda = LBiConsumer./*<T1,T2>*/obj1Obj0Cons(this::variantLObj1Obj0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiConsumer.LObj1Obj0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

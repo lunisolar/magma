@@ -717,17 +717,6 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LByteIntPredicate.LIntBytePred intBytePred(final @Nonnull LByteIntPredicate.LIntBytePred lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static boolean call(byte a1, int a2, final @Nonnull LByteIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -862,37 +851,6 @@ public interface LByteIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LByteIntPredicate for method references. */
-	@FunctionalInterface
-	interface LIntBytePred extends LByteIntPredicate {
-
-		/**
-		 * Implement this, but call test(byte a1,int a2)
-		 */
-		default boolean testX(byte a1, int a2) {
-			return this.testIntByte(a2, a1);
-		}
-
-		// boolean testIntByte(int a2,byte a1) ;
-		default boolean testIntByte(int a2, byte a1) {
-			// return nestingTestIntByte(a2,a1);
-			try {
-				return this.testIntByteX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testIntByte(int a2,byte a1)
-		 */
-		boolean testIntByteX(int a2, byte a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

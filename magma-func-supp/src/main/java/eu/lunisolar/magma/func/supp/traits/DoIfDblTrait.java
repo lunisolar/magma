@@ -116,24 +116,6 @@ public interface DoIfDblTrait<SELF extends DoIfDblTrait<SELF>> extends FluentTra
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
-		return doIf(a -> predicate.testDblObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, @Nonnull LDblConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
-		return doIfNot(a -> predicate.testDblObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, @Nonnull LDblConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate, @Nonnull LDblConsumer action) {
 		return doIf(a -> predicate.test(with1, a), action);
 	}

@@ -91,16 +91,6 @@ public interface FilterDblTrait<SELF extends FilterDblTrait<SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
-		return filter(a -> predicate.testDblObj(a, v));
-	}
-
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
-		return filter_(v, predicate);
-	}
-
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default @Nonnull <V1> SELF filterWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		return filter(a -> predicate.test(with1, a));
 	}

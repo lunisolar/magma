@@ -368,20 +368,4 @@ public class LObjLongFunctionTest<T,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLLongObjFunc(long a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLLongObjFunc() {
-        LObjLongFunction lambda = LObjLongFunction./*<T,R>*/longObjFunc(this::variantLLongObjFunc);
-
-        Assert.assertTrue(lambda instanceof LObjLongFunction.LLongObjFunc);
-    }
-
-    //</editor-fold>
-
-
 }

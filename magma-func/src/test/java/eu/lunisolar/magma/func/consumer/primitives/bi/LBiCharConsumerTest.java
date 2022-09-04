@@ -265,19 +265,4 @@ public class LBiCharConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLChar1Char0Cons(char a2,char a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLChar1Char0Cons() {
-        LBiCharConsumer lambda = LBiCharConsumer./**/char1Char0Cons(this::variantLChar1Char0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiCharConsumer.LChar1Char0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

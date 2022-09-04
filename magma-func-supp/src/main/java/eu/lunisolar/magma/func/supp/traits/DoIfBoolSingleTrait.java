@@ -137,28 +137,6 @@ public interface DoIfBoolSingleTrait<SELF extends DoIfBoolSingleTrait<SELF>> ext
 		return doIfNotInt(v, operator, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LBoolConsumer action) {
-		if (is_(v, operator))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LBoolConsumer action) {
-		return doIf_(v, operator, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LBoolConsumer action) {
-		if (isNot_(v, operator))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LBoolConsumer action) {
-		return doIfNot_(v, operator, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
 		if (isWithBool(with1, operator))
 			action.accept(value());

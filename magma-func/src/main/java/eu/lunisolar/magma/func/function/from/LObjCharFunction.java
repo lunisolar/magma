@@ -465,17 +465,6 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T, R> LObjCharFunction.LCharObjFunc<T, R> charObjFunc(final @Nonnull LObjCharFunction.LCharObjFunc<T, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T, R> R call(T a1, char a2, final @Nonnull LObjCharFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.apply(a1, a2);
@@ -548,45 +537,8 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return this::nonNullApply;
 	}
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjCharFunction for method references. */
-	@FunctionalInterface
-	interface LCharObjFunc<T, R> extends LObjCharFunction<T, R> {
-
-		/**
-		 * Implement this, but call apply(T a1,char a2)
-		 */
-		default R applyX(T a1, char a2) {
-			return this.applyCharObj(a2, a1);
-		}
-
-		@Nullable
-		// R applyCharObj(char a2,T a1) ;
-		default R applyCharObj(char a2, T a1) {
-			// return nestingApplyCharObj(a2,a1);
-			try {
-				return this.applyCharObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyCharObj(char a2,T a1)
-		 */
-		R applyCharObjX(char a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LObjCharFunction) Function */
 	public static <T, R> R doNothing(T a1, char a2) {
-		return (R) Function4U.defaultObject;
-	}
-
-	/** Does nothing (LObjCharFunction.LCharObjFunc) Function */
-	public static <T, R> R doNothing(char a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

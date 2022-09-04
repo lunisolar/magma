@@ -892,17 +892,6 @@ public interface LObjCharPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjCharPredicate.LCharObjPred<T> charObjPred(final @Nonnull LObjCharPredicate.LCharObjPred<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> boolean call(T a1, char a2, final @Nonnull LObjCharPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -1044,37 +1033,6 @@ public interface LObjCharPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjCharPredicate for method references. */
-	@FunctionalInterface
-	interface LCharObjPred<T> extends LObjCharPredicate<T> {
-
-		/**
-		 * Implement this, but call test(T a1,char a2)
-		 */
-		default boolean testX(T a1, char a2) {
-			return this.testCharObj(a2, a1);
-		}
-
-		// boolean testCharObj(char a2,T a1) ;
-		default boolean testCharObj(char a2, T a1) {
-			// return nestingTestCharObj(a2,a1);
-			try {
-				return this.testCharObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testCharObj(char a2,T a1)
-		 */
-		boolean testCharObjX(char a2, T a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

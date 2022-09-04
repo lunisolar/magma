@@ -265,19 +265,4 @@ public class LBoolIntConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLIntBoolCons(int a2,boolean a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntBoolCons() {
-        LBoolIntConsumer lambda = LBoolIntConsumer./**/intBoolCons(this::variantLIntBoolCons);
-
-        Assert.assertTrue(lambda instanceof LBoolIntConsumer.LIntBoolCons);
-    }
-
-    //</editor-fold>
-
-
 }

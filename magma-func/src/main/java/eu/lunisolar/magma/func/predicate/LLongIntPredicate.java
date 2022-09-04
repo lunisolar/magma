@@ -717,17 +717,6 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LLongIntPredicate.LIntLongPred intLongPred(final @Nonnull LLongIntPredicate.LIntLongPred lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static boolean call(long a1, int a2, final @Nonnull LLongIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -862,37 +851,6 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LLongIntPredicate for method references. */
-	@FunctionalInterface
-	interface LIntLongPred extends LLongIntPredicate {
-
-		/**
-		 * Implement this, but call test(long a1,int a2)
-		 */
-		default boolean testX(long a1, int a2) {
-			return this.testIntLong(a2, a1);
-		}
-
-		// boolean testIntLong(int a2,long a1) ;
-		default boolean testIntLong(int a2, long a1) {
-			// return nestingTestIntLong(a2,a1);
-			try {
-				return this.testIntLongX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testIntLong(int a2,long a1)
-		 */
-		boolean testIntLongX(int a2, long a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

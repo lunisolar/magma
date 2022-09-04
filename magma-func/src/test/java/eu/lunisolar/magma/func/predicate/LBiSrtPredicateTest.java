@@ -412,20 +412,4 @@ public class LBiSrtPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLSrt1Srt0Pred(short a2,short a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLSrt1Srt0Pred() {
-        LBiSrtPredicate lambda = LBiSrtPredicate./**/srt1Srt0Pred(this::variantLSrt1Srt0Pred);
-
-        Assert.assertTrue(lambda instanceof LBiSrtPredicate.LSrt1Srt0Pred);
-    }
-
-    //</editor-fold>
-
-
 }

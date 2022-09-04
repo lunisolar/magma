@@ -87,15 +87,6 @@ public interface UseByteTrait<SELF extends UseByteTrait<SELF>> extends FluentTra
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjByteConsumer.LByteObjCons<? super V> consumer) {
-		return use(a -> consumer.acceptByteObj(a, v));
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjByteConsumer.LByteObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithByte(V1 with1, @Nonnull LObjByteConsumer<? super V1> consumer) {
 		return use(a -> consumer.accept(with1, a));
 	}

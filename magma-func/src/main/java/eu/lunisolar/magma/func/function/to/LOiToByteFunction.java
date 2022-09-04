@@ -468,17 +468,6 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LOiToByteFunction.LIntObjToByteFunc<T> intObjToByteFunc(final @Nonnull LOiToByteFunction.LIntObjToByteFunc<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> byte call(T a1, int a2, final @Nonnull LOiToByteFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.applyAsByte(a1, a2);
@@ -587,44 +576,8 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LOiToByteFunction for method references. */
-	@FunctionalInterface
-	interface LIntObjToByteFunc<T> extends LOiToByteFunction<T> {
-
-		/**
-		 * Implement this, but call applyAsByte(T a1,int a2)
-		 */
-		default byte applyAsByteX(T a1, int a2) {
-			return this.applyAsByteIntObj(a2, a1);
-		}
-
-		// byte applyAsByteIntObj(int a2,T a1) ;
-		default byte applyAsByteIntObj(int a2, T a1) {
-			// return nestingApplyAsByteIntObj(a2,a1);
-			try {
-				return this.applyAsByteIntObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyAsByteIntObj(int a2,T a1)
-		 */
-		byte applyAsByteIntObjX(int a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LOiToByteFunction) Function */
 	public static <T> byte doNothing(T a1, int a2) {
-		return Function4U.defaultByte;
-	}
-
-	/** Does nothing (LOiToByteFunction.LIntObjToByteFunc) Function */
-	public static <T> byte doNothing(int a2, T a1) {
 		return Function4U.defaultByte;
 	}
 

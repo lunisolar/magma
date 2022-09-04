@@ -94,16 +94,6 @@ public interface UseBoolSingleTrait<SELF extends UseBoolSingleTrait<SELF>> exten
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjBoolConsumer.LBoolObjCons<? super V> consumer) {
-		consumer.acceptBoolObj(value(), v);
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjBoolConsumer.LBoolObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithBool(V1 with1, @Nonnull LObjBoolConsumer<? super V1> consumer) {
 		consumer.accept(with1, value());
 		return fluentCtx();

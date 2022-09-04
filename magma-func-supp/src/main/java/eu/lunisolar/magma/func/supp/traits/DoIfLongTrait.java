@@ -116,24 +116,6 @@ public interface DoIfLongTrait<SELF extends DoIfLongTrait<SELF>> extends FluentT
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, @Nonnull LLongConsumer action) {
-		return doIf(a -> predicate.testLongObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, @Nonnull LLongConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, @Nonnull LLongConsumer action) {
-		return doIfNot(a -> predicate.testLongObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v, @Nonnull LLongConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate, @Nonnull LLongConsumer action) {
 		return doIf(a -> predicate.test(with1, a), action);
 	}

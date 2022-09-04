@@ -717,17 +717,6 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LCharIntPredicate.LIntCharPred intCharPred(final @Nonnull LCharIntPredicate.LIntCharPred lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static boolean call(char a1, int a2, final @Nonnull LCharIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -862,37 +851,6 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LCharIntPredicate for method references. */
-	@FunctionalInterface
-	interface LIntCharPred extends LCharIntPredicate {
-
-		/**
-		 * Implement this, but call test(char a1,int a2)
-		 */
-		default boolean testX(char a1, int a2) {
-			return this.testIntChar(a2, a1);
-		}
-
-		// boolean testIntChar(int a2,char a1) ;
-		default boolean testIntChar(int a2, char a1) {
-			// return nestingTestIntChar(a2,a1);
-			try {
-				return this.testIntCharX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testIntChar(int a2,char a1)
-		 */
-		boolean testIntCharX(int a2, char a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

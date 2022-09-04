@@ -412,20 +412,4 @@ public class LBiBytePredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLByte1Byte0Pred(byte a2,byte a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLByte1Byte0Pred() {
-        LBiBytePredicate lambda = LBiBytePredicate./**/byte1Byte0Pred(this::variantLByte1Byte0Pred);
-
-        Assert.assertTrue(lambda instanceof LBiBytePredicate.LByte1Byte0Pred);
-    }
-
-    //</editor-fold>
-
-
 }

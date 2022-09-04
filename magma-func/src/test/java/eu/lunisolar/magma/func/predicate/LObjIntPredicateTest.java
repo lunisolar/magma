@@ -622,20 +622,4 @@ public class LObjIntPredicateTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLIntObjPred(int a2,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjPred() {
-        LObjIntPredicate lambda = LObjIntPredicate./*<T>*/intObjPred(this::variantLIntObjPred);
-
-        Assert.assertTrue(lambda instanceof LObjIntPredicate.LIntObjPred);
-    }
-
-    //</editor-fold>
-
-
 }

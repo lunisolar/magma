@@ -403,20 +403,4 @@ public class LBiLongFunctionTest<R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLLong1Long0Func(long a2,long a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLLong1Long0Func() {
-        LBiLongFunction lambda = LBiLongFunction./*<R>*/long1Long0Func(this::variantLLong1Long0Func);
-
-        Assert.assertTrue(lambda instanceof LBiLongFunction.LLong1Long0Func);
-    }
-
-    //</editor-fold>
-
-
 }

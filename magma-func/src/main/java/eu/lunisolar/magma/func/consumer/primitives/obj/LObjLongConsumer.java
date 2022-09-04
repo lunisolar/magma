@@ -376,17 +376,6 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjLongConsumer.LLongObjCons<T> longObjCons(final @Nonnull LObjLongConsumer.LLongObjCons<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> void call(T a1, long a2, final @Nonnull LObjLongConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -447,44 +436,8 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjLongConsumer for method references. */
-	@FunctionalInterface
-	interface LLongObjCons<T> extends LObjLongConsumer<T> {
-
-		/**
-		 * Implement this, but call accept(T a1,long a2)
-		 */
-		default void acceptX(T a1, long a2) {
-			this.acceptLongObj(a2, a1);
-		}
-
-		// void acceptLongObj(long a2,T a1) ;
-		default void acceptLongObj(long a2, T a1) {
-			// nestingAcceptLongObj(a2,a1);
-			try {
-				this.acceptLongObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptLongObj(long a2,T a1)
-		 */
-		void acceptLongObjX(long a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LObjLongConsumer) */
 	public static <T> void doNothing(T a1, long a2) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LObjLongConsumer.LLongObjCons) */
-	public static <T> void doNothing(long a2, T a1) {
 		// NOSONAR
 	}
 

@@ -66,24 +66,9 @@ public interface UniMapIntTrait<SELF extends UniMapIntTrait<SELF>> extends IntVa
 		return value(mapping.applyAsInt(value()));
 	}
 
-	default @Nonnull <K> SELF map_(K a1, @Nonnull LOiToIntFunction.LIntObjToIntFunc<? super K> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return value(mapping.applyAsIntIntObj(value(), a1));
-	}
-
 	default @Nonnull <K> SELF mapWith(K a1, @Nonnull LOiToIntFunction<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return value(mapping.applyAsInt(a1, value()));
-	}
-
-	default @Nonnull <K1, K2> SELF map_(K1 a1, K2 a2, @Nonnull LTieFunction.LInt1BiObj2ToIntFunc<? super K1, ? super K2> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return value(mapping.applyAsIntInt1BiObj2(value(), a1, a2));
-	}
-
-	default @Nonnull <K1, K2> SELF mapWith_(K1 a1, K2 a2, @Nonnull LTieFunction.LObj0Obj2Int1ToIntFunc<? super K1, ? super K2> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return value(mapping.applyAsIntObj0Obj2Int1(a1, a2, value()));
 	}
 
 	default @Nonnull SELF map(int a1, @Nonnull LIntBinaryOperator mapping) {

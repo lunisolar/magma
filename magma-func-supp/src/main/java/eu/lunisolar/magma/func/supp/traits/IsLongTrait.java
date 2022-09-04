@@ -138,28 +138,6 @@ public interface IsLongTrait<SELF extends IsLongTrait<SELF>> extends LongValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.testLongObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		return is_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot_(V v, @Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.testLongObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot_(@Nonnull LObjLongPredicate.LLongObjPred<? super V> predicate, V v) {
-		return isNot_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default <V1> boolean isWithLong(V1 with1, @Nonnull LObjLongPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(with1, value());

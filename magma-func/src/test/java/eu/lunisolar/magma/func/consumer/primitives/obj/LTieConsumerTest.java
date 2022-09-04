@@ -279,41 +279,4 @@ public class LTieConsumerTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLInt1BiObj2Cons(int a2,Integer a1,Integer a3) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt1BiObj2Cons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/int1BiObj2Cons(this::variantLInt1BiObj2Cons);
-
-        Assert.assertTrue(lambda instanceof LTieConsumer.LInt1BiObj2Cons);
-    }
-
-
-    private void variantLInt1Obj2Obj0Cons(int a2,Integer a3,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt1Obj2Obj0Cons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/int1Obj2Obj0Cons(this::variantLInt1Obj2Obj0Cons);
-
-        Assert.assertTrue(lambda instanceof LTieConsumer.LInt1Obj2Obj0Cons);
-    }
-
-
-    private void variantLObj2Int1Obj0Cons(Integer a3,int a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj2Int1Obj0Cons() {
-        LTieConsumer lambda = LTieConsumer./*<T1,T2>*/obj2Int1Obj0Cons(this::variantLObj2Int1Obj0Cons);
-
-        Assert.assertTrue(lambda instanceof LTieConsumer.LObj2Int1Obj0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

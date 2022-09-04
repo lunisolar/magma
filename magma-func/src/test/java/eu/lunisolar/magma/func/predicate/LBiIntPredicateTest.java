@@ -412,20 +412,4 @@ public class LBiIntPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLInt1Int0Pred(int a2,int a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt1Int0Pred() {
-        LBiIntPredicate lambda = LBiIntPredicate./**/int1Int0Pred(this::variantLInt1Int0Pred);
-
-        Assert.assertTrue(lambda instanceof LBiIntPredicate.LInt1Int0Pred);
-    }
-
-    //</editor-fold>
-
-
 }

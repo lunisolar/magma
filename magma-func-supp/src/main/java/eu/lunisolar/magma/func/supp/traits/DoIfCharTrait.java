@@ -116,24 +116,6 @@ public interface DoIfCharTrait<SELF extends DoIfCharTrait<SELF>> extends FluentT
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, @Nonnull LCharConsumer action) {
-		return doIf(a -> predicate.testCharObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v, @Nonnull LCharConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, @Nonnull LCharConsumer action) {
-		return doIfNot(a -> predicate.testCharObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v, @Nonnull LCharConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull LCharConsumer action) {
 		return doIf(a -> predicate.test(with1, a), action);
 	}

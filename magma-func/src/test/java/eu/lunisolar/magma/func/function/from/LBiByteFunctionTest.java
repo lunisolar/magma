@@ -403,20 +403,4 @@ public class LBiByteFunctionTest<R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLByte1Byte0Func(byte a2,byte a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLByte1Byte0Func() {
-        LBiByteFunction lambda = LBiByteFunction./*<R>*/byte1Byte0Func(this::variantLByte1Byte0Func);
-
-        Assert.assertTrue(lambda instanceof LBiByteFunction.LByte1Byte0Func);
-    }
-
-    //</editor-fold>
-
-
 }

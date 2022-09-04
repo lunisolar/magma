@@ -116,24 +116,6 @@ public interface DoIfSrtTrait<SELF extends DoIfSrtTrait<SELF>> extends FluentTra
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, @Nonnull LSrtConsumer action) {
-		return doIf(a -> predicate.testSrtObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, @Nonnull LSrtConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, @Nonnull LSrtConsumer action) {
-		return doIfNot(a -> predicate.testSrtObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v, @Nonnull LSrtConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate, @Nonnull LSrtConsumer action) {
 		return doIf(a -> predicate.test(with1, a), action);
 	}

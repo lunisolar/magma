@@ -535,20 +535,4 @@ public class LToByteBiFunctionTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private byte variantLToByteObj1Obj0Func(Integer a2,Integer a1) {
-        return (byte)100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLToByteObj1Obj0Func() {
-        LToByteBiFunction lambda = LToByteBiFunction./*<T1,T2>*/toByteObj1Obj0Func(this::variantLToByteObj1Obj0Func);
-
-        Assert.assertTrue(lambda instanceof LToByteBiFunction.LToByteObj1Obj0Func);
-    }
-
-    //</editor-fold>
-
-
 }

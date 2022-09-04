@@ -376,17 +376,6 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjSrtConsumer.LSrtObjCons<T> srtObjCons(final @Nonnull LObjSrtConsumer.LSrtObjCons<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> void call(T a1, short a2, final @Nonnull LObjSrtConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -442,44 +431,8 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjSrtConsumer for method references. */
-	@FunctionalInterface
-	interface LSrtObjCons<T> extends LObjSrtConsumer<T> {
-
-		/**
-		 * Implement this, but call accept(T a1,short a2)
-		 */
-		default void acceptX(T a1, short a2) {
-			this.acceptSrtObj(a2, a1);
-		}
-
-		// void acceptSrtObj(short a2,T a1) ;
-		default void acceptSrtObj(short a2, T a1) {
-			// nestingAcceptSrtObj(a2,a1);
-			try {
-				this.acceptSrtObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptSrtObj(short a2,T a1)
-		 */
-		void acceptSrtObjX(short a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LObjSrtConsumer) */
 	public static <T> void doNothing(T a1, short a2) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LObjSrtConsumer.LSrtObjCons) */
-	public static <T> void doNothing(short a2, T a1) {
 		// NOSONAR
 	}
 

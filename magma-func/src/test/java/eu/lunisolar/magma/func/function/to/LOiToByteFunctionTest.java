@@ -570,20 +570,4 @@ public class LOiToByteFunctionTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private byte variantLIntObjToByteFunc(int a2,Integer a1) {
-        return (byte)100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjToByteFunc() {
-        LOiToByteFunction lambda = LOiToByteFunction./*<T>*/intObjToByteFunc(this::variantLIntObjToByteFunc);
-
-        Assert.assertTrue(lambda instanceof LOiToByteFunction.LIntObjToByteFunc);
-    }
-
-    //</editor-fold>
-
-
 }

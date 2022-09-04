@@ -137,28 +137,6 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull LFltConsumer action) {
-		if (is_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull LFltConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull LFltConsumer action) {
-		if (isNot_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull LFltConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithFlt(V1 with1, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull LFltConsumer action) {
 		if (isWithFlt(with1, predicate))
 			action.accept(value());

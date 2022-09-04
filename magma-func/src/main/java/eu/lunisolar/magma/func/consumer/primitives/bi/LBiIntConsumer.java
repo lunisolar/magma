@@ -367,17 +367,6 @@ public interface LBiIntConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LBiIntConsumer.LInt1Int0Cons int1Int0Cons(final @Nonnull LBiIntConsumer.LInt1Int0Cons lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static void call(int a1, int a2, final @Nonnull LBiIntConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -430,37 +419,6 @@ public interface LBiIntConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiIntConsumer for method references. */
-	@FunctionalInterface
-	interface LInt1Int0Cons extends LBiIntConsumer {
-
-		/**
-		 * Implement this, but call accept(int a1,int a2)
-		 */
-		default void acceptX(int a1, int a2) {
-			this.acceptInt1Int0(a2, a1);
-		}
-
-		// void acceptInt1Int0(int a2,int a1) ;
-		default void acceptInt1Int0(int a2, int a1) {
-			// nestingAcceptInt1Int0(a2,a1);
-			try {
-				this.acceptInt1Int0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptInt1Int0(int a2,int a1)
-		 */
-		void acceptInt1Int0X(int a2, int a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

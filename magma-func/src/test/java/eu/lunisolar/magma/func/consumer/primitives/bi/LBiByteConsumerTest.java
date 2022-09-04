@@ -265,19 +265,4 @@ public class LBiByteConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLByte1Byte0Cons(byte a2,byte a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLByte1Byte0Cons() {
-        LBiByteConsumer lambda = LBiByteConsumer./**/byte1Byte0Cons(this::variantLByte1Byte0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiByteConsumer.LByte1Byte0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

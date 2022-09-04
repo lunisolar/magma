@@ -570,20 +570,4 @@ public class LOiToCharFunctionTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private char variantLIntObjToCharFunc(int a2,Integer a1) {
-        return '\u0100';
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjToCharFunc() {
-        LOiToCharFunction lambda = LOiToCharFunction./*<T>*/intObjToCharFunc(this::variantLIntObjToCharFunc);
-
-        Assert.assertTrue(lambda instanceof LOiToCharFunction.LIntObjToCharFunc);
-    }
-
-    //</editor-fold>
-
-
 }

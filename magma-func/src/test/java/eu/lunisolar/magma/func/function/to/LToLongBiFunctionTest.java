@@ -542,20 +542,4 @@ public class LToLongBiFunctionTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private long variantLToLongObj1Obj0Func(Integer a2,Integer a1) {
-        return 100L;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLToLongObj1Obj0Func() {
-        LToLongBiFunction lambda = LToLongBiFunction./*<T1,T2>*/toLongObj1Obj0Func(this::variantLToLongObj1Obj0Func);
-
-        Assert.assertTrue(lambda instanceof LToLongBiFunction.LToLongObj1Obj0Func);
-    }
-
-    //</editor-fold>
-
-
 }

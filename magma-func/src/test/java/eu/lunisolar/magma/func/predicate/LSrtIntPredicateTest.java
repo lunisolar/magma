@@ -342,20 +342,4 @@ public class LSrtIntPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLIntSrtPred(int a2,short a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntSrtPred() {
-        LSrtIntPredicate lambda = LSrtIntPredicate./**/intSrtPred(this::variantLIntSrtPred);
-
-        Assert.assertTrue(lambda instanceof LSrtIntPredicate.LIntSrtPred);
-    }
-
-    //</editor-fold>
-
-
 }

@@ -137,28 +137,6 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LByteConsumer action) {
-		if (is_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LByteConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, @Nonnull LByteConsumer action) {
-		if (isNot_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v, @Nonnull LByteConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithByte(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate, @Nonnull LByteConsumer action) {
 		if (isWithByte(with1, predicate))
 			action.accept(value());

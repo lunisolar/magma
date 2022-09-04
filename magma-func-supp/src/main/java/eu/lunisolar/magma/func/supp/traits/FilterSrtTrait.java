@@ -91,16 +91,6 @@ public interface FilterSrtTrait<SELF extends FilterSrtTrait<SELF>> extends Fluen
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
-		return filter(a -> predicate.testSrtObj(a, v));
-	}
-
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
-		return filter_(v, predicate);
-	}
-
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default @Nonnull <V1> SELF filterWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		return filter(a -> predicate.test(with1, a));
 	}

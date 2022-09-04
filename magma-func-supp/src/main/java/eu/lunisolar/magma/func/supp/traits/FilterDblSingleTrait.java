@@ -84,12 +84,6 @@ public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
 	default @Nonnull <V1> SELF filterWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.isWithDbl(with1, predicate) ? fluentCtx() : voidValue();

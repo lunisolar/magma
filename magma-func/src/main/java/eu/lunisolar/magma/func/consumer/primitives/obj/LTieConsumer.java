@@ -383,31 +383,6 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T1, T2> LTieConsumer.LInt1BiObj2Cons<T1, T2> int1BiObj2Cons(final @Nonnull LTieConsumer.LInt1BiObj2Cons<T1, T2> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LTieConsumer.LInt1Obj2Obj0Cons<T2, T1> int1Obj2Obj0Cons(final @Nonnull LTieConsumer.LInt1Obj2Obj0Cons<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LTieConsumer.LObj2Int1Obj0Cons<T2, T1> obj2Int1Obj0Cons(final @Nonnull LTieConsumer.LObj2Int1Obj0Cons<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T1, T2> void call(T1 a1, int a2, T2 a3, final @Nonnull LTieConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2, a3);
@@ -466,98 +441,8 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LTieConsumer for method references. */
-	@FunctionalInterface
-	interface LInt1BiObj2Cons<T1, T2> extends LTieConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call accept(T1 a1,int a2,T2 a3)
-		 */
-		default void acceptX(T1 a1, int a2, T2 a3) {
-			this.acceptInt1BiObj2(a2, a1, a3);
-		}
-
-		// void acceptInt1BiObj2(int a2,T1 a1,T2 a3) ;
-		default void acceptInt1BiObj2(int a2, T1 a1, T2 a3) {
-			// nestingAcceptInt1BiObj2(a2,a1,a3);
-			try {
-				this.acceptInt1BiObj2X(a2, a1, a3);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptInt1BiObj2(int a2,T1 a1,T2 a3)
-		 */
-		void acceptInt1BiObj2X(int a2, T1 a1, T2 a3) throws Throwable;
-	}
-
-	/** Permutation of LTieConsumer for method references. */
-	@FunctionalInterface
-	interface LInt1Obj2Obj0Cons<T2, T1> extends LTieConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call acceptInt1BiObj2(int a2,T1 a1,T2 a3)
-		 */
-		default void acceptX(T1 a1, int a2, T2 a3) {
-			this.acceptInt1Obj2Obj0(a2, a3, a1);
-		}
-
-		// void acceptInt1Obj2Obj0(int a2,T2 a3,T1 a1) ;
-		default void acceptInt1Obj2Obj0(int a2, T2 a3, T1 a1) {
-			// nestingAcceptInt1Obj2Obj0(a2,a3,a1);
-			try {
-				this.acceptInt1Obj2Obj0X(a2, a3, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptInt1Obj2Obj0(int a2,T2 a3,T1 a1)
-		 */
-		void acceptInt1Obj2Obj0X(int a2, T2 a3, T1 a1) throws Throwable;
-	}
-
-	/** Permutation of LTieConsumer for method references. */
-	@FunctionalInterface
-	interface LObj2Int1Obj0Cons<T2, T1> extends LTieConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call acceptInt1Obj2Obj0(int a2,T2 a3,T1 a1)
-		 */
-		default void acceptX(T1 a1, int a2, T2 a3) {
-			this.acceptObj2Int1Obj0(a3, a2, a1);
-		}
-
-		// void acceptObj2Int1Obj0(T2 a3,int a2,T1 a1) ;
-		default void acceptObj2Int1Obj0(T2 a3, int a2, T1 a1) {
-			// nestingAcceptObj2Int1Obj0(a3,a2,a1);
-			try {
-				this.acceptObj2Int1Obj0X(a3, a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptObj2Int1Obj0(T2 a3,int a2,T1 a1)
-		 */
-		void acceptObj2Int1Obj0X(T2 a3, int a2, T1 a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LTieConsumer) */
 	public static <T1, T2> void doNothing(T1 a1, int a2, T2 a3) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LTieConsumer.LInt1BiObj2Cons) */
-	public static <T1, T2> void doNothing(int a2, T1 a1, T2 a3) {
 		// NOSONAR
 	}
 

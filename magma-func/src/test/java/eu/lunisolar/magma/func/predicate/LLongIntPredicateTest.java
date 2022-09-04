@@ -342,20 +342,4 @@ public class LLongIntPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLIntLongPred(int a2,long a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntLongPred() {
-        LLongIntPredicate lambda = LLongIntPredicate./**/intLongPred(this::variantLIntLongPred);
-
-        Assert.assertTrue(lambda instanceof LLongIntPredicate.LIntLongPred);
-    }
-
-    //</editor-fold>
-
-
 }

@@ -342,20 +342,4 @@ public class LBoolIntPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLIntBoolPred(int a2,boolean a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntBoolPred() {
-        LBoolIntPredicate lambda = LBoolIntPredicate./**/intBoolPred(this::variantLIntBoolPred);
-
-        Assert.assertTrue(lambda instanceof LBoolIntPredicate.LIntBoolPred);
-    }
-
-    //</editor-fold>
-
-
 }

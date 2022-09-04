@@ -368,20 +368,4 @@ public class LObjSrtFunctionTest<T,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLSrtObjFunc(short a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLSrtObjFunc() {
-        LObjSrtFunction lambda = LObjSrtFunction./*<T,R>*/srtObjFunc(this::variantLSrtObjFunc);
-
-        Assert.assertTrue(lambda instanceof LObjSrtFunction.LSrtObjFunc);
-    }
-
-    //</editor-fold>
-
-
 }

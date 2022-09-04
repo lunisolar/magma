@@ -570,20 +570,4 @@ public class LOiToLongFunctionTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private long variantLIntObjToLongFunc(int a2,Integer a1) {
-        return 100L;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjToLongFunc() {
-        LOiToLongFunction lambda = LOiToLongFunction./*<T>*/intObjToLongFunc(this::variantLIntObjToLongFunc);
-
-        Assert.assertTrue(lambda instanceof LOiToLongFunction.LIntObjToLongFunc);
-    }
-
-    //</editor-fold>
-
-
 }

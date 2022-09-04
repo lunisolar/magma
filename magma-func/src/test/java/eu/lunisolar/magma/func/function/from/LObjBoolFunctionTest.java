@@ -368,20 +368,4 @@ public class LObjBoolFunctionTest<T,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLBoolObjFunc(boolean a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLBoolObjFunc() {
-        LObjBoolFunction lambda = LObjBoolFunction./*<T,R>*/boolObjFunc(this::variantLBoolObjFunc);
-
-        Assert.assertTrue(lambda instanceof LObjBoolFunction.LBoolObjFunc);
-    }
-
-    //</editor-fold>
-
-
 }

@@ -367,17 +367,6 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LBiFltConsumer.LFlt1Flt0Cons flt1Flt0Cons(final @Nonnull LBiFltConsumer.LFlt1Flt0Cons lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static void call(float a1, float a2, final @Nonnull LBiFltConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -430,37 +419,6 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiFltConsumer for method references. */
-	@FunctionalInterface
-	interface LFlt1Flt0Cons extends LBiFltConsumer {
-
-		/**
-		 * Implement this, but call accept(float a1,float a2)
-		 */
-		default void acceptX(float a1, float a2) {
-			this.acceptFlt1Flt0(a2, a1);
-		}
-
-		// void acceptFlt1Flt0(float a2,float a1) ;
-		default void acceptFlt1Flt0(float a2, float a1) {
-			// nestingAcceptFlt1Flt0(a2,a1);
-			try {
-				this.acceptFlt1Flt0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptFlt1Flt0(float a2,float a1)
-		 */
-		void acceptFlt1Flt0X(float a2, float a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

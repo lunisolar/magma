@@ -94,16 +94,6 @@ public interface UseDblSingleTrait<SELF extends UseDblSingleTrait<SELF>> extends
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjDblConsumer.LDblObjCons<? super V> consumer) {
-		consumer.acceptDblObj(value(), v);
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjDblConsumer.LDblObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithDbl(V1 with1, @Nonnull LObjDblConsumer<? super V1> consumer) {
 		consumer.accept(with1, value());
 		return fluentCtx();

@@ -468,17 +468,6 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LOiToFltFunction.LIntObjToFltFunc<T> intObjToFltFunc(final @Nonnull LOiToFltFunction.LIntObjToFltFunc<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> float call(T a1, int a2, final @Nonnull LOiToFltFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.applyAsFlt(a1, a2);
@@ -587,44 +576,8 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LOiToFltFunction for method references. */
-	@FunctionalInterface
-	interface LIntObjToFltFunc<T> extends LOiToFltFunction<T> {
-
-		/**
-		 * Implement this, but call applyAsFlt(T a1,int a2)
-		 */
-		default float applyAsFltX(T a1, int a2) {
-			return this.applyAsFltIntObj(a2, a1);
-		}
-
-		// float applyAsFltIntObj(int a2,T a1) ;
-		default float applyAsFltIntObj(int a2, T a1) {
-			// return nestingApplyAsFltIntObj(a2,a1);
-			try {
-				return this.applyAsFltIntObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyAsFltIntObj(int a2,T a1)
-		 */
-		float applyAsFltIntObjX(int a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LOiToFltFunction) Function */
 	public static <T> float doNothing(T a1, int a2) {
-		return Function4U.defaultFloat;
-	}
-
-	/** Does nothing (LOiToFltFunction.LIntObjToFltFunc) Function */
-	public static <T> float doNothing(int a2, T a1) {
 		return Function4U.defaultFloat;
 	}
 

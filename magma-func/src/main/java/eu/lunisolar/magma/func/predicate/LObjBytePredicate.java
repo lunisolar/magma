@@ -892,17 +892,6 @@ public interface LObjBytePredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjBytePredicate.LByteObjPred<T> byteObjPred(final @Nonnull LObjBytePredicate.LByteObjPred<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> boolean call(T a1, byte a2, final @Nonnull LObjBytePredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -1044,37 +1033,6 @@ public interface LObjBytePredicate<T> extends MetaPredicate, MetaInterface.NonTh
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjBytePredicate for method references. */
-	@FunctionalInterface
-	interface LByteObjPred<T> extends LObjBytePredicate<T> {
-
-		/**
-		 * Implement this, but call test(T a1,byte a2)
-		 */
-		default boolean testX(T a1, byte a2) {
-			return this.testByteObj(a2, a1);
-		}
-
-		// boolean testByteObj(byte a2,T a1) ;
-		default boolean testByteObj(byte a2, T a1) {
-			// return nestingTestByteObj(a2,a1);
-			try {
-				return this.testByteObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testByteObj(byte a2,T a1)
-		 */
-		boolean testByteObjX(byte a2, T a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

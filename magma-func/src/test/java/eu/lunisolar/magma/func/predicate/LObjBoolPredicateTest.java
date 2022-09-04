@@ -377,20 +377,4 @@ public class LObjBoolPredicateTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLBoolObjPred(boolean a2,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLBoolObjPred() {
-        LObjBoolPredicate lambda = LObjBoolPredicate./*<T>*/boolObjPred(this::variantLBoolObjPred);
-
-        Assert.assertTrue(lambda instanceof LObjBoolPredicate.LBoolObjPred);
-    }
-
-    //</editor-fold>
-
-
 }

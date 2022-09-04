@@ -138,28 +138,6 @@ public interface IsSrtTrait<SELF extends IsSrtTrait<SELF>> extends SrtValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.testSrtObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
-		return is_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.testSrtObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot_(@Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate, V v) {
-		return isNot_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default <V1> boolean isWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(with1, value());

@@ -87,15 +87,6 @@ public interface UseCharTrait<SELF extends UseCharTrait<SELF>> extends FluentTra
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjCharConsumer.LCharObjCons<? super V> consumer) {
-		return use(a -> consumer.acceptCharObj(a, v));
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjCharConsumer.LCharObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithChar(V1 with1, @Nonnull LObjCharConsumer<? super V1> consumer) {
 		return use(a -> consumer.accept(with1, a));
 	}

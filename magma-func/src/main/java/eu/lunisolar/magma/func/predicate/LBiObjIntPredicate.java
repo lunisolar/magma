@@ -890,31 +890,6 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LBiObjIntPredicate.LObj1Obj0Int2Pred<T2, T1> obj1Obj0Int2Pred(final @Nonnull LBiObjIntPredicate.LObj1Obj0Int2Pred<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T1, T2> LBiObjIntPredicate.LInt2Obj0Obj1Pred<T1, T2> int2Obj0Obj1Pred(final @Nonnull LBiObjIntPredicate.LInt2Obj0Obj1Pred<T1, T2> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LBiObjIntPredicate.LInt2Obj1Obj0Pred<T2, T1> int2Obj1Obj0Pred(final @Nonnull LBiObjIntPredicate.LInt2Obj1Obj0Pred<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T1, T2> boolean call(T1 a1, T2 a2, int a3, final @Nonnull LBiObjIntPredicate<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2, a3);
@@ -1060,91 +1035,6 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiObjIntPredicate for method references. */
-	@FunctionalInterface
-	interface LObj1Obj0Int2Pred<T2, T1> extends LBiObjIntPredicate<T1, T2> {
-
-		/**
-		 * Implement this, but call test(T1 a1,T2 a2,int a3)
-		 */
-		default boolean testX(T1 a1, T2 a2, int a3) {
-			return this.testObj1Obj0Int2(a2, a1, a3);
-		}
-
-		// boolean testObj1Obj0Int2(T2 a2,T1 a1,int a3) ;
-		default boolean testObj1Obj0Int2(T2 a2, T1 a1, int a3) {
-			// return nestingTestObj1Obj0Int2(a2,a1,a3);
-			try {
-				return this.testObj1Obj0Int2X(a2, a1, a3);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testObj1Obj0Int2(T2 a2,T1 a1,int a3)
-		 */
-		boolean testObj1Obj0Int2X(T2 a2, T1 a1, int a3) throws Throwable;
-	}
-
-	/** Permutation of LBiObjIntPredicate for method references. */
-	@FunctionalInterface
-	interface LInt2Obj0Obj1Pred<T1, T2> extends LBiObjIntPredicate<T1, T2> {
-
-		/**
-		 * Implement this, but call testObj1Obj0Int2(T2 a2,T1 a1,int a3)
-		 */
-		default boolean testX(T1 a1, T2 a2, int a3) {
-			return this.testInt2Obj0Obj1(a3, a1, a2);
-		}
-
-		// boolean testInt2Obj0Obj1(int a3,T1 a1,T2 a2) ;
-		default boolean testInt2Obj0Obj1(int a3, T1 a1, T2 a2) {
-			// return nestingTestInt2Obj0Obj1(a3,a1,a2);
-			try {
-				return this.testInt2Obj0Obj1X(a3, a1, a2);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testInt2Obj0Obj1(int a3,T1 a1,T2 a2)
-		 */
-		boolean testInt2Obj0Obj1X(int a3, T1 a1, T2 a2) throws Throwable;
-	}
-
-	/** Permutation of LBiObjIntPredicate for method references. */
-	@FunctionalInterface
-	interface LInt2Obj1Obj0Pred<T2, T1> extends LBiObjIntPredicate<T1, T2> {
-
-		/**
-		 * Implement this, but call testInt2Obj0Obj1(int a3,T1 a1,T2 a2)
-		 */
-		default boolean testX(T1 a1, T2 a2, int a3) {
-			return this.testInt2Obj1Obj0(a3, a2, a1);
-		}
-
-		// boolean testInt2Obj1Obj0(int a3,T2 a2,T1 a1) ;
-		default boolean testInt2Obj1Obj0(int a3, T2 a2, T1 a1) {
-			// return nestingTestInt2Obj1Obj0(a3,a2,a1);
-			try {
-				return this.testInt2Obj1Obj0X(a3, a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testInt2Obj1Obj0(int a3,T2 a2,T1 a1)
-		 */
-		boolean testInt2Obj1Obj0X(int a3, T2 a2, T1 a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

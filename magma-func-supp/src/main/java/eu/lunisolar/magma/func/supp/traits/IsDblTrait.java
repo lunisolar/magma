@@ -138,28 +138,6 @@ public interface IsDblTrait<SELF extends IsDblTrait<SELF>> extends DblValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.testDblObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
-		return is_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.testDblObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v) {
-		return isNot_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default <V1> boolean isWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(with1, value());

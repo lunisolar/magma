@@ -279,41 +279,4 @@ public class LBiObjIntConsumerTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLObj1Obj0Int2Cons(Integer a2,Integer a1,int a3) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Obj0Int2Cons() {
-        LBiObjIntConsumer lambda = LBiObjIntConsumer./*<T1,T2>*/obj1Obj0Int2Cons(this::variantLObj1Obj0Int2Cons);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntConsumer.LObj1Obj0Int2Cons);
-    }
-
-
-    private void variantLInt2Obj0Obj1Cons(int a3,Integer a1,Integer a2) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt2Obj0Obj1Cons() {
-        LBiObjIntConsumer lambda = LBiObjIntConsumer./*<T1,T2>*/int2Obj0Obj1Cons(this::variantLInt2Obj0Obj1Cons);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntConsumer.LInt2Obj0Obj1Cons);
-    }
-
-
-    private void variantLInt2Obj1Obj0Cons(int a3,Integer a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt2Obj1Obj0Cons() {
-        LBiObjIntConsumer lambda = LBiObjIntConsumer./*<T1,T2>*/int2Obj1Obj0Cons(this::variantLInt2Obj1Obj0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntConsumer.LInt2Obj1Obj0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

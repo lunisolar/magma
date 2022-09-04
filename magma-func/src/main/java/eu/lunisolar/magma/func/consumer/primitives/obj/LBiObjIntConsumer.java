@@ -374,31 +374,6 @@ public interface LBiObjIntConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LBiObjIntConsumer.LObj1Obj0Int2Cons<T2, T1> obj1Obj0Int2Cons(final @Nonnull LBiObjIntConsumer.LObj1Obj0Int2Cons<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T1, T2> LBiObjIntConsumer.LInt2Obj0Obj1Cons<T1, T2> int2Obj0Obj1Cons(final @Nonnull LBiObjIntConsumer.LInt2Obj0Obj1Cons<T1, T2> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LBiObjIntConsumer.LInt2Obj1Obj0Cons<T2, T1> int2Obj1Obj0Cons(final @Nonnull LBiObjIntConsumer.LInt2Obj1Obj0Cons<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T1, T2> void call(T1 a1, T2 a2, int a3, final @Nonnull LBiObjIntConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2, a3);
@@ -458,98 +433,8 @@ public interface LBiObjIntConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiObjIntConsumer for method references. */
-	@FunctionalInterface
-	interface LObj1Obj0Int2Cons<T2, T1> extends LBiObjIntConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call accept(T1 a1,T2 a2,int a3)
-		 */
-		default void acceptX(T1 a1, T2 a2, int a3) {
-			this.acceptObj1Obj0Int2(a2, a1, a3);
-		}
-
-		// void acceptObj1Obj0Int2(T2 a2,T1 a1,int a3) ;
-		default void acceptObj1Obj0Int2(T2 a2, T1 a1, int a3) {
-			// nestingAcceptObj1Obj0Int2(a2,a1,a3);
-			try {
-				this.acceptObj1Obj0Int2X(a2, a1, a3);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptObj1Obj0Int2(T2 a2,T1 a1,int a3)
-		 */
-		void acceptObj1Obj0Int2X(T2 a2, T1 a1, int a3) throws Throwable;
-	}
-
-	/** Permutation of LBiObjIntConsumer for method references. */
-	@FunctionalInterface
-	interface LInt2Obj0Obj1Cons<T1, T2> extends LBiObjIntConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call acceptObj1Obj0Int2(T2 a2,T1 a1,int a3)
-		 */
-		default void acceptX(T1 a1, T2 a2, int a3) {
-			this.acceptInt2Obj0Obj1(a3, a1, a2);
-		}
-
-		// void acceptInt2Obj0Obj1(int a3,T1 a1,T2 a2) ;
-		default void acceptInt2Obj0Obj1(int a3, T1 a1, T2 a2) {
-			// nestingAcceptInt2Obj0Obj1(a3,a1,a2);
-			try {
-				this.acceptInt2Obj0Obj1X(a3, a1, a2);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptInt2Obj0Obj1(int a3,T1 a1,T2 a2)
-		 */
-		void acceptInt2Obj0Obj1X(int a3, T1 a1, T2 a2) throws Throwable;
-	}
-
-	/** Permutation of LBiObjIntConsumer for method references. */
-	@FunctionalInterface
-	interface LInt2Obj1Obj0Cons<T2, T1> extends LBiObjIntConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call acceptInt2Obj0Obj1(int a3,T1 a1,T2 a2)
-		 */
-		default void acceptX(T1 a1, T2 a2, int a3) {
-			this.acceptInt2Obj1Obj0(a3, a2, a1);
-		}
-
-		// void acceptInt2Obj1Obj0(int a3,T2 a2,T1 a1) ;
-		default void acceptInt2Obj1Obj0(int a3, T2 a2, T1 a1) {
-			// nestingAcceptInt2Obj1Obj0(a3,a2,a1);
-			try {
-				this.acceptInt2Obj1Obj0X(a3, a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptInt2Obj1Obj0(int a3,T2 a2,T1 a1)
-		 */
-		void acceptInt2Obj1Obj0X(int a3, T2 a2, T1 a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LBiObjIntConsumer) */
 	public static <T1, T2> void doNothing(T1 a1, T2 a2, int a3) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LBiObjIntConsumer.LInt2Obj0Obj1Cons) */
-	public static <T1, T2> void doNothing(int a3, T1 a1, T2 a2) {
 		// NOSONAR
 	}
 

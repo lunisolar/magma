@@ -272,19 +272,4 @@ public class LObjDblConsumerTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLDblObjCons(double a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLDblObjCons() {
-        LObjDblConsumer lambda = LObjDblConsumer./*<T>*/dblObjCons(this::variantLDblObjCons);
-
-        Assert.assertTrue(lambda instanceof LObjDblConsumer.LDblObjCons);
-    }
-
-    //</editor-fold>
-
-
 }

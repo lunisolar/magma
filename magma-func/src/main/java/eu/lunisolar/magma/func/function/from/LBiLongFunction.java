@@ -452,17 +452,6 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <R> LBiLongFunction.LLong1Long0Func<R> long1Long0Func(final @Nonnull LBiLongFunction.LLong1Long0Func<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <R> R call(long a1, long a2, final @Nonnull LBiLongFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.apply(a1, a2);
@@ -541,38 +530,6 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default LBiLongFunction<R> nonNullable() {
 		return this::nonNullApply;
 	}
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiLongFunction for method references. */
-	@FunctionalInterface
-	interface LLong1Long0Func<R> extends LBiLongFunction<R> {
-
-		/**
-		 * Implement this, but call apply(long a1,long a2)
-		 */
-		default R applyX(long a1, long a2) {
-			return this.applyLong1Long0(a2, a1);
-		}
-
-		@Nullable
-		// R applyLong1Long0(long a2,long a1) ;
-		default R applyLong1Long0(long a2, long a1) {
-			// return nestingApplyLong1Long0(a2,a1);
-			try {
-				return this.applyLong1Long0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyLong1Long0(long a2,long a1)
-		 */
-		R applyLong1Long0X(long a2, long a1) throws Throwable;
-	}
-
-	// </editor-fold>
 
 	/** Does nothing (LBiLongFunction) Function */
 	public static <R> R doNothing(long a1, long a2) {

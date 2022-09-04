@@ -367,17 +367,6 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LBiBoolConsumer.LBool1Bool0Cons bool1Bool0Cons(final @Nonnull LBiBoolConsumer.LBool1Bool0Cons lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static void call(boolean a1, boolean a2, final @Nonnull LBiBoolConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -430,37 +419,6 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiBoolConsumer for method references. */
-	@FunctionalInterface
-	interface LBool1Bool0Cons extends LBiBoolConsumer {
-
-		/**
-		 * Implement this, but call accept(boolean a1,boolean a2)
-		 */
-		default void acceptX(boolean a1, boolean a2) {
-			this.acceptBool1Bool0(a2, a1);
-		}
-
-		// void acceptBool1Bool0(boolean a2,boolean a1) ;
-		default void acceptBool1Bool0(boolean a2, boolean a1) {
-			// nestingAcceptBool1Bool0(a2,a1);
-			try {
-				this.acceptBool1Bool0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptBool1Bool0(boolean a2,boolean a1)
-		 */
-		void acceptBool1Bool0X(boolean a2, boolean a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

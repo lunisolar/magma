@@ -367,17 +367,6 @@ public interface LBiSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LBiSrtConsumer.LSrt1Srt0Cons srt1Srt0Cons(final @Nonnull LBiSrtConsumer.LSrt1Srt0Cons lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static void call(short a1, short a2, final @Nonnull LBiSrtConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -430,37 +419,6 @@ public interface LBiSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiSrtConsumer for method references. */
-	@FunctionalInterface
-	interface LSrt1Srt0Cons extends LBiSrtConsumer {
-
-		/**
-		 * Implement this, but call accept(short a1,short a2)
-		 */
-		default void acceptX(short a1, short a2) {
-			this.acceptSrt1Srt0(a2, a1);
-		}
-
-		// void acceptSrt1Srt0(short a2,short a1) ;
-		default void acceptSrt1Srt0(short a2, short a1) {
-			// nestingAcceptSrt1Srt0(a2,a1);
-			try {
-				this.acceptSrt1Srt0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptSrt1Srt0(short a2,short a1)
-		 */
-		void acceptSrt1Srt0X(short a2, short a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

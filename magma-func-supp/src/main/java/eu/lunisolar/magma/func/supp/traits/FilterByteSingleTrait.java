@@ -84,12 +84,6 @@ public interface FilterByteSingleTrait<SELF extends FilterByteSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
 	default @Nonnull <V1> SELF filterWithByte(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.isWithByte(with1, predicate) ? fluentCtx() : voidValue();

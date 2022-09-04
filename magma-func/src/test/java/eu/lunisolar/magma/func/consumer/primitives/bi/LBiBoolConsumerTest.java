@@ -265,19 +265,4 @@ public class LBiBoolConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLBool1Bool0Cons(boolean a2,boolean a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLBool1Bool0Cons() {
-        LBiBoolConsumer lambda = LBiBoolConsumer./**/bool1Bool0Cons(this::variantLBool1Bool0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiBoolConsumer.LBool1Bool0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

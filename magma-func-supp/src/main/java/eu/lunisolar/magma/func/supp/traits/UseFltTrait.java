@@ -87,15 +87,6 @@ public interface UseFltTrait<SELF extends UseFltTrait<SELF>> extends FluentTrait
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjFltConsumer.LFltObjCons<? super V> consumer) {
-		return use(a -> consumer.acceptFltObj(a, v));
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjFltConsumer.LFltObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithFlt(V1 with1, @Nonnull LObjFltConsumer<? super V1> consumer) {
 		return use(a -> consumer.accept(with1, a));
 	}

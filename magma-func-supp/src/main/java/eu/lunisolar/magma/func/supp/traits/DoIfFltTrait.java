@@ -116,24 +116,6 @@ public interface DoIfFltTrait<SELF extends DoIfFltTrait<SELF>> extends FluentTra
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull LFltConsumer action) {
-		return doIf(a -> predicate.testFltObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull LFltConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, @Nonnull LFltConsumer action) {
-		return doIfNot(a -> predicate.testFltObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v, @Nonnull LFltConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithFlt(V1 with1, @Nonnull LObjFltPredicate<? super V1> predicate, @Nonnull LFltConsumer action) {
 		return doIf(a -> predicate.test(with1, a), action);
 	}

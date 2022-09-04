@@ -570,20 +570,4 @@ public class LOiToSrtFunctionTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private short variantLIntObjToSrtFunc(int a2,Integer a1) {
-        return (short)100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjToSrtFunc() {
-        LOiToSrtFunction lambda = LOiToSrtFunction./*<T>*/intObjToSrtFunc(this::variantLIntObjToSrtFunc);
-
-        Assert.assertTrue(lambda instanceof LOiToSrtFunction.LIntObjToSrtFunc);
-    }
-
-    //</editor-fold>
-
-
 }

@@ -78,54 +78,6 @@ public interface FilterIntSingleTrait<SELF extends FilterIntSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull SELF filterBool_(boolean v, @Nonnull LBoolIntPredicate.LIntBoolPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isBool_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
-	default @Nonnull SELF filterByte_(byte v, @Nonnull LByteIntPredicate.LIntBytePred predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isByte_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
-	default @Nonnull SELF filterDbl_(double v, @Nonnull LDblIntPredicate.LIntDblPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isDbl_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
-	default @Nonnull SELF filterChar_(char v, @Nonnull LCharIntPredicate.LIntCharPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isChar_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
-	default @Nonnull SELF filterSrt_(short v, @Nonnull LSrtIntPredicate.LIntSrtPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isSrt_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
-	default @Nonnull SELF filterFlt_(float v, @Nonnull LFltIntPredicate.LIntFltPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isFlt_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
-	default @Nonnull SELF filterLong_(long v, @Nonnull LLongIntPredicate.LIntLongPred predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.isLong_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjIntPredicate.LIntObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
 	default @Nonnull <V1> SELF filterWithInt(V1 with1, @Nonnull LObjIntPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.isWithInt(with1, predicate) ? fluentCtx() : voidValue();

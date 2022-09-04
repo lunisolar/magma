@@ -265,19 +265,4 @@ public class LLongIntConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLIntLongCons(int a2,long a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntLongCons() {
-        LLongIntConsumer lambda = LLongIntConsumer./**/intLongCons(this::variantLIntLongCons);
-
-        Assert.assertTrue(lambda instanceof LLongIntConsumer.LIntLongCons);
-    }
-
-    //</editor-fold>
-
-
 }

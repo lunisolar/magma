@@ -465,31 +465,6 @@ public interface LBiObjIntFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1, R> LBiObjIntFunction.LObj1Obj0Int2Func<T2, T1, R> obj1Obj0Int2Func(final @Nonnull LBiObjIntFunction.LObj1Obj0Int2Func<T2, T1, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T1, T2, R> LBiObjIntFunction.LInt2Obj0Obj1Func<T1, T2, R> int2Obj0Obj1Func(final @Nonnull LBiObjIntFunction.LInt2Obj0Obj1Func<T1, T2, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1, R> LBiObjIntFunction.LInt2Obj1Obj0Func<T2, T1, R> int2Obj1Obj0Func(final @Nonnull LBiObjIntFunction.LInt2Obj1Obj0Func<T2, T1, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T1, T2, R> R call(T1 a1, T2 a2, int a3, final @Nonnull LBiObjIntFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.apply(a1, a2, a3);
@@ -566,101 +541,8 @@ public interface LBiObjIntFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		return this::nonNullApply;
 	}
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiObjIntFunction for method references. */
-	@FunctionalInterface
-	interface LObj1Obj0Int2Func<T2, T1, R> extends LBiObjIntFunction<T1, T2, R> {
-
-		/**
-		 * Implement this, but call apply(T1 a1,T2 a2,int a3)
-		 */
-		default R applyX(T1 a1, T2 a2, int a3) {
-			return this.applyObj1Obj0Int2(a2, a1, a3);
-		}
-
-		@Nullable
-		// R applyObj1Obj0Int2(T2 a2,T1 a1,int a3) ;
-		default R applyObj1Obj0Int2(T2 a2, T1 a1, int a3) {
-			// return nestingApplyObj1Obj0Int2(a2,a1,a3);
-			try {
-				return this.applyObj1Obj0Int2X(a2, a1, a3);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyObj1Obj0Int2(T2 a2,T1 a1,int a3)
-		 */
-		R applyObj1Obj0Int2X(T2 a2, T1 a1, int a3) throws Throwable;
-	}
-
-	/** Permutation of LBiObjIntFunction for method references. */
-	@FunctionalInterface
-	interface LInt2Obj0Obj1Func<T1, T2, R> extends LBiObjIntFunction<T1, T2, R> {
-
-		/**
-		 * Implement this, but call applyObj1Obj0Int2(T2 a2,T1 a1,int a3)
-		 */
-		default R applyX(T1 a1, T2 a2, int a3) {
-			return this.applyInt2Obj0Obj1(a3, a1, a2);
-		}
-
-		@Nullable
-		// R applyInt2Obj0Obj1(int a3,T1 a1,T2 a2) ;
-		default R applyInt2Obj0Obj1(int a3, T1 a1, T2 a2) {
-			// return nestingApplyInt2Obj0Obj1(a3,a1,a2);
-			try {
-				return this.applyInt2Obj0Obj1X(a3, a1, a2);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyInt2Obj0Obj1(int a3,T1 a1,T2 a2)
-		 */
-		R applyInt2Obj0Obj1X(int a3, T1 a1, T2 a2) throws Throwable;
-	}
-
-	/** Permutation of LBiObjIntFunction for method references. */
-	@FunctionalInterface
-	interface LInt2Obj1Obj0Func<T2, T1, R> extends LBiObjIntFunction<T1, T2, R> {
-
-		/**
-		 * Implement this, but call applyInt2Obj0Obj1(int a3,T1 a1,T2 a2)
-		 */
-		default R applyX(T1 a1, T2 a2, int a3) {
-			return this.applyInt2Obj1Obj0(a3, a2, a1);
-		}
-
-		@Nullable
-		// R applyInt2Obj1Obj0(int a3,T2 a2,T1 a1) ;
-		default R applyInt2Obj1Obj0(int a3, T2 a2, T1 a1) {
-			// return nestingApplyInt2Obj1Obj0(a3,a2,a1);
-			try {
-				return this.applyInt2Obj1Obj0X(a3, a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyInt2Obj1Obj0(int a3,T2 a2,T1 a1)
-		 */
-		R applyInt2Obj1Obj0X(int a3, T2 a2, T1 a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LBiObjIntFunction) Function */
 	public static <T1, T2, R> R doNothing(T1 a1, T2 a2, int a3) {
-		return (R) Function4U.defaultObject;
-	}
-
-	/** Does nothing (LBiObjIntFunction.LInt2Obj0Obj1Func) Function */
-	public static <T1, T2, R> R doNothing(int a3, T1 a1, T2 a2) {
 		return (R) Function4U.defaultObject;
 	}
 

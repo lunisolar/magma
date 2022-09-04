@@ -138,28 +138,6 @@ public interface IsFltTrait<SELF extends IsFltTrait<SELF>> extends FltValueTrait
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return predicate.testFltObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
-		return is_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot_(V v, @Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return !predicate.testFltObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot_(@Nonnull LObjFltPredicate.LFltObjPred<? super V> predicate, V v) {
-		return isNot_(v, predicate);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default <V1> boolean isWithFlt(V1 with1, @Nonnull LObjFltPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return predicate.test(with1, value());

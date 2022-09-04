@@ -87,15 +87,6 @@ public interface UseLongTrait<SELF extends UseLongTrait<SELF>> extends FluentTra
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjLongConsumer.LLongObjCons<? super V> consumer) {
-		return use(a -> consumer.acceptLongObj(a, v));
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjLongConsumer.LLongObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithLong(V1 with1, @Nonnull LObjLongConsumer<? super V1> consumer) {
 		return use(a -> consumer.accept(with1, a));
 	}

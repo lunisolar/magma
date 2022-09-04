@@ -66,19 +66,9 @@ public interface UniMapBoolTrait<SELF extends UniMapBoolTrait<SELF>> extends Boo
 		return value(mapping.apply(value()));
 	}
 
-	default @Nonnull <K> SELF map_(K a1, @Nonnull LObjBoolPredicate.LBoolObjPred<? super K> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return value(mapping.testBoolObj(value(), a1));
-	}
-
 	default @Nonnull <K> SELF mapWith(K a1, @Nonnull LObjBoolPredicate<? super K> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return value(mapping.test(a1, value()));
-	}
-
-	default @Nonnull <K1, K2> SELF map_(K1 a1, K2 a2, @Nonnull LBiObjBoolPredicate.LBool2Obj0Obj1Pred<? super K1, ? super K2> mapping) {
-		Null.nonNullArg(mapping, "mapping");
-		return value(mapping.testBool2Obj0Obj1(value(), a1, a2));
 	}
 
 	default @Nonnull <K1, K2> SELF mapWith(K1 a1, K2 a2, @Nonnull LBiObjBoolPredicate<? super K1, ? super K2> mapping) {

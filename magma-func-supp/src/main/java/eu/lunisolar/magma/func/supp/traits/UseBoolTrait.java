@@ -87,15 +87,6 @@ public interface UseBoolTrait<SELF extends UseBoolTrait<SELF>> extends FluentTra
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjBoolConsumer.LBoolObjCons<? super V> consumer) {
-		return use(a -> consumer.acceptBoolObj(a, v));
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjBoolConsumer.LBoolObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithBool(V1 with1, @Nonnull LObjBoolConsumer<? super V1> consumer) {
 		return use(a -> consumer.accept(with1, a));
 	}

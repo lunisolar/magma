@@ -137,28 +137,6 @@ public interface DoIfDblSingleTrait<SELF extends DoIfDblSingleTrait<SELF>> exten
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
-		if (is_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, @Nonnull LDblConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, @Nonnull LDblConsumer action) {
-		if (isNot_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjDblPredicate.LDblObjPred<? super V> predicate, V v, @Nonnull LDblConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithDbl(V1 with1, @Nonnull LObjDblPredicate<? super V1> predicate, @Nonnull LDblConsumer action) {
 		if (isWithDbl(with1, predicate))
 			action.accept(value());

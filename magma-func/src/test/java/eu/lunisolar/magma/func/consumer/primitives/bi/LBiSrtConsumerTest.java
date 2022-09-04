@@ -265,19 +265,4 @@ public class LBiSrtConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLSrt1Srt0Cons(short a2,short a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLSrt1Srt0Cons() {
-        LBiSrtConsumer lambda = LBiSrtConsumer./**/srt1Srt0Cons(this::variantLSrt1Srt0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiSrtConsumer.LSrt1Srt0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

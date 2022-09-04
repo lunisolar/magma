@@ -342,20 +342,4 @@ public class LDblIntPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLIntDblPred(int a2,double a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntDblPred() {
-        LDblIntPredicate lambda = LDblIntPredicate./**/intDblPred(this::variantLIntDblPred);
-
-        Assert.assertTrue(lambda instanceof LDblIntPredicate.LIntDblPred);
-    }
-
-    //</editor-fold>
-
-
 }

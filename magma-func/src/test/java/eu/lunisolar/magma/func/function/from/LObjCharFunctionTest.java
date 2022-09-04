@@ -368,20 +368,4 @@ public class LObjCharFunctionTest<T,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLCharObjFunc(char a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLCharObjFunc() {
-        LObjCharFunction lambda = LObjCharFunction./*<T,R>*/charObjFunc(this::variantLCharObjFunc);
-
-        Assert.assertTrue(lambda instanceof LObjCharFunction.LCharObjFunc);
-    }
-
-    //</editor-fold>
-
-
 }

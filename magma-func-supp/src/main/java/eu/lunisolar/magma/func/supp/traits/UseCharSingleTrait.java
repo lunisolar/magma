@@ -94,16 +94,6 @@ public interface UseCharSingleTrait<SELF extends UseCharSingleTrait<SELF>> exten
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjCharConsumer.LCharObjCons<? super V> consumer) {
-		consumer.acceptCharObj(value(), v);
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjCharConsumer.LCharObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithChar(V1 with1, @Nonnull LObjCharConsumer<? super V1> consumer) {
 		consumer.accept(with1, value());
 		return fluentCtx();

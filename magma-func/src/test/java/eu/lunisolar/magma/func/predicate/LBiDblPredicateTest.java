@@ -412,20 +412,4 @@ public class LBiDblPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLDbl1Dbl0Pred(double a2,double a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLDbl1Dbl0Pred() {
-        LBiDblPredicate lambda = LBiDblPredicate./**/dbl1Dbl0Pred(this::variantLDbl1Dbl0Pred);
-
-        Assert.assertTrue(lambda instanceof LBiDblPredicate.LDbl1Dbl0Pred);
-    }
-
-    //</editor-fold>
-
-
 }

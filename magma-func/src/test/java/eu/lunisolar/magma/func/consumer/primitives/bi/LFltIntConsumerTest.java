@@ -265,19 +265,4 @@ public class LFltIntConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLIntFltCons(int a2,float a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntFltCons() {
-        LFltIntConsumer lambda = LFltIntConsumer./**/intFltCons(this::variantLIntFltCons);
-
-        Assert.assertTrue(lambda instanceof LFltIntConsumer.LIntFltCons);
-    }
-
-    //</editor-fold>
-
-
 }

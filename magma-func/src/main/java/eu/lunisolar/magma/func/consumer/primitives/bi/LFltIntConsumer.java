@@ -359,17 +359,6 @@ public interface LFltIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LFltIntConsumer.LIntFltCons intFltCons(final @Nonnull LFltIntConsumer.LIntFltCons lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static void call(float a1, int a2, final @Nonnull LFltIntConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -425,44 +414,8 @@ public interface LFltIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LFltIntConsumer for method references. */
-	@FunctionalInterface
-	interface LIntFltCons extends LFltIntConsumer {
-
-		/**
-		 * Implement this, but call accept(float a1,int a2)
-		 */
-		default void acceptX(float a1, int a2) {
-			this.acceptIntFlt(a2, a1);
-		}
-
-		// void acceptIntFlt(int a2,float a1) ;
-		default void acceptIntFlt(int a2, float a1) {
-			// nestingAcceptIntFlt(a2,a1);
-			try {
-				this.acceptIntFltX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptIntFlt(int a2,float a1)
-		 */
-		void acceptIntFltX(int a2, float a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LFltIntConsumer) */
 	public static void doNothing(float a1, int a2) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LFltIntConsumer.LIntFltCons) */
-	public static void doNothing(int a2, float a1) {
 		// NOSONAR
 	}
 

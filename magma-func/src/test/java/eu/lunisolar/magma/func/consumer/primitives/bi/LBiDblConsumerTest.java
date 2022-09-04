@@ -265,19 +265,4 @@ public class LBiDblConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLDbl1Dbl0Cons(double a2,double a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLDbl1Dbl0Cons() {
-        LBiDblConsumer lambda = LBiDblConsumer./**/dbl1Dbl0Cons(this::variantLDbl1Dbl0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiDblConsumer.LDbl1Dbl0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

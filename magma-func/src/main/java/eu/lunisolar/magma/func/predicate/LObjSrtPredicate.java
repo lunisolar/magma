@@ -892,17 +892,6 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjSrtPredicate.LSrtObjPred<T> srtObjPred(final @Nonnull LObjSrtPredicate.LSrtObjPred<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> boolean call(T a1, short a2, final @Nonnull LObjSrtPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -1044,37 +1033,6 @@ public interface LObjSrtPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjSrtPredicate for method references. */
-	@FunctionalInterface
-	interface LSrtObjPred<T> extends LObjSrtPredicate<T> {
-
-		/**
-		 * Implement this, but call test(T a1,short a2)
-		 */
-		default boolean testX(T a1, short a2) {
-			return this.testSrtObj(a2, a1);
-		}
-
-		// boolean testSrtObj(short a2,T a1) ;
-		default boolean testSrtObj(short a2, T a1) {
-			// return nestingTestSrtObj(a2,a1);
-			try {
-				return this.testSrtObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testSrtObj(short a2,T a1)
-		 */
-		boolean testSrtObjX(short a2, T a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

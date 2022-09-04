@@ -468,17 +468,6 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LOiToLongFunction.LIntObjToLongFunc<T> intObjToLongFunc(final @Nonnull LOiToLongFunction.LIntObjToLongFunc<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> long call(T a1, int a2, final @Nonnull LOiToLongFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.applyAsLong(a1, a2);
@@ -587,44 +576,8 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LOiToLongFunction for method references. */
-	@FunctionalInterface
-	interface LIntObjToLongFunc<T> extends LOiToLongFunction<T> {
-
-		/**
-		 * Implement this, but call applyAsLong(T a1,int a2)
-		 */
-		default long applyAsLongX(T a1, int a2) {
-			return this.applyAsLongIntObj(a2, a1);
-		}
-
-		// long applyAsLongIntObj(int a2,T a1) ;
-		default long applyAsLongIntObj(int a2, T a1) {
-			// return nestingApplyAsLongIntObj(a2,a1);
-			try {
-				return this.applyAsLongIntObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyAsLongIntObj(int a2,T a1)
-		 */
-		long applyAsLongIntObjX(int a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LOiToLongFunction) Function */
 	public static <T> long doNothing(T a1, int a2) {
-		return Function4U.defaultLong;
-	}
-
-	/** Does nothing (LOiToLongFunction.LIntObjToLongFunc) Function */
-	public static <T> long doNothing(int a2, T a1) {
 		return Function4U.defaultLong;
 	}
 

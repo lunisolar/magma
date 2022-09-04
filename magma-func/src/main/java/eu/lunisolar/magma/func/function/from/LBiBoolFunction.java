@@ -452,17 +452,6 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <R> LBiBoolFunction.LBool1Bool0Func<R> bool1Bool0Func(final @Nonnull LBiBoolFunction.LBool1Bool0Func<R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <R> R call(boolean a1, boolean a2, final @Nonnull LBiBoolFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.apply(a1, a2);
@@ -534,38 +523,6 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default LBiBoolFunction<R> nonNullable() {
 		return this::nonNullApply;
 	}
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiBoolFunction for method references. */
-	@FunctionalInterface
-	interface LBool1Bool0Func<R> extends LBiBoolFunction<R> {
-
-		/**
-		 * Implement this, but call apply(boolean a1,boolean a2)
-		 */
-		default R applyX(boolean a1, boolean a2) {
-			return this.applyBool1Bool0(a2, a1);
-		}
-
-		@Nullable
-		// R applyBool1Bool0(boolean a2,boolean a1) ;
-		default R applyBool1Bool0(boolean a2, boolean a1) {
-			// return nestingApplyBool1Bool0(a2,a1);
-			try {
-				return this.applyBool1Bool0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyBool1Bool0(boolean a2,boolean a1)
-		 */
-		R applyBool1Bool0X(boolean a2, boolean a1) throws Throwable;
-	}
-
-	// </editor-fold>
 
 	/** Does nothing (LBiBoolFunction) Function */
 	public static <R> R doNothing(boolean a1, boolean a2) {

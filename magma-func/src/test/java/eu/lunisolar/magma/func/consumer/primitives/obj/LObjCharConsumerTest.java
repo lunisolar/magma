@@ -265,19 +265,4 @@ public class LObjCharConsumerTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLCharObjCons(char a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLCharObjCons() {
-        LObjCharConsumer lambda = LObjCharConsumer./*<T>*/charObjCons(this::variantLCharObjCons);
-
-        Assert.assertTrue(lambda instanceof LObjCharConsumer.LCharObjCons);
-    }
-
-    //</editor-fold>
-
-
 }

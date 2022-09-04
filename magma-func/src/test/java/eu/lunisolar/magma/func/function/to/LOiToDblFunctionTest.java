@@ -570,20 +570,4 @@ public class LOiToDblFunctionTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private double variantLIntObjToDblFunc(int a2,Integer a1) {
-        return 100d;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjToDblFunc() {
-        LOiToDblFunction lambda = LOiToDblFunction./*<T>*/intObjToDblFunc(this::variantLIntObjToDblFunc);
-
-        Assert.assertTrue(lambda instanceof LOiToDblFunction.LIntObjToDblFunc);
-    }
-
-    //</editor-fold>
-
-
 }

@@ -376,17 +376,6 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjByteConsumer.LByteObjCons<T> byteObjCons(final @Nonnull LObjByteConsumer.LByteObjCons<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> void call(T a1, byte a2, final @Nonnull LObjByteConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -442,44 +431,8 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjByteConsumer for method references. */
-	@FunctionalInterface
-	interface LByteObjCons<T> extends LObjByteConsumer<T> {
-
-		/**
-		 * Implement this, but call accept(T a1,byte a2)
-		 */
-		default void acceptX(T a1, byte a2) {
-			this.acceptByteObj(a2, a1);
-		}
-
-		// void acceptByteObj(byte a2,T a1) ;
-		default void acceptByteObj(byte a2, T a1) {
-			// nestingAcceptByteObj(a2,a1);
-			try {
-				this.acceptByteObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptByteObj(byte a2,T a1)
-		 */
-		void acceptByteObjX(byte a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LObjByteConsumer) */
 	public static <T> void doNothing(T a1, byte a2) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LObjByteConsumer.LByteObjCons) */
-	public static <T> void doNothing(byte a2, T a1) {
 		// NOSONAR
 	}
 

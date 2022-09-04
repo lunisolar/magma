@@ -585,20 +585,4 @@ public class LBiFunctionTest<T1,T2,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLObj1Obj0Func(Integer a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Obj0Func() {
-        LBiFunction lambda = LBiFunction./*<T1,T2,R>*/obj1Obj0Func(this::variantLObj1Obj0Func);
-
-        Assert.assertTrue(lambda instanceof LBiFunction.LObj1Obj0Func);
-    }
-
-    //</editor-fold>
-
-
 }

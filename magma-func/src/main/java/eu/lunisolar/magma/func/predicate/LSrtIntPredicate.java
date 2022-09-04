@@ -717,17 +717,6 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static LSrtIntPredicate.LIntSrtPred intSrtPred(final @Nonnull LSrtIntPredicate.LIntSrtPred lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static boolean call(short a1, int a2, final @Nonnull LSrtIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.test(a1, a2);
@@ -862,37 +851,6 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LSrtIntPredicate for method references. */
-	@FunctionalInterface
-	interface LIntSrtPred extends LSrtIntPredicate {
-
-		/**
-		 * Implement this, but call test(short a1,int a2)
-		 */
-		default boolean testX(short a1, int a2) {
-			return this.testIntSrt(a2, a1);
-		}
-
-		// boolean testIntSrt(int a2,short a1) ;
-		default boolean testIntSrt(int a2, short a1) {
-			// return nestingTestIntSrt(a2,a1);
-			try {
-				return this.testIntSrtX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call testIntSrt(int a2,short a1)
-		 */
-		boolean testIntSrtX(int a2, short a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

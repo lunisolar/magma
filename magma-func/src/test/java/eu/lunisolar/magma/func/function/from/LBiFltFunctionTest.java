@@ -403,20 +403,4 @@ public class LBiFltFunctionTest<R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLFlt1Flt0Func(float a2,float a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLFlt1Flt0Func() {
-        LBiFltFunction lambda = LBiFltFunction./*<R>*/flt1Flt0Func(this::variantLFlt1Flt0Func);
-
-        Assert.assertTrue(lambda instanceof LBiFltFunction.LFlt1Flt0Func);
-    }
-
-    //</editor-fold>
-
-
 }

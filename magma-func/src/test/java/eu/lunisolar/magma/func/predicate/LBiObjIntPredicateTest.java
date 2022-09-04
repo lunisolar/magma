@@ -391,44 +391,4 @@ public class LBiObjIntPredicateTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLObj1Obj0Int2Pred(Integer a2,Integer a1,int a3) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLObj1Obj0Int2Pred() {
-        LBiObjIntPredicate lambda = LBiObjIntPredicate./*<T1,T2>*/obj1Obj0Int2Pred(this::variantLObj1Obj0Int2Pred);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntPredicate.LObj1Obj0Int2Pred);
-    }
-
-
-    private boolean variantLInt2Obj0Obj1Pred(int a3,Integer a1,Integer a2) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt2Obj0Obj1Pred() {
-        LBiObjIntPredicate lambda = LBiObjIntPredicate./*<T1,T2>*/int2Obj0Obj1Pred(this::variantLInt2Obj0Obj1Pred);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntPredicate.LInt2Obj0Obj1Pred);
-    }
-
-
-    private boolean variantLInt2Obj1Obj0Pred(int a3,Integer a2,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt2Obj1Obj0Pred() {
-        LBiObjIntPredicate lambda = LBiObjIntPredicate./*<T1,T2>*/int2Obj1Obj0Pred(this::variantLInt2Obj1Obj0Pred);
-
-        Assert.assertTrue(lambda instanceof LBiObjIntPredicate.LInt2Obj1Obj0Pred);
-    }
-
-    //</editor-fold>
-
-
 }

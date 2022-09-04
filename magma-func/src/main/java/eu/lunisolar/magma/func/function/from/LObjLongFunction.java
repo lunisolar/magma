@@ -465,17 +465,6 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T, R> LObjLongFunction.LLongObjFunc<T, R> longObjFunc(final @Nonnull LObjLongFunction.LLongObjFunc<T, R> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T, R> R call(T a1, long a2, final @Nonnull LObjLongFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.apply(a1, a2);
@@ -548,45 +537,8 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return this::nonNullApply;
 	}
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjLongFunction for method references. */
-	@FunctionalInterface
-	interface LLongObjFunc<T, R> extends LObjLongFunction<T, R> {
-
-		/**
-		 * Implement this, but call apply(T a1,long a2)
-		 */
-		default R applyX(T a1, long a2) {
-			return this.applyLongObj(a2, a1);
-		}
-
-		@Nullable
-		// R applyLongObj(long a2,T a1) ;
-		default R applyLongObj(long a2, T a1) {
-			// return nestingApplyLongObj(a2,a1);
-			try {
-				return this.applyLongObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyLongObj(long a2,T a1)
-		 */
-		R applyLongObjX(long a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LObjLongFunction) Function */
 	public static <T, R> R doNothing(T a1, long a2) {
-		return (R) Function4U.defaultObject;
-	}
-
-	/** Does nothing (LObjLongFunction.LLongObjFunc) Function */
-	public static <T, R> R doNothing(long a2, T a1) {
 		return (R) Function4U.defaultObject;
 	}
 

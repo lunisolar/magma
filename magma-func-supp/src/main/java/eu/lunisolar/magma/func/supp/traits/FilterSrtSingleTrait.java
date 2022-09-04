@@ -84,12 +84,6 @@ public interface FilterSrtSingleTrait<SELF extends FilterSrtSingleTrait<SELF>> e
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjSrtPredicate.LSrtObjPred<? super V> predicate) {
-		Null.nonNullArg(predicate, "predicate");
-		return this.is_(v, predicate) ? fluentCtx() : voidValue();
-	}
-
-	@Override
 	default @Nonnull <V1> SELF filterWithSrt(V1 with1, @Nonnull LObjSrtPredicate<? super V1> predicate) {
 		Null.nonNullArg(predicate, "predicate");
 		return this.isWithSrt(with1, predicate) ? fluentCtx() : voidValue();

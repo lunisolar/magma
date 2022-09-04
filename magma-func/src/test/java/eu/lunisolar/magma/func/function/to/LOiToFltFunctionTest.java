@@ -570,20 +570,4 @@ public class LOiToFltFunctionTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private float variantLIntObjToFltFunc(int a2,Integer a1) {
-        return 100f;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjToFltFunc() {
-        LOiToFltFunction lambda = LOiToFltFunction./*<T>*/intObjToFltFunc(this::variantLIntObjToFltFunc);
-
-        Assert.assertTrue(lambda instanceof LOiToFltFunction.LIntObjToFltFunc);
-    }
-
-    //</editor-fold>
-
-
 }

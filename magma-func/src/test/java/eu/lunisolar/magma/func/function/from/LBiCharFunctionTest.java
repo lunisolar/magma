@@ -403,20 +403,4 @@ public class LBiCharFunctionTest<R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLChar1Char0Func(char a2,char a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLChar1Char0Func() {
-        LBiCharFunction lambda = LBiCharFunction./*<R>*/char1Char0Func(this::variantLChar1Char0Func);
-
-        Assert.assertTrue(lambda instanceof LBiCharFunction.LChar1Char0Func);
-    }
-
-    //</editor-fold>
-
-
 }

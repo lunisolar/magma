@@ -535,20 +535,4 @@ public class LToCharBiFunctionTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private char variantLToCharObj1Obj0Func(Integer a2,Integer a1) {
-        return '\u0100';
-    }
-
-    @Test
-    public void compilerSubstituteVariantLToCharObj1Obj0Func() {
-        LToCharBiFunction lambda = LToCharBiFunction./*<T1,T2>*/toCharObj1Obj0Func(this::variantLToCharObj1Obj0Func);
-
-        Assert.assertTrue(lambda instanceof LToCharBiFunction.LToCharObj1Obj0Func);
-    }
-
-    //</editor-fold>
-
-
 }

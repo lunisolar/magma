@@ -368,20 +368,4 @@ public class LBiBoolFunctionTest<R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLBool1Bool0Func(boolean a2,boolean a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLBool1Bool0Func() {
-        LBiBoolFunction lambda = LBiBoolFunction./*<R>*/bool1Bool0Func(this::variantLBool1Bool0Func);
-
-        Assert.assertTrue(lambda instanceof LBiBoolFunction.LBool1Bool0Func);
-    }
-
-    //</editor-fold>
-
-
 }

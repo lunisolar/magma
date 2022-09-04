@@ -535,20 +535,4 @@ public class LToFltBiFunctionTest<T1,T2> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private float variantLToFltObj1Obj0Func(Integer a2,Integer a1) {
-        return 100f;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLToFltObj1Obj0Func() {
-        LToFltBiFunction lambda = LToFltBiFunction./*<T1,T2>*/toFltObj1Obj0Func(this::variantLToFltObj1Obj0Func);
-
-        Assert.assertTrue(lambda instanceof LToFltBiFunction.LToFltObj1Obj0Func);
-    }
-
-    //</editor-fold>
-
-
 }

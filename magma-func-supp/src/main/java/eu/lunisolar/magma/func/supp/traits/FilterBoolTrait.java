@@ -91,16 +91,6 @@ public interface FilterBoolTrait<SELF extends FilterBoolTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
-		return filter(a -> operator.testBoolObj(a, v));
-	}
-
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
-		return filter_(v, operator);
-	}
-
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default @Nonnull <V1> SELF filterWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		return filter(a -> operator.test(with1, a));
 	}

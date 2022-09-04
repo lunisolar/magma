@@ -265,19 +265,4 @@ public class LObjByteConsumerTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLByteObjCons(byte a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLByteObjCons() {
-        LObjByteConsumer lambda = LObjByteConsumer./*<T>*/byteObjCons(this::variantLByteObjCons);
-
-        Assert.assertTrue(lambda instanceof LObjByteConsumer.LByteObjCons);
-    }
-
-    //</editor-fold>
-
-
 }

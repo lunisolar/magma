@@ -377,20 +377,4 @@ public class LObjDblPredicateTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLDblObjPred(double a2,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLDblObjPred() {
-        LObjDblPredicate lambda = LObjDblPredicate./*<T>*/dblObjPred(this::variantLDblObjPred);
-
-        Assert.assertTrue(lambda instanceof LObjDblPredicate.LDblObjPred);
-    }
-
-    //</editor-fold>
-
-
 }

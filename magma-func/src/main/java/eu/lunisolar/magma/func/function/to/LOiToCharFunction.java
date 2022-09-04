@@ -468,17 +468,6 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LOiToCharFunction.LIntObjToCharFunc<T> intObjToCharFunc(final @Nonnull LOiToCharFunction.LIntObjToCharFunc<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> char call(T a1, int a2, final @Nonnull LOiToCharFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.applyAsChar(a1, a2);
@@ -587,44 +576,8 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LOiToCharFunction for method references. */
-	@FunctionalInterface
-	interface LIntObjToCharFunc<T> extends LOiToCharFunction<T> {
-
-		/**
-		 * Implement this, but call applyAsChar(T a1,int a2)
-		 */
-		default char applyAsCharX(T a1, int a2) {
-			return this.applyAsCharIntObj(a2, a1);
-		}
-
-		// char applyAsCharIntObj(int a2,T a1) ;
-		default char applyAsCharIntObj(int a2, T a1) {
-			// return nestingApplyAsCharIntObj(a2,a1);
-			try {
-				return this.applyAsCharIntObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyAsCharIntObj(int a2,T a1)
-		 */
-		char applyAsCharIntObjX(int a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LOiToCharFunction) Function */
 	public static <T> char doNothing(T a1, int a2) {
-		return Function4U.defaultCharacter;
-	}
-
-	/** Does nothing (LOiToCharFunction.LIntObjToCharFunc) Function */
-	public static <T> char doNothing(int a2, T a1) {
 		return Function4U.defaultCharacter;
 	}
 

@@ -94,16 +94,6 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjLongConsumer.LLongObjCons<? super V> consumer) {
-		consumer.acceptLongObj(value(), v);
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjLongConsumer.LLongObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithLong(V1 with1, @Nonnull LObjLongConsumer<? super V1> consumer) {
 		consumer.accept(with1, value());
 		return fluentCtx();

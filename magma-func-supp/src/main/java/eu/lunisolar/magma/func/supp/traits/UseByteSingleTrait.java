@@ -94,16 +94,6 @@ public interface UseByteSingleTrait<SELF extends UseByteSingleTrait<SELF>> exten
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjByteConsumer.LByteObjCons<? super V> consumer) {
-		consumer.acceptByteObj(value(), v);
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjByteConsumer.LByteObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithByte(V1 with1, @Nonnull LObjByteConsumer<? super V1> consumer) {
 		consumer.accept(with1, value());
 		return fluentCtx();

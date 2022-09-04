@@ -466,17 +466,6 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LToFltBiFunction.LToFltObj1Obj0Func<T2, T1> toFltObj1Obj0Func(final @Nonnull LToFltBiFunction.LToFltObj1Obj0Func<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T1, T2> float call(T1 a1, T2 a2, final @Nonnull LToFltBiFunction<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.applyAsFlt(a1, a2);
@@ -570,37 +559,6 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LToFltBiFunction for method references. */
-	@FunctionalInterface
-	interface LToFltObj1Obj0Func<T2, T1> extends LToFltBiFunction<T1, T2> {
-
-		/**
-		 * Implement this, but call applyAsFlt(T1 a1,T2 a2)
-		 */
-		default float applyAsFltX(T1 a1, T2 a2) {
-			return this.applyAsFltObj1Obj0(a2, a1);
-		}
-
-		// float applyAsFltObj1Obj0(T2 a2,T1 a1) ;
-		default float applyAsFltObj1Obj0(T2 a2, T1 a1) {
-			// return nestingApplyAsFltObj1Obj0(a2,a1);
-			try {
-				return this.applyAsFltObj1Obj0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyAsFltObj1Obj0(T2 a2,T1 a1)
-		 */
-		float applyAsFltObj1Obj0X(T2 a2, T1 a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

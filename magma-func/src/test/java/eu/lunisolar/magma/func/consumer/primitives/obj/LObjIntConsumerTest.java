@@ -272,19 +272,4 @@ public class LObjIntConsumerTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLIntObjCons(int a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntObjCons() {
-        LObjIntConsumer lambda = LObjIntConsumer./*<T>*/intObjCons(this::variantLIntObjCons);
-
-        Assert.assertTrue(lambda instanceof LObjIntConsumer.LIntObjCons);
-    }
-
-    //</editor-fold>
-
-
 }

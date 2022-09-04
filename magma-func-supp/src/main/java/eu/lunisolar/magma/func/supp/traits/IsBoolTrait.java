@@ -138,28 +138,6 @@ public interface IsBoolTrait<SELF extends IsBoolTrait<SELF>> extends BoolValueTr
 	}
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean is_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
-		Null.nonNullArg(operator, "operator");
-		return operator.testBoolObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean is_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
-		return is_(v, operator);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
-	default <V> boolean isNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
-		Null.nonNullArg(operator, "operator");
-		return !operator.testBoolObj(value(), v);
-	}
-
-	/** Variant 'method(Is::equal, ...)' or 'method(Does::contain, ...)', etc.  */
-	default <V> boolean isNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v) {
-		return isNot_(v, operator);
-	}
-
-	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default <V1> boolean isWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
 		return operator.test(with1, value());

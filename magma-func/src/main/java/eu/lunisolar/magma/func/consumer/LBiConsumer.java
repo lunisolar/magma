@@ -660,17 +660,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T2, T1> LBiConsumer.LObj1Obj0Cons<T2, T1> obj1Obj0Cons(final @Nonnull LBiConsumer.LObj1Obj0Cons<T2, T1> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T1, T2> void call(T1 a1, T2 a2, final @Nonnull LBiConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -716,37 +705,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	// </editor-fold>
 
 	// <editor-fold desc="variant conversions">
-
-	// </editor-fold>
-
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LBiConsumer for method references. */
-	@FunctionalInterface
-	interface LObj1Obj0Cons<T2, T1> extends LBiConsumer<T1, T2> {
-
-		/**
-		 * Implement this, but call accept(T1 a1,T2 a2)
-		 */
-		default void acceptX(T1 a1, T2 a2) {
-			this.acceptObj1Obj0(a2, a1);
-		}
-
-		// void acceptObj1Obj0(T2 a2,T1 a1) ;
-		default void acceptObj1Obj0(T2 a2, T1 a1) {
-			// nestingAcceptObj1Obj0(a2,a1);
-			try {
-				this.acceptObj1Obj0X(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptObj1Obj0(T2 a2,T1 a1)
-		 */
-		void acceptObj1Obj0X(T2 a2, T1 a1) throws Throwable;
-	}
 
 	// </editor-fold>
 

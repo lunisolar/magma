@@ -377,20 +377,4 @@ public class LObjLongPredicateTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLLongObjPred(long a2,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLLongObjPred() {
-        LObjLongPredicate lambda = LObjLongPredicate./*<T>*/longObjPred(this::variantLLongObjPred);
-
-        Assert.assertTrue(lambda instanceof LObjLongPredicate.LLongObjPred);
-    }
-
-    //</editor-fold>
-
-
 }

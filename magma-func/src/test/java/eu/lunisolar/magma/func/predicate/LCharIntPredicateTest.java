@@ -342,20 +342,4 @@ public class LCharIntPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLIntCharPred(int a2,char a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntCharPred() {
-        LCharIntPredicate lambda = LCharIntPredicate./**/intCharPred(this::variantLIntCharPred);
-
-        Assert.assertTrue(lambda instanceof LCharIntPredicate.LIntCharPred);
-    }
-
-    //</editor-fold>
-
-
 }

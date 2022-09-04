@@ -84,12 +84,6 @@ public interface FilterBoolSingleTrait<SELF extends FilterBoolSingleTrait<SELF>>
 	}
 
 	@Override
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator) {
-		Null.nonNullArg(operator, "operator");
-		return this.is_(v, operator) ? fluentCtx() : voidValue();
-	}
-
-	@Override
 	default @Nonnull <V1> SELF filterWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator) {
 		Null.nonNullArg(operator, "operator");
 		return this.isWithBool(with1, operator) ? fluentCtx() : voidValue();

@@ -376,17 +376,6 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LObjFltConsumer.LFltObjCons<T> fltObjCons(final @Nonnull LObjFltConsumer.LFltObjCons<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> void call(T a1, float a2, final @Nonnull LObjFltConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		lambda.accept(a1, a2);
@@ -442,44 +431,8 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LObjFltConsumer for method references. */
-	@FunctionalInterface
-	interface LFltObjCons<T> extends LObjFltConsumer<T> {
-
-		/**
-		 * Implement this, but call accept(T a1,float a2)
-		 */
-		default void acceptX(T a1, float a2) {
-			this.acceptFltObj(a2, a1);
-		}
-
-		// void acceptFltObj(float a2,T a1) ;
-		default void acceptFltObj(float a2, T a1) {
-			// nestingAcceptFltObj(a2,a1);
-			try {
-				this.acceptFltObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call acceptFltObj(float a2,T a1)
-		 */
-		void acceptFltObjX(float a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LObjFltConsumer) */
 	public static <T> void doNothing(T a1, float a2) {
-		// NOSONAR
-	}
-
-	/** Does nothing (LObjFltConsumer.LFltObjCons) */
-	public static <T> void doNothing(float a2, T a1) {
 		// NOSONAR
 	}
 

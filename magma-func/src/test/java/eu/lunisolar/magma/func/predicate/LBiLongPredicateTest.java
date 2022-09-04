@@ -412,20 +412,4 @@ public class LBiLongPredicateTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLLong1Long0Pred(long a2,long a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLLong1Long0Pred() {
-        LBiLongPredicate lambda = LBiLongPredicate./**/long1Long0Pred(this::variantLLong1Long0Pred);
-
-        Assert.assertTrue(lambda instanceof LBiLongPredicate.LLong1Long0Pred);
-    }
-
-    //</editor-fold>
-
-
 }

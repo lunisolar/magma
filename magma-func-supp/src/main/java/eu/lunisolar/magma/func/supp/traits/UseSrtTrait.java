@@ -87,15 +87,6 @@ public interface UseSrtTrait<SELF extends UseSrtTrait<SELF>> extends FluentTrait
 		return useInt(v, consumer);
 	}
 
-	default @Nonnull <V> SELF use_(V v, @Nonnull LObjSrtConsumer.LSrtObjCons<? super V> consumer) {
-		return use(a -> consumer.acceptSrtObj(a, v));
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF use_(@Nonnull LObjSrtConsumer.LSrtObjCons<? super V> consumer, V v) {
-		return use_(v, consumer);
-	}
-
 	default @Nonnull <V1> SELF useWithSrt(V1 with1, @Nonnull LObjSrtConsumer<? super V1> consumer) {
 		return use(a -> consumer.accept(with1, a));
 	}

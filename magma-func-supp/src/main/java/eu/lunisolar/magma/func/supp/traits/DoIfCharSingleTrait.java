@@ -137,28 +137,6 @@ public interface DoIfCharSingleTrait<SELF extends DoIfCharSingleTrait<SELF>> ext
 		return doIfNotInt(v, predicate, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, @Nonnull LCharConsumer action) {
-		if (is_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v, @Nonnull LCharConsumer action) {
-		return doIf_(v, predicate, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, @Nonnull LCharConsumer action) {
-		if (isNot_(v, predicate))
-			action.accept(value());
-		return fluentCtx();
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjCharPredicate.LCharObjPred<? super V> predicate, V v, @Nonnull LCharConsumer action) {
-		return doIfNot_(v, predicate, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithChar(V1 with1, @Nonnull LObjCharPredicate<? super V1> predicate, @Nonnull LCharConsumer action) {
 		if (isWithChar(with1, predicate))
 			action.accept(value());

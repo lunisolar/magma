@@ -403,20 +403,4 @@ public class LBiDblFunctionTest<R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLDbl1Dbl0Func(double a2,double a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLDbl1Dbl0Func() {
-        LBiDblFunction lambda = LBiDblFunction./*<R>*/dbl1Dbl0Func(this::variantLDbl1Dbl0Func);
-
-        Assert.assertTrue(lambda instanceof LBiDblFunction.LDbl1Dbl0Func);
-    }
-
-    //</editor-fold>
-
-
 }

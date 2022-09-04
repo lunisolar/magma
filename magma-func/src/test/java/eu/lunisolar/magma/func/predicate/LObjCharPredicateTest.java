@@ -377,20 +377,4 @@ public class LObjCharPredicateTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private boolean variantLCharObjPred(char a2,Integer a1) {
-        return true;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLCharObjPred() {
-        LObjCharPredicate lambda = LObjCharPredicate./*<T>*/charObjPred(this::variantLCharObjPred);
-
-        Assert.assertTrue(lambda instanceof LObjCharPredicate.LCharObjPred);
-    }
-
-    //</editor-fold>
-
-
 }

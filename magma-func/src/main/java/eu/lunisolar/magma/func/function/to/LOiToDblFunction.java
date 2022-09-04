@@ -468,17 +468,6 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LOiToDblFunction.LIntObjToDblFunc<T> intObjToDblFunc(final @Nonnull LOiToDblFunction.LIntObjToDblFunc<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> double call(T a1, int a2, final @Nonnull LOiToDblFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.applyAsDbl(a1, a2);
@@ -587,44 +576,8 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LOiToDblFunction for method references. */
-	@FunctionalInterface
-	interface LIntObjToDblFunc<T> extends LOiToDblFunction<T> {
-
-		/**
-		 * Implement this, but call applyAsDbl(T a1,int a2)
-		 */
-		default double applyAsDblX(T a1, int a2) {
-			return this.applyAsDblIntObj(a2, a1);
-		}
-
-		// double applyAsDblIntObj(int a2,T a1) ;
-		default double applyAsDblIntObj(int a2, T a1) {
-			// return nestingApplyAsDblIntObj(a2,a1);
-			try {
-				return this.applyAsDblIntObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyAsDblIntObj(int a2,T a1)
-		 */
-		double applyAsDblIntObjX(int a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LOiToDblFunction) Function */
 	public static <T> double doNothing(T a1, int a2) {
-		return Function4U.defaultDouble;
-	}
-
-	/** Does nothing (LOiToDblFunction.LIntObjToDblFunc) Function */
-	public static <T> double doNothing(int a2, T a1) {
 		return Function4U.defaultDouble;
 	}
 

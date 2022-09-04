@@ -91,16 +91,6 @@ public interface FilterByteTrait<SELF extends FilterByteTrait<SELF>> extends Flu
 	}
 
 	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
-	default @Nonnull <V> SELF filter_(V v, @Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate) {
-		return filter(a -> predicate.testByteObj(a, v));
-	}
-
-	/** Variant 'obj.filter(Is::equal, ...)' or 'opt.filter(Does::contain, ...)', etc.  */
-	default @Nonnull <V> SELF filter_(@Nonnull LObjBytePredicate.LByteObjPred<? super V> predicate, V v) {
-		return filter_(v, predicate);
-	}
-
-	/** Variant 'obj.filter(..., (...) -> { ..long multiline definition.. })' */
 	default @Nonnull <V1> SELF filterWithByte(V1 with1, @Nonnull LObjBytePredicate<? super V1> predicate) {
 		return filter(a -> predicate.test(with1, a));
 	}

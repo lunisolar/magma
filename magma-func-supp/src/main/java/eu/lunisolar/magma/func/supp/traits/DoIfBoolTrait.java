@@ -116,24 +116,6 @@ public interface DoIfBoolTrait<SELF extends DoIfBoolTrait<SELF>> extends FluentT
 		return doIfNotInt(v, operator, action);
 	}
 
-	default @Nonnull <V> SELF doIf_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LBoolConsumer action) {
-		return doIf(a -> operator.testBoolObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIf_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LBoolConsumer action) {
-		return doIf_(v, operator, action);
-	}
-
-	default @Nonnull <V> SELF doIfNot_(V v, @Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, @Nonnull LBoolConsumer action) {
-		return doIfNot(a -> operator.testBoolObj(a, v), action);
-	}
-
-	/** Variant with reverse function-vs-arg order. */
-	default @Nonnull <V> SELF doIfNot_(@Nonnull LObjBoolPredicate.LBoolObjPred<? super V> operator, V v, @Nonnull LBoolConsumer action) {
-		return doIfNot_(v, operator, action);
-	}
-
 	default @Nonnull <V1> SELF doIfWithBool(V1 with1, @Nonnull LObjBoolPredicate<? super V1> operator, @Nonnull LBoolConsumer action) {
 		return doIf(a -> operator.test(with1, a), action);
 	}

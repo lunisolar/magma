@@ -265,19 +265,4 @@ public class LSrtIntConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLIntSrtCons(int a2,short a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLIntSrtCons() {
-        LSrtIntConsumer lambda = LSrtIntConsumer./**/intSrtCons(this::variantLIntSrtCons);
-
-        Assert.assertTrue(lambda instanceof LSrtIntConsumer.LIntSrtCons);
-    }
-
-    //</editor-fold>
-
-
 }

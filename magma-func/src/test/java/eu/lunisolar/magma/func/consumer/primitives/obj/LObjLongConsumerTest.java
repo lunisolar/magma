@@ -272,19 +272,4 @@ public class LObjLongConsumerTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLLongObjCons(long a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLLongObjCons() {
-        LObjLongConsumer lambda = LObjLongConsumer./*<T>*/longObjCons(this::variantLLongObjCons);
-
-        Assert.assertTrue(lambda instanceof LObjLongConsumer.LLongObjCons);
-    }
-
-    //</editor-fold>
-
-
 }

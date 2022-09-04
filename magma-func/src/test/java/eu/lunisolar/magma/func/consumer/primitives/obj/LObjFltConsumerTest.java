@@ -265,19 +265,4 @@ public class LObjFltConsumerTest<T> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLFltObjCons(float a2,Integer a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLFltObjCons() {
-        LObjFltConsumer lambda = LObjFltConsumer./*<T>*/fltObjCons(this::variantLFltObjCons);
-
-        Assert.assertTrue(lambda instanceof LObjFltConsumer.LFltObjCons);
-    }
-
-    //</editor-fold>
-
-
 }

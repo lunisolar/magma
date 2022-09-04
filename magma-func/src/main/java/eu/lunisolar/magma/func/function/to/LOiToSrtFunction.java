@@ -468,17 +468,6 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		};
 	}
 
-	// <editor-fold desc="wrap variants">
-
-	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
-	@Nonnull
-	static <T> LOiToSrtFunction.LIntObjToSrtFunc<T> intObjToSrtFunc(final @Nonnull LOiToSrtFunction.LIntObjToSrtFunc<T> lambda) {
-		Null.nonNullArg(lambda, "lambda");
-		return lambda;
-	}
-
-	// </editor-fold>
-
 	static <T> short call(T a1, int a2, final @Nonnull LOiToSrtFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda.applyAsSrt(a1, a2);
@@ -587,44 +576,8 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
-	// <editor-fold desc="interface variants">
-
-	/** Permutation of LOiToSrtFunction for method references. */
-	@FunctionalInterface
-	interface LIntObjToSrtFunc<T> extends LOiToSrtFunction<T> {
-
-		/**
-		 * Implement this, but call applyAsSrt(T a1,int a2)
-		 */
-		default short applyAsSrtX(T a1, int a2) {
-			return this.applyAsSrtIntObj(a2, a1);
-		}
-
-		// short applyAsSrtIntObj(int a2,T a1) ;
-		default short applyAsSrtIntObj(int a2, T a1) {
-			// return nestingApplyAsSrtIntObj(a2,a1);
-			try {
-				return this.applyAsSrtIntObjX(a2, a1);
-			} catch (Throwable e) { // NOSONAR
-				throw Handling.nestCheckedAndThrow(e);
-			}
-		}
-
-		/**
-		 * Implement this, but call applyAsSrtIntObj(int a2,T a1)
-		 */
-		short applyAsSrtIntObjX(int a2, T a1) throws Throwable;
-	}
-
-	// </editor-fold>
-
 	/** Does nothing (LOiToSrtFunction) Function */
 	public static <T> short doNothing(T a1, int a2) {
-		return Function4U.defaultShort;
-	}
-
-	/** Does nothing (LOiToSrtFunction.LIntObjToSrtFunc) Function */
-	public static <T> short doNothing(int a2, T a1) {
 		return Function4U.defaultShort;
 	}
 

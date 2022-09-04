@@ -265,19 +265,4 @@ public class LBiIntConsumerTest {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private void variantLInt1Int0Cons(int a2,int a1) {
-    }
-
-    @Test
-    public void compilerSubstituteVariantLInt1Int0Cons() {
-        LBiIntConsumer lambda = LBiIntConsumer./**/int1Int0Cons(this::variantLInt1Int0Cons);
-
-        Assert.assertTrue(lambda instanceof LBiIntConsumer.LInt1Int0Cons);
-    }
-
-    //</editor-fold>
-
-
 }

@@ -368,20 +368,4 @@ public class LObjDblFunctionTest<T,R> {
         Assert.assertFalse(sut.isThrowing());
     }
 
-    //<editor-fold desc="Variants">
-
-    private Integer variantLDblObjFunc(double a2,Integer a1) {
-        return 100;
-    }
-
-    @Test
-    public void compilerSubstituteVariantLDblObjFunc() {
-        LObjDblFunction lambda = LObjDblFunction./*<T,R>*/dblObjFunc(this::variantLDblObjFunc);
-
-        Assert.assertTrue(lambda instanceof LObjDblFunction.LDblObjFunc);
-    }
-
-    //</editor-fold>
-
-
 }
