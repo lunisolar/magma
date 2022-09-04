@@ -344,6 +344,8 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LObjDblConsumer<T> {
 		private LObjDblConsumer<T> target = null;
 		@Override
@@ -359,6 +361,8 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LObjDblConsumer<T> objDblConsThrowing(final @Nonnull ExF<Throwable> exF) {

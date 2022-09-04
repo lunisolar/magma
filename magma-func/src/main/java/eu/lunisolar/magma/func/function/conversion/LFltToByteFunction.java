@@ -346,6 +346,8 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltToByteFunction {
 		private LFltToByteFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(float a, LFltToByteFunction function) {
 		var initialValue = function.applyAsByte(a);
@@ -423,6 +429,8 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltToByteFunction fltToByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {

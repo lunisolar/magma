@@ -357,6 +357,8 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LIntFunction<R> {
 		private LIntFunction<R> target = null;
 		@Override
@@ -372,6 +374,10 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(int a, LIntFunction<R> function) {
 		var initialValue = function.apply(a);
@@ -429,6 +435,8 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LIntFunction<R> intFuncThrowing(final @Nonnull ExF<Throwable> exF) {

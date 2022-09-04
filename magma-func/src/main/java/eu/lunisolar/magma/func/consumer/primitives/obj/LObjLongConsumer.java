@@ -344,6 +344,8 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LObjLongConsumer<T> {
 		private LObjLongConsumer<T> target = null;
 		@Override
@@ -359,6 +361,8 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LObjLongConsumer<T> objLongConsThrowing(final @Nonnull ExF<Throwable> exF) {

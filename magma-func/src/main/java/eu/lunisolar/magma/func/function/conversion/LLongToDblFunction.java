@@ -356,6 +356,8 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongToDblFunction {
 		private LLongToDblFunction target = null;
 		@Override
@@ -371,6 +373,10 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a, LLongToDblFunction function) {
 		var initialValue = function.applyAsDbl(a);
@@ -433,6 +439,8 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongToDblFunction longToDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -623,6 +623,8 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolIntPredicate {
 		private LBoolIntPredicate target = null;
 		@Override
@@ -638,6 +640,10 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a1, int a2, LBoolIntPredicate function) {
 		var initialValue = function.test(a1, a2);
@@ -700,6 +706,8 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolIntPredicate boolIntPredThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -352,6 +352,8 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntBinaryOperator {
 		private LIntBinaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(int a1, int a2, LIntBinaryOperator function) {
 		var initialValue = function.applyAsInt(a1, a2);
@@ -429,6 +435,8 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntBinaryOperator intBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

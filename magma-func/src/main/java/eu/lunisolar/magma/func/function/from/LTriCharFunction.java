@@ -363,6 +363,8 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LTriCharFunction<R> {
 		private LTriCharFunction<R> target = null;
 		@Override
@@ -378,6 +380,10 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(char a1, char a2, char a3, LTriCharFunction<R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -435,6 +441,8 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LTriCharFunction<R> triCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {

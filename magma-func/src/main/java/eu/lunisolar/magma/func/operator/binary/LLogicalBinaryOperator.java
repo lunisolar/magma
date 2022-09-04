@@ -769,6 +769,8 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLogicalBinaryOperator {
 		private LLogicalBinaryOperator target = null;
 		@Override
@@ -784,6 +786,10 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a1, boolean a2, LLogicalBinaryOperator function) {
 		var initialValue = function.apply(a1, a2);
@@ -846,6 +852,8 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLogicalBinaryOperator logicalBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

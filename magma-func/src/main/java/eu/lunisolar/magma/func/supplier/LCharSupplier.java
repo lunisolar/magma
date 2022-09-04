@@ -336,6 +336,8 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LCharSupplier {
 		private LCharSupplier target = null;
 		@Override
@@ -351,6 +353,10 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LCharSupplier function) {
 		var initialValue = function.getAsChar();
@@ -413,6 +419,8 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LCharSupplier charSupThrowing(final @Nonnull ExF<Throwable> exF) {

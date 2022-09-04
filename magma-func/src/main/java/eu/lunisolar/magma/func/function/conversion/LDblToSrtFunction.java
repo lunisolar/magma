@@ -346,6 +346,8 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblToSrtFunction {
 		private LDblToSrtFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(double a, LDblToSrtFunction function) {
 		var initialValue = function.applyAsSrt(a);
@@ -423,6 +429,8 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblToSrtFunction dblToSrtFuncThrowing(final @Nonnull ExF<Throwable> exF) {

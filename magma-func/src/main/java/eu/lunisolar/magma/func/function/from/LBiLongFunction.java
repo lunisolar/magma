@@ -363,6 +363,8 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LBiLongFunction<R> {
 		private LBiLongFunction<R> target = null;
 		@Override
@@ -378,6 +380,10 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(long a1, long a2, LBiLongFunction<R> function) {
 		var initialValue = function.apply(a1, a2);
@@ -435,6 +441,8 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LBiLongFunction<R> biLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {

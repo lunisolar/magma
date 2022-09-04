@@ -368,6 +368,8 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LToSrtFunction<T> {
 		private LToSrtFunction<T> target = null;
 		@Override
@@ -383,6 +385,10 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LToSrtFunction<T> function) {
 		var initialValue = function.applyAsSrt(a);
@@ -445,6 +451,8 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LToSrtFunction<T> toSrtFuncThrowing(final @Nonnull ExF<Throwable> exF) {

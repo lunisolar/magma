@@ -372,6 +372,8 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LToIntBiFunction<T1, T2> {
 		private LToIntBiFunction<T1, T2> target = null;
 		@Override
@@ -387,6 +389,10 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, LToIntBiFunction<T1, T2> function) {
 		var initialValue = function.applyAsInt(a1, a2);
@@ -449,6 +455,8 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LToIntBiFunction<T1, T2> toIntBiFuncThrowing(final @Nonnull ExF<Throwable> exF) {

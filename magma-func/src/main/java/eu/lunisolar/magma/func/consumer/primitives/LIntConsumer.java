@@ -329,6 +329,8 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntConsumer {
 		private LIntConsumer target = null;
 		@Override
@@ -344,6 +346,8 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntConsumer intConsThrowing(final @Nonnull ExF<Throwable> exF) {

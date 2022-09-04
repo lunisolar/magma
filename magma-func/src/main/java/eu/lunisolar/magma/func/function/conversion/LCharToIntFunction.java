@@ -346,6 +346,8 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LCharToIntFunction {
 		private LCharToIntFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(char a, LCharToIntFunction function) {
 		var initialValue = function.applyAsInt(a);
@@ -423,6 +429,8 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LCharToIntFunction charToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {

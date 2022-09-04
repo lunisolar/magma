@@ -346,6 +346,8 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltToDblFunction {
 		private LFltToDblFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(float a, LFltToDblFunction function) {
 		var initialValue = function.applyAsDbl(a);
@@ -423,6 +429,8 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltToDblFunction fltToDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

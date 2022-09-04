@@ -623,6 +623,8 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LCharIntPredicate {
 		private LCharIntPredicate target = null;
 		@Override
@@ -638,6 +640,10 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(char a1, int a2, LCharIntPredicate function) {
 		var initialValue = function.test(a1, a2);
@@ -700,6 +706,8 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LCharIntPredicate charIntPredThrowing(final @Nonnull ExF<Throwable> exF) {

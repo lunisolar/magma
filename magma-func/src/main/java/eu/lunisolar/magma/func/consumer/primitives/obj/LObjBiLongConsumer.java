@@ -342,6 +342,8 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LObjBiLongConsumer<T> {
 		private LObjBiLongConsumer<T> target = null;
 		@Override
@@ -357,6 +359,8 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LObjBiLongConsumer<T> objBiLongConsThrowing(final @Nonnull ExF<Throwable> exF) {

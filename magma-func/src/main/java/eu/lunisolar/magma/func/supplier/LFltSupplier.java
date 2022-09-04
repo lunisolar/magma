@@ -336,6 +336,8 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltSupplier {
 		private LFltSupplier target = null;
 		@Override
@@ -351,6 +353,10 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LFltSupplier function) {
 		var initialValue = function.getAsFlt();
@@ -413,6 +419,8 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltSupplier fltSupThrowing(final @Nonnull ExF<Throwable> exF) {

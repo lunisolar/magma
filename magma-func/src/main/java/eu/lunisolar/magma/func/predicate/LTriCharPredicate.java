@@ -770,6 +770,8 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LTriCharPredicate {
 		private LTriCharPredicate target = null;
 		@Override
@@ -785,6 +787,10 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(char a1, char a2, char a3, LTriCharPredicate function) {
 		var initialValue = function.test(a1, a2, a3);
@@ -847,6 +853,8 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LTriCharPredicate triCharPredThrowing(final @Nonnull ExF<Throwable> exF) {

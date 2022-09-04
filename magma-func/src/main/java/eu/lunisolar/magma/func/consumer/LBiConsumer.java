@@ -628,6 +628,8 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LBiConsumer<T1, T2> {
 		private LBiConsumer<T1, T2> target = null;
 		@Override
@@ -643,6 +645,8 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LBiConsumer<T1, T2> biConsThrowing(final @Nonnull ExF<Throwable> exF) {

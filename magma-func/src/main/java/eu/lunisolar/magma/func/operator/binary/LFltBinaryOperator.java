@@ -352,6 +352,8 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltBinaryOperator {
 		private LFltBinaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(float a1, float a2, LFltBinaryOperator function) {
 		var initialValue = function.applyAsFlt(a1, a2);
@@ -429,6 +435,8 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltBinaryOperator fltBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

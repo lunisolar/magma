@@ -346,6 +346,8 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LCharToLongFunction {
 		private LCharToLongFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(char a, LCharToLongFunction function) {
 		var initialValue = function.applyAsLong(a);
@@ -423,6 +429,8 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LCharToLongFunction charToLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {

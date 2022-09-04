@@ -329,6 +329,8 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LCharConsumer {
 		private LCharConsumer target = null;
 		@Override
@@ -344,6 +346,8 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LCharConsumer charConsThrowing(final @Nonnull ExF<Throwable> exF) {

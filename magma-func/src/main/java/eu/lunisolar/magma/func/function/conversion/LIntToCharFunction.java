@@ -346,6 +346,8 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntToCharFunction {
 		private LIntToCharFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(int a, LIntToCharFunction function) {
 		var initialValue = function.applyAsChar(a);
@@ -423,6 +429,8 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntToCharFunction intToCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {

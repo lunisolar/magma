@@ -352,6 +352,8 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LCharTernaryOperator {
 		private LCharTernaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(char a1, char a2, char a3, LCharTernaryOperator function) {
 		var initialValue = function.applyAsChar(a1, a2, a3);
@@ -429,6 +435,8 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LCharTernaryOperator charTernaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

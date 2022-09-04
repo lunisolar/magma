@@ -346,6 +346,8 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolToFltFunction {
 		private LBoolToFltFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a, LBoolToFltFunction function) {
 		var initialValue = function.applyAsFlt(a);
@@ -423,6 +429,8 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolToFltFunction boolToFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {

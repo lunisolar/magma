@@ -656,6 +656,8 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T, R> implements LFunction<T, R> {
 		private LFunction<T, R> target = null;
 		@Override
@@ -671,6 +673,10 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T, R> M<T, R> mementoOf(T a, LFunction<T, R> function) {
 		var initialValue = function.apply(a);
@@ -728,6 +734,8 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T, R> LFunction<T, R> funcThrowing(final @Nonnull ExF<Throwable> exF) {

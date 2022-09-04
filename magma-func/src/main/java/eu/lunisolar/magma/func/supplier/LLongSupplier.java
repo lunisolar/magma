@@ -336,6 +336,8 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongSupplier {
 		private LLongSupplier target = null;
 		@Override
@@ -351,6 +353,10 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LLongSupplier function) {
 		var initialValue = function.getAsLong();
@@ -413,6 +419,8 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongSupplier longSupThrowing(final @Nonnull ExF<Throwable> exF) {

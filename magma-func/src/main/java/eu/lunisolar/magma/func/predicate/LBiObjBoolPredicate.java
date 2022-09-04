@@ -802,6 +802,8 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LBiObjBoolPredicate<T1, T2> {
 		private LBiObjBoolPredicate<T1, T2> target = null;
 		@Override
@@ -817,6 +819,10 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, boolean a3, LBiObjBoolPredicate<T1, T2> function) {
 		var initialValue = function.test(a1, a2, a3);
@@ -879,6 +885,8 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LBiObjBoolPredicate<T1, T2> biObjBoolPredThrowing(final @Nonnull ExF<Throwable> exF) {

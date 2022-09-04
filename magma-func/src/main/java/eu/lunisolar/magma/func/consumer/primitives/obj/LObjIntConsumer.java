@@ -344,6 +344,8 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LObjIntConsumer<T> {
 		private LObjIntConsumer<T> target = null;
 		@Override
@@ -359,6 +361,8 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LObjIntConsumer<T> objIntConsThrowing(final @Nonnull ExF<Throwable> exF) {

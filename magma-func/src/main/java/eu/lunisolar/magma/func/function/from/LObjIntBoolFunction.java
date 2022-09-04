@@ -376,6 +376,8 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T, R> implements LObjIntBoolFunction<T, R> {
 		private LObjIntBoolFunction<T, R> target = null;
 		@Override
@@ -391,6 +393,10 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T, R> M<T, R> mementoOf(T a1, int a2, boolean a3, LObjIntBoolFunction<T, R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -448,6 +454,8 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T, R> LObjIntBoolFunction<T, R> objIntBoolFuncThrowing(final @Nonnull ExF<Throwable> exF) {

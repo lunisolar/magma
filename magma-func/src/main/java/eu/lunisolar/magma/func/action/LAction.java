@@ -606,6 +606,8 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LAction {
 		private LAction target = null;
 		@Override
@@ -621,6 +623,8 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LAction actThrowing(final @Nonnull ExF<Throwable> exF) {

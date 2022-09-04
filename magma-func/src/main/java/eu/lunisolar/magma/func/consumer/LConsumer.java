@@ -620,6 +620,8 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LConsumer<T> {
 		private LConsumer<T> target = null;
 		@Override
@@ -635,6 +637,8 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LConsumer<T> consThrowing(final @Nonnull ExF<Throwable> exF) {

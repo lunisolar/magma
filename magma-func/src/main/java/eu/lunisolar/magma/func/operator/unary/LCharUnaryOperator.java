@@ -346,6 +346,8 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LCharUnaryOperator {
 		private LCharUnaryOperator target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(char a, LCharUnaryOperator function) {
 		var initialValue = function.applyAsChar(a);
@@ -423,6 +429,8 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LCharUnaryOperator charUnaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

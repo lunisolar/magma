@@ -660,6 +660,8 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, R> implements LBiFunction<T1, T2, R> {
 		private LBiFunction<T1, T2, R> target = null;
 		@Override
@@ -675,6 +677,10 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2, R> M<T1, T2, R> mementoOf(T1 a1, T2 a2, LBiFunction<T1, T2, R> function) {
 		var initialValue = function.apply(a1, a2);
@@ -732,6 +738,8 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, R> LBiFunction<T1, T2, R> biFuncThrowing(final @Nonnull ExF<Throwable> exF) {

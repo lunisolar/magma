@@ -346,6 +346,8 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblSupplier {
 		private LDblSupplier target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LDblSupplier function) {
 		var initialValue = function.getAsDbl();
@@ -423,6 +429,8 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblSupplier dblSupThrowing(final @Nonnull ExF<Throwable> exF) {

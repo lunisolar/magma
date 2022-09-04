@@ -376,6 +376,8 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T, R> implements LObjByteFunction<T, R> {
 		private LObjByteFunction<T, R> target = null;
 		@Override
@@ -391,6 +393,10 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T, R> M<T, R> mementoOf(T a1, byte a2, LObjByteFunction<T, R> function) {
 		var initialValue = function.apply(a1, a2);
@@ -448,6 +454,8 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T, R> LObjByteFunction<T, R> objByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {

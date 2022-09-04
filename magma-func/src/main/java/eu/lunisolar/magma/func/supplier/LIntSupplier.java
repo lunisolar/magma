@@ -336,6 +336,8 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntSupplier {
 		private LIntSupplier target = null;
 		@Override
@@ -351,6 +353,10 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LIntSupplier function) {
 		var initialValue = function.getAsInt();
@@ -413,6 +419,8 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntSupplier intSupThrowing(final @Nonnull ExF<Throwable> exF) {

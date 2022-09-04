@@ -346,6 +346,8 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LByteToCharFunction {
 		private LByteToCharFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a, LByteToCharFunction function) {
 		var initialValue = function.applyAsChar(a);
@@ -423,6 +429,8 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LByteToCharFunction byteToCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {

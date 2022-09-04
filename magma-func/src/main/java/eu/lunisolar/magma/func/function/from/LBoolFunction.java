@@ -357,6 +357,8 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LBoolFunction<R> {
 		private LBoolFunction<R> target = null;
 		@Override
@@ -372,6 +374,10 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(boolean a, LBoolFunction<R> function) {
 		var initialValue = function.apply(a);
@@ -429,6 +435,8 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LBoolFunction<R> boolFuncThrowing(final @Nonnull ExF<Throwable> exF) {

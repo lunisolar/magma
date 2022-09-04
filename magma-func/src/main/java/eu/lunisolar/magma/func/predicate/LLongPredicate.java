@@ -601,6 +601,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongPredicate {
 		private LLongPredicate target = null;
 		@Override
@@ -616,6 +618,10 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a, LLongPredicate function) {
 		var initialValue = function.test(a);
@@ -678,6 +684,8 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongPredicate longPredThrowing(final @Nonnull ExF<Throwable> exF) {

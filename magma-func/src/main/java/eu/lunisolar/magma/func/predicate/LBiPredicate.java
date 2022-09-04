@@ -1098,6 +1098,8 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LBiPredicate<T1, T2> {
 		private LBiPredicate<T1, T2> target = null;
 		@Override
@@ -1113,6 +1115,10 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, LBiPredicate<T1, T2> function) {
 		var initialValue = function.test(a1, a2);
@@ -1175,6 +1181,8 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LBiPredicate<T1, T2> biPredThrowing(final @Nonnull ExF<Throwable> exF) {

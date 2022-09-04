@@ -368,6 +368,8 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LToLongFunction<T> {
 		private LToLongFunction<T> target = null;
 		@Override
@@ -383,6 +385,10 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LToLongFunction<T> function) {
 		var initialValue = function.applyAsLong(a);
@@ -445,6 +451,8 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LToLongFunction<T> toLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {

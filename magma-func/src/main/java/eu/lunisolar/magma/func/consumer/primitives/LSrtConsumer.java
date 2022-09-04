@@ -329,6 +329,8 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtConsumer {
 		private LSrtConsumer target = null;
 		@Override
@@ -344,6 +346,8 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtConsumer srtConsThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -346,6 +346,8 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntToByteFunction {
 		private LIntToByteFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(int a, LIntToByteFunction function) {
 		var initialValue = function.applyAsByte(a);
@@ -423,6 +429,8 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntToByteFunction intToByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {

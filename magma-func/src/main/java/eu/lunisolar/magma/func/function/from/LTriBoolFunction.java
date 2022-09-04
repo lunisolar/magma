@@ -363,6 +363,8 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LTriBoolFunction<R> {
 		private LTriBoolFunction<R> target = null;
 		@Override
@@ -378,6 +380,10 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(boolean a1, boolean a2, boolean a3, LTriBoolFunction<R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -435,6 +441,8 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LTriBoolFunction<R> triBoolFuncThrowing(final @Nonnull ExF<Throwable> exF) {

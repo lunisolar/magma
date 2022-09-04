@@ -362,6 +362,8 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblBinaryOperator {
 		private LDblBinaryOperator target = null;
 		@Override
@@ -377,6 +379,10 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(double a1, double a2, LDblBinaryOperator function) {
 		var initialValue = function.applyAsDbl(a1, a2);
@@ -439,6 +445,8 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblBinaryOperator dblBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

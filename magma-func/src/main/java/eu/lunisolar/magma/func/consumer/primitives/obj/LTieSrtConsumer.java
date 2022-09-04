@@ -351,6 +351,8 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LTieSrtConsumer<T> {
 		private LTieSrtConsumer<T> target = null;
 		@Override
@@ -366,6 +368,8 @@ public interface LTieSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LTieSrtConsumer<T> tieSrtConsThrowing(final @Nonnull ExF<Throwable> exF) {

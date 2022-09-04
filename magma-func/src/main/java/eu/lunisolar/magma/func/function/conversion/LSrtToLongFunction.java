@@ -346,6 +346,8 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtToLongFunction {
 		private LSrtToLongFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(short a, LSrtToLongFunction function) {
 		var initialValue = function.applyAsLong(a);
@@ -423,6 +429,8 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtToLongFunction srtToLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {

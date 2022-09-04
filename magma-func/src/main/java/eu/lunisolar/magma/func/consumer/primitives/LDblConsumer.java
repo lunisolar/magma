@@ -329,6 +329,8 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblConsumer {
 		private LDblConsumer target = null;
 		@Override
@@ -344,6 +346,8 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblConsumer dblConsThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -798,6 +798,8 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LObjIntObjPredicate<T1, T2> {
 		private LObjIntObjPredicate<T1, T2> target = null;
 		@Override
@@ -813,6 +815,10 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, int a2, T2 a3, LObjIntObjPredicate<T1, T2> function) {
 		var initialValue = function.test(a1, a2, a3);
@@ -875,6 +881,8 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LObjIntObjPredicate<T1, T2> objIntObjPredThrowing(final @Nonnull ExF<Throwable> exF) {

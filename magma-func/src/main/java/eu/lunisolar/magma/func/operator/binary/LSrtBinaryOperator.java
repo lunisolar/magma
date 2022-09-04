@@ -352,6 +352,8 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtBinaryOperator {
 		private LSrtBinaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(short a1, short a2, LSrtBinaryOperator function) {
 		var initialValue = function.applyAsSrt(a1, a2);
@@ -429,6 +435,8 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtBinaryOperator srtBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

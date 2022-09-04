@@ -382,6 +382,8 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LToDblBiFunction<T1, T2> {
 		private LToDblBiFunction<T1, T2> target = null;
 		@Override
@@ -397,6 +399,10 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, LToDblBiFunction<T1, T2> function) {
 		var initialValue = function.applyAsDbl(a1, a2);
@@ -459,6 +465,8 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LToDblBiFunction<T1, T2> toDblBiFuncThrowing(final @Nonnull ExF<Throwable> exF) {

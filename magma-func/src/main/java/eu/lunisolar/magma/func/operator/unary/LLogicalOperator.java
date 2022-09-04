@@ -600,6 +600,8 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLogicalOperator {
 		private LLogicalOperator target = null;
 		@Override
@@ -615,6 +617,10 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a, LLogicalOperator function) {
 		var initialValue = function.apply(a);
@@ -677,6 +683,8 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLogicalOperator logicalOpThrowing(final @Nonnull ExF<Throwable> exF) {

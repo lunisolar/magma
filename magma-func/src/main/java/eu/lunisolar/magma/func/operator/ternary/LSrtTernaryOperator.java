@@ -352,6 +352,8 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtTernaryOperator {
 		private LSrtTernaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(short a1, short a2, short a3, LSrtTernaryOperator function) {
 		var initialValue = function.applyAsSrt(a1, a2, a3);
@@ -429,6 +435,8 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtTernaryOperator srtTernaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

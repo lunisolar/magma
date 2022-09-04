@@ -374,6 +374,8 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LOiToDblFunction<T> {
 		private LOiToDblFunction<T> target = null;
 		@Override
@@ -389,6 +391,10 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a1, int a2, LOiToDblFunction<T> function) {
 		var initialValue = function.applyAsDbl(a1, a2);
@@ -451,6 +457,8 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LOiToDblFunction<T> oiToDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

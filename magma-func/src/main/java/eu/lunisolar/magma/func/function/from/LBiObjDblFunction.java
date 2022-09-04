@@ -376,6 +376,8 @@ public interface LBiObjDblFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, R> implements LBiObjDblFunction<T1, T2, R> {
 		private LBiObjDblFunction<T1, T2, R> target = null;
 		@Override
@@ -391,6 +393,10 @@ public interface LBiObjDblFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2, R> M<T1, T2, R> mementoOf(T1 a1, T2 a2, double a3, LBiObjDblFunction<T1, T2, R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -448,6 +454,8 @@ public interface LBiObjDblFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, R> LBiObjDblFunction<T1, T2, R> biObjDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

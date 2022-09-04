@@ -601,6 +601,8 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBytePredicate {
 		private LBytePredicate target = null;
 		@Override
@@ -616,6 +618,10 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a, LBytePredicate function) {
 		var initialValue = function.test(a);
@@ -678,6 +684,8 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBytePredicate bytePredThrowing(final @Nonnull ExF<Throwable> exF) {

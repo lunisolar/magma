@@ -356,6 +356,8 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblUnaryOperator {
 		private LDblUnaryOperator target = null;
 		@Override
@@ -371,6 +373,10 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(double a, LDblUnaryOperator function) {
 		var initialValue = function.applyAsDbl(a);
@@ -433,6 +439,8 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblUnaryOperator dblUnaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

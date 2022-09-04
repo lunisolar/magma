@@ -363,6 +363,8 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LBiCharFunction<R> {
 		private LBiCharFunction<R> target = null;
 		@Override
@@ -378,6 +380,10 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(char a1, char a2, LBiCharFunction<R> function) {
 		var initialValue = function.apply(a1, a2);
@@ -435,6 +441,8 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LBiCharFunction<R> biCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {

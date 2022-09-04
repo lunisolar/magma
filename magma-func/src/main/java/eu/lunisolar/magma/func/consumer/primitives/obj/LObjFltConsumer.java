@@ -344,6 +344,8 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LObjFltConsumer<T> {
 		private LObjFltConsumer<T> target = null;
 		@Override
@@ -359,6 +361,8 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LObjFltConsumer<T> objFltConsThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -1102,6 +1102,8 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, T3, T4, T5> implements LQuintPredicate<T1, T2, T3, T4, T5> {
 		private LQuintPredicate<T1, T2, T3, T4, T5> target = null;
 		@Override
@@ -1117,6 +1119,10 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2, T3, T4, T5> M<T1, T2, T3, T4, T5> mementoOf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		var initialValue = function.test(a1, a2, a3, a4, a5);
@@ -1179,6 +1185,8 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> quintPredThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -773,6 +773,8 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLogicalTernaryOperator {
 		private LLogicalTernaryOperator target = null;
 		@Override
@@ -788,6 +790,10 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -850,6 +856,8 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLogicalTernaryOperator logicalTernaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

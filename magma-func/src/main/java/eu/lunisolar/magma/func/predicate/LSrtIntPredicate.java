@@ -623,6 +623,8 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtIntPredicate {
 		private LSrtIntPredicate target = null;
 		@Override
@@ -638,6 +640,10 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(short a1, int a2, LSrtIntPredicate function) {
 		var initialValue = function.test(a1, a2);
@@ -700,6 +706,8 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtIntPredicate srtIntPredThrowing(final @Nonnull ExF<Throwable> exF) {

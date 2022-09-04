@@ -352,6 +352,8 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LByteBinaryOperator {
 		private LByteBinaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a1, byte a2, LByteBinaryOperator function) {
 		var initialValue = function.applyAsByte(a1, a2);
@@ -429,6 +435,8 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LByteBinaryOperator byteBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

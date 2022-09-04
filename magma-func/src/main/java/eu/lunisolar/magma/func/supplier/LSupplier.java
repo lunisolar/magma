@@ -631,6 +631,8 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LSupplier<T> {
 		private LSupplier<T> target = null;
 		@Override
@@ -646,6 +648,10 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(LSupplier<T> function) {
 		var initialValue = function.get();
@@ -703,6 +709,8 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LSupplier<T> supThrowing(final @Nonnull ExF<Throwable> exF) {

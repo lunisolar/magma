@@ -346,6 +346,8 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongUnaryOperator {
 		private LLongUnaryOperator target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a, LLongUnaryOperator function) {
 		var initialValue = function.applyAsLong(a);
@@ -423,6 +429,8 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongUnaryOperator longUnaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

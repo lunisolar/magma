@@ -357,6 +357,8 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LFltFunction<R> {
 		private LFltFunction<R> target = null;
 		@Override
@@ -372,6 +374,10 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(float a, LFltFunction<R> function) {
 		var initialValue = function.apply(a);
@@ -429,6 +435,8 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LFltFunction<R> fltFuncThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -346,6 +346,8 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltUnaryOperator {
 		private LFltUnaryOperator target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(float a, LFltUnaryOperator function) {
 		var initialValue = function.applyAsFlt(a);
@@ -423,6 +429,8 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltUnaryOperator fltUnaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

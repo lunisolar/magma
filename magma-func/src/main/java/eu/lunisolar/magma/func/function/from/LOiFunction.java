@@ -378,6 +378,8 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T, R> implements LOiFunction<T, R> {
 		private LOiFunction<T, R> target = null;
 		@Override
@@ -393,6 +395,10 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T, R> M<T, R> mementoOf(T a1, int a2, LOiFunction<T, R> function) {
 		var initialValue = function.apply(a1, a2);
@@ -450,6 +456,8 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T, R> LOiFunction<T, R> oiFuncThrowing(final @Nonnull ExF<Throwable> exF) {

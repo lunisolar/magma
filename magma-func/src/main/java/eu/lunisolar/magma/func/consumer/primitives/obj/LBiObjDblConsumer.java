@@ -342,6 +342,8 @@ public interface LBiObjDblConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LBiObjDblConsumer<T1, T2> {
 		private LBiObjDblConsumer<T1, T2> target = null;
 		@Override
@@ -357,6 +359,8 @@ public interface LBiObjDblConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LBiObjDblConsumer<T1, T2> biObjDblConsThrowing(final @Nonnull ExF<Throwable> exF) {

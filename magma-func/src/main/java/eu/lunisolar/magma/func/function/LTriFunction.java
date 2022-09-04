@@ -661,6 +661,8 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, T3, R> implements LTriFunction<T1, T2, T3, R> {
 		private LTriFunction<T1, T2, T3, R> target = null;
 		@Override
@@ -676,6 +678,10 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2, T3, R> M<T1, T2, T3, R> mementoOf(T1 a1, T2 a2, T3 a3, LTriFunction<T1, T2, T3, R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -733,6 +739,8 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> triFuncThrowing(final @Nonnull ExF<Throwable> exF) {

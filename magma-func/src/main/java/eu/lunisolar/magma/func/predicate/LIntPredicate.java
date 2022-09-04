@@ -611,6 +611,8 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntPredicate {
 		private LIntPredicate target = null;
 		@Override
@@ -626,6 +628,10 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(int a, LIntPredicate function) {
 		var initialValue = function.test(a);
@@ -688,6 +694,8 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntPredicate intPredThrowing(final @Nonnull ExF<Throwable> exF) {

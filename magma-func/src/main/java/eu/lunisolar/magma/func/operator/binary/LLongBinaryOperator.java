@@ -352,6 +352,8 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongBinaryOperator {
 		private LLongBinaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a1, long a2, LLongBinaryOperator function) {
 		var initialValue = function.applyAsLong(a1, a2);
@@ -429,6 +435,8 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongBinaryOperator longBinaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

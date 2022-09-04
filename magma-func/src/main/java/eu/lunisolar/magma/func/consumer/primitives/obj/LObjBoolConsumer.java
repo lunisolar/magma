@@ -344,6 +344,8 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LObjBoolConsumer<T> {
 		private LObjBoolConsumer<T> target = null;
 		@Override
@@ -359,6 +361,8 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LObjBoolConsumer<T> objBoolConsThrowing(final @Nonnull ExF<Throwable> exF) {

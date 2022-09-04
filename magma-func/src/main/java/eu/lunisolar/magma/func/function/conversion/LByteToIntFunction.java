@@ -346,6 +346,8 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LByteToIntFunction {
 		private LByteToIntFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a, LByteToIntFunction function) {
 		var initialValue = function.applyAsInt(a);
@@ -423,6 +429,8 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LByteToIntFunction byteToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {

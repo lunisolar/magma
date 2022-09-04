@@ -644,6 +644,8 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LBinaryOperator<T> {
 		private LBinaryOperator<T> target = null;
 		@Override
@@ -659,6 +661,10 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a1, T a2, LBinaryOperator<T> function) {
 		var initialValue = function.apply(a1, a2);
@@ -716,6 +722,8 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LBinaryOperator<T> binaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

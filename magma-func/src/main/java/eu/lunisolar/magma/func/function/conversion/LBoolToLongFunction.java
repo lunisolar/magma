@@ -346,6 +346,8 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolToLongFunction {
 		private LBoolToLongFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a, LBoolToLongFunction function) {
 		var initialValue = function.applyAsLong(a);
@@ -423,6 +429,8 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolToLongFunction boolToLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {

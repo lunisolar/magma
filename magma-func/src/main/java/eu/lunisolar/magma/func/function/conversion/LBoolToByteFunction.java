@@ -346,6 +346,8 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolToByteFunction {
 		private LBoolToByteFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a, LBoolToByteFunction function) {
 		var initialValue = function.applyAsByte(a);
@@ -423,6 +429,8 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolToByteFunction boolToByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {

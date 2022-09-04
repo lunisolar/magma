@@ -363,6 +363,8 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LTriIntFunction<R> {
 		private LTriIntFunction<R> target = null;
 		@Override
@@ -378,6 +380,10 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(int a1, int a2, int a3, LTriIntFunction<R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -435,6 +441,8 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LTriIntFunction<R> triIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -357,6 +357,8 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LLongFunction<R> {
 		private LLongFunction<R> target = null;
 		@Override
@@ -372,6 +374,10 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(long a, LLongFunction<R> function) {
 		var initialValue = function.apply(a);
@@ -429,6 +435,8 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LLongFunction<R> longFuncThrowing(final @Nonnull ExF<Throwable> exF) {

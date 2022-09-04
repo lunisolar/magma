@@ -630,6 +630,8 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolSupplier {
 		private LBoolSupplier target = null;
 		@Override
@@ -645,6 +647,10 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LBoolSupplier function) {
 		var initialValue = function.getAsBool();
@@ -707,6 +713,8 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolSupplier boolSupThrowing(final @Nonnull ExF<Throwable> exF) {

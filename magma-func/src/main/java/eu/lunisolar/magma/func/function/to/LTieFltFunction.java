@@ -374,6 +374,8 @@ public interface LTieFltFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LTieFltFunction<T> {
 		private LTieFltFunction<T> target = null;
 		@Override
@@ -389,6 +391,10 @@ public interface LTieFltFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a1, int a2, float a3, LTieFltFunction<T> function) {
 		var initialValue = function.applyAsInt(a1, a2, a3);
@@ -451,6 +457,8 @@ public interface LTieFltFunction<T> extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LTieFltFunction<T> tieFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {

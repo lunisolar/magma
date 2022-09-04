@@ -352,6 +352,8 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntTernaryOperator {
 		private LIntTernaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(int a1, int a2, int a3, LIntTernaryOperator function) {
 		var initialValue = function.applyAsInt(a1, a2, a3);
@@ -429,6 +435,8 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntTernaryOperator intTernaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

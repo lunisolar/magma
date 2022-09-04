@@ -372,6 +372,8 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LToCharBiFunction<T1, T2> {
 		private LToCharBiFunction<T1, T2> target = null;
 		@Override
@@ -387,6 +389,10 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, LToCharBiFunction<T1, T2> function) {
 		var initialValue = function.applyAsChar(a1, a2);
@@ -449,6 +455,8 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LToCharBiFunction<T1, T2> toCharBiFuncThrowing(final @Nonnull ExF<Throwable> exF) {

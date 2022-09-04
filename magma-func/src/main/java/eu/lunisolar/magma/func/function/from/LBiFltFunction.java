@@ -363,6 +363,8 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LBiFltFunction<R> {
 		private LBiFltFunction<R> target = null;
 		@Override
@@ -378,6 +380,10 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(float a1, float a2, LBiFltFunction<R> function) {
 		var initialValue = function.apply(a1, a2);
@@ -435,6 +441,8 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LBiFltFunction<R> biFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {

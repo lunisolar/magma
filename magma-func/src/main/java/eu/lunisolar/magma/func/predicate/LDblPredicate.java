@@ -601,6 +601,8 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblPredicate {
 		private LDblPredicate target = null;
 		@Override
@@ -616,6 +618,10 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(double a, LDblPredicate function) {
 		var initialValue = function.test(a);
@@ -678,6 +684,8 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblPredicate dblPredThrowing(final @Nonnull ExF<Throwable> exF) {

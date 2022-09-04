@@ -1099,6 +1099,8 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, T3> implements LTriPredicate<T1, T2, T3> {
 		private LTriPredicate<T1, T2, T3> target = null;
 		@Override
@@ -1114,6 +1116,10 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2, T3> M<T1, T2, T3> mementoOf(T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> function) {
 		var initialValue = function.test(a1, a2, a3);
@@ -1176,6 +1182,8 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPredThrowing(final @Nonnull ExF<Throwable> exF) {

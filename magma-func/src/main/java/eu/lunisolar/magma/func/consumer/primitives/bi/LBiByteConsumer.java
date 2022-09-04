@@ -335,6 +335,8 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBiByteConsumer {
 		private LBiByteConsumer target = null;
 		@Override
@@ -350,6 +352,8 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBiByteConsumer biByteConsThrowing(final @Nonnull ExF<Throwable> exF) {

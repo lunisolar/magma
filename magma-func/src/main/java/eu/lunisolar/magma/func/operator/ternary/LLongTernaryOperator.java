@@ -352,6 +352,8 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongTernaryOperator {
 		private LLongTernaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a1, long a2, long a3, LLongTernaryOperator function) {
 		var initialValue = function.applyAsLong(a1, a2, a3);
@@ -429,6 +435,8 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongTernaryOperator longTernaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

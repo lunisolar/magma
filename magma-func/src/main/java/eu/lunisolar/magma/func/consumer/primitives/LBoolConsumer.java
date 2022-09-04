@@ -329,6 +329,8 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolConsumer {
 		private LBoolConsumer target = null;
 		@Override
@@ -344,6 +346,8 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolConsumer boolConsThrowing(final @Nonnull ExF<Throwable> exF) {

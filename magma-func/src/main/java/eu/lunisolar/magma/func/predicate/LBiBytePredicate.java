@@ -768,6 +768,8 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBiBytePredicate {
 		private LBiBytePredicate target = null;
 		@Override
@@ -783,6 +785,10 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a1, byte a2, LBiBytePredicate function) {
 		var initialValue = function.test(a1, a2);
@@ -845,6 +851,8 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBiBytePredicate biBytePredThrowing(final @Nonnull ExF<Throwable> exF) {

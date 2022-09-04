@@ -346,6 +346,8 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LIntUnaryOperator {
 		private LIntUnaryOperator target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(int a, LIntUnaryOperator function) {
 		var initialValue = function.applyAsInt(a);
@@ -423,6 +429,8 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LIntUnaryOperator intUnaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

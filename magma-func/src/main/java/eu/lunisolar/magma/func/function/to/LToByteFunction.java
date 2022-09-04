@@ -368,6 +368,8 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LToByteFunction<T> {
 		private LToByteFunction<T> target = null;
 		@Override
@@ -383,6 +385,10 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LToByteFunction<T> function) {
 		var initialValue = function.applyAsByte(a);
@@ -445,6 +451,8 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LToByteFunction<T> toByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {

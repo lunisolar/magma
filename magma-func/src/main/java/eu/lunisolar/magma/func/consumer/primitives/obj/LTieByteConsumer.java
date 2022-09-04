@@ -351,6 +351,8 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LTieByteConsumer<T> {
 		private LTieByteConsumer<T> target = null;
 		@Override
@@ -366,6 +368,8 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LTieByteConsumer<T> tieByteConsThrowing(final @Nonnull ExF<Throwable> exF) {

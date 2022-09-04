@@ -351,6 +351,8 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LTieLongConsumer<T> {
 		private LTieLongConsumer<T> target = null;
 		@Override
@@ -366,6 +368,8 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LTieLongConsumer<T> tieLongConsThrowing(final @Nonnull ExF<Throwable> exF) {

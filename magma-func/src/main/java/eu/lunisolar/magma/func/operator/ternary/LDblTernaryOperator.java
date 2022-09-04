@@ -352,6 +352,8 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblTernaryOperator {
 		private LDblTernaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(double a1, double a2, double a3, LDblTernaryOperator function) {
 		var initialValue = function.applyAsDbl(a1, a2, a3);
@@ -429,6 +435,8 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblTernaryOperator dblTernaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

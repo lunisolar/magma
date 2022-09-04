@@ -351,6 +351,8 @@ public interface LTieDblConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LTieDblConsumer<T> {
 		private LTieDblConsumer<T> target = null;
 		@Override
@@ -366,6 +368,8 @@ public interface LTieDblConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LTieDblConsumer<T> tieDblConsThrowing(final @Nonnull ExF<Throwable> exF) {

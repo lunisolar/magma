@@ -346,6 +346,8 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LByteToLongFunction {
 		private LByteToLongFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a, LByteToLongFunction function) {
 		var initialValue = function.applyAsLong(a);
@@ -423,6 +429,8 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LByteToLongFunction byteToLongFuncThrowing(final @Nonnull ExF<Throwable> exF) {

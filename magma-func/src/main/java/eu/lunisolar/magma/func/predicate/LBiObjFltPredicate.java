@@ -798,6 +798,8 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2> implements LBiObjFltPredicate<T1, T2> {
 		private LBiObjFltPredicate<T1, T2> target = null;
 		@Override
@@ -813,6 +815,10 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2> M<T1, T2> mementoOf(T1 a1, T2 a2, float a3, LBiObjFltPredicate<T1, T2> function) {
 		var initialValue = function.test(a1, a2, a3);
@@ -875,6 +881,8 @@ public interface LBiObjFltPredicate<T1, T2> extends MetaPredicate, MetaInterface
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2> LBiObjFltPredicate<T1, T2> biObjFltPredThrowing(final @Nonnull ExF<Throwable> exF) {

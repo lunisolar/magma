@@ -768,6 +768,8 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBiFltPredicate {
 		private LBiFltPredicate target = null;
 		@Override
@@ -783,6 +785,10 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(float a1, float a2, LBiFltPredicate function) {
 		var initialValue = function.test(a1, a2);
@@ -845,6 +851,8 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBiFltPredicate biFltPredThrowing(final @Nonnull ExF<Throwable> exF) {

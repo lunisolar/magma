@@ -329,6 +329,8 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltConsumer {
 		private LFltConsumer target = null;
 		@Override
@@ -344,6 +346,8 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltConsumer fltConsThrowing(final @Nonnull ExF<Throwable> exF) {

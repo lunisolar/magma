@@ -336,6 +336,8 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LByteSupplier {
 		private LByteSupplier target = null;
 		@Override
@@ -351,6 +353,10 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LByteSupplier function) {
 		var initialValue = function.getAsByte();
@@ -413,6 +419,8 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LByteSupplier byteSupThrowing(final @Nonnull ExF<Throwable> exF) {

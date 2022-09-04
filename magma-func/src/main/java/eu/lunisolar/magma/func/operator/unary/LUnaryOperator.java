@@ -640,6 +640,8 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LUnaryOperator<T> {
 		private LUnaryOperator<T> target = null;
 		@Override
@@ -655,6 +657,10 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LUnaryOperator<T> function) {
 		var initialValue = function.apply(a);
@@ -712,6 +718,8 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LUnaryOperator<T> unaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

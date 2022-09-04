@@ -376,6 +376,8 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T, R> implements LObjIntFltFunction<T, R> {
 		private LObjIntFltFunction<T, R> target = null;
 		@Override
@@ -391,6 +393,10 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T, R> M<T, R> mementoOf(T a1, int a2, float a3, LObjIntFltFunction<T, R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -448,6 +454,8 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T, R> LObjIntFltFunction<T, R> objIntFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {

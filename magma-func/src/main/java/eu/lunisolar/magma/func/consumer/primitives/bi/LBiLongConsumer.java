@@ -335,6 +335,8 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBiLongConsumer {
 		private LBiLongConsumer target = null;
 		@Override
@@ -350,6 +352,8 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBiLongConsumer biLongConsThrowing(final @Nonnull ExF<Throwable> exF) {

@@ -346,6 +346,8 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LByteUnaryOperator {
 		private LByteUnaryOperator target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a, LByteUnaryOperator function) {
 		var initialValue = function.applyAsByte(a);
@@ -423,6 +429,8 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LByteUnaryOperator byteUnaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

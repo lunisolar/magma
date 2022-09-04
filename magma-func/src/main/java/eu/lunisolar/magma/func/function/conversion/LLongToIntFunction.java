@@ -346,6 +346,8 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongToIntFunction {
 		private LLongToIntFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a, LLongToIntFunction function) {
 		var initialValue = function.applyAsInt(a);
@@ -423,6 +429,8 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongToIntFunction longToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {

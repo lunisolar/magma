@@ -927,6 +927,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LPredicate<T> {
 		private LPredicate<T> target = null;
 		@Override
@@ -942,6 +944,10 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LPredicate<T> function) {
 		var initialValue = function.test(a);
@@ -1004,6 +1010,8 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LPredicate<T> predThrowing(final @Nonnull ExF<Throwable> exF) {

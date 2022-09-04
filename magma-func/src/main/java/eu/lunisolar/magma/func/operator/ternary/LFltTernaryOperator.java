@@ -352,6 +352,8 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltTernaryOperator {
 		private LFltTernaryOperator target = null;
 		@Override
@@ -367,6 +369,10 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(float a1, float a2, float a3, LFltTernaryOperator function) {
 		var initialValue = function.applyAsFlt(a1, a2, a3);
@@ -429,6 +435,8 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltTernaryOperator fltTernaryOpThrowing(final @Nonnull ExF<Throwable> exF) {

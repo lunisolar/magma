@@ -346,6 +346,8 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongToFltFunction {
 		private LLongToFltFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a, LLongToFltFunction function) {
 		var initialValue = function.applyAsFlt(a);
@@ -423,6 +429,8 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongToFltFunction longToFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {

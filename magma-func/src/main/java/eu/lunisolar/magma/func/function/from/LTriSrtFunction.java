@@ -363,6 +363,8 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LTriSrtFunction<R> {
 		private LTriSrtFunction<R> target = null;
 		@Override
@@ -378,6 +380,10 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(short a1, short a2, short a3, LTriSrtFunction<R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -435,6 +441,8 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LTriSrtFunction<R> triSrtFuncThrowing(final @Nonnull ExF<Throwable> exF) {

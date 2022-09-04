@@ -346,6 +346,8 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtToFltFunction {
 		private LSrtToFltFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(short a, LSrtToFltFunction function) {
 		var initialValue = function.applyAsFlt(a);
@@ -423,6 +429,8 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtToFltFunction srtToFltFuncThrowing(final @Nonnull ExF<Throwable> exF) {

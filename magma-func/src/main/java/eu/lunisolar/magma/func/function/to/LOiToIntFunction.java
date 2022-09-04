@@ -374,6 +374,8 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LOiToIntFunction<T> {
 		private LOiToIntFunction<T> target = null;
 		@Override
@@ -389,6 +391,10 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a1, int a2, LOiToIntFunction<T> function) {
 		var initialValue = function.applyAsInt(a1, a2);
@@ -451,6 +457,8 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LOiToIntFunction<T> oiToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {

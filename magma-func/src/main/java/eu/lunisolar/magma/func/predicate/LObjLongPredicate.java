@@ -798,6 +798,8 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LObjLongPredicate<T> {
 		private LObjLongPredicate<T> target = null;
 		@Override
@@ -813,6 +815,10 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a1, long a2, LObjLongPredicate<T> function) {
 		var initialValue = function.test(a1, a2);
@@ -875,6 +881,8 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LObjLongPredicate<T> objLongPredThrowing(final @Nonnull ExF<Throwable> exF) {

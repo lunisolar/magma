@@ -661,6 +661,8 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, T3, T4, R> implements LQuadFunction<T1, T2, T3, T4, R> {
 		private LQuadFunction<T1, T2, T3, T4, R> target = null;
 		@Override
@@ -676,6 +678,10 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2, T3, T4, R> M<T1, T2, T3, T4, R> mementoOf(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> function) {
 		var initialValue = function.apply(a1, a2, a3, a4);
@@ -733,6 +739,8 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> quadFuncThrowing(final @Nonnull ExF<Throwable> exF) {

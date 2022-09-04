@@ -1105,6 +1105,8 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, T3, T4> implements LQuadPredicate<T1, T2, T3, T4> {
 		private LQuadPredicate<T1, T2, T3, T4> target = null;
 		@Override
@@ -1120,6 +1122,10 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T1, T2, T3, T4> M<T1, T2, T3, T4> mementoOf(T1 a1, T2 a2, T3 a3, T4 a4, LQuadPredicate<T1, T2, T3, T4> function) {
 		var initialValue = function.test(a1, a2, a3, a4);
@@ -1182,6 +1188,8 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> quadPredThrowing(final @Nonnull ExF<Throwable> exF) {

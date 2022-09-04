@@ -336,6 +336,8 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtSupplier {
 		private LSrtSupplier target = null;
 		@Override
@@ -351,6 +353,10 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(LSrtSupplier function) {
 		var initialValue = function.getAsSrt();
@@ -413,6 +419,8 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtSupplier srtSupThrowing(final @Nonnull ExF<Throwable> exF) {

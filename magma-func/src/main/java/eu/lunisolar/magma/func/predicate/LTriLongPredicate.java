@@ -770,6 +770,8 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LTriLongPredicate {
 		private LTriLongPredicate target = null;
 		@Override
@@ -785,6 +787,10 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(long a1, long a2, long a3, LTriLongPredicate function) {
 		var initialValue = function.test(a1, a2, a3);
@@ -847,6 +853,8 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LTriLongPredicate triLongPredThrowing(final @Nonnull ExF<Throwable> exF) {

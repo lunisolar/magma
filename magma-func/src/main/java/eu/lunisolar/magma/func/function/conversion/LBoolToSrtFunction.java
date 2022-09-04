@@ -346,6 +346,8 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolToSrtFunction {
 		private LBoolToSrtFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a, LBoolToSrtFunction function) {
 		var initialValue = function.applyAsSrt(a);
@@ -423,6 +429,8 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolToSrtFunction boolToSrtFuncThrowing(final @Nonnull ExF<Throwable> exF) {

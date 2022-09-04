@@ -627,6 +627,8 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, T3, T4> implements LQuadConsumer<T1, T2, T3, T4> {
 		private LQuadConsumer<T1, T2, T3, T4> target = null;
 		@Override
@@ -642,6 +644,8 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> quadConsThrowing(final @Nonnull ExF<Throwable> exF) {

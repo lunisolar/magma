@@ -368,6 +368,8 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LToCharFunction<T> {
 		private LToCharFunction<T> target = null;
 		@Override
@@ -383,6 +385,10 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LToCharFunction<T> function) {
 		var initialValue = function.applyAsChar(a);
@@ -445,6 +451,8 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LToCharFunction<T> toCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {

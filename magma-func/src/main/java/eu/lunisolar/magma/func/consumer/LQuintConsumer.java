@@ -629,6 +629,8 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T1, T2, T3, T4, T5> implements LQuintConsumer<T1, T2, T3, T4, T5> {
 		private LQuintConsumer<T1, T2, T3, T4, T5> target = null;
 		@Override
@@ -644,6 +646,8 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> quintConsThrowing(final @Nonnull ExF<Throwable> exF) {

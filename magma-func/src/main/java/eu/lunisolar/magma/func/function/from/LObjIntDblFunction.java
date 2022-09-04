@@ -376,6 +376,8 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T, R> implements LObjIntDblFunction<T, R> {
 		private LObjIntDblFunction<T, R> target = null;
 		@Override
@@ -391,6 +393,10 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T, R> M<T, R> mementoOf(T a1, int a2, double a3, LObjIntDblFunction<T, R> function) {
 		var initialValue = function.apply(a1, a2, a3);
@@ -448,6 +454,8 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T, R> LObjIntDblFunction<T, R> objIntDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

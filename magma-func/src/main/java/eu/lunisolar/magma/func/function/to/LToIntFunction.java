@@ -368,6 +368,8 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LToIntFunction<T> {
 		private LToIntFunction<T> target = null;
 		@Override
@@ -383,6 +385,10 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LToIntFunction<T> function) {
 		var initialValue = function.applyAsInt(a);
@@ -445,6 +451,8 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LToIntFunction<T> toIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {

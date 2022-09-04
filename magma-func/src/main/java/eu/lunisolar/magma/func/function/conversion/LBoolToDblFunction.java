@@ -346,6 +346,8 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolToDblFunction {
 		private LBoolToDblFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a, LBoolToDblFunction function) {
 		var initialValue = function.applyAsDbl(a);
@@ -423,6 +429,8 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolToDblFunction boolToDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

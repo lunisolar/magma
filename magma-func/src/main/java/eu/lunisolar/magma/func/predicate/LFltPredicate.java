@@ -601,6 +601,8 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LFltPredicate {
 		private LFltPredicate target = null;
 		@Override
@@ -616,6 +618,10 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(float a, LFltPredicate function) {
 		var initialValue = function.test(a);
@@ -678,6 +684,8 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LFltPredicate fltPredThrowing(final @Nonnull ExF<Throwable> exF) {

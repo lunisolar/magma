@@ -346,6 +346,8 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LByteToDblFunction {
 		private LByteToDblFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(byte a, LByteToDblFunction function) {
 		var initialValue = function.applyAsDbl(a);
@@ -423,6 +429,8 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LByteToDblFunction byteToDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

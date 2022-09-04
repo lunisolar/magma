@@ -346,6 +346,8 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LBoolToCharFunction {
 		private LBoolToCharFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(boolean a, LBoolToCharFunction function) {
 		var initialValue = function.applyAsChar(a);
@@ -423,6 +429,8 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LBoolToCharFunction boolToCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {

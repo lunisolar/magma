@@ -357,6 +357,8 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<R> implements LDblFunction<R> {
 		private LDblFunction<R> target = null;
 		@Override
@@ -372,6 +374,10 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <R> M<R> mementoOf(double a, LDblFunction<R> function) {
 		var initialValue = function.apply(a);
@@ -429,6 +435,8 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <R> LDblFunction<R> dblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

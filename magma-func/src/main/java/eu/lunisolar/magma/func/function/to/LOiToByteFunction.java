@@ -374,6 +374,8 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LOiToByteFunction<T> {
 		private LOiToByteFunction<T> target = null;
 		@Override
@@ -389,6 +391,10 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a1, int a2, LOiToByteFunction<T> function) {
 		var initialValue = function.applyAsByte(a1, a2);
@@ -451,6 +457,8 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LOiToByteFunction<T> oiToByteFuncThrowing(final @Nonnull ExF<Throwable> exF) {

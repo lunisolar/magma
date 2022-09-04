@@ -329,6 +329,8 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LLongConsumer {
 		private LLongConsumer target = null;
 		@Override
@@ -344,6 +346,8 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LLongConsumer longConsThrowing(final @Nonnull ExF<Throwable> exF) {

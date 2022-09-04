@@ -346,6 +346,8 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LDblToIntFunction {
 		private LDblToIntFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(double a, LDblToIntFunction function) {
 		var initialValue = function.applyAsInt(a);
@@ -423,6 +429,8 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LDblToIntFunction dblToIntFuncThrowing(final @Nonnull ExF<Throwable> exF) {

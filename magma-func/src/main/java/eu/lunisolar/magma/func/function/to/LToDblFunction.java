@@ -378,6 +378,8 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S<T> implements LToDblFunction<T> {
 		private LToDblFunction<T> target = null;
 		@Override
@@ -393,6 +395,10 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static <T> M<T> mementoOf(T a, LToDblFunction<T> function) {
 		var initialValue = function.applyAsDbl(a);
@@ -455,6 +461,8 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static <T> LToDblFunction<T> toDblFuncThrowing(final @Nonnull ExF<Throwable> exF) {

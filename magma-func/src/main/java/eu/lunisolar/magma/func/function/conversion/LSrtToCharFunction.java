@@ -346,6 +346,8 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return lambda;
 	}
 
+	// <editor-fold desc="recursive">
+
 	final class S implements LSrtToCharFunction {
 		private LSrtToCharFunction target = null;
 		@Override
@@ -361,6 +363,10 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		single.target = func;
 		return func;
 	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="memento">
 
 	public static M mementoOf(short a, LSrtToCharFunction function) {
 		var initialValue = function.applyAsChar(a);
@@ -423,6 +429,8 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 			return lastBaseValue;
 		};
 	}
+
+	// </editor-fold>
 
 	@Nonnull
 	static LSrtToCharFunction srtToCharFuncThrowing(final @Nonnull ExF<Throwable> exF) {
