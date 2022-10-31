@@ -36,31 +36,31 @@ public class P_Contain_A_Test {
     }
 
     @Test void containKeys() {
-        attest(P.contain(LIST, "value1")).must$(Be::True$);
-        attest(P.contain(LIST, "value1", "value2")).must$(Be::True$);
-        attest(P.contain(LIST, "other")).must$(Be::False$);
-        attest(P.contain(LIST, "value1", "other")).must$(Be::False$);
+        attest(P.contain(LIST, "value1")).mustEx(Be::TrueEx);
+        attest(P.contain(LIST, "value1", "value2")).mustEx(Be::TrueEx);
+        attest(P.contain(LIST, "other")).mustEx(Be::FalseEx);
+        attest(P.contain(LIST, "value1", "other")).mustEx(Be::FalseEx);
     }
 
     @Test void containKeys_empty() {
-        attest(P.contain(new ArrayList<>())).must$(Be::True$);
-        attest(P.contain(LIST)).must$(Be::False$);
-        attest(P.notContain(new ArrayList<>())).must$(Be::False$);
-        attest(P.notContain(LIST)).must$(Be::True$);
+        attest(P.contain(new ArrayList<>())).mustEx(Be::TrueEx);
+        attest(P.contain(LIST)).mustEx(Be::FalseEx);
+        attest(P.notContain(new ArrayList<>())).mustEx(Be::FalseEx);
+        attest(P.notContain(LIST)).mustEx(Be::TrueEx);
     }
 
     @Test void notContainKeys() {
-        attest(P.notContain(LIST, "value1")).must$(Be::False$);
-        attest(P.notContain(LIST, "value1", "value2")).must$(Be::False$);
-        attest(P.notContain(LIST, "other")).must$(Be::True$);
+        attest(P.notContain(LIST, "value1")).mustEx(Be::FalseEx);
+        attest(P.notContain(LIST, "value1", "value2")).mustEx(Be::FalseEx);
+        attest(P.notContain(LIST, "other")).mustEx(Be::TrueEx);
         //
-        attest(P.notContain(LIST, "value1", "other")).must$(Be::False$);
-        attest(P.notContain(LIST, "other", "other1")).must$(Be::True$);
+        attest(P.notContain(LIST, "value1", "other")).mustEx(Be::FalseEx);
+        attest(P.notContain(LIST, "other", "other1")).mustEx(Be::TrueEx);
     }
 
     @Test void ex() {
-        attest(P.contain$(LIST, "other", "other2"))
-                .must$(Be::equal$, "Collection <[value1, value2, value3]> must contain elements <[other, other2]>.");
+        attest(P.containEx(LIST, "other", "other2"))
+                .mustEx(Be::equalEx, "Collection <[value1, value2, value3]> must contain elements <[other, other2]>.");
 
     }
 }

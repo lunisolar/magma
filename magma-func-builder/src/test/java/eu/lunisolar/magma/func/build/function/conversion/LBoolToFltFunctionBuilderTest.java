@@ -127,8 +127,8 @@ public class LBoolToFltFunctionBuilderTest{
 
 
         FuncAttests.attestBoolToFltFunc(function)
-            .doesApplyAsFlt(false).when(null).to(a -> a.must$(Be::equal$, 0f))
-            .doesApplyAsFlt(true).when(null).to(a -> a.must$(Be::equal$, 1f))
+            .doesApplyAsFlt(false).when(null).to(a -> a.mustEx(Be::equalEx, 0f))
+            .doesApplyAsFlt(true).when(null).to(a -> a.mustEx(Be::equalEx, 1f))
         ;
 
     }

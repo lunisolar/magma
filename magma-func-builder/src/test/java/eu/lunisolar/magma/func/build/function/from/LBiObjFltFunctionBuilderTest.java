@@ -128,10 +128,10 @@ public class LBiObjFltFunctionBuilderTest<T1,T2,R>{
 
 
         FuncAttests.attestBiObjFltFunc(function)
-            .doesApply(0,0,0f).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply(5,5,5f).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApply(15,15,15f).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApply(10,10,10f).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApply(0,0,0f).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply(5,5,5f).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApply(15,15,15f).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApply(10,10,10f).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

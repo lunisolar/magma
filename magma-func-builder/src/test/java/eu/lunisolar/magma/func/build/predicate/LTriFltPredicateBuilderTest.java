@@ -128,8 +128,8 @@ public class LTriFltPredicateBuilderTest{
 
 
         FuncAttests.attestTriFltPred(function)
-            .doesTest(0f,0f,0f).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5f,5f,5f).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0f,0f,0f).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5f,5f,5f).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

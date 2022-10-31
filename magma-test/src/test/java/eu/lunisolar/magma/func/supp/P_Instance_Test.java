@@ -28,31 +28,31 @@ public class P_Instance_Test {
     public static final int I2 = 2;
 
     @Test void instanceOf_P() {
-        attest(P.instanceOf(new Object(), Object.class)).must$(Be::True$);
-        attest(P.instanceOf(new Object(), Integer.class)).must$(Be::False$);
-        attest(P.instanceOf(new Integer(1), Object.class)).must$(Be::True$);
+        attest(P.instanceOf(new Object(), Object.class)).mustEx(Be::TrueEx);
+        attest(P.instanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
+        attest(P.instanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
 
-        attest(P.notInstanceOf(new Object(), Object.class)).must$(Be::False$);
-        attest(P.notInstanceOf(new Object(), Integer.class)).must$(Be::True$);
-        attest(P.notInstanceOf(new Integer(1), Object.class)).must$(Be::False$);
+        attest(P.notInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
+        attest(P.notInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
+        attest(P.notInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
     }
 
     @Test void instanceOf_Be() {
-        attest(Be.instanceOf(new Object(), Object.class)).must$(Be::True$);
-        attest(Be.instanceOf(new Object(), Integer.class)).must$(Be::False$);
-        attest(Be.instanceOf(new Integer(1), Object.class)).must$(Be::True$);
+        attest(Be.instanceOf(new Object(), Object.class)).mustEx(Be::TrueEx);
+        attest(Be.instanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
+        attest(Be.instanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
 
-        attest(Be.notInstanceOf(new Object(), Object.class)).must$(Be::False$);
-        attest(Be.notInstanceOf(new Object(), Integer.class)).must$(Be::True$);
-        attest(Be.notInstanceOf(new Integer(1), Object.class)).must$(Be::False$);
+        attest(Be.notInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
+        attest(Be.notInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
+        attest(Be.notInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
     }
 
-    @Test void instanceOf$() {
-        attest(P.instanceOf$(new Integer(1), Integer.class)).must$(Be::Null$);
-        attest(P.notInstanceOf$(new Integer(1), Integer.class)).must$(Be::equal$, "Object <1> of class <class java.lang.Integer> must NOT be instance of <class java.lang.Integer>.");
+    @Test void instanceOfEx() {
+        attest(P.instanceOfEx(new Integer(1), Integer.class)).mustEx(Be::NullEx);
+        attest(P.notInstanceOfEx(new Integer(1), Integer.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be instance of <class java.lang.Integer>.");
 
-        attest(P.instanceOf$(new Integer(1), Object.class)).must$(Be::Null$);
-        attest(P.notInstanceOf$(new Integer(1), Object.class)).must$(Be::equal$, "Object <1> of class <class java.lang.Integer> must NOT be instance of <class java.lang.Object>.");
+        attest(P.instanceOfEx(new Integer(1), Object.class)).mustEx(Be::NullEx);
+        attest(P.notInstanceOfEx(new Integer(1), Object.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be instance of <class java.lang.Object>.");
     }
 
 }

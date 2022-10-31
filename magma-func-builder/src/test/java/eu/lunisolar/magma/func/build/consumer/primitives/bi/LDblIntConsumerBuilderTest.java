@@ -129,10 +129,10 @@ public class LDblIntConsumerBuilderTest{
 
 
         FuncAttests.attestDblIntCons(function)
-            .doesAccept(0d,0).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept(5d,5).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
-            .doesAccept(15d,15).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
-            .doesAccept(10d,10).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
+            .doesAccept(0d,0).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept(5d,5).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
+            .doesAccept(15d,15).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2))
+            .doesAccept(10d,10).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 99))
         ;
 
     }

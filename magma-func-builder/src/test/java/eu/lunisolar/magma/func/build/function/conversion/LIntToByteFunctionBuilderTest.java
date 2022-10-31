@@ -128,10 +128,10 @@ public class LIntToByteFunctionBuilderTest{
 
 
         FuncAttests.attestIntToByteFunc(function)
-            .doesApplyAsByte(0).when(null).to(a -> a.must$(Be::equal$, (byte)0))
-            .doesApplyAsByte(5).when(null).to(a -> a.must$(Be::equal$, (byte)1))
-            .doesApplyAsByte(15).when(null).to(a -> a.must$(Be::equal$, (byte)2))
-            .doesApplyAsByte(10).when(null).to(a -> a.must$(Be::equal$, (byte)99))
+            .doesApplyAsByte(0).when(null).to(a -> a.mustEx(Be::equalEx, (byte)0))
+            .doesApplyAsByte(5).when(null).to(a -> a.mustEx(Be::equalEx, (byte)1))
+            .doesApplyAsByte(15).when(null).to(a -> a.mustEx(Be::equalEx, (byte)2))
+            .doesApplyAsByte(10).when(null).to(a -> a.mustEx(Be::equalEx, (byte)99))
         ;
 
     }

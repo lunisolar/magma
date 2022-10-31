@@ -128,10 +128,10 @@ public class LCharToIntFunctionBuilderTest{
 
 
         FuncAttests.attestCharToIntFunc(function)
-            .doesApplyAsInt('\u0000').when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApplyAsInt('\u0005').when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApplyAsInt('\u0015').when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApplyAsInt('\u0010').when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApplyAsInt('\u0000').when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApplyAsInt('\u0005').when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApplyAsInt('\u0015').when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApplyAsInt('\u0010').when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

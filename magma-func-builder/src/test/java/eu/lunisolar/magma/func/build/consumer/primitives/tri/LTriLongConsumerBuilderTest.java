@@ -129,10 +129,10 @@ public class LTriLongConsumerBuilderTest{
 
 
         FuncAttests.attestTriLongCons(function)
-            .doesAccept(0L,0L,0L).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept(5L,5L,5L).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
-            .doesAccept(15L,15L,15L).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
-            .doesAccept(10L,10L,10L).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
+            .doesAccept(0L,0L,0L).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept(5L,5L,5L).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
+            .doesAccept(15L,15L,15L).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2))
+            .doesAccept(10L,10L,10L).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 99))
         ;
 
     }

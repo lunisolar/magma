@@ -129,10 +129,10 @@ public class LBiCharConsumerBuilderTest{
 
 
         FuncAttests.attestBiCharCons(function)
-            .doesAccept('\u0000','\u0000').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept('\u0005','\u0005').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
-            .doesAccept('\u0015','\u0015').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
-            .doesAccept('\u0010','\u0010').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
+            .doesAccept('\u0000','\u0000').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept('\u0005','\u0005').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
+            .doesAccept('\u0015','\u0015').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2))
+            .doesAccept('\u0010','\u0010').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 99))
         ;
 
     }

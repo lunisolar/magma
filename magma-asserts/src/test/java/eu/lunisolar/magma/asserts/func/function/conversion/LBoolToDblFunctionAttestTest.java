@@ -55,7 +55,7 @@ public class LBoolToDblFunctionAttestTest {
 
         FuncAttests.attestBoolToDblFunc(function)
          .doesApplyAsDbl(true)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class LBoolToDblFunctionAttestTest {
 
         FuncAttests.attestBoolToDblFunc(function)
          .doesApplyAsDbl(true)
-            .to(a -> a.must$(Be::equal$, 0d));
+            .to(a -> a.mustEx(Be::equalEx, 0d));
 
     }
 
@@ -73,7 +73,7 @@ public class LBoolToDblFunctionAttestTest {
 
         FuncAttests.attestBoolToDblFunc(functionThrowing)
          .doesApplyAsDbl(true)
-            .to(a -> a.must$(Be::equal$, 0d));
+            .to(a -> a.mustEx(Be::equalEx, 0d));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class LBoolToDblFunctionAttestTest {
 
         FuncAttests.attestBoolToDblFunc(functionThrowing)
          .doesApplyAsDbl(true).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class LBoolToDblFunctionAttestTest {
         FuncAttests.attestBoolToDblFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesApplyAsDbl(true)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsDbl(true)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class LBoolToDblFunctionAttestTest {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, 0d);
+                a.mustEx(Be::equalEx, 0d);
             }
          })
          .doesApplyAsDbl(true)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsDbl(true)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

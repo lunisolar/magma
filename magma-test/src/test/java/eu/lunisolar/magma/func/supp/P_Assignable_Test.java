@@ -30,33 +30,33 @@ public class P_Assignable_Test {
 
     @Test void sanityTest() {
         
-        attest(BASE.isAssignableFrom(SPEC)).must$(Be::True$);
-        attest(SPEC.isAssignableFrom(BASE)).must$(Be::False$);
+        attest(BASE.isAssignableFrom(SPEC)).mustEx(Be::TrueEx);
+        attest(SPEC.isAssignableFrom(BASE)).mustEx(Be::FalseEx);
 
     }
 
     @Test void baseAssignableFromSpec() {
-        attest(BASE).must$(Be::assignableFrom$, SPEC);
-        attest(BASE).must$(SPEC, Be::assignableFrom$);
+        attest(BASE).mustEx(Be::assignableFromEx, SPEC);
+        attest(BASE).mustEx(SPEC, Be::assignableFromEx);
 
-        attest(SPEC).must$(Be::notAssignableFrom$, BASE);
-        attest(SPEC).must$(BASE, Be::notAssignableFrom$);
+        attest(SPEC).mustEx(Be::notAssignableFromEx, BASE);
+        attest(SPEC).mustEx(BASE, Be::notAssignableFromEx);
     }
 
     @Test void specAssignableToBase() {
-        attest(SPEC).must$(Be::assignableTo$, BASE);
-        attest(SPEC).must$(BASE, Be::assignableTo$);
+        attest(SPEC).mustEx(Be::assignableToEx, BASE);
+        attest(SPEC).mustEx(BASE, Be::assignableToEx);
 
-        attest(BASE).must$(Be::notAssignableTo$, SPEC);
-        attest(BASE).must$(SPEC, Be::notAssignableTo$);
+        attest(BASE).mustEx(Be::notAssignableToEx, SPEC);
+        attest(BASE).mustEx(SPEC, Be::notAssignableToEx);
     }
 
     @Test void baseAssignableFromSpec_negative() {
-        attest(P.assignableFrom$(SPEC, BASE)).must$(Be::equal$, "Class <class java.lang.Integer> must be assignable from <class java.lang.Number>.");
+        attest(P.assignableFromEx(SPEC, BASE)).mustEx(Be::equalEx, "Class <class java.lang.Integer> must be assignable from <class java.lang.Number>.");
     }
 
     @Test void baseAssignableToSpec_negative() {
-        attest(P.assignableTo$(BASE, SPEC)).must$(Be::equal$, "Class <class java.lang.Number> must be assignable to <class java.lang.Integer>.");
+        attest(P.assignableToEx(BASE, SPEC)).mustEx(Be::equalEx, "Class <class java.lang.Number> must be assignable to <class java.lang.Integer>.");
     }
 
 }

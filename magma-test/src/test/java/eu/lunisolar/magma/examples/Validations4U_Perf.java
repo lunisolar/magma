@@ -442,7 +442,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                arg(state.values.v(i)).must$(Be::notEqual$, "");
+                arg(state.values.v(i)).mustEx(Be::notEqualEx, "");
 //                }
 
                 a++;
@@ -480,7 +480,7 @@ public class Validations4U_Perf {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
                 String v = state.values.v(i);
-                arg(v).must$0(Be::notEqual$, "", "Special comment: %s");
+                arg(v).mustEx0(Be::notEqualEx, "", "Special comment: %s");
 //                }
 
                 a++;
@@ -498,7 +498,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg);
+                LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg);
 //                }throwIfNot
 
                 a++;
@@ -516,7 +516,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                LBiPredicate.throwIfNot$(state.values.v(i), "", Be::notEqual$, X::arg, "Message: %s");
+                LBiPredicate.throwIfNotEx(state.values.v(i), "", Be::notEqualEx, X::arg, "Message: %s");
 //                }throwIfNot
 
                 a++;
@@ -534,7 +534,7 @@ public class Validations4U_Perf {
             try {
 //                var s = state.values.v(i);
 //                if (s!= null ) {
-                arg(state.values.v(i)).must$0(Be::notEqual$, ALL, "");
+                arg(state.values.v(i)).mustEx0(Be::notEqualEx, ALL, "");
 //                }throwIfNot
 
                 a++;
@@ -695,7 +695,7 @@ public class Validations4U_Perf {
             int i = state.i();
             try {
                 arg(state.values.v(i), state.names.v(i), X::state).verbosity(ALL)
-                                                                  .must$3(PP::notSame4Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
+                                                                  .mustEx3(PP::notSame4Ex, SAME, "a", "b", "Cannot be empty index %s, %s, %s", SAME, "a", "b");
                 a++;
             } catch (RuntimeException e) {
                 a--;

@@ -128,8 +128,8 @@ public class LObjBoolPredicateBuilderTest<T>{
 
 
         FuncAttests.attestObjBoolPred(function)
-            .doesTest(0,false).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5,true).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0,false).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5,true).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

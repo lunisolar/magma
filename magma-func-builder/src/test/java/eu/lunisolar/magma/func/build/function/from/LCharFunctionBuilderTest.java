@@ -128,10 +128,10 @@ public class LCharFunctionBuilderTest<R>{
 
 
         FuncAttests.attestCharFunc(function)
-            .doesApply('\u0000').when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply('\u0005').when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApply('\u0015').when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApply('\u0010').when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApply('\u0000').when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply('\u0005').when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApply('\u0015').when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApply('\u0010').when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

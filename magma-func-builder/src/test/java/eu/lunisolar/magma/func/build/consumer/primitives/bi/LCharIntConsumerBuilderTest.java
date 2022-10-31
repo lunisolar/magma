@@ -129,10 +129,10 @@ public class LCharIntConsumerBuilderTest{
 
 
         FuncAttests.attestCharIntCons(function)
-            .doesAccept('\u0000',0).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept('\u0005',5).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
-            .doesAccept('\u0015',15).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
-            .doesAccept('\u0010',10).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
+            .doesAccept('\u0000',0).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept('\u0005',5).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
+            .doesAccept('\u0015',15).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2))
+            .doesAccept('\u0010',10).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 99))
         ;
 
     }

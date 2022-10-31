@@ -128,10 +128,10 @@ public class LByteFunctionBuilderTest<R>{
 
 
         FuncAttests.attestByteFunc(function)
-            .doesApply((byte)0).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply((byte)5).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApply((byte)15).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApply((byte)10).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApply((byte)0).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply((byte)5).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApply((byte)15).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApply((byte)10).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

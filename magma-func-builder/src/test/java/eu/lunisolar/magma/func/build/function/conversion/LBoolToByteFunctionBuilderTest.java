@@ -127,8 +127,8 @@ public class LBoolToByteFunctionBuilderTest{
 
 
         FuncAttests.attestBoolToByteFunc(function)
-            .doesApplyAsByte(false).when(null).to(a -> a.must$(Be::equal$, (byte)0))
-            .doesApplyAsByte(true).when(null).to(a -> a.must$(Be::equal$, (byte)1))
+            .doesApplyAsByte(false).when(null).to(a -> a.mustEx(Be::equalEx, (byte)0))
+            .doesApplyAsByte(true).when(null).to(a -> a.mustEx(Be::equalEx, (byte)1))
         ;
 
     }

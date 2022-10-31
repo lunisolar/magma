@@ -127,8 +127,8 @@ public class LLogicalOperatorBuilderTest{
 
 
         FuncAttests.attestLogicalOp(function)
-            .doesApply(false).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesApply(true).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesApply(false).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesApply(true).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

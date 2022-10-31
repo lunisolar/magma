@@ -129,10 +129,10 @@ public class LTieCharConsumerBuilderTest<T>{
 
 
         FuncAttests.attestTieCharCons(function)
-            .doesAccept(0,0,'\u0000').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept(5,5,'\u0005').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
-            .doesAccept(15,15,'\u0015').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
-            .doesAccept(10,10,'\u0010').when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
+            .doesAccept(0,0,'\u0000').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept(5,5,'\u0005').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
+            .doesAccept(15,15,'\u0015').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2))
+            .doesAccept(10,10,'\u0010').when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 99))
         ;
 
     }

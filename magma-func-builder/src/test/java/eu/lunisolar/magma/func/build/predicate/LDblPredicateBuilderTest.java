@@ -128,8 +128,8 @@ public class LDblPredicateBuilderTest{
 
 
         FuncAttests.attestDblPred(function)
-            .doesTest(0d).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5d).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0d).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5d).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

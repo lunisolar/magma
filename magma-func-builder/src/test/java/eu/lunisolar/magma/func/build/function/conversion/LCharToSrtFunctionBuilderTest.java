@@ -128,10 +128,10 @@ public class LCharToSrtFunctionBuilderTest{
 
 
         FuncAttests.attestCharToSrtFunc(function)
-            .doesApplyAsSrt('\u0000').when(null).to(a -> a.must$(Be::equal$, (short)0))
-            .doesApplyAsSrt('\u0005').when(null).to(a -> a.must$(Be::equal$, (short)1))
-            .doesApplyAsSrt('\u0015').when(null).to(a -> a.must$(Be::equal$, (short)2))
-            .doesApplyAsSrt('\u0010').when(null).to(a -> a.must$(Be::equal$, (short)99))
+            .doesApplyAsSrt('\u0000').when(null).to(a -> a.mustEx(Be::equalEx, (short)0))
+            .doesApplyAsSrt('\u0005').when(null).to(a -> a.mustEx(Be::equalEx, (short)1))
+            .doesApplyAsSrt('\u0015').when(null).to(a -> a.mustEx(Be::equalEx, (short)2))
+            .doesApplyAsSrt('\u0010').when(null).to(a -> a.mustEx(Be::equalEx, (short)99))
         ;
 
     }

@@ -55,7 +55,7 @@ public class LBoolFunctionAttestTest<R> {
 
         FuncAttests.attestBoolFunc(function)
          .doesApply(true)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class LBoolFunctionAttestTest<R> {
 
         FuncAttests.attestBoolFunc(function)
          .doesApply(true)
-            .to(a -> a.must$(Be::equal$, 0));
+            .to(a -> a.mustEx(Be::equalEx, 0));
 
     }
 
@@ -73,7 +73,7 @@ public class LBoolFunctionAttestTest<R> {
 
         FuncAttests.attestBoolFunc(functionThrowing)
          .doesApply(true)
-            .to(a -> a.must$(Be::equal$, 0));
+            .to(a -> a.mustEx(Be::equalEx, 0));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class LBoolFunctionAttestTest<R> {
 
         FuncAttests.attestBoolFunc(functionThrowing)
          .doesApply(true).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class LBoolFunctionAttestTest<R> {
         FuncAttests.attestBoolFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesApply(true)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApply(true)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class LBoolFunctionAttestTest<R> {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, 0);
+                a.mustEx(Be::equalEx, 0);
             }
          })
          .doesApply(true)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApply(true)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

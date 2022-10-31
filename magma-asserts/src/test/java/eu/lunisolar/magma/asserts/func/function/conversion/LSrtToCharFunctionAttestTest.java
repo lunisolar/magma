@@ -55,7 +55,7 @@ public class LSrtToCharFunctionAttestTest {
 
         FuncAttests.attestSrtToCharFunc(function)
          .doesApplyAsChar((short)100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class LSrtToCharFunctionAttestTest {
 
         FuncAttests.attestSrtToCharFunc(function)
          .doesApplyAsChar((short)100)
-            .to(a -> a.must$(Be::equal$, '\u0000'));
+            .to(a -> a.mustEx(Be::equalEx, '\u0000'));
 
     }
 
@@ -73,7 +73,7 @@ public class LSrtToCharFunctionAttestTest {
 
         FuncAttests.attestSrtToCharFunc(functionThrowing)
          .doesApplyAsChar((short)100)
-            .to(a -> a.must$(Be::equal$, '\u0000'));
+            .to(a -> a.mustEx(Be::equalEx, '\u0000'));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class LSrtToCharFunctionAttestTest {
 
         FuncAttests.attestSrtToCharFunc(functionThrowing)
          .doesApplyAsChar((short)100).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class LSrtToCharFunctionAttestTest {
         FuncAttests.attestSrtToCharFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesApplyAsChar((short)100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsChar((short)100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class LSrtToCharFunctionAttestTest {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, '\u0000');
+                a.mustEx(Be::equalEx, '\u0000');
             }
          })
          .doesApplyAsChar((short)100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsChar((short)100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

@@ -129,10 +129,10 @@ public class DoubleSupplierBuilderTest{
 
 
         FuncAttests.attestDblSup(function)
-            .doesGetAsDbl().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, 0d))
-            .doesGetAsDbl().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, 1d))
-            .doesGetAsDbl().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, 2d))
-            .doesGetAsDbl().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, 99d))
+            .doesGetAsDbl().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesGetAsDbl().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, 1d))
+            .doesGetAsDbl().when(()->externalInfluence.set(15)).to(a -> a.mustEx(Be::equalEx, 2d))
+            .doesGetAsDbl().when(()->externalInfluence.set(10)).to(a -> a.mustEx(Be::equalEx, 99d))
         ;
 
     }

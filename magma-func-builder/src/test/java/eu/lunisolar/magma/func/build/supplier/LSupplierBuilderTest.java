@@ -129,10 +129,10 @@ public class LSupplierBuilderTest<T>{
 
 
         FuncAttests.attestSup(function)
-            .doesGet().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, 0))
-            .doesGet().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, 1))
-            .doesGet().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, 2))
-            .doesGet().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, 99))
+            .doesGet().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesGet().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesGet().when(()->externalInfluence.set(15)).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesGet().when(()->externalInfluence.set(10)).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

@@ -128,10 +128,10 @@ public class LFltToCharFunctionBuilderTest{
 
 
         FuncAttests.attestFltToCharFunc(function)
-            .doesApplyAsChar(0f).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar(5f).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesApplyAsChar(15f).when(null).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesApplyAsChar(10f).when(null).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesApplyAsChar(0f).when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar(5f).when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesApplyAsChar(15f).when(null).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesApplyAsChar(10f).when(null).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

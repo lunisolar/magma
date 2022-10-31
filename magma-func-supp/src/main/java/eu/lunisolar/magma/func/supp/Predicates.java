@@ -86,7 +86,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> must be the same as <%s>. */
-	public static @Nullable String same$(@Nullable Object n, @Nullable Object other) {
+	public static @Nullable String sameEx(@Nullable Object n, @Nullable Object other) {
 		return same(n, other) ? null : String.format("Object <%s> must be the same as <%s>.", n, other);
 	}
 	/** Predicate: Object <%s> must NOT be the same as <%s>..*/
@@ -95,7 +95,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> must NOT be the same as <%s>. */
-	public static @Nullable String notSame$(@Nullable Object n, @Nullable Object other) {
+	public static @Nullable String notSameEx(@Nullable Object n, @Nullable Object other) {
 		return notSame(n, other) ? null : String.format("Object <%s> must NOT be the same as <%s>.", n, other);
 	}
 
@@ -105,7 +105,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Reference must be null, currently is pointing to <%s>. */
-	public static @Nullable String Null$(@Nullable Object n) {
+	public static @Nullable String NullEx(@Nullable Object n) {
 		return Null(n) ? null : String.format("Reference must be null, currently is pointing to <%s>.", n);
 	}
 	/** Predicate: Reference must NOT be null, currently is pointing to <%s>..*/
@@ -114,7 +114,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Reference must NOT be null, currently is pointing to <%s>. */
-	public static @Nullable String notNull$(@Nullable Object n) {
+	public static @Nullable String notNullEx(@Nullable Object n) {
 		return notNull(n) ? null : String.format("Reference must NOT be null, currently is pointing to <%s>.", n);
 	}
 
@@ -133,7 +133,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: All references must be null. */
-	public static @Nullable String allNull$(@Nullable Object... objects) {
+	public static @Nullable String allNullEx(@Nullable Object... objects) {
 		return allNull(objects) ? null : String.format("All references must be null.");
 	}
 	/** Predicate: All references must be NOT null..*/
@@ -151,7 +151,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: All references must be NOT null. */
-	public static @Nullable String noneNull$(@Nullable Object... objects) {
+	public static @Nullable String noneNullEx(@Nullable Object... objects) {
 		return noneNull(objects) ? null : String.format("All references must be NOT null.");
 	}
 
@@ -170,7 +170,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: At least one references must be null. */
-	public static @Nullable String anyNull$(@Nullable Object... objects) {
+	public static @Nullable String anyNullEx(@Nullable Object... objects) {
 		return anyNull(objects) ? null : String.format("At least one references must be null.");
 	}
 	/** Predicate: At least one references must be NOT null..*/
@@ -188,7 +188,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: At least one references must be NOT null. */
-	public static @Nullable String anyNotNull$(@Nullable Object... objects) {
+	public static @Nullable String anyNotNullEx(@Nullable Object... objects) {
 		return anyNotNull(objects) ? null : String.format("At least one references must be NOT null.");
 	}
 
@@ -203,7 +203,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be <%d> characters long. */
-	public static @Nullable String length$(@Nonnull CharSequence s, int size) {
+	public static @Nullable String lengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return length(s, size) ? null : String.format("String <'%s'> must be <%d> characters long.", s, size);
 	}
@@ -214,7 +214,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. */
-	public static @Nullable String notLength$(@Nonnull CharSequence s, int size) {
+	public static @Nullable String notLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return notLength(s, size) ? null : String.format("String <'%s'> must NOT be <%d> characters long.", s, size);
 	}
@@ -226,7 +226,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be <%d> characters long. */
-	public static @Nullable String ofLength$(@Nonnull CharSequence s, int size) {
+	public static @Nullable String ofLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return ofLength(s, size) ? null : String.format("String <'%s'> must be <%d> characters long.", s, size);
 	}
@@ -237,7 +237,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. */
-	public static @Nullable String notOfLength$(@Nonnull CharSequence s, int size) {
+	public static @Nullable String notOfLengthEx(@Nonnull CharSequence s, int size) {
 		Null.nonNullArg(s, "s");
 		return notOfLength(s, size) ? null : String.format("String <'%s'> must NOT be <%d> characters long.", s, size);
 	}
@@ -250,7 +250,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must start with <'%s'>. */
-	public static @Nullable String startWith$(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String startWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return startWith(n, a1) ? null : String.format("String <'%s'> must start with <'%s'>.", n, a1);
@@ -263,7 +263,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT start with <'%s'>. */
-	public static @Nullable String notStartWith$(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String notStartWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return notStartWith(n, a1) ? null : String.format("String <'%s'> must NOT start with <'%s'>.", n, a1);
@@ -277,7 +277,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must end with <'%s'>. */
-	public static @Nullable String endWith$(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String endWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return endWith(n, a1) ? null : String.format("String <'%s'> must end with <'%s'>.", n, a1);
@@ -290,7 +290,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT end with <'%s'>. */
-	public static @Nullable String notEndWith$(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String notEndWithEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return notEndWith(n, a1) ? null : String.format("String <'%s'> must NOT end with <'%s'>.", n, a1);
@@ -304,7 +304,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must contain string <'%s'>. But does not. */
-	public static @Nullable String contain$(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String containEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return contain(n, a1) ? null : String.format("String <'%s'> must contain string <'%s'>. But does not.", n, a1);
@@ -317,7 +317,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT contain string <'%s'>. But does not. */
-	public static @Nullable String notContain$(@Nonnull String n, @Nonnull String a1) {
+	public static @Nullable String notContainEx(@Nonnull String n, @Nonnull String a1) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return notContain(n, a1) ? null : String.format("String <'%s'> must NOT contain string <'%s'>. But does not.", n, a1);
@@ -330,7 +330,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be empty. */
-	public static @Nullable String empty$(@Nonnull String n) {
+	public static @Nullable String emptyEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return empty(n) ? null : String.format("String <'%s'> must be empty.", n);
 	}
@@ -341,7 +341,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull String n) {
+	public static @Nullable String notEmptyEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return notEmpty(n) ? null : String.format("String <'%s'> must NOT be empty.", n);
 	}
@@ -353,7 +353,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be blank (empty or consisting of only white characters). */
-	public static @Nullable String blank$(@Nonnull String n) {
+	public static @Nullable String blankEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return blank(n) ? null : String.format("String <'%s'> must be blank (empty or consisting of only white characters).", n);
 	}
@@ -364,7 +364,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). */
-	public static @Nullable String notBlank$(@Nonnull String n) {
+	public static @Nullable String notBlankEx(@Nonnull String n) {
 		Null.nonNullArg(n, "n");
 		return notBlank(n) ? null : String.format("String <'%s'> must NOT be blank (empty or consisting of only white characters).", n);
 	}
@@ -375,7 +375,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nonnull String n) {
+	public static @Nullable String nullOrEmptyEx(@Nonnull String n) {
 		return nullOrEmpty(n) ? null : String.format("String <'%s'> must be null or empty.", n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or empty..*/
@@ -384,7 +384,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or empty. */
-	public static @Nullable String notNullNorEmpty$(@Nonnull String n) {
+	public static @Nullable String notNullNorEmptyEx(@Nonnull String n) {
 		return notNullNorEmpty(n) ? null : String.format("String <'%s'> must NOT be null or empty.", n);
 	}
 
@@ -394,7 +394,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or blank. */
-	public static @Nullable String nullOrBlank$(@Nonnull String n) {
+	public static @Nullable String nullOrBlankEx(@Nonnull String n) {
 		return nullOrBlank(n) ? null : String.format("String <'%s'> must be null or blank.", n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or blank..*/
@@ -403,7 +403,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or blank. */
-	public static @Nullable String notNullNorBlank$(@Nonnull String n) {
+	public static @Nullable String notNullNorBlankEx(@Nonnull String n) {
 		return notNullNorBlank(n) ? null : String.format("String <'%s'> must NOT be null or blank.", n);
 	}
 
@@ -417,7 +417,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: AND */
-	public static @Nullable String and$(boolean op1, boolean op2) {
+	public static @Nullable String andEx(boolean op1, boolean op2) {
 		return and(op1, op2) ? null : String.format("AND", op1, op2);
 	}
 
@@ -427,7 +427,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: OR */
-	public static @Nullable String or$(boolean op1, boolean op2) {
+	public static @Nullable String orEx(boolean op1, boolean op2) {
 		return or(op1, op2) ? null : String.format("OR", op1, op2);
 	}
 
@@ -437,7 +437,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: XOR */
-	public static @Nullable String xor$(boolean op1, boolean op2) {
+	public static @Nullable String xorEx(boolean op1, boolean op2) {
 		return xor(op1, op2) ? null : String.format("XOR", op1, op2);
 	}
 
@@ -451,7 +451,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equal$(Object o1, Object o2) {
+	public static @Nullable String equalEx(Object o1, Object o2) {
 		return equal(o1, o2) ? null : String.format("<%s> must be equal to <%s>.", o1, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -460,7 +460,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqual$(Object o1, Object o2) {
+	public static @Nullable String notEqualEx(Object o1, Object o2) {
 		return notEqual(o1, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", o1, o2);
 	}
 
@@ -470,7 +470,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String objEqual$(Object o1, Object o2) {
+	public static @Nullable String objEqualEx(Object o1, Object o2) {
 		return objEqual(o1, o2) ? null : String.format("<%s> must be equal to <%s>.", o1, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -479,7 +479,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String objNotEqual$(Object o1, Object o2) {
+	public static @Nullable String objNotEqualEx(Object o1, Object o2) {
 		return objNotEqual(o1, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", o1, o2);
 	}
 
@@ -489,7 +489,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(byte n, Object o2) {
+	public static @Nullable String equalToObjEx(byte n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -498,7 +498,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(byte n, Object o2) {
+	public static @Nullable String notEqualToObjEx(byte n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -508,7 +508,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(byte n, byte a1) {
+	public static @Nullable String equalEx(byte n, byte a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -517,7 +517,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(byte n, byte a1) {
+	public static @Nullable String notEqualEx(byte n, byte a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -527,7 +527,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. */
-	public static @Nullable String gt$(byte n, byte a1) {
+	public static @Nullable String gtEx(byte n, byte a1) {
 		return gt(n, a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be > %s..*/
@@ -536,7 +536,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be > %s. */
-	public static @Nullable String notGt$(byte n, byte a1) {
+	public static @Nullable String notGtEx(byte n, byte a1) {
 		return notGt(n, a1) ? null : String.format("%s must NOT be > %s.", n, a1);
 	}
 
@@ -546,7 +546,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. */
-	public static @Nullable String lt$(byte n, byte a1) {
+	public static @Nullable String ltEx(byte n, byte a1) {
 		return lt(n, a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be < %s..*/
@@ -555,7 +555,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be < %s. */
-	public static @Nullable String notLt$(byte n, byte a1) {
+	public static @Nullable String notLtEx(byte n, byte a1) {
 		return notLt(n, a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
@@ -565,7 +565,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. */
-	public static @Nullable String gtEq$(byte n, byte a1) {
+	public static @Nullable String gtEqEx(byte n, byte a1) {
 		return gtEq(n, a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be >= %s..*/
@@ -574,7 +574,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= %s. */
-	public static @Nullable String notGtEq$(byte n, byte a1) {
+	public static @Nullable String notGtEqEx(byte n, byte a1) {
 		return notGtEq(n, a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
 	}
 
@@ -584,7 +584,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. */
-	public static @Nullable String ltEq$(byte n, byte a1) {
+	public static @Nullable String ltEqEx(byte n, byte a1) {
 		return ltEq(n, a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be <= %s..*/
@@ -593,7 +593,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= %s. */
-	public static @Nullable String notLtEq$(byte n, byte a1) {
+	public static @Nullable String notLtEqEx(byte n, byte a1) {
 		return notLtEq(n, a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
@@ -603,7 +603,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
-	public static @Nullable String nonNegative$(byte n) {
+	public static @Nullable String nonNegativeEx(byte n) {
 		return nonNegative(n) ? null : String.format("%s must be >= 0 (must be non-negative).", n);
 	}
 	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
@@ -612,7 +612,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
-	public static @Nullable String negative$(byte n) {
+	public static @Nullable String negativeEx(byte n) {
 		return negative(n) ? null : String.format("%s must NOT be >= 0 (must be negative).", n);
 	}
 
@@ -622,7 +622,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
-	public static @Nullable String nonPositive$(byte n) {
+	public static @Nullable String nonPositiveEx(byte n) {
 		return nonPositive(n) ? null : String.format("%s must be <= 0 (must be non-positive).", n);
 	}
 	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
@@ -631,7 +631,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
-	public static @Nullable String positive$(byte n) {
+	public static @Nullable String positiveEx(byte n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
@@ -641,7 +641,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(short n, Object o2) {
+	public static @Nullable String equalToObjEx(short n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -650,7 +650,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(short n, Object o2) {
+	public static @Nullable String notEqualToObjEx(short n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -660,7 +660,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(short n, short a1) {
+	public static @Nullable String equalEx(short n, short a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -669,7 +669,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(short n, short a1) {
+	public static @Nullable String notEqualEx(short n, short a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -679,7 +679,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. */
-	public static @Nullable String gt$(short n, short a1) {
+	public static @Nullable String gtEx(short n, short a1) {
 		return gt(n, a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be > %s..*/
@@ -688,7 +688,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be > %s. */
-	public static @Nullable String notGt$(short n, short a1) {
+	public static @Nullable String notGtEx(short n, short a1) {
 		return notGt(n, a1) ? null : String.format("%s must NOT be > %s.", n, a1);
 	}
 
@@ -698,7 +698,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. */
-	public static @Nullable String lt$(short n, short a1) {
+	public static @Nullable String ltEx(short n, short a1) {
 		return lt(n, a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be < %s..*/
@@ -707,7 +707,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be < %s. */
-	public static @Nullable String notLt$(short n, short a1) {
+	public static @Nullable String notLtEx(short n, short a1) {
 		return notLt(n, a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
@@ -717,7 +717,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. */
-	public static @Nullable String gtEq$(short n, short a1) {
+	public static @Nullable String gtEqEx(short n, short a1) {
 		return gtEq(n, a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be >= %s..*/
@@ -726,7 +726,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= %s. */
-	public static @Nullable String notGtEq$(short n, short a1) {
+	public static @Nullable String notGtEqEx(short n, short a1) {
 		return notGtEq(n, a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
 	}
 
@@ -736,7 +736,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. */
-	public static @Nullable String ltEq$(short n, short a1) {
+	public static @Nullable String ltEqEx(short n, short a1) {
 		return ltEq(n, a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be <= %s..*/
@@ -745,7 +745,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= %s. */
-	public static @Nullable String notLtEq$(short n, short a1) {
+	public static @Nullable String notLtEqEx(short n, short a1) {
 		return notLtEq(n, a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
@@ -755,7 +755,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
-	public static @Nullable String nonNegative$(short n) {
+	public static @Nullable String nonNegativeEx(short n) {
 		return nonNegative(n) ? null : String.format("%s must be >= 0 (must be non-negative).", n);
 	}
 	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
@@ -764,7 +764,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
-	public static @Nullable String negative$(short n) {
+	public static @Nullable String negativeEx(short n) {
 		return negative(n) ? null : String.format("%s must NOT be >= 0 (must be negative).", n);
 	}
 
@@ -774,7 +774,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
-	public static @Nullable String nonPositive$(short n) {
+	public static @Nullable String nonPositiveEx(short n) {
 		return nonPositive(n) ? null : String.format("%s must be <= 0 (must be non-positive).", n);
 	}
 	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
@@ -783,7 +783,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
-	public static @Nullable String positive$(short n) {
+	public static @Nullable String positiveEx(short n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
@@ -793,7 +793,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(int n, Object o2) {
+	public static @Nullable String equalToObjEx(int n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -802,7 +802,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(int n, Object o2) {
+	public static @Nullable String notEqualToObjEx(int n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -812,7 +812,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(int n, int a1) {
+	public static @Nullable String equalEx(int n, int a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -821,7 +821,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(int n, int a1) {
+	public static @Nullable String notEqualEx(int n, int a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -831,7 +831,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. */
-	public static @Nullable String gt$(int n, int a1) {
+	public static @Nullable String gtEx(int n, int a1) {
 		return gt(n, a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be > %s..*/
@@ -840,7 +840,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be > %s. */
-	public static @Nullable String notGt$(int n, int a1) {
+	public static @Nullable String notGtEx(int n, int a1) {
 		return notGt(n, a1) ? null : String.format("%s must NOT be > %s.", n, a1);
 	}
 
@@ -850,7 +850,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. */
-	public static @Nullable String lt$(int n, int a1) {
+	public static @Nullable String ltEx(int n, int a1) {
 		return lt(n, a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be < %s..*/
@@ -859,7 +859,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be < %s. */
-	public static @Nullable String notLt$(int n, int a1) {
+	public static @Nullable String notLtEx(int n, int a1) {
 		return notLt(n, a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
@@ -869,7 +869,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. */
-	public static @Nullable String gtEq$(int n, int a1) {
+	public static @Nullable String gtEqEx(int n, int a1) {
 		return gtEq(n, a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be >= %s..*/
@@ -878,7 +878,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= %s. */
-	public static @Nullable String notGtEq$(int n, int a1) {
+	public static @Nullable String notGtEqEx(int n, int a1) {
 		return notGtEq(n, a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
 	}
 
@@ -888,7 +888,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. */
-	public static @Nullable String ltEq$(int n, int a1) {
+	public static @Nullable String ltEqEx(int n, int a1) {
 		return ltEq(n, a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be <= %s..*/
@@ -897,7 +897,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= %s. */
-	public static @Nullable String notLtEq$(int n, int a1) {
+	public static @Nullable String notLtEqEx(int n, int a1) {
 		return notLtEq(n, a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
@@ -907,7 +907,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
-	public static @Nullable String nonNegative$(int n) {
+	public static @Nullable String nonNegativeEx(int n) {
 		return nonNegative(n) ? null : String.format("%s must be >= 0 (must be non-negative).", n);
 	}
 	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
@@ -916,7 +916,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
-	public static @Nullable String negative$(int n) {
+	public static @Nullable String negativeEx(int n) {
 		return negative(n) ? null : String.format("%s must NOT be >= 0 (must be negative).", n);
 	}
 
@@ -926,7 +926,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
-	public static @Nullable String nonPositive$(int n) {
+	public static @Nullable String nonPositiveEx(int n) {
 		return nonPositive(n) ? null : String.format("%s must be <= 0 (must be non-positive).", n);
 	}
 	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
@@ -935,7 +935,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
-	public static @Nullable String positive$(int n) {
+	public static @Nullable String positiveEx(int n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
@@ -945,7 +945,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(long n, Object o2) {
+	public static @Nullable String equalToObjEx(long n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -954,7 +954,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(long n, Object o2) {
+	public static @Nullable String notEqualToObjEx(long n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -964,7 +964,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(long n, long a1) {
+	public static @Nullable String equalEx(long n, long a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -973,7 +973,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(long n, long a1) {
+	public static @Nullable String notEqualEx(long n, long a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -983,7 +983,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. */
-	public static @Nullable String gt$(long n, long a1) {
+	public static @Nullable String gtEx(long n, long a1) {
 		return gt(n, a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be > %s..*/
@@ -992,7 +992,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be > %s. */
-	public static @Nullable String notGt$(long n, long a1) {
+	public static @Nullable String notGtEx(long n, long a1) {
 		return notGt(n, a1) ? null : String.format("%s must NOT be > %s.", n, a1);
 	}
 
@@ -1002,7 +1002,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. */
-	public static @Nullable String lt$(long n, long a1) {
+	public static @Nullable String ltEx(long n, long a1) {
 		return lt(n, a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be < %s..*/
@@ -1011,7 +1011,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be < %s. */
-	public static @Nullable String notLt$(long n, long a1) {
+	public static @Nullable String notLtEx(long n, long a1) {
 		return notLt(n, a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
@@ -1021,7 +1021,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. */
-	public static @Nullable String gtEq$(long n, long a1) {
+	public static @Nullable String gtEqEx(long n, long a1) {
 		return gtEq(n, a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be >= %s..*/
@@ -1030,7 +1030,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= %s. */
-	public static @Nullable String notGtEq$(long n, long a1) {
+	public static @Nullable String notGtEqEx(long n, long a1) {
 		return notGtEq(n, a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
 	}
 
@@ -1040,7 +1040,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. */
-	public static @Nullable String ltEq$(long n, long a1) {
+	public static @Nullable String ltEqEx(long n, long a1) {
 		return ltEq(n, a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be <= %s..*/
@@ -1049,7 +1049,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= %s. */
-	public static @Nullable String notLtEq$(long n, long a1) {
+	public static @Nullable String notLtEqEx(long n, long a1) {
 		return notLtEq(n, a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
@@ -1059,7 +1059,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
-	public static @Nullable String nonNegative$(long n) {
+	public static @Nullable String nonNegativeEx(long n) {
 		return nonNegative(n) ? null : String.format("%s must be >= 0 (must be non-negative).", n);
 	}
 	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
@@ -1068,7 +1068,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
-	public static @Nullable String negative$(long n) {
+	public static @Nullable String negativeEx(long n) {
 		return negative(n) ? null : String.format("%s must NOT be >= 0 (must be negative).", n);
 	}
 
@@ -1078,7 +1078,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
-	public static @Nullable String nonPositive$(long n) {
+	public static @Nullable String nonPositiveEx(long n) {
 		return nonPositive(n) ? null : String.format("%s must be <= 0 (must be non-positive).", n);
 	}
 	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
@@ -1087,7 +1087,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
-	public static @Nullable String positive$(long n) {
+	public static @Nullable String positiveEx(long n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
@@ -1097,7 +1097,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(float n, Object o2) {
+	public static @Nullable String equalToObjEx(float n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -1106,7 +1106,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(float n, Object o2) {
+	public static @Nullable String notEqualToObjEx(float n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -1116,7 +1116,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(float n, float a1) {
+	public static @Nullable String equalEx(float n, float a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -1125,7 +1125,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(float n, float a1) {
+	public static @Nullable String notEqualEx(float n, float a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -1135,7 +1135,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. */
-	public static @Nullable String gt$(float n, float a1) {
+	public static @Nullable String gtEx(float n, float a1) {
 		return gt(n, a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be > %s..*/
@@ -1144,7 +1144,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be > %s. */
-	public static @Nullable String notGt$(float n, float a1) {
+	public static @Nullable String notGtEx(float n, float a1) {
 		return notGt(n, a1) ? null : String.format("%s must NOT be > %s.", n, a1);
 	}
 
@@ -1154,7 +1154,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. */
-	public static @Nullable String lt$(float n, float a1) {
+	public static @Nullable String ltEx(float n, float a1) {
 		return lt(n, a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be < %s..*/
@@ -1163,7 +1163,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be < %s. */
-	public static @Nullable String notLt$(float n, float a1) {
+	public static @Nullable String notLtEx(float n, float a1) {
 		return notLt(n, a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
@@ -1173,7 +1173,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. */
-	public static @Nullable String gtEq$(float n, float a1) {
+	public static @Nullable String gtEqEx(float n, float a1) {
 		return gtEq(n, a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be >= %s..*/
@@ -1182,7 +1182,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= %s. */
-	public static @Nullable String notGtEq$(float n, float a1) {
+	public static @Nullable String notGtEqEx(float n, float a1) {
 		return notGtEq(n, a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
 	}
 
@@ -1192,7 +1192,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. */
-	public static @Nullable String ltEq$(float n, float a1) {
+	public static @Nullable String ltEqEx(float n, float a1) {
 		return ltEq(n, a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be <= %s..*/
@@ -1201,7 +1201,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= %s. */
-	public static @Nullable String notLtEq$(float n, float a1) {
+	public static @Nullable String notLtEqEx(float n, float a1) {
 		return notLtEq(n, a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
@@ -1211,7 +1211,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
-	public static @Nullable String nonNegative$(float n) {
+	public static @Nullable String nonNegativeEx(float n) {
 		return nonNegative(n) ? null : String.format("%s must be >= 0 (must be non-negative).", n);
 	}
 	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
@@ -1220,7 +1220,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
-	public static @Nullable String negative$(float n) {
+	public static @Nullable String negativeEx(float n) {
 		return negative(n) ? null : String.format("%s must NOT be >= 0 (must be negative).", n);
 	}
 
@@ -1230,7 +1230,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
-	public static @Nullable String nonPositive$(float n) {
+	public static @Nullable String nonPositiveEx(float n) {
 		return nonPositive(n) ? null : String.format("%s must be <= 0 (must be non-positive).", n);
 	}
 	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
@@ -1239,7 +1239,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
-	public static @Nullable String positive$(float n) {
+	public static @Nullable String positiveEx(float n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
@@ -1249,7 +1249,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(double n, Object o2) {
+	public static @Nullable String equalToObjEx(double n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -1258,7 +1258,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(double n, Object o2) {
+	public static @Nullable String notEqualToObjEx(double n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -1268,7 +1268,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(double n, double a1) {
+	public static @Nullable String equalEx(double n, double a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -1277,7 +1277,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(double n, double a1) {
+	public static @Nullable String notEqualEx(double n, double a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -1287,7 +1287,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. */
-	public static @Nullable String gt$(double n, double a1) {
+	public static @Nullable String gtEx(double n, double a1) {
 		return gt(n, a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be > %s..*/
@@ -1296,7 +1296,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be > %s. */
-	public static @Nullable String notGt$(double n, double a1) {
+	public static @Nullable String notGtEx(double n, double a1) {
 		return notGt(n, a1) ? null : String.format("%s must NOT be > %s.", n, a1);
 	}
 
@@ -1306,7 +1306,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. */
-	public static @Nullable String lt$(double n, double a1) {
+	public static @Nullable String ltEx(double n, double a1) {
 		return lt(n, a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be < %s..*/
@@ -1315,7 +1315,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be < %s. */
-	public static @Nullable String notLt$(double n, double a1) {
+	public static @Nullable String notLtEx(double n, double a1) {
 		return notLt(n, a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
@@ -1325,7 +1325,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. */
-	public static @Nullable String gtEq$(double n, double a1) {
+	public static @Nullable String gtEqEx(double n, double a1) {
 		return gtEq(n, a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be >= %s..*/
@@ -1334,7 +1334,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= %s. */
-	public static @Nullable String notGtEq$(double n, double a1) {
+	public static @Nullable String notGtEqEx(double n, double a1) {
 		return notGtEq(n, a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
 	}
 
@@ -1344,7 +1344,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. */
-	public static @Nullable String ltEq$(double n, double a1) {
+	public static @Nullable String ltEqEx(double n, double a1) {
 		return ltEq(n, a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be <= %s..*/
@@ -1353,7 +1353,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= %s. */
-	public static @Nullable String notLtEq$(double n, double a1) {
+	public static @Nullable String notLtEqEx(double n, double a1) {
 		return notLtEq(n, a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
@@ -1363,7 +1363,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
-	public static @Nullable String nonNegative$(double n) {
+	public static @Nullable String nonNegativeEx(double n) {
 		return nonNegative(n) ? null : String.format("%s must be >= 0 (must be non-negative).", n);
 	}
 	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
@@ -1372,7 +1372,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
-	public static @Nullable String negative$(double n) {
+	public static @Nullable String negativeEx(double n) {
 		return negative(n) ? null : String.format("%s must NOT be >= 0 (must be negative).", n);
 	}
 
@@ -1382,7 +1382,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
-	public static @Nullable String nonPositive$(double n) {
+	public static @Nullable String nonPositiveEx(double n) {
 		return nonPositive(n) ? null : String.format("%s must be <= 0 (must be non-positive).", n);
 	}
 	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
@@ -1391,7 +1391,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
-	public static @Nullable String positive$(double n) {
+	public static @Nullable String positiveEx(double n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
@@ -1401,7 +1401,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(char n, Object o2) {
+	public static @Nullable String equalToObjEx(char n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -1410,7 +1410,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(char n, Object o2) {
+	public static @Nullable String notEqualToObjEx(char n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -1420,7 +1420,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(char n, char a1) {
+	public static @Nullable String equalEx(char n, char a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -1429,7 +1429,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(char n, char a1) {
+	public static @Nullable String notEqualEx(char n, char a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -1439,7 +1439,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be > %s. */
-	public static @Nullable String gt$(char n, char a1) {
+	public static @Nullable String gtEx(char n, char a1) {
 		return gt(n, a1) ? null : String.format("%s must be > %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be > %s..*/
@@ -1448,7 +1448,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be > %s. */
-	public static @Nullable String notGt$(char n, char a1) {
+	public static @Nullable String notGtEx(char n, char a1) {
 		return notGt(n, a1) ? null : String.format("%s must NOT be > %s.", n, a1);
 	}
 
@@ -1458,7 +1458,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be < %s. */
-	public static @Nullable String lt$(char n, char a1) {
+	public static @Nullable String ltEx(char n, char a1) {
 		return lt(n, a1) ? null : String.format("%s must be < %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be < %s..*/
@@ -1467,7 +1467,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be < %s. */
-	public static @Nullable String notLt$(char n, char a1) {
+	public static @Nullable String notLtEx(char n, char a1) {
 		return notLt(n, a1) ? null : String.format("%s must NOT be < %s.", n, a1);
 	}
 
@@ -1477,7 +1477,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= %s. */
-	public static @Nullable String gtEq$(char n, char a1) {
+	public static @Nullable String gtEqEx(char n, char a1) {
 		return gtEq(n, a1) ? null : String.format("%s must be >= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be >= %s..*/
@@ -1486,7 +1486,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= %s. */
-	public static @Nullable String notGtEq$(char n, char a1) {
+	public static @Nullable String notGtEqEx(char n, char a1) {
 		return notGtEq(n, a1) ? null : String.format("%s must NOT be >= %s.", n, a1);
 	}
 
@@ -1496,7 +1496,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= %s. */
-	public static @Nullable String ltEq$(char n, char a1) {
+	public static @Nullable String ltEqEx(char n, char a1) {
 		return ltEq(n, a1) ? null : String.format("%s must be <= %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be <= %s..*/
@@ -1505,7 +1505,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= %s. */
-	public static @Nullable String notLtEq$(char n, char a1) {
+	public static @Nullable String notLtEqEx(char n, char a1) {
 		return notLtEq(n, a1) ? null : String.format("%s must NOT be <= %s.", n, a1);
 	}
 
@@ -1515,7 +1515,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
-	public static @Nullable String nonNegative$(char n) {
+	public static @Nullable String nonNegativeEx(char n) {
 		return nonNegative(n) ? null : String.format("%s must be >= 0 (must be non-negative).", n);
 	}
 	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
@@ -1524,7 +1524,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
-	public static @Nullable String negative$(char n) {
+	public static @Nullable String negativeEx(char n) {
 		return negative(n) ? null : String.format("%s must NOT be >= 0 (must be negative).", n);
 	}
 
@@ -1534,7 +1534,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
-	public static @Nullable String nonPositive$(char n) {
+	public static @Nullable String nonPositiveEx(char n) {
 		return nonPositive(n) ? null : String.format("%s must be <= 0 (must be non-positive).", n);
 	}
 	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
@@ -1543,7 +1543,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
-	public static @Nullable String positive$(char n) {
+	public static @Nullable String positiveEx(char n) {
 		return positive(n) ? null : String.format("%s must NOT be <= 0 (must be positive).", n);
 	}
 
@@ -1553,7 +1553,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s>. */
-	public static @Nullable String equalToObj$(boolean n, Object o2) {
+	public static @Nullable String equalToObjEx(boolean n, Object o2) {
 		return equalToObj(n, o2) ? null : String.format("<%s> must be equal to <%s>.", n, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s>..*/
@@ -1562,7 +1562,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
-	public static @Nullable String notEqualToObj$(boolean n, Object o2) {
+	public static @Nullable String notEqualToObjEx(boolean n, Object o2) {
 		return notEqualToObj(n, o2) ? null : String.format("<%s> must NOT be equal to <%s>.", n, o2);
 	}
 
@@ -1572,7 +1572,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must be equal to %s. */
-	public static @Nullable String equal$(boolean n, boolean a1) {
+	public static @Nullable String equalEx(boolean n, boolean a1) {
 		return equal(n, a1) ? null : String.format("%s must be equal to %s.", n, a1);
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
@@ -1581,7 +1581,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
-	public static @Nullable String notEqual$(boolean n, boolean a1) {
+	public static @Nullable String notEqualEx(boolean n, boolean a1) {
 		return notEqual(n, a1) ? null : String.format("%s must NOT be equal to %s.", n, a1);
 	}
 
@@ -1591,7 +1591,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
-	public static @Nullable String between$(byte n, byte a1, byte a2) {
+	public static @Nullable String betweenEx(byte n, byte a1, byte a2) {
 		return between(n, a1, a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
@@ -1600,7 +1600,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
-	public static @Nullable String notBetween$(byte n, byte a1, byte a2) {
+	public static @Nullable String notBetweenEx(byte n, byte a1, byte a2) {
 		return notBetween(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 
@@ -1610,7 +1610,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String inRange$(byte n, byte a1, byte a2) {
+	public static @Nullable String inRangeEx(byte n, byte a1, byte a2) {
 		return inRange(n, a1, a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
@@ -1619,7 +1619,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String notInRange$(byte n, byte a1, byte a2) {
+	public static @Nullable String notInRangeEx(byte n, byte a1, byte a2) {
 		return notInRange(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 
@@ -1629,7 +1629,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
-	public static @Nullable String between$(short n, short a1, short a2) {
+	public static @Nullable String betweenEx(short n, short a1, short a2) {
 		return between(n, a1, a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
@@ -1638,7 +1638,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
-	public static @Nullable String notBetween$(short n, short a1, short a2) {
+	public static @Nullable String notBetweenEx(short n, short a1, short a2) {
 		return notBetween(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 
@@ -1648,7 +1648,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String inRange$(short n, short a1, short a2) {
+	public static @Nullable String inRangeEx(short n, short a1, short a2) {
 		return inRange(n, a1, a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
@@ -1657,7 +1657,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String notInRange$(short n, short a1, short a2) {
+	public static @Nullable String notInRangeEx(short n, short a1, short a2) {
 		return notInRange(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 
@@ -1667,7 +1667,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
-	public static @Nullable String between$(int n, int a1, int a2) {
+	public static @Nullable String betweenEx(int n, int a1, int a2) {
 		return between(n, a1, a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
@@ -1676,7 +1676,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
-	public static @Nullable String notBetween$(int n, int a1, int a2) {
+	public static @Nullable String notBetweenEx(int n, int a1, int a2) {
 		return notBetween(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 
@@ -1686,7 +1686,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String inRange$(int n, int a1, int a2) {
+	public static @Nullable String inRangeEx(int n, int a1, int a2) {
 		return inRange(n, a1, a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
@@ -1695,7 +1695,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String notInRange$(int n, int a1, int a2) {
+	public static @Nullable String notInRangeEx(int n, int a1, int a2) {
 		return notInRange(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 
@@ -1705,7 +1705,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
-	public static @Nullable String between$(long n, long a1, long a2) {
+	public static @Nullable String betweenEx(long n, long a1, long a2) {
 		return between(n, a1, a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
@@ -1714,7 +1714,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
-	public static @Nullable String notBetween$(long n, long a1, long a2) {
+	public static @Nullable String notBetweenEx(long n, long a1, long a2) {
 		return notBetween(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 
@@ -1724,7 +1724,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String inRange$(long n, long a1, long a2) {
+	public static @Nullable String inRangeEx(long n, long a1, long a2) {
 		return inRange(n, a1, a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
@@ -1733,7 +1733,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String notInRange$(long n, long a1, long a2) {
+	public static @Nullable String notInRangeEx(long n, long a1, long a2) {
 		return notInRange(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 
@@ -1743,7 +1743,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
-	public static @Nullable String between$(float n, float a1, float a2) {
+	public static @Nullable String betweenEx(float n, float a1, float a2) {
 		return between(n, a1, a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
@@ -1752,7 +1752,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
-	public static @Nullable String notBetween$(float n, float a1, float a2) {
+	public static @Nullable String notBetweenEx(float n, float a1, float a2) {
 		return notBetween(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 
@@ -1762,7 +1762,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String inRange$(float n, float a1, float a2) {
+	public static @Nullable String inRangeEx(float n, float a1, float a2) {
 		return inRange(n, a1, a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
@@ -1771,7 +1771,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String notInRange$(float n, float a1, float a2) {
+	public static @Nullable String notInRangeEx(float n, float a1, float a2) {
 		return notInRange(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 
@@ -1781,7 +1781,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
-	public static @Nullable String between$(double n, double a1, double a2) {
+	public static @Nullable String betweenEx(double n, double a1, double a2) {
 		return between(n, a1, a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
@@ -1790,7 +1790,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
-	public static @Nullable String notBetween$(double n, double a1, double a2) {
+	public static @Nullable String notBetweenEx(double n, double a1, double a2) {
 		return notBetween(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 
@@ -1800,7 +1800,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String inRange$(double n, double a1, double a2) {
+	public static @Nullable String inRangeEx(double n, double a1, double a2) {
 		return inRange(n, a1, a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
@@ -1809,7 +1809,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String notInRange$(double n, double a1, double a2) {
+	public static @Nullable String notInRangeEx(double n, double a1, double a2) {
 		return notInRange(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 
@@ -1819,7 +1819,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
-	public static @Nullable String between$(char n, char a1, char a2) {
+	public static @Nullable String betweenEx(char n, char a1, char a2) {
 		return between(n, a1, a2) ? null : String.format("%1$s must be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
@@ -1828,7 +1828,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
-	public static @Nullable String notBetween$(char n, char a1, char a2) {
+	public static @Nullable String notBetweenEx(char n, char a1, char a2) {
 		return notBetween(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s < %1$s < %3$s.", n, a1, a2);
 	}
 
@@ -1838,7 +1838,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String inRange$(char n, char a1, char a2) {
+	public static @Nullable String inRangeEx(char n, char a1, char a2) {
 		return inRange(n, a1, a2) ? null : String.format("%1$s must be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
@@ -1847,7 +1847,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
-	public static @Nullable String notInRange$(char n, char a1, char a2) {
+	public static @Nullable String notInRangeEx(char n, char a1, char a2) {
 		return notInRange(n, a1, a2) ? null : String.format("%1$s must NOT be: %2$s <= %1$s <= %3$s.", n, a1, a2);
 	}
 
@@ -1857,7 +1857,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be true. */
-	public static @Nullable String True$(boolean v) {
+	public static @Nullable String TrueEx(boolean v) {
 		return True(v) ? null : String.format("<%s> must be true.", v);
 	}
 	/** Predicate: <%s> must be false..*/
@@ -1866,7 +1866,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be false. */
-	public static @Nullable String False$(boolean v) {
+	public static @Nullable String FalseEx(boolean v) {
 		return False(v) ? null : String.format("<%s> must be false.", v);
 	}
 
@@ -1881,7 +1881,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull boolean[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -1892,7 +1892,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull boolean[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -1904,7 +1904,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull boolean[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -1915,7 +1915,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull boolean[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull boolean[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -1927,7 +1927,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull boolean[] array) {
+	public static @Nullable String emptyEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -1938,7 +1938,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull boolean[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -1949,7 +1949,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable boolean[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable boolean[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -1958,7 +1958,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable boolean[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable boolean[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -1969,7 +1969,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull boolean[] array) {
+	public static @Nullable String singletonEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -1980,7 +1980,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull boolean[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull boolean[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -1991,7 +1991,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(boolean[] a1, boolean[] a2) {
+	public static @Nullable String equalEx(boolean[] a1, boolean[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -2000,7 +2000,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(boolean[] a1, boolean[] a2) {
+	public static @Nullable String notEqualEx(boolean[] a1, boolean[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -2028,7 +2028,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull boolean[] array, boolean... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull boolean[] array, boolean... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2041,7 +2041,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull boolean[] array, boolean... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull boolean[] array, boolean... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2054,7 +2054,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull byte[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2065,7 +2065,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull byte[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2077,7 +2077,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull byte[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2088,7 +2088,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull byte[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull byte[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2100,7 +2100,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull byte[] array) {
+	public static @Nullable String emptyEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -2111,7 +2111,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull byte[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -2122,7 +2122,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable byte[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable byte[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -2131,7 +2131,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable byte[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable byte[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -2142,7 +2142,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull byte[] array) {
+	public static @Nullable String singletonEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2153,7 +2153,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull byte[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull byte[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2164,7 +2164,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(byte[] a1, byte[] a2) {
+	public static @Nullable String equalEx(byte[] a1, byte[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -2173,7 +2173,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(byte[] a1, byte[] a2) {
+	public static @Nullable String notEqualEx(byte[] a1, byte[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -2201,7 +2201,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull byte[] array, byte... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull byte[] array, byte... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2214,7 +2214,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull byte[] array, byte... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull byte[] array, byte... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2227,7 +2227,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull double[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2238,7 +2238,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull double[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2250,7 +2250,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull double[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2261,7 +2261,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull double[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull double[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2273,7 +2273,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull double[] array) {
+	public static @Nullable String emptyEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -2284,7 +2284,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull double[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -2295,7 +2295,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable double[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable double[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -2304,7 +2304,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable double[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable double[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -2315,7 +2315,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull double[] array) {
+	public static @Nullable String singletonEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2326,7 +2326,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull double[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull double[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2337,7 +2337,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(double[] a1, double[] a2) {
+	public static @Nullable String equalEx(double[] a1, double[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -2346,7 +2346,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(double[] a1, double[] a2) {
+	public static @Nullable String notEqualEx(double[] a1, double[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -2374,7 +2374,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull double[] array, double... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull double[] array, double... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2387,7 +2387,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull double[] array, double... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull double[] array, double... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2400,7 +2400,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull char[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2411,7 +2411,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull char[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2423,7 +2423,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull char[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2434,7 +2434,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull char[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull char[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2446,7 +2446,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull char[] array) {
+	public static @Nullable String emptyEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -2457,7 +2457,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull char[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -2468,7 +2468,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable char[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable char[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -2477,7 +2477,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable char[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable char[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -2488,7 +2488,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull char[] array) {
+	public static @Nullable String singletonEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2499,7 +2499,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull char[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull char[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2510,7 +2510,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(char[] a1, char[] a2) {
+	public static @Nullable String equalEx(char[] a1, char[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -2519,7 +2519,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(char[] a1, char[] a2) {
+	public static @Nullable String notEqualEx(char[] a1, char[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -2547,7 +2547,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull char[] array, char... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull char[] array, char... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2560,7 +2560,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull char[] array, char... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull char[] array, char... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2573,7 +2573,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull short[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2584,7 +2584,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull short[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2596,7 +2596,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull short[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2607,7 +2607,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull short[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull short[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2619,7 +2619,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull short[] array) {
+	public static @Nullable String emptyEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -2630,7 +2630,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull short[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -2641,7 +2641,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable short[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable short[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -2650,7 +2650,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable short[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable short[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -2661,7 +2661,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull short[] array) {
+	public static @Nullable String singletonEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2672,7 +2672,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull short[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull short[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2683,7 +2683,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(short[] a1, short[] a2) {
+	public static @Nullable String equalEx(short[] a1, short[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -2692,7 +2692,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(short[] a1, short[] a2) {
+	public static @Nullable String notEqualEx(short[] a1, short[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -2720,7 +2720,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull short[] array, short... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull short[] array, short... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2733,7 +2733,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull short[] array, short... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull short[] array, short... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2746,7 +2746,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull float[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2757,7 +2757,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull float[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2769,7 +2769,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull float[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2780,7 +2780,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull float[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull float[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2792,7 +2792,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull float[] array) {
+	public static @Nullable String emptyEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -2803,7 +2803,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull float[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -2814,7 +2814,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable float[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable float[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -2823,7 +2823,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable float[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable float[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -2834,7 +2834,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull float[] array) {
+	public static @Nullable String singletonEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2845,7 +2845,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull float[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull float[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -2856,7 +2856,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(float[] a1, float[] a2) {
+	public static @Nullable String equalEx(float[] a1, float[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -2865,7 +2865,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(float[] a1, float[] a2) {
+	public static @Nullable String notEqualEx(float[] a1, float[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -2893,7 +2893,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull float[] array, float... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull float[] array, float... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2906,7 +2906,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull float[] array, float... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull float[] array, float... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -2919,7 +2919,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull int[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2930,7 +2930,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull int[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2942,7 +2942,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull int[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -2953,7 +2953,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull int[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull int[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -2965,7 +2965,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull int[] array) {
+	public static @Nullable String emptyEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -2976,7 +2976,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull int[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -2987,7 +2987,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable int[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable int[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -2996,7 +2996,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable int[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable int[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -3007,7 +3007,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull int[] array) {
+	public static @Nullable String singletonEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -3018,7 +3018,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull int[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull int[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -3029,7 +3029,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(int[] a1, int[] a2) {
+	public static @Nullable String equalEx(int[] a1, int[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -3038,7 +3038,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(int[] a1, int[] a2) {
+	public static @Nullable String notEqualEx(int[] a1, int[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -3066,7 +3066,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull int[] array, int... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull int[] array, int... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -3079,7 +3079,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull int[] array, int... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull int[] array, int... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -3092,7 +3092,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String length$(@Nonnull long[] array, int i) {
+	public static @Nullable String lengthEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -3103,7 +3103,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String lengthOtherThan$(@Nonnull long[] array, int i) {
+	public static @Nullable String lengthOtherThanEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -3115,7 +3115,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static @Nullable String ofLength$(@Nonnull long[] array, int i) {
+	public static @Nullable String ofLengthEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -3126,7 +3126,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static @Nullable String notOfLength$(@Nonnull long[] array, int i) {
+	public static @Nullable String notOfLengthEx(@Nonnull long[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -3138,7 +3138,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull long[] array) {
+	public static @Nullable String emptyEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -3149,7 +3149,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull long[] array) {
+	public static @Nullable String notEmptyEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -3160,7 +3160,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable long[] array) {
+	public static @Nullable String nullOrEmptyEx(@Nullable long[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -3169,7 +3169,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static @Nullable String notNullNotEmpty$(@Nullable long[] array) {
+	public static @Nullable String notNullNotEmptyEx(@Nullable long[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -3180,7 +3180,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull long[] array) {
+	public static @Nullable String singletonEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -3191,7 +3191,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull long[] array) {
+	public static @Nullable String notSingletonEx(@Nonnull long[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -3202,7 +3202,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static @Nullable String equal$(long[] a1, long[] a2) {
+	public static @Nullable String equalEx(long[] a1, long[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -3211,7 +3211,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static @Nullable String notEqual$(long[] a1, long[] a2) {
+	public static @Nullable String notEqualEx(long[] a1, long[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -3239,7 +3239,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull long[] array, long... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull long[] array, long... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -3252,7 +3252,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull long[] array, long... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull long[] array, long... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -3265,7 +3265,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <T> @Nullable String length$(@Nonnull T[] array, int i) {
+	public static <T> @Nullable String lengthEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return length(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -3276,7 +3276,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <T> @Nullable String lengthOtherThan$(@Nonnull T[] array, int i) {
+	public static <T> @Nullable String lengthOtherThanEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return lengthOtherThan(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -3288,7 +3288,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <T> @Nullable String ofLength$(@Nonnull T[] array, int i) {
+	public static <T> @Nullable String ofLengthEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return ofLength(array, i) ? null : String.format("Array <%s> must be of size %s.", Arrays.toString(array), i);
 	}
@@ -3299,7 +3299,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <T> @Nullable String notOfLength$(@Nonnull T[] array, int i) {
+	public static <T> @Nullable String notOfLengthEx(@Nonnull T[] array, int i) {
 		Null.nonNullArg(array, "array");
 		return notOfLength(array, i) ? null : String.format("Array <%s> must NOT be of size %s.", Arrays.toString(array), i);
 	}
@@ -3311,7 +3311,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be empty. */
-	public static <T> @Nullable String empty$(@Nonnull T[] array) {
+	public static <T> @Nullable String emptyEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return empty(array) ? null : String.format("Array <%s> must be empty.", Arrays.toString(array));
 	}
@@ -3322,7 +3322,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be empty. */
-	public static <T> @Nullable String notEmpty$(@Nonnull T[] array) {
+	public static <T> @Nullable String notEmptyEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return notEmpty(array) ? null : String.format("Array <%s> must NOT be empty.", Arrays.toString(array));
 	}
@@ -3333,7 +3333,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be null or empty. */
-	public static <T> @Nullable String nullOrEmpty$(@Nullable T[] array) {
+	public static <T> @Nullable String nullOrEmptyEx(@Nullable T[] array) {
 		return nullOrEmpty(array) ? null : String.format("Array <%s> must be null or empty.", Arrays.toString(array));
 	}
 	/** Predicate: Array <%s> must NOT be null or empty..*/
@@ -3342,7 +3342,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be null or empty. */
-	public static <T> @Nullable String notNullNotEmpty$(@Nullable T[] array) {
+	public static <T> @Nullable String notNullNotEmptyEx(@Nullable T[] array) {
 		return notNullNotEmpty(array) ? null : String.format("Array <%s> must NOT be null or empty.", Arrays.toString(array));
 	}
 
@@ -3353,7 +3353,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
-	public static <T> @Nullable String singleton$(@Nonnull T[] array) {
+	public static <T> @Nullable String singletonEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return singleton(array) ? null : String.format("Array <%s> must be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -3364,7 +3364,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
-	public static <T> @Nullable String notSingleton$(@Nonnull T[] array) {
+	public static <T> @Nullable String notSingletonEx(@Nonnull T[] array) {
 		Null.nonNullArg(array, "array");
 		return notSingleton(array) ? null : String.format("Array <%s> must NOT be exactly of size 1 (singleton).", Arrays.toString(array));
 	}
@@ -3375,7 +3375,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
-	public static <T> @Nullable String equal$(T[] a1, T[] a2) {
+	public static <T> @Nullable String equalEx(T[] a1, T[] a2) {
 		return equal(a1, a2) ? null : String.format("Array <%s> must be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
@@ -3384,7 +3384,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
-	public static <T> @Nullable String notEqual$(T[] a1, T[] a2) {
+	public static <T> @Nullable String notEqualEx(T[] a1, T[] a2) {
 		return notEqual(a1, a2) ? null : String.format("Array <%s> must NOT be equal to array <%s>.", Arrays.toString(a1), Arrays.toString(a2));
 	}
 
@@ -3412,7 +3412,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull T[] array, T... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull T[] array, T... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(array, elementsInOrder) ? null : String.format("Array <%s> must contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -3425,7 +3425,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Array <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull T[] array, T... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull T[] array, T... elementsInOrder) {
 		Null.nonNullArg(array, "array");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(array, elementsInOrder) ? null : String.format("Array <%s> must NOT contain exactly elements in order: <%s>.", Arrays.toString(array), Arrays.toString(elementsInOrder));
@@ -3442,7 +3442,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must contain element <%s>. */
-	public static <T> @Nullable String contain$(@Nonnull Collection<? extends T> collection, T element) {
+	public static <T> @Nullable String containEx(@Nonnull Collection<? extends T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
 		return contain(collection, element) ? null : String.format("Collection <%s> must contain element <%s>.", collection, element);
 	}
@@ -3453,7 +3453,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain element <%s>. */
-	public static <T> @Nullable String notContain$(@Nonnull Collection<? extends T> collection, T element) {
+	public static <T> @Nullable String notContainEx(@Nonnull Collection<? extends T> collection, T element) {
 		Null.nonNullArg(collection, "collection");
 		return notContain(collection, element) ? null : String.format("Collection <%s> must NOT contain element <%s>.", collection, element);
 	}
@@ -3472,7 +3472,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must contain elements <%s>. */
-	public static <T> @Nullable String contain$(@Nonnull Collection<? extends T> collection, T... elements) {
+	public static <T> @Nullable String containEx(@Nonnull Collection<? extends T> collection, T... elements) {
 		Null.nonNullArg(collection, "collection");
 		return contain(collection, elements) ? null : String.format("Collection <%s> must contain elements <%s>.", collection, Arrays.toString(elements));
 	}
@@ -3490,7 +3490,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain elements <%s>. */
-	public static <T> @Nullable String notContain$(@Nonnull Collection<? extends T> collection, T... elements) {
+	public static <T> @Nullable String notContainEx(@Nonnull Collection<? extends T> collection, T... elements) {
 		Null.nonNullArg(collection, "collection");
 		return notContain(collection, elements) ? null : String.format("Collection <%s> must NOT contain elements <%s>.", collection, Arrays.toString(elements));
 	}
@@ -3509,7 +3509,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must contain element <%s>. */
-	public static <T> @Nullable String containAny$(@Nonnull Collection<? extends T> collection, T... elements) {
+	public static <T> @Nullable String containAnyEx(@Nonnull Collection<? extends T> collection, T... elements) {
 		Null.nonNullArg(collection, "collection");
 		return containAny(collection, elements) ? null : String.format("Collection <%s> must contain element <%s>.", collection, Arrays.toString(elements));
 	}
@@ -3544,7 +3544,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String containExactly$(@Nonnull Collection<? extends T> collection, T... elementsInOrder) {
+	public static <T> @Nullable String containExactlyEx(@Nonnull Collection<? extends T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return containExactly(collection, elementsInOrder) ? null : String.format("Collection <%s> must contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
@@ -3557,7 +3557,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT contain exactly elements in order: <%s>. */
-	public static <T> @Nullable String notContainExactly$(@Nonnull Collection<? extends T> collection, T... elementsInOrder) {
+	public static <T> @Nullable String notContainExactlyEx(@Nonnull Collection<? extends T> collection, T... elementsInOrder) {
 		Null.nonNullArg(collection, "collection");
 		Null.nonNullArg(elementsInOrder, "elementsInOrder");
 		return notContainExactly(collection, elementsInOrder) ? null : String.format("Collection <%s> must NOT contain exactly elements in order: <%s>.", collection, Arrays.toString(elementsInOrder));
@@ -3570,7 +3570,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain key <%s>. */
-	public static <K> @Nullable String containKey$(@Nonnull Map<? extends K, ?> map, K key) {
+	public static <K> @Nullable String containKeyEx(@Nonnull Map<? extends K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
 		return containKey(map, key) ? null : String.format("Map <%s> must contain key <%s>.", map, key);
 	}
@@ -3581,7 +3581,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain key <%s>. */
-	public static <K> @Nullable String notContainKey$(@Nonnull Map<? extends K, ?> map, K key) {
+	public static <K> @Nullable String notContainKeyEx(@Nonnull Map<? extends K, ?> map, K key) {
 		Null.nonNullArg(map, "map");
 		return notContainKey(map, key) ? null : String.format("Map <%s> must NOT contain key <%s>.", map, key);
 	}
@@ -3593,7 +3593,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain entry with key <%s> and value <%s>. */
-	public static <K, V> @Nullable String containEntry$(@Nonnull Map<? extends K, ? extends V> map, K key, V value) {
+	public static <K, V> @Nullable String containEntryEx(@Nonnull Map<? extends K, ? extends V> map, K key, V value) {
 		Null.nonNullArg(map, "map");
 		return containEntry(map, key, value) ? null : String.format("Map <%s> must contain entry with key <%s> and value <%s>.", map, key, value);
 	}
@@ -3604,7 +3604,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>. */
-	public static <K, V> @Nullable String notContainEntry$(@Nonnull Map<? extends K, ? extends V> map, K key, V value) {
+	public static <K, V> @Nullable String notContainEntryEx(@Nonnull Map<? extends K, ? extends V> map, K key, V value) {
 		Null.nonNullArg(map, "map");
 		return notContainEntry(map, key, value) ? null : String.format("Map <%s> must NOT contain entry with key <%s> and value <%s>.", map, key, value);
 	}
@@ -3623,7 +3623,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain keys <%s>. */
-	public static <K> @Nullable String containKeys$(@Nonnull Map<? extends K, ?> map, K... keys) {
+	public static <K> @Nullable String containKeysEx(@Nonnull Map<? extends K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
 		return containKeys(map, keys) ? null : String.format("Map <%s> must contain keys <%s>.", map, Arrays.toString(keys));
 	}
@@ -3641,7 +3641,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT contain keys <%s>. */
-	public static <K> @Nullable String notContainKeys$(@Nonnull Map<? extends K, ?> map, K... keys) {
+	public static <K> @Nullable String notContainKeysEx(@Nonnull Map<? extends K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
 		return notContainKeys(map, keys) ? null : String.format("Map <%s> must NOT contain keys <%s>.", map, Arrays.toString(keys));
 	}
@@ -3658,7 +3658,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must contain any key from <%s>. */
-	public static <K> @Nullable String containAnyKey$(@Nonnull Map<? extends K, ?> map, K... keys) {
+	public static <K> @Nullable String containAnyKeyEx(@Nonnull Map<? extends K, ?> map, K... keys) {
 		Null.nonNullArg(map, "map");
 		return containAnyKey(map, keys) ? null : String.format("Map <%s> must contain any key from <%s>.", map, Arrays.toString(keys));
 	}
@@ -3670,7 +3670,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be of size %s. */
-	public static <T> @Nullable String size$(@Nonnull Collection<? extends T> collection, int i) {
+	public static <T> @Nullable String sizeEx(@Nonnull Collection<? extends T> collection, int i) {
 		Null.nonNullArg(collection, "collection");
 		return size(collection, i) ? null : String.format("Collection <%s> must be of size %s.", collection, i);
 	}
@@ -3681,7 +3681,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be of size %s. */
-	public static <T> @Nullable String sizeOtherThan$(@Nonnull Collection<? extends T> collection, int i) {
+	public static <T> @Nullable String sizeOtherThanEx(@Nonnull Collection<? extends T> collection, int i) {
 		Null.nonNullArg(collection, "collection");
 		return sizeOtherThan(collection, i) ? null : String.format("Collection <%s> must NOT be of size %s.", collection, i);
 	}
@@ -3692,7 +3692,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be of size %s. */
-	public static <T> @Nullable String ofSize$(@Nonnull Collection<? extends T> collection, int i) {
+	public static <T> @Nullable String ofSizeEx(@Nonnull Collection<? extends T> collection, int i) {
 		Null.nonNullArg(collection, "collection");
 		return ofSize(collection, i) ? null : String.format("Collection <%s> must be of size %s.", collection, i);
 	}
@@ -3703,7 +3703,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be of size %s. */
-	public static <T> @Nullable String notOfSize$(@Nonnull Collection<? extends T> collection, int i) {
+	public static <T> @Nullable String notOfSizeEx(@Nonnull Collection<? extends T> collection, int i) {
 		Null.nonNullArg(collection, "collection");
 		return notOfSize(collection, i) ? null : String.format("Collection <%s> must NOT be of size %s.", collection, i);
 	}
@@ -3715,7 +3715,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must be of size %s. */
-	public static <K, V> @Nullable String size$(@Nonnull Map<? extends K, ? extends V> map, int i) {
+	public static <K, V> @Nullable String sizeEx(@Nonnull Map<? extends K, ? extends V> map, int i) {
 		Null.nonNullArg(map, "map");
 		return size(map, i) ? null : String.format("Map <%s> must be of size %s.", map, i);
 	}
@@ -3726,7 +3726,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT be of size %s. */
-	public static <K, V> @Nullable String sizeOtherThan$(@Nonnull Map<? extends K, ? extends V> map, int i) {
+	public static <K, V> @Nullable String sizeOtherThanEx(@Nonnull Map<? extends K, ? extends V> map, int i) {
 		Null.nonNullArg(map, "map");
 		return sizeOtherThan(map, i) ? null : String.format("Map <%s> must NOT be of size %s.", map, i);
 	}
@@ -3737,7 +3737,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must be of size %s. */
-	public static <K, V> @Nullable String ofSize$(@Nonnull Map<? extends K, ? extends V> map, int i) {
+	public static <K, V> @Nullable String ofSizeEx(@Nonnull Map<? extends K, ? extends V> map, int i) {
 		Null.nonNullArg(map, "map");
 		return ofSize(map, i) ? null : String.format("Map <%s> must be of size %s.", map, i);
 	}
@@ -3748,7 +3748,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT be of size %s. */
-	public static <K, V> @Nullable String notOfSize$(@Nonnull Map<? extends K, ? extends V> map, int i) {
+	public static <K, V> @Nullable String notOfSizeEx(@Nonnull Map<? extends K, ? extends V> map, int i) {
 		Null.nonNullArg(map, "map");
 		return notOfSize(map, i) ? null : String.format("Map <%s> must NOT be of size %s.", map, i);
 	}
@@ -3760,7 +3760,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be part of <%s> collection. */
-	public static <T> @Nullable String partOf$(T element, @Nonnull Collection<? extends T> collection) {
+	public static <T> @Nullable String partOfEx(T element, @Nonnull Collection<? extends T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return partOf(element, collection) ? null : String.format("<%s> must be part of <%s> collection.", element, collection);
 	}
@@ -3771,7 +3771,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be part of <%s> collection. */
-	public static <T> @Nullable String notPartOf$(T element, @Nonnull Collection<? extends T> collection) {
+	public static <T> @Nullable String notPartOfEx(T element, @Nonnull Collection<? extends T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return notPartOf(element, collection) ? null : String.format("<%s> must NOT be part of <%s> collection.", element, collection);
 	}
@@ -3783,7 +3783,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be key in <%s> map. */
-	public static <K> @Nullable String aKeyIn$(K key, @Nonnull Map<? extends K, ?> map) {
+	public static <K> @Nullable String aKeyInEx(K key, @Nonnull Map<? extends K, ?> map) {
 		Null.nonNullArg(map, "map");
 		return aKeyIn(key, map) ? null : String.format("<%s> must be key in <%s> map.", key, map);
 	}
@@ -3794,7 +3794,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be key in <%s> map. */
-	public static <K> @Nullable String notAKeyIn$(K key, @Nonnull Map<? extends K, ?> map) {
+	public static <K> @Nullable String notAKeyInEx(K key, @Nonnull Map<? extends K, ?> map) {
 		Null.nonNullArg(map, "map");
 		return notAKeyIn(key, map) ? null : String.format("<%s> must NOT be key in <%s> map.", key, map);
 	}
@@ -3806,7 +3806,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. */
-	public static <T> @Nullable String empty$(@Nonnull Collection<? extends T> collection) {
+	public static <T> @Nullable String emptyEx(@Nonnull Collection<? extends T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return empty(collection) ? null : String.format("Collection <%s> must be empty.", collection);
 	}
@@ -3817,7 +3817,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. */
-	public static <T> @Nullable String notEmpty$(@Nonnull Collection<? extends T> collection) {
+	public static <T> @Nullable String notEmptyEx(@Nonnull Collection<? extends T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return notEmpty(collection) ? null : String.format("Collection <%s> must NOT be empty.", collection);
 	}
@@ -3828,7 +3828,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. */
-	public static <T> @Nullable String nullOrEmpty$(@Nullable Collection<? extends T> collection) {
+	public static <T> @Nullable String nullOrEmptyEx(@Nullable Collection<? extends T> collection) {
 		return nullOrEmpty(collection) ? null : String.format("Collection <%s> must be empty.", collection);
 	}
 	/** Predicate: Collection <%s> must NOT be empty..*/
@@ -3837,7 +3837,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. */
-	public static <T> @Nullable String notNullNorEmpty$(@Nullable Collection<? extends T> collection) {
+	public static <T> @Nullable String notNullNorEmptyEx(@Nullable Collection<? extends T> collection) {
 		return notNullNorEmpty(collection) ? null : String.format("Collection <%s> must NOT be empty.", collection);
 	}
 
@@ -3848,7 +3848,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton).. */
-	public static <T> @Nullable String singleton$(@Nonnull Collection<? extends T> collection) {
+	public static <T> @Nullable String singletonEx(@Nonnull Collection<? extends T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return singleton(collection) ? null : String.format("Collection <%s> must be exactly of size 1 (singleton)..", collection);
 	}
@@ -3859,7 +3859,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton).. */
-	public static <T> @Nullable String notSingleton$(@Nonnull Collection<? extends T> collection) {
+	public static <T> @Nullable String notSingletonEx(@Nonnull Collection<? extends T> collection) {
 		Null.nonNullArg(collection, "collection");
 		return notSingleton(collection) ? null : String.format("Collection <%s> must NOT be exactly of size 1 (singleton)..", collection);
 	}
@@ -3871,7 +3871,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must be empty. */
-	public static @Nullable String empty$(@Nonnull Map<?, ?> map) {
+	public static @Nullable String emptyEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return empty(map) ? null : String.format("Map <%s> must be empty.", map);
 	}
@@ -3882,7 +3882,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Map <%s> must NOT be empty. */
-	public static @Nullable String notEmpty$(@Nonnull Map<?, ?> map) {
+	public static @Nullable String notEmptyEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return notEmpty(map) ? null : String.format("Map <%s> must NOT be empty.", map);
 	}
@@ -3893,7 +3893,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be empty. */
-	public static @Nullable String nullOrEmpty$(@Nullable Map<?, ?> map) {
+	public static @Nullable String nullOrEmptyEx(@Nullable Map<?, ?> map) {
 		return nullOrEmpty(map) ? null : String.format("Collection <%s> must be empty.", map);
 	}
 	/** Predicate: Collection <%s> must NOT be empty..*/
@@ -3902,7 +3902,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be empty. */
-	public static @Nullable String notNullNorEmpty$(@Nullable Map<?, ?> map) {
+	public static @Nullable String notNullNorEmptyEx(@Nullable Map<?, ?> map) {
 		return notNullNorEmpty(map) ? null : String.format("Collection <%s> must NOT be empty.", map);
 	}
 
@@ -3913,7 +3913,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton). */
-	public static @Nullable String singleton$(@Nonnull Map<?, ?> map) {
+	public static @Nullable String singletonEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return singleton(map) ? null : String.format("Collection <%s> must be exactly of size 1 (singleton).", map);
 	}
@@ -3924,7 +3924,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton). */
-	public static @Nullable String notSingleton$(@Nonnull Map<?, ?> map) {
+	public static @Nullable String notSingletonEx(@Nonnull Map<?, ?> map) {
 		Null.nonNullArg(map, "map");
 		return notSingleton(map) ? null : String.format("Collection <%s> must NOT be exactly of size 1 (singleton).", map);
 	}
@@ -3940,7 +3940,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
-	public static @Nullable String instanceOf$(Object object, Class<?> clazz) {
+	public static @Nullable String instanceOfEx(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return instanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
@@ -3951,7 +3951,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>. */
-	public static @Nullable String notInstanceOf$(Object object, Class<?> clazz) {
+	public static @Nullable String notInstanceOfEx(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return notInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
@@ -3969,7 +3969,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must be instance of any <%s>. */
-	public static @Nullable String instanceOfAny$(Object object, Class<?>... classes) {
+	public static @Nullable String instanceOfAnyEx(Object object, Class<?>... classes) {
 		Null.nonNullArg(classes, "classes");
 		return instanceOfAny(object, classes) ? null : String.format("Object <%s> of class <%s> must be instance of any <%s>.", object, object != null ? object.getClass() : null, Arrays.toString(classes));
 	}
@@ -3980,7 +3980,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of any <%s>. */
-	public static @Nullable String notInstanceOfAny$(Object object, Class<?>... classes) {
+	public static @Nullable String notInstanceOfAnyEx(Object object, Class<?>... classes) {
 		Null.nonNullArg(classes, "classes");
 		return notInstanceOfAny(object, classes) ? null : String.format("Object <%s> of class <%s> must NOT be instance of any <%s>.", object, object != null ? object.getClass() : null, Arrays.toString(classes));
 	}
@@ -3992,7 +3992,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must be exactly instance of <%s>. */
-	public static @Nullable String exactlyInstanceOf$(Object object, Class<?> clazz) {
+	public static @Nullable String exactlyInstanceOfEx(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return exactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
@@ -4003,7 +4003,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must NOT be exactly instance of <%s>. */
-	public static @Nullable String notExactlyInstanceOf$(Object object, Class<?> clazz) {
+	public static @Nullable String notExactlyInstanceOfEx(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return notExactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
@@ -4015,7 +4015,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> must be assignable from <%s>. */
-	public static @Nullable String assignableFrom$(Class<?> clazz, Class<?> from) {
+	public static @Nullable String assignableFromEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
 		return assignableFrom(clazz, from) ? null : String.format("Class <%s> must be assignable from <%s>.", clazz, from);
 	}
@@ -4026,7 +4026,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> must NOT be assignable from <%s>. */
-	public static @Nullable String notAssignableFrom$(Class<?> clazz, Class<?> from) {
+	public static @Nullable String notAssignableFromEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
 		return notAssignableFrom(clazz, from) ? null : String.format("Class <%s> must NOT be assignable from <%s>.", clazz, from);
 	}
@@ -4038,7 +4038,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> must be assignable to <%s>. */
-	public static @Nullable String assignableTo$(Class<?> clazz, Class<?> from) {
+	public static @Nullable String assignableToEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
 		return assignableTo(clazz, from) ? null : String.format("Class <%s> must be assignable to <%s>.", clazz, from);
 	}
@@ -4049,7 +4049,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Class <%s> must NOT be assignable to <%s>. */
-	public static @Nullable String notAssignableTo$(Class<?> clazz, Class<?> from) {
+	public static @Nullable String notAssignableToEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
 		return notAssignableTo(clazz, from) ? null : String.format("Class <%s> must NOT be assignable to <%s>.", clazz, from);
 	}
@@ -4065,7 +4065,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must be instance of a RuntimeException. */
-	public static @Nullable String runtime$(@Nonnull Throwable e) {
+	public static @Nullable String runtimeEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return runtime(e) ? null : String.format("Exception <%s> must be instance of a RuntimeException.", e);
 	}
@@ -4076,7 +4076,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT be instance of a RuntimeException. */
-	public static @Nullable String notRuntime$(@Nonnull Throwable e) {
+	public static @Nullable String notRuntimeEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return notRuntime(e) ? null : String.format("Exception <%s> must NOT be instance of a RuntimeException.", e);
 	}
@@ -4088,7 +4088,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have cause. */
-	public static @Nullable String cause$(@Nonnull Throwable e) {
+	public static @Nullable String causeEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return cause(e) ? null : String.format("Exception <%s> must have cause.", e);
 	}
@@ -4099,7 +4099,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have cause. */
-	public static @Nullable String noCause$(@Nonnull Throwable e) {
+	public static @Nullable String noCauseEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return noCause(e) ? null : String.format("Exception <%s> must NOT have cause.", e);
 	}
@@ -4111,7 +4111,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have suspended other exceptions. */
-	public static @Nullable String suspended$(@Nonnull Throwable e) {
+	public static @Nullable String suspendedEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return suspended(e) ? null : String.format("Exception <%s> must have suspended other exceptions.", e);
 	}
@@ -4122,7 +4122,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have suspended other exceptions. */
-	public static @Nullable String noSuspended$(@Nonnull Throwable e) {
+	public static @Nullable String noSuspendedEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return noSuspended(e) ? null : String.format("Exception <%s> must NOT have suspended other exceptions.", e);
 	}
@@ -4134,7 +4134,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
-	public static @Nullable String msgEqual$(@Nonnull Throwable e, String text) {
+	public static @Nullable String msgEqualEx(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
 		return msgEqual(e, text) ? null : String.format("Exception <%s> must have message equal to <'%s>'.", e, text);
 	}
@@ -4145,7 +4145,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
-	public static @Nullable String msgNotEqual$(@Nonnull Throwable e, String text) {
+	public static @Nullable String msgNotEqualEx(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
 		return msgNotEqual(e, text) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e, text);
 	}
@@ -4157,7 +4157,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
-	public static @Nullable String noMsg$(@Nonnull Throwable e) {
+	public static @Nullable String noMsgEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return noMsg(e) ? null : String.format("Exception <%s> must have message equal to <'%s>'.", e);
 	}
@@ -4168,7 +4168,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
-	public static @Nullable String msgPresent$(@Nonnull Throwable e) {
+	public static @Nullable String msgPresentEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return msgPresent(e) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e);
 	}
@@ -4181,7 +4181,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have message starting with <'%s>'. */
-	public static @Nullable String msgStartWith$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgStartWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return msgStartWith(e, text) ? null : String.format("Exception <%s> must have message starting with <'%s>'.", e, text);
@@ -4194,7 +4194,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have message starting with <'%s>'. */
-	public static @Nullable String msgNotStartWith$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgNotStartWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return msgNotStartWith(e, text) ? null : String.format("Exception <%s> must NOT have message starting with <'%s>'.", e, text);
@@ -4208,7 +4208,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have message containing <'%s>'. */
-	public static @Nullable String msgContain$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgContainEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return msgContain(e, text) ? null : String.format("Exception <%s> must have message containing <'%s>'.", e, text);
@@ -4221,7 +4221,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have message containing <'%s>'. */
-	public static @Nullable String msgNotContain$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgNotContainEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return msgNotContain(e, text) ? null : String.format("Exception <%s> must NOT have message containing <'%s>'.", e, text);
@@ -4235,7 +4235,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have message ending with <'%s>'. */
-	public static @Nullable String msgEndWith$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgEndWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return msgEndWith(e, text) ? null : String.format("Exception <%s> must have message ending with <'%s>'.", e, text);
@@ -4248,7 +4248,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have message ending with <'%s>'. */
-	public static @Nullable String msgNotEndWith$(@Nonnull Throwable e, @Nonnull String text) {
+	public static @Nullable String msgNotEndWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return msgNotEndWith(e, text) ? null : String.format("Exception <%s> must NOT have message ending with <'%s>'.", e, text);
@@ -4261,7 +4261,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must have suppressed other exceptions. */
-	public static @Nullable String suppressing$(@Nonnull Throwable e) {
+	public static @Nullable String suppressingEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return suppressing(e) ? null : String.format("Exception <%s> must have suppressed other exceptions.", e);
 	}
@@ -4272,7 +4272,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions. */
-	public static @Nullable String notSuppressing$(@Nonnull Throwable e) {
+	public static @Nullable String notSuppressingEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return notSuppressing(e) ? null : String.format("Exception <%s> must NOT have suppressed other exceptions.", e);
 	}
@@ -4288,7 +4288,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptBoolTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4299,7 +4299,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptBoolTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4311,7 +4311,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptBoolTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4322,7 +4322,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptBoolTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptBoolTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4334,7 +4334,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptBoolTrait<?> opt, boolean expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptBoolTrait<?> opt, boolean expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4345,7 +4345,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptBoolTrait<?> opt, boolean expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptBoolTrait<?> opt, boolean expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4357,7 +4357,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull BoolValueTrait<?> opt, boolean expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull BoolValueTrait<?> opt, boolean expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4368,7 +4368,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull BoolValueTrait<?> opt, boolean expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull BoolValueTrait<?> opt, boolean expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4380,7 +4380,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptTrait<?, ?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptTrait<?, ?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4391,7 +4391,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptTrait<?, ?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptTrait<?, ?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4403,7 +4403,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptTrait<?, ?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptTrait<?, ?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4414,7 +4414,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptTrait<?, ?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptTrait<?, ?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4426,7 +4426,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull ValueTrait<?, ?> opt, V expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4437,7 +4437,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull ValueTrait<?, ?> opt, V expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4449,7 +4449,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String sameValue$(@Nonnull ValueTrait<?, ?> opt, V expected) {
+	public static <V> @Nullable String sameValueEx(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return sameValue(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4460,7 +4460,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String notSameValue$(@Nonnull ValueTrait<?, ?> opt, V expected) {
+	public static <V> @Nullable String notSameValueEx(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
 		return notSameValue(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4472,7 +4472,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptByteTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptByteTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4483,7 +4483,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptByteTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptByteTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4495,7 +4495,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptByteTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptByteTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4506,7 +4506,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptByteTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptByteTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4518,7 +4518,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptByteTrait<?> opt, byte expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptByteTrait<?> opt, byte expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4529,7 +4529,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptByteTrait<?> opt, byte expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptByteTrait<?> opt, byte expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4541,7 +4541,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull ByteValueTrait<?> opt, byte expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull ByteValueTrait<?> opt, byte expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4552,7 +4552,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull ByteValueTrait<?> opt, byte expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull ByteValueTrait<?> opt, byte expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4564,7 +4564,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptDblTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptDblTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4575,7 +4575,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptDblTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptDblTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4587,7 +4587,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptDblTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptDblTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4598,7 +4598,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptDblTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptDblTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4610,7 +4610,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptDblTrait<?> opt, double expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptDblTrait<?> opt, double expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4621,7 +4621,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptDblTrait<?> opt, double expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptDblTrait<?> opt, double expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4633,7 +4633,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull DblValueTrait<?> opt, double expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull DblValueTrait<?> opt, double expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4644,7 +4644,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull DblValueTrait<?> opt, double expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull DblValueTrait<?> opt, double expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4656,7 +4656,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptCharTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4667,7 +4667,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptCharTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4679,7 +4679,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptCharTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4690,7 +4690,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptCharTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptCharTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4702,7 +4702,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptCharTrait<?> opt, char expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptCharTrait<?> opt, char expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4713,7 +4713,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptCharTrait<?> opt, char expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptCharTrait<?> opt, char expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4725,7 +4725,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull CharValueTrait<?> opt, char expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull CharValueTrait<?> opt, char expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4736,7 +4736,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull CharValueTrait<?> opt, char expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull CharValueTrait<?> opt, char expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4748,7 +4748,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptSrtTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptSrtTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4759,7 +4759,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptSrtTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptSrtTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4771,7 +4771,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptSrtTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptSrtTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4782,7 +4782,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptSrtTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptSrtTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4794,7 +4794,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptSrtTrait<?> opt, short expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptSrtTrait<?> opt, short expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4805,7 +4805,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptSrtTrait<?> opt, short expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptSrtTrait<?> opt, short expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4817,7 +4817,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull SrtValueTrait<?> opt, short expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull SrtValueTrait<?> opt, short expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4828,7 +4828,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull SrtValueTrait<?> opt, short expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull SrtValueTrait<?> opt, short expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4840,7 +4840,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptFltTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptFltTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4851,7 +4851,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptFltTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptFltTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4863,7 +4863,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptFltTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptFltTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4874,7 +4874,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptFltTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptFltTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4886,7 +4886,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptFltTrait<?> opt, float expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptFltTrait<?> opt, float expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4897,7 +4897,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptFltTrait<?> opt, float expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptFltTrait<?> opt, float expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4909,7 +4909,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull FltValueTrait<?> opt, float expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull FltValueTrait<?> opt, float expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4920,7 +4920,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull FltValueTrait<?> opt, float expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull FltValueTrait<?> opt, float expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -4932,7 +4932,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptIntTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptIntTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -4943,7 +4943,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptIntTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptIntTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -4955,7 +4955,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptIntTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptIntTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -4966,7 +4966,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptIntTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptIntTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -4978,7 +4978,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptIntTrait<?> opt, int expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptIntTrait<?> opt, int expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -4989,7 +4989,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptIntTrait<?> opt, int expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptIntTrait<?> opt, int expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -5001,7 +5001,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull IntValueTrait<?> opt, int expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull IntValueTrait<?> opt, int expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -5012,7 +5012,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull IntValueTrait<?> opt, int expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull IntValueTrait<?> opt, int expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -5024,7 +5024,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value. */
-	public static <V> @Nullable String valuePresent$(@Nonnull OptLongTrait<?> opt) {
+	public static <V> @Nullable String valuePresentEx(@Nonnull OptLongTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return valuePresent(opt) ? null : String.format("Optional <%s> must have value.", opt);
 	}
@@ -5035,7 +5035,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value. */
-	public static <V> @Nullable String noValuePresent$(@Nonnull OptLongTrait<?> opt) {
+	public static <V> @Nullable String noValuePresentEx(@Nonnull OptLongTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return noValuePresent(opt) ? null : String.format("Optional <%s> must NOT have value.", opt);
 	}
@@ -5047,7 +5047,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must be void. */
-	public static <V> @Nullable String Void$(@Nonnull OptLongTrait<?> opt) {
+	public static <V> @Nullable String VoidEx(@Nonnull OptLongTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return Void(opt) ? null : String.format("Optional <%s> must be void.", opt);
 	}
@@ -5058,7 +5058,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT be void. */
-	public static <V> @Nullable String notVoid$(@Nonnull OptLongTrait<?> opt) {
+	public static <V> @Nullable String notVoidEx(@Nonnull OptLongTrait<?> opt) {
 		Null.nonNullArg(opt, "opt");
 		return notVoid(opt) ? null : String.format("Optional <%s> must NOT be void.", opt);
 	}
@@ -5070,7 +5070,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull OptLongTrait<?> opt, long expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull OptLongTrait<?> opt, long expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -5081,7 +5081,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull OptLongTrait<?> opt, long expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull OptLongTrait<?> opt, long expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -5093,7 +5093,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
-	public static <V> @Nullable String valueEqual$(@Nonnull LongValueTrait<?> opt, long expected) {
+	public static <V> @Nullable String valueEqualEx(@Nonnull LongValueTrait<?> opt, long expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueEqual(opt, expected) ? null : String.format("Optional <%s> must have value equal <%s>.", opt, expected);
 	}
@@ -5104,7 +5104,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
-	public static <V> @Nullable String valueNotEqual$(@Nonnull LongValueTrait<?> opt, long expected) {
+	public static <V> @Nullable String valueNotEqualEx(@Nonnull LongValueTrait<?> opt, long expected) {
 		Null.nonNullArg(opt, "opt");
 		return valueNotEqual(opt, expected) ? null : String.format("Optional <%s> must NOT have value equal <%s>.", opt, expected);
 	}
@@ -5122,9 +5122,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToBool$(@Nonnull LPredicate<K> extractor, @Nonnull LBoolFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k));
@@ -5139,9 +5139,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToBool$(@Nonnull LPredicate<K> extractor, @Nonnull LBoolFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k));
@@ -5156,9 +5156,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToBool$(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LBiBoolFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LBiBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k), a2);
@@ -5171,10 +5171,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToBool$(@Nonnull LPredicate<K> extractor, @Nonnull LBiBoolFunction<String> specialPredicate, boolean a2) {
-		return haveToBool$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LBiBoolFunction<String> specialPredicate, boolean a2) {
+		return haveToBoolEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -5186,9 +5186,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToBool$(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LBiBoolFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToBoolEx(@Nonnull LPredicate<K> extractor, boolean a2, @Nonnull LBiBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k), a2);
@@ -5201,10 +5201,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToBool$(@Nonnull LPredicate<K> extractor, @Nonnull LBiBoolFunction<String> specialPredicate, boolean a2) {
-		return hasToBool$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LBiBoolFunction<String> specialPredicate, boolean a2) {
+		return hasToBoolEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -5216,9 +5216,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToBool$(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k), a2, a3);
@@ -5231,10 +5231,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToBool$(@Nonnull LPredicate<K> extractor, @Nonnull LTriBoolFunction<String> specialPredicate, boolean a2, boolean a3) {
-		return haveToBool$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LTriBoolFunction<String> specialPredicate, boolean a2, boolean a3) {
+		return haveToBoolEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -5246,9 +5246,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToBool$(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToBoolEx(@Nonnull LPredicate<K> extractor, boolean a2, boolean a3, @Nonnull LTriBoolFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.test(k), a2, a3);
@@ -5261,10 +5261,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToBool$(@Nonnull LPredicate<K> extractor, @Nonnull LTriBoolFunction<String> specialPredicate, boolean a2, boolean a3) {
-		return hasToBool$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToBoolEx(@Nonnull LPredicate<K> extractor, @Nonnull LTriBoolFunction<String> specialPredicate, boolean a2, boolean a3) {
+		return hasToBoolEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToBool' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -5304,9 +5304,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToBoolWith$(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.test(k));
@@ -5323,10 +5323,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToBoolWith$(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToBoolWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToBoolWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -5342,9 +5342,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToBoolWith$(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToBoolWithEx(@Nonnull LPredicate<K> extractor, V1 with1, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.test(k));
@@ -5361,10 +5361,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToBoolWith$(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToBoolWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToBoolWithEx(@Nonnull LPredicate<K> extractor, @Nonnull LObjBoolFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToBoolWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -5380,9 +5380,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToBoolWith$(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.test(k));
@@ -5399,10 +5399,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToBoolWith$(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToBoolWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToBoolWithEx(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToBoolWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -5418,9 +5418,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToBoolWith$(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToBoolWithEx(@Nonnull LPredicate<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.test(k));
@@ -5437,10 +5437,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToBool' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToBoolWith$(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToBoolWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToBoolWithEx(@Nonnull LPredicate<K> extractor, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToBoolWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, @Nonnull LPredicate<? super T> predicate) {
@@ -5449,8 +5449,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k));
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k));
@@ -5462,8 +5462,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k));
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> has$(@Nonnull LFunction<K, T> extractor, @Nonnull LFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasEx(@Nonnull LFunction<K, T> extractor, @Nonnull LFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k));
@@ -5475,8 +5475,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2);
@@ -5486,9 +5486,9 @@ public class Predicates implements FluentSyntax {
 		return uniHave(extractor, a2, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T a2) {
-		return uniHave$(extractor, a2, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T a2) {
+		return uniHaveEx(extractor, a2, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> uniHas(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiPredicate<? super T, ? super T> predicate) {
@@ -5497,8 +5497,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHas$(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHasEx(@Nonnull LFunction<K, T> extractor, T a2, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2);
@@ -5508,9 +5508,9 @@ public class Predicates implements FluentSyntax {
 		return uniHas(extractor, a2, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHas$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T a2) {
-		return uniHas$(extractor, a2, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHasEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T a2) {
+		return uniHasEx(extractor, a2, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
@@ -5519,8 +5519,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3);
@@ -5530,9 +5530,9 @@ public class Predicates implements FluentSyntax {
 		return uniHave(extractor, a2, a3, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3) {
-		return uniHave$(extractor, a2, a3, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3) {
+		return uniHaveEx(extractor, a2, a3, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> uniHas(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriPredicate<? super T, ? super T, ? super T> predicate) {
@@ -5541,8 +5541,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHas$(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHasEx(@Nonnull LFunction<K, T> extractor, T a2, T a3, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3);
@@ -5552,9 +5552,9 @@ public class Predicates implements FluentSyntax {
 		return uniHas(extractor, a2, a3, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHas$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3) {
-		return uniHas$(extractor, a2, a3, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHasEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3) {
+		return uniHasEx(extractor, a2, a3, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> uniHave(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate) {
@@ -5563,8 +5563,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3, a4);
@@ -5574,9 +5574,9 @@ public class Predicates implements FluentSyntax {
 		return uniHave(extractor, a2, a3, a4, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHave$(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3, T a4) {
-		return uniHave$(extractor, a2, a3, a4, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3, T a4) {
+		return uniHaveEx(extractor, a2, a3, a4, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> uniHas(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadPredicate<? super T, ? super T, ? super T, ? super T> predicate) {
@@ -5585,8 +5585,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHas$(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHasEx(@Nonnull LFunction<K, T> extractor, T a2, T a3, T a4, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3, a4);
@@ -5596,9 +5596,9 @@ public class Predicates implements FluentSyntax {
 		return uniHas(extractor, a2, a3, a4, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> uniHas$(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3, T a4) {
-		return uniHas$(extractor, a2, a3, a4, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> uniHasEx(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super T, ? super T, ? super T, String> specialPredicate, T a2, T a3, T a4) {
+		return uniHasEx(extractor, a2, a3, a4, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V> LPredicate<K> haveA(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
@@ -5607,8 +5607,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> haveA$(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiFunction<T, V[], String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveAEx(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiFunction<T, V[], String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2);
@@ -5618,9 +5618,9 @@ public class Predicates implements FluentSyntax {
 		return haveA(extractor, a2, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> haveA$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<T, V[], String> specialPredicate, V... a2) {
-		return haveA$(extractor, a2, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveAEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<T, V[], String> specialPredicate, V... a2) {
+		return haveAEx(extractor, a2, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V> LPredicate<K> hasA(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiPredicate<T, V[]> predicate) {
@@ -5629,8 +5629,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> hasA$(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiFunction<T, V[], String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> hasAEx(@Nonnull LFunction<K, T> extractor, V[] a2, @Nonnull LBiFunction<T, V[], String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2);
@@ -5640,9 +5640,9 @@ public class Predicates implements FluentSyntax {
 		return hasA(extractor, a2, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> hasA$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<T, V[], String> specialPredicate, V... a2) {
-		return hasA$(extractor, a2, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> hasAEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<T, V[], String> specialPredicate, V... a2) {
+		return hasAEx(extractor, a2, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveBool(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
@@ -5651,8 +5651,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveBool$(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveBoolEx(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5662,9 +5662,9 @@ public class Predicates implements FluentSyntax {
 		return haveBool(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveBool$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolFunction<? super T, String> specialPredicate, boolean v) {
-		return haveBool$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveBoolEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolFunction<? super T, String> specialPredicate, boolean v) {
+		return haveBoolEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasBool(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolPredicate<? super T> predicate) {
@@ -5673,8 +5673,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasBool$(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasBoolEx(@Nonnull LFunction<K, T> extractor, boolean v, @Nonnull LObjBoolFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5684,9 +5684,9 @@ public class Predicates implements FluentSyntax {
 		return hasBool(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasBool$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolFunction<? super T, String> specialPredicate, boolean v) {
-		return hasBool$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasBoolEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjBoolFunction<? super T, String> specialPredicate, boolean v) {
+		return hasBoolEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveByte(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
@@ -5695,8 +5695,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveByte$(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjByteFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveByteEx(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjByteFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5706,9 +5706,9 @@ public class Predicates implements FluentSyntax {
 		return haveByte(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveByte$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjByteFunction<? super T, String> specialPredicate, byte v) {
-		return haveByte$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveByteEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjByteFunction<? super T, String> specialPredicate, byte v) {
+		return haveByteEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasByte(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjBytePredicate<? super T> predicate) {
@@ -5717,8 +5717,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasByte$(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjByteFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasByteEx(@Nonnull LFunction<K, T> extractor, byte v, @Nonnull LObjByteFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5728,9 +5728,9 @@ public class Predicates implements FluentSyntax {
 		return hasByte(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasByte$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjByteFunction<? super T, String> specialPredicate, byte v) {
-		return hasByte$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasByteEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjByteFunction<? super T, String> specialPredicate, byte v) {
+		return hasByteEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveDbl(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblPredicate<? super T> predicate) {
@@ -5739,8 +5739,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveDbl$(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveDblEx(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5750,9 +5750,9 @@ public class Predicates implements FluentSyntax {
 		return haveDbl(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveDbl$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblFunction<? super T, String> specialPredicate, double v) {
-		return haveDbl$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveDblEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblFunction<? super T, String> specialPredicate, double v) {
+		return haveDblEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasDbl(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblPredicate<? super T> predicate) {
@@ -5761,8 +5761,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasDbl$(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasDblEx(@Nonnull LFunction<K, T> extractor, double v, @Nonnull LObjDblFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5772,9 +5772,9 @@ public class Predicates implements FluentSyntax {
 		return hasDbl(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasDbl$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblFunction<? super T, String> specialPredicate, double v) {
-		return hasDbl$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasDblEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjDblFunction<? super T, String> specialPredicate, double v) {
+		return hasDblEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveChar(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharPredicate<? super T> predicate) {
@@ -5783,8 +5783,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveChar$(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveCharEx(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5794,9 +5794,9 @@ public class Predicates implements FluentSyntax {
 		return haveChar(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveChar$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharFunction<? super T, String> specialPredicate, char v) {
-		return haveChar$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveCharEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharFunction<? super T, String> specialPredicate, char v) {
+		return haveCharEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasChar(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharPredicate<? super T> predicate) {
@@ -5805,8 +5805,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasChar$(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasCharEx(@Nonnull LFunction<K, T> extractor, char v, @Nonnull LObjCharFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5816,9 +5816,9 @@ public class Predicates implements FluentSyntax {
 		return hasChar(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasChar$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharFunction<? super T, String> specialPredicate, char v) {
-		return hasChar$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasCharEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjCharFunction<? super T, String> specialPredicate, char v) {
+		return hasCharEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveSrt(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
@@ -5827,8 +5827,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveSrt$(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveSrtEx(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5838,9 +5838,9 @@ public class Predicates implements FluentSyntax {
 		return haveSrt(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveSrt$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtFunction<? super T, String> specialPredicate, short v) {
-		return haveSrt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveSrtEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtFunction<? super T, String> specialPredicate, short v) {
+		return haveSrtEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasSrt(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtPredicate<? super T> predicate) {
@@ -5849,8 +5849,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasSrt$(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasSrtEx(@Nonnull LFunction<K, T> extractor, short v, @Nonnull LObjSrtFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5860,9 +5860,9 @@ public class Predicates implements FluentSyntax {
 		return hasSrt(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasSrt$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtFunction<? super T, String> specialPredicate, short v) {
-		return hasSrt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasSrtEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjSrtFunction<? super T, String> specialPredicate, short v) {
+		return hasSrtEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveFlt(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltPredicate<? super T> predicate) {
@@ -5871,8 +5871,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveFlt$(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveFltEx(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5882,9 +5882,9 @@ public class Predicates implements FluentSyntax {
 		return haveFlt(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveFlt$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltFunction<? super T, String> specialPredicate, float v) {
-		return haveFlt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveFltEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltFunction<? super T, String> specialPredicate, float v) {
+		return haveFltEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasFlt(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltPredicate<? super T> predicate) {
@@ -5893,8 +5893,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasFlt$(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasFltEx(@Nonnull LFunction<K, T> extractor, float v, @Nonnull LObjFltFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5904,9 +5904,9 @@ public class Predicates implements FluentSyntax {
 		return hasFlt(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasFlt$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltFunction<? super T, String> specialPredicate, float v) {
-		return hasFlt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasFltEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjFltFunction<? super T, String> specialPredicate, float v) {
+		return hasFltEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveInt(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LObjIntPredicate<? super T> predicate) {
@@ -5915,8 +5915,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveInt$(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LOiFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveIntEx(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LOiFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5926,9 +5926,9 @@ public class Predicates implements FluentSyntax {
 		return haveInt(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveInt$(@Nonnull LFunction<K, T> extractor, @Nonnull LOiFunction<? super T, String> specialPredicate, int v) {
-		return haveInt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveIntEx(@Nonnull LFunction<K, T> extractor, @Nonnull LOiFunction<? super T, String> specialPredicate, int v) {
+		return haveIntEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasInt(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LObjIntPredicate<? super T> predicate) {
@@ -5937,8 +5937,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasInt$(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LOiFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasIntEx(@Nonnull LFunction<K, T> extractor, int v, @Nonnull LOiFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5948,9 +5948,9 @@ public class Predicates implements FluentSyntax {
 		return hasInt(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasInt$(@Nonnull LFunction<K, T> extractor, @Nonnull LOiFunction<? super T, String> specialPredicate, int v) {
-		return hasInt$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasIntEx(@Nonnull LFunction<K, T> extractor, @Nonnull LOiFunction<? super T, String> specialPredicate, int v) {
+		return hasIntEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> haveLong(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongPredicate<? super T> predicate) {
@@ -5959,8 +5959,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveLong$(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveLongEx(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5970,9 +5970,9 @@ public class Predicates implements FluentSyntax {
 		return haveLong(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> haveLong$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongFunction<? super T, String> specialPredicate, long v) {
-		return haveLong$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> haveLongEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongFunction<? super T, String> specialPredicate, long v) {
+		return haveLongEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T> LPredicate<K> hasLong(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongPredicate<? super T> predicate) {
@@ -5981,8 +5981,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasLong$(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongFunction<? super T, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasLongEx(@Nonnull LFunction<K, T> extractor, long v, @Nonnull LObjLongFunction<? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -5992,9 +5992,9 @@ public class Predicates implements FluentSyntax {
 		return hasLong(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T> LFunction<K, String> hasLong$(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongFunction<? super T, String> specialPredicate, long v) {
-		return hasLong$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T> LFunction<K, String> hasLongEx(@Nonnull LFunction<K, T> extractor, @Nonnull LObjLongFunction<? super T, String> specialPredicate, long v) {
+		return hasLongEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
@@ -6003,8 +6003,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -6014,9 +6014,9 @@ public class Predicates implements FluentSyntax {
 		return have(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate, V v) {
-		return have$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate, V v) {
+		return haveEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V> LPredicate<K> has(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiPredicate<? super T, ? super V> predicate) {
@@ -6025,8 +6025,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), v);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> has$(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> hasEx(@Nonnull LFunction<K, T> extractor, V v, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), v);
@@ -6036,9 +6036,9 @@ public class Predicates implements FluentSyntax {
 		return has(extractor, v, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V> LFunction<K, String> has$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate, V v) {
-		return has$(extractor, v, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V> LFunction<K, String> hasEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super V, String> specialPredicate, V v) {
+		return hasEx(extractor, v, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V2, V3> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate) {
@@ -6047,8 +6047,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3);
@@ -6058,9 +6058,9 @@ public class Predicates implements FluentSyntax {
 		return have(extractor, a2, a3, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate, V2 a2, V3 a3) {
-		return have$(extractor, a2, a3, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate, V2 a2, V3 a3) {
+		return haveEx(extractor, a2, a3, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V2, V3> LPredicate<K> has(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriPredicate<? super T, ? super V2, ? super V3> predicate) {
@@ -6069,8 +6069,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3> LFunction<K, String> has$(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3> LFunction<K, String> hasEx(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3);
@@ -6080,9 +6080,9 @@ public class Predicates implements FluentSyntax {
 		return has(extractor, a2, a3, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3> LFunction<K, String> has$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate, V2 a2, V3 a3) {
-		return has$(extractor, a2, a3, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3> LFunction<K, String> hasEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super T, ? super V2, ? super V3, String> specialPredicate, V2 a2, V3 a3) {
+		return hasEx(extractor, a2, a3, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V2, V3, V4> LPredicate<K> have(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate) {
@@ -6091,8 +6091,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3, a4);
@@ -6102,9 +6102,9 @@ public class Predicates implements FluentSyntax {
 		return have(extractor, a2, a3, a4, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> have$(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate, V2 a2, V3 a3, V4 a4) {
-		return have$(extractor, a2, a3, a4, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> haveEx(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate, V2 a2, V3 a3, V4 a4) {
+		return haveEx(extractor, a2, a3, a4, specialPredicate);
 	}
 
 	public static @Nonnull <K, T, V2, V3, V4> LPredicate<K> has(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadPredicate<? super T, ? super V2, ? super V3, ? super V4> predicate) {
@@ -6113,8 +6113,8 @@ public class Predicates implements FluentSyntax {
 		return k -> predicate.test(extractor.apply(k), a2, a3, a4);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> has$(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate) {
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> hasEx(@Nonnull LFunction<K, T> extractor, V2 a2, V3 a3, V4 a4, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.apply(k), a2, a3, a4);
@@ -6124,9 +6124,9 @@ public class Predicates implements FluentSyntax {
 		return has(extractor, a2, a3, a4, predicate);
 	}
 
-	/** '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
-	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> has$(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate, V2 a2, V3 a3, V4 a4) {
-		return has$(extractor, a2, a3, a4, specialPredicate);
+	/** 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied). */
+	public static @Nonnull <K, T, V2, V3, V4> LFunction<K, String> hasEx(@Nonnull LFunction<K, T> extractor, @Nonnull LQuadFunction<? super T, ? super V2, ? super V3, ? super V4, String> specialPredicate, V2 a2, V3 a3, V4 a4) {
+		return hasEx(extractor, a2, a3, a4, specialPredicate);
 	}
 
 	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
@@ -6138,9 +6138,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1> LFunction<K, String> haveWith$(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate) {
+	public static @Nonnull <K, T, V1> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.apply(k));
@@ -6153,10 +6153,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1> LFunction<K, String> haveWith$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate, V1 with1) {
-		return haveWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, T, V1> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate, V1 with1) {
+		return haveWithEx(extractor, with1, specialPredicate);
 	}
 
 	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
@@ -6168,9 +6168,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1> LFunction<K, String> hasWith$(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate) {
+	public static @Nonnull <K, T, V1> LFunction<K, String> hasWithEx(@Nonnull LFunction<K, T> extractor, V1 with1, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.apply(k));
@@ -6183,10 +6183,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1> LFunction<K, String> hasWith$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate, V1 with1) {
-		return hasWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, T, V1> LFunction<K, String> hasWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super V1, ? super T, String> specialPredicate, V1 with1) {
+		return hasWithEx(extractor, with1, specialPredicate);
 	}
 
 	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
@@ -6198,9 +6198,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1, V2> LFunction<K, String> haveWith$(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate) {
+	public static @Nonnull <K, T, V1, V2> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.apply(k));
@@ -6213,10 +6213,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1, V2> LFunction<K, String> haveWith$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate, V1 with1, V2 with2) {
-		return haveWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, T, V1, V2> LFunction<K, String> haveWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate, V1 with1, V2 with2) {
+		return haveWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
@@ -6228,9 +6228,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1, V2> LFunction<K, String> hasWith$(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate) {
+	public static @Nonnull <K, T, V1, V2> LFunction<K, String> hasWithEx(@Nonnull LFunction<K, T> extractor, V1 with1, V2 with2, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.apply(k));
@@ -6243,10 +6243,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T, V1, V2> LFunction<K, String> hasWith$(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate, V1 with1, V2 with2) {
-		return hasWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, T, V1, V2> LFunction<K, String> hasWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LTriFunction<? super V1, ? super V2, ? super T, String> specialPredicate, V1 with1, V2 with2) {
+		return hasWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
@@ -6258,9 +6258,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T> LFunction<K, String> uniHaveWith$(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveWithEx(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with, extractor.apply(k));
@@ -6273,10 +6273,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T> LFunction<K, String> uniHaveWith$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T with) {
-		return uniHaveWith$(extractor, with, specialPredicate);
+	public static @Nonnull <K, T> LFunction<K, String> uniHaveWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T with) {
+		return uniHaveWithEx(extractor, with, specialPredicate);
 	}
 
 	/** 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s). */
@@ -6288,9 +6288,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T> LFunction<K, String> uniHasWith$(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
+	public static @Nonnull <K, T> LFunction<K, String> uniHasWithEx(@Nonnull LFunction<K, T> extractor, T with, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with, extractor.apply(k));
@@ -6303,10 +6303,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, T> LFunction<K, String> uniHasWith$(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T with) {
-		return uniHasWith$(extractor, with, specialPredicate);
+	public static @Nonnull <K, T> LFunction<K, String> uniHasWithEx(@Nonnull LFunction<K, T> extractor, @Nonnull LBiFunction<? super T, ? super T, String> specialPredicate, T with) {
+		return uniHasWithEx(extractor, with, specialPredicate);
 	}
 
 	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6318,9 +6318,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k));
@@ -6335,9 +6335,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k));
@@ -6352,9 +6352,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToByte$(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiByteFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k), a2);
@@ -6367,10 +6367,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiByteFunction<String> specialPredicate, byte a2) {
-		return haveToByte$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiByteFunction<String> specialPredicate, byte a2) {
+		return haveToByteEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6382,9 +6382,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToByte$(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiByteFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToByteEx(@Nonnull LToByteFunction<K> extractor, byte a2, @Nonnull LBiByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k), a2);
@@ -6397,10 +6397,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiByteFunction<String> specialPredicate, byte a2) {
-		return hasToByte$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiByteFunction<String> specialPredicate, byte a2) {
+		return hasToByteEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6412,9 +6412,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToByte$(@Nonnull LToByteFunction<K> extractor, byte a2, byte a3, @Nonnull LTriByteFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, byte a2, byte a3, @Nonnull LTriByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k), a2, a3);
@@ -6427,10 +6427,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriByteFunction<String> specialPredicate, byte a2, byte a3) {
-		return haveToByte$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriByteFunction<String> specialPredicate, byte a2, byte a3) {
+		return haveToByteEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6442,9 +6442,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToByte$(@Nonnull LToByteFunction<K> extractor, byte a2, byte a3, @Nonnull LTriByteFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToByteEx(@Nonnull LToByteFunction<K> extractor, byte a2, byte a3, @Nonnull LTriByteFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsByte(k), a2, a3);
@@ -6457,10 +6457,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToByte$(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriByteFunction<String> specialPredicate, byte a2, byte a3) {
-		return hasToByte$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToByteEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LTriByteFunction<String> specialPredicate, byte a2, byte a3) {
+		return hasToByteEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToByte' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6500,9 +6500,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToByteWith$(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjByteFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjByteFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsByte(k));
@@ -6519,10 +6519,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToByteWith$(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToByteWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToByteWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -6538,9 +6538,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToByteWith$(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjByteFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToByteWithEx(@Nonnull LToByteFunction<K> extractor, V1 with1, @Nonnull LObjByteFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsByte(k));
@@ -6557,10 +6557,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToByteWith$(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToByteWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToByteWithEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LObjByteFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToByteWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -6576,9 +6576,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToByteWith$(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsByte(k));
@@ -6595,10 +6595,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToByteWith$(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToByteWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToByteWithEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToByteWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -6614,9 +6614,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToByteWith$(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToByteWithEx(@Nonnull LToByteFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsByte(k));
@@ -6633,10 +6633,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToByte' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToByteWith$(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToByteWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToByteWithEx(@Nonnull LToByteFunction<K> extractor, @Nonnull LBiObjByteFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToByteWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6648,9 +6648,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k));
@@ -6665,9 +6665,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k));
@@ -6682,9 +6682,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToDbl$(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k), a2);
@@ -6697,10 +6697,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblFunction<String> specialPredicate, double a2) {
-		return haveToDbl$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblFunction<String> specialPredicate, double a2) {
+		return haveToDblEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6712,9 +6712,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToDbl$(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToDblEx(@Nonnull LToDblFunction<K> extractor, double a2, @Nonnull LBiDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k), a2);
@@ -6727,10 +6727,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblFunction<String> specialPredicate, double a2) {
-		return hasToDbl$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiDblFunction<String> specialPredicate, double a2) {
+		return hasToDblEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6742,9 +6742,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToDbl$(@Nonnull LToDblFunction<K> extractor, double a2, double a3, @Nonnull LTriDblFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, double a2, double a3, @Nonnull LTriDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k), a2, a3);
@@ -6757,10 +6757,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblFunction<String> specialPredicate, double a2, double a3) {
-		return haveToDbl$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblFunction<String> specialPredicate, double a2, double a3) {
+		return haveToDblEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6772,9 +6772,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToDbl$(@Nonnull LToDblFunction<K> extractor, double a2, double a3, @Nonnull LTriDblFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToDblEx(@Nonnull LToDblFunction<K> extractor, double a2, double a3, @Nonnull LTriDblFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsDbl(k), a2, a3);
@@ -6787,10 +6787,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToDbl$(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblFunction<String> specialPredicate, double a2, double a3) {
-		return hasToDbl$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToDblEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LTriDblFunction<String> specialPredicate, double a2, double a3) {
+		return hasToDblEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6830,9 +6830,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToDblWith$(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsDbl(k));
@@ -6849,10 +6849,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToDblWith$(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToDblWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToDblWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -6868,9 +6868,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToDblWith$(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToDblWithEx(@Nonnull LToDblFunction<K> extractor, V1 with1, @Nonnull LObjDblFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsDbl(k));
@@ -6887,10 +6887,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToDblWith$(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToDblWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToDblWithEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LObjDblFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToDblWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -6906,9 +6906,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToDblWith$(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsDbl(k));
@@ -6925,10 +6925,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToDblWith$(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToDblWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToDblWithEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToDblWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -6944,9 +6944,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToDblWith$(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToDblWithEx(@Nonnull LToDblFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsDbl(k));
@@ -6963,10 +6963,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToDbl' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToDblWith$(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToDblWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToDblWithEx(@Nonnull LToDblFunction<K> extractor, @Nonnull LBiObjDblFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToDblWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -6978,9 +6978,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k));
@@ -6995,9 +6995,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k));
@@ -7012,9 +7012,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToChar$(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k), a2);
@@ -7027,10 +7027,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharFunction<String> specialPredicate, char a2) {
-		return haveToChar$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharFunction<String> specialPredicate, char a2) {
+		return haveToCharEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7042,9 +7042,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToChar$(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToCharEx(@Nonnull LToCharFunction<K> extractor, char a2, @Nonnull LBiCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k), a2);
@@ -7057,10 +7057,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharFunction<String> specialPredicate, char a2) {
-		return hasToChar$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiCharFunction<String> specialPredicate, char a2) {
+		return hasToCharEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7072,9 +7072,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToChar$(@Nonnull LToCharFunction<K> extractor, char a2, char a3, @Nonnull LTriCharFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, char a2, char a3, @Nonnull LTriCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k), a2, a3);
@@ -7087,10 +7087,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharFunction<String> specialPredicate, char a2, char a3) {
-		return haveToChar$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharFunction<String> specialPredicate, char a2, char a3) {
+		return haveToCharEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7102,9 +7102,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToChar$(@Nonnull LToCharFunction<K> extractor, char a2, char a3, @Nonnull LTriCharFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToCharEx(@Nonnull LToCharFunction<K> extractor, char a2, char a3, @Nonnull LTriCharFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsChar(k), a2, a3);
@@ -7117,10 +7117,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToChar$(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharFunction<String> specialPredicate, char a2, char a3) {
-		return hasToChar$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToCharEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LTriCharFunction<String> specialPredicate, char a2, char a3) {
+		return hasToCharEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToChar' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7160,9 +7160,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToCharWith$(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsChar(k));
@@ -7179,10 +7179,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToCharWith$(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToCharWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToCharWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -7198,9 +7198,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToCharWith$(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToCharWithEx(@Nonnull LToCharFunction<K> extractor, V1 with1, @Nonnull LObjCharFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsChar(k));
@@ -7217,10 +7217,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToCharWith$(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToCharWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToCharWithEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LObjCharFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToCharWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -7236,9 +7236,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToCharWith$(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsChar(k));
@@ -7255,10 +7255,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToCharWith$(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToCharWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToCharWithEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToCharWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -7274,9 +7274,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToCharWith$(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToCharWithEx(@Nonnull LToCharFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsChar(k));
@@ -7293,10 +7293,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToChar' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToCharWith$(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToCharWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToCharWithEx(@Nonnull LToCharFunction<K> extractor, @Nonnull LBiObjCharFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToCharWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7308,9 +7308,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k));
@@ -7325,9 +7325,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k));
@@ -7342,9 +7342,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToSrt$(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k), a2);
@@ -7357,10 +7357,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtFunction<String> specialPredicate, short a2) {
-		return haveToSrt$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtFunction<String> specialPredicate, short a2) {
+		return haveToSrtEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7372,9 +7372,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToSrt$(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToSrtEx(@Nonnull LToSrtFunction<K> extractor, short a2, @Nonnull LBiSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k), a2);
@@ -7387,10 +7387,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtFunction<String> specialPredicate, short a2) {
-		return hasToSrt$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiSrtFunction<String> specialPredicate, short a2) {
+		return hasToSrtEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7402,9 +7402,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToSrt$(@Nonnull LToSrtFunction<K> extractor, short a2, short a3, @Nonnull LTriSrtFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, short a2, short a3, @Nonnull LTriSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k), a2, a3);
@@ -7417,10 +7417,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtFunction<String> specialPredicate, short a2, short a3) {
-		return haveToSrt$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtFunction<String> specialPredicate, short a2, short a3) {
+		return haveToSrtEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7432,9 +7432,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToSrt$(@Nonnull LToSrtFunction<K> extractor, short a2, short a3, @Nonnull LTriSrtFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToSrtEx(@Nonnull LToSrtFunction<K> extractor, short a2, short a3, @Nonnull LTriSrtFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsSrt(k), a2, a3);
@@ -7447,10 +7447,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToSrt$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtFunction<String> specialPredicate, short a2, short a3) {
-		return hasToSrt$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToSrtEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LTriSrtFunction<String> specialPredicate, short a2, short a3) {
+		return hasToSrtEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7490,9 +7490,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToSrtWith$(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsSrt(k));
@@ -7509,10 +7509,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToSrtWith$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToSrtWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToSrtWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -7528,9 +7528,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToSrtWith$(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, V1 with1, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsSrt(k));
@@ -7547,10 +7547,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToSrtWith$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToSrtWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LObjSrtFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToSrtWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -7566,9 +7566,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToSrtWith$(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsSrt(k));
@@ -7585,10 +7585,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToSrtWith$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToSrtWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToSrtWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -7604,9 +7604,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToSrtWith$(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsSrt(k));
@@ -7623,10 +7623,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToSrt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToSrtWith$(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToSrtWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToSrtWithEx(@Nonnull LToSrtFunction<K> extractor, @Nonnull LBiObjSrtFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToSrtWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7638,9 +7638,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k));
@@ -7655,9 +7655,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k));
@@ -7672,9 +7672,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToFlt$(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k), a2);
@@ -7687,10 +7687,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltFunction<String> specialPredicate, float a2) {
-		return haveToFlt$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltFunction<String> specialPredicate, float a2) {
+		return haveToFltEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7702,9 +7702,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToFlt$(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToFltEx(@Nonnull LToFltFunction<K> extractor, float a2, @Nonnull LBiFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k), a2);
@@ -7717,10 +7717,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltFunction<String> specialPredicate, float a2) {
-		return hasToFlt$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiFltFunction<String> specialPredicate, float a2) {
+		return hasToFltEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7732,9 +7732,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToFlt$(@Nonnull LToFltFunction<K> extractor, float a2, float a3, @Nonnull LTriFltFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, float a2, float a3, @Nonnull LTriFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k), a2, a3);
@@ -7747,10 +7747,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltFunction<String> specialPredicate, float a2, float a3) {
-		return haveToFlt$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltFunction<String> specialPredicate, float a2, float a3) {
+		return haveToFltEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7762,9 +7762,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToFlt$(@Nonnull LToFltFunction<K> extractor, float a2, float a3, @Nonnull LTriFltFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToFltEx(@Nonnull LToFltFunction<K> extractor, float a2, float a3, @Nonnull LTriFltFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsFlt(k), a2, a3);
@@ -7777,10 +7777,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToFlt$(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltFunction<String> specialPredicate, float a2, float a3) {
-		return hasToFlt$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToFltEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LTriFltFunction<String> specialPredicate, float a2, float a3) {
+		return hasToFltEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7820,9 +7820,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToFltWith$(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsFlt(k));
@@ -7839,10 +7839,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToFltWith$(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToFltWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToFltWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -7858,9 +7858,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToFltWith$(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToFltWithEx(@Nonnull LToFltFunction<K> extractor, V1 with1, @Nonnull LObjFltFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsFlt(k));
@@ -7877,10 +7877,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToFltWith$(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToFltWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToFltWithEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LObjFltFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToFltWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -7896,9 +7896,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToFltWith$(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsFlt(k));
@@ -7915,10 +7915,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToFltWith$(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToFltWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToFltWithEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToFltWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -7934,9 +7934,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToFltWith$(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToFltWithEx(@Nonnull LToFltFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsFlt(k));
@@ -7953,10 +7953,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToFlt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToFltWith$(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToFltWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToFltWithEx(@Nonnull LToFltFunction<K> extractor, @Nonnull LBiObjFltFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToFltWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -7968,9 +7968,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k));
@@ -7985,9 +7985,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k));
@@ -8002,9 +8002,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToInt$(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k), a2);
@@ -8017,10 +8017,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntFunction<String> specialPredicate, int a2) {
-		return haveToInt$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntFunction<String> specialPredicate, int a2) {
+		return haveToIntEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8032,9 +8032,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToInt$(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToIntEx(@Nonnull LToIntFunction<K> extractor, int a2, @Nonnull LBiIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k), a2);
@@ -8047,10 +8047,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntFunction<String> specialPredicate, int a2) {
-		return hasToInt$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiIntFunction<String> specialPredicate, int a2) {
+		return hasToIntEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8062,9 +8062,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToInt$(@Nonnull LToIntFunction<K> extractor, int a2, int a3, @Nonnull LTriIntFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, int a2, int a3, @Nonnull LTriIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k), a2, a3);
@@ -8077,10 +8077,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntFunction<String> specialPredicate, int a2, int a3) {
-		return haveToInt$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntFunction<String> specialPredicate, int a2, int a3) {
+		return haveToIntEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToInt' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8092,9 +8092,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToInt$(@Nonnull LToIntFunction<K> extractor, int a2, int a3, @Nonnull LTriIntFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToIntEx(@Nonnull LToIntFunction<K> extractor, int a2, int a3, @Nonnull LTriIntFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsInt(k), a2, a3);
@@ -8107,10 +8107,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToInt$(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntFunction<String> specialPredicate, int a2, int a3) {
-		return hasToInt$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToIntEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LTriIntFunction<String> specialPredicate, int a2, int a3) {
+		return hasToIntEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/**
@@ -8126,9 +8126,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToIntWith$(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LOiFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LOiFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsInt(k));
@@ -8145,10 +8145,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToIntWith$(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToIntWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToIntWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -8164,9 +8164,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToIntWith$(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LOiFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToIntWithEx(@Nonnull LToIntFunction<K> extractor, V1 with1, @Nonnull LOiFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsInt(k));
@@ -8183,10 +8183,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToIntWith$(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToIntWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToIntWithEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LOiFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToIntWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -8202,9 +8202,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToIntWith$(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsInt(k));
@@ -8221,10 +8221,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToIntWith$(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToIntWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToIntWithEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToIntWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -8240,9 +8240,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToIntWith$(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToIntWithEx(@Nonnull LToIntFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsInt(k));
@@ -8259,10 +8259,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToInt' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToIntWith$(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToIntWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToIntWithEx(@Nonnull LToIntFunction<K> extractor, @Nonnull LBiObjIntFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToIntWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8274,9 +8274,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k));
@@ -8291,9 +8291,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k));
@@ -8308,9 +8308,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToLong$(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k), a2);
@@ -8323,10 +8323,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongFunction<String> specialPredicate, long a2) {
-		return haveToLong$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongFunction<String> specialPredicate, long a2) {
+		return haveToLongEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8338,9 +8338,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToLong$(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToLongEx(@Nonnull LToLongFunction<K> extractor, long a2, @Nonnull LBiLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k), a2);
@@ -8353,10 +8353,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongFunction<String> specialPredicate, long a2) {
-		return hasToLong$(extractor, a2, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiLongFunction<String> specialPredicate, long a2) {
+		return hasToLongEx(extractor, a2, specialPredicate);
 	}
 
 	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8368,9 +8368,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToLong$(@Nonnull LToLongFunction<K> extractor, long a2, long a3, @Nonnull LTriLongFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, long a2, long a3, @Nonnull LTriLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k), a2, a3);
@@ -8383,10 +8383,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> haveToLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongFunction<String> specialPredicate, long a2, long a3) {
-		return haveToLong$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> haveToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongFunction<String> specialPredicate, long a2, long a3) {
+		return haveToLongEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8398,9 +8398,9 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToLong$(@Nonnull LToLongFunction<K> extractor, long a2, long a3, @Nonnull LTriLongFunction<String> specialPredicate) {
+	public static @Nonnull <K> LFunction<K, String> hasToLongEx(@Nonnull LToLongFunction<K> extractor, long a2, long a3, @Nonnull LTriLongFunction<String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(extractor.applyAsLong(k), a2, a3);
@@ -8413,10 +8413,10 @@ public class Predicates implements FluentSyntax {
 
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K> LFunction<K, String> hasToLong$(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongFunction<String> specialPredicate, long a2, long a3) {
-		return hasToLong$(extractor, a2, a3, specialPredicate);
+	public static @Nonnull <K> LFunction<K, String> hasToLongEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LTriLongFunction<String> specialPredicate, long a2, long a3) {
+		return hasToLongEx(extractor, a2, a3, specialPredicate);
 	}
 
 	/** 'ToLong' - first, actual value will be converted to primitive type (contrary to the object). */
@@ -8456,9 +8456,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToLongWith$(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsLong(k));
@@ -8475,10 +8475,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> haveToLongWith$(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction<? super V1, String> specialPredicate, V1 with1) {
-		return haveToLongWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction<? super V1, String> specialPredicate, V1 with1) {
+		return haveToLongWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -8494,9 +8494,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToLongWith$(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongFunction<? super V1, String> specialPredicate) {
+	public static @Nonnull <K, V1> LFunction<K, String> hasToLongWithEx(@Nonnull LToLongFunction<K> extractor, V1 with1, @Nonnull LObjLongFunction<? super V1, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, extractor.applyAsLong(k));
@@ -8513,10 +8513,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1> LFunction<K, String> hasToLongWith$(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction<? super V1, String> specialPredicate, V1 with1) {
-		return hasToLongWith$(extractor, with1, specialPredicate);
+	public static @Nonnull <K, V1> LFunction<K, String> hasToLongWithEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LObjLongFunction<? super V1, String> specialPredicate, V1 with1) {
+		return hasToLongWithEx(extractor, with1, specialPredicate);
 	}
 
 	/**
@@ -8532,9 +8532,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToLongWith$(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsLong(k));
@@ -8551,10 +8551,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToLongWith$(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return haveToLongWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> haveToLongWithEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return haveToLongWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	/**
@@ -8570,9 +8570,9 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToLongWith$(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate) {
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToLongWithEx(@Nonnull LToLongFunction<K> extractor, V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate) {
 		Null.nonNullArg(extractor, "extractor");
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		return k -> specialPredicate.apply(with1, with2, extractor.applyAsLong(k));
@@ -8589,10 +8589,10 @@ public class Predicates implements FluentSyntax {
 	/**
 	* 'ToLong' - first, actual value will be converted to primitive type (contrary to the object).
 	* 'With' - call of main predicate will be prefixed (contrary to affixed) with additional argument(s).
-	* '$' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
+	* 'Ex' - main predicate returns strings with message telling what criteria is not satisfied (null if all conditions are satisfied).
 	*/
-	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToLongWith$(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
-		return hasToLongWith$(extractor, with1, with2, specialPredicate);
+	public static @Nonnull <K, V1, V2> LFunction<K, String> hasToLongWithEx(@Nonnull LToLongFunction<K> extractor, @Nonnull LBiObjLongFunction<? super V1, ? super V2, String> specialPredicate, V1 with1, V2 with2) {
+		return hasToLongWithEx(extractor, with1, with2, specialPredicate);
 	}
 
 	// </editor-fold>
@@ -8655,7 +8655,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be equal to <%s> (including array elements). */
-	public static @Nullable String Equal$(Object o1, Object o2) {
+	public static @Nullable String EqualEx(Object o1, Object o2) {
 		return Equal(o1, o2) ? null : String.format("<%s> must be equal to <%s> (including array elements).", o1, o2);
 	}
 	/** Predicate: <%s> must NOT be equal to <%s> (including array elements)..*/
@@ -8664,7 +8664,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be equal to <%s> (including array elements). */
-	public static @Nullable String NotEqual$(Object o1, Object o2) {
+	public static @Nullable String NotEqualEx(Object o1, Object o2) {
 		return NotEqual(o1, o2) ? null : String.format("<%s> must NOT be equal to <%s> (including array elements).", o1, o2);
 	}
 
@@ -8677,7 +8677,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be done. */
-	public static @Nullable String done$(@Nonnull Future<?> future) {
+	public static @Nullable String doneEx(@Nonnull Future<?> future) {
 		Null.nonNullArg(future, "future");
 		return done(future) ? null : String.format("<%s> must be done.", future);
 	}
@@ -8688,7 +8688,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be done. */
-	public static @Nullable String notDone$(@Nonnull Future<?> future) {
+	public static @Nullable String notDoneEx(@Nonnull Future<?> future) {
 		Null.nonNullArg(future, "future");
 		return notDone(future) ? null : String.format("<%s> must NOT be done.", future);
 	}
@@ -8700,7 +8700,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be cancelled. */
-	public static @Nullable String cancelled$(@Nonnull Future<?> future) {
+	public static @Nullable String cancelledEx(@Nonnull Future<?> future) {
 		Null.nonNullArg(future, "future");
 		return cancelled(future) ? null : String.format("<%s> must be cancelled.", future);
 	}
@@ -8711,7 +8711,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be cancelled. */
-	public static @Nullable String notCancelled$(@Nonnull Future<?> future) {
+	public static @Nullable String notCancelledEx(@Nonnull Future<?> future) {
 		Null.nonNullArg(future, "future");
 		return notCancelled(future) ? null : String.format("<%s> must NOT be cancelled.", future);
 	}
@@ -8723,7 +8723,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must be cancelled. */
-	public static @Nullable String completedExceptionally$(@Nonnull CompletableFuture<?> future) {
+	public static @Nullable String completedExceptionallyEx(@Nonnull CompletableFuture<?> future) {
 		Null.nonNullArg(future, "future");
 		return completedExceptionally(future) ? null : String.format("<%s> must be cancelled.", future);
 	}
@@ -8734,7 +8734,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT be cancelled. */
-	public static @Nullable String notCompletedExceptionally$(@Nonnull CompletableFuture<?> future) {
+	public static @Nullable String notCompletedExceptionallyEx(@Nonnull CompletableFuture<?> future) {
 		Null.nonNullArg(future, "future");
 		return notCompletedExceptionally(future) ? null : String.format("<%s> must NOT be cancelled.", future);
 	}
@@ -8752,7 +8752,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must produce value equal to <%s>. */
-	public static @Nullable String produce$(@Nonnull Future<?> future, Object expected) {
+	public static @Nullable String produceEx(@Nonnull Future<?> future, Object expected) {
 		Null.nonNullArg(future, "future");
 		return produce(future, expected) ? null : String.format("<%s> must produce value equal to <%s>.", future, expected);
 	}
@@ -8763,7 +8763,7 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** "Special" predicate: <%s> must NOT produce value equal to <%s>. */
-	public static @Nullable String notProduce$(@Nonnull Future<?> future, Object expected) {
+	public static @Nullable String notProduceEx(@Nonnull Future<?> future, Object expected) {
 		Null.nonNullArg(future, "future");
 		return notProduce(future, expected) ? null : String.format("<%s> must NOT produce value equal to <%s>.", future, expected);
 	}

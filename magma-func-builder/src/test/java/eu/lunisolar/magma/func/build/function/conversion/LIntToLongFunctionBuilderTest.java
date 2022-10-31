@@ -128,10 +128,10 @@ public class LIntToLongFunctionBuilderTest{
 
 
         FuncAttests.attestIntToLongFunc(function)
-            .doesApplyAsLong(0).when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong(5).when(null).to(a -> a.must$(Be::equal$, 1L))
-            .doesApplyAsLong(15).when(null).to(a -> a.must$(Be::equal$, 2L))
-            .doesApplyAsLong(10).when(null).to(a -> a.must$(Be::equal$, 99L))
+            .doesApplyAsLong(0).when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong(5).when(null).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesApplyAsLong(15).when(null).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesApplyAsLong(10).when(null).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

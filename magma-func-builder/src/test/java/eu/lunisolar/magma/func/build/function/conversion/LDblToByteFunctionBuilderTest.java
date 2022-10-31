@@ -128,10 +128,10 @@ public class LDblToByteFunctionBuilderTest{
 
 
         FuncAttests.attestDblToByteFunc(function)
-            .doesApplyAsByte(0d).when(null).to(a -> a.must$(Be::equal$, (byte)0))
-            .doesApplyAsByte(5d).when(null).to(a -> a.must$(Be::equal$, (byte)1))
-            .doesApplyAsByte(15d).when(null).to(a -> a.must$(Be::equal$, (byte)2))
-            .doesApplyAsByte(10d).when(null).to(a -> a.must$(Be::equal$, (byte)99))
+            .doesApplyAsByte(0d).when(null).to(a -> a.mustEx(Be::equalEx, (byte)0))
+            .doesApplyAsByte(5d).when(null).to(a -> a.mustEx(Be::equalEx, (byte)1))
+            .doesApplyAsByte(15d).when(null).to(a -> a.mustEx(Be::equalEx, (byte)2))
+            .doesApplyAsByte(10d).when(null).to(a -> a.mustEx(Be::equalEx, (byte)99))
         ;
 
     }

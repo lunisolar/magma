@@ -85,16 +85,16 @@ public class Example_Assertions_Test {
     public void inAllFollowingCases_cumulates() {
 
         LIntUnaryOperatorAttest sut = FuncAttests.attestIntUnaryOp(i -> i)
-                                                 .inAllFollowingCases(a -> a.must$(Be::gt$, 20))
-                                                 .inAllFollowingCases(a -> a.must$(Be::lt$, 10));
+                                                 .inAllFollowingCases(a -> a.mustEx(Be::gtEx, 20))
+                                                 .inAllFollowingCases(a -> a.mustEx(Be::ltEx, 10));
 
         attestThrownBy(() -> sut.doesApplyAsInt(15).asEqualTo(15))
-                .must$(Be::instanceOf$, AssertionError.class)
-                .must$(Have::msgContain$, "must be > 20");
+                .mustEx(Be::instanceOfEx, AssertionError.class)
+                .mustEx(Have::msgContainEx, "must be > 20");
 
         attestThrownBy(() -> sut.doesApplyAsInt(25).asEqualTo(15))
-                .must$(Be::instanceOf$, AssertionError.class)
-                .must$(Have::msgContain$, "25 must be < 10");
+                .mustEx(Be::instanceOfEx, AssertionError.class)
+                .mustEx(Have::msgContainEx, "25 must be < 10");
 
     }
 
@@ -109,11 +109,11 @@ public class Example_Assertions_Test {
         LBinaryOperator<String> replaceOperation = sut::replace;
 
         FuncAttests.attestBinaryOp(replaceOperation)
-                   .inAllFollowingCases(result -> result.must$(P::contain$, "_x_")) // #1
+                   .inAllFollowingCases(result -> result.mustEx(P::containEx, "_x_")) // #1
                    .doesApply("1", "_x_").asEqualTo("_x_234567890")            // #2
                    .doesApply("2", "_x_").asEqualTo("1_x_34567890")
-                   .doesApply("3", "_x_").to(check -> check.must$(Be::equal$, "12_x_4567890"))  // #3
-                   .doesApply("3", null).withException(ex -> ex.must$(Be::instanceOf$, NullPointerException.class));
+                   .doesApply("3", "_x_").to(check -> check.mustEx(Be::equalEx, "12_x_4567890"))  // #3
+                   .doesApply("3", null).withException(ex -> ex.mustEx(Be::instanceOfEx, NullPointerException.class));
     }
     //>example<
 ///
@@ -133,11 +133,11 @@ public class Example_Assertions_Test {
     public void example() {
 
         FuncAttests.attestFunc(function)
-                   .inAllFollowingCases(a -> a.must$(Be::instanceOf$, Integer.class))
-                   .doesApply(80).to(a -> a.must$(Be::equal$, 80))
+                   .inAllFollowingCases(a -> a.mustEx(Be::instanceOfEx, Integer.class))
+                   .doesApply(80).to(a -> a.mustEx(Be::equalEx, 80))
                    .doesApply(81).toEqualTo(81)
-                   .doesApply(0).withException(e -> e.must$(Be::instanceOf$, UnsupportedOperationException.class)
-                                                     .must$(Have::msgEqual$, "Some message"));
+                   .doesApply(0).withException(e -> e.mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
+                                                     .mustEx(Have::msgEqualEx, "Some message"));
     }
     //>example<
 
@@ -164,10 +164,10 @@ public class Example_Assertions_Test {
     @Test(expectedExceptions = AssertionError.class)
     public void assertThatInt() {
         FuncAttests.attestFunc(function)
-                   .doesApply(80).to(a -> a.must$(Be::gt$, 0))
+                   .doesApply(80).to(a -> a.mustEx(Be::gtEx, 0))
                    .doesApply(81).toEqualTo(81)
-                   .doesApply(0).withException(e -> e.must$(Be::instanceOf$, UnsupportedOperationException.class)
-                                                     .must$(Have::msgEqual$, "Some message"));
+                   .doesApply(0).withException(e -> e.mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
+                                                     .mustEx(Have::msgEqualEx, "Some message"));
     }
     //>example<
 
@@ -175,12 +175,12 @@ public class Example_Assertions_Test {
     public void compilationCheck() {
 
         FuncAttests.attestSrtFunc(shortFunction)
-                   .inAllFollowingCases(a -> a.must$(Be::instanceOf$, Integer.class))
-                   .doesApply((short) 80).to(a -> a.must$(Be::gt$, 0))
+                   .inAllFollowingCases(a -> a.mustEx(Be::instanceOfEx, Integer.class))
+                   .doesApply((short) 80).to(a -> a.mustEx(Be::gtEx, 0))
                    .doesApply((short) 81).toEqualTo(81)
                    .doesApply((short) 0).withException(e -> e
-                           .must$(Be::instanceOf$, UnsupportedOperationException.class)
-                           .must$(Have::msgEqual$, "Some message"));
+                           .mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
+                           .mustEx(Have::msgEqualEx, "Some message"));
     }
 
     ///
@@ -197,10 +197,10 @@ public class Example_Assertions_Test {
     public void testActionAssert() {
 
         FuncAttests.attestAct(action)
-                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
-                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
-                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 1))
-                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 4000));
+                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, -1))
+                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, -1))
+                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, 1))
+                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, 4000));
     }
     //>example<
 
@@ -208,10 +208,10 @@ public class Example_Assertions_Test {
     public void testRecurringAssertsNegative() {
 
         FuncAttests.attestAct((Runnable) action)
-                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
-                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, -1))
-                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 1))
-                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> attest(extEffect.get()).must$(Be::equal$, 4000));
+                   .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, -1))
+                   .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, -1))
+                   .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, 1))
+                   .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> attest(extEffect.get()).mustEx(Be::equalEx, 4000));
     }
 
     //>inject<:generated

@@ -128,8 +128,8 @@ public class LObjIntLongPredicateBuilderTest<T>{
 
 
         FuncAttests.attestObjIntLongPred(function)
-            .doesTest(0,0,0L).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5,5,5L).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0,0,0L).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5,5,5L).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

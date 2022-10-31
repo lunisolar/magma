@@ -128,8 +128,8 @@ public class LCharIntPredicateBuilderTest{
 
 
         FuncAttests.attestCharIntPred(function)
-            .doesTest('\u0000',0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest('\u0005',5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest('\u0000',0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest('\u0005',5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

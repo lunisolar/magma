@@ -128,8 +128,8 @@ public class LObjBiLongPredicateBuilderTest<T>{
 
 
         FuncAttests.attestObjBiLongPred(function)
-            .doesTest(0,0L,0L).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5,5L,5L).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0,0L,0L).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5,5L,5L).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

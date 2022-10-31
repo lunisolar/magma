@@ -49,28 +49,28 @@ public class IterationsTest {
     void consumerForEach0() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieConsumer.tieForEach(0, 10, 0, targetArray, sourceArray(), (o, i) -> o[i], (t, i, e) -> t[i] = e);
-        attest(targetIncrement).must$(Be::equal$, 10);
-        attest(targetArray).mustA$(P::containExactly$, new Integer[]{100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+        attest(targetIncrement).mustEx(Be::equalEx, 10);
+        attest(targetArray).mustAEx(P::containExactlyEx, new Integer[]{100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
 
         targetIncrement = LTieConsumer.tieForEach(0, 10, targetIncrement, targetArray, sourceArray(), Array::get, Array::set);
-        attest(targetIncrement).must$(Be::equal$, 10);
-        attest(targetArray).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109);
+        attest(targetIncrement).mustEx(Be::equalEx, 10);
+        attest(targetArray).mustAEx(P::containExactlyEx, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109);
     }
 
     @Test
     void consumerForEach1() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieConsumer.tieForEach(0, 10, 3, targetArray, sourceArray(), Array::get, Array::set);
-        attest(targetIncrement).must$(Be::equal$, 10);
-        attest(targetArray).mustA$(P::containExactly$, 0, 1, 2, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 13, 14, 15, 16, 17, 18, 19);
+        attest(targetIncrement).mustEx(Be::equalEx, 10);
+        attest(targetArray).mustAEx(P::containExactlyEx, 0, 1, 2, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 13, 14, 15, 16, 17, 18, 19);
     }
 
     @Test
     void consumerForEach2() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieConsumer.tieForEach(5, 14, 3, targetArray, sourceArray(), Array::get, Array::set);
-        attest(targetIncrement).must$(Be::equal$, 9);
-        attest(targetArray).mustA$(P::containExactly$, 0, 1, 2, 105, 106, 107, 108, 109, 110, 111, 112, 113, 12, 13, 14, 15, 16, 17, 18, 19);
+        attest(targetIncrement).mustEx(Be::equalEx, 9);
+        attest(targetArray).mustAEx(P::containExactlyEx, 0, 1, 2, 105, 106, 107, 108, 109, 110, 111, 112, 113, 12, 13, 14, 15, 16, 17, 18, 19);
     }
 
     @Test(expectedExceptions = IndexOutOfBoundsException.class, expectedExceptionsMessageRegExp = ".*100.*")
@@ -84,12 +84,12 @@ public class IterationsTest {
     void functionForEach0() {
         Integer[] targetArray = targetArray();
         int targetIncrement = LTieFunction.tieForEach(0, 10, 0, targetArray, sourceArray(), Array::get, tieCons(Array::set).toTieFunction());
-        attest(targetIncrement).must$(Be::equal$, 10);
-        attest(targetArray).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+        attest(targetIncrement).mustEx(Be::equalEx, 10);
+        attest(targetArray).mustAEx(P::containExactlyEx, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
 
         targetIncrement = LTieFunction.tieForEach(0, 10, targetIncrement, targetArray, sourceArray(), Array::get, tieCons(Array::set).toTieFunction());
-        attest(targetIncrement).must$(Be::equal$, 10);
-        attest(targetArray).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109);
+        attest(targetIncrement).mustEx(Be::equalEx, 10);
+        attest(targetArray).mustAEx(P::containExactlyEx, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109);
     }
 
     @Test
@@ -101,15 +101,15 @@ public class IterationsTest {
         Integer[] targetArray = Stream.concat(Stream.of(targetArray()), Stream.of(targetArray())).toArray(Integer[]::new);
 
         int targetIncrement = LTieFunction.tieForEach(0, 10, 0, targetArray, sourceArray(), Array::get, tieFunction);
-        attest(targetIncrement).must$(Be::equal$, 20);
-        attest(targetArray).mustA$(P::containExactly$,
+        attest(targetIncrement).mustEx(Be::equalEx, 20);
+        attest(targetArray).mustAEx(P::containExactlyEx,
                 100, 1, 101, 3, 102, 5, 103, 7, 104, 9, 105, 11, 106, 13, 107, 15, 108, 17, 109, 19,
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
 
         targetIncrement = LTieFunction.tieForEach(0, 10, targetIncrement, targetArray, sourceArray(), Array::get,
                                                   tieFunction);
-        attest(targetIncrement).must$(Be::equal$, 20);
-        attest(targetArray).mustA$(P::containExactly$,
+        attest(targetIncrement).mustEx(Be::equalEx, 20);
+        attest(targetArray).mustAEx(P::containExactlyEx,
                 100, 1, 101, 3, 102, 5, 103, 7, 104, 9, 105, 11, 106, 13, 107, 15, 108, 17, 109, 19,
                 100, 1, 101, 3, 102, 5, 103, 7, 104, 9, 105, 11, 106, 13, 107, 15, 108, 17, 109, 19);
     }
@@ -117,7 +117,7 @@ public class IterationsTest {
     @Test
     void functionForEach2() {
         List<Integer> result  = targetedForEach(new ArrayList(), IA.array(), sourceArray(), Collection::add);
-        attest(result).mustA$(P::containExactly$, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119);
+        attest(result).mustAEx(P::containExactlyEx, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119);
     }
 
 }

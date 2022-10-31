@@ -128,10 +128,10 @@ public class LFltToSrtFunctionBuilderTest{
 
 
         FuncAttests.attestFltToSrtFunc(function)
-            .doesApplyAsSrt(0f).when(null).to(a -> a.must$(Be::equal$, (short)0))
-            .doesApplyAsSrt(5f).when(null).to(a -> a.must$(Be::equal$, (short)1))
-            .doesApplyAsSrt(15f).when(null).to(a -> a.must$(Be::equal$, (short)2))
-            .doesApplyAsSrt(10f).when(null).to(a -> a.must$(Be::equal$, (short)99))
+            .doesApplyAsSrt(0f).when(null).to(a -> a.mustEx(Be::equalEx, (short)0))
+            .doesApplyAsSrt(5f).when(null).to(a -> a.mustEx(Be::equalEx, (short)1))
+            .doesApplyAsSrt(15f).when(null).to(a -> a.mustEx(Be::equalEx, (short)2))
+            .doesApplyAsSrt(10f).when(null).to(a -> a.mustEx(Be::equalEx, (short)99))
         ;
 
     }

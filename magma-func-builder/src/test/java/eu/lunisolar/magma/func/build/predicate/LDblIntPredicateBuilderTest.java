@@ -128,8 +128,8 @@ public class LDblIntPredicateBuilderTest{
 
 
         FuncAttests.attestDblIntPred(function)
-            .doesTest(0d,0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5d,5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0d,0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5d,5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

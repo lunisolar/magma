@@ -128,10 +128,10 @@ public class LSrtToCharFunctionBuilderTest{
 
 
         FuncAttests.attestSrtToCharFunc(function)
-            .doesApplyAsChar((short)0).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar((short)5).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesApplyAsChar((short)15).when(null).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesApplyAsChar((short)10).when(null).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesApplyAsChar((short)0).when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar((short)5).when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesApplyAsChar((short)15).when(null).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesApplyAsChar((short)10).when(null).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

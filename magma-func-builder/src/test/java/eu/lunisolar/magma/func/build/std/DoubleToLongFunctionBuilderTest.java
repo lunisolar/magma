@@ -128,10 +128,10 @@ public class DoubleToLongFunctionBuilderTest{
 
 
         FuncAttests.attestDblToLongFunc(function)
-            .doesApplyAsLong(0d).when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong(5d).when(null).to(a -> a.must$(Be::equal$, 1L))
-            .doesApplyAsLong(15d).when(null).to(a -> a.must$(Be::equal$, 2L))
-            .doesApplyAsLong(10d).when(null).to(a -> a.must$(Be::equal$, 99L))
+            .doesApplyAsLong(0d).when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong(5d).when(null).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesApplyAsLong(15d).when(null).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesApplyAsLong(10d).when(null).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

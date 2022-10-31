@@ -127,8 +127,8 @@ public class LBoolToLongFunctionBuilderTest{
 
 
         FuncAttests.attestBoolToLongFunc(function)
-            .doesApplyAsLong(false).when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong(true).when(null).to(a -> a.must$(Be::equal$, 1L))
+            .doesApplyAsLong(false).when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong(true).when(null).to(a -> a.mustEx(Be::equalEx, 1L))
         ;
 
     }

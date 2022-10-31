@@ -129,10 +129,10 @@ public class LFltSupplierBuilderTest{
 
 
         FuncAttests.attestFltSup(function)
-            .doesGetAsFlt().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, 0f))
-            .doesGetAsFlt().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, 1f))
-            .doesGetAsFlt().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, 2f))
-            .doesGetAsFlt().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, 99f))
+            .doesGetAsFlt().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, 0f))
+            .doesGetAsFlt().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, 1f))
+            .doesGetAsFlt().when(()->externalInfluence.set(15)).to(a -> a.mustEx(Be::equalEx, 2f))
+            .doesGetAsFlt().when(()->externalInfluence.set(10)).to(a -> a.mustEx(Be::equalEx, 99f))
         ;
 
     }

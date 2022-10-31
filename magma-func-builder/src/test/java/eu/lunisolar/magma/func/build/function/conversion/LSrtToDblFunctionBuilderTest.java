@@ -128,10 +128,10 @@ public class LSrtToDblFunctionBuilderTest{
 
 
         FuncAttests.attestSrtToDblFunc(function)
-            .doesApplyAsDbl((short)0).when(null).to(a -> a.must$(Be::equal$, 0d))
-            .doesApplyAsDbl((short)5).when(null).to(a -> a.must$(Be::equal$, 1d))
-            .doesApplyAsDbl((short)15).when(null).to(a -> a.must$(Be::equal$, 2d))
-            .doesApplyAsDbl((short)10).when(null).to(a -> a.must$(Be::equal$, 99d))
+            .doesApplyAsDbl((short)0).when(null).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesApplyAsDbl((short)5).when(null).to(a -> a.mustEx(Be::equalEx, 1d))
+            .doesApplyAsDbl((short)15).when(null).to(a -> a.mustEx(Be::equalEx, 2d))
+            .doesApplyAsDbl((short)10).when(null).to(a -> a.mustEx(Be::equalEx, 99d))
         ;
 
     }

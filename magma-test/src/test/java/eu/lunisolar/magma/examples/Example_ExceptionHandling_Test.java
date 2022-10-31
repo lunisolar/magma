@@ -195,7 +195,7 @@ public class Example_ExceptionHandling_Test {
     @Test(expectedExceptions = NestedException.class)
     public java.util.function.Function<Integer, Integer> example1() {
 
-        attest(throwingAlways).must$(Be::instanceOf$, Function.class);
+        attest(throwingAlways).mustEx(Be::instanceOfEx, Function.class);
 
         return throwingAlways;
     }

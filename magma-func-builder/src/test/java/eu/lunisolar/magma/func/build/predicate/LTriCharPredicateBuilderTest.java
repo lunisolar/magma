@@ -128,8 +128,8 @@ public class LTriCharPredicateBuilderTest{
 
 
         FuncAttests.attestTriCharPred(function)
-            .doesTest('\u0000','\u0000','\u0000').when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest('\u0005','\u0005','\u0005').when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest('\u0000','\u0000','\u0000').when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest('\u0005','\u0005','\u0005').when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

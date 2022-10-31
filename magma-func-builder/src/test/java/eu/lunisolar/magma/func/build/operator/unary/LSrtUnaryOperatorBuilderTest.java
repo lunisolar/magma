@@ -128,10 +128,10 @@ public class LSrtUnaryOperatorBuilderTest{
 
 
         FuncAttests.attestSrtUnaryOp(function)
-            .doesApplyAsSrt((short)0).when(null).to(a -> a.must$(Be::equal$, (short)0))
-            .doesApplyAsSrt((short)5).when(null).to(a -> a.must$(Be::equal$, (short)1))
-            .doesApplyAsSrt((short)15).when(null).to(a -> a.must$(Be::equal$, (short)2))
-            .doesApplyAsSrt((short)10).when(null).to(a -> a.must$(Be::equal$, (short)99))
+            .doesApplyAsSrt((short)0).when(null).to(a -> a.mustEx(Be::equalEx, (short)0))
+            .doesApplyAsSrt((short)5).when(null).to(a -> a.mustEx(Be::equalEx, (short)1))
+            .doesApplyAsSrt((short)15).when(null).to(a -> a.mustEx(Be::equalEx, (short)2))
+            .doesApplyAsSrt((short)10).when(null).to(a -> a.mustEx(Be::equalEx, (short)99))
         ;
 
     }

@@ -128,8 +128,8 @@ public class LBiBoolConsumerBuilderTest{
 
 
         FuncAttests.attestBiBoolCons(function)
-            .doesAccept(false,false).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept(true,true).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
+            .doesAccept(false,false).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept(true,true).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
         ;
 
     }

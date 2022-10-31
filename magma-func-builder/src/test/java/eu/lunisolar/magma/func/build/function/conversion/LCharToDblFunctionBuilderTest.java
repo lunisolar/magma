@@ -128,10 +128,10 @@ public class LCharToDblFunctionBuilderTest{
 
 
         FuncAttests.attestCharToDblFunc(function)
-            .doesApplyAsDbl('\u0000').when(null).to(a -> a.must$(Be::equal$, 0d))
-            .doesApplyAsDbl('\u0005').when(null).to(a -> a.must$(Be::equal$, 1d))
-            .doesApplyAsDbl('\u0015').when(null).to(a -> a.must$(Be::equal$, 2d))
-            .doesApplyAsDbl('\u0010').when(null).to(a -> a.must$(Be::equal$, 99d))
+            .doesApplyAsDbl('\u0000').when(null).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesApplyAsDbl('\u0005').when(null).to(a -> a.mustEx(Be::equalEx, 1d))
+            .doesApplyAsDbl('\u0015').when(null).to(a -> a.mustEx(Be::equalEx, 2d))
+            .doesApplyAsDbl('\u0010').when(null).to(a -> a.mustEx(Be::equalEx, 99d))
         ;
 
     }

@@ -55,7 +55,7 @@ public class LIntToFltFunctionAttestTest {
 
         FuncAttests.attestIntToFltFunc(function)
          .doesApplyAsFlt(100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class LIntToFltFunctionAttestTest {
 
         FuncAttests.attestIntToFltFunc(function)
          .doesApplyAsFlt(100)
-            .to(a -> a.must$(Be::equal$, 0f));
+            .to(a -> a.mustEx(Be::equalEx, 0f));
 
     }
 
@@ -73,7 +73,7 @@ public class LIntToFltFunctionAttestTest {
 
         FuncAttests.attestIntToFltFunc(functionThrowing)
          .doesApplyAsFlt(100)
-            .to(a -> a.must$(Be::equal$, 0f));
+            .to(a -> a.mustEx(Be::equalEx, 0f));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class LIntToFltFunctionAttestTest {
 
         FuncAttests.attestIntToFltFunc(functionThrowing)
          .doesApplyAsFlt(100).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class LIntToFltFunctionAttestTest {
         FuncAttests.attestIntToFltFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesApplyAsFlt(100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsFlt(100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class LIntToFltFunctionAttestTest {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, 0f);
+                a.mustEx(Be::equalEx, 0f);
             }
          })
          .doesApplyAsFlt(100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsFlt(100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

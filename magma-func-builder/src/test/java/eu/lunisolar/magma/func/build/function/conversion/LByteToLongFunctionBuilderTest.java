@@ -128,10 +128,10 @@ public class LByteToLongFunctionBuilderTest{
 
 
         FuncAttests.attestByteToLongFunc(function)
-            .doesApplyAsLong((byte)0).when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong((byte)5).when(null).to(a -> a.must$(Be::equal$, 1L))
-            .doesApplyAsLong((byte)15).when(null).to(a -> a.must$(Be::equal$, 2L))
-            .doesApplyAsLong((byte)10).when(null).to(a -> a.must$(Be::equal$, 99L))
+            .doesApplyAsLong((byte)0).when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong((byte)5).when(null).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesApplyAsLong((byte)15).when(null).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesApplyAsLong((byte)10).when(null).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

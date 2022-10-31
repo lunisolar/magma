@@ -127,8 +127,8 @@ public class LBoolToIntFunctionBuilderTest{
 
 
         FuncAttests.attestBoolToIntFunc(function)
-            .doesApplyAsInt(false).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApplyAsInt(true).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApplyAsInt(false).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApplyAsInt(true).when(null).to(a -> a.mustEx(Be::equalEx, 1))
         ;
 
     }

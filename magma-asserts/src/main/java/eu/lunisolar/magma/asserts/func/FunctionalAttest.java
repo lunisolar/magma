@@ -294,7 +294,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(boolean equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -354,7 +354,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(V equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -414,7 +414,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(byte equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -474,7 +474,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(double equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -534,7 +534,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(char equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -594,7 +594,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(short equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -654,7 +654,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(float equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -714,7 +714,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(int equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 
@@ -774,7 +774,7 @@ public final class FunctionalAttest {
 
 		/** Convenient method to just check equality */
 		public CTX toEqualTo(long equalsTo) {
-			to(__ -> __.must$(Be::equal$, equalsTo));
+			to(__ -> __.mustEx(Be::equalEx, equalsTo));
 			return context.fluentCtx();
 		}
 

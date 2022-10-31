@@ -127,8 +127,8 @@ public class LBoolToCharFunctionBuilderTest{
 
 
         FuncAttests.attestBoolToCharFunc(function)
-            .doesApplyAsChar(false).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar(true).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
+            .doesApplyAsChar(false).when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar(true).when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
         ;
 
     }

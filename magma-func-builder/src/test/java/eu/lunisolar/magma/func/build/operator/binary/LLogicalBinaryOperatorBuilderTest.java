@@ -127,8 +127,8 @@ public class LLogicalBinaryOperatorBuilderTest{
 
 
         FuncAttests.attestLogicalBinaryOp(function)
-            .doesApply(false,false).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesApply(true,true).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesApply(false,false).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesApply(true,true).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

@@ -129,10 +129,10 @@ public class LTriByteConsumerBuilderTest{
 
 
         FuncAttests.attestTriByteCons(function)
-            .doesAccept((byte)0,(byte)0,(byte)0).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept((byte)5,(byte)5,(byte)5).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
-            .doesAccept((byte)15,(byte)15,(byte)15).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
-            .doesAccept((byte)10,(byte)10,(byte)10).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
+            .doesAccept((byte)0,(byte)0,(byte)0).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept((byte)5,(byte)5,(byte)5).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
+            .doesAccept((byte)15,(byte)15,(byte)15).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2))
+            .doesAccept((byte)10,(byte)10,(byte)10).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 99))
         ;
 
     }

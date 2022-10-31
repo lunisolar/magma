@@ -55,7 +55,7 @@ public class JreObjLongConsumerAttestTest<T> {
 
         FuncAttests.attestObjLongCons(function)
          .doesAccept(100,100L)
-            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue));
+            .soThat(()->Checks.attest(externalEffect.get()).mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class JreObjLongConsumerAttestTest<T> {
 
         FuncAttests.attestObjLongCons(function)
          .doesAccept(100,100L)
-            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, 2));
+            .soThat(()->Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2));
 
     }
 
@@ -73,7 +73,7 @@ public class JreObjLongConsumerAttestTest<T> {
 
         FuncAttests.attestObjLongCons(functionThrowing)
          .doesAccept(100,100L)
-            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, 1));
+            .soThat(()->Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class JreObjLongConsumerAttestTest<T> {
 
         FuncAttests.attestObjLongCons(functionThrowing)
          .doesAccept(100,100L).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class JreObjLongConsumerAttestTest<T> {
         FuncAttests.attestObjLongCons(function)
          .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
-            Checks.attest(externalEffect.get()).must$(Be::equal$, testValue);
+            Checks.attest(externalEffect.get()).mustEx(Be::equalEx, testValue);
          })
          .doesAccept(100,100L)
-            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue))
+            .soThat(()->Checks.attest(externalEffect.get()).mustEx(Be::equalEx, testValue))
          .doesAccept(100,100L)
-            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue));
+            .soThat(()->Checks.attest(externalEffect.get()).mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class JreObjLongConsumerAttestTest<T> {
          .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                Checks.attest(externalEffect.get()).must$(Be::equal$, 0);
+                Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0);
             }
          })
          .doesAccept(100,100L)
-            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue))
+            .soThat(()->Checks.attest(externalEffect.get()).mustEx(Be::equalEx, testValue))
          .doesAccept(100,100L)
-            .soThat(()->Checks.attest(externalEffect.get()).must$(Be::equal$, testValue));
+            .soThat(()->Checks.attest(externalEffect.get()).mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

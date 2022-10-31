@@ -127,8 +127,8 @@ public class LTriBoolFunctionBuilderTest<R>{
 
 
         FuncAttests.attestTriBoolFunc(function)
-            .doesApply(false,false,false).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply(true,true,true).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApply(false,false,false).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply(true,true,true).when(null).to(a -> a.mustEx(Be::equalEx, 1))
         ;
 
     }

@@ -128,10 +128,10 @@ public class LObjBiLongFunctionBuilderTest<T,R>{
 
 
         FuncAttests.attestObjBiLongFunc(function)
-            .doesApply(0,0L,0L).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply(5,5L,5L).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApply(15,15L,15L).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApply(10,10L,10L).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApply(0,0L,0L).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply(5,5L,5L).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApply(15,15L,15L).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApply(10,10L,10L).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

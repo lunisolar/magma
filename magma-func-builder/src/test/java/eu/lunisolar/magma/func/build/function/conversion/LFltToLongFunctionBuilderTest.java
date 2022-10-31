@@ -128,10 +128,10 @@ public class LFltToLongFunctionBuilderTest{
 
 
         FuncAttests.attestFltToLongFunc(function)
-            .doesApplyAsLong(0f).when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong(5f).when(null).to(a -> a.must$(Be::equal$, 1L))
-            .doesApplyAsLong(15f).when(null).to(a -> a.must$(Be::equal$, 2L))
-            .doesApplyAsLong(10f).when(null).to(a -> a.must$(Be::equal$, 99L))
+            .doesApplyAsLong(0f).when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong(5f).when(null).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesApplyAsLong(15f).when(null).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesApplyAsLong(10f).when(null).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

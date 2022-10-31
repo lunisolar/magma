@@ -128,10 +128,10 @@ public class LDblToIntFunctionBuilderTest{
 
 
         FuncAttests.attestDblToIntFunc(function)
-            .doesApplyAsInt(0d).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApplyAsInt(5d).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApplyAsInt(15d).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApplyAsInt(10d).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApplyAsInt(0d).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApplyAsInt(5d).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApplyAsInt(15d).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApplyAsInt(10d).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

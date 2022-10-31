@@ -50,7 +50,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 	}
 
 	public TestFlow<?> logWith(@Nonnull LConsumer<String> logger) {
-		arg(logger, "logger").must$(Be::notNull$);
+		arg(logger, "logger").mustEx(Be::notNullEx);
 		return new TestFlow<>(sut(), logger);
 	}
 
@@ -62,7 +62,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	public <SUT> TestFlow<SUT> given(@Nullable String description, LSupplier<SUT> givenBlock) {
 		log("Given: " + description);
-		arg(givenBlock).must$(Be::notNull$);
+		arg(givenBlock).mustEx(Be::notNullEx);
 		var sut = givenBlock.shovingGet();
 		return new TestFlow<>(sut, logger());
 	}
@@ -72,9 +72,9 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 	// <editor-fold desc="activity">
 
 	private TestFlow<SUT> activity(@Nonnull String activity, @Nullable String description, LConsumer<SUT> block) {
-		arg(activity).must$(Be::notNull$);
+		arg(activity).mustEx(Be::notNullEx);
 		log(activity + ": " + description);
-		arg(block).must$(Be::notNull$);
+		arg(block).mustEx(Be::notNullEx);
 		block.shovingAccept(sut());
 		return this;
 	}
@@ -154,7 +154,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 	// <editor-fold desc="step">
 
 	public TestFlow<SUT> step_(@Nonnull String step, @Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		arg(step).must$(Be::notNull$);
+		arg(step).mustEx(Be::notNullEx);
 		log(step + ": " + description);
 		consumer.shovingAccept(this);
 		return this;

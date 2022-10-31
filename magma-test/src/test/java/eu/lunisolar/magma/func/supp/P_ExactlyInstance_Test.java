@@ -28,31 +28,31 @@ public class P_ExactlyInstance_Test {
     public static final int I2 = 2;
 
     @Test void exactlyInstanceOf_P() {
-        attest(P.exactlyInstanceOf(new Object(), Object.class)).must$(Be::True$);
-        attest(P.exactlyInstanceOf(new Object(), Integer.class)).must$(Be::False$);
-        attest(P.exactlyInstanceOf(new Integer(1), Object.class)).must$(Be::False$);
+        attest(P.exactlyInstanceOf(new Object(), Object.class)).mustEx(Be::TrueEx);
+        attest(P.exactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
+        attest(P.exactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
 
-        attest(P.notExactlyInstanceOf(new Object(), Object.class)).must$(Be::False$);
-        attest(P.notExactlyInstanceOf(new Object(), Integer.class)).must$(Be::True$);
-        attest(P.notExactlyInstanceOf(new Integer(1), Object.class)).must$(Be::True$);
+        attest(P.notExactlyInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
+        attest(P.notExactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
+        attest(P.notExactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
     }
 
     @Test void exactlyInstanceOf_Be() {
-        attest(Be.exactlyInstanceOf(new Object(), Object.class)).must$(Be::True$);
-        attest(Be.exactlyInstanceOf(new Object(), Integer.class)).must$(Be::False$);
-        attest(Be.exactlyInstanceOf(new Integer(1), Object.class)).must$(Be::False$);
+        attest(Be.exactlyInstanceOf(new Object(), Object.class)).mustEx(Be::TrueEx);
+        attest(Be.exactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
+        attest(Be.exactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
 
-        attest(Be.notExactlyInstanceOf(new Object(), Object.class)).must$(Be::False$);
-        attest(Be.notExactlyInstanceOf(new Object(), Integer.class)).must$(Be::True$);
-        attest(Be.notExactlyInstanceOf(new Integer(1), Object.class)).must$(Be::True$);
+        attest(Be.notExactlyInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
+        attest(Be.notExactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
+        attest(Be.notExactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
     }
 
-    @Test void exactlyInstanceOf$() {
-        attest(P.exactlyInstanceOf$(new Integer(1), Integer.class)).must$(Be::Null$);
-        attest(P.notExactlyInstanceOf$(new Integer(1), Integer.class)).must$(Be::equal$, "Object <1> of class <class java.lang.Integer> must NOT be exactly instance of <class java.lang.Integer>.");
+    @Test void exactlyInstanceOfEx() {
+        attest(P.exactlyInstanceOfEx(new Integer(1), Integer.class)).mustEx(Be::NullEx);
+        attest(P.notExactlyInstanceOfEx(new Integer(1), Integer.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be exactly instance of <class java.lang.Integer>.");
 
-        attest(P.exactlyInstanceOf$(new Integer(1), Object.class)).must$(Be::equal$, "Object <1> of class <class java.lang.Integer> must be exactly instance of <class java.lang.Object>.");
-        attest(P.notExactlyInstanceOf$(new Integer(1), Object.class)).must$(Be::Null$);
+        attest(P.exactlyInstanceOfEx(new Integer(1), Object.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must be exactly instance of <class java.lang.Object>.");
+        attest(P.notExactlyInstanceOfEx(new Integer(1), Object.class)).mustEx(Be::NullEx);
     }
 
 }

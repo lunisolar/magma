@@ -129,8 +129,8 @@ public class LBoolSupplierBuilderTest{
 
 
         FuncAttests.attestBoolSup(function)
-            .doesGetAsBool().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, false))
-            .doesGetAsBool().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, true))
+            .doesGetAsBool().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, false))
+            .doesGetAsBool().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

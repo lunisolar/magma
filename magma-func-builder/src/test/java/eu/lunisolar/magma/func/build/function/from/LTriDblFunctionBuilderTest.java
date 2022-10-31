@@ -128,10 +128,10 @@ public class LTriDblFunctionBuilderTest<R>{
 
 
         FuncAttests.attestTriDblFunc(function)
-            .doesApply(0d,0d,0d).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply(5d,5d,5d).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApply(15d,15d,15d).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApply(10d,10d,10d).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApply(0d,0d,0d).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply(5d,5d,5d).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApply(15d,15d,15d).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApply(10d,10d,10d).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

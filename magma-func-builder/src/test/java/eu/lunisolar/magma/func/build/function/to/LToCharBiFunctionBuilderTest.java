@@ -128,10 +128,10 @@ public class LToCharBiFunctionBuilderTest<T1,T2>{
 
 
         FuncAttests.attestToCharBiFunc(function)
-            .doesApplyAsChar(0,0).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar(5,5).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesApplyAsChar(15,15).when(null).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesApplyAsChar(10,10).when(null).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesApplyAsChar(0,0).when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar(5,5).when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesApplyAsChar(15,15).when(null).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesApplyAsChar(10,10).when(null).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

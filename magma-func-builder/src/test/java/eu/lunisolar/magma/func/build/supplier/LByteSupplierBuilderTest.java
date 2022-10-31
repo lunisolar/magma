@@ -129,10 +129,10 @@ public class LByteSupplierBuilderTest{
 
 
         FuncAttests.attestByteSup(function)
-            .doesGetAsByte().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, (byte)0))
-            .doesGetAsByte().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, (byte)1))
-            .doesGetAsByte().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, (byte)2))
-            .doesGetAsByte().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, (byte)99))
+            .doesGetAsByte().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, (byte)0))
+            .doesGetAsByte().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, (byte)1))
+            .doesGetAsByte().when(()->externalInfluence.set(15)).to(a -> a.mustEx(Be::equalEx, (byte)2))
+            .doesGetAsByte().when(()->externalInfluence.set(10)).to(a -> a.mustEx(Be::equalEx, (byte)99))
         ;
 
     }

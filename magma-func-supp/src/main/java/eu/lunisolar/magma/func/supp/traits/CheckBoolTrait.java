@@ -209,7 +209,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LBoolFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustEx(@Nonnull LBoolFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get());
@@ -221,7 +221,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$0(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustEx0(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -235,7 +235,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$1(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx1(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -249,7 +249,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$2(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx2(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -263,7 +263,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$3(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx3(@Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -509,7 +509,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2) {
+	default @Nonnull SELF mustEx(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -521,7 +521,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$0(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message) {
+	default @Nonnull SELF mustEx0(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -535,7 +535,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$1(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx1(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -549,7 +549,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$2(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx2(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -563,7 +563,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$3(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx3(@Nonnull LBiBoolFunction<? extends String> specialPredicate, boolean a2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -577,7 +577,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustEx(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2);
@@ -589,7 +589,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$0(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustEx0(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -603,7 +603,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$1(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx1(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -617,7 +617,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$2(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx2(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -631,7 +631,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$3(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx3(boolean a2, @Nonnull LBiBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -877,7 +877,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3) {
+	default @Nonnull SELF mustEx(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2, a3);
@@ -889,7 +889,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$0(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message) {
+	default @Nonnull SELF mustEx0(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -903,7 +903,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$1(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx1(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -917,7 +917,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$2(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx2(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -931,7 +931,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$3(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx3(@Nonnull LTriBoolFunction<? extends String> specialPredicate, boolean a2, boolean a3, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -945,7 +945,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate) {
+	default @Nonnull SELF mustEx(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(get(), a2, a3);
@@ -957,7 +957,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$0(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull SELF mustEx0(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -971,7 +971,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$1(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull SELF mustEx1(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -985,7 +985,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$2(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull SELF mustEx2(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -999,7 +999,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull SELF must$3(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull SELF mustEx3(boolean a2, boolean a3, @Nonnull LTriBoolFunction<? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1437,7 +1437,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
+	default @Nonnull <V1> SELF mustWithBoolEx(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -1449,7 +1449,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$0(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithBoolEx0(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1463,7 +1463,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$1(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithBoolEx1(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1477,7 +1477,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$2(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithBoolEx2(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1491,7 +1491,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$3(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithBoolEx3(@Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, V1 with1, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1505,7 +1505,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate) {
+	default @Nonnull <V1> SELF mustWithBoolEx(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, get());
@@ -1517,7 +1517,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$0(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1> SELF mustWithBoolEx0(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1531,7 +1531,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$1(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1> SELF mustWithBoolEx1(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1545,7 +1545,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$2(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1> SELF mustWithBoolEx2(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1559,7 +1559,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1> SELF mustWithBool$3(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1> SELF mustWithBoolEx3(V1 with1, @Nonnull LObjBoolFunction<? super V1, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1805,7 +1805,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
+	default @Nonnull <V1, V2> SELF mustWithEx(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -1817,7 +1817,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$0(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWithEx0(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1831,7 +1831,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$1(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithEx1(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1845,7 +1845,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$2(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithEx2(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1859,7 +1859,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$3(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx3(@Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1873,7 +1873,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
+	default @Nonnull <V1, V2> SELF mustWithEx(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		@Nonnull
 		String msg = specialPredicate.apply(with1, with2, get());
@@ -1885,7 +1885,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$0(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
+	default @Nonnull <V1, V2> SELF mustWithEx0(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1899,7 +1899,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$1(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
+	default @Nonnull <V1, V2> SELF mustWithEx1(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1913,7 +1913,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$2(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
+	default @Nonnull <V1, V2> SELF mustWithEx2(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1927,7 +1927,7 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWith$3(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx3(V1 with1, V2 with2, @Nonnull LBiObjBoolFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1997,31 +1997,31 @@ public interface CheckBoolTrait<SELF extends CheckBoolTrait<SELF>> extends FailP
 	// </editor-fold>
 
 	default @Nonnull SELF mustBeEqual(boolean expected) {
-		return must$(Be::equal$, expected);
+		return mustEx(Be::equalEx, expected);
 	}
 	default @Nonnull SELF mustBeEqual(boolean expected, String message) {
-		return must$0(Be::equal$, expected, message);
+		return mustEx0(Be::equalEx, expected, message);
 	}
 
 	default @Nonnull SELF mustBeNotEqual(boolean expected) {
-		return must$(Be::notEqual$, expected);
+		return mustEx(Be::notEqualEx, expected);
 	}
 	default @Nonnull SELF mustBeNotEqual(boolean expected, String message) {
-		return must$0(Be::notEqual$, expected, message);
+		return mustEx0(Be::notEqualEx, expected, message);
 	}
 
 	default @Nonnull SELF mustBeTrue() {
-		return must$(Be::True$);
+		return mustEx(Be::TrueEx);
 	}
 	default @Nonnull SELF mustBeTrue(String message) {
-		return must$0(Be::True$, message);
+		return mustEx0(Be::TrueEx, message);
 	}
 
 	default @Nonnull SELF mustBeFalse() {
-		return must$(Be::False$);
+		return mustEx(Be::FalseEx);
 	}
 	default @Nonnull SELF mustBeFalse(String message) {
-		return must$0(Be::False$, message);
+		return mustEx0(Be::FalseEx, message);
 	}
 
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {

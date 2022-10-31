@@ -128,10 +128,10 @@ public class LLongToCharFunctionBuilderTest{
 
 
         FuncAttests.attestLongToCharFunc(function)
-            .doesApplyAsChar(0L).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar(5L).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesApplyAsChar(15L).when(null).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesApplyAsChar(10L).when(null).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesApplyAsChar(0L).when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar(5L).when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesApplyAsChar(15L).when(null).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesApplyAsChar(10L).when(null).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

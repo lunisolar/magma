@@ -129,10 +129,10 @@ public class LSrtSupplierBuilderTest{
 
 
         FuncAttests.attestSrtSup(function)
-            .doesGetAsSrt().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, (short)0))
-            .doesGetAsSrt().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, (short)1))
-            .doesGetAsSrt().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, (short)2))
-            .doesGetAsSrt().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, (short)99))
+            .doesGetAsSrt().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, (short)0))
+            .doesGetAsSrt().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, (short)1))
+            .doesGetAsSrt().when(()->externalInfluence.set(15)).to(a -> a.mustEx(Be::equalEx, (short)2))
+            .doesGetAsSrt().when(()->externalInfluence.set(10)).to(a -> a.mustEx(Be::equalEx, (short)99))
         ;
 
     }

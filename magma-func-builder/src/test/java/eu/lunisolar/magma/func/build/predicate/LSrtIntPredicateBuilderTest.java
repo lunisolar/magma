@@ -128,8 +128,8 @@ public class LSrtIntPredicateBuilderTest{
 
 
         FuncAttests.attestSrtIntPred(function)
-            .doesTest((short)0,0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest((short)5,5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest((short)0,0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest((short)5,5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

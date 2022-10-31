@@ -128,8 +128,8 @@ public class LTriDblPredicateBuilderTest{
 
 
         FuncAttests.attestTriDblPred(function)
-            .doesTest(0d,0d,0d).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5d,5d,5d).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0d,0d,0d).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5d,5d,5d).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

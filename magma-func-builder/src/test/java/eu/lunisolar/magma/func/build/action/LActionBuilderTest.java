@@ -130,10 +130,10 @@ public class LActionBuilderTest{
 
 
         FuncAttests.attestAct(function)
-            .doesExecute().when(()->externalInfluence.set(0)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesExecute().when(()->externalInfluence.set(5)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
-            .doesExecute().when(()->externalInfluence.set(15)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 2))
-            .doesExecute().when(()->externalInfluence.set(10)).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 99))
+            .doesExecute().when(()->externalInfluence.set(0)).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesExecute().when(()->externalInfluence.set(5)).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
+            .doesExecute().when(()->externalInfluence.set(15)).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 2))
+            .doesExecute().when(()->externalInfluence.set(10)).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 99))
         ;
 
     }

@@ -128,10 +128,10 @@ public class LToCharFunctionBuilderTest<T>{
 
 
         FuncAttests.attestToCharFunc(function)
-            .doesApplyAsChar(0).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar(5).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesApplyAsChar(15).when(null).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesApplyAsChar(10).when(null).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesApplyAsChar(0).when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar(5).when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesApplyAsChar(15).when(null).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesApplyAsChar(10).when(null).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

@@ -128,10 +128,10 @@ public class LTriFltFunctionBuilderTest<R>{
 
 
         FuncAttests.attestTriFltFunc(function)
-            .doesApply(0f,0f,0f).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply(5f,5f,5f).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApply(15f,15f,15f).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApply(10f,10f,10f).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApply(0f,0f,0f).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply(5f,5f,5f).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApply(15f,15f,15f).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApply(10f,10f,10f).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

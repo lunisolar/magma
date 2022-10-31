@@ -127,8 +127,8 @@ public class LLogicalTernaryOperatorBuilderTest{
 
 
         FuncAttests.attestLogicalTernaryOp(function)
-            .doesApply(false,false,false).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesApply(true,true,true).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesApply(false,false,false).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesApply(true,true,true).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

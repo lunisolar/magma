@@ -128,10 +128,10 @@ public class LCharToByteFunctionBuilderTest{
 
 
         FuncAttests.attestCharToByteFunc(function)
-            .doesApplyAsByte('\u0000').when(null).to(a -> a.must$(Be::equal$, (byte)0))
-            .doesApplyAsByte('\u0005').when(null).to(a -> a.must$(Be::equal$, (byte)1))
-            .doesApplyAsByte('\u0015').when(null).to(a -> a.must$(Be::equal$, (byte)2))
-            .doesApplyAsByte('\u0010').when(null).to(a -> a.must$(Be::equal$, (byte)99))
+            .doesApplyAsByte('\u0000').when(null).to(a -> a.mustEx(Be::equalEx, (byte)0))
+            .doesApplyAsByte('\u0005').when(null).to(a -> a.mustEx(Be::equalEx, (byte)1))
+            .doesApplyAsByte('\u0015').when(null).to(a -> a.mustEx(Be::equalEx, (byte)2))
+            .doesApplyAsByte('\u0010').when(null).to(a -> a.mustEx(Be::equalEx, (byte)99))
         ;
 
     }

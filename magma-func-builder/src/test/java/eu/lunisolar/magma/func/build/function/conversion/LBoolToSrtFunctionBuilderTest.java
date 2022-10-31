@@ -127,8 +127,8 @@ public class LBoolToSrtFunctionBuilderTest{
 
 
         FuncAttests.attestBoolToSrtFunc(function)
-            .doesApplyAsSrt(false).when(null).to(a -> a.must$(Be::equal$, (short)0))
-            .doesApplyAsSrt(true).when(null).to(a -> a.must$(Be::equal$, (short)1))
+            .doesApplyAsSrt(false).when(null).to(a -> a.mustEx(Be::equalEx, (short)0))
+            .doesApplyAsSrt(true).when(null).to(a -> a.mustEx(Be::equalEx, (short)1))
         ;
 
     }

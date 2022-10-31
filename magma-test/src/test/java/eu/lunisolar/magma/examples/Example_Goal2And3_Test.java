@@ -101,7 +101,7 @@ public class Example_Goal2And3_Test {
         LIntToFltFunction toFloat = i -> (float) i;
 
         attest(typeToString(toFloat.applyAsFlt(10)))
-                .must$(Be::equal$, "float primitive");
+                .mustEx(Be::equalEx, "float primitive");
     }
     //>example<
 

@@ -88,8 +88,8 @@ public class Example_Builders_Test {
                 .doesApplyAsInt(44f).toEqualTo(44)
                 .doesApplyAsInt(3_000_000_000L).toEqualTo(-1294967296)
                 .doesApplyAsInt("-4").toEqualTo(-4)
-                .doesApplyAsInt("non number").withException(a -> a.must$(Be::exactlyInstanceOf$, NumberFormatException.class))
-                .doesApplyAsInt(new Object()).withException(a -> a.must$(Be::exactlyInstanceOf$, IllegalArgumentException.class));
+                .doesApplyAsInt("non number").withException(a -> a.mustEx(Be::exactlyInstanceOfEx, NumberFormatException.class))
+                .doesApplyAsInt(new Object()).withException(a -> a.mustEx(Be::exactlyInstanceOfEx, IllegalArgumentException.class));
     }
     //>example<
 
@@ -136,13 +136,13 @@ public class Example_Builders_Test {
                 .doesApplyAsInt(3_000L, null)
                 .toEqualTo(3000)
                 .doesApplyAsInt(3_000_000_000L, null)
-                .withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class).must$(Have::msgEqual$, "To large for int."))
+                .withException(a -> a.mustEx(Be::instanceOfEx, IllegalArgumentException.class).mustEx(Have::msgEqualEx, "To large for int."))
                 .doesApplyAsInt("-4", null)
                 .toEqualTo(-4)
                 .doesApplyAsInt("non number", null)
-                .withException(a -> a.must$(Be::instanceOf$, NumberFormatException.class))
+                .withException(a -> a.mustEx(Be::instanceOfEx, NumberFormatException.class))
                 .doesApplyAsInt(new Object(), null)
-                .withException(a -> a.must$(Be::instanceOf$, IllegalArgumentException.class));
+                .withException(a -> a.mustEx(Be::instanceOfEx, IllegalArgumentException.class));
     }
 
 /// > Just in case you wonder `test1st` is static method in <a href="https://github.com/lunisolar/magma/blob/master/magma-func/src/main/java/eu/lunisolar/magma/func/predicate/LBiPredicate.java" target="_blank">LBiPredicate</a>
@@ -201,8 +201,8 @@ public class Example_Builders_Test {
                 .aCase(() -> GLOBAL_STATE.get(), () -> GLOBAL_STATE.set(false))
         );
 
-        attest(function).must$(Be::instanceOf$, Runnable.class)
-                        .must$(Be::notInstanceOf$, LAction.class);
+        attest(function).mustEx(Be::instanceOfEx, Runnable.class)
+                        .mustEx(Be::notInstanceOfEx, LAction.class);
 
     }
     //>example<

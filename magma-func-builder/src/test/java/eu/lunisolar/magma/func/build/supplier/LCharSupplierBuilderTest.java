@@ -129,10 +129,10 @@ public class LCharSupplierBuilderTest{
 
 
         FuncAttests.attestCharSup(function)
-            .doesGetAsChar().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesGetAsChar().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesGetAsChar().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesGetAsChar().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesGetAsChar().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesGetAsChar().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesGetAsChar().when(()->externalInfluence.set(15)).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesGetAsChar().when(()->externalInfluence.set(10)).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

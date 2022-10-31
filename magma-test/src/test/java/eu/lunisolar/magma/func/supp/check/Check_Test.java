@@ -46,7 +46,7 @@ public class Check_Test {
         return new Object[][]{
                 //
                 // 0 arg
-                case_(v -> arg(v).must$(Be::True$), true, false, IllegalArgumentException.class,
+                case_(v -> arg(v).mustEx(Be::TrueEx), true, false, IllegalArgumentException.class,
                       "Argument [?]: <false> must be true."),
                 case_(v -> arg(v).must(Be::True, ">MyMsg<"), true, false, IllegalArgumentException.class,
                       "Argument [?]: >MyMsg<"),
@@ -64,9 +64,9 @@ public class Check_Test {
                       "Argument [arg1=='false']: >MyMsg< str 34"),
                 case_(v -> arg(v, "arg1").verbosity(ALL).must_(Be::True, __ -> ">" + __ + "<"), true, false, IllegalArgumentException.class,
                       ">false<"),
-                case_(v -> arg(v, "arg1").verbosity(ALL).must$0(Be::True$, ">MyMsg<"), true, false, IllegalArgumentException.class,
+                case_(v -> arg(v, "arg1").verbosity(ALL).mustEx0(Be::TrueEx, ">MyMsg<"), true, false, IllegalArgumentException.class,
                       "Argument [arg1=='false']: <false> must be true. - >MyMsg<"),
-                case_(v -> arg(v, "arg1").verbosity(ALL).must$2(Be::True$, ">MyMsg< %s %d", "str", 34), true, false, IllegalArgumentException.class,
+                case_(v -> arg(v, "arg1").verbosity(ALL).mustEx2(Be::TrueEx, ">MyMsg< %s %d", "str", 34), true, false, IllegalArgumentException.class,
                       "Argument [arg1=='false']: <false> must be true. - >MyMsg< str 34"),
                 //
                 case_(v -> attest(v).must(Be::True, ">MyMsg<"), true, false, AssertionError.class,
@@ -75,24 +75,24 @@ public class Check_Test {
                       "Check/attest [result1=='false']: >MyMsg<"),
                 case_(v -> attest(v, "result1").verbosity(MIN).must(Be::True, ">MyMsg<"), true, false, AssertionError.class,
                       "Check/attest [result1]: >MyMsg<"),
-                case_(v -> attest(v).must$(Be::True$), true, false, AssertionError.class,
+                case_(v -> attest(v).mustEx(Be::TrueEx), true, false, AssertionError.class,
                       "Check/attest [?=='false']: <false> must be true."),
 
                 //
                 // 1 arg
-                case_(v -> arg(v).must$(Be::same$, true), true, false, IllegalArgumentException.class,
+                case_(v -> arg(v).mustEx(Be::sameEx, true), true, false, IllegalArgumentException.class,
                       "Argument [?]: Object <false> must be the same as <true>."),
 
                 case_(v -> arg(v).must(Be::same, true, ">MyMsg<"), true, false, IllegalArgumentException.class,
                       "Argument [?]: >MyMsg<"),
 
                 // 1 arg + 2 extra
-                case_(v -> arg(v).must$(P2::same$, true, "x1", "x2"), true, false, IllegalArgumentException.class,
+                case_(v -> arg(v).mustEx(P2::sameEx, true, "x1", "x2"), true, false, IllegalArgumentException.class,
                       "Argument [?]: Object <false> must be the same as <true>."),// no effect of having two additional args in predicate
                 case_(v -> arg(v).must(P2::same, true, "x1", "x2", ">MyMsg<"), true, false, IllegalArgumentException.class,
                       "Argument [?]: >MyMsg<"),// no effect of having two additional args in predicate
 
-                case_(v -> arg(v).verbose().must$(P2::same$, true, "x1", "x2"), true, false, IllegalArgumentException.class,
+                case_(v -> arg(v).verbose().mustEx(P2::sameEx, true, "x1", "x2"), true, false, IllegalArgumentException.class,
                       "Argument [?=='false'](params: 'true', 'x1', 'x2'): Object <false> must be the same as <true>."),
                 case_(v -> arg(v).verbose().must(P2::same, true, "x1", "x2", ">MyMsg<"), true, false, IllegalArgumentException.class,
                       "Argument [?=='false'](params: 'true', 'x1', 'x2'): >MyMsg<"),
@@ -100,11 +100,11 @@ public class Check_Test {
                 case_(v -> arg(v).must_(P2::same, true, "x1", "x2", (__, a1, x1, x2) -> "" + __ + "," + a1 + "," + x2 + "," + x2), true, false,
                       IllegalArgumentException.class, "false,true,x2,x2"), // real reason why use predicate with extra args.
                 // array
-                case_(v -> arg(v).mustA$(P::containExactly$, 1, 2, 3, 4), asList(1, 2, 3, 4), asList(1, 3, 2, 4), IllegalArgumentException.class,
+                case_(v -> arg(v).mustAEx(P::containExactlyEx, 1, 2, 3, 4), asList(1, 2, 3, 4), asList(1, 3, 2, 4), IllegalArgumentException.class,
                       "Argument [?]: Collection <[1, 3, 2, 4]> must contain exactly elements in order: <[1, 2, 3, 4]>."),
 
                 // LAST
-                case_(v -> arg(v).must$(Be::True$), true, false, IllegalArgumentException.class,
+                case_(v -> arg(v).mustEx(Be::TrueEx), true, false, IllegalArgumentException.class,
                       "Argument [?]: <false> must be true."),
         };
     }

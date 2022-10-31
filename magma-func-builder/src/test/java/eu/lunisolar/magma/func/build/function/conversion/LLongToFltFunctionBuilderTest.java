@@ -128,10 +128,10 @@ public class LLongToFltFunctionBuilderTest{
 
 
         FuncAttests.attestLongToFltFunc(function)
-            .doesApplyAsFlt(0L).when(null).to(a -> a.must$(Be::equal$, 0f))
-            .doesApplyAsFlt(5L).when(null).to(a -> a.must$(Be::equal$, 1f))
-            .doesApplyAsFlt(15L).when(null).to(a -> a.must$(Be::equal$, 2f))
-            .doesApplyAsFlt(10L).when(null).to(a -> a.must$(Be::equal$, 99f))
+            .doesApplyAsFlt(0L).when(null).to(a -> a.mustEx(Be::equalEx, 0f))
+            .doesApplyAsFlt(5L).when(null).to(a -> a.mustEx(Be::equalEx, 1f))
+            .doesApplyAsFlt(15L).when(null).to(a -> a.mustEx(Be::equalEx, 2f))
+            .doesApplyAsFlt(10L).when(null).to(a -> a.mustEx(Be::equalEx, 99f))
         ;
 
     }

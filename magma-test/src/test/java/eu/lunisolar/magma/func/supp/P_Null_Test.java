@@ -27,27 +27,27 @@ public class P_Null_Test {
     public static final String STR = "str";
 
     @Test void Null_P() {
-        attest(P.Null(null)).must$(Be::True$);
-        attest(P.notNull(null)).must$(Be::False$);
+        attest(P.Null(null)).mustEx(Be::TrueEx);
+        attest(P.notNull(null)).mustEx(Be::FalseEx);
 
-        attest(P.Null(STR)).must$(Be::False$);
-        attest(P.notNull(STR)).must$(Be::True$);
+        attest(P.Null(STR)).mustEx(Be::FalseEx);
+        attest(P.notNull(STR)).mustEx(Be::TrueEx);
     }
 
     @Test void Null_Be() {
-        attest(Be.Null(null)).must$(Be::True$);
-        attest(Be.notNull(null)).must$(Be::False$);
+        attest(Be.Null(null)).mustEx(Be::TrueEx);
+        attest(Be.notNull(null)).mustEx(Be::FalseEx);
 
-        attest(Be.Null(STR)).must$(Be::False$);
-        attest(Be.notNull(STR)).must$(Be::True$);
+        attest(Be.Null(STR)).mustEx(Be::FalseEx);
+        attest(Be.notNull(STR)).mustEx(Be::TrueEx);
     }
 
-    @Test void Null$() {
-        attest(Be.Null$(null)).must$(Be::equal$, (String) null);
-        attest(Be.notNull$(null)).must$(Be::equal$, "Reference must NOT be null, currently is pointing to <null>.");
+    @Test void NullEx() {
+        attest(Be.NullEx(null)).mustEx(Be::equalEx, (String) null);
+        attest(Be.notNullEx(null)).mustEx(Be::equalEx, "Reference must NOT be null, currently is pointing to <null>.");
 
-        attest(Be.Null$(STR)).must$(Be::equal$, "Reference must be null, currently is pointing to <str>.");
-        attest(Be.notNull$(STR)).must$(Be::equal$, (String) null);
+        attest(Be.NullEx(STR)).mustEx(Be::equalEx, "Reference must be null, currently is pointing to <str>.");
+        attest(Be.notNullEx(STR)).mustEx(Be::equalEx, (String) null);
     }
 
 }

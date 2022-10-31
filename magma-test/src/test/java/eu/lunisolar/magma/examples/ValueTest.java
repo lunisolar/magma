@@ -37,9 +37,9 @@ public class ValueTest {
                 .filter(i -> i == 1)
                 .uniMap(i -> i + 1);
 
-        attest(result).must$(Be::same$, v)
-                      .must$(Have::valueEqual$, 2)
-                      .checkBool(__ -> __.is(i -> i == 2), bool -> bool.must$(Be::True$));
+        attest(result).mustEx(Be::sameEx, v)
+                      .mustEx(Have::valueEqualEx, 2)
+                      .checkBool(__ -> __.is(i -> i == 2), bool -> bool.mustEx(Be::TrueEx));
     }
 
     @Test
@@ -52,9 +52,9 @@ public class ValueTest {
                 .value(10)
                 .uniMap(i -> i + 1);
 
-        attest(result).must$(Be::same$, v)
-                      .must$(Have::valueEqual$, 11)
-                      .checkBool(__ -> __.is(i -> i == 11), bool -> bool.must$(Be::True$));
+        attest(result).mustEx(Be::sameEx, v)
+                      .mustEx(Have::valueEqualEx, 11)
+                      .checkBool(__ -> __.is(i -> i == 11), bool -> bool.mustEx(Be::TrueEx));
     }
 
     @Test
@@ -66,9 +66,9 @@ public class ValueTest {
                 .filter(i -> i != 1)     // v.value() == 0
                 .map(i -> i + 1);
 
-        attest(result).must$(Be::same$, v)
-                      .must$(Have::valueEqual$, 1)
-                      .checkBool(__ -> __.is(i -> i == 1), bool -> bool.must$(Be::True$));
+        attest(result).mustEx(Be::sameEx, v)
+                      .mustEx(Have::valueEqualEx, 1)
+                      .checkBool(__ -> __.is(i -> i == 1), bool -> bool.mustEx(Be::TrueEx));
     }
 
 }

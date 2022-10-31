@@ -128,8 +128,8 @@ public class LLongIntPredicateBuilderTest{
 
 
         FuncAttests.attestLongIntPred(function)
-            .doesTest(0L,0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5L,5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0L,0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5L,5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

@@ -168,11 +168,11 @@ public class Example_Validations_Fluent_Test {
     public void test1_bis() {
 
         Checks.arg(arg45)
-              .must$(Be::notGtEq$, 50) //passes (there is no mustNot$ method for logical reasons)
-              .must$(Be::lt$, 50); //passes
+              .mustEx(Be::notGtEqEx, 50) //passes (there is no mustNot$ method for logical reasons)
+              .mustEx(Be::ltEx, 50); //passes
 
         var i = arg(60)
-                .must$1(Be::notGtEq$, 50, "#3 some additional info: %s", "it failed") //fails
+                .mustEx1(Be::notGtEqEx, 50, "#3 some additional info: %s", "it failed") //fails
                 .get();
     }
     //>example<
@@ -181,10 +181,10 @@ public class Example_Validations_Fluent_Test {
     public void valueTrait() {
         CheckInt opt = Checks.value(45);
 
-        attest(opt.value(45)).must$(Be::notSame$, opt);
+        attest(opt.value(45)).mustEx(Be::notSameEx, opt);
 
-        attestThrownBy(opt::voidValue).must$(Be::instanceOf$, UnsupportedOperationException.class)
-                                      .must$(Have::msgEqual$, "Trait implementation (CheckInt) does not support empty value.");
+        attestThrownBy(opt::voidValue).mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
+                                      .mustEx(Have::msgEqualEx, "Trait implementation (CheckInt) does not support empty value.");
 
         Checks.value(null).must(Be::notNull, "_message_");
     }
@@ -223,7 +223,7 @@ public class Example_Validations_Fluent_Test {
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null.")
     public void specialPredicates_allNull1() {
-        Checks.value(new Object[]{1, 2}).must$(Be::allNull$);
+        Checks.value(new Object[]{1, 2}).mustEx(Be::allNullEx);
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Message: not really.")
@@ -233,19 +233,19 @@ public class Example_Validations_Fluent_Test {
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: All references must be null. - Array contains non-null elements")
     public void specialPredicates_allNull3() {
-        Checks.value(new Object[]{1, 2}).must$0(Be::allNull$, "Array contains non-null elements");
+        Checks.value(new Object[]{1, 2}).mustEx0(Be::allNullEx, "Array contains non-null elements");
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")
     public void specialPredicates() {
         var e = new Exception("Message1!", new RuntimeException("Message2!"));
 
-        Checks.value(e).must$(P.have$(Exception::getCause, Have::msgContain$, "I'm Expecting this"));
+        Checks.value(e).mustEx(P.haveEx(Exception::getCause, Have::msgContainEx, "I'm Expecting this"));
     }
 
     @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: 1 must be: 5 <= 1 <= 10.")
     public void between() {
-        Checks.value(1L).must$(Be::inRange$, 5L, 10l);
+        Checks.value(1L).mustEx(Be::inRangeEx, 5L, 10l);
     }
 
     /**
@@ -268,7 +268,7 @@ public class Example_Validations_Fluent_Test {
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Check/attest \\[\\?=='1'\\]: 1 must be equal to 45.")
     public void test9() {
         attest(new Integer(1))
-                .must$(P.haveToInt$(Integer::intValue, P::equal$, 45));
+                .mustEx(P.haveToIntEx(Integer::intValue, P::equalEx, 45));
     }
     //>example<
 
@@ -296,17 +296,17 @@ public class Example_Validations_Fluent_Test {
 
     @Test
     public void toString1() {
-        attest(Opt.of(45).toString()).must$(Be::equal$, "OptInt['45'^^int]");
-        attest(Opt.of("45").toString()).must$(Be::equal$, "Opt['45'^^String]");
-        attest(Opt.of(null).toString()).must$(Be::equal$, "Opt.empty");
-        attest(Checks.value(null).toString()).must$(Be::equal$, "Value [?==<null>]");
-        attest(Checks.value(45).toString()).must$(Be::equal$, "Value [?=='45'^^int]");
-        attest(Checks.arg(45, "arg1").toString()).must$(Be::equal$, "Argument [arg1=='45'^^int]");
-        attest(Checks.arg(45).toString()).must$(Be::equal$, "Argument [?=='45'^^int]");
-        attest(Checks.state(45, "count").toString()).must$(Be::equal$, "State [count=='45'^^int]");
-        attest(Checks.state(45).toString()).must$(Be::equal$, "State [?=='45'^^int]");
-        attest(Checks.attest(45, "arg1").toString()).must$(Be::equal$, "Check/attest [arg1=='45'^^int]");
-        attest(Checks.attest(45).toString()).must$(Be::equal$, "Check/attest [?=='45'^^int]");
+        attest(Opt.of(45).toString()).mustEx(Be::equalEx, "OptInt['45'^^int]");
+        attest(Opt.of("45").toString()).mustEx(Be::equalEx, "Opt['45'^^String]");
+        attest(Opt.of(null).toString()).mustEx(Be::equalEx, "Opt.empty");
+        attest(Checks.value(null).toString()).mustEx(Be::equalEx, "Value [?==<null>]");
+        attest(Checks.value(45).toString()).mustEx(Be::equalEx, "Value [?=='45'^^int]");
+        attest(Checks.arg(45, "arg1").toString()).mustEx(Be::equalEx, "Argument [arg1=='45'^^int]");
+        attest(Checks.arg(45).toString()).mustEx(Be::equalEx, "Argument [?=='45'^^int]");
+        attest(Checks.state(45, "count").toString()).mustEx(Be::equalEx, "State [count=='45'^^int]");
+        attest(Checks.state(45).toString()).mustEx(Be::equalEx, "State [?=='45'^^int]");
+        attest(Checks.attest(45, "arg1").toString()).mustEx(Be::equalEx, "Check/attest [arg1=='45'^^int]");
+        attest(Checks.attest(45).toString()).mustEx(Be::equalEx, "Check/attest [?=='45'^^int]");
     }
 
     //>inject<:generated

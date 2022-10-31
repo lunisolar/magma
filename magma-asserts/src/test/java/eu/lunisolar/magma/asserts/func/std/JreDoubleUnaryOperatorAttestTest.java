@@ -54,7 +54,7 @@ public class JreDoubleUnaryOperatorAttestTest {
 
         FuncAttests.attestDblUnaryOp(function)
          .doesApplyAsDbl(100d)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -63,7 +63,7 @@ public class JreDoubleUnaryOperatorAttestTest {
 
         FuncAttests.attestDblUnaryOp(function)
          .doesApplyAsDbl(100d)
-            .to(a -> a.must$(Be::equal$, 0d));
+            .to(a -> a.mustEx(Be::equalEx, 0d));
 
     }
 
@@ -72,7 +72,7 @@ public class JreDoubleUnaryOperatorAttestTest {
 
         FuncAttests.attestDblUnaryOp(functionThrowing)
          .doesApplyAsDbl(100d)
-            .to(a -> a.must$(Be::equal$, 0d));
+            .to(a -> a.mustEx(Be::equalEx, 0d));
     }
 
     @Test
@@ -80,8 +80,8 @@ public class JreDoubleUnaryOperatorAttestTest {
 
         FuncAttests.attestDblUnaryOp(functionThrowing)
          .doesApplyAsDbl(100d).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -93,14 +93,14 @@ public class JreDoubleUnaryOperatorAttestTest {
         FuncAttests.attestDblUnaryOp(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesApplyAsDbl(100d)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsDbl(100d)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -112,15 +112,15 @@ public class JreDoubleUnaryOperatorAttestTest {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, 0d);
+                a.mustEx(Be::equalEx, 0d);
             }
          })
          .doesApplyAsDbl(100d)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsDbl(100d)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

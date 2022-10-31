@@ -30,39 +30,39 @@ public class P_AnyInstance_Test {
     public static final int I2 = 2;
 
     @Test void instanceOf_P() {
-        attest(P.instanceOfAny(new Object(), Object.class)).must$(Be::True$);
-        attest(P.instanceOfAny(new Object(), Integer.class)).must$(Be::False$);
-        attest(P.instanceOfAny(new Integer(1), Object.class)).must$(Be::True$);
+        attest(P.instanceOfAny(new Object(), Object.class)).mustEx(Be::TrueEx);
+        attest(P.instanceOfAny(new Object(), Integer.class)).mustEx(Be::FalseEx);
+        attest(P.instanceOfAny(new Integer(1), Object.class)).mustEx(Be::TrueEx);
 
-        attest(P.notInstanceOfAny(new Object(), Object.class)).must$(Be::False$);
-        attest(P.notInstanceOfAny(new Object(), Integer.class)).must$(Be::True$);
-        attest(P.notInstanceOfAny(new Integer(1), Object.class)).must$(Be::False$);
+        attest(P.notInstanceOfAny(new Object(), Object.class)).mustEx(Be::FalseEx);
+        attest(P.notInstanceOfAny(new Object(), Integer.class)).mustEx(Be::TrueEx);
+        attest(P.notInstanceOfAny(new Integer(1), Object.class)).mustEx(Be::FalseEx);
 
         //
 
-        attest(P.instanceOfAny(new Integer(1), Short.class, Number.class)).must$(Be::True$);
-        attest(P.instanceOfAny(new Integer(1), Number.class, Short.class)).must$(Be::True$);
+        attest(P.instanceOfAny(new Integer(1), Short.class, Number.class)).mustEx(Be::TrueEx);
+        attest(P.instanceOfAny(new Integer(1), Number.class, Short.class)).mustEx(Be::TrueEx);
 
-        attest(P.instanceOfAny(new Object(), Short.class, Number.class)).must$(Be::False$);
-        attest(P.instanceOfAny(new Object(), Number.class, Short.class)).must$(Be::False$);
+        attest(P.instanceOfAny(new Object(), Short.class, Number.class)).mustEx(Be::FalseEx);
+        attest(P.instanceOfAny(new Object(), Number.class, Short.class)).mustEx(Be::FalseEx);
     }
 
     @Test void instanceOf_Be() {
-        attest(Be.instanceOfAny(new Object(), Object.class)).must$(Be::True$);
-        attest(Be.instanceOfAny(new Object(), Integer.class)).must$(Be::False$);
-        attest(Be.instanceOfAny(new Integer(1), Object.class)).must$(Be::True$);
+        attest(Be.instanceOfAny(new Object(), Object.class)).mustEx(Be::TrueEx);
+        attest(Be.instanceOfAny(new Object(), Integer.class)).mustEx(Be::FalseEx);
+        attest(Be.instanceOfAny(new Integer(1), Object.class)).mustEx(Be::TrueEx);
 
-        attest(Be.notInstanceOfAny(new Object(), Object.class)).must$(Be::False$);
-        attest(Be.notInstanceOfAny(new Object(), Integer.class)).must$(Be::True$);
-        attest(Be.notInstanceOfAny(new Integer(1), Object.class)).must$(Be::False$);
+        attest(Be.notInstanceOfAny(new Object(), Object.class)).mustEx(Be::FalseEx);
+        attest(Be.notInstanceOfAny(new Object(), Integer.class)).mustEx(Be::TrueEx);
+        attest(Be.notInstanceOfAny(new Integer(1), Object.class)).mustEx(Be::FalseEx);
     }
 
-    @Test void instanceOf$() {
-        attest(P.instanceOfAny$(new Integer(1), Integer.class)).must$(Be::Null$);
-        attest(P.notInstanceOfAny$(new Integer(1), Integer.class)).must$(Be::equal$, "Object <1> of class <class java.lang.Integer> must NOT be instance of any <[class java.lang.Integer]>.");
+    @Test void instanceOfEx() {
+        attest(P.instanceOfAnyEx(new Integer(1), Integer.class)).mustEx(Be::NullEx);
+        attest(P.notInstanceOfAnyEx(new Integer(1), Integer.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be instance of any <[class java.lang.Integer]>.");
 
-        attest(P.instanceOfAny$(new Integer(1), Object.class)).must$(Be::Null$);
-        attest(P.notInstanceOfAny$(new Integer(1), Object.class)).must$(Be::equal$, "Object <1> of class <class java.lang.Integer> must NOT be instance of any <[class java.lang.Object]>.");
+        attest(P.instanceOfAnyEx(new Integer(1), Object.class)).mustEx(Be::NullEx);
+        attest(P.notInstanceOfAnyEx(new Integer(1), Object.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be instance of any <[class java.lang.Object]>.");
     }
 
 }

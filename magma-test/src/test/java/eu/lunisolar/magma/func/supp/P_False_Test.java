@@ -37,14 +37,14 @@ public class P_False_Test {
         assertTrue(Be.False(false));
     }
 
-    @Test void true$_P() {
-        assertEquals(P.False$(true), "<true> must be false.");
-        assertNull(P.False$(false));
+    @Test void trueEx_P() {
+        assertEquals(P.FalseEx(true), "<true> must be false.");
+        assertNull(P.FalseEx(false));
     }
 
-    @Test void true$_Be() {
-        assertEquals(Be.False$(true), "<true> must be false.");
-        assertNull(Be.False$(false));
+    @Test void trueEx_Be() {
+        assertEquals(Be.FalseEx(true), "<true> must be false.");
+        assertNull(Be.FalseEx(false));
     }
     
 }

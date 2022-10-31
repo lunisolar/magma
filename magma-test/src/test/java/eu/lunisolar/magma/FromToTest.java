@@ -51,13 +51,13 @@ public class FromToTest {
         {
             ArrayList<Object> list = new ArrayList<>();
             LBiObjIntConsumer.fromTo(from, to, list, null, (l, nil, i) -> l.add(i));
-            attest(list).must$(Be::equal$, fromTo);
+            attest(list).mustEx(Be::equalEx, fromTo);
         }
 
         {
             ArrayList<Object> list = new ArrayList<>();
             LBiObjIntConsumer.fromTill(from, to, list, null, (l, nil, i) -> l.add(i));
-            attest(list).must$(Be::equal$, fromTill);
+            attest(list).mustEx(Be::equalEx, fromTill);
         }
     }
 
@@ -76,7 +76,7 @@ public class FromToTest {
     public void times(int times, List expectedResult) {
         ArrayList<Object> list = new ArrayList<>();
         LBiObjIntConsumer.times(times, list, null, (l, nil, i) -> l.add(i));
-        attest(list).must$(Be::equal$, expectedResult);
+        attest(list).mustEx(Be::equalEx, expectedResult);
     }
 
 }

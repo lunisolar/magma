@@ -36,7 +36,7 @@ public class TestFlowTest {
         }).when(sut -> {
 
         }).then(sut -> {
-            Checks.attest(sut.toString()).must$(Be::equal$, "1");
+            Checks.attest(sut.toString()).mustEx(Be::equalEx, "1");
         });
     }
 
@@ -45,7 +45,7 @@ public class TestFlowTest {
         test().given(() -> {
             return 1;
         }).then(sut -> {
-            Checks.attest(sut.toString()).must$(Be::equal$, "1");
+            Checks.attest(sut.toString()).mustEx(Be::equalEx, "1");
         });
     }
 
@@ -54,7 +54,7 @@ public class TestFlowTest {
         test().given(() -> {
             return 1;
         }).then(sut -> {
-            Checks.attest(sut.toString()).must$(Be::equal$, "1");
+            Checks.attest(sut.toString()).mustEx(Be::equalEx, "1");
         }).continuing(
         ).when(sut -> {
 
@@ -73,19 +73,19 @@ public class TestFlowTest {
             t.when("when1", sut -> {
                 //...
             }).then("then1", sut -> {
-                Checks.attest(sut.toString()).must$(Be::equal$, "1");
+                Checks.attest(sut.toString()).mustEx(Be::equalEx, "1");
             });
         }).step("Step2", t -> {
             t.when("when2", sut -> {
                 //...
             }).then(sut -> {
-                Checks.attest(sut.toString()).must$(Be::equal$, "1");
+                Checks.attest(sut.toString()).mustEx(Be::equalEx, "1");
             });
         }).aftermath("in the end", sut -> {
 
         });
 
-        Checks.attest(sb.toString()).must$(Be::equal$, "Given: ...\n" +
+        Checks.attest(sb.toString()).mustEx(Be::equalEx, "Given: ...\n" +
                                                     "Precondition: initial state is\n" +
                                                     "STEP: Step1\n" +
                                                     "When: when1\n" +
@@ -108,8 +108,8 @@ public class TestFlowTest {
                                        throw theException;
                                    })
         )
-                .must$(Have::msgEqual$, message)
-                .must$(Be::same$,theException);
+                .mustEx(Have::msgEqualEx, message)
+                .mustEx(Be::sameEx,theException);
     }
 
     @Test public void negativeCase_RuntimeException() {
@@ -124,8 +124,8 @@ public class TestFlowTest {
                                        throw theException;
                                    })
         )
-                .must$(Have::msgEqual$, message)
-                .must$(Be::same$,theException);
+                .mustEx(Have::msgEqualEx, message)
+                .mustEx(Be::sameEx,theException);
     }
 
     @Test public void negativeCase_Exception() {
@@ -140,8 +140,8 @@ public class TestFlowTest {
                                        throw theException;
                                    })
         )
-                .must$(Have::msgEqual$, message)
-                .must$(Be::same$,theException);
+                .mustEx(Have::msgEqualEx, message)
+                .mustEx(Be::sameEx,theException);
     }
 
     @Test public void howToUseTestFlowState() {
@@ -151,9 +151,9 @@ public class TestFlowTest {
                     String someState = new String("");
                 })
                 .then(state -> {
-                    attest(state.someState).must$(Be::equal$, "otherValue");
+                    attest(state.someState).mustEx(Be::equalEx, "otherValue");
                 })
-        ).must$(Have::msgEqual$, "Check/attest [?==''](param: 'otherValue'): <> must be equal to <otherValue>.");
+        ).mustEx(Have::msgEqualEx, "Check/attest [?==''](param: 'otherValue'): <> must be equal to <otherValue>.");
     }
 
 }

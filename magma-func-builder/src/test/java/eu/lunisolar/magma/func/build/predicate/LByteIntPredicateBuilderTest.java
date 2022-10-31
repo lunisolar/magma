@@ -128,8 +128,8 @@ public class LByteIntPredicateBuilderTest{
 
 
         FuncAttests.attestByteIntPred(function)
-            .doesTest((byte)0,0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest((byte)5,5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest((byte)0,0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest((byte)5,5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

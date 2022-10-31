@@ -127,8 +127,8 @@ public class LBoolFunctionBuilderTest<R>{
 
 
         FuncAttests.attestBoolFunc(function)
-            .doesApply(false).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply(true).when(null).to(a -> a.must$(Be::equal$, 1))
+            .doesApply(false).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply(true).when(null).to(a -> a.mustEx(Be::equalEx, 1))
         ;
 
     }

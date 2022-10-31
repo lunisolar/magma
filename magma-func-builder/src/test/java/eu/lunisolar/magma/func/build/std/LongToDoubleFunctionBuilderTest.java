@@ -128,10 +128,10 @@ public class LongToDoubleFunctionBuilderTest{
 
 
         FuncAttests.attestLongToDblFunc(function)
-            .doesApplyAsDbl(0L).when(null).to(a -> a.must$(Be::equal$, 0d))
-            .doesApplyAsDbl(5L).when(null).to(a -> a.must$(Be::equal$, 1d))
-            .doesApplyAsDbl(15L).when(null).to(a -> a.must$(Be::equal$, 2d))
-            .doesApplyAsDbl(10L).when(null).to(a -> a.must$(Be::equal$, 99d))
+            .doesApplyAsDbl(0L).when(null).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesApplyAsDbl(5L).when(null).to(a -> a.mustEx(Be::equalEx, 1d))
+            .doesApplyAsDbl(15L).when(null).to(a -> a.mustEx(Be::equalEx, 2d))
+            .doesApplyAsDbl(10L).when(null).to(a -> a.mustEx(Be::equalEx, 99d))
         ;
 
     }

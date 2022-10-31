@@ -128,10 +128,10 @@ public class LLongTernaryOperatorBuilderTest{
 
 
         FuncAttests.attestLongTernaryOp(function)
-            .doesApplyAsLong(0L,0L,0L).when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong(5L,5L,5L).when(null).to(a -> a.must$(Be::equal$, 1L))
-            .doesApplyAsLong(15L,15L,15L).when(null).to(a -> a.must$(Be::equal$, 2L))
-            .doesApplyAsLong(10L,10L,10L).when(null).to(a -> a.must$(Be::equal$, 99L))
+            .doesApplyAsLong(0L,0L,0L).when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong(5L,5L,5L).when(null).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesApplyAsLong(15L,15L,15L).when(null).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesApplyAsLong(10L,10L,10L).when(null).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

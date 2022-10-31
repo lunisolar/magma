@@ -128,10 +128,10 @@ public class LCharToFltFunctionBuilderTest{
 
 
         FuncAttests.attestCharToFltFunc(function)
-            .doesApplyAsFlt('\u0000').when(null).to(a -> a.must$(Be::equal$, 0f))
-            .doesApplyAsFlt('\u0005').when(null).to(a -> a.must$(Be::equal$, 1f))
-            .doesApplyAsFlt('\u0015').when(null).to(a -> a.must$(Be::equal$, 2f))
-            .doesApplyAsFlt('\u0010').when(null).to(a -> a.must$(Be::equal$, 99f))
+            .doesApplyAsFlt('\u0000').when(null).to(a -> a.mustEx(Be::equalEx, 0f))
+            .doesApplyAsFlt('\u0005').when(null).to(a -> a.mustEx(Be::equalEx, 1f))
+            .doesApplyAsFlt('\u0015').when(null).to(a -> a.mustEx(Be::equalEx, 2f))
+            .doesApplyAsFlt('\u0010').when(null).to(a -> a.mustEx(Be::equalEx, 99f))
         ;
 
     }

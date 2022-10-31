@@ -128,8 +128,8 @@ public class LQuadPredicateBuilderTest<T1,T2,T3,T4>{
 
 
         FuncAttests.attestQuadPred(function)
-            .doesTest(0,0,0,0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5,5,5,5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0,0,0,0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5,5,5,5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

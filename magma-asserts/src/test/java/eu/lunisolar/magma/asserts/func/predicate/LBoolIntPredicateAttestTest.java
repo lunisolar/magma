@@ -55,7 +55,7 @@ public class LBoolIntPredicateAttestTest {
 
         FuncAttests.attestBoolIntPred(function)
          .doesTest(true,100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class LBoolIntPredicateAttestTest {
 
         FuncAttests.attestBoolIntPred(function)
          .doesTest(true,100)
-            .to(a -> a.must$(Be::equal$, false));
+            .to(a -> a.mustEx(Be::equalEx, false));
 
     }
 
@@ -73,7 +73,7 @@ public class LBoolIntPredicateAttestTest {
 
         FuncAttests.attestBoolIntPred(functionThrowing)
          .doesTest(true,100)
-            .to(a -> a.must$(Be::equal$, false));
+            .to(a -> a.mustEx(Be::equalEx, false));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class LBoolIntPredicateAttestTest {
 
         FuncAttests.attestBoolIntPred(functionThrowing)
          .doesTest(true,100).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class LBoolIntPredicateAttestTest {
         FuncAttests.attestBoolIntPred(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesTest(true,100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesTest(true,100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class LBoolIntPredicateAttestTest {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, false);
+                a.mustEx(Be::equalEx, false);
             }
          })
          .doesTest(true,100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesTest(true,100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

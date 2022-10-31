@@ -36,22 +36,22 @@ public class P_ContainEntry_Test {
     }
 
     @Test void containKeys() {
-        attest(P.containEntry(MAP, "key1", "value1")).must$(Be::True$);
-        attest(P.containEntry(MAP, "key1", "OTHER")).must$(Be::False$);
-        attest(P.containEntry(MAP, "OTHER", "value1")).must$(Be::False$);
-        attest(P.containEntry(MAP, "OTHER", "OTHER")).must$(Be::False$);
+        attest(P.containEntry(MAP, "key1", "value1")).mustEx(Be::TrueEx);
+        attest(P.containEntry(MAP, "key1", "OTHER")).mustEx(Be::FalseEx);
+        attest(P.containEntry(MAP, "OTHER", "value1")).mustEx(Be::FalseEx);
+        attest(P.containEntry(MAP, "OTHER", "OTHER")).mustEx(Be::FalseEx);
     }
 
     @Test void notContainKeys() {
-        attest(P.notContainEntry(MAP, "key1", "value1")).must$(Be::False$);
-        attest(P.notContainEntry(MAP, "key1", "OTHER")).must$(Be::True$);
-        attest(P.notContainEntry(MAP, "OTHER", "value1")).must$(Be::True$);
-        attest(P.notContainEntry(MAP, "OTHER", "OTHER")).must$(Be::True$);
+        attest(P.notContainEntry(MAP, "key1", "value1")).mustEx(Be::FalseEx);
+        attest(P.notContainEntry(MAP, "key1", "OTHER")).mustEx(Be::TrueEx);
+        attest(P.notContainEntry(MAP, "OTHER", "value1")).mustEx(Be::TrueEx);
+        attest(P.notContainEntry(MAP, "OTHER", "OTHER")).mustEx(Be::TrueEx);
     }
 
     @Test void ex() {
-        attest(P.notContainEntry$(MAP, "key1", "value1"))
-                .must$(Be::equal$, "Map <{key1=value1, key2=value2, key3=value3}> must NOT contain entry with key <key1> and value <value1>.");
+        attest(P.notContainEntryEx(MAP, "key1", "value1"))
+                .mustEx(Be::equalEx, "Map <{key1=value1, key2=value2, key3=value3}> must NOT contain entry with key <key1> and value <value1>.");
 
     }
 }

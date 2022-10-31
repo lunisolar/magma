@@ -55,7 +55,7 @@ public class LCharToLongFunctionAttestTest {
 
         FuncAttests.attestCharToLongFunc(function)
          .doesApplyAsLong('\u0100')
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class LCharToLongFunctionAttestTest {
 
         FuncAttests.attestCharToLongFunc(function)
          .doesApplyAsLong('\u0100')
-            .to(a -> a.must$(Be::equal$, 0L));
+            .to(a -> a.mustEx(Be::equalEx, 0L));
 
     }
 
@@ -73,7 +73,7 @@ public class LCharToLongFunctionAttestTest {
 
         FuncAttests.attestCharToLongFunc(functionThrowing)
          .doesApplyAsLong('\u0100')
-            .to(a -> a.must$(Be::equal$, 0L));
+            .to(a -> a.mustEx(Be::equalEx, 0L));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class LCharToLongFunctionAttestTest {
 
         FuncAttests.attestCharToLongFunc(functionThrowing)
          .doesApplyAsLong('\u0100').withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class LCharToLongFunctionAttestTest {
         FuncAttests.attestCharToLongFunc(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesApplyAsLong('\u0100')
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsLong('\u0100')
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class LCharToLongFunctionAttestTest {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, 0L);
+                a.mustEx(Be::equalEx, 0L);
             }
          })
          .doesApplyAsLong('\u0100')
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsLong('\u0100')
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

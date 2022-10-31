@@ -128,10 +128,10 @@ public class LFltUnaryOperatorBuilderTest{
 
 
         FuncAttests.attestFltUnaryOp(function)
-            .doesApplyAsFlt(0f).when(null).to(a -> a.must$(Be::equal$, 0f))
-            .doesApplyAsFlt(5f).when(null).to(a -> a.must$(Be::equal$, 1f))
-            .doesApplyAsFlt(15f).when(null).to(a -> a.must$(Be::equal$, 2f))
-            .doesApplyAsFlt(10f).when(null).to(a -> a.must$(Be::equal$, 99f))
+            .doesApplyAsFlt(0f).when(null).to(a -> a.mustEx(Be::equalEx, 0f))
+            .doesApplyAsFlt(5f).when(null).to(a -> a.mustEx(Be::equalEx, 1f))
+            .doesApplyAsFlt(15f).when(null).to(a -> a.mustEx(Be::equalEx, 2f))
+            .doesApplyAsFlt(10f).when(null).to(a -> a.mustEx(Be::equalEx, 99f))
         ;
 
     }

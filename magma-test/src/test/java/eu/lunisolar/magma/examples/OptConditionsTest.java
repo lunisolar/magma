@@ -34,8 +34,8 @@ public class OptConditionsTest {
     public void filterAndMap() {
         var sut = Opt.obj(Integer.valueOf(1));
 
-        attest(sut.filterAndMap(Integer.class).nullable()).must$(Be::equal$, 1);
-        attest(sut.filterAndMap(String.class).nullable()).must$(Be::Null$);
+        attest(sut.filterAndMap(Integer.class).nullable()).mustEx(Be::equalEx, 1);
+        attest(sut.filterAndMap(String.class).nullable()).mustEx(Be::NullEx);
     }
 
 
@@ -48,7 +48,7 @@ public class OptConditionsTest {
             result.set("done");
         });
 
-        attest(result).must$(P.have$(AtomicReference::get, P::equal$, "done"));
+        attest(result).mustEx(P.haveEx(AtomicReference::get, P::equalEx, "done"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class OptConditionsTest {
             result.set("done");
         });
 
-        attest(result).must$(P.have$(AtomicReference::get, P::notEqual$, "done"));
+        attest(result).mustEx(P.haveEx(AtomicReference::get, P::notEqualEx, "done"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class OptConditionsTest {
             result.set("done");
         });
 
-        attest(result).must$(P.have$(AtomicReference::get, P::equal$, "done"));
+        attest(result).mustEx(P.haveEx(AtomicReference::get, P::equalEx, "done"));
     }
 
 }

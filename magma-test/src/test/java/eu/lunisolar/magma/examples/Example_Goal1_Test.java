@@ -83,7 +83,7 @@ public class Example_Goal1_Test {
             }
         }).count();
 
-        attest(result).must$(Be::equal$, 10);
+        attest(result).mustEx(Be::equalEx, 10);
     }
     //>example<
 
@@ -104,7 +104,7 @@ public class Example_Goal1_Test {
 
         long result = integerList.stream().filter(Example_Goal1_Test::myMethodToReference).count();
 
-        attest(result).must$(Be::equal$, 10);
+        attest(result).mustEx(Be::equalEx, 10);
     }
     //>example<
 
@@ -127,8 +127,8 @@ public class Example_Goal1_Test {
             LPredicate<Integer> predicateX = i -> throwingAlways(i) != null;
             predicateX.test(10);
         })
-                .must$(Be::instanceOf$, NestedException.class)
-                .must$(P.have$(Throwable::getCause, P::instanceOf$, CheckedException.class));
+                .mustEx(Be::instanceOfEx, NestedException.class)
+                .mustEx(P.haveEx(Throwable::getCause, P::instanceOfEx, CheckedException.class));
     }
     //>example<
 
@@ -142,7 +142,7 @@ public class Example_Goal1_Test {
 
         long result = integerList.stream().filter(LPredicate.pred(i -> potentiallyThrowing(i) != null)).count();
 
-        attest(result).must$(Be::equal$, 10);
+        attest(result).mustEx(Be::equalEx, 10);
     }
     //>example<
 

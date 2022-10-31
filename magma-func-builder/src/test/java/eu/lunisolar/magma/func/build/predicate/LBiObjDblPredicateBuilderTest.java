@@ -128,8 +128,8 @@ public class LBiObjDblPredicateBuilderTest<T1,T2>{
 
 
         FuncAttests.attestBiObjDblPred(function)
-            .doesTest(0,0,0d).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5,5,5d).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0,0,0d).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5,5,5d).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

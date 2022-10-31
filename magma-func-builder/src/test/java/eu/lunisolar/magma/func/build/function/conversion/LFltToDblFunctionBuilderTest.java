@@ -128,10 +128,10 @@ public class LFltToDblFunctionBuilderTest{
 
 
         FuncAttests.attestFltToDblFunc(function)
-            .doesApplyAsDbl(0f).when(null).to(a -> a.must$(Be::equal$, 0d))
-            .doesApplyAsDbl(5f).when(null).to(a -> a.must$(Be::equal$, 1d))
-            .doesApplyAsDbl(15f).when(null).to(a -> a.must$(Be::equal$, 2d))
-            .doesApplyAsDbl(10f).when(null).to(a -> a.must$(Be::equal$, 99d))
+            .doesApplyAsDbl(0f).when(null).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesApplyAsDbl(5f).when(null).to(a -> a.mustEx(Be::equalEx, 1d))
+            .doesApplyAsDbl(15f).when(null).to(a -> a.mustEx(Be::equalEx, 2d))
+            .doesApplyAsDbl(10f).when(null).to(a -> a.mustEx(Be::equalEx, 99d))
         ;
 
     }

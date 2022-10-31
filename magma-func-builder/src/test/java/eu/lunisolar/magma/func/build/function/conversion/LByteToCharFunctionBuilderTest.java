@@ -128,10 +128,10 @@ public class LByteToCharFunctionBuilderTest{
 
 
         FuncAttests.attestByteToCharFunc(function)
-            .doesApplyAsChar((byte)0).when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar((byte)5).when(null).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesApplyAsChar((byte)15).when(null).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesApplyAsChar((byte)10).when(null).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesApplyAsChar((byte)0).when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar((byte)5).when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesApplyAsChar((byte)15).when(null).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesApplyAsChar((byte)10).when(null).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

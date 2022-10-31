@@ -128,10 +128,10 @@ public class LTieIntFunctionBuilderTest<T>{
 
 
         FuncAttests.attestTieIntFunc(function)
-            .doesApplyAsInt(0,0,0).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApplyAsInt(5,5,5).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApplyAsInt(15,15,15).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApplyAsInt(10,10,10).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApplyAsInt(0,0,0).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApplyAsInt(5,5,5).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApplyAsInt(15,15,15).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApplyAsInt(10,10,10).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

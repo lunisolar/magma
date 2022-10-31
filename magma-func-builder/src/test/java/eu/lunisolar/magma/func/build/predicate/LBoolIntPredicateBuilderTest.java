@@ -127,8 +127,8 @@ public class LBoolIntPredicateBuilderTest{
 
 
         FuncAttests.attestBoolIntPred(function)
-            .doesTest(false,0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(true,5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(false,0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(true,5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

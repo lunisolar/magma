@@ -129,10 +129,10 @@ public class LLongSupplierBuilderTest{
 
 
         FuncAttests.attestLongSup(function)
-            .doesGetAsLong().when(()->externalInfluence.set(0)).to(a -> a.must$(Be::equal$, 0L))
-            .doesGetAsLong().when(()->externalInfluence.set(5)).to(a -> a.must$(Be::equal$, 1L))
-            .doesGetAsLong().when(()->externalInfluence.set(15)).to(a -> a.must$(Be::equal$, 2L))
-            .doesGetAsLong().when(()->externalInfluence.set(10)).to(a -> a.must$(Be::equal$, 99L))
+            .doesGetAsLong().when(()->externalInfluence.set(0)).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesGetAsLong().when(()->externalInfluence.set(5)).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesGetAsLong().when(()->externalInfluence.set(15)).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesGetAsLong().when(()->externalInfluence.set(10)).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

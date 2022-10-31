@@ -128,10 +128,10 @@ public class LIntToFltFunctionBuilderTest{
 
 
         FuncAttests.attestIntToFltFunc(function)
-            .doesApplyAsFlt(0).when(null).to(a -> a.must$(Be::equal$, 0f))
-            .doesApplyAsFlt(5).when(null).to(a -> a.must$(Be::equal$, 1f))
-            .doesApplyAsFlt(15).when(null).to(a -> a.must$(Be::equal$, 2f))
-            .doesApplyAsFlt(10).when(null).to(a -> a.must$(Be::equal$, 99f))
+            .doesApplyAsFlt(0).when(null).to(a -> a.mustEx(Be::equalEx, 0f))
+            .doesApplyAsFlt(5).when(null).to(a -> a.mustEx(Be::equalEx, 1f))
+            .doesApplyAsFlt(15).when(null).to(a -> a.mustEx(Be::equalEx, 2f))
+            .doesApplyAsFlt(10).when(null).to(a -> a.mustEx(Be::equalEx, 99f))
         ;
 
     }

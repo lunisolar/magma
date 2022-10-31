@@ -128,10 +128,10 @@ public class LByteTernaryOperatorBuilderTest{
 
 
         FuncAttests.attestByteTernaryOp(function)
-            .doesApplyAsByte((byte)0,(byte)0,(byte)0).when(null).to(a -> a.must$(Be::equal$, (byte)0))
-            .doesApplyAsByte((byte)5,(byte)5,(byte)5).when(null).to(a -> a.must$(Be::equal$, (byte)1))
-            .doesApplyAsByte((byte)15,(byte)15,(byte)15).when(null).to(a -> a.must$(Be::equal$, (byte)2))
-            .doesApplyAsByte((byte)10,(byte)10,(byte)10).when(null).to(a -> a.must$(Be::equal$, (byte)99))
+            .doesApplyAsByte((byte)0,(byte)0,(byte)0).when(null).to(a -> a.mustEx(Be::equalEx, (byte)0))
+            .doesApplyAsByte((byte)5,(byte)5,(byte)5).when(null).to(a -> a.mustEx(Be::equalEx, (byte)1))
+            .doesApplyAsByte((byte)15,(byte)15,(byte)15).when(null).to(a -> a.mustEx(Be::equalEx, (byte)2))
+            .doesApplyAsByte((byte)10,(byte)10,(byte)10).when(null).to(a -> a.mustEx(Be::equalEx, (byte)99))
         ;
 
     }

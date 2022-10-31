@@ -128,10 +128,10 @@ public class LCharToLongFunctionBuilderTest{
 
 
         FuncAttests.attestCharToLongFunc(function)
-            .doesApplyAsLong('\u0000').when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong('\u0005').when(null).to(a -> a.must$(Be::equal$, 1L))
-            .doesApplyAsLong('\u0015').when(null).to(a -> a.must$(Be::equal$, 2L))
-            .doesApplyAsLong('\u0010').when(null).to(a -> a.must$(Be::equal$, 99L))
+            .doesApplyAsLong('\u0000').when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong('\u0005').when(null).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesApplyAsLong('\u0015').when(null).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesApplyAsLong('\u0010').when(null).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

@@ -127,8 +127,8 @@ public class LBoolToDblFunctionBuilderTest{
 
 
         FuncAttests.attestBoolToDblFunc(function)
-            .doesApplyAsDbl(false).when(null).to(a -> a.must$(Be::equal$, 0d))
-            .doesApplyAsDbl(true).when(null).to(a -> a.must$(Be::equal$, 1d))
+            .doesApplyAsDbl(false).when(null).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesApplyAsDbl(true).when(null).to(a -> a.mustEx(Be::equalEx, 1d))
         ;
 
     }

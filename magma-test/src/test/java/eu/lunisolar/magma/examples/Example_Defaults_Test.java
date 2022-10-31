@@ -147,7 +147,7 @@ public class Example_Defaults_Test {
 
         int actual = f1.tupleApplyAsInt(LIntPair.of(2, 5));
 
-        attest(actual).must$(Be::equal$, 7);
+        attest(actual).mustEx(Be::equalEx, 7);
     }
     //>example<
 
@@ -163,7 +163,7 @@ public class Example_Defaults_Test {
 
         attestBinaryOp(badFunction)
                 .doesApply(2, 5).asEqualTo(7)
-                .doesApply(null, 7).withException(e -> e.must$(Be::exactlyInstanceOf$, NullPointerException.class));
+                .doesApply(null, 7).withException(e -> e.mustEx(Be::exactlyInstanceOfEx, NullPointerException.class));
 
     }
     //>example<
@@ -187,15 +187,15 @@ public class Example_Defaults_Test {
 
         attestThrownBy(
                 () -> badFunction.nonNullApply(null)
-        ).must$(Be::instanceOf$, RuntimeException.class)
-         .must$(P.have$(Throwable::getMessage, P::contain$, "Evaluated value by nonNullApply() method cannot be null"));
+        ).mustEx(Be::instanceOfEx, RuntimeException.class)
+         .mustEx(P.haveEx(Throwable::getMessage, P::containEx, "Evaluated value by nonNullApply() method cannot be null"));
 
         attestUnaryOp(badFunction.nonNullable())
                 .doesApply(2).asEqualTo(2)
                 .doesApply(null)
                 .withException(e -> e
-                        .must$(Be::exactlyInstanceOf$, NullPointerException.class)
-                        .must$(Have::msgContain$, "Evaluated value by nonNullApply() method cannot be null")
+                        .mustEx(Be::exactlyInstanceOfEx, NullPointerException.class)
+                        .mustEx(Have::msgContainEx, "Evaluated value by nonNullApply() method cannot be null")
                 );
     }
     //>example<
@@ -241,7 +241,7 @@ public class Example_Defaults_Test {
         }).when(state -> {
             state.func.apply(3, 4);
         }).then(state -> {
-            attest(state.sb.toString()).must$(Be::equal$, "3+4=7");
+            attest(state.sb.toString()).mustEx(Be::equalEx, "3+4=7");
         });
 
     }

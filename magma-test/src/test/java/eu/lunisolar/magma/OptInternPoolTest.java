@@ -36,11 +36,11 @@ public class OptInternPoolTest {
         OptBool t2 = OptBool.of(true);
         OptBool f2 = OptBool.of(false);
 
-        attest(t1).must$(Be::same$, t2);
-        attest(f1).must$(Be::same$, f2);
+        attest(t1).mustEx(Be::sameEx, t2);
+        attest(f1).mustEx(Be::sameEx, f2);
 
-        attest(t1).must$(Have::valueEqual$, true);
-        attest(f1).must$(Have::valueEqual$, false);
+        attest(t1).mustEx(Have::valueEqualEx, true);
+        attest(f1).mustEx(Have::valueEqualEx, false);
     }
 
     @Test
@@ -50,8 +50,8 @@ public class OptInternPoolTest {
             OptByte b1 = OptByte.of((byte)i);
             OptByte b2 = OptByte.of((byte)i);
 
-            attest(b1).must$(Be::same$, b2);
-            attest(b1).must$(Have::valueEqual$, (byte)i);
+            attest(b1).mustEx(Be::sameEx, b2);
+            attest(b1).mustEx(Have::valueEqualEx, (byte)i);
         }
     }
 }

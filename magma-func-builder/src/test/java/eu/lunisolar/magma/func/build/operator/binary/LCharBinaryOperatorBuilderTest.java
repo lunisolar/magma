@@ -128,10 +128,10 @@ public class LCharBinaryOperatorBuilderTest{
 
 
         FuncAttests.attestCharBinaryOp(function)
-            .doesApplyAsChar('\u0000','\u0000').when(null).to(a -> a.must$(Be::equal$, '\u0000'))
-            .doesApplyAsChar('\u0005','\u0005').when(null).to(a -> a.must$(Be::equal$, '\u0001'))
-            .doesApplyAsChar('\u0015','\u0015').when(null).to(a -> a.must$(Be::equal$, '\u0002'))
-            .doesApplyAsChar('\u0010','\u0010').when(null).to(a -> a.must$(Be::equal$, '\u0099'))
+            .doesApplyAsChar('\u0000','\u0000').when(null).to(a -> a.mustEx(Be::equalEx, '\u0000'))
+            .doesApplyAsChar('\u0005','\u0005').when(null).to(a -> a.mustEx(Be::equalEx, '\u0001'))
+            .doesApplyAsChar('\u0015','\u0015').when(null).to(a -> a.mustEx(Be::equalEx, '\u0002'))
+            .doesApplyAsChar('\u0010','\u0010').when(null).to(a -> a.mustEx(Be::equalEx, '\u0099'))
         ;
 
     }

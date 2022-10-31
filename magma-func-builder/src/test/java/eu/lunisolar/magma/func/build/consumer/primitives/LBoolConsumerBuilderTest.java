@@ -128,8 +128,8 @@ public class LBoolConsumerBuilderTest{
 
 
         FuncAttests.attestBoolCons(function)
-            .doesAccept(false).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept(true).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
+            .doesAccept(false).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept(true).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
         ;
 
     }

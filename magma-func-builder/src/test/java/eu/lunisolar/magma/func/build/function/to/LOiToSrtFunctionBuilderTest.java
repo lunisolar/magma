@@ -128,10 +128,10 @@ public class LOiToSrtFunctionBuilderTest<T>{
 
 
         FuncAttests.attestOiToSrtFunc(function)
-            .doesApplyAsSrt(0,0).when(null).to(a -> a.must$(Be::equal$, (short)0))
-            .doesApplyAsSrt(5,5).when(null).to(a -> a.must$(Be::equal$, (short)1))
-            .doesApplyAsSrt(15,15).when(null).to(a -> a.must$(Be::equal$, (short)2))
-            .doesApplyAsSrt(10,10).when(null).to(a -> a.must$(Be::equal$, (short)99))
+            .doesApplyAsSrt(0,0).when(null).to(a -> a.mustEx(Be::equalEx, (short)0))
+            .doesApplyAsSrt(5,5).when(null).to(a -> a.mustEx(Be::equalEx, (short)1))
+            .doesApplyAsSrt(15,15).when(null).to(a -> a.mustEx(Be::equalEx, (short)2))
+            .doesApplyAsSrt(10,10).when(null).to(a -> a.mustEx(Be::equalEx, (short)99))
         ;
 
     }

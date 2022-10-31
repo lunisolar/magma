@@ -36,31 +36,31 @@ public class P_ContainKeys_Test {
     }
 
     @Test void containKeys() {
-        attest(P.containKeys(MAP, "key1")).must$(Be::True$);
-        attest(P.containKeys(MAP, "key1", "key2")).must$(Be::True$);
-        attest(P.containKeys(MAP, "other")).must$(Be::False$);
-        attest(P.containKeys(MAP, "key1", "other")).must$(Be::False$);
+        attest(P.containKeys(MAP, "key1")).mustEx(Be::TrueEx);
+        attest(P.containKeys(MAP, "key1", "key2")).mustEx(Be::TrueEx);
+        attest(P.containKeys(MAP, "other")).mustEx(Be::FalseEx);
+        attest(P.containKeys(MAP, "key1", "other")).mustEx(Be::FalseEx);
     }
 
     @Test void containKeys_empty() {
-        attest(P.containKeys(new HashMap<>())).must$(Be::True$);
-        attest(P.containKeys(MAP)).must$(Be::False$);
-        attest(P.notContainKeys(new HashMap<>())).must$(Be::False$);
-        attest(P.notContainKeys(MAP)).must$(Be::True$);
+        attest(P.containKeys(new HashMap<>())).mustEx(Be::TrueEx);
+        attest(P.containKeys(MAP)).mustEx(Be::FalseEx);
+        attest(P.notContainKeys(new HashMap<>())).mustEx(Be::FalseEx);
+        attest(P.notContainKeys(MAP)).mustEx(Be::TrueEx);
     }
 
     @Test void notContainKeys() {
-        attest(P.notContainKeys(MAP, "key1")).must$(Be::False$);
-        attest(P.notContainKeys(MAP, "key1", "key2")).must$(Be::False$);
-        attest(P.notContainKeys(MAP, "other")).must$(Be::True$);
+        attest(P.notContainKeys(MAP, "key1")).mustEx(Be::FalseEx);
+        attest(P.notContainKeys(MAP, "key1", "key2")).mustEx(Be::FalseEx);
+        attest(P.notContainKeys(MAP, "other")).mustEx(Be::TrueEx);
         //
-        attest(P.notContainKeys(MAP, "key1", "other")).must$(Be::False$);
-        attest(P.notContainKeys(MAP, "other", "other1")).must$(Be::True$);
+        attest(P.notContainKeys(MAP, "key1", "other")).mustEx(Be::FalseEx);
+        attest(P.notContainKeys(MAP, "other", "other1")).mustEx(Be::TrueEx);
     }
 
     @Test void ex() {
-        attest(P.containKeys$(MAP, "other", "other2"))
-                .must$(Be::equal$, "Map <{key1=value1, key2=value2, key3=value3}> must contain keys <[other, other2]>.");
+        attest(P.containKeysEx(MAP, "other", "other2"))
+                .mustEx(Be::equalEx, "Map <{key1=value1, key2=value2, key3=value3}> must contain keys <[other, other2]>.");
 
     }
 }

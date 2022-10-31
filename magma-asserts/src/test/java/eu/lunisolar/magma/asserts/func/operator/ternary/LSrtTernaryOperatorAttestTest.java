@@ -55,7 +55,7 @@ public class LSrtTernaryOperatorAttestTest {
 
         FuncAttests.attestSrtTernaryOp(function)
          .doesApplyAsSrt((short)100,(short)100,(short)100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -64,7 +64,7 @@ public class LSrtTernaryOperatorAttestTest {
 
         FuncAttests.attestSrtTernaryOp(function)
          .doesApplyAsSrt((short)100,(short)100,(short)100)
-            .to(a -> a.must$(Be::equal$, (short)0));
+            .to(a -> a.mustEx(Be::equalEx, (short)0));
 
     }
 
@@ -73,7 +73,7 @@ public class LSrtTernaryOperatorAttestTest {
 
         FuncAttests.attestSrtTernaryOp(functionThrowing)
          .doesApplyAsSrt((short)100,(short)100,(short)100)
-            .to(a -> a.must$(Be::equal$, (short)0));
+            .to(a -> a.mustEx(Be::equalEx, (short)0));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class LSrtTernaryOperatorAttestTest {
 
         FuncAttests.attestSrtTernaryOp(functionThrowing)
          .doesApplyAsSrt((short)100,(short)100,(short)100).withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -94,14 +94,14 @@ public class LSrtTernaryOperatorAttestTest {
         FuncAttests.attestSrtTernaryOp(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesApplyAsSrt((short)100,(short)100,(short)100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsSrt((short)100,(short)100,(short)100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -113,15 +113,15 @@ public class LSrtTernaryOperatorAttestTest {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, (short)0);
+                a.mustEx(Be::equalEx, (short)0);
             }
          })
          .doesApplyAsSrt((short)100,(short)100,(short)100)
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesApplyAsSrt((short)100,(short)100,(short)100)
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

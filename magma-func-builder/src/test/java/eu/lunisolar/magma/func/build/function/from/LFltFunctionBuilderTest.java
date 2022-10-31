@@ -128,10 +128,10 @@ public class LFltFunctionBuilderTest<R>{
 
 
         FuncAttests.attestFltFunc(function)
-            .doesApply(0f).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApply(5f).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApply(15f).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApply(10f).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApply(0f).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApply(5f).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApply(15f).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApply(10f).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

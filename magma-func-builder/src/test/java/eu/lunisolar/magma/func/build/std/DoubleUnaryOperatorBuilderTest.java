@@ -128,10 +128,10 @@ public class DoubleUnaryOperatorBuilderTest{
 
 
         FuncAttests.attestDblUnaryOp(function)
-            .doesApplyAsDbl(0d).when(null).to(a -> a.must$(Be::equal$, 0d))
-            .doesApplyAsDbl(5d).when(null).to(a -> a.must$(Be::equal$, 1d))
-            .doesApplyAsDbl(15d).when(null).to(a -> a.must$(Be::equal$, 2d))
-            .doesApplyAsDbl(10d).when(null).to(a -> a.must$(Be::equal$, 99d))
+            .doesApplyAsDbl(0d).when(null).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesApplyAsDbl(5d).when(null).to(a -> a.mustEx(Be::equalEx, 1d))
+            .doesApplyAsDbl(15d).when(null).to(a -> a.mustEx(Be::equalEx, 2d))
+            .doesApplyAsDbl(10d).when(null).to(a -> a.mustEx(Be::equalEx, 99d))
         ;
 
     }

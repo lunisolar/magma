@@ -128,10 +128,10 @@ public class LSrtToByteFunctionBuilderTest{
 
 
         FuncAttests.attestSrtToByteFunc(function)
-            .doesApplyAsByte((short)0).when(null).to(a -> a.must$(Be::equal$, (byte)0))
-            .doesApplyAsByte((short)5).when(null).to(a -> a.must$(Be::equal$, (byte)1))
-            .doesApplyAsByte((short)15).when(null).to(a -> a.must$(Be::equal$, (byte)2))
-            .doesApplyAsByte((short)10).when(null).to(a -> a.must$(Be::equal$, (byte)99))
+            .doesApplyAsByte((short)0).when(null).to(a -> a.mustEx(Be::equalEx, (byte)0))
+            .doesApplyAsByte((short)5).when(null).to(a -> a.mustEx(Be::equalEx, (byte)1))
+            .doesApplyAsByte((short)15).when(null).to(a -> a.mustEx(Be::equalEx, (byte)2))
+            .doesApplyAsByte((short)10).when(null).to(a -> a.mustEx(Be::equalEx, (byte)99))
         ;
 
     }

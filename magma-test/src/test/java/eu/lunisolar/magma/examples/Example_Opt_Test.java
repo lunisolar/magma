@@ -104,7 +104,7 @@ public class Example_Opt_Test {
                 .filter(Is::inRange, 5, 7) // 5 is in range from 5 to 7
                 .filter(Is::between, 5, 7); // 5 is NOT between 5 to 7
 
-        attest(result).must$(Be::Void$);
+        attest(result).mustEx(Be::VoidEx);
     }
     //>example<
 
@@ -118,7 +118,7 @@ public class Example_Opt_Test {
                 .filter(Is::inRange, 5, 7) // 5 is in range from 5 to 7
                 .filter(Is::between, 5, 7); // 5 is NOT between 5 to 7
 
-        attest(result).must$(Be::Void$);
+        attest(result).mustEx(Be::VoidEx);
     }
 
     /**
@@ -130,9 +130,9 @@ public class Example_Opt_Test {
 
         Opt<Integer> ooo = Opt.obj(5);
 
-        attest(ooo.uniIs(P::equal, 5)).must$(Be::True$);
-        attest(ooo.is(P::inRange, 5, 7)).must$(Be::True$);
-        attest(ooo.is(P::between, 5, 7)).must$(Be::False$);
+        attest(ooo.uniIs(P::equal, 5)).mustEx(Be::TrueEx);
+        attest(ooo.is(P::inRange, 5, 7)).mustEx(Be::TrueEx);
+        attest(ooo.is(P::between, 5, 7)).mustEx(Be::FalseEx);
 
         ooo.uniMust(Be::equal, 99, "must be 99");
     }
@@ -149,7 +149,7 @@ public class Example_Opt_Test {
     public void test4() {
         Opt ooo = Opt.empty();
 
-        attest(ooo.is(P::Null)).must$(Be::False$);
+        attest(ooo.is(P::Null)).mustEx(Be::FalseEx);
     }
 
     @Test(expectedExceptions = NoSuchElementException.class, expectedExceptionsMessageRegExp = "No value present.")
@@ -166,17 +166,17 @@ public class Example_Opt_Test {
 
         // testing value against ANY predicate is impossible.
         attestThrownBy(() -> opt.must(Be::Null, "must be null!"))
-                .must$(Be::instanceOf$, NoSuchElementException.class)
-                .must$(Have::msgEqual$, "No value present.");
+                .mustEx(Be::instanceOfEx, NoSuchElementException.class)
+                .mustEx(Have::msgEqualEx, "No value present.");
 
         // that's part of Optional 'contract'
-        attestSup(opt::get).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
+        attestSup(opt::get).doesGet().withException(ea -> ea.mustEx(Be::instanceOfEx, NoSuchElementException.class).mustEx(Have::msgContainEx, "No value present."));
 
         // that's part of Opt 'contract'
-        attest(opt.nullable()).must$(Be::Null$);
+        attest(opt.nullable()).mustEx(Be::NullEx);
 
         // that's part of Opt/Check 'contract'
-        attestSup(opt::value).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
+        attestSup(opt::value).doesGet().withException(ea -> ea.mustEx(Be::instanceOfEx, NoSuchElementException.class).mustEx(Have::msgContainEx, "No value present."));
     }
 
     @Test
@@ -185,29 +185,29 @@ public class Example_Opt_Test {
 
         // testing value against ANY predicate is impossible.
         attestThrownBy(() -> opt.must(Be::Null, "must be null!"))
-                .must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgEqual$, "No value present.");
+                .mustEx(Be::instanceOfEx, NoSuchElementException.class).mustEx(Have::msgEqualEx, "No value present.");
 
         // that's part of Optional 'contract'
-        attestSup(opt::get).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
+        attestSup(opt::get).doesGet().withException(ea -> ea.mustEx(Be::instanceOfEx, NoSuchElementException.class).mustEx(Have::msgContainEx, "No value present."));
 
         // that's part of Opt 'contract'
-        attest(opt.nullable()).must$(Be::Null$);
+        attest(opt.nullable()).mustEx(Be::NullEx);
 
         // that's part of Opt/Check 'contract'
-        attestSup(opt::value).doesGet().withException(ea -> ea.must$(Be::instanceOf$, NoSuchElementException.class).must$(Have::msgContain$, "No value present."));
+        attestSup(opt::value).doesGet().withException(ea -> ea.mustEx(Be::instanceOfEx, NoSuchElementException.class).mustEx(Have::msgContainEx, "No value present."));
     }
 
     @Test
     public void valueTrait() {
         OptInt opt = OptInt.empty();
 
-        attest(opt.voidValue()).must$(Be::same$, opt);
-        attest(opt.value(45)).must$(Be::notSame$, opt);
+        attest(opt.voidValue()).mustEx(Be::sameEx, opt);
+        attest(opt.value(45)).mustEx(Be::notSameEx, opt);
 
         opt = OptInt.valueOf(45);
 
-        attest(opt.voidValue()).must$(Be::notSame$, opt);
-        attest(opt.value(45)).must$(Be::notSame$, opt);
+        attest(opt.voidValue()).mustEx(Be::notSameEx, opt);
+        attest(opt.value(45)).mustEx(Be::notSameEx, opt);
     }
 
     static {
@@ -289,13 +289,13 @@ public class Example_Opt_Test {
                            .filter(P::startWith, "T")
                            .replace("This", "THIS")
                            .removeTail(".")
-                           .must$(Be::equal$, "THIS is optional string");
+                           .mustEx(Be::equalEx, "THIS is optional string");
 
         OptStr str2 = OptStr.str(input)
                            .filter(P::startWith, "123456789")
                            .replace("This", "THIS")
                            .removeTail(".")
-                           .must$(Be::equal$, "THIS is optional string");   //NoSuchElementException
+                           .mustEx(Be::equalEx, "THIS is optional string");   //NoSuchElementException
 //                           .mustBeEmpty();  /// TODO Add
 
     }

@@ -36,17 +36,17 @@ public class MementoTest {
         AtomicLong i = new AtomicLong(0);
         var sut = LLongSupplier.memento(-1, -1, i::getAndIncrement, (m, x1, x2) -> x2);
 
-        attest(sut.lastValue()).must$(Be::equal$, -1);
-        attest(sut.lastBaseValue()).must$(Be::equal$, -1);
-        attest(sut.getAsLong()).must$(Be::equal$, 0);
+        attest(sut.lastValue()).mustEx(Be::equalEx, -1);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, -1);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 0);
 
-        attest(sut.lastValue()).must$(Be::equal$, 0);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 0);
-        attest(sut.getAsLong()).must$(Be::equal$, 1);
+        attest(sut.lastValue()).mustEx(Be::equalEx, 0);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 0);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 1);
 
-        attest(sut.lastValue()).must$(Be::equal$, 1);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 1);
-        attest(sut.getAsLong()).must$(Be::equal$, 2);
+        attest(sut.lastValue()).mustEx(Be::equalEx, 1);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 1);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 2);
     }
 
     @Test
@@ -54,21 +54,21 @@ public class MementoTest {
         AtomicLong i = new AtomicLong(0);
         var sut = LLongSupplier.memento(-1, 5, i::getAndIncrement, (m, x1, x2) -> Long.sum(m, x2));
 
-        attest(sut.lastValue()).must$(Be::equal$, 5);
-        attest(sut.lastBaseValue()).must$(Be::equal$, -1);
-        attest(sut.getAsLong()).must$(Be::equal$, 5); // 5 + 0
+        attest(sut.lastValue()).mustEx(Be::equalEx, 5);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, -1);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 5); // 5 + 0
 
-        attest(sut.lastValue()).must$(Be::equal$, 5);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 0);
-        attest(sut.getAsLong()).must$(Be::equal$, 6);  // 5 + 0 + 1
+        attest(sut.lastValue()).mustEx(Be::equalEx, 5);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 0);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 6);  // 5 + 0 + 1
 
-        attest(sut.lastValue()).must$(Be::equal$, 6);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 1);
-        attest(sut.getAsLong()).must$(Be::equal$, 8);  // 5 + 0 + 1 + 2
+        attest(sut.lastValue()).mustEx(Be::equalEx, 6);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 1);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 8);  // 5 + 0 + 1 + 2
 
-        attest(sut.lastValue()).must$(Be::equal$, 8);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 2);
-        attest(sut.getAsLong()).must$(Be::equal$, 11);  // 5 + 0 + 1 + 2 + 3
+        attest(sut.lastValue()).mustEx(Be::equalEx, 8);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 2);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 11);  // 5 + 0 + 1 + 2 + 3
     }
 
     @Test
@@ -76,20 +76,20 @@ public class MementoTest {
         AtomicLong i = new AtomicLong(0);
         var sut = LLongSupplier.deltaOf(i::getAndIncrement);
 
-        attest(sut.lastValue()).must$(Be::equal$, 0);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 0);
-        attest(sut.getAsLong()).must$(Be::equal$, 1); // increment 1
+        attest(sut.lastValue()).mustEx(Be::equalEx, 0);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 0);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 1); // increment 1
 
-        attest(sut.lastValue()).must$(Be::equal$, 1);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 1);
-        attest(sut.getAsLong()).must$(Be::equal$, 1);  // increment 1
+        attest(sut.lastValue()).mustEx(Be::equalEx, 1);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 1);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 1);  // increment 1
 
-        attest(sut.lastValue()).must$(Be::equal$, 1);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 2);
-        attest(sut.getAsLong()).must$(Be::equal$, 1);
+        attest(sut.lastValue()).mustEx(Be::equalEx, 1);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 2);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 1);
 
-        attest(sut.lastValue()).must$(Be::equal$, 1);
-        attest(sut.lastBaseValue()).must$(Be::equal$, 3);
-        attest(sut.getAsLong()).must$(Be::equal$, 1);
+        attest(sut.lastValue()).mustEx(Be::equalEx, 1);
+        attest(sut.lastBaseValue()).mustEx(Be::equalEx, 3);
+        attest(sut.getAsLong()).mustEx(Be::equalEx, 1);
     }
 }

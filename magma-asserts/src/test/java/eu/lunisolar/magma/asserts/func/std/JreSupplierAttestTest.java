@@ -54,7 +54,7 @@ public class JreSupplierAttestTest<T> {
 
         FuncAttests.attestSup(function)
          .doesGet()
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
     }
 
@@ -63,7 +63,7 @@ public class JreSupplierAttestTest<T> {
 
         FuncAttests.attestSup(function)
          .doesGet()
-            .to(a -> a.must$(Be::equal$, 0));
+            .to(a -> a.mustEx(Be::equalEx, 0));
 
     }
 
@@ -72,7 +72,7 @@ public class JreSupplierAttestTest<T> {
 
         FuncAttests.attestSup(functionThrowing)
          .doesGet()
-            .to(a -> a.must$(Be::equal$, 0));
+            .to(a -> a.mustEx(Be::equalEx, 0));
     }
 
     @Test
@@ -80,8 +80,8 @@ public class JreSupplierAttestTest<T> {
 
         FuncAttests.attestSup(functionThrowing)
          .doesGet().withException(a -> a
-                   .must$(Be::exactlyInstanceOf$, UnsupportedOperationException.class)
-                   .must$(Have::noMsg$));
+                   .mustEx(Be::exactlyInstanceOfEx, UnsupportedOperationException.class)
+                   .mustEx(Have::noMsgEx));
 
     }
 
@@ -93,14 +93,14 @@ public class JreSupplierAttestTest<T> {
         FuncAttests.attestSup(function)
          .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
-            a.must$(Be::equal$, testValue);
+            a.mustEx(Be::equalEx, testValue);
          })
          .doesGet()
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesGet()
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "(?s)Actual .+: Case .+, check \\?; Recurring assertion failed: .*")
@@ -112,15 +112,15 @@ public class JreSupplierAttestTest<T> {
          .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
-                a.must$(Be::equal$, 0);
+                a.mustEx(Be::equalEx, 0);
             }
          })
          .doesGet()
-            .to(a -> a.must$(Be::equal$, testValue))
+            .to(a -> a.mustEx(Be::equalEx, testValue))
          .doesGet()
-            .to(a -> a.must$(Be::equal$, testValue));
+            .to(a -> a.mustEx(Be::equalEx, testValue));
 
-        Checks.attest(recurringAssertsCalls.get()).must$(Be::equal$, 2);
+        Checks.attest(recurringAssertsCalls.get()).mustEx(Be::equalEx, 2);
     }
 
 }

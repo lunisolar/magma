@@ -128,8 +128,8 @@ public class LBiObjBytePredicateBuilderTest<T1,T2>{
 
 
         FuncAttests.attestBiObjBytePred(function)
-            .doesTest(0,0,(byte)0).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5,5,(byte)5).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0,0,(byte)0).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5,5,(byte)5).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

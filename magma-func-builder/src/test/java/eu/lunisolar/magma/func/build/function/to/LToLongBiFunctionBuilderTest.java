@@ -128,10 +128,10 @@ public class LToLongBiFunctionBuilderTest<T1,T2>{
 
 
         FuncAttests.attestToLongBiFunc(function)
-            .doesApplyAsLong(0,0).when(null).to(a -> a.must$(Be::equal$, 0L))
-            .doesApplyAsLong(5,5).when(null).to(a -> a.must$(Be::equal$, 1L))
-            .doesApplyAsLong(15,15).when(null).to(a -> a.must$(Be::equal$, 2L))
-            .doesApplyAsLong(10,10).when(null).to(a -> a.must$(Be::equal$, 99L))
+            .doesApplyAsLong(0,0).when(null).to(a -> a.mustEx(Be::equalEx, 0L))
+            .doesApplyAsLong(5,5).when(null).to(a -> a.mustEx(Be::equalEx, 1L))
+            .doesApplyAsLong(15,15).when(null).to(a -> a.mustEx(Be::equalEx, 2L))
+            .doesApplyAsLong(10,10).when(null).to(a -> a.mustEx(Be::equalEx, 99L))
         ;
 
     }

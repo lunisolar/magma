@@ -128,10 +128,10 @@ public class LByteToFltFunctionBuilderTest{
 
 
         FuncAttests.attestByteToFltFunc(function)
-            .doesApplyAsFlt((byte)0).when(null).to(a -> a.must$(Be::equal$, 0f))
-            .doesApplyAsFlt((byte)5).when(null).to(a -> a.must$(Be::equal$, 1f))
-            .doesApplyAsFlt((byte)15).when(null).to(a -> a.must$(Be::equal$, 2f))
-            .doesApplyAsFlt((byte)10).when(null).to(a -> a.must$(Be::equal$, 99f))
+            .doesApplyAsFlt((byte)0).when(null).to(a -> a.mustEx(Be::equalEx, 0f))
+            .doesApplyAsFlt((byte)5).when(null).to(a -> a.mustEx(Be::equalEx, 1f))
+            .doesApplyAsFlt((byte)15).when(null).to(a -> a.mustEx(Be::equalEx, 2f))
+            .doesApplyAsFlt((byte)10).when(null).to(a -> a.mustEx(Be::equalEx, 99f))
         ;
 
     }

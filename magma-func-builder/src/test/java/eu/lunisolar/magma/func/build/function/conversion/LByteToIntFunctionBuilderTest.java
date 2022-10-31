@@ -128,10 +128,10 @@ public class LByteToIntFunctionBuilderTest{
 
 
         FuncAttests.attestByteToIntFunc(function)
-            .doesApplyAsInt((byte)0).when(null).to(a -> a.must$(Be::equal$, 0))
-            .doesApplyAsInt((byte)5).when(null).to(a -> a.must$(Be::equal$, 1))
-            .doesApplyAsInt((byte)15).when(null).to(a -> a.must$(Be::equal$, 2))
-            .doesApplyAsInt((byte)10).when(null).to(a -> a.must$(Be::equal$, 99))
+            .doesApplyAsInt((byte)0).when(null).to(a -> a.mustEx(Be::equalEx, 0))
+            .doesApplyAsInt((byte)5).when(null).to(a -> a.mustEx(Be::equalEx, 1))
+            .doesApplyAsInt((byte)15).when(null).to(a -> a.mustEx(Be::equalEx, 2))
+            .doesApplyAsInt((byte)10).when(null).to(a -> a.mustEx(Be::equalEx, 99))
         ;
 
     }

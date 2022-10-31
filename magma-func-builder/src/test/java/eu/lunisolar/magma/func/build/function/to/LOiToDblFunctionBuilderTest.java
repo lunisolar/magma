@@ -128,10 +128,10 @@ public class LOiToDblFunctionBuilderTest<T>{
 
 
         FuncAttests.attestOiToDblFunc(function)
-            .doesApplyAsDbl(0,0).when(null).to(a -> a.must$(Be::equal$, 0d))
-            .doesApplyAsDbl(5,5).when(null).to(a -> a.must$(Be::equal$, 1d))
-            .doesApplyAsDbl(15,15).when(null).to(a -> a.must$(Be::equal$, 2d))
-            .doesApplyAsDbl(10,10).when(null).to(a -> a.must$(Be::equal$, 99d))
+            .doesApplyAsDbl(0,0).when(null).to(a -> a.mustEx(Be::equalEx, 0d))
+            .doesApplyAsDbl(5,5).when(null).to(a -> a.mustEx(Be::equalEx, 1d))
+            .doesApplyAsDbl(15,15).when(null).to(a -> a.mustEx(Be::equalEx, 2d))
+            .doesApplyAsDbl(10,10).when(null).to(a -> a.mustEx(Be::equalEx, 99d))
         ;
 
     }

@@ -128,8 +128,8 @@ public class LFltPredicateBuilderTest{
 
 
         FuncAttests.attestFltPred(function)
-            .doesTest(0f).when(null).to(a -> a.must$(Be::equal$, false))
-            .doesTest(5f).when(null).to(a -> a.must$(Be::equal$, true))
+            .doesTest(0f).when(null).to(a -> a.mustEx(Be::equalEx, false))
+            .doesTest(5f).when(null).to(a -> a.mustEx(Be::equalEx, true))
         ;
 
     }

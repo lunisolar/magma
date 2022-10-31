@@ -128,8 +128,8 @@ public class LBoolIntConsumerBuilderTest{
 
 
         FuncAttests.attestBoolIntCons(function)
-            .doesAccept(false,0).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 0))
-            .doesAccept(true,5).when(null).soThat(() -> Checks.attest(externalEffect.get()).must$(Be::equal$, 1))
+            .doesAccept(false,0).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 0))
+            .doesAccept(true,5).when(null).soThat(() -> Checks.attest(externalEffect.get()).mustEx(Be::equalEx, 1))
         ;
 
     }
