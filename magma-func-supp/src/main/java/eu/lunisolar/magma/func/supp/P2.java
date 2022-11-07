@@ -281,40 +281,40 @@ public class P2 implements FluentSyntax {
 	}
 
 	/** Predicate: String <'%s'> must be null or empty.*/
-	public static <MP1, MP2> boolean nullOrEmpty(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> boolean nullOrEmpty(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or empty. */
-	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> @Nullable String nullOrEmptyEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or empty..*/
-	public static <MP1, MP2> boolean notNullNorEmpty(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> boolean notNullNorEmpty(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmpty(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or empty. */
-	public static <MP1, MP2> @Nullable String notNullNorEmptyEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> @Nullable String notNullNorEmptyEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmptyEx(n);
 	}
 
 	/** Predicate: String <'%s'> must be null or blank.*/
-	public static <MP1, MP2> boolean nullOrBlank(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> boolean nullOrBlank(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrBlank(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or blank. */
-	public static <MP1, MP2> @Nullable String nullOrBlankEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> @Nullable String nullOrBlankEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrBlankEx(n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or blank..*/
-	public static <MP1, MP2> boolean notNullNorBlank(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> boolean notNullNorBlank(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorBlank(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or blank. */
-	public static <MP1, MP2> @Nullable String notNullNorBlankEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	public static <MP1, MP2> @Nullable String notNullNorBlankEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorBlankEx(n);
 	}
 

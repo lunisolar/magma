@@ -281,40 +281,40 @@ public class P1 implements FluentSyntax {
 	}
 
 	/** Predicate: String <'%s'> must be null or empty.*/
-	public static <MP1> boolean nullOrEmpty(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> boolean nullOrEmpty(String n, MP1 msgParamOnly) {
 		return Predicates.nullOrEmpty(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or empty. */
-	public static <MP1> @Nullable String nullOrEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String nullOrEmptyEx(String n, MP1 msgParamOnly) {
 		return Predicates.nullOrEmptyEx(n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or empty..*/
-	public static <MP1> boolean notNullNorEmpty(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> boolean notNullNorEmpty(String n, MP1 msgParamOnly) {
 		return Predicates.notNullNorEmpty(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or empty. */
-	public static <MP1> @Nullable String notNullNorEmptyEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String notNullNorEmptyEx(String n, MP1 msgParamOnly) {
 		return Predicates.notNullNorEmptyEx(n);
 	}
 
 	/** Predicate: String <'%s'> must be null or blank.*/
-	public static <MP1> boolean nullOrBlank(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> boolean nullOrBlank(String n, MP1 msgParamOnly) {
 		return Predicates.nullOrBlank(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or blank. */
-	public static <MP1> @Nullable String nullOrBlankEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String nullOrBlankEx(String n, MP1 msgParamOnly) {
 		return Predicates.nullOrBlankEx(n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or blank..*/
-	public static <MP1> boolean notNullNorBlank(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> boolean notNullNorBlank(String n, MP1 msgParamOnly) {
 		return Predicates.notNullNorBlank(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or blank. */
-	public static <MP1> @Nullable String notNullNorBlankEx(@Nonnull String n, MP1 msgParamOnly) {
+	public static <MP1> @Nullable String notNullNorBlankEx(String n, MP1 msgParamOnly) {
 		return Predicates.notNullNorBlankEx(n);
 	}
 

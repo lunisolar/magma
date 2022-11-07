@@ -370,40 +370,40 @@ public class Predicates implements FluentSyntax {
 	}
 
 	/** Predicate: String <'%s'> must be null or empty.*/
-	public static boolean nullOrEmpty(@Nonnull String n) {
+	public static boolean nullOrEmpty(String n) {
 		return n == null || n.isEmpty();
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or empty. */
-	public static @Nullable String nullOrEmptyEx(@Nonnull String n) {
+	public static @Nullable String nullOrEmptyEx(String n) {
 		return nullOrEmpty(n) ? null : String.format("String <'%s'> must be null or empty.", n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or empty..*/
-	public static boolean notNullNorEmpty(@Nonnull String n) {
+	public static boolean notNullNorEmpty(String n) {
 		return !nullOrEmpty(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or empty. */
-	public static @Nullable String notNullNorEmptyEx(@Nonnull String n) {
+	public static @Nullable String notNullNorEmptyEx(String n) {
 		return notNullNorEmpty(n) ? null : String.format("String <'%s'> must NOT be null or empty.", n);
 	}
 
 	/** Predicate: String <'%s'> must be null or blank.*/
-	public static boolean nullOrBlank(@Nonnull String n) {
+	public static boolean nullOrBlank(String n) {
 		return n == null || n.isBlank();
 	}
 
 	/** "Special" predicate: String <'%s'> must be null or blank. */
-	public static @Nullable String nullOrBlankEx(@Nonnull String n) {
+	public static @Nullable String nullOrBlankEx(String n) {
 		return nullOrBlank(n) ? null : String.format("String <'%s'> must be null or blank.", n);
 	}
 	/** Predicate: String <'%s'> must NOT be null or blank..*/
-	public static boolean notNullNorBlank(@Nonnull String n) {
+	public static boolean notNullNorBlank(String n) {
 		return !nullOrBlank(n);
 	}
 
 	/** "Special" predicate: String <'%s'> must NOT be null or blank. */
-	public static @Nullable String notNullNorBlankEx(@Nonnull String n) {
+	public static @Nullable String notNullNorBlankEx(String n) {
 		return notNullNorBlank(n) ? null : String.format("String <'%s'> must NOT be null or blank.", n);
 	}
 
