@@ -639,7 +639,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 
 	// </editor-fold>
 
-	/** Compared to ifPresent it will simply fails if there is no value */
+	/** Compared to ifPresent it will simply fail if there is no value */
 	default @Nonnull SELF visit(@Nonnull LSrtConsumer consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		consumer.accept(get());

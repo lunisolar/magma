@@ -1307,7 +1307,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 
 	// </editor-fold>
 
-	/** Compared to ifPresent it will simply fails if there is no value */
+	/** Compared to ifPresent it will simply fail if there is no value */
 	default @Nonnull SELF visit(@Nonnull LConsumer<T> consumer) {
 		Null.nonNullArg(consumer, "consumer");
 		consumer.accept(get());
