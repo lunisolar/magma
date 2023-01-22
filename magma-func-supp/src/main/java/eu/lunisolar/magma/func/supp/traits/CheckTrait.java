@@ -6980,25 +6980,25 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		return mustEx(Be::NullEx);
 	}
 	default @Nonnull SELF mustBeNull(String message) {
-		return mustEx(Be::NullEx);
+		return mustEx0(Be::NullEx, message);
 	}
 	default @Nonnull SELF mustBeNotNull() {
 		return mustEx(Be::notNullEx);
 	}
 	default @Nonnull SELF mustBeNotNull(String message) {
-		return mustEx(Be::notNullEx);
+		return mustEx0(Be::notNullEx, message);
 	}
 	default @Nonnull SELF mustBeSame(T expected) {
 		return mustEx(Be::sameEx, expected);
 	}
 	default @Nonnull SELF mustBeSame(T expected, String message) {
-		return mustEx(Be::sameEx, expected);
+		return mustEx0(Be::sameEx, expected, message);
 	}
 	default @Nonnull SELF mustBeNotSame(T expected) {
 		return mustEx(Be::notSameEx, expected);
 	}
 	default @Nonnull SELF mustBeNotSame(T expected, String message) {
-		return mustEx(Be::notSameEx, expected);
+		return mustEx0(Be::notSameEx, expected, message);
 	}
 
 	default @Nonnull SELF checkBool(@Nonnull LPredicate<T> func, LConsumer<Checks.CheckBool> checks) {
