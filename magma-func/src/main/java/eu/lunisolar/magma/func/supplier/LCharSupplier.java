@@ -408,7 +408,14 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 			char x1 = lastBaseValue;
 			char x2 = lastBaseValue = baseFunction.getAsCharX();
 
-			return lastValue = mementoFunction.applyAsChar(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsCharX(lastValue, x1, x2);
+		}
+
+		public char currentGetAsChar() {
+			char x1 = lastBaseValue;
+			char x2 = baseFunction.getAsChar();
+
+			return mementoFunction.applyAsChar(lastValue, x1, x2);
 		}
 
 		public char lastValue() {

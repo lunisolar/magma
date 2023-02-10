@@ -423,7 +423,14 @@ public interface LTriFltFunction<R> extends MetaFunction, MetaInterface.NonThrow
 			R x1 = lastBaseValue;
 			R x2 = lastBaseValue = baseFunction.applyX(a1, a2, a3);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public R currentApply(float a1, float a2, float a3) {
+			R x1 = lastBaseValue;
+			R x2 = baseFunction.apply(a1, a2, a3);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {

@@ -418,7 +418,14 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 			double x1 = lastBaseValue;
 			double x2 = lastBaseValue = baseFunction.getAsDblX();
 
-			return lastValue = mementoFunction.applyAsDbl(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsDblX(lastValue, x1, x2);
+		}
+
+		public double currentGetAsDbl() {
+			double x1 = lastBaseValue;
+			double x2 = baseFunction.getAsDbl();
+
+			return mementoFunction.applyAsDbl(lastValue, x1, x2);
 		}
 
 		public double lastValue() {

@@ -721,7 +721,14 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 			R x1 = lastBaseValue;
 			R x2 = lastBaseValue = baseFunction.applyX(a1, a2, a3);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public R currentApply(T1 a1, T2 a2, T3 a3) {
+			R x1 = lastBaseValue;
+			R x2 = baseFunction.apply(a1, a2, a3);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {

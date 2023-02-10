@@ -424,7 +424,14 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 			double x1 = lastBaseValue;
 			double x2 = lastBaseValue = baseFunction.applyAsDblX(a1, a2, a3);
 
-			return lastValue = mementoFunction.applyAsDbl(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsDblX(lastValue, x1, x2);
+		}
+
+		public double currentApplyAsDbl(double a1, double a2, double a3) {
+			double x1 = lastBaseValue;
+			double x2 = baseFunction.applyAsDbl(a1, a2, a3);
+
+			return mementoFunction.applyAsDbl(lastValue, x1, x2);
 		}
 
 		public double lastValue() {

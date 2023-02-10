@@ -439,7 +439,14 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 			char x1 = lastBaseValue;
 			char x2 = lastBaseValue = baseFunction.applyAsCharX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsChar(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsCharX(lastValue, x1, x2);
+		}
+
+		public char currentApplyAsChar(T a1, int a2) {
+			char x1 = lastBaseValue;
+			char x2 = baseFunction.applyAsChar(a1, a2);
+
+			return mementoFunction.applyAsChar(lastValue, x1, x2);
 		}
 
 		public char lastValue() {

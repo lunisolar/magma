@@ -447,7 +447,14 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 			double x1 = lastBaseValue;
 			double x2 = lastBaseValue = baseFunction.applyAsDblX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsDbl(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsDblX(lastValue, x1, x2);
+		}
+
+		public double currentApplyAsDbl(T1 a1, T2 a2) {
+			double x1 = lastBaseValue;
+			double x2 = baseFunction.applyAsDbl(a1, a2);
+
+			return mementoFunction.applyAsDbl(lastValue, x1, x2);
 		}
 
 		public double lastValue() {

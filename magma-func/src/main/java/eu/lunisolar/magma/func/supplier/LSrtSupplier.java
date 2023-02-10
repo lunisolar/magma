@@ -408,7 +408,14 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 			short x1 = lastBaseValue;
 			short x2 = lastBaseValue = baseFunction.getAsSrtX();
 
-			return lastValue = mementoFunction.applyAsSrt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsSrtX(lastValue, x1, x2);
+		}
+
+		public short currentGetAsSrt() {
+			short x1 = lastBaseValue;
+			short x2 = baseFunction.getAsSrt();
+
+			return mementoFunction.applyAsSrt(lastValue, x1, x2);
 		}
 
 		public short lastValue() {

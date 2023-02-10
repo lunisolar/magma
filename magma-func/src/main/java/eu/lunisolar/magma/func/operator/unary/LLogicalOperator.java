@@ -672,7 +672,14 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 			boolean x1 = lastBaseValue;
 			boolean x2 = lastBaseValue = baseFunction.applyX(a);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public boolean currentApply(boolean a) {
+			boolean x1 = lastBaseValue;
+			boolean x2 = baseFunction.apply(a);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {

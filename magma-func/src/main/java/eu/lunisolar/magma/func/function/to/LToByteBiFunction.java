@@ -437,7 +437,14 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 			byte x1 = lastBaseValue;
 			byte x2 = lastBaseValue = baseFunction.applyAsByteX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsByte(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsByteX(lastValue, x1, x2);
+		}
+
+		public byte currentApplyAsByte(T1 a1, T2 a2) {
+			byte x1 = lastBaseValue;
+			byte x2 = baseFunction.applyAsByte(a1, a2);
+
+			return mementoFunction.applyAsByte(lastValue, x1, x2);
 		}
 
 		public byte lastValue() {

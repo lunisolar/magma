@@ -424,7 +424,14 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 			long x1 = lastBaseValue;
 			long x2 = lastBaseValue = baseFunction.applyAsLongX(a1, a2, a3);
 
-			return lastValue = mementoFunction.applyAsLong(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsLongX(lastValue, x1, x2);
+		}
+
+		public long currentApplyAsLong(long a1, long a2, long a3) {
+			long x1 = lastBaseValue;
+			long x2 = baseFunction.applyAsLong(a1, a2, a3);
+
+			return mementoFunction.applyAsLong(lastValue, x1, x2);
 		}
 
 		public long lastValue() {

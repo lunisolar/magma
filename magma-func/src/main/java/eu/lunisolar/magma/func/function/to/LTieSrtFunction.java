@@ -439,7 +439,14 @@ public interface LTieSrtFunction<T> extends MetaFunction, MetaInterface.NonThrow
 			int x1 = lastBaseValue;
 			int x2 = lastBaseValue = baseFunction.applyAsIntX(a1, a2, a3);
 
-			return lastValue = mementoFunction.applyAsInt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsIntX(lastValue, x1, x2);
+		}
+
+		public int currentApplyAsInt(T a1, int a2, short a3) {
+			int x1 = lastBaseValue;
+			int x2 = baseFunction.applyAsInt(a1, a2, a3);
+
+			return mementoFunction.applyAsInt(lastValue, x1, x2);
 		}
 
 		public int lastValue() {

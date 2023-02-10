@@ -843,7 +843,14 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 			boolean x1 = lastBaseValue;
 			boolean x2 = lastBaseValue = baseFunction.applyX(a1, a2);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public boolean currentApply(boolean a1, boolean a2) {
+			boolean x1 = lastBaseValue;
+			boolean x2 = baseFunction.apply(a1, a2);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {

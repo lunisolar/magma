@@ -437,7 +437,14 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 			int x1 = lastBaseValue;
 			int x2 = lastBaseValue = baseFunction.applyAsIntX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsInt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsIntX(lastValue, x1, x2);
+		}
+
+		public int currentApplyAsInt(T1 a1, T2 a2) {
+			int x1 = lastBaseValue;
+			int x2 = baseFunction.applyAsInt(a1, a2);
+
+			return mementoFunction.applyAsInt(lastValue, x1, x2);
 		}
 
 		public int lastValue() {

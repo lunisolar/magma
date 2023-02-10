@@ -424,7 +424,14 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 			short x1 = lastBaseValue;
 			short x2 = lastBaseValue = baseFunction.applyAsSrtX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsSrt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsSrtX(lastValue, x1, x2);
+		}
+
+		public short currentApplyAsSrt(short a1, short a2) {
+			short x1 = lastBaseValue;
+			short x2 = baseFunction.applyAsSrt(a1, a2);
+
+			return mementoFunction.applyAsSrt(lastValue, x1, x2);
 		}
 
 		public short lastValue() {

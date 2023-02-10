@@ -433,7 +433,14 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 			float x1 = lastBaseValue;
 			float x2 = lastBaseValue = baseFunction.applyAsFltX(a);
 
-			return lastValue = mementoFunction.applyAsFlt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsFltX(lastValue, x1, x2);
+		}
+
+		public float currentApplyAsFlt(T a) {
+			float x1 = lastBaseValue;
+			float x2 = baseFunction.applyAsFlt(a);
+
+			return mementoFunction.applyAsFlt(lastValue, x1, x2);
 		}
 
 		public float lastValue() {

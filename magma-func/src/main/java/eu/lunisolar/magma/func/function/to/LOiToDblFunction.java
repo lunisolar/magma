@@ -439,7 +439,14 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 			double x1 = lastBaseValue;
 			double x2 = lastBaseValue = baseFunction.applyAsDblX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsDbl(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsDblX(lastValue, x1, x2);
+		}
+
+		public double currentApplyAsDbl(T a1, int a2) {
+			double x1 = lastBaseValue;
+			double x2 = baseFunction.applyAsDbl(a1, a2);
+
+			return mementoFunction.applyAsDbl(lastValue, x1, x2);
 		}
 
 		public double lastValue() {

@@ -418,7 +418,14 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 			char x1 = lastBaseValue;
 			char x2 = lastBaseValue = baseFunction.applyAsCharX(a);
 
-			return lastValue = mementoFunction.applyAsChar(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsCharX(lastValue, x1, x2);
+		}
+
+		public char currentApplyAsChar(long a) {
+			char x1 = lastBaseValue;
+			char x2 = baseFunction.applyAsChar(a);
+
+			return mementoFunction.applyAsChar(lastValue, x1, x2);
 		}
 
 		public char lastValue() {

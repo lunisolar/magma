@@ -424,7 +424,14 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 			float x1 = lastBaseValue;
 			float x2 = lastBaseValue = baseFunction.applyAsFltX(a1, a2, a3);
 
-			return lastValue = mementoFunction.applyAsFlt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsFltX(lastValue, x1, x2);
+		}
+
+		public float currentApplyAsFlt(float a1, float a2, float a3) {
+			float x1 = lastBaseValue;
+			float x2 = baseFunction.applyAsFlt(a1, a2, a3);
+
+			return mementoFunction.applyAsFlt(lastValue, x1, x2);
 		}
 
 		public float lastValue() {

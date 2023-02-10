@@ -716,7 +716,14 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 			R x1 = lastBaseValue;
 			R x2 = lastBaseValue = baseFunction.applyX(a);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public R currentApply(T a) {
+			R x1 = lastBaseValue;
+			R x2 = baseFunction.apply(a);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {

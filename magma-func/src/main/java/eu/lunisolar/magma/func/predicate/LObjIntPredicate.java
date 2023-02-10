@@ -884,7 +884,14 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 			boolean x1 = lastBaseValue;
 			boolean x2 = lastBaseValue = baseFunction.testX(a1, a2);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public boolean currentTest(T a1, int a2) {
+			boolean x1 = lastBaseValue;
+			boolean x2 = baseFunction.test(a1, a2);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {

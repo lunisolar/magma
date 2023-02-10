@@ -700,7 +700,14 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 			T x1 = lastBaseValue;
 			T x2 = lastBaseValue = baseFunction.applyX(a);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public T currentApply(T a) {
+			T x1 = lastBaseValue;
+			T x2 = baseFunction.apply(a);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public T lastValue() {

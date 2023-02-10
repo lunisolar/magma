@@ -424,7 +424,14 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 			short x1 = lastBaseValue;
 			short x2 = lastBaseValue = baseFunction.applyAsSrtX(a1, a2, a3);
 
-			return lastValue = mementoFunction.applyAsSrt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsSrtX(lastValue, x1, x2);
+		}
+
+		public short currentApplyAsSrt(short a1, short a2, short a3) {
+			short x1 = lastBaseValue;
+			short x2 = baseFunction.applyAsSrt(a1, a2, a3);
+
+			return mementoFunction.applyAsSrt(lastValue, x1, x2);
 		}
 
 		public short lastValue() {

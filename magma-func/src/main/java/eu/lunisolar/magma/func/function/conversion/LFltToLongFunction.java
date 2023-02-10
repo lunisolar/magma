@@ -418,7 +418,14 @@ public interface LFltToLongFunction extends MetaFunction, MetaInterface.NonThrow
 			long x1 = lastBaseValue;
 			long x2 = lastBaseValue = baseFunction.applyAsLongX(a);
 
-			return lastValue = mementoFunction.applyAsLong(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsLongX(lastValue, x1, x2);
+		}
+
+		public long currentApplyAsLong(float a) {
+			long x1 = lastBaseValue;
+			long x2 = baseFunction.applyAsLong(a);
+
+			return mementoFunction.applyAsLong(lastValue, x1, x2);
 		}
 
 		public long lastValue() {

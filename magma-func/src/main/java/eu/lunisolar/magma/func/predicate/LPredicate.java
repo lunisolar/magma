@@ -992,7 +992,14 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 			boolean x1 = lastBaseValue;
 			boolean x2 = lastBaseValue = baseFunction.testX(a);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public boolean currentTest(T a) {
+			boolean x1 = lastBaseValue;
+			boolean x2 = baseFunction.test(a);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {

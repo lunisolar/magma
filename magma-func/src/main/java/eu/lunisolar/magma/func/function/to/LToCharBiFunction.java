@@ -437,7 +437,14 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 			char x1 = lastBaseValue;
 			char x2 = lastBaseValue = baseFunction.applyAsCharX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsChar(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsCharX(lastValue, x1, x2);
+		}
+
+		public char currentApplyAsChar(T1 a1, T2 a2) {
+			char x1 = lastBaseValue;
+			char x2 = baseFunction.applyAsChar(a1, a2);
+
+			return mementoFunction.applyAsChar(lastValue, x1, x2);
 		}
 
 		public char lastValue() {

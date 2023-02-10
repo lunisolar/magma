@@ -408,7 +408,14 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 			int x1 = lastBaseValue;
 			int x2 = lastBaseValue = baseFunction.getAsIntX();
 
-			return lastValue = mementoFunction.applyAsInt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsIntX(lastValue, x1, x2);
+		}
+
+		public int currentGetAsInt() {
+			int x1 = lastBaseValue;
+			int x2 = baseFunction.getAsInt();
+
+			return mementoFunction.applyAsInt(lastValue, x1, x2);
 		}
 
 		public int lastValue() {

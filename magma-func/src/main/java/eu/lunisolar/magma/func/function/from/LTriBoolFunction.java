@@ -423,7 +423,14 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 			R x1 = lastBaseValue;
 			R x2 = lastBaseValue = baseFunction.applyX(a1, a2, a3);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public R currentApply(boolean a1, boolean a2, boolean a3) {
+			R x1 = lastBaseValue;
+			R x2 = baseFunction.apply(a1, a2, a3);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {

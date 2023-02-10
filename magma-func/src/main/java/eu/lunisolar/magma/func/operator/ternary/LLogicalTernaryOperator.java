@@ -845,7 +845,14 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 			boolean x1 = lastBaseValue;
 			boolean x2 = lastBaseValue = baseFunction.applyX(a1, a2, a3);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public boolean currentApply(boolean a1, boolean a2, boolean a3) {
+			boolean x1 = lastBaseValue;
+			boolean x2 = baseFunction.apply(a1, a2, a3);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {

@@ -702,7 +702,14 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 			boolean x1 = lastBaseValue;
 			boolean x2 = lastBaseValue = baseFunction.getAsBoolX();
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public boolean currentGetAsBool() {
+			boolean x1 = lastBaseValue;
+			boolean x2 = baseFunction.getAsBool();
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {

@@ -408,7 +408,14 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 			float x1 = lastBaseValue;
 			float x2 = lastBaseValue = baseFunction.getAsFltX();
 
-			return lastValue = mementoFunction.applyAsFlt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsFltX(lastValue, x1, x2);
+		}
+
+		public float currentGetAsFlt() {
+			float x1 = lastBaseValue;
+			float x2 = baseFunction.getAsFlt();
+
+			return mementoFunction.applyAsFlt(lastValue, x1, x2);
 		}
 
 		public float lastValue() {

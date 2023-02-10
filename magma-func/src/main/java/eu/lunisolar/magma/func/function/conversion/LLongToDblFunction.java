@@ -428,7 +428,14 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 			double x1 = lastBaseValue;
 			double x2 = lastBaseValue = baseFunction.applyAsDblX(a);
 
-			return lastValue = mementoFunction.applyAsDbl(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsDblX(lastValue, x1, x2);
+		}
+
+		public double currentApplyAsDbl(long a) {
+			double x1 = lastBaseValue;
+			double x2 = baseFunction.applyAsDbl(a);
+
+			return mementoFunction.applyAsDbl(lastValue, x1, x2);
 		}
 
 		public double lastValue() {

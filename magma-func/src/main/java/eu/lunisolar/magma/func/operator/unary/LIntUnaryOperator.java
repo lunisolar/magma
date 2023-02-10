@@ -418,7 +418,14 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 			int x1 = lastBaseValue;
 			int x2 = lastBaseValue = baseFunction.applyAsIntX(a);
 
-			return lastValue = mementoFunction.applyAsInt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsIntX(lastValue, x1, x2);
+		}
+
+		public int currentApplyAsInt(int a) {
+			int x1 = lastBaseValue;
+			int x2 = baseFunction.applyAsInt(a);
+
+			return mementoFunction.applyAsInt(lastValue, x1, x2);
 		}
 
 		public int lastValue() {

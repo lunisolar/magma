@@ -418,7 +418,14 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 			byte x1 = lastBaseValue;
 			byte x2 = lastBaseValue = baseFunction.applyAsByteX(a);
 
-			return lastValue = mementoFunction.applyAsByte(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsByteX(lastValue, x1, x2);
+		}
+
+		public byte currentApplyAsByte(float a) {
+			byte x1 = lastBaseValue;
+			byte x2 = baseFunction.applyAsByte(a);
+
+			return mementoFunction.applyAsByte(lastValue, x1, x2);
 		}
 
 		public byte lastValue() {

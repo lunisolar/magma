@@ -704,7 +704,14 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 			T x1 = lastBaseValue;
 			T x2 = lastBaseValue = baseFunction.applyX(a1, a2);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public T currentApply(T a1, T a2) {
+			T x1 = lastBaseValue;
+			T x2 = baseFunction.apply(a1, a2);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public T lastValue() {

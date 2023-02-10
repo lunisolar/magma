@@ -844,7 +844,14 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 			boolean x1 = lastBaseValue;
 			boolean x2 = lastBaseValue = baseFunction.testX(a1, a2, a3);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public boolean currentTest(double a1, double a2, double a3) {
+			boolean x1 = lastBaseValue;
+			boolean x2 = baseFunction.test(a1, a2, a3);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public boolean lastValue() {

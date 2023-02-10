@@ -418,7 +418,14 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 			long x1 = lastBaseValue;
 			long x2 = lastBaseValue = baseFunction.applyAsLongX(a);
 
-			return lastValue = mementoFunction.applyAsLong(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsLongX(lastValue, x1, x2);
+		}
+
+		public long currentApplyAsLong(char a) {
+			long x1 = lastBaseValue;
+			long x2 = baseFunction.applyAsLong(a);
+
+			return mementoFunction.applyAsLong(lastValue, x1, x2);
 		}
 
 		public long lastValue() {

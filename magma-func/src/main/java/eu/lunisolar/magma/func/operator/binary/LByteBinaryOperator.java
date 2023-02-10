@@ -424,7 +424,14 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 			byte x1 = lastBaseValue;
 			byte x2 = lastBaseValue = baseFunction.applyAsByteX(a1, a2);
 
-			return lastValue = mementoFunction.applyAsByte(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsByteX(lastValue, x1, x2);
+		}
+
+		public byte currentApplyAsByte(byte a1, byte a2) {
+			byte x1 = lastBaseValue;
+			byte x2 = baseFunction.applyAsByte(a1, a2);
+
+			return mementoFunction.applyAsByte(lastValue, x1, x2);
 		}
 
 		public byte lastValue() {

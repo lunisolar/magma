@@ -408,7 +408,14 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 			long x1 = lastBaseValue;
 			long x2 = lastBaseValue = baseFunction.getAsLongX();
 
-			return lastValue = mementoFunction.applyAsLong(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsLongX(lastValue, x1, x2);
+		}
+
+		public long currentGetAsLong() {
+			long x1 = lastBaseValue;
+			long x2 = baseFunction.getAsLong();
+
+			return mementoFunction.applyAsLong(lastValue, x1, x2);
 		}
 
 		public long lastValue() {

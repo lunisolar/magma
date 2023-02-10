@@ -423,7 +423,14 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 			R x1 = lastBaseValue;
 			R x2 = lastBaseValue = baseFunction.applyX(a1, a2);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public R currentApply(short a1, short a2) {
+			R x1 = lastBaseValue;
+			R x2 = baseFunction.apply(a1, a2);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {

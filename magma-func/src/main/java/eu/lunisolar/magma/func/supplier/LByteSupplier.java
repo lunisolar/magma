@@ -408,7 +408,14 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 			byte x1 = lastBaseValue;
 			byte x2 = lastBaseValue = baseFunction.getAsByteX();
 
-			return lastValue = mementoFunction.applyAsByte(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsByteX(lastValue, x1, x2);
+		}
+
+		public byte currentGetAsByte() {
+			byte x1 = lastBaseValue;
+			byte x2 = baseFunction.getAsByte();
+
+			return mementoFunction.applyAsByte(lastValue, x1, x2);
 		}
 
 		public byte lastValue() {

@@ -436,7 +436,14 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 			R x1 = lastBaseValue;
 			R x2 = lastBaseValue = baseFunction.applyX(a1, a2, a3);
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public R currentApply(T a1, int a2, short a3) {
+			R x1 = lastBaseValue;
+			R x2 = baseFunction.apply(a1, a2, a3);
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public R lastValue() {

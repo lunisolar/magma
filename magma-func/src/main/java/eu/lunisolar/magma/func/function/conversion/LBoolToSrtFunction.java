@@ -418,7 +418,14 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 			short x1 = lastBaseValue;
 			short x2 = lastBaseValue = baseFunction.applyAsSrtX(a);
 
-			return lastValue = mementoFunction.applyAsSrt(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyAsSrtX(lastValue, x1, x2);
+		}
+
+		public short currentApplyAsSrt(boolean a) {
+			short x1 = lastBaseValue;
+			short x2 = baseFunction.applyAsSrt(a);
+
+			return mementoFunction.applyAsSrt(lastValue, x1, x2);
 		}
 
 		public short lastValue() {

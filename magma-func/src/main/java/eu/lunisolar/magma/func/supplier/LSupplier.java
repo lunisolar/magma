@@ -691,7 +691,14 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 			T x1 = lastBaseValue;
 			T x2 = lastBaseValue = baseFunction.getX();
 
-			return lastValue = mementoFunction.apply(lastValue, x1, x2);
+			return lastValue = mementoFunction.applyX(lastValue, x1, x2);
+		}
+
+		public T currentGet() {
+			T x1 = lastBaseValue;
+			T x2 = baseFunction.get();
+
+			return mementoFunction.apply(lastValue, x1, x2);
 		}
 
 		public T lastValue() {
