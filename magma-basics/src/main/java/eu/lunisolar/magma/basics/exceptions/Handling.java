@@ -82,7 +82,7 @@ public final class Handling implements Serializable {
 
     public static String constructMessage(boolean combine, @Nullable Throwable e, @Nullable String newMessage, @Nullable Object... messageParams) {
         if (combine && newMessage != null) {
-            String message = constructMessage(e, newMessage, messageParams);
+            String message      = constructMessage(e, newMessage, messageParams);
             String causeMessage = e != null ? e.getMessage() : null;
             String finalMessage = causeMessage == null || causeMessage.isBlank() ?
                     message
@@ -98,7 +98,7 @@ public final class Handling implements Serializable {
     @Nonnull
     public static String constructMessage(boolean combine, @Nullable Throwable e, @Nullable String newMessage) {
         if (combine && newMessage != null) {
-            String message = constructMessage(e, newMessage);
+            String message      = constructMessage(e, newMessage);
             String causeMessage = e != null ? e.getMessage() : null;
             String finalMessage = causeMessage == null || causeMessage.isBlank() ?
                     message
@@ -277,7 +277,7 @@ public final class Handling implements Serializable {
             @Nonnull String newMessage, @Nullable Object... messageParams
     ) {
         handleErrors(e);
-        String message = constructMessage(null, newMessage, messageParams);
+        String message      = constructMessage(null, newMessage, messageParams);
         String causeMessage = e.getMessage();
         String finalMessage = causeMessage == null || causeMessage.isBlank() ?
                 message
@@ -292,7 +292,7 @@ public final class Handling implements Serializable {
             @Nonnull String newMessage
     ) {
         handleErrors(e);
-        String message = constructMessage(null, newMessage);
+        String message      = constructMessage(null, newMessage);
         String causeMessage = e.getMessage();
         String finalMessage = causeMessage == null || causeMessage.isBlank() ?
                 message
@@ -567,14 +567,25 @@ public final class Handling implements Serializable {
         nonNullArg(main, "main");
 
         var list = new ArrayList<Throwable>();
+        visitCauses(main, list::add);
+        return list;
+    }
 
-        var e = main;
+    public static Throwable initialCause(@Nonnull Throwable main) {
+        nonNullArg(main, "main");
+        return visitCauses(main, cause -> {});
+    }
+
+    public static Throwable visitCauses(@Nonnull Throwable main, Consumer<Throwable> consumer) {
+        var e    = main;
+        var last = main;
         while (e != null) {
-            list.add(e);
+            last = e;
+            consumer.accept(e);
             e = e.getCause();
         }
 
-        return list;
+        return last;
     }
 
 }
