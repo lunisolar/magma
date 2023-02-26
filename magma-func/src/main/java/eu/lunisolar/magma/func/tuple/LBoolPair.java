@@ -212,40 +212,24 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setFirstIfArg(boolean first, LLogicalOperator predicate) {
-            if (predicate.apply(first())) {
-                return this.first(first);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setFirstIfArgNotNull(R arg, LPredicate<R> func) {
-            if ( arg != null ) {
-                return this.first(func.test(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setFirstIf(LLogicalOperator predicate, boolean first) {
+        /** Sets value if predicate(current) is true */
+        default SELF setFirstIf(boolean first, LLogicalOperator predicate) {
             if (predicate.apply(this.first())) {
                 return this.first(first);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setFirstIf(boolean first, LLogicalBinaryOperator predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.apply(first, this.first())) {
                 return this.first(first);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setFirstIf(LLogicalBinaryOperator predicate, boolean first) {
             if (predicate.apply(this.first(), first)) {
                 return this.first(first);
@@ -260,40 +244,24 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setSecondIfArg(boolean second, LLogicalOperator predicate) {
-            if (predicate.apply(second())) {
-                return this.second(second);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setSecondIfArgNotNull(R arg, LPredicate<R> func) {
-            if ( arg != null ) {
-                return this.second(func.test(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setSecondIf(LLogicalOperator predicate, boolean second) {
+        /** Sets value if predicate(current) is true */
+        default SELF setSecondIf(boolean second, LLogicalOperator predicate) {
             if (predicate.apply(this.second())) {
                 return this.second(second);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setSecondIf(boolean second, LLogicalBinaryOperator predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.apply(second, this.second())) {
                 return this.second(second);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setSecondIf(LLogicalBinaryOperator predicate, boolean second) {
             if (predicate.apply(this.second(), second)) {
                 return this.second(second);
@@ -362,8 +330,6 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
             return this;
         }
             
-
-
 
 
 

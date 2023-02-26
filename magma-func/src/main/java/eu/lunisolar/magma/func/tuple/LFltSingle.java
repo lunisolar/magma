@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -242,40 +244,24 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(float value, LFltPredicate predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LToFltFunction<R> func) {
-            if ( arg != null ) {
-                return this.value(func.applyAsFlt(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LFltPredicate predicate, float value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(float value, LFltPredicate predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(float value, LBiFltPredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiFltPredicate predicate, float value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -339,7 +325,6 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
 
 
 
-
     }
 
 
@@ -374,6 +359,246 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
             return value;
         }
 
+
+
+    }
+
+
+
+
+
+
+  public static  AtomicFltSingle atomicOf() { 
+      return atomicOf(  0f );
+  }
+      
+
+  public static  AtomicFltSingle atomicOf(float a){
+        return new AtomicFltSingle(a);
+  }
+
+  public static  AtomicFltSingle atomicCopyOf(LFltSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicFltSingle  extends AbstractFltSingle implements Mut<AtomicFltSingle>   {
+
+        private volatile float value;
+
+        public AtomicFltSingle(float a){
+            this.value = a;
+        }
+
+
+        public @Override float value() {
+            return value;
+        }
+
+        public @Override AtomicFltSingle value(float value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+        private static final  VarHandle vh;
+        static {
+            try {
+                vh = MethodHandles
+                .lookup()
+                .in(AtomicFltSingle.class)
+                .findVarHandle(AtomicFltSingle.class, "value", float.class);
+            } catch (ReflectiveOperationException e) {
+                throw new ExceptionInInitializerError(e);
+            }
+        }
+
+        public float get() {
+            return value();
+        }
+
+        public void set(float value) {
+            value(value);
+        }
+
+        public void lazySet(float value) {
+            vh.setRelease(this, value);
+        }
+
+        public float getAndSet(float value) {
+            return (float) vh.getAndSet(this, value);
+        }
+
+        public boolean compareAndSet(float expected, float value) {
+            return vh.compareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetPlain(float expected, float value) {
+            return vh.weakCompareAndSetPlain(this, expected, value);
+        }
+
+        public float getAndIncrement() {
+            return getAndAdd((float)1);
+        }
+
+        public float getAndDecrement() {
+            return getAndAdd((float)-1);
+        }
+
+        public  float getAndAdd(float delta) {
+            return (float) vh.getAndAdd(this, delta);
+        }
+
+        public float incrementAndGet() {
+            return addAndGet((float)1);
+        }
+
+        public float decrementAndGet() {
+            return addAndGet((float)-1);
+        }
+
+        public float addAndGet(float delta) {
+            return (float) ((float)vh.getAndAdd(this, delta) + delta);
+        }
+
+        public final float getAndUpdate(LFltUnaryOperator updateFunction) {
+            float prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsFlt(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final float updateAndGet(LFltUnaryOperator updateFunction) {
+            float prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsFlt(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final float getAndAccumulate(float x, LFltBinaryOperator accumulatorFunction) {
+            float prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsFlt(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final float accumulateAndGet(float x, LFltBinaryOperator accumulatorFunction) {
+            float prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsFlt(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public float getPlain() {
+            return (float) vh.get(this);
+        }
+
+        public void setPlain(float value) {
+            vh.set(this, value);
+        }
+
+        public float getOpaque() {
+            return (float) vh.getOpaque(this);
+        }
+
+        public void setOpaque(float value) {
+            vh.setOpaque(this, value);
+        }
+
+        public float getAcquire() {
+            return (float) vh.getAcquire(this);
+        }
+
+        public void setRelease(float value) {
+            vh.setRelease(this, value);
+        }
+
+        public float compareAndExchange(float expected, float value) {
+            return (float) vh.compareAndExchange(this, expected, value);
+        }
+
+        public float compareAndExchangeAcquire(float expected, float value) {
+            return (float) vh.compareAndExchangeAcquire(this, expected, value);
+        }
+
+        public float compareAndExchangeRelease(float expected, float value) {
+            return (float) vh.compareAndExchangeRelease(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetVolatile(float expected, float value) {
+            return vh.weakCompareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetAcquire(float expected, float value) {
+            return vh.weakCompareAndSetAcquire(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetRelease(float expected, float value) {
+            return vh.weakCompareAndSetRelease(this, expected, value);
+        }
+
+        /** Sets value if predicate(current) is true */
+        public @Override AtomicFltSingle setValueIf(float value, LFltPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(newValue, current) is true. */
+        public @Override AtomicFltSingle setValueIf(float value, LBiFltPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(newValue, current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(current, newValue) is true. */
+        public @Override AtomicFltSingle setValueIf(LBiFltPredicate predicate, float value) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current, newValue)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
 
 
     }

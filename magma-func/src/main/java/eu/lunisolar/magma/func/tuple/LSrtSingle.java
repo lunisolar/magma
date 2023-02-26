@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -242,40 +244,24 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(short value, LSrtPredicate predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LToSrtFunction<R> func) {
-            if ( arg != null ) {
-                return this.value(func.applyAsSrt(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LSrtPredicate predicate, short value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(short value, LSrtPredicate predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(short value, LBiSrtPredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiSrtPredicate predicate, short value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -339,7 +325,6 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
 
 
 
-
     }
 
 
@@ -374,6 +359,246 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
             return value;
         }
 
+
+
+    }
+
+
+
+
+
+
+  public static  AtomicSrtSingle atomicOf() { 
+      return atomicOf(  (short)0 );
+  }
+      
+
+  public static  AtomicSrtSingle atomicOf(short a){
+        return new AtomicSrtSingle(a);
+  }
+
+  public static  AtomicSrtSingle atomicCopyOf(LSrtSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicSrtSingle  extends AbstractSrtSingle implements Mut<AtomicSrtSingle>   {
+
+        private volatile short value;
+
+        public AtomicSrtSingle(short a){
+            this.value = a;
+        }
+
+
+        public @Override short value() {
+            return value;
+        }
+
+        public @Override AtomicSrtSingle value(short value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+        private static final  VarHandle vh;
+        static {
+            try {
+                vh = MethodHandles
+                .lookup()
+                .in(AtomicSrtSingle.class)
+                .findVarHandle(AtomicSrtSingle.class, "value", short.class);
+            } catch (ReflectiveOperationException e) {
+                throw new ExceptionInInitializerError(e);
+            }
+        }
+
+        public short get() {
+            return value();
+        }
+
+        public void set(short value) {
+            value(value);
+        }
+
+        public void lazySet(short value) {
+            vh.setRelease(this, value);
+        }
+
+        public short getAndSet(short value) {
+            return (short) vh.getAndSet(this, value);
+        }
+
+        public boolean compareAndSet(short expected, short value) {
+            return vh.compareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetPlain(short expected, short value) {
+            return vh.weakCompareAndSetPlain(this, expected, value);
+        }
+
+        public short getAndIncrement() {
+            return getAndAdd((short)1);
+        }
+
+        public short getAndDecrement() {
+            return getAndAdd((short)-1);
+        }
+
+        public  short getAndAdd(short delta) {
+            return (short) vh.getAndAdd(this, delta);
+        }
+
+        public short incrementAndGet() {
+            return addAndGet((short)1);
+        }
+
+        public short decrementAndGet() {
+            return addAndGet((short)-1);
+        }
+
+        public short addAndGet(short delta) {
+            return (short) ((short)vh.getAndAdd(this, delta) + delta);
+        }
+
+        public final short getAndUpdate(LSrtUnaryOperator updateFunction) {
+            short prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsSrt(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final short updateAndGet(LSrtUnaryOperator updateFunction) {
+            short prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsSrt(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final short getAndAccumulate(short x, LSrtBinaryOperator accumulatorFunction) {
+            short prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsSrt(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final short accumulateAndGet(short x, LSrtBinaryOperator accumulatorFunction) {
+            short prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsSrt(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public short getPlain() {
+            return (short) vh.get(this);
+        }
+
+        public void setPlain(short value) {
+            vh.set(this, value);
+        }
+
+        public short getOpaque() {
+            return (short) vh.getOpaque(this);
+        }
+
+        public void setOpaque(short value) {
+            vh.setOpaque(this, value);
+        }
+
+        public short getAcquire() {
+            return (short) vh.getAcquire(this);
+        }
+
+        public void setRelease(short value) {
+            vh.setRelease(this, value);
+        }
+
+        public short compareAndExchange(short expected, short value) {
+            return (short) vh.compareAndExchange(this, expected, value);
+        }
+
+        public short compareAndExchangeAcquire(short expected, short value) {
+            return (short) vh.compareAndExchangeAcquire(this, expected, value);
+        }
+
+        public short compareAndExchangeRelease(short expected, short value) {
+            return (short) vh.compareAndExchangeRelease(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetVolatile(short expected, short value) {
+            return vh.weakCompareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetAcquire(short expected, short value) {
+            return vh.weakCompareAndSetAcquire(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetRelease(short expected, short value) {
+            return vh.weakCompareAndSetRelease(this, expected, value);
+        }
+
+        /** Sets value if predicate(current) is true */
+        public @Override AtomicSrtSingle setValueIf(short value, LSrtPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(newValue, current) is true. */
+        public @Override AtomicSrtSingle setValueIf(short value, LBiSrtPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(newValue, current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(current, newValue) is true. */
+        public @Override AtomicSrtSingle setValueIf(LBiSrtPredicate predicate, short value) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current, newValue)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
 
 
     }

@@ -216,40 +216,24 @@ public interface LBiObjSrtTriple<T1,T2> extends LTuple<Object>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setFirstIfArg(T1 first, LPredicate<T1> predicate) {
-            if (predicate.test(first())) {
-                return this.first(first);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setFirstIfArgNotNull(R arg, LFunction<R,T1> func) {
-            if ( arg != null ) {
-                return this.first(func.apply(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setFirstIf(LPredicate<T1> predicate, T1 first) {
+        /** Sets value if predicate(current) is true */
+        default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
             if (predicate.test(this.first())) {
                 return this.first(first);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setFirstIf(T1 first, LBiPredicate<T1,T1> predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(first, this.first())) {
                 return this.first(first);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setFirstIf(LBiPredicate<T1,T1> predicate, T1 first) {
             if (predicate.test(this.first(), first)) {
                 return this.first(first);
@@ -264,40 +248,24 @@ public interface LBiObjSrtTriple<T1,T2> extends LTuple<Object>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setSecondIfArg(T2 second, LPredicate<T2> predicate) {
-            if (predicate.test(second())) {
-                return this.second(second);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setSecondIfArgNotNull(R arg, LFunction<R,T2> func) {
-            if ( arg != null ) {
-                return this.second(func.apply(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setSecondIf(LPredicate<T2> predicate, T2 second) {
+        /** Sets value if predicate(current) is true */
+        default SELF setSecondIf(T2 second, LPredicate<T2> predicate) {
             if (predicate.test(this.second())) {
                 return this.second(second);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setSecondIf(T2 second, LBiPredicate<T2,T2> predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(second, this.second())) {
                 return this.second(second);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setSecondIf(LBiPredicate<T2,T2> predicate, T2 second) {
             if (predicate.test(this.second(), second)) {
                 return this.second(second);
@@ -312,40 +280,24 @@ public interface LBiObjSrtTriple<T1,T2> extends LTuple<Object>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setThirdIfArg(short third, LSrtPredicate predicate) {
-            if (predicate.test(third())) {
-                return this.third(third);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setThirdIfArgNotNull(R arg, LToSrtFunction<R> func) {
-            if ( arg != null ) {
-                return this.third(func.applyAsSrt(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setThirdIf(LSrtPredicate predicate, short third) {
+        /** Sets value if predicate(current) is true */
+        default SELF setThirdIf(short third, LSrtPredicate predicate) {
             if (predicate.test(this.third())) {
                 return this.third(third);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setThirdIf(short third, LBiSrtPredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(third, this.third())) {
                 return this.third(third);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setThirdIf(LBiSrtPredicate predicate, short third) {
             if (predicate.test(this.third(), third)) {
                 return this.third(third);
@@ -443,9 +395,6 @@ public interface LBiObjSrtTriple<T1,T2> extends LTuple<Object>
 
 
 
-
-
-
     }
 
 
@@ -511,9 +460,6 @@ public interface LBiObjSrtTriple<T1,T2> extends LTuple<Object>
             return this;
         }
             
-
-
-
 
 
 

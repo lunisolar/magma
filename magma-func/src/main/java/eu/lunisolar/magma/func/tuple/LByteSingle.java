@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -242,40 +244,24 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(byte value, LBytePredicate predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LToByteFunction<R> func) {
-            if ( arg != null ) {
-                return this.value(func.applyAsByte(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LBytePredicate predicate, byte value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(byte value, LBytePredicate predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(byte value, LBiBytePredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiBytePredicate predicate, byte value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -339,7 +325,6 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
 
 
 
-
     }
 
 
@@ -374,6 +359,246 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
             return value;
         }
 
+
+
+    }
+
+
+
+
+
+
+  public static  AtomicByteSingle atomicOf() { 
+      return atomicOf(  (byte)0 );
+  }
+      
+
+  public static  AtomicByteSingle atomicOf(byte a){
+        return new AtomicByteSingle(a);
+  }
+
+  public static  AtomicByteSingle atomicCopyOf(LByteSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicByteSingle  extends AbstractByteSingle implements Mut<AtomicByteSingle>   {
+
+        private volatile byte value;
+
+        public AtomicByteSingle(byte a){
+            this.value = a;
+        }
+
+
+        public @Override byte value() {
+            return value;
+        }
+
+        public @Override AtomicByteSingle value(byte value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+        private static final  VarHandle vh;
+        static {
+            try {
+                vh = MethodHandles
+                .lookup()
+                .in(AtomicByteSingle.class)
+                .findVarHandle(AtomicByteSingle.class, "value", byte.class);
+            } catch (ReflectiveOperationException e) {
+                throw new ExceptionInInitializerError(e);
+            }
+        }
+
+        public byte get() {
+            return value();
+        }
+
+        public void set(byte value) {
+            value(value);
+        }
+
+        public void lazySet(byte value) {
+            vh.setRelease(this, value);
+        }
+
+        public byte getAndSet(byte value) {
+            return (byte) vh.getAndSet(this, value);
+        }
+
+        public boolean compareAndSet(byte expected, byte value) {
+            return vh.compareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetPlain(byte expected, byte value) {
+            return vh.weakCompareAndSetPlain(this, expected, value);
+        }
+
+        public byte getAndIncrement() {
+            return getAndAdd((byte)1);
+        }
+
+        public byte getAndDecrement() {
+            return getAndAdd((byte)-1);
+        }
+
+        public  byte getAndAdd(byte delta) {
+            return (byte) vh.getAndAdd(this, delta);
+        }
+
+        public byte incrementAndGet() {
+            return addAndGet((byte)1);
+        }
+
+        public byte decrementAndGet() {
+            return addAndGet((byte)-1);
+        }
+
+        public byte addAndGet(byte delta) {
+            return (byte) ((byte)vh.getAndAdd(this, delta) + delta);
+        }
+
+        public final byte getAndUpdate(LByteUnaryOperator updateFunction) {
+            byte prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsByte(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final byte updateAndGet(LByteUnaryOperator updateFunction) {
+            byte prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsByte(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final byte getAndAccumulate(byte x, LByteBinaryOperator accumulatorFunction) {
+            byte prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsByte(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final byte accumulateAndGet(byte x, LByteBinaryOperator accumulatorFunction) {
+            byte prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsByte(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public byte getPlain() {
+            return (byte) vh.get(this);
+        }
+
+        public void setPlain(byte value) {
+            vh.set(this, value);
+        }
+
+        public byte getOpaque() {
+            return (byte) vh.getOpaque(this);
+        }
+
+        public void setOpaque(byte value) {
+            vh.setOpaque(this, value);
+        }
+
+        public byte getAcquire() {
+            return (byte) vh.getAcquire(this);
+        }
+
+        public void setRelease(byte value) {
+            vh.setRelease(this, value);
+        }
+
+        public byte compareAndExchange(byte expected, byte value) {
+            return (byte) vh.compareAndExchange(this, expected, value);
+        }
+
+        public byte compareAndExchangeAcquire(byte expected, byte value) {
+            return (byte) vh.compareAndExchangeAcquire(this, expected, value);
+        }
+
+        public byte compareAndExchangeRelease(byte expected, byte value) {
+            return (byte) vh.compareAndExchangeRelease(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetVolatile(byte expected, byte value) {
+            return vh.weakCompareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetAcquire(byte expected, byte value) {
+            return vh.weakCompareAndSetAcquire(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetRelease(byte expected, byte value) {
+            return vh.weakCompareAndSetRelease(this, expected, value);
+        }
+
+        /** Sets value if predicate(current) is true */
+        public @Override AtomicByteSingle setValueIf(byte value, LBytePredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(newValue, current) is true. */
+        public @Override AtomicByteSingle setValueIf(byte value, LBiBytePredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(newValue, current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(current, newValue) is true. */
+        public @Override AtomicByteSingle setValueIf(LBiBytePredicate predicate, byte value) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current, newValue)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
 
 
     }

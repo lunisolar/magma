@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -242,40 +244,24 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(int value, LIntPredicate predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LToIntFunction<R> func) {
-            if ( arg != null ) {
-                return this.value(func.applyAsInt(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LIntPredicate predicate, int value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(int value, LIntPredicate predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(int value, LBiIntPredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiIntPredicate predicate, int value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -339,7 +325,6 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
 
 
 
-
     }
 
 
@@ -376,6 +361,66 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
 
 
 
+    }
+
+
+
+
+
+
+  public static  AtomicIntSingle atomicOf() { 
+      return atomicOf(  0 );
+  }
+      
+
+  public static  AtomicIntSingle atomicOf(int a){
+        return new AtomicIntSingle(a);
+  }
+
+  public static  AtomicIntSingle atomicCopyOf(LIntSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicIntSingle  extends AtomicInteger implements Mut<AtomicIntSingle>   {
+
+
+        public AtomicIntSingle(int a){
+            set(a);
+        }
+
+
+        public @Override int value() {
+            return get();
+        }
+
+        public @Override AtomicIntSingle value(int value)    {
+                set( value);
+                return this;
+        }
+            
+
+
+
+
+
+
+
+
+        @Override
+        public boolean equals(Object that) {
+            return LIntSingle.tupleEquals(this, that);
+        }
+
+        @Override
+        public int hashCode() {
+            return LIntSingle.argHashCode(value());
+        }
+        
     }
 
 

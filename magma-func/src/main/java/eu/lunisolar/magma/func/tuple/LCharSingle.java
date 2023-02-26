@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -218,40 +220,24 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(char value, LCharPredicate predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LToCharFunction<R> func) {
-            if ( arg != null ) {
-                return this.value(func.applyAsChar(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LCharPredicate predicate, char value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(char value, LCharPredicate predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(char value, LBiCharPredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiCharPredicate predicate, char value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -315,7 +301,6 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
 
 
 
-
     }
 
 
@@ -350,6 +335,246 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
             return value;
         }
 
+
+
+    }
+
+
+
+
+
+
+  public static  AtomicCharSingle atomicOf() { 
+      return atomicOf(  '\u0000' );
+  }
+      
+
+  public static  AtomicCharSingle atomicOf(char a){
+        return new AtomicCharSingle(a);
+  }
+
+  public static  AtomicCharSingle atomicCopyOf(LCharSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicCharSingle  extends AbstractCharSingle implements Mut<AtomicCharSingle>   {
+
+        private volatile char value;
+
+        public AtomicCharSingle(char a){
+            this.value = a;
+        }
+
+
+        public @Override char value() {
+            return value;
+        }
+
+        public @Override AtomicCharSingle value(char value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+        private static final  VarHandle vh;
+        static {
+            try {
+                vh = MethodHandles
+                .lookup()
+                .in(AtomicCharSingle.class)
+                .findVarHandle(AtomicCharSingle.class, "value", char.class);
+            } catch (ReflectiveOperationException e) {
+                throw new ExceptionInInitializerError(e);
+            }
+        }
+
+        public char get() {
+            return value();
+        }
+
+        public void set(char value) {
+            value(value);
+        }
+
+        public void lazySet(char value) {
+            vh.setRelease(this, value);
+        }
+
+        public char getAndSet(char value) {
+            return (char) vh.getAndSet(this, value);
+        }
+
+        public boolean compareAndSet(char expected, char value) {
+            return vh.compareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetPlain(char expected, char value) {
+            return vh.weakCompareAndSetPlain(this, expected, value);
+        }
+
+        public char getAndIncrement() {
+            return getAndAdd((char)1);
+        }
+
+        public char getAndDecrement() {
+            return getAndAdd((char)-1);
+        }
+
+        public  char getAndAdd(char delta) {
+            return (char) vh.getAndAdd(this, delta);
+        }
+
+        public char incrementAndGet() {
+            return addAndGet((char)1);
+        }
+
+        public char decrementAndGet() {
+            return addAndGet((char)-1);
+        }
+
+        public char addAndGet(char delta) {
+            return (char) ((char)vh.getAndAdd(this, delta) + delta);
+        }
+
+        public final char getAndUpdate(LCharUnaryOperator updateFunction) {
+            char prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsChar(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final char updateAndGet(LCharUnaryOperator updateFunction) {
+            char prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsChar(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final char getAndAccumulate(char x, LCharBinaryOperator accumulatorFunction) {
+            char prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsChar(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final char accumulateAndGet(char x, LCharBinaryOperator accumulatorFunction) {
+            char prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsChar(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public char getPlain() {
+            return (char) vh.get(this);
+        }
+
+        public void setPlain(char value) {
+            vh.set(this, value);
+        }
+
+        public char getOpaque() {
+            return (char) vh.getOpaque(this);
+        }
+
+        public void setOpaque(char value) {
+            vh.setOpaque(this, value);
+        }
+
+        public char getAcquire() {
+            return (char) vh.getAcquire(this);
+        }
+
+        public void setRelease(char value) {
+            vh.setRelease(this, value);
+        }
+
+        public char compareAndExchange(char expected, char value) {
+            return (char) vh.compareAndExchange(this, expected, value);
+        }
+
+        public char compareAndExchangeAcquire(char expected, char value) {
+            return (char) vh.compareAndExchangeAcquire(this, expected, value);
+        }
+
+        public char compareAndExchangeRelease(char expected, char value) {
+            return (char) vh.compareAndExchangeRelease(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetVolatile(char expected, char value) {
+            return vh.weakCompareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetAcquire(char expected, char value) {
+            return vh.weakCompareAndSetAcquire(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetRelease(char expected, char value) {
+            return vh.weakCompareAndSetRelease(this, expected, value);
+        }
+
+        /** Sets value if predicate(current) is true */
+        public @Override AtomicCharSingle setValueIf(char value, LCharPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(newValue, current) is true. */
+        public @Override AtomicCharSingle setValueIf(char value, LBiCharPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(newValue, current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(current, newValue) is true. */
+        public @Override AtomicCharSingle setValueIf(LBiCharPredicate predicate, char value) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current, newValue)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
 
 
     }

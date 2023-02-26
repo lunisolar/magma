@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -202,40 +204,24 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(boolean value, LLogicalOperator predicate) {
-            if (predicate.apply(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LPredicate<R> func) {
-            if ( arg != null ) {
-                return this.value(func.test(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LLogicalOperator predicate, boolean value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(boolean value, LLogicalOperator predicate) {
             if (predicate.apply(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(boolean value, LLogicalBinaryOperator predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.apply(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LLogicalBinaryOperator predicate, boolean value) {
             if (predicate.apply(this.value(), value)) {
                 return this.value(value);
@@ -299,7 +285,6 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
 
 
 
-
     }
 
 
@@ -336,6 +321,66 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
 
 
 
+    }
+
+
+
+
+
+
+  public static  AtomicBoolSingle atomicOf() { 
+      return atomicOf(  false );
+  }
+      
+
+  public static  AtomicBoolSingle atomicOf(boolean a){
+        return new AtomicBoolSingle(a);
+  }
+
+  public static  AtomicBoolSingle atomicCopyOf(LBoolSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicBoolSingle  extends AtomicBoolean implements Mut<AtomicBoolSingle>   {
+
+
+        public AtomicBoolSingle(boolean a){
+            set(a);
+        }
+
+
+        public @Override boolean value() {
+            return get();
+        }
+
+        public @Override AtomicBoolSingle value(boolean value)    {
+                set( value);
+                return this;
+        }
+            
+
+
+
+
+
+
+
+
+        @Override
+        public boolean equals(Object that) {
+            return LBoolSingle.tupleEquals(this, that);
+        }
+
+        @Override
+        public int hashCode() {
+            return LBoolSingle.argHashCode(value());
+        }
+        
     }
 
 

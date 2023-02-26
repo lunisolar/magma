@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -242,40 +244,24 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(double value, LDblPredicate predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LToDblFunction<R> func) {
-            if ( arg != null ) {
-                return this.value(func.applyAsDbl(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LDblPredicate predicate, double value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(double value, LDblPredicate predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(double value, LBiDblPredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiDblPredicate predicate, double value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -339,7 +325,6 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
 
 
 
-
     }
 
 
@@ -374,6 +359,246 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
             return value;
         }
 
+
+
+    }
+
+
+
+
+
+
+  public static  AtomicDblSingle atomicOf() { 
+      return atomicOf(  0d );
+  }
+      
+
+  public static  AtomicDblSingle atomicOf(double a){
+        return new AtomicDblSingle(a);
+  }
+
+  public static  AtomicDblSingle atomicCopyOf(LDblSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicDblSingle  extends AbstractDblSingle implements Mut<AtomicDblSingle>   {
+
+        private volatile double value;
+
+        public AtomicDblSingle(double a){
+            this.value = a;
+        }
+
+
+        public @Override double value() {
+            return value;
+        }
+
+        public @Override AtomicDblSingle value(double value)    {
+            this.value = value;
+            return this;
+        }
+            
+
+
+
+
+
+
+
+
+        private static final  VarHandle vh;
+        static {
+            try {
+                vh = MethodHandles
+                .lookup()
+                .in(AtomicDblSingle.class)
+                .findVarHandle(AtomicDblSingle.class, "value", double.class);
+            } catch (ReflectiveOperationException e) {
+                throw new ExceptionInInitializerError(e);
+            }
+        }
+
+        public double get() {
+            return value();
+        }
+
+        public void set(double value) {
+            value(value);
+        }
+
+        public void lazySet(double value) {
+            vh.setRelease(this, value);
+        }
+
+        public double getAndSet(double value) {
+            return (double) vh.getAndSet(this, value);
+        }
+
+        public boolean compareAndSet(double expected, double value) {
+            return vh.compareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetPlain(double expected, double value) {
+            return vh.weakCompareAndSetPlain(this, expected, value);
+        }
+
+        public double getAndIncrement() {
+            return getAndAdd((double)1);
+        }
+
+        public double getAndDecrement() {
+            return getAndAdd((double)-1);
+        }
+
+        public  double getAndAdd(double delta) {
+            return (double) vh.getAndAdd(this, delta);
+        }
+
+        public double incrementAndGet() {
+            return addAndGet((double)1);
+        }
+
+        public double decrementAndGet() {
+            return addAndGet((double)-1);
+        }
+
+        public double addAndGet(double delta) {
+            return (double) ((double)vh.getAndAdd(this, delta) + delta);
+        }
+
+        public final double getAndUpdate(LDblUnaryOperator updateFunction) {
+            double prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsDbl(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final double updateAndGet(LDblUnaryOperator updateFunction) {
+            double prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = updateFunction.applyAsDbl(prev);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final double getAndAccumulate(double x, LDblBinaryOperator accumulatorFunction) {
+            double prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsDbl(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return prev;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public final double accumulateAndGet(double x, LDblBinaryOperator accumulatorFunction) {
+            double prev = get(), next = 0;
+            for (boolean haveNext = false;;) {
+                if (!haveNext)
+                    next = accumulatorFunction.applyAsDbl(prev, x);
+                if (weakCompareAndSetVolatile(prev, next))
+                    return next;
+                haveNext = (prev == (prev = get()));
+            }
+        }
+
+        public double getPlain() {
+            return (double) vh.get(this);
+        }
+
+        public void setPlain(double value) {
+            vh.set(this, value);
+        }
+
+        public double getOpaque() {
+            return (double) vh.getOpaque(this);
+        }
+
+        public void setOpaque(double value) {
+            vh.setOpaque(this, value);
+        }
+
+        public double getAcquire() {
+            return (double) vh.getAcquire(this);
+        }
+
+        public void setRelease(double value) {
+            vh.setRelease(this, value);
+        }
+
+        public double compareAndExchange(double expected, double value) {
+            return (double) vh.compareAndExchange(this, expected, value);
+        }
+
+        public double compareAndExchangeAcquire(double expected, double value) {
+            return (double) vh.compareAndExchangeAcquire(this, expected, value);
+        }
+
+        public double compareAndExchangeRelease(double expected, double value) {
+            return (double) vh.compareAndExchangeRelease(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetVolatile(double expected, double value) {
+            return vh.weakCompareAndSet(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetAcquire(double expected, double value) {
+            return vh.weakCompareAndSetAcquire(this, expected, value);
+        }
+
+        public boolean weakCompareAndSetRelease(double expected, double value) {
+            return vh.weakCompareAndSetRelease(this, expected, value);
+        }
+
+        /** Sets value if predicate(current) is true */
+        public @Override AtomicDblSingle setValueIf(double value, LDblPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(newValue, current) is true. */
+        public @Override AtomicDblSingle setValueIf(double value, LBiDblPredicate predicate) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(newValue, current)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
+
+        /** Sets new value if predicate predicate(current, newValue) is true. */
+        public @Override AtomicDblSingle setValueIf(LBiDblPredicate predicate, double value) {
+            getAndAccumulate(value, (current, newValue)-> {
+                if (predicate.test(current, newValue)) {
+                    return newValue;
+                } else {
+                    return current;
+                }
+            });
+            return this;
+        }
 
 
     }

@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -242,40 +244,24 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(long value, LLongPredicate predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LToLongFunction<R> func) {
-            if ( arg != null ) {
-                return this.value(func.applyAsLong(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LLongPredicate predicate, long value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(long value, LLongPredicate predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(long value, LBiLongPredicate predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiLongPredicate predicate, long value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -339,7 +325,6 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
 
 
 
-
     }
 
 
@@ -376,6 +361,66 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
 
 
 
+    }
+
+
+
+
+
+
+  public static  AtomicLongSingle atomicOf() { 
+      return atomicOf(  0L );
+  }
+      
+
+  public static  AtomicLongSingle atomicOf(long a){
+        return new AtomicLongSingle(a);
+  }
+
+  public static  AtomicLongSingle atomicCopyOf(LLongSingle tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicLongSingle  extends AtomicLong implements Mut<AtomicLongSingle>   {
+
+
+        public AtomicLongSingle(long a){
+            set(a);
+        }
+
+
+        public @Override long value() {
+            return get();
+        }
+
+        public @Override AtomicLongSingle value(long value)    {
+                set( value);
+                return this;
+        }
+            
+
+
+
+
+
+
+
+
+        @Override
+        public boolean equals(Object that) {
+            return LLongSingle.tupleEquals(this, that);
+        }
+
+        @Override
+        public int hashCode() {
+            return LLongSingle.argHashCode(value());
+        }
+        
     }
 
 

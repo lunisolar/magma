@@ -38,6 +38,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import java.util.*;
 import java.util.stream.*;
+import java.util.concurrent.atomic.*;
+import java.lang.invoke.*;
 
 
 
@@ -198,40 +200,24 @@ public interface LSingle<T> extends LTuple<T>
             return (SELF) this;
         }
 
-        /** Sets value if predicate(newValue) OR newValue::predicate is true */
-        default SELF setValueIfArg(T value, LPredicate<T> predicate) {
-            if (predicate.test(value())) {
-                return this.value(value);
-            }
-            return (SELF) this;
-        }
 
-        /** Sets value derived from non-null argument, only if argument is not null. */
-        default <R> SELF setValueIfArgNotNull(R arg, LFunction<R,T> func) {
-            if ( arg != null ) {
-                return this.value(func.apply(arg));
-            }
-            return (SELF) this;
-        }
-
-        /** Sets value if predicate(current) OR current::predicate is true */
-        default SELF setValueIf(LPredicate<T> predicate, T value) {
+        /** Sets value if predicate(current) is true */
+        default SELF setValueIf(T value, LPredicate<T> predicate) {
             if (predicate.test(this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(newValue, current) OR newValue::something(current) is true. */
+        /** Sets new value if predicate predicate(newValue, current) is true. */
         default SELF setValueIf(T value, LBiPredicate<T,T> predicate) {
-            // the order of arguments is intentional, to allow predicate:
             if (predicate.test(value, this.value())) {
                 return this.value(value);
             }
             return (SELF) this;
         }
 
-        /** Sets new value if predicate predicate(current, newValue) OR current::something(newValue) is true. */
+        /** Sets new value if predicate predicate(current, newValue) is true. */
         default SELF setValueIf(LBiPredicate<T,T> predicate, T value) {
             if (predicate.test(this.value(), value)) {
                 return this.value(value);
@@ -295,7 +281,6 @@ public interface LSingle<T> extends LTuple<T>
 
 
 
-
     }
 
 
@@ -339,7 +324,6 @@ public interface LSingle<T> extends LTuple<T>
             return this;
         }
             
-
 
 
 
@@ -419,6 +403,66 @@ public interface LSingle<T> extends LTuple<T>
 
 
 
+    }
+
+
+
+
+
+
+  public static <T> AtomicSingle<T> atomicOf() { 
+      return atomicOf(  null );
+  }
+      
+
+  public static <T> AtomicSingle<T> atomicOf(T a){
+        return new AtomicSingle(a);
+  }
+
+  public static <T> AtomicSingle<T> atomicCopyOf(LSingle<T> tuple) {
+        return atomicOf(tuple.value());
+  }
+
+
+    /**
+     * Mutable, non-comparable tuple.
+     */
+
+    final  class  AtomicSingle<T>  extends AtomicReference<T> implements Mut<T,AtomicSingle<T>>   {
+
+
+        public AtomicSingle(T a){
+            set(a);
+        }
+
+
+        public @Override T value() {
+            return get();
+        }
+
+        public @Override AtomicSingle<T> value(T value)    {
+                set( value);
+                return this;
+        }
+            
+
+
+
+
+
+
+
+
+        @Override
+        public boolean equals(Object that) {
+            return LSingle.tupleEquals(this, that);
+        }
+
+        @Override
+        public int hashCode() {
+            return LSingle.argHashCode(value());
+        }
+        
     }
 
 
