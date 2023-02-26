@@ -75,42 +75,4 @@ public interface SrtValueTrait<SELF extends SrtValueTrait<SELF>> extends FluentT
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
-	default SELF add(short a1) {
-		return value((short) (value() + a1));
-	}
-
-	default SELF sub(short a1) {
-		return value((short) (value() - a1));
-	}
-
-	default SELF inc() {
-		return add((short) 1);
-	}
-
-	default short incAndGet() {
-		inc();
-		return value();
-	}
-
-	default short getAndInc() {
-		short v = value();
-		inc();
-		return v;
-	}
-
-	default SELF dec() {
-		return sub((short) 1);
-	}
-
-	default short decAndGet() {
-		dec();
-		return value();
-	}
-
-	default short getAndDec() {
-		short v = value();
-		dec();
-		return v;
-	}
-
 }

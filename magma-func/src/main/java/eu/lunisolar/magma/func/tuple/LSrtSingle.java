@@ -275,6 +275,43 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
                 this.value((short)0);
             return (SELF) this;
         }
+
+    default SELF add(short a1) {
+        return value((short) (value()+a1));
+    }
+
+    default SELF sub(short a1) {
+        return value((short) (value()-a1));
+    }
+
+    default SELF inc() {
+        return add((short)1);
+    }
+
+    default short incAndGet() {
+        return inc().value();
+    }
+
+    default short getAndInc() {
+        short v = value();
+        inc();
+        return v;
+    }
+
+    default SELF dec() {
+        return sub((short)1);
+    }
+
+    default short decAndGet() {
+        return dec().value();
+    }
+
+    default short getAndDec() {
+        short v = value();
+        dec();
+        return v;
+    }
+    
     }
 
 
@@ -411,6 +448,46 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
 
 
 
+
+    public AtomicSrtSingle add(
+
+
+        short a1) {
+        addAndGet(a1);
+        return this;
+    }
+
+    public AtomicSrtSingle sub(short a1) {
+        addAndGet((short)-a1);
+        return this;
+    }
+
+    public AtomicSrtSingle inc() {
+        incrementAndGet();
+        return this;
+    }
+
+    public short incAndGet() {
+        return incrementAndGet();
+    }
+
+    public short getAndInc() {
+        return getAndIncrement();
+    }
+
+    public AtomicSrtSingle dec() {
+        decrementAndGet();
+        return this;
+    }
+
+    public short decAndGet() {
+        return decrementAndGet();
+    }
+
+    public short getAndDec() {
+        return getAndDecrement();
+    }
+    
 
         private static final  VarHandle vh;
         static {

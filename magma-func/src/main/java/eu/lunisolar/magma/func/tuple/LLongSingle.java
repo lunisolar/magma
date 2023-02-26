@@ -275,6 +275,43 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
                 this.value(0L);
             return (SELF) this;
         }
+
+    default SELF add(long a1) {
+        return value( (value()+a1));
+    }
+
+    default SELF sub(long a1) {
+        return value( (value()-a1));
+    }
+
+    default SELF inc() {
+        return add(1L);
+    }
+
+    default long incAndGet() {
+        return inc().value();
+    }
+
+    default long getAndInc() {
+        long v = value();
+        inc();
+        return v;
+    }
+
+    default SELF dec() {
+        return sub(1L);
+    }
+
+    default long decAndGet() {
+        return dec().value();
+    }
+
+    default long getAndDec() {
+        long v = value();
+        dec();
+        return v;
+    }
+    
     }
 
 
@@ -410,6 +447,46 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
 
 
 
+
+    public AtomicLongSingle add(
+
+
+        long a1) {
+        addAndGet(a1);
+        return this;
+    }
+
+    public AtomicLongSingle sub(long a1) {
+        addAndGet(-a1);
+        return this;
+    }
+
+    public AtomicLongSingle inc() {
+        incrementAndGet();
+        return this;
+    }
+
+    public long incAndGet() {
+        return incrementAndGet();
+    }
+
+    public long getAndInc() {
+        return getAndIncrement();
+    }
+
+    public AtomicLongSingle dec() {
+        decrementAndGet();
+        return this;
+    }
+
+    public long decAndGet() {
+        return decrementAndGet();
+    }
+
+    public long getAndDec() {
+        return getAndDecrement();
+    }
+    
 
         @Override
         public boolean equals(Object that) {

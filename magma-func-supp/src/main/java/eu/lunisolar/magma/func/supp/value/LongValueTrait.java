@@ -75,42 +75,4 @@ public interface LongValueTrait<SELF extends LongValueTrait<SELF>> extends Fluen
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
-	default SELF add(long a1) {
-		return value((value() + a1));
-	}
-
-	default SELF sub(long a1) {
-		return value((value() - a1));
-	}
-
-	default SELF inc() {
-		return add(1L);
-	}
-
-	default long incAndGet() {
-		inc();
-		return value();
-	}
-
-	default long getAndInc() {
-		long v = value();
-		inc();
-		return v;
-	}
-
-	default SELF dec() {
-		return sub(1L);
-	}
-
-	default long decAndGet() {
-		dec();
-		return value();
-	}
-
-	default long getAndDec() {
-		long v = value();
-		dec();
-		return v;
-	}
-
 }

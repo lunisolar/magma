@@ -235,6 +235,8 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
                 this.value(false);
             return (SELF) this;
         }
+
+    
     }
 
 
@@ -370,6 +372,8 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
 
 
 
+
+    
 
         @Override
         public boolean equals(Object that) {

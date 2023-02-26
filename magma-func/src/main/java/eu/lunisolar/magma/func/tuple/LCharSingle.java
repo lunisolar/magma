@@ -251,6 +251,8 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
                 this.value('\u0000');
             return (SELF) this;
         }
+
+    
     }
 
 
@@ -387,6 +389,8 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
 
 
 
+
+    
 
         private static final  VarHandle vh;
         static {

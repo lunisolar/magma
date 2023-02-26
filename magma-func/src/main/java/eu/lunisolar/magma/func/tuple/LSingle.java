@@ -231,6 +231,8 @@ public interface LSingle<T> extends LTuple<T>
                 this.value(null);
             return (SELF) this;
         }
+
+    
     }
 
 
@@ -452,6 +454,8 @@ public interface LSingle<T> extends LTuple<T>
 
 
 
+
+    
 
         @Override
         public boolean equals(Object that) {

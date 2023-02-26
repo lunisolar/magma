@@ -75,42 +75,4 @@ public interface ByteValueTrait<SELF extends ByteValueTrait<SELF>> extends Fluen
 		return getClass().isInstance(trait) ? (SELF) trait : trait.isPresent() ? value(trait.value()) : voidValue();
 	}
 
-	default SELF add(byte a1) {
-		return value((byte) (value() + a1));
-	}
-
-	default SELF sub(byte a1) {
-		return value((byte) (value() - a1));
-	}
-
-	default SELF inc() {
-		return add((byte) 1);
-	}
-
-	default byte incAndGet() {
-		inc();
-		return value();
-	}
-
-	default byte getAndInc() {
-		byte v = value();
-		inc();
-		return v;
-	}
-
-	default SELF dec() {
-		return sub((byte) 1);
-	}
-
-	default byte decAndGet() {
-		dec();
-		return value();
-	}
-
-	default byte getAndDec() {
-		byte v = value();
-		dec();
-		return v;
-	}
-
 }

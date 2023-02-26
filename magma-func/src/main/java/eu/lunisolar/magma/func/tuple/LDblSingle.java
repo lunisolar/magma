@@ -275,6 +275,43 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
                 this.value(0d);
             return (SELF) this;
         }
+
+    default SELF add(double a1) {
+        return value( (value()+a1));
+    }
+
+    default SELF sub(double a1) {
+        return value( (value()-a1));
+    }
+
+    default SELF inc() {
+        return add(1d);
+    }
+
+    default double incAndGet() {
+        return inc().value();
+    }
+
+    default double getAndInc() {
+        double v = value();
+        inc();
+        return v;
+    }
+
+    default SELF dec() {
+        return sub(1d);
+    }
+
+    default double decAndGet() {
+        return dec().value();
+    }
+
+    default double getAndDec() {
+        double v = value();
+        dec();
+        return v;
+    }
+    
     }
 
 
@@ -411,6 +448,46 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
 
 
 
+
+    public AtomicDblSingle add(
+
+
+        double a1) {
+        addAndGet(a1);
+        return this;
+    }
+
+    public AtomicDblSingle sub(double a1) {
+        addAndGet(-a1);
+        return this;
+    }
+
+    public AtomicDblSingle inc() {
+        incrementAndGet();
+        return this;
+    }
+
+    public double incAndGet() {
+        return incrementAndGet();
+    }
+
+    public double getAndInc() {
+        return getAndIncrement();
+    }
+
+    public AtomicDblSingle dec() {
+        decrementAndGet();
+        return this;
+    }
+
+    public double decAndGet() {
+        return decrementAndGet();
+    }
+
+    public double getAndDec() {
+        return getAndDecrement();
+    }
+    
 
         private static final  VarHandle vh;
         static {

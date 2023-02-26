@@ -275,6 +275,43 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
                 this.value((byte)0);
             return (SELF) this;
         }
+
+    default SELF add(byte a1) {
+        return value((byte) (value()+a1));
+    }
+
+    default SELF sub(byte a1) {
+        return value((byte) (value()-a1));
+    }
+
+    default SELF inc() {
+        return add((byte)1);
+    }
+
+    default byte incAndGet() {
+        return inc().value();
+    }
+
+    default byte getAndInc() {
+        byte v = value();
+        inc();
+        return v;
+    }
+
+    default SELF dec() {
+        return sub((byte)1);
+    }
+
+    default byte decAndGet() {
+        return dec().value();
+    }
+
+    default byte getAndDec() {
+        byte v = value();
+        dec();
+        return v;
+    }
+    
     }
 
 
@@ -411,6 +448,46 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
 
 
 
+
+    public AtomicByteSingle add(
+
+
+        byte a1) {
+        addAndGet(a1);
+        return this;
+    }
+
+    public AtomicByteSingle sub(byte a1) {
+        addAndGet((byte)-a1);
+        return this;
+    }
+
+    public AtomicByteSingle inc() {
+        incrementAndGet();
+        return this;
+    }
+
+    public byte incAndGet() {
+        return incrementAndGet();
+    }
+
+    public byte getAndInc() {
+        return getAndIncrement();
+    }
+
+    public AtomicByteSingle dec() {
+        decrementAndGet();
+        return this;
+    }
+
+    public byte decAndGet() {
+        return decrementAndGet();
+    }
+
+    public byte getAndDec() {
+        return getAndDecrement();
+    }
+    
 
         private static final  VarHandle vh;
         static {

@@ -275,6 +275,43 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
                 this.value(0f);
             return (SELF) this;
         }
+
+    default SELF add(float a1) {
+        return value( (value()+a1));
+    }
+
+    default SELF sub(float a1) {
+        return value( (value()-a1));
+    }
+
+    default SELF inc() {
+        return add(1f);
+    }
+
+    default float incAndGet() {
+        return inc().value();
+    }
+
+    default float getAndInc() {
+        float v = value();
+        inc();
+        return v;
+    }
+
+    default SELF dec() {
+        return sub(1f);
+    }
+
+    default float decAndGet() {
+        return dec().value();
+    }
+
+    default float getAndDec() {
+        float v = value();
+        dec();
+        return v;
+    }
+    
     }
 
 
@@ -411,6 +448,46 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
 
 
 
+
+    public AtomicFltSingle add(
+
+
+        float a1) {
+        addAndGet(a1);
+        return this;
+    }
+
+    public AtomicFltSingle sub(float a1) {
+        addAndGet(-a1);
+        return this;
+    }
+
+    public AtomicFltSingle inc() {
+        incrementAndGet();
+        return this;
+    }
+
+    public float incAndGet() {
+        return incrementAndGet();
+    }
+
+    public float getAndInc() {
+        return getAndIncrement();
+    }
+
+    public AtomicFltSingle dec() {
+        decrementAndGet();
+        return this;
+    }
+
+    public float decAndGet() {
+        return decrementAndGet();
+    }
+
+    public float getAndDec() {
+        return getAndDecrement();
+    }
+    
 
         private static final  VarHandle vh;
         static {

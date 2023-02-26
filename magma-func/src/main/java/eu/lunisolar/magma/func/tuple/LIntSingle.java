@@ -275,6 +275,43 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
                 this.value(0);
             return (SELF) this;
         }
+
+    default SELF add(int a1) {
+        return value( (value()+a1));
+    }
+
+    default SELF sub(int a1) {
+        return value( (value()-a1));
+    }
+
+    default SELF inc() {
+        return add(1);
+    }
+
+    default int incAndGet() {
+        return inc().value();
+    }
+
+    default int getAndInc() {
+        int v = value();
+        inc();
+        return v;
+    }
+
+    default SELF dec() {
+        return sub(1);
+    }
+
+    default int decAndGet() {
+        return dec().value();
+    }
+
+    default int getAndDec() {
+        int v = value();
+        dec();
+        return v;
+    }
+    
     }
 
 
@@ -410,6 +447,46 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
 
 
 
+
+    public AtomicIntSingle add(
+
+
+        int a1) {
+        addAndGet(a1);
+        return this;
+    }
+
+    public AtomicIntSingle sub(int a1) {
+        addAndGet(-a1);
+        return this;
+    }
+
+    public AtomicIntSingle inc() {
+        incrementAndGet();
+        return this;
+    }
+
+    public int incAndGet() {
+        return incrementAndGet();
+    }
+
+    public int getAndInc() {
+        return getAndIncrement();
+    }
+
+    public AtomicIntSingle dec() {
+        decrementAndGet();
+        return this;
+    }
+
+    public int decAndGet() {
+        return decrementAndGet();
+    }
+
+    public int getAndDec() {
+        return getAndDecrement();
+    }
+    
 
         @Override
         public boolean equals(Object that) {
