@@ -418,6 +418,10 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
         return atomicOf(tuple.value());
   }
 
+  public static  Mut<?> of(boolean atomic, double a){
+      return atomic? atomicOf(a) : of(a);
+  }
+
 
     /**
      * Mutable, non-comparable tuple.

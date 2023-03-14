@@ -418,6 +418,10 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
         return atomicOf(tuple.value());
   }
 
+  public static  Mut<?> of(boolean atomic, short a){
+      return atomic? atomicOf(a) : of(a);
+  }
+
 
     /**
      * Mutable, non-comparable tuple.

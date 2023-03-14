@@ -418,6 +418,10 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
         return atomicOf(tuple.value());
   }
 
+  public static  Mut<?> of(boolean atomic, byte a){
+      return atomic? atomicOf(a) : of(a);
+  }
+
 
     /**
      * Mutable, non-comparable tuple.

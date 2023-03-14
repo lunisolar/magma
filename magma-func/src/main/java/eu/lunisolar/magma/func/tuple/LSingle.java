@@ -425,6 +425,10 @@ public interface LSingle<T> extends LTuple<T>
         return atomicOf(tuple.value());
   }
 
+  public static <T> Mut<T,?> of(boolean atomic, T a){
+      return atomic? atomicOf(a) : of(a);
+  }
+
 
     /**
      * Mutable, non-comparable tuple.

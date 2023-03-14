@@ -418,6 +418,10 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
         return atomicOf(tuple.value());
   }
 
+  public static  Mut<?> of(boolean atomic, long a){
+      return atomic? atomicOf(a) : of(a);
+  }
+
 
     /**
      * Mutable, non-comparable tuple.

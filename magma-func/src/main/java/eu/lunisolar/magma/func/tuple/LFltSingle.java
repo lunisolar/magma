@@ -418,6 +418,10 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
         return atomicOf(tuple.value());
   }
 
+  public static  Mut<?> of(boolean atomic, float a){
+      return atomic? atomicOf(a) : of(a);
+  }
+
 
     /**
      * Mutable, non-comparable tuple.

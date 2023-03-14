@@ -343,6 +343,10 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
         return atomicOf(tuple.value());
   }
 
+  public static  Mut<?> of(boolean atomic, boolean a){
+      return atomic? atomicOf(a) : of(a);
+  }
+
 
     /**
      * Mutable, non-comparable tuple.
