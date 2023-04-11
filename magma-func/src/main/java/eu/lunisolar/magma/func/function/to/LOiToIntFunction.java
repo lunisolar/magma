@@ -243,29 +243,6 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.applyAsIntThen(a1, a2, handler);
 	}
 
-	default int failSafeApplyAsInt(T a1, int a2, @Nonnull LOiToIntFunction<T> failSafe) {
-		try {
-			return applyAsInt(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a1, a2);
-		}
-	}
-
-	static <T> int failSafeApplyAsInt(T a1, int a2, LOiToIntFunction<T> func, @Nonnull LOiToIntFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a1, a2);
-		} else {
-			return func.failSafeApplyAsInt(a1, a2, failSafe);
-		}
-	}
-
-	static <T> LOiToIntFunction<T> failSafe(LOiToIntFunction<T> func, @Nonnull LOiToIntFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsInt(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(T a1, int a2) {
 		return applyAsInt(a1, a2);

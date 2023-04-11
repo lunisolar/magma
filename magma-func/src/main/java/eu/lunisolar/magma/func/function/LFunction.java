@@ -244,29 +244,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return func.applyThen(a, handler);
 	}
 
-	default R failSafeApply(T a, @Nonnull LFunction<T, R> failSafe) {
-		try {
-			return apply(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a);
-		}
-	}
-
-	static <T, R> R failSafeApply(T a, LFunction<T, R> func, @Nonnull LFunction<T, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a);
-		} else {
-			return func.failSafeApply(a, failSafe);
-		}
-	}
-
-	static <T, R> LFunction<T, R> failSafe(LFunction<T, R> func, @Nonnull LFunction<T, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApply(a, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

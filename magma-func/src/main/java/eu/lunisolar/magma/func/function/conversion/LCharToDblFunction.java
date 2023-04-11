@@ -241,29 +241,6 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsDblThen(a, handler);
 	}
 
-	default double failSafeApplyAsDbl(char a, @Nonnull LCharToDblFunction failSafe) {
-		try {
-			return applyAsDbl(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a);
-		}
-	}
-
-	static double failSafeApplyAsDbl(char a, LCharToDblFunction func, @Nonnull LCharToDblFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a);
-		} else {
-			return func.failSafeApplyAsDbl(a, failSafe);
-		}
-	}
-
-	static LCharToDblFunction failSafe(LCharToDblFunction func, @Nonnull LCharToDblFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsDbl(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(char a) {
 		return applyAsDbl(a);

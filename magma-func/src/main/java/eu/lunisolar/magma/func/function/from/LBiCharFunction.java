@@ -242,29 +242,6 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.applyThen(a1, a2, handler);
 	}
 
-	default R failSafeApply(char a1, char a2, @Nonnull LBiCharFunction<R> failSafe) {
-		try {
-			return apply(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2);
-		}
-	}
-
-	static <R> R failSafeApply(char a1, char a2, LBiCharFunction<R> func, @Nonnull LBiCharFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2);
-		} else {
-			return func.failSafeApply(a1, a2, failSafe);
-		}
-	}
-
-	static <R> LBiCharFunction<R> failSafe(LBiCharFunction<R> func, @Nonnull LBiCharFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApply(a1, a2, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

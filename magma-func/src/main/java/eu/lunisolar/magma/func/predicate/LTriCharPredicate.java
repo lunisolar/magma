@@ -241,29 +241,6 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(char a1, char a2, char a3, @Nonnull LTriCharPredicate failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static boolean failSafeTest(char a1, char a2, char a3, LTriCharPredicate func, @Nonnull LTriCharPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriCharPredicate failSafe(LTriCharPredicate func, @Nonnull LTriCharPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(char a1, char a2, char a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

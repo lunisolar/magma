@@ -241,29 +241,6 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return func.testThen(a, handler);
 	}
 
-	default boolean failSafeTest(char a, @Nonnull LCharPredicate failSafe) {
-		try {
-			return test(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a);
-		}
-	}
-
-	static boolean failSafeTest(char a, LCharPredicate func, @Nonnull LCharPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a);
-		} else {
-			return func.failSafeTest(a, failSafe);
-		}
-	}
-
-	static LCharPredicate failSafe(LCharPredicate func, @Nonnull LCharPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeTest(a, func, failSafe);
-	}
-
 	default boolean doIf(char a, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a)) {

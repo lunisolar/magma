@@ -241,29 +241,6 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return func.applyAsFltThen(a, handler);
 	}
 
-	default float failSafeApplyAsFlt(float a, @Nonnull LFltUnaryOperator failSafe) {
-		try {
-			return applyAsFlt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a);
-		}
-	}
-
-	static float failSafeApplyAsFlt(float a, LFltUnaryOperator func, @Nonnull LFltUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a);
-		} else {
-			return func.failSafeApplyAsFlt(a, failSafe);
-		}
-	}
-
-	static LFltUnaryOperator failSafe(LFltUnaryOperator func, @Nonnull LFltUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsFlt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(float a) {
 		return applyAsFlt(a);

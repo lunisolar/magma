@@ -241,29 +241,6 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		return func.applyAsLongThen(a1, a2, handler);
 	}
 
-	default long failSafeApplyAsLong(long a1, long a2, @Nonnull LLongBinaryOperator failSafe) {
-		try {
-			return applyAsLong(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a1, a2);
-		}
-	}
-
-	static long failSafeApplyAsLong(long a1, long a2, LLongBinaryOperator func, @Nonnull LLongBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a1, a2);
-		} else {
-			return func.failSafeApplyAsLong(a1, a2, failSafe);
-		}
-	}
-
-	static LLongBinaryOperator failSafe(LLongBinaryOperator func, @Nonnull LLongBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsLong(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(long a1, long a2) {
 		return applyAsLong(a1, a2);

@@ -242,29 +242,6 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		func.acceptThen(a1, a2, a3, a4, a5, handler);
 	}
 
-	default void failSafeAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> failSafe) {
-		try {
-			accept(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3, a4, a5);
-		}
-	}
-
-	static <T1, T2, T3, T4, T5> void failSafeAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3, a4, a5);
-		} else {
-			func.failSafeAccept(a1, a2, a3, a4, a5, failSafe);
-		}
-	}
-
-	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> failSafe(LQuintConsumer<T1, T2, T3, T4, T5> func, @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3, a4, a5) -> failSafeAccept(a1, a2, a3, a4, a5, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

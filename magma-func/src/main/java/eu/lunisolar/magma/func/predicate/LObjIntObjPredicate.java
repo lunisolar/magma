@@ -241,29 +241,6 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(T1 a1, int a2, T2 a3, @Nonnull LObjIntObjPredicate<T1, T2> failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static <T1, T2> boolean failSafeTest(T1 a1, int a2, T2 a3, LObjIntObjPredicate<T1, T2> func, @Nonnull LObjIntObjPredicate<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <T1, T2> LObjIntObjPredicate<T1, T2> failSafe(LObjIntObjPredicate<T1, T2> func, @Nonnull LObjIntObjPredicate<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(T1 a1, int a2, T2 a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

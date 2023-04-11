@@ -241,29 +241,6 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 		return func.applyAsByteThen(a1, a2, handler);
 	}
 
-	default byte failSafeApplyAsByte(T1 a1, T2 a2, @Nonnull LToByteBiFunction<T1, T2> failSafe) {
-		try {
-			return applyAsByte(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a1, a2);
-		}
-	}
-
-	static <T1, T2> byte failSafeApplyAsByte(T1 a1, T2 a2, LToByteBiFunction<T1, T2> func, @Nonnull LToByteBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a1, a2);
-		} else {
-			return func.failSafeApplyAsByte(a1, a2, failSafe);
-		}
-	}
-
-	static <T1, T2> LToByteBiFunction<T1, T2> failSafe(LToByteBiFunction<T1, T2> func, @Nonnull LToByteBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsByte(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(T1 a1, T2 a2) {
 		return applyAsByte(a1, a2);

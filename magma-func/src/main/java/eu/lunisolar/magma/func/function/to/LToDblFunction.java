@@ -253,29 +253,6 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return func.applyAsDblThen(a, handler);
 	}
 
-	default double failSafeApplyAsDbl(T a, @Nonnull LToDblFunction<T> failSafe) {
-		try {
-			return applyAsDbl(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a);
-		}
-	}
-
-	static <T> double failSafeApplyAsDbl(T a, LToDblFunction<T> func, @Nonnull LToDblFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a);
-		} else {
-			return func.failSafeApplyAsDbl(a, failSafe);
-		}
-	}
-
-	static <T> LToDblFunction<T> failSafe(LToDblFunction<T> func, @Nonnull LToDblFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsDbl(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(T a) {
 		return applyAsDbl(a);

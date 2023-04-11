@@ -240,29 +240,6 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return func.getAsLongThen(handler);
 	}
 
-	default long failSafeGetAsLong(@Nonnull LLongSupplier failSafe) {
-		try {
-			return getAsLong();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsLong();
-		}
-	}
-
-	static long failSafeGetAsLong(LLongSupplier func, @Nonnull LLongSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsLong();
-		} else {
-			return func.failSafeGetAsLong(failSafe);
-		}
-	}
-
-	static LLongSupplier failSafe(LLongSupplier func, @Nonnull LLongSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsLong(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullGetAsLong() {
 		return getAsLong();

@@ -242,29 +242,6 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyThen(a1, a2, handler);
 	}
 
-	default R failSafeApply(short a1, short a2, @Nonnull LBiSrtFunction<R> failSafe) {
-		try {
-			return apply(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2);
-		}
-	}
-
-	static <R> R failSafeApply(short a1, short a2, LBiSrtFunction<R> func, @Nonnull LBiSrtFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2);
-		} else {
-			return func.failSafeApply(a1, a2, failSafe);
-		}
-	}
-
-	static <R> LBiSrtFunction<R> failSafe(LBiSrtFunction<R> func, @Nonnull LBiSrtFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApply(a1, a2, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

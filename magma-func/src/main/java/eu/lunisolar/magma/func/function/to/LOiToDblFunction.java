@@ -243,29 +243,6 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.applyAsDblThen(a1, a2, handler);
 	}
 
-	default double failSafeApplyAsDbl(T a1, int a2, @Nonnull LOiToDblFunction<T> failSafe) {
-		try {
-			return applyAsDbl(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a1, a2);
-		}
-	}
-
-	static <T> double failSafeApplyAsDbl(T a1, int a2, LOiToDblFunction<T> func, @Nonnull LOiToDblFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a1, a2);
-		} else {
-			return func.failSafeApplyAsDbl(a1, a2, failSafe);
-		}
-	}
-
-	static <T> LOiToDblFunction<T> failSafe(LOiToDblFunction<T> func, @Nonnull LOiToDblFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsDbl(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(T a1, int a2) {
 		return applyAsDbl(a1, a2);

@@ -241,29 +241,6 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		return func.applyAsIntThen(a, handler);
 	}
 
-	default int failSafeApplyAsInt(int a, @Nonnull LIntUnaryOperator failSafe) {
-		try {
-			return applyAsInt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a);
-		}
-	}
-
-	static int failSafeApplyAsInt(int a, LIntUnaryOperator func, @Nonnull LIntUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a);
-		} else {
-			return func.failSafeApplyAsInt(a, failSafe);
-		}
-	}
-
-	static LIntUnaryOperator failSafe(LIntUnaryOperator func, @Nonnull LIntUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsInt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(int a) {
 		return applyAsInt(a);

@@ -241,29 +241,6 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		func.acceptThen(a1, a2, handler);
 	}
 
-	default void failSafeAccept(long a1, long a2, @Nonnull LBiLongConsumer failSafe) {
-		try {
-			accept(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2);
-		}
-	}
-
-	static void failSafeAccept(long a1, long a2, LBiLongConsumer func, @Nonnull LBiLongConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2);
-		} else {
-			func.failSafeAccept(a1, a2, failSafe);
-		}
-	}
-
-	static LBiLongConsumer failSafe(LBiLongConsumer func, @Nonnull LBiLongConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

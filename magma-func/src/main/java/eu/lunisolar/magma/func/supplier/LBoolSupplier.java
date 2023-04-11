@@ -250,29 +250,6 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return func.getAsBoolThen(handler);
 	}
 
-	default boolean failSafeGetAsBool(@Nonnull LBoolSupplier failSafe) {
-		try {
-			return getAsBool();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsBool();
-		}
-	}
-
-	static boolean failSafeGetAsBool(LBoolSupplier func, @Nonnull LBoolSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsBool();
-		} else {
-			return func.failSafeGetAsBool(failSafe);
-		}
-	}
-
-	static LBoolSupplier failSafe(LBoolSupplier func, @Nonnull LBoolSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsBool(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNullGetAsBool() {
 		return getAsBool();

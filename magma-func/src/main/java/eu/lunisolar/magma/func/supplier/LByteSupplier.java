@@ -240,29 +240,6 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return func.getAsByteThen(handler);
 	}
 
-	default byte failSafeGetAsByte(@Nonnull LByteSupplier failSafe) {
-		try {
-			return getAsByte();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsByte();
-		}
-	}
-
-	static byte failSafeGetAsByte(LByteSupplier func, @Nonnull LByteSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsByte();
-		} else {
-			return func.failSafeGetAsByte(failSafe);
-		}
-	}
-
-	static LByteSupplier failSafe(LByteSupplier func, @Nonnull LByteSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsByte(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullGetAsByte() {
 		return getAsByte();

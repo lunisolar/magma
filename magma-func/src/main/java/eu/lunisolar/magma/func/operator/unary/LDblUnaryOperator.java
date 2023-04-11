@@ -251,29 +251,6 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		return func.applyAsDblThen(a, handler);
 	}
 
-	default double failSafeApplyAsDbl(double a, @Nonnull LDblUnaryOperator failSafe) {
-		try {
-			return applyAsDbl(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a);
-		}
-	}
-
-	static double failSafeApplyAsDbl(double a, LDblUnaryOperator func, @Nonnull LDblUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a);
-		} else {
-			return func.failSafeApplyAsDbl(a, failSafe);
-		}
-	}
-
-	static LDblUnaryOperator failSafe(LDblUnaryOperator func, @Nonnull LDblUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsDbl(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(double a) {
 		return applyAsDbl(a);

@@ -243,29 +243,6 @@ public interface LTieFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		func.acceptThen(a1, a2, a3, handler);
 	}
 
-	default void failSafeAccept(T a1, int a2, float a3, @Nonnull LTieFltConsumer<T> failSafe) {
-		try {
-			accept(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3);
-		}
-	}
-
-	static <T> void failSafeAccept(T a1, int a2, float a3, LTieFltConsumer<T> func, @Nonnull LTieFltConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3);
-		} else {
-			func.failSafeAccept(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <T> LTieFltConsumer<T> failSafe(LTieFltConsumer<T> func, @Nonnull LTieFltConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeAccept(a1, a2, a3, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

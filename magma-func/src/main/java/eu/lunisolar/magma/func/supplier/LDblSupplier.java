@@ -250,29 +250,6 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 		return func.getAsDblThen(handler);
 	}
 
-	default double failSafeGetAsDbl(@Nonnull LDblSupplier failSafe) {
-		try {
-			return getAsDbl();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsDbl();
-		}
-	}
-
-	static double failSafeGetAsDbl(LDblSupplier func, @Nonnull LDblSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsDbl();
-		} else {
-			return func.failSafeGetAsDbl(failSafe);
-		}
-	}
-
-	static LDblSupplier failSafe(LDblSupplier func, @Nonnull LDblSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsDbl(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullGetAsDbl() {
 		return getAsDbl();

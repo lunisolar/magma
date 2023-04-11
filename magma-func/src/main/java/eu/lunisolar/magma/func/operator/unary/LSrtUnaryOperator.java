@@ -241,29 +241,6 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return func.applyAsSrtThen(a, handler);
 	}
 
-	default short failSafeApplyAsSrt(short a, @Nonnull LSrtUnaryOperator failSafe) {
-		try {
-			return applyAsSrt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a);
-		}
-	}
-
-	static short failSafeApplyAsSrt(short a, LSrtUnaryOperator func, @Nonnull LSrtUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a);
-		} else {
-			return func.failSafeApplyAsSrt(a, failSafe);
-		}
-	}
-
-	static LSrtUnaryOperator failSafe(LSrtUnaryOperator func, @Nonnull LSrtUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsSrt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(short a) {
 		return applyAsSrt(a);

@@ -241,29 +241,6 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return func.getThen(handler);
 	}
 
-	default T failSafeGet(@Nonnull LSupplier<T> failSafe) {
-		try {
-			return get();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.get();
-		}
-	}
-
-	static <T> T failSafeGet(LSupplier<T> func, @Nonnull LSupplier<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.get();
-		} else {
-			return func.failSafeGet(failSafe);
-		}
-	}
-
-	static <T> LSupplier<T> failSafe(LSupplier<T> func, @Nonnull LSupplier<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGet(func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullGet() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

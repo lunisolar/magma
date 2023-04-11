@@ -242,29 +242,6 @@ public interface LObjBiIntFunction<T, R> extends MetaFunction, MetaInterface.Non
 		return func.applyThen(a1, a2, a3, handler);
 	}
 
-	default R failSafeApply(T a1, int a2, int a3, @Nonnull LObjBiIntFunction<T, R> failSafe) {
-		try {
-			return apply(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2, a3);
-		}
-	}
-
-	static <T, R> R failSafeApply(T a1, int a2, int a3, LObjBiIntFunction<T, R> func, @Nonnull LObjBiIntFunction<T, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2, a3);
-		} else {
-			return func.failSafeApply(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <T, R> LObjBiIntFunction<T, R> failSafe(LObjBiIntFunction<T, R> func, @Nonnull LObjBiIntFunction<T, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApply(a1, a2, a3, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

@@ -241,29 +241,6 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func.applyAsSrtThen(a1, a2, handler);
 	}
 
-	default short failSafeApplyAsSrt(short a1, short a2, @Nonnull LSrtBinaryOperator failSafe) {
-		try {
-			return applyAsSrt(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a1, a2);
-		}
-	}
-
-	static short failSafeApplyAsSrt(short a1, short a2, LSrtBinaryOperator func, @Nonnull LSrtBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a1, a2);
-		} else {
-			return func.failSafeApplyAsSrt(a1, a2, failSafe);
-		}
-	}
-
-	static LSrtBinaryOperator failSafe(LSrtBinaryOperator func, @Nonnull LSrtBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsSrt(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(short a1, short a2) {
 		return applyAsSrt(a1, a2);

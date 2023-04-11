@@ -241,29 +241,6 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.applyAsFltThen(a1, a2, a3, handler);
 	}
 
-	default float failSafeApplyAsFlt(float a1, float a2, float a3, @Nonnull LFltTernaryOperator failSafe) {
-		try {
-			return applyAsFlt(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a1, a2, a3);
-		}
-	}
-
-	static float failSafeApplyAsFlt(float a1, float a2, float a3, LFltTernaryOperator func, @Nonnull LFltTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a1, a2, a3);
-		} else {
-			return func.failSafeApplyAsFlt(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LFltTernaryOperator failSafe(LFltTernaryOperator func, @Nonnull LFltTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApplyAsFlt(a1, a2, a3, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(float a1, float a2, float a3) {
 		return applyAsFlt(a1, a2, a3);

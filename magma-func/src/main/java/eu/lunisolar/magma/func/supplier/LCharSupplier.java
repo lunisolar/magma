@@ -240,29 +240,6 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 		return func.getAsCharThen(handler);
 	}
 
-	default char failSafeGetAsChar(@Nonnull LCharSupplier failSafe) {
-		try {
-			return getAsChar();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsChar();
-		}
-	}
-
-	static char failSafeGetAsChar(LCharSupplier func, @Nonnull LCharSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsChar();
-		} else {
-			return func.failSafeGetAsChar(failSafe);
-		}
-	}
-
-	static LCharSupplier failSafe(LCharSupplier func, @Nonnull LCharSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsChar(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullGetAsChar() {
 		return getAsChar();

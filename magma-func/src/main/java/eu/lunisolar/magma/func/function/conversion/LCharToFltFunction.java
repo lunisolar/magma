@@ -241,29 +241,6 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsFltThen(a, handler);
 	}
 
-	default float failSafeApplyAsFlt(char a, @Nonnull LCharToFltFunction failSafe) {
-		try {
-			return applyAsFlt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a);
-		}
-	}
-
-	static float failSafeApplyAsFlt(char a, LCharToFltFunction func, @Nonnull LCharToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a);
-		} else {
-			return func.failSafeApplyAsFlt(a, failSafe);
-		}
-	}
-
-	static LCharToFltFunction failSafe(LCharToFltFunction func, @Nonnull LCharToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsFlt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(char a) {
 		return applyAsFlt(a);

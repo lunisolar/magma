@@ -241,29 +241,6 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsFltThen(a, handler);
 	}
 
-	default float failSafeApplyAsFlt(boolean a, @Nonnull LBoolToFltFunction failSafe) {
-		try {
-			return applyAsFlt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a);
-		}
-	}
-
-	static float failSafeApplyAsFlt(boolean a, LBoolToFltFunction func, @Nonnull LBoolToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a);
-		} else {
-			return func.failSafeApplyAsFlt(a, failSafe);
-		}
-	}
-
-	static LBoolToFltFunction failSafe(LBoolToFltFunction func, @Nonnull LBoolToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsFlt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(boolean a) {
 		return applyAsFlt(a);

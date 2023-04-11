@@ -243,29 +243,6 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsByteThen(a, handler);
 	}
 
-	default byte failSafeApplyAsByte(T a, @Nonnull LToByteFunction<T> failSafe) {
-		try {
-			return applyAsByte(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a);
-		}
-	}
-
-	static <T> byte failSafeApplyAsByte(T a, LToByteFunction<T> func, @Nonnull LToByteFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a);
-		} else {
-			return func.failSafeApplyAsByte(a, failSafe);
-		}
-	}
-
-	static <T> LToByteFunction<T> failSafe(LToByteFunction<T> func, @Nonnull LToByteFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsByte(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(T a) {
 		return applyAsByte(a);

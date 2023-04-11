@@ -241,29 +241,6 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 		return func.testThen(a, handler);
 	}
 
-	default boolean failSafeTest(double a, @Nonnull LDblPredicate failSafe) {
-		try {
-			return test(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a);
-		}
-	}
-
-	static boolean failSafeTest(double a, LDblPredicate func, @Nonnull LDblPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a);
-		} else {
-			return func.failSafeTest(a, failSafe);
-		}
-	}
-
-	static LDblPredicate failSafe(LDblPredicate func, @Nonnull LDblPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeTest(a, func, failSafe);
-	}
-
 	default boolean doIf(double a, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a)) {

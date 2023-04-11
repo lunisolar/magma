@@ -251,29 +251,6 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return func.applyAsDblThen(a1, a2, handler);
 	}
 
-	default double failSafeApplyAsDbl(double a1, double a2, @Nonnull LDblBinaryOperator failSafe) {
-		try {
-			return applyAsDbl(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a1, a2);
-		}
-	}
-
-	static double failSafeApplyAsDbl(double a1, double a2, LDblBinaryOperator func, @Nonnull LDblBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a1, a2);
-		} else {
-			return func.failSafeApplyAsDbl(a1, a2, failSafe);
-		}
-	}
-
-	static LDblBinaryOperator failSafe(LDblBinaryOperator func, @Nonnull LDblBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsDbl(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(double a1, double a2) {
 		return applyAsDbl(a1, a2);

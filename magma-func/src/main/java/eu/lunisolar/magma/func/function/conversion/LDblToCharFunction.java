@@ -241,29 +241,6 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsCharThen(a, handler);
 	}
 
-	default char failSafeApplyAsChar(double a, @Nonnull LDblToCharFunction failSafe) {
-		try {
-			return applyAsChar(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a);
-		}
-	}
-
-	static char failSafeApplyAsChar(double a, LDblToCharFunction func, @Nonnull LDblToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a);
-		} else {
-			return func.failSafeApplyAsChar(a, failSafe);
-		}
-	}
-
-	static LDblToCharFunction failSafe(LDblToCharFunction func, @Nonnull LDblToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsChar(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(double a) {
 		return applyAsChar(a);

@@ -243,29 +243,6 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		func.executeThen(handler);
 	}
 
-	default void failSafeExecute(@Nonnull LAction failSafe) {
-		try {
-			execute();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.execute();
-		}
-	}
-
-	static void failSafeExecute(LAction func, @Nonnull LAction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.execute();
-		} else {
-			func.failSafeExecute(failSafe);
-		}
-	}
-
-	static LAction failSafe(LAction func, @Nonnull LAction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeExecute(func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

@@ -241,29 +241,6 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return func.applyAsFltThen(a1, a2, handler);
 	}
 
-	default float failSafeApplyAsFlt(T1 a1, T2 a2, @Nonnull LToFltBiFunction<T1, T2> failSafe) {
-		try {
-			return applyAsFlt(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a1, a2);
-		}
-	}
-
-	static <T1, T2> float failSafeApplyAsFlt(T1 a1, T2 a2, LToFltBiFunction<T1, T2> func, @Nonnull LToFltBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a1, a2);
-		} else {
-			return func.failSafeApplyAsFlt(a1, a2, failSafe);
-		}
-	}
-
-	static <T1, T2> LToFltBiFunction<T1, T2> failSafe(LToFltBiFunction<T1, T2> func, @Nonnull LToFltBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsFlt(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(T1 a1, T2 a2) {
 		return applyAsFlt(a1, a2);

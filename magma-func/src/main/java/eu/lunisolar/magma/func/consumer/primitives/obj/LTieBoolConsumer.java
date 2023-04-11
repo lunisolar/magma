@@ -243,29 +243,6 @@ public interface LTieBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		func.acceptThen(a1, a2, a3, handler);
 	}
 
-	default void failSafeAccept(T a1, int a2, boolean a3, @Nonnull LTieBoolConsumer<T> failSafe) {
-		try {
-			accept(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3);
-		}
-	}
-
-	static <T> void failSafeAccept(T a1, int a2, boolean a3, LTieBoolConsumer<T> func, @Nonnull LTieBoolConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3);
-		} else {
-			func.failSafeAccept(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <T> LTieBoolConsumer<T> failSafe(LTieBoolConsumer<T> func, @Nonnull LTieBoolConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeAccept(a1, a2, a3, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

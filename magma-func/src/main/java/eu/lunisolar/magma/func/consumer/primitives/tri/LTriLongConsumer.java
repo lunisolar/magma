@@ -241,29 +241,6 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		func.acceptThen(a1, a2, a3, handler);
 	}
 
-	default void failSafeAccept(long a1, long a2, long a3, @Nonnull LTriLongConsumer failSafe) {
-		try {
-			accept(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3);
-		}
-	}
-
-	static void failSafeAccept(long a1, long a2, long a3, LTriLongConsumer func, @Nonnull LTriLongConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3);
-		} else {
-			func.failSafeAccept(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriLongConsumer failSafe(LTriLongConsumer func, @Nonnull LTriLongConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeAccept(a1, a2, a3, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

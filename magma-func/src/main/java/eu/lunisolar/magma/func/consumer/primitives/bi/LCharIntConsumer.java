@@ -241,29 +241,6 @@ public interface LCharIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		func.acceptThen(a1, a2, handler);
 	}
 
-	default void failSafeAccept(char a1, int a2, @Nonnull LCharIntConsumer failSafe) {
-		try {
-			accept(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2);
-		}
-	}
-
-	static void failSafeAccept(char a1, int a2, LCharIntConsumer func, @Nonnull LCharIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2);
-		} else {
-			func.failSafeAccept(a1, a2, failSafe);
-		}
-	}
-
-	static LCharIntConsumer failSafe(LCharIntConsumer func, @Nonnull LCharIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

@@ -241,29 +241,6 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsFltThen(a, handler);
 	}
 
-	default float failSafeApplyAsFlt(short a, @Nonnull LSrtToFltFunction failSafe) {
-		try {
-			return applyAsFlt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a);
-		}
-	}
-
-	static float failSafeApplyAsFlt(short a, LSrtToFltFunction func, @Nonnull LSrtToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a);
-		} else {
-			return func.failSafeApplyAsFlt(a, failSafe);
-		}
-	}
-
-	static LSrtToFltFunction failSafe(LSrtToFltFunction func, @Nonnull LSrtToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsFlt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(short a) {
 		return applyAsFlt(a);

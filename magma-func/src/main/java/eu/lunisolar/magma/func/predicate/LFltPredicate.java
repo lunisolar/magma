@@ -241,29 +241,6 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 		return func.testThen(a, handler);
 	}
 
-	default boolean failSafeTest(float a, @Nonnull LFltPredicate failSafe) {
-		try {
-			return test(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a);
-		}
-	}
-
-	static boolean failSafeTest(float a, LFltPredicate func, @Nonnull LFltPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a);
-		} else {
-			return func.failSafeTest(a, failSafe);
-		}
-	}
-
-	static LFltPredicate failSafe(LFltPredicate func, @Nonnull LFltPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeTest(a, func, failSafe);
-	}
-
 	default boolean doIf(float a, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a)) {

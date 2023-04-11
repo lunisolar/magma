@@ -241,29 +241,6 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsDblThen(a, handler);
 	}
 
-	default double failSafeApplyAsDbl(short a, @Nonnull LSrtToDblFunction failSafe) {
-		try {
-			return applyAsDbl(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a);
-		}
-	}
-
-	static double failSafeApplyAsDbl(short a, LSrtToDblFunction func, @Nonnull LSrtToDblFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a);
-		} else {
-			return func.failSafeApplyAsDbl(a, failSafe);
-		}
-	}
-
-	static LSrtToDblFunction failSafe(LSrtToDblFunction func, @Nonnull LSrtToDblFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsDbl(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(short a) {
 		return applyAsDbl(a);

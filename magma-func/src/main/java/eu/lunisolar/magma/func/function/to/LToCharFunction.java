@@ -243,29 +243,6 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsCharThen(a, handler);
 	}
 
-	default char failSafeApplyAsChar(T a, @Nonnull LToCharFunction<T> failSafe) {
-		try {
-			return applyAsChar(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a);
-		}
-	}
-
-	static <T> char failSafeApplyAsChar(T a, LToCharFunction<T> func, @Nonnull LToCharFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a);
-		} else {
-			return func.failSafeApplyAsChar(a, failSafe);
-		}
-	}
-
-	static <T> LToCharFunction<T> failSafe(LToCharFunction<T> func, @Nonnull LToCharFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsChar(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(T a) {
 		return applyAsChar(a);

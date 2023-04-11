@@ -241,29 +241,6 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		return func.applyAsLongThen(a, handler);
 	}
 
-	default long failSafeApplyAsLong(double a, @Nonnull LDblToLongFunction failSafe) {
-		try {
-			return applyAsLong(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a);
-		}
-	}
-
-	static long failSafeApplyAsLong(double a, LDblToLongFunction func, @Nonnull LDblToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a);
-		} else {
-			return func.failSafeApplyAsLong(a, failSafe);
-		}
-	}
-
-	static LDblToLongFunction failSafe(LDblToLongFunction func, @Nonnull LDblToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsLong(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(double a) {
 		return applyAsLong(a);

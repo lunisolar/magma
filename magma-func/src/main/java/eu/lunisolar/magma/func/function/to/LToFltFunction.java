@@ -243,29 +243,6 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsFltThen(a, handler);
 	}
 
-	default float failSafeApplyAsFlt(T a, @Nonnull LToFltFunction<T> failSafe) {
-		try {
-			return applyAsFlt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a);
-		}
-	}
-
-	static <T> float failSafeApplyAsFlt(T a, LToFltFunction<T> func, @Nonnull LToFltFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a);
-		} else {
-			return func.failSafeApplyAsFlt(a, failSafe);
-		}
-	}
-
-	static <T> LToFltFunction<T> failSafe(LToFltFunction<T> func, @Nonnull LToFltFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsFlt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(T a) {
 		return applyAsFlt(a);

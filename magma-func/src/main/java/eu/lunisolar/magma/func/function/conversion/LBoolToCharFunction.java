@@ -241,29 +241,6 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 		return func.applyAsCharThen(a, handler);
 	}
 
-	default char failSafeApplyAsChar(boolean a, @Nonnull LBoolToCharFunction failSafe) {
-		try {
-			return applyAsChar(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a);
-		}
-	}
-
-	static char failSafeApplyAsChar(boolean a, LBoolToCharFunction func, @Nonnull LBoolToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a);
-		} else {
-			return func.failSafeApplyAsChar(a, failSafe);
-		}
-	}
-
-	static LBoolToCharFunction failSafe(LBoolToCharFunction func, @Nonnull LBoolToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsChar(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(boolean a) {
 		return applyAsChar(a);

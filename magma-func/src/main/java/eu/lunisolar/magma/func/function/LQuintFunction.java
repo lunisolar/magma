@@ -243,29 +243,6 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return func.applyThen(a1, a2, a3, a4, a5, handler);
 	}
 
-	default R failSafeApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<T1, T2, T3, T4, T5, R> failSafe) {
-		try {
-			return apply(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2, a3, a4, a5);
-		}
-	}
-
-	static <T1, T2, T3, T4, T5, R> R failSafeApply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull LQuintFunction<T1, T2, T3, T4, T5, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2, a3, a4, a5);
-		} else {
-			return func.failSafeApply(a1, a2, a3, a4, a5, failSafe);
-		}
-	}
-
-	static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> failSafe(LQuintFunction<T1, T2, T3, T4, T5, R> func, @Nonnull LQuintFunction<T1, T2, T3, T4, T5, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3, a4, a5) -> failSafeApply(a1, a2, a3, a4, a5, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

@@ -241,29 +241,6 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsLongThen(a, handler);
 	}
 
-	default long failSafeApplyAsLong(short a, @Nonnull LSrtToLongFunction failSafe) {
-		try {
-			return applyAsLong(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a);
-		}
-	}
-
-	static long failSafeApplyAsLong(short a, LSrtToLongFunction func, @Nonnull LSrtToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a);
-		} else {
-			return func.failSafeApplyAsLong(a, failSafe);
-		}
-	}
-
-	static LSrtToLongFunction failSafe(LSrtToLongFunction func, @Nonnull LSrtToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsLong(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(short a) {
 		return applyAsLong(a);

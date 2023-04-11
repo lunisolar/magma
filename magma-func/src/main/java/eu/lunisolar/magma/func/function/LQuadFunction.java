@@ -242,29 +242,6 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return func.applyThen(a1, a2, a3, a4, handler);
 	}
 
-	default R failSafeApply(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> failSafe) {
-		try {
-			return apply(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2, a3, a4);
-		}
-	}
-
-	static <T1, T2, T3, T4, R> R failSafeApply(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> func, @Nonnull LQuadFunction<T1, T2, T3, T4, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2, a3, a4);
-		} else {
-			return func.failSafeApply(a1, a2, a3, a4, failSafe);
-		}
-	}
-
-	static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> failSafe(LQuadFunction<T1, T2, T3, T4, R> func, @Nonnull LQuadFunction<T1, T2, T3, T4, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3, a4) -> failSafeApply(a1, a2, a3, a4, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

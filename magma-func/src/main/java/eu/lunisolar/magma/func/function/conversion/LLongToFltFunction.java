@@ -241,29 +241,6 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsFltThen(a, handler);
 	}
 
-	default float failSafeApplyAsFlt(long a, @Nonnull LLongToFltFunction failSafe) {
-		try {
-			return applyAsFlt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a);
-		}
-	}
-
-	static float failSafeApplyAsFlt(long a, LLongToFltFunction func, @Nonnull LLongToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a);
-		} else {
-			return func.failSafeApplyAsFlt(a, failSafe);
-		}
-	}
-
-	static LLongToFltFunction failSafe(LLongToFltFunction func, @Nonnull LLongToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsFlt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(long a) {
 		return applyAsFlt(a);

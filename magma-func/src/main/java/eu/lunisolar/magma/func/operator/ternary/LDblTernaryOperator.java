@@ -241,29 +241,6 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.applyAsDblThen(a1, a2, a3, handler);
 	}
 
-	default double failSafeApplyAsDbl(double a1, double a2, double a3, @Nonnull LDblTernaryOperator failSafe) {
-		try {
-			return applyAsDbl(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a1, a2, a3);
-		}
-	}
-
-	static double failSafeApplyAsDbl(double a1, double a2, double a3, LDblTernaryOperator func, @Nonnull LDblTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a1, a2, a3);
-		} else {
-			return func.failSafeApplyAsDbl(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LDblTernaryOperator failSafe(LDblTernaryOperator func, @Nonnull LDblTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApplyAsDbl(a1, a2, a3, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(double a1, double a2, double a3) {
 		return applyAsDbl(a1, a2, a3);

@@ -241,29 +241,6 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return func.applyThen(a, handler);
 	}
 
-	default boolean failSafeApply(boolean a, @Nonnull LLogicalOperator failSafe) {
-		try {
-			return apply(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a);
-		}
-	}
-
-	static boolean failSafeApply(boolean a, LLogicalOperator func, @Nonnull LLogicalOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a);
-		} else {
-			return func.failSafeApply(a, failSafe);
-		}
-	}
-
-	static LLogicalOperator failSafe(LLogicalOperator func, @Nonnull LLogicalOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApply(a, func, failSafe);
-	}
-
 	default boolean doIf(boolean a, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (apply(a)) {

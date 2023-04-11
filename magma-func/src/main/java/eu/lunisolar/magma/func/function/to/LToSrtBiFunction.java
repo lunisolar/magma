@@ -241,29 +241,6 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return func.applyAsSrtThen(a1, a2, handler);
 	}
 
-	default short failSafeApplyAsSrt(T1 a1, T2 a2, @Nonnull LToSrtBiFunction<T1, T2> failSafe) {
-		try {
-			return applyAsSrt(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a1, a2);
-		}
-	}
-
-	static <T1, T2> short failSafeApplyAsSrt(T1 a1, T2 a2, LToSrtBiFunction<T1, T2> func, @Nonnull LToSrtBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a1, a2);
-		} else {
-			return func.failSafeApplyAsSrt(a1, a2, failSafe);
-		}
-	}
-
-	static <T1, T2> LToSrtBiFunction<T1, T2> failSafe(LToSrtBiFunction<T1, T2> func, @Nonnull LToSrtBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsSrt(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(T1 a1, T2 a2) {
 		return applyAsSrt(a1, a2);

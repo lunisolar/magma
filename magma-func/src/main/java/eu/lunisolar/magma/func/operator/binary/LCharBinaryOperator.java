@@ -241,29 +241,6 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.applyAsCharThen(a1, a2, handler);
 	}
 
-	default char failSafeApplyAsChar(char a1, char a2, @Nonnull LCharBinaryOperator failSafe) {
-		try {
-			return applyAsChar(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a1, a2);
-		}
-	}
-
-	static char failSafeApplyAsChar(char a1, char a2, LCharBinaryOperator func, @Nonnull LCharBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a1, a2);
-		} else {
-			return func.failSafeApplyAsChar(a1, a2, failSafe);
-		}
-	}
-
-	static LCharBinaryOperator failSafe(LCharBinaryOperator func, @Nonnull LCharBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsChar(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(char a1, char a2) {
 		return applyAsChar(a1, a2);

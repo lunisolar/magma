@@ -241,29 +241,6 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsCharThen(a, handler);
 	}
 
-	default char failSafeApplyAsChar(int a, @Nonnull LIntToCharFunction failSafe) {
-		try {
-			return applyAsChar(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a);
-		}
-	}
-
-	static char failSafeApplyAsChar(int a, LIntToCharFunction func, @Nonnull LIntToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a);
-		} else {
-			return func.failSafeApplyAsChar(a, failSafe);
-		}
-	}
-
-	static LIntToCharFunction failSafe(LIntToCharFunction func, @Nonnull LIntToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsChar(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(int a) {
 		return applyAsChar(a);

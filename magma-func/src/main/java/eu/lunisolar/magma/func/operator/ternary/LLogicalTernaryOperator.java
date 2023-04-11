@@ -241,29 +241,6 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return func.applyThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeApply(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator failSafe) {
-		try {
-			return apply(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2, a3);
-		}
-	}
-
-	static boolean failSafeApply(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func, @Nonnull LLogicalTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2, a3);
-		} else {
-			return func.failSafeApply(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LLogicalTernaryOperator failSafe(LLogicalTernaryOperator func, @Nonnull LLogicalTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApply(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(boolean a1, boolean a2, boolean a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (apply(a1, a2, a3)) {

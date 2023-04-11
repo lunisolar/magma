@@ -243,29 +243,6 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return func.applyAsIntThen(a, handler);
 	}
 
-	default int failSafeApplyAsInt(T a, @Nonnull LToIntFunction<T> failSafe) {
-		try {
-			return applyAsInt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a);
-		}
-	}
-
-	static <T> int failSafeApplyAsInt(T a, LToIntFunction<T> func, @Nonnull LToIntFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a);
-		} else {
-			return func.failSafeApplyAsInt(a, failSafe);
-		}
-	}
-
-	static <T> LToIntFunction<T> failSafe(LToIntFunction<T> func, @Nonnull LToIntFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsInt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(T a) {
 		return applyAsInt(a);

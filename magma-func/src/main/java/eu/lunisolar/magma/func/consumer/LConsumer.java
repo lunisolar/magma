@@ -241,29 +241,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		func.acceptThen(a, handler);
 	}
 
-	default void failSafeAccept(T a, @Nonnull LConsumer<T> failSafe) {
-		try {
-			accept(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a);
-		}
-	}
-
-	static <T> void failSafeAccept(T a, LConsumer<T> func, @Nonnull LConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a);
-		} else {
-			func.failSafeAccept(a, failSafe);
-		}
-	}
-
-	static <T> LConsumer<T> failSafe(LConsumer<T> func, @Nonnull LConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeAccept(a, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

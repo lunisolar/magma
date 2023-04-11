@@ -243,29 +243,6 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		func.acceptThen(a1, a2, handler);
 	}
 
-	default void failSafeAccept(T a1, int a2, @Nonnull LObjIntConsumer<T> failSafe) {
-		try {
-			accept(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2);
-		}
-	}
-
-	static <T> void failSafeAccept(T a1, int a2, LObjIntConsumer<T> func, @Nonnull LObjIntConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2);
-		} else {
-			func.failSafeAccept(a1, a2, failSafe);
-		}
-	}
-
-	static <T> LObjIntConsumer<T> failSafe(LObjIntConsumer<T> func, @Nonnull LObjIntConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

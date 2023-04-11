@@ -241,29 +241,6 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsByteThen(a, handler);
 	}
 
-	default byte failSafeApplyAsByte(short a, @Nonnull LSrtToByteFunction failSafe) {
-		try {
-			return applyAsByte(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a);
-		}
-	}
-
-	static byte failSafeApplyAsByte(short a, LSrtToByteFunction func, @Nonnull LSrtToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a);
-		} else {
-			return func.failSafeApplyAsByte(a, failSafe);
-		}
-	}
-
-	static LSrtToByteFunction failSafe(LSrtToByteFunction func, @Nonnull LSrtToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsByte(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(short a) {
 		return applyAsByte(a);

@@ -241,29 +241,6 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsSrtThen(a, handler);
 	}
 
-	default short failSafeApplyAsSrt(byte a, @Nonnull LByteToSrtFunction failSafe) {
-		try {
-			return applyAsSrt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a);
-		}
-	}
-
-	static short failSafeApplyAsSrt(byte a, LByteToSrtFunction func, @Nonnull LByteToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a);
-		} else {
-			return func.failSafeApplyAsSrt(a, failSafe);
-		}
-	}
-
-	static LByteToSrtFunction failSafe(LByteToSrtFunction func, @Nonnull LByteToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsSrt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(byte a) {
 		return applyAsSrt(a);

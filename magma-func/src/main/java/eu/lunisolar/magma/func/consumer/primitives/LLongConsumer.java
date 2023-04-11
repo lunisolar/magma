@@ -241,29 +241,6 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 		func.acceptThen(a, handler);
 	}
 
-	default void failSafeAccept(long a, @Nonnull LLongConsumer failSafe) {
-		try {
-			accept(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a);
-		}
-	}
-
-	static void failSafeAccept(long a, LLongConsumer func, @Nonnull LLongConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a);
-		} else {
-			func.failSafeAccept(a, failSafe);
-		}
-	}
-
-	static LLongConsumer failSafe(LLongConsumer func, @Nonnull LLongConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeAccept(a, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

@@ -241,29 +241,6 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(short a1, short a2, short a3, @Nonnull LTriSrtPredicate failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static boolean failSafeTest(short a1, short a2, short a3, LTriSrtPredicate func, @Nonnull LTriSrtPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriSrtPredicate failSafe(LTriSrtPredicate func, @Nonnull LTriSrtPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(short a1, short a2, short a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

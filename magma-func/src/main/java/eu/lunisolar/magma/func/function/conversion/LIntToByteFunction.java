@@ -241,29 +241,6 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsByteThen(a, handler);
 	}
 
-	default byte failSafeApplyAsByte(int a, @Nonnull LIntToByteFunction failSafe) {
-		try {
-			return applyAsByte(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a);
-		}
-	}
-
-	static byte failSafeApplyAsByte(int a, LIntToByteFunction func, @Nonnull LIntToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a);
-		} else {
-			return func.failSafeApplyAsByte(a, failSafe);
-		}
-	}
-
-	static LIntToByteFunction failSafe(LIntToByteFunction func, @Nonnull LIntToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsByte(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(int a) {
 		return applyAsByte(a);

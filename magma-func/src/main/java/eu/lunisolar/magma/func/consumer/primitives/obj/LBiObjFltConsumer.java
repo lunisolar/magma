@@ -241,29 +241,6 @@ public interface LBiObjFltConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		func.acceptThen(a1, a2, a3, handler);
 	}
 
-	default void failSafeAccept(T1 a1, T2 a2, float a3, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
-		try {
-			accept(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3);
-		}
-	}
-
-	static <T1, T2> void failSafeAccept(T1 a1, T2 a2, float a3, LBiObjFltConsumer<T1, T2> func, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3);
-		} else {
-			func.failSafeAccept(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <T1, T2> LBiObjFltConsumer<T1, T2> failSafe(LBiObjFltConsumer<T1, T2> func, @Nonnull LBiObjFltConsumer<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeAccept(a1, a2, a3, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

@@ -241,29 +241,6 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return func.applyAsLongThen(a, handler);
 	}
 
-	default long failSafeApplyAsLong(boolean a, @Nonnull LBoolToLongFunction failSafe) {
-		try {
-			return applyAsLong(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a);
-		}
-	}
-
-	static long failSafeApplyAsLong(boolean a, LBoolToLongFunction func, @Nonnull LBoolToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a);
-		} else {
-			return func.failSafeApplyAsLong(a, failSafe);
-		}
-	}
-
-	static LBoolToLongFunction failSafe(LBoolToLongFunction func, @Nonnull LBoolToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsLong(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(boolean a) {
 		return applyAsLong(a);

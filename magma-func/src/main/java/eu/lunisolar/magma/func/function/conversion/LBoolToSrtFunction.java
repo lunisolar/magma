@@ -241,29 +241,6 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsSrtThen(a, handler);
 	}
 
-	default short failSafeApplyAsSrt(boolean a, @Nonnull LBoolToSrtFunction failSafe) {
-		try {
-			return applyAsSrt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a);
-		}
-	}
-
-	static short failSafeApplyAsSrt(boolean a, LBoolToSrtFunction func, @Nonnull LBoolToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a);
-		} else {
-			return func.failSafeApplyAsSrt(a, failSafe);
-		}
-	}
-
-	static LBoolToSrtFunction failSafe(LBoolToSrtFunction func, @Nonnull LBoolToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsSrt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(boolean a) {
 		return applyAsSrt(a);

@@ -241,29 +241,6 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsIntThen(a, handler);
 	}
 
-	default int failSafeApplyAsInt(float a, @Nonnull LFltToIntFunction failSafe) {
-		try {
-			return applyAsInt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a);
-		}
-	}
-
-	static int failSafeApplyAsInt(float a, LFltToIntFunction func, @Nonnull LFltToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a);
-		} else {
-			return func.failSafeApplyAsInt(a, failSafe);
-		}
-	}
-
-	static LFltToIntFunction failSafe(LFltToIntFunction func, @Nonnull LFltToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsInt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(float a) {
 		return applyAsInt(a);

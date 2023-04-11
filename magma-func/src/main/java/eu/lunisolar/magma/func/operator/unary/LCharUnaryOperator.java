@@ -241,29 +241,6 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func.applyAsCharThen(a, handler);
 	}
 
-	default char failSafeApplyAsChar(char a, @Nonnull LCharUnaryOperator failSafe) {
-		try {
-			return applyAsChar(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a);
-		}
-	}
-
-	static char failSafeApplyAsChar(char a, LCharUnaryOperator func, @Nonnull LCharUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a);
-		} else {
-			return func.failSafeApplyAsChar(a, failSafe);
-		}
-	}
-
-	static LCharUnaryOperator failSafe(LCharUnaryOperator func, @Nonnull LCharUnaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsChar(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(char a) {
 		return applyAsChar(a);

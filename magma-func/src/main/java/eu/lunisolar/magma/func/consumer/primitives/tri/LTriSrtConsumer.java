@@ -241,29 +241,6 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		func.acceptThen(a1, a2, a3, handler);
 	}
 
-	default void failSafeAccept(short a1, short a2, short a3, @Nonnull LTriSrtConsumer failSafe) {
-		try {
-			accept(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3);
-		}
-	}
-
-	static void failSafeAccept(short a1, short a2, short a3, LTriSrtConsumer func, @Nonnull LTriSrtConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3);
-		} else {
-			func.failSafeAccept(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriSrtConsumer failSafe(LTriSrtConsumer func, @Nonnull LTriSrtConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeAccept(a1, a2, a3, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

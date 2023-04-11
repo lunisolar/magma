@@ -241,29 +241,6 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		func.acceptThen(a1, a2, a3, handler);
 	}
 
-	default void failSafeAccept(float a1, float a2, float a3, @Nonnull LTriFltConsumer failSafe) {
-		try {
-			accept(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3);
-		}
-	}
-
-	static void failSafeAccept(float a1, float a2, float a3, LTriFltConsumer func, @Nonnull LTriFltConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3);
-		} else {
-			func.failSafeAccept(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriFltConsumer failSafe(LTriFltConsumer func, @Nonnull LTriFltConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeAccept(a1, a2, a3, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

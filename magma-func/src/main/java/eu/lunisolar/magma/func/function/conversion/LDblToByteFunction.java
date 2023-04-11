@@ -241,29 +241,6 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsByteThen(a, handler);
 	}
 
-	default byte failSafeApplyAsByte(double a, @Nonnull LDblToByteFunction failSafe) {
-		try {
-			return applyAsByte(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a);
-		}
-	}
-
-	static byte failSafeApplyAsByte(double a, LDblToByteFunction func, @Nonnull LDblToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a);
-		} else {
-			return func.failSafeApplyAsByte(a, failSafe);
-		}
-	}
-
-	static LDblToByteFunction failSafe(LDblToByteFunction func, @Nonnull LDblToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsByte(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(double a) {
 		return applyAsByte(a);

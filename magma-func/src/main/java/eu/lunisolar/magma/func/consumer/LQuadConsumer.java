@@ -241,29 +241,6 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		func.acceptThen(a1, a2, a3, a4, handler);
 	}
 
-	default void failSafeAccept(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> failSafe) {
-		try {
-			accept(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2, a3, a4);
-		}
-	}
-
-	static <T1, T2, T3, T4> void failSafeAccept(T1 a1, T2 a2, T3 a3, T4 a4, LQuadConsumer<T1, T2, T3, T4> func, @Nonnull LQuadConsumer<T1, T2, T3, T4> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2, a3, a4);
-		} else {
-			func.failSafeAccept(a1, a2, a3, a4, failSafe);
-		}
-	}
-
-	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> failSafe(LQuadConsumer<T1, T2, T3, T4> func, @Nonnull LQuadConsumer<T1, T2, T3, T4> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3, a4) -> failSafeAccept(a1, a2, a3, a4, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

@@ -241,29 +241,6 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 		func.acceptThen(a, handler);
 	}
 
-	default void failSafeAccept(int a, @Nonnull LIntConsumer failSafe) {
-		try {
-			accept(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a);
-		}
-	}
-
-	static void failSafeAccept(int a, LIntConsumer func, @Nonnull LIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a);
-		} else {
-			func.failSafeAccept(a, failSafe);
-		}
-	}
-
-	static LIntConsumer failSafe(LIntConsumer func, @Nonnull LIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeAccept(a, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

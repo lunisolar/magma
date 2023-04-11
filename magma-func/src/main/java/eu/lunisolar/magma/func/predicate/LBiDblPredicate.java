@@ -241,29 +241,6 @@ public interface LBiDblPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return func.testThen(a1, a2, handler);
 	}
 
-	default boolean failSafeTest(double a1, double a2, @Nonnull LBiDblPredicate failSafe) {
-		try {
-			return test(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2);
-		}
-	}
-
-	static boolean failSafeTest(double a1, double a2, LBiDblPredicate func, @Nonnull LBiDblPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2);
-		} else {
-			return func.failSafeTest(a1, a2, failSafe);
-		}
-	}
-
-	static LBiDblPredicate failSafe(LBiDblPredicate func, @Nonnull LBiDblPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeTest(a1, a2, func, failSafe);
-	}
-
 	default boolean doIf(double a1, double a2, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2)) {

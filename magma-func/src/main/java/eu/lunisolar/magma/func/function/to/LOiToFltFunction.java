@@ -243,29 +243,6 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.applyAsFltThen(a1, a2, handler);
 	}
 
-	default float failSafeApplyAsFlt(T a1, int a2, @Nonnull LOiToFltFunction<T> failSafe) {
-		try {
-			return applyAsFlt(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a1, a2);
-		}
-	}
-
-	static <T> float failSafeApplyAsFlt(T a1, int a2, LOiToFltFunction<T> func, @Nonnull LOiToFltFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a1, a2);
-		} else {
-			return func.failSafeApplyAsFlt(a1, a2, failSafe);
-		}
-	}
-
-	static <T> LOiToFltFunction<T> failSafe(LOiToFltFunction<T> func, @Nonnull LOiToFltFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsFlt(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(T a1, int a2) {
 		return applyAsFlt(a1, a2);

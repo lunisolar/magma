@@ -241,29 +241,6 @@ public interface LFltToLongFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsLongThen(a, handler);
 	}
 
-	default long failSafeApplyAsLong(float a, @Nonnull LFltToLongFunction failSafe) {
-		try {
-			return applyAsLong(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a);
-		}
-	}
-
-	static long failSafeApplyAsLong(float a, LFltToLongFunction func, @Nonnull LFltToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a);
-		} else {
-			return func.failSafeApplyAsLong(a, failSafe);
-		}
-	}
-
-	static LFltToLongFunction failSafe(LFltToLongFunction func, @Nonnull LFltToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsLong(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(float a) {
 		return applyAsLong(a);

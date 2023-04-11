@@ -241,29 +241,6 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		return func.applyAsIntThen(a, handler);
 	}
 
-	default int failSafeApplyAsInt(double a, @Nonnull LDblToIntFunction failSafe) {
-		try {
-			return applyAsInt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a);
-		}
-	}
-
-	static int failSafeApplyAsInt(double a, LDblToIntFunction func, @Nonnull LDblToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a);
-		} else {
-			return func.failSafeApplyAsInt(a, failSafe);
-		}
-	}
-
-	static LDblToIntFunction failSafe(LDblToIntFunction func, @Nonnull LDblToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsInt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(double a) {
 		return applyAsInt(a);

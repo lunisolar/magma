@@ -241,29 +241,6 @@ public interface LFltToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsByteThen(a, handler);
 	}
 
-	default byte failSafeApplyAsByte(float a, @Nonnull LFltToByteFunction failSafe) {
-		try {
-			return applyAsByte(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a);
-		}
-	}
-
-	static byte failSafeApplyAsByte(float a, LFltToByteFunction func, @Nonnull LFltToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a);
-		} else {
-			return func.failSafeApplyAsByte(a, failSafe);
-		}
-	}
-
-	static LFltToByteFunction failSafe(LFltToByteFunction func, @Nonnull LFltToByteFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsByte(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(float a) {
 		return applyAsByte(a);

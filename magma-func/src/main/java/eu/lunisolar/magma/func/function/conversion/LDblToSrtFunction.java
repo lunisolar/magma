@@ -241,29 +241,6 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsSrtThen(a, handler);
 	}
 
-	default short failSafeApplyAsSrt(double a, @Nonnull LDblToSrtFunction failSafe) {
-		try {
-			return applyAsSrt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a);
-		}
-	}
-
-	static short failSafeApplyAsSrt(double a, LDblToSrtFunction func, @Nonnull LDblToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a);
-		} else {
-			return func.failSafeApplyAsSrt(a, failSafe);
-		}
-	}
-
-	static LDblToSrtFunction failSafe(LDblToSrtFunction func, @Nonnull LDblToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsSrt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(double a) {
 		return applyAsSrt(a);

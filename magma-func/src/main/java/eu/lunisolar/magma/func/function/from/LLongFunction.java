@@ -242,29 +242,6 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 		return func.applyThen(a, handler);
 	}
 
-	default R failSafeApply(long a, @Nonnull LLongFunction<R> failSafe) {
-		try {
-			return apply(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a);
-		}
-	}
-
-	static <R> R failSafeApply(long a, LLongFunction<R> func, @Nonnull LLongFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a);
-		} else {
-			return func.failSafeApply(a, failSafe);
-		}
-	}
-
-	static <R> LLongFunction<R> failSafe(LLongFunction<R> func, @Nonnull LLongFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApply(a, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

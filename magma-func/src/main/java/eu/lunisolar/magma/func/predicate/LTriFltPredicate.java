@@ -241,29 +241,6 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(float a1, float a2, float a3, @Nonnull LTriFltPredicate failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static boolean failSafeTest(float a1, float a2, float a3, LTriFltPredicate func, @Nonnull LTriFltPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriFltPredicate failSafe(LTriFltPredicate func, @Nonnull LTriFltPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(float a1, float a2, float a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

@@ -243,29 +243,6 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return func.applyAsCharThen(a1, a2, handler);
 	}
 
-	default char failSafeApplyAsChar(T a1, int a2, @Nonnull LOiToCharFunction<T> failSafe) {
-		try {
-			return applyAsChar(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a1, a2);
-		}
-	}
-
-	static <T> char failSafeApplyAsChar(T a1, int a2, LOiToCharFunction<T> func, @Nonnull LOiToCharFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a1, a2);
-		} else {
-			return func.failSafeApplyAsChar(a1, a2, failSafe);
-		}
-	}
-
-	static <T> LOiToCharFunction<T> failSafe(LOiToCharFunction<T> func, @Nonnull LOiToCharFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsChar(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(T a1, int a2) {
 		return applyAsChar(a1, a2);

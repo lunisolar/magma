@@ -241,29 +241,6 @@ public interface LObjDblPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return func.testThen(a1, a2, handler);
 	}
 
-	default boolean failSafeTest(T a1, double a2, @Nonnull LObjDblPredicate<T> failSafe) {
-		try {
-			return test(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2);
-		}
-	}
-
-	static <T> boolean failSafeTest(T a1, double a2, LObjDblPredicate<T> func, @Nonnull LObjDblPredicate<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2);
-		} else {
-			return func.failSafeTest(a1, a2, failSafe);
-		}
-	}
-
-	static <T> LObjDblPredicate<T> failSafe(LObjDblPredicate<T> func, @Nonnull LObjDblPredicate<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeTest(a1, a2, func, failSafe);
-	}
-
 	default boolean doIf(T a1, double a2, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2)) {

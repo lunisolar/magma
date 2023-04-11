@@ -241,29 +241,6 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsIntThen(a, handler);
 	}
 
-	default int failSafeApplyAsInt(short a, @Nonnull LSrtToIntFunction failSafe) {
-		try {
-			return applyAsInt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a);
-		}
-	}
-
-	static int failSafeApplyAsInt(short a, LSrtToIntFunction func, @Nonnull LSrtToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a);
-		} else {
-			return func.failSafeApplyAsInt(a, failSafe);
-		}
-	}
-
-	static LSrtToIntFunction failSafe(LSrtToIntFunction func, @Nonnull LSrtToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsInt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(short a) {
 		return applyAsInt(a);

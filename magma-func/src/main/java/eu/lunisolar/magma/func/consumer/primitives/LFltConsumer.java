@@ -241,29 +241,6 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 		func.acceptThen(a, handler);
 	}
 
-	default void failSafeAccept(float a, @Nonnull LFltConsumer failSafe) {
-		try {
-			accept(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a);
-		}
-	}
-
-	static void failSafeAccept(float a, LFltConsumer func, @Nonnull LFltConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a);
-		} else {
-			func.failSafeAccept(a, failSafe);
-		}
-	}
-
-	static LFltConsumer failSafe(LFltConsumer func, @Nonnull LFltConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeAccept(a, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

@@ -241,29 +241,6 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		func.acceptThen(a, handler);
 	}
 
-	default void failSafeAccept(boolean a, @Nonnull LBoolConsumer failSafe) {
-		try {
-			accept(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a);
-		}
-	}
-
-	static void failSafeAccept(boolean a, LBoolConsumer func, @Nonnull LBoolConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a);
-		} else {
-			func.failSafeAccept(a, failSafe);
-		}
-	}
-
-	static LBoolConsumer failSafe(LBoolConsumer func, @Nonnull LBoolConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeAccept(a, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

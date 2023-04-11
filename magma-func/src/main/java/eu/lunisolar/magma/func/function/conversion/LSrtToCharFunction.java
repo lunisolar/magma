@@ -241,29 +241,6 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.applyAsCharThen(a, handler);
 	}
 
-	default char failSafeApplyAsChar(short a, @Nonnull LSrtToCharFunction failSafe) {
-		try {
-			return applyAsChar(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsChar(a);
-		}
-	}
-
-	static char failSafeApplyAsChar(short a, LSrtToCharFunction func, @Nonnull LSrtToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsChar(a);
-		} else {
-			return func.failSafeApplyAsChar(a, failSafe);
-		}
-	}
-
-	static LSrtToCharFunction failSafe(LSrtToCharFunction func, @Nonnull LSrtToCharFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsChar(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNullApplyAsChar(short a) {
 		return applyAsChar(a);

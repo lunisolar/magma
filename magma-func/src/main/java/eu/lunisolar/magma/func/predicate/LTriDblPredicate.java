@@ -241,29 +241,6 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(double a1, double a2, double a3, @Nonnull LTriDblPredicate failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static boolean failSafeTest(double a1, double a2, double a3, LTriDblPredicate func, @Nonnull LTriDblPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriDblPredicate failSafe(LTriDblPredicate func, @Nonnull LTriDblPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(double a1, double a2, double a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

@@ -243,29 +243,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		func.acceptThen(a1, a2, handler);
 	}
 
-	default void failSafeAccept(T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> failSafe) {
-		try {
-			accept(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2);
-		}
-	}
-
-	static <T1, T2> void failSafeAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, @Nonnull LBiConsumer<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2);
-		} else {
-			func.failSafeAccept(a1, a2, failSafe);
-		}
-	}
-
-	static <T1, T2> LBiConsumer<T1, T2> failSafe(LBiConsumer<T1, T2> func, @Nonnull LBiConsumer<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

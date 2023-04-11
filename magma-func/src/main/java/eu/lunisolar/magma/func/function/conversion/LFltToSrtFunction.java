@@ -241,29 +241,6 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsSrtThen(a, handler);
 	}
 
-	default short failSafeApplyAsSrt(float a, @Nonnull LFltToSrtFunction failSafe) {
-		try {
-			return applyAsSrt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a);
-		}
-	}
-
-	static short failSafeApplyAsSrt(float a, LFltToSrtFunction func, @Nonnull LFltToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a);
-		} else {
-			return func.failSafeApplyAsSrt(a, failSafe);
-		}
-	}
-
-	static LFltToSrtFunction failSafe(LFltToSrtFunction func, @Nonnull LFltToSrtFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsSrt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(float a) {
 		return applyAsSrt(a);

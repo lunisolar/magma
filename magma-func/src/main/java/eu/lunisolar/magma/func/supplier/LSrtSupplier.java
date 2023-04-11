@@ -240,29 +240,6 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func.getAsSrtThen(handler);
 	}
 
-	default short failSafeGetAsSrt(@Nonnull LSrtSupplier failSafe) {
-		try {
-			return getAsSrt();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsSrt();
-		}
-	}
-
-	static short failSafeGetAsSrt(LSrtSupplier func, @Nonnull LSrtSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsSrt();
-		} else {
-			return func.failSafeGetAsSrt(failSafe);
-		}
-	}
-
-	static LSrtSupplier failSafe(LSrtSupplier func, @Nonnull LSrtSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsSrt(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullGetAsSrt() {
 		return getAsSrt();

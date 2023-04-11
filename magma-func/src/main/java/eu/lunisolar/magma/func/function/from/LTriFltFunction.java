@@ -242,29 +242,6 @@ public interface LTriFltFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.applyThen(a1, a2, a3, handler);
 	}
 
-	default R failSafeApply(float a1, float a2, float a3, @Nonnull LTriFltFunction<R> failSafe) {
-		try {
-			return apply(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2, a3);
-		}
-	}
-
-	static <R> R failSafeApply(float a1, float a2, float a3, LTriFltFunction<R> func, @Nonnull LTriFltFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2, a3);
-		} else {
-			return func.failSafeApply(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <R> LTriFltFunction<R> failSafe(LTriFltFunction<R> func, @Nonnull LTriFltFunction<R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApply(a1, a2, a3, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

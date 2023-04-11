@@ -241,29 +241,6 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return func.applyAsLongThen(a1, a2, a3, handler);
 	}
 
-	default long failSafeApplyAsLong(long a1, long a2, long a3, @Nonnull LLongTernaryOperator failSafe) {
-		try {
-			return applyAsLong(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a1, a2, a3);
-		}
-	}
-
-	static long failSafeApplyAsLong(long a1, long a2, long a3, LLongTernaryOperator func, @Nonnull LLongTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a1, a2, a3);
-		} else {
-			return func.failSafeApplyAsLong(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LLongTernaryOperator failSafe(LLongTernaryOperator func, @Nonnull LLongTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApplyAsLong(a1, a2, a3, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(long a1, long a2, long a3) {
 		return applyAsLong(a1, a2, a3);

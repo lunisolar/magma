@@ -240,29 +240,6 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func.getAsFltThen(handler);
 	}
 
-	default float failSafeGetAsFlt(@Nonnull LFltSupplier failSafe) {
-		try {
-			return getAsFlt();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsFlt();
-		}
-	}
-
-	static float failSafeGetAsFlt(LFltSupplier func, @Nonnull LFltSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsFlt();
-		} else {
-			return func.failSafeGetAsFlt(failSafe);
-		}
-	}
-
-	static LFltSupplier failSafe(LFltSupplier func, @Nonnull LFltSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsFlt(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullGetAsFlt() {
 		return getAsFlt();

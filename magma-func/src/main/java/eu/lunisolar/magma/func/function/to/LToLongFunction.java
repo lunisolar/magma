@@ -243,29 +243,6 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return func.applyAsLongThen(a, handler);
 	}
 
-	default long failSafeApplyAsLong(T a, @Nonnull LToLongFunction<T> failSafe) {
-		try {
-			return applyAsLong(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a);
-		}
-	}
-
-	static <T> long failSafeApplyAsLong(T a, LToLongFunction<T> func, @Nonnull LToLongFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a);
-		} else {
-			return func.failSafeApplyAsLong(a, failSafe);
-		}
-	}
-
-	static <T> LToLongFunction<T> failSafe(LToLongFunction<T> func, @Nonnull LToLongFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsLong(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(T a) {
 		return applyAsLong(a);

@@ -241,29 +241,6 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 		return func.applyAsLongThen(a, handler);
 	}
 
-	default long failSafeApplyAsLong(byte a, @Nonnull LByteToLongFunction failSafe) {
-		try {
-			return applyAsLong(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a);
-		}
-	}
-
-	static long failSafeApplyAsLong(byte a, LByteToLongFunction func, @Nonnull LByteToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a);
-		} else {
-			return func.failSafeApplyAsLong(a, failSafe);
-		}
-	}
-
-	static LByteToLongFunction failSafe(LByteToLongFunction func, @Nonnull LByteToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsLong(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(byte a) {
 		return applyAsLong(a);

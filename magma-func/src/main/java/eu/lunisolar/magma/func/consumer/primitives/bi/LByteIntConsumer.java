@@ -241,29 +241,6 @@ public interface LByteIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		func.acceptThen(a1, a2, handler);
 	}
 
-	default void failSafeAccept(byte a1, int a2, @Nonnull LByteIntConsumer failSafe) {
-		try {
-			accept(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2);
-		}
-	}
-
-	static void failSafeAccept(byte a1, int a2, LByteIntConsumer func, @Nonnull LByteIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2);
-		} else {
-			func.failSafeAccept(a1, a2, failSafe);
-		}
-	}
-
-	static LByteIntConsumer failSafe(LByteIntConsumer func, @Nonnull LByteIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

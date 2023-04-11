@@ -241,29 +241,6 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return func.applyAsLongThen(a1, a2, handler);
 	}
 
-	default long failSafeApplyAsLong(T1 a1, T2 a2, @Nonnull LToLongBiFunction<T1, T2> failSafe) {
-		try {
-			return applyAsLong(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a1, a2);
-		}
-	}
-
-	static <T1, T2> long failSafeApplyAsLong(T1 a1, T2 a2, LToLongBiFunction<T1, T2> func, @Nonnull LToLongBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a1, a2);
-		} else {
-			return func.failSafeApplyAsLong(a1, a2, failSafe);
-		}
-	}
-
-	static <T1, T2> LToLongBiFunction<T1, T2> failSafe(LToLongBiFunction<T1, T2> func, @Nonnull LToLongBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsLong(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(T1 a1, T2 a2) {
 		return applyAsLong(a1, a2);

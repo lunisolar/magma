@@ -243,29 +243,6 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		func.acceptThen(a1, a2, handler);
 	}
 
-	default void failSafeAccept(T a1, short a2, @Nonnull LObjSrtConsumer<T> failSafe) {
-		try {
-			accept(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2);
-		}
-	}
-
-	static <T> void failSafeAccept(T a1, short a2, LObjSrtConsumer<T> func, @Nonnull LObjSrtConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2);
-		} else {
-			func.failSafeAccept(a1, a2, failSafe);
-		}
-	}
-
-	static <T> LObjSrtConsumer<T> failSafe(LObjSrtConsumer<T> func, @Nonnull LObjSrtConsumer<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

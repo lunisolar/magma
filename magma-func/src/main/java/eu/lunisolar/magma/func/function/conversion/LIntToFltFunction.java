@@ -241,29 +241,6 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsFltThen(a, handler);
 	}
 
-	default float failSafeApplyAsFlt(int a, @Nonnull LIntToFltFunction failSafe) {
-		try {
-			return applyAsFlt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a);
-		}
-	}
-
-	static float failSafeApplyAsFlt(int a, LIntToFltFunction func, @Nonnull LIntToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a);
-		} else {
-			return func.failSafeApplyAsFlt(a, failSafe);
-		}
-	}
-
-	static LIntToFltFunction failSafe(LIntToFltFunction func, @Nonnull LIntToFltFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsFlt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(int a) {
 		return applyAsFlt(a);

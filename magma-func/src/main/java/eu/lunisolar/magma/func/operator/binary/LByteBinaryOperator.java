@@ -241,29 +241,6 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.applyAsByteThen(a1, a2, handler);
 	}
 
-	default byte failSafeApplyAsByte(byte a1, byte a2, @Nonnull LByteBinaryOperator failSafe) {
-		try {
-			return applyAsByte(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a1, a2);
-		}
-	}
-
-	static byte failSafeApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, @Nonnull LByteBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a1, a2);
-		} else {
-			return func.failSafeApplyAsByte(a1, a2, failSafe);
-		}
-	}
-
-	static LByteBinaryOperator failSafe(LByteBinaryOperator func, @Nonnull LByteBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsByte(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(byte a1, byte a2) {
 		return applyAsByte(a1, a2);

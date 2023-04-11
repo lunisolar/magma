@@ -241,29 +241,6 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(long a1, long a2, long a3, @Nonnull LTriLongPredicate failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static boolean failSafeTest(long a1, long a2, long a3, LTriLongPredicate func, @Nonnull LTriLongPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriLongPredicate failSafe(LTriLongPredicate func, @Nonnull LTriLongPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(long a1, long a2, long a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

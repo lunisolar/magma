@@ -241,29 +241,6 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return func.applyThen(a1, a2, handler);
 	}
 
-	default boolean failSafeApply(boolean a1, boolean a2, @Nonnull LLogicalBinaryOperator failSafe) {
-		try {
-			return apply(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2);
-		}
-	}
-
-	static boolean failSafeApply(boolean a1, boolean a2, LLogicalBinaryOperator func, @Nonnull LLogicalBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2);
-		} else {
-			return func.failSafeApply(a1, a2, failSafe);
-		}
-	}
-
-	static LLogicalBinaryOperator failSafe(LLogicalBinaryOperator func, @Nonnull LLogicalBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApply(a1, a2, func, failSafe);
-	}
-
 	default boolean doIf(boolean a1, boolean a2, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (apply(a1, a2)) {

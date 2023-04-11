@@ -241,29 +241,6 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 		return func.applyAsLongThen(a, handler);
 	}
 
-	default long failSafeApplyAsLong(int a, @Nonnull LIntToLongFunction failSafe) {
-		try {
-			return applyAsLong(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsLong(a);
-		}
-	}
-
-	static long failSafeApplyAsLong(int a, LIntToLongFunction func, @Nonnull LIntToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsLong(a);
-		} else {
-			return func.failSafeApplyAsLong(a, failSafe);
-		}
-	}
-
-	static LIntToLongFunction failSafe(LIntToLongFunction func, @Nonnull LIntToLongFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsLong(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNullApplyAsLong(int a) {
 		return applyAsLong(a);

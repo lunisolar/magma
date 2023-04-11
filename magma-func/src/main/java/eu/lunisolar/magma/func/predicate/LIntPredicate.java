@@ -241,29 +241,6 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		return func.testThen(a, handler);
 	}
 
-	default boolean failSafeTest(int a, @Nonnull LIntPredicate failSafe) {
-		try {
-			return test(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a);
-		}
-	}
-
-	static boolean failSafeTest(int a, LIntPredicate func, @Nonnull LIntPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a);
-		} else {
-			return func.failSafeTest(a, failSafe);
-		}
-	}
-
-	static LIntPredicate failSafe(LIntPredicate func, @Nonnull LIntPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeTest(a, func, failSafe);
-	}
-
 	default boolean doIf(int a, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a)) {

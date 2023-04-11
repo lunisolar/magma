@@ -241,29 +241,6 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		func.acceptThen(a1, a2, handler);
 	}
 
-	default void failSafeAccept(short a1, int a2, @Nonnull LSrtIntConsumer failSafe) {
-		try {
-			accept(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			failSafe.accept(a1, a2);
-		}
-	}
-
-	static void failSafeAccept(short a1, int a2, LSrtIntConsumer func, @Nonnull LSrtIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			failSafe.accept(a1, a2);
-		} else {
-			func.failSafeAccept(a1, a2, failSafe);
-		}
-	}
-
-	static LSrtIntConsumer failSafe(LSrtIntConsumer func, @Nonnull LSrtIntConsumer failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeAccept(a1, a2, func, failSafe);
-	}
-
 	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {

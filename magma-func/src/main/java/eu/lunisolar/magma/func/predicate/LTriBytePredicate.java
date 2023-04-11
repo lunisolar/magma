@@ -241,29 +241,6 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(byte a1, byte a2, byte a3, @Nonnull LTriBytePredicate failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static boolean failSafeTest(byte a1, byte a2, byte a3, LTriBytePredicate func, @Nonnull LTriBytePredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LTriBytePredicate failSafe(LTriBytePredicate func, @Nonnull LTriBytePredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(byte a1, byte a2, byte a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

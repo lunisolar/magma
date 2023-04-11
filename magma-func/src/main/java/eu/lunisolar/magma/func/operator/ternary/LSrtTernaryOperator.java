@@ -241,29 +241,6 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.applyAsSrtThen(a1, a2, a3, handler);
 	}
 
-	default short failSafeApplyAsSrt(short a1, short a2, short a3, @Nonnull LSrtTernaryOperator failSafe) {
-		try {
-			return applyAsSrt(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a1, a2, a3);
-		}
-	}
-
-	static short failSafeApplyAsSrt(short a1, short a2, short a3, LSrtTernaryOperator func, @Nonnull LSrtTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a1, a2, a3);
-		} else {
-			return func.failSafeApplyAsSrt(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LSrtTernaryOperator failSafe(LSrtTernaryOperator func, @Nonnull LSrtTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApplyAsSrt(a1, a2, a3, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(short a1, short a2, short a3) {
 		return applyAsSrt(a1, a2, a3);

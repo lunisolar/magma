@@ -243,29 +243,6 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return func.applyAsSrtThen(a, handler);
 	}
 
-	default short failSafeApplyAsSrt(T a, @Nonnull LToSrtFunction<T> failSafe) {
-		try {
-			return applyAsSrt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsSrt(a);
-		}
-	}
-
-	static <T> short failSafeApplyAsSrt(T a, LToSrtFunction<T> func, @Nonnull LToSrtFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsSrt(a);
-		} else {
-			return func.failSafeApplyAsSrt(a, failSafe);
-		}
-	}
-
-	static <T> LToSrtFunction<T> failSafe(LToSrtFunction<T> func, @Nonnull LToSrtFunction<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsSrt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNullApplyAsSrt(T a) {
 		return applyAsSrt(a);

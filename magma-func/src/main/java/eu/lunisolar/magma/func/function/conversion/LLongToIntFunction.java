@@ -241,29 +241,6 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 		return func.applyAsIntThen(a, handler);
 	}
 
-	default int failSafeApplyAsInt(long a, @Nonnull LLongToIntFunction failSafe) {
-		try {
-			return applyAsInt(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a);
-		}
-	}
-
-	static int failSafeApplyAsInt(long a, LLongToIntFunction func, @Nonnull LLongToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a);
-		} else {
-			return func.failSafeApplyAsInt(a, failSafe);
-		}
-	}
-
-	static LLongToIntFunction failSafe(LLongToIntFunction func, @Nonnull LLongToIntFunction failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeApplyAsInt(a, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(long a) {
 		return applyAsInt(a);

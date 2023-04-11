@@ -241,29 +241,6 @@ public interface LObjIntSrtPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return func.testThen(a1, a2, a3, handler);
 	}
 
-	default boolean failSafeTest(T a1, int a2, short a3, @Nonnull LObjIntSrtPredicate<T> failSafe) {
-		try {
-			return test(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3);
-		}
-	}
-
-	static <T> boolean failSafeTest(T a1, int a2, short a3, LObjIntSrtPredicate<T> func, @Nonnull LObjIntSrtPredicate<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3);
-		} else {
-			return func.failSafeTest(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <T> LObjIntSrtPredicate<T> failSafe(LObjIntSrtPredicate<T> func, @Nonnull LObjIntSrtPredicate<T> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeTest(a1, a2, a3, func, failSafe);
-	}
-
 	default boolean doIf(T a1, int a2, short a3, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3)) {

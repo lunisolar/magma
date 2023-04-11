@@ -241,29 +241,6 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return func.applyAsIntThen(a1, a2, a3, handler);
 	}
 
-	default int failSafeApplyAsInt(T1 a1, T2 a2, T3 a3, @Nonnull LToIntTriFunction<T1, T2, T3> failSafe) {
-		try {
-			return applyAsInt(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsInt(a1, a2, a3);
-		}
-	}
-
-	static <T1, T2, T3> int failSafeApplyAsInt(T1 a1, T2 a2, T3 a3, LToIntTriFunction<T1, T2, T3> func, @Nonnull LToIntTriFunction<T1, T2, T3> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsInt(a1, a2, a3);
-		} else {
-			return func.failSafeApplyAsInt(a1, a2, a3, failSafe);
-		}
-	}
-
-	static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> failSafe(LToIntTriFunction<T1, T2, T3> func, @Nonnull LToIntTriFunction<T1, T2, T3> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApplyAsInt(a1, a2, a3, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullApplyAsInt(T1 a1, T2 a2, T3 a3) {
 		return applyAsInt(a1, a2, a3);

@@ -242,29 +242,6 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return func.applyThen(a1, a2, handler);
 	}
 
-	default R failSafeApply(T a1, double a2, @Nonnull LObjDblFunction<T, R> failSafe) {
-		try {
-			return apply(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.apply(a1, a2);
-		}
-	}
-
-	static <T, R> R failSafeApply(T a1, double a2, LObjDblFunction<T, R> func, @Nonnull LObjDblFunction<T, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.apply(a1, a2);
-		} else {
-			return func.failSafeApply(a1, a2, failSafe);
-		}
-	}
-
-	static <T, R> LObjDblFunction<T, R> failSafe(LObjDblFunction<T, R> func, @Nonnull LObjDblFunction<T, R> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApply(a1, a2, func, failSafe);
-	}
-
 	LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Function call that ensures the result is not null */

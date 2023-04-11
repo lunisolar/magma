@@ -251,29 +251,6 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return func.applyAsDblThen(a1, a2, handler);
 	}
 
-	default double failSafeApplyAsDbl(T1 a1, T2 a2, @Nonnull LToDblBiFunction<T1, T2> failSafe) {
-		try {
-			return applyAsDbl(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsDbl(a1, a2);
-		}
-	}
-
-	static <T1, T2> double failSafeApplyAsDbl(T1 a1, T2 a2, LToDblBiFunction<T1, T2> func, @Nonnull LToDblBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsDbl(a1, a2);
-		} else {
-			return func.failSafeApplyAsDbl(a1, a2, failSafe);
-		}
-	}
-
-	static <T1, T2> LToDblBiFunction<T1, T2> failSafe(LToDblBiFunction<T1, T2> func, @Nonnull LToDblBiFunction<T1, T2> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsDbl(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNullApplyAsDbl(T1 a1, T2 a2) {
 		return applyAsDbl(a1, a2);

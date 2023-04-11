@@ -241,29 +241,6 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func.applyAsFltThen(a1, a2, handler);
 	}
 
-	default float failSafeApplyAsFlt(float a1, float a2, @Nonnull LFltBinaryOperator failSafe) {
-		try {
-			return applyAsFlt(a1, a2);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsFlt(a1, a2);
-		}
-	}
-
-	static float failSafeApplyAsFlt(float a1, float a2, LFltBinaryOperator func, @Nonnull LFltBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsFlt(a1, a2);
-		} else {
-			return func.failSafeApplyAsFlt(a1, a2, failSafe);
-		}
-	}
-
-	static LFltBinaryOperator failSafe(LFltBinaryOperator func, @Nonnull LFltBinaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2) -> failSafeApplyAsFlt(a1, a2, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNullApplyAsFlt(float a1, float a2) {
 		return applyAsFlt(a1, a2);

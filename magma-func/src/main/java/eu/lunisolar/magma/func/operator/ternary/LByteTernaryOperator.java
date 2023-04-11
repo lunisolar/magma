@@ -241,29 +241,6 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return func.applyAsByteThen(a1, a2, a3, handler);
 	}
 
-	default byte failSafeApplyAsByte(byte a1, byte a2, byte a3, @Nonnull LByteTernaryOperator failSafe) {
-		try {
-			return applyAsByte(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.applyAsByte(a1, a2, a3);
-		}
-	}
-
-	static byte failSafeApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, @Nonnull LByteTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.applyAsByte(a1, a2, a3);
-		} else {
-			return func.failSafeApplyAsByte(a1, a2, a3, failSafe);
-		}
-	}
-
-	static LByteTernaryOperator failSafe(LByteTernaryOperator func, @Nonnull LByteTernaryOperator failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3) -> failSafeApplyAsByte(a1, a2, a3, func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNullApplyAsByte(byte a1, byte a2, byte a3) {
 		return applyAsByte(a1, a2, a3);

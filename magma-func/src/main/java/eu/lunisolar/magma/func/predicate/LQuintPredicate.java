@@ -242,29 +242,6 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return func.testThen(a1, a2, a3, a4, a5, handler);
 	}
 
-	default boolean failSafeTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> failSafe) {
-		try {
-			return test(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a1, a2, a3, a4, a5);
-		}
-	}
-
-	static <T1, T2, T3, T4, T5> boolean failSafeTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a1, a2, a3, a4, a5);
-		} else {
-			return func.failSafeTest(a1, a2, a3, a4, a5, failSafe);
-		}
-	}
-
-	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> failSafe(LQuintPredicate<T1, T2, T3, T4, T5> func, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return (a1, a2, a3, a4, a5) -> failSafeTest(a1, a2, a3, a4, a5, func, failSafe);
-	}
-
 	default boolean doIf(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a1, a2, a3, a4, a5)) {

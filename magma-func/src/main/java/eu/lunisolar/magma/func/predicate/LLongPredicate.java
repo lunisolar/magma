@@ -241,29 +241,6 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 		return func.testThen(a, handler);
 	}
 
-	default boolean failSafeTest(long a, @Nonnull LLongPredicate failSafe) {
-		try {
-			return test(a);
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.test(a);
-		}
-	}
-
-	static boolean failSafeTest(long a, LLongPredicate func, @Nonnull LLongPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.test(a);
-		} else {
-			return func.failSafeTest(a, failSafe);
-		}
-	}
-
-	static LLongPredicate failSafe(LLongPredicate func, @Nonnull LLongPredicate failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return a -> failSafeTest(a, func, failSafe);
-	}
-
 	default boolean doIf(long a, LAction action) {
 		Null.nonNullArg(action, "action");
 		if (test(a)) {

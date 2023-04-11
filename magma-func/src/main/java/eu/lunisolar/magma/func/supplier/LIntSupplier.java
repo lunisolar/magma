@@ -240,29 +240,6 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		return func.getAsIntThen(handler);
 	}
 
-	default int failSafeGetAsInt(@Nonnull LIntSupplier failSafe) {
-		try {
-			return getAsInt();
-		} catch (Throwable e) { // NOSONAR
-			Handling.handleErrors(e);
-			return failSafe.getAsInt();
-		}
-	}
-
-	static int failSafeGetAsInt(LIntSupplier func, @Nonnull LIntSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		if (func == null) {
-			return failSafe.getAsInt();
-		} else {
-			return func.failSafeGetAsInt(failSafe);
-		}
-	}
-
-	static LIntSupplier failSafe(LIntSupplier func, @Nonnull LIntSupplier failSafe) {
-		Null.nonNullArg(failSafe, "failSafe");
-		return () -> failSafeGetAsInt(func, failSafe);
-	}
-
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNullGetAsInt() {
 		return getAsInt();
