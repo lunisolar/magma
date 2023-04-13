@@ -58,7 +58,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  *  *
  * This class contains some predicates that take - and ignore - additional argument(s) that are intended only for building a message.
  *
- * @see {@link Is}{@link Are}{@link Do}{@link Does}{@link Be}{@link Has}{@link Have}{@link As}{@link P}{@link Predicates}{@link P1}{@link P2}
+ * @see {@link Is}{@link Are}{@link Do}{@link Does}{@link Be}{@link Has}{@link Have}{@link As}{@link P}{@link ꝓ}{@link Predicates}{@link P1}{@link P2}
  */
 @MethodReferences
 public class P1 implements FluentSyntax {
