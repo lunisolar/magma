@@ -292,7 +292,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V, T2, T3> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, @Nonnull LTriFunction<V, T2, T3, R> function) {
+	public static <M, K, V, T2, T3, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, @Nonnull LTriFunction<V, T2, T3, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

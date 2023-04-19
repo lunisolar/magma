@@ -637,42 +637,42 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? (Opt.of(mapping.apply(get()))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K> Opt<R> map(K a1, @Nonnull LBiFunction<? super T, ? super K, ? extends R> mapping) {
+	default @Nonnull <K, R> Opt<R> map(K a1, @Nonnull LBiFunction<? super T, ? super K, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K> Opt<R> mapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends R> mapping) {
+	default @Nonnull <K, R> Opt<R> mapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, get()))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2> Opt<R> map(K1 a1, K2 a2, @Nonnull LTriFunction<? super T, ? super K1, ? super K2, ? extends R> mapping) {
+	default @Nonnull <K1, K2, R> Opt<R> map(K1 a1, K2 a2, @Nonnull LTriFunction<? super T, ? super K1, ? super K2, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2> Opt<R> mapWith(K1 a1, K2 a2, @Nonnull LTriFunction<? super K1, ? super K2, ? super T, ? extends R> mapping) {
+	default @Nonnull <K1, K2, R> Opt<R> mapWith(K1 a1, K2 a2, @Nonnull LTriFunction<? super K1, ? super K2, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, get()))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2, K3> Opt<R> map(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super T, ? super K1, ? super K2, ? super K3, ? extends R> mapping) {
+	default @Nonnull <K1, K2, K3, R> Opt<R> map(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super T, ? super K1, ? super K2, ? super K3, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2, a3))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2, K3> Opt<R> mapWith(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super K1, ? super K2, ? super K3, ? super T, ? extends R> mapping) {
+	default @Nonnull <K1, K2, K3, R> Opt<R> mapWith(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super K1, ? super K2, ? super K3, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, a3, get()))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2, K3, K4> Opt<R> map(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super T, ? super K1, ? super K2, ? super K3, ? super K4, ? extends R> mapping) {
+	default @Nonnull <K1, K2, K3, K4, R> Opt<R> map(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super T, ? super K1, ? super K2, ? super K3, ? super K4, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2, a3, a4))) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2, K3, K4> Opt<R> mapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super K1, ? super K2, ? super K3, ? super K4, ? super T, ? extends R> mapping) {
+	default @Nonnull <K1, K2, K3, K4, R> Opt<R> mapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super K1, ? super K2, ? super K3, ? super K4, ? super T, ? extends R> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, a3, a4, get()))) : Opt.empty();
 	}
@@ -1051,12 +1051,12 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? valueFrom(mapping.apply(get())) : voidValue();
 	}
 
-	default @Nonnull <R, K> Opt<R> flatMap(K a1, @Nonnull LBiFunction<? super T, ? super K, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K, R> Opt<R> flatMap(K a1, @Nonnull LBiFunction<? super T, ? super K, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(get(), a1)) : Opt.empty();
 	}
 
-	default @Nonnull <R, K> Opt<R> flatMapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K, R> Opt<R> flatMapWith(K a1, @Nonnull LBiFunction<? super K, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, get())) : Opt.empty();
 	}
@@ -1071,12 +1071,12 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? valueFrom(mapping.apply(a1, get())) : voidValue();
 	}
 
-	default @Nonnull <R, K1, K2> Opt<R> flatMap(K1 a1, K2 a2, @Nonnull LTriFunction<? super T, ? super K1, ? super K2, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K1, K2, R> Opt<R> flatMap(K1 a1, K2 a2, @Nonnull LTriFunction<? super T, ? super K1, ? super K2, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2)) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2> Opt<R> flatMapWith(K1 a1, K2 a2, @Nonnull LTriFunction<? super K1, ? super K2, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K1, K2, R> Opt<R> flatMapWith(K1 a1, K2 a2, @Nonnull LTriFunction<? super K1, ? super K2, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, a2, get())) : Opt.empty();
 	}
@@ -1091,12 +1091,12 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? valueFrom(mapping.apply(a1, a2, get())) : voidValue();
 	}
 
-	default @Nonnull <R, K1, K2, K3> Opt<R> flatMap(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super T, ? super K1, ? super K2, ? super K3, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K1, K2, K3, R> Opt<R> flatMap(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super T, ? super K1, ? super K2, ? super K3, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2, a3)) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2, K3> Opt<R> flatMapWith(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super K1, ? super K2, ? super K3, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K1, K2, K3, R> Opt<R> flatMapWith(K1 a1, K2 a2, K3 a3, @Nonnull LQuadFunction<? super K1, ? super K2, ? super K3, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, a2, a3, get())) : Opt.empty();
 	}
@@ -1111,12 +1111,12 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? valueFrom(mapping.apply(a1, a2, a3, get())) : voidValue();
 	}
 
-	default @Nonnull <R, K1, K2, K3, K4> Opt<R> flatMap(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super T, ? super K1, ? super K2, ? super K3, ? super K4, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K1, K2, K3, K4, R> Opt<R> flatMap(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super T, ? super K1, ? super K2, ? super K3, ? super K4, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2, a3, a4)) : Opt.empty();
 	}
 
-	default @Nonnull <R, K1, K2, K3, K4> Opt<R> flatMapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super K1, ? super K2, ? super K3, ? super K4, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
+	default @Nonnull <K1, K2, K3, K4, R> Opt<R> flatMapWith(K1 a1, K2 a2, K3 a3, K4 a4, @Nonnull LQuintFunction<? super K1, ? super K2, ? super K3, ? super K4, ? super T, ? extends ValueTrait<? extends R, ?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
 		return isPresent() ? Opt.from(mapping.apply(a1, a2, a3, a4, get())) : Opt.empty();
 	}

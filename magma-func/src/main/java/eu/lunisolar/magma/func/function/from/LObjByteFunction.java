@@ -292,7 +292,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, byte a2, @Nonnull LObjByteFunction<V, R> function) {
+	public static <M, K, V, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, byte a2, @Nonnull LObjByteFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

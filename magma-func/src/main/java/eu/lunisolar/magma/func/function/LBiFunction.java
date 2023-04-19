@@ -292,7 +292,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V, T2> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, @Nonnull LBiFunction<V, T2, R> function) {
+	public static <M, K, V, T2, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, @Nonnull LBiFunction<V, T2, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

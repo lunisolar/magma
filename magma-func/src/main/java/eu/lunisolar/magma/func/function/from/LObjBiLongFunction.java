@@ -292,7 +292,7 @@ public interface LObjBiLongFunction<T, R> extends MetaFunction, MetaInterface.No
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, long a2, long a3, @Nonnull LObjBiLongFunction<V, R> function) {
+	public static <M, K, V, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, long a2, long a3, @Nonnull LObjBiLongFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

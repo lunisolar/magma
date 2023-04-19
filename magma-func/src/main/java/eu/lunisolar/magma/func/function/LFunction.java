@@ -294,7 +294,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LFunction<V, R> function) {
+	public static <M, K, V, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, @Nonnull LFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

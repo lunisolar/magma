@@ -292,7 +292,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V, T2, T3, T4> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<V, T2, T3, T4, R> function) {
+	public static <M, K, V, T2, T3, T4, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<V, T2, T3, T4, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

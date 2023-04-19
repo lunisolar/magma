@@ -292,7 +292,7 @@ public interface LObjIntBoolFunction<T, R> extends MetaFunction, MetaInterface.N
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, boolean a3, @Nonnull LObjIntBoolFunction<V, R> function) {
+	public static <M, K, V, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, int a2, boolean a3, @Nonnull LObjIntBoolFunction<V, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

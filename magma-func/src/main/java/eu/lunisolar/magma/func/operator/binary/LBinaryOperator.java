@@ -276,7 +276,7 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 	}
 
 	/** Extract and apply function. */
-	public static <T, M, K, V> T from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T a2, @Nonnull LBiFunction<V, T, T> function) {
+	public static <M, K, V, T> T from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T a2, @Nonnull LBiFunction<V, T, T> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);

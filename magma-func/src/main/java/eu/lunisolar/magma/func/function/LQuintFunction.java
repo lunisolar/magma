@@ -293,7 +293,7 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 	}
 
 	/** Extract and apply function. */
-	public static <R, M, K, V, T2, T3, T4, T5> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<V, T2, T3, T4, T5, R> function) {
+	public static <M, K, V, T2, T3, T4, T5, R> R from(@Nonnull M container, LBiFunction<M, K, V> extractor, K key, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<V, T2, T3, T4, T5, R> function) {
 		Null.nonNullArg(container, "container");
 		Null.nonNullArg(function, "function");
 		V value = extractor.apply(container, key);
