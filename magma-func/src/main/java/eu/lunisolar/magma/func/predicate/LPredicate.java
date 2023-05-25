@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -1051,14 +1052,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	@Nonnull
 	public static <T> LPredicate<T> and(@Nonnull LPredicate<? super T>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return a -> {
-			for (LPredicate<? super T> p : predicates) {
-				if (!p.test(a)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return a -> !any(false, a, predicates);
 	}
 
 	/**
@@ -1074,14 +1068,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	@Nonnull
 	public static <T> LPredicate<T> or(@Nonnull LPredicate<? super T>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return a -> {
-			for (LPredicate<? super T> p : predicates) {
-				if (p.test(a)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return a -> any(true, a, predicates);
 	}
 
 	/**
@@ -1104,6 +1091,37 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	// </editor-fold>
+
+	public static <T> boolean any(boolean expected, T a, @Nonnull Collection<? extends LPredicate<? super T>> predicates) {
+		return any(expected, a, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T> boolean any(boolean expected, T a, @Nonnull Stream<? extends LPredicate<? super T>> predicates) {
+		return any(expected, a, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T> boolean any(boolean expected, T a, @Nonnull Iterator<? extends LPredicate<? super T>> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static <T> boolean any(boolean expected, T a, @Nonnull LPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

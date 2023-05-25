@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -899,14 +900,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	@Nonnull
 	public static LLogicalTernaryOperator and(@Nonnull LLogicalTernaryOperator... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LLogicalTernaryOperator p : predicates) {
-				if (!p.apply(a1, a2, a3)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2, a3) -> !any(false, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -922,14 +916,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	@Nonnull
 	public static LLogicalTernaryOperator or(@Nonnull LLogicalTernaryOperator... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LLogicalTernaryOperator p : predicates) {
-				if (p.apply(a1, a2, a3)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2, a3) -> any(true, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -952,6 +939,37 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	// </editor-fold>
+
+	public static boolean any(boolean expected, boolean a1, boolean a2, boolean a3, @Nonnull Collection<? extends LLogicalTernaryOperator> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, boolean a1, boolean a2, boolean a3, @Nonnull Stream<? extends LLogicalTernaryOperator> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, boolean a1, boolean a2, boolean a3, @Nonnull Iterator<? extends LLogicalTernaryOperator> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.apply(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean any(boolean expected, boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.apply(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Returns function that applies logical AND operator.

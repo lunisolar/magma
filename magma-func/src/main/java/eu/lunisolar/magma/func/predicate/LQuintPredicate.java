@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -1128,14 +1129,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	@Nonnull
 	public static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> and(@Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3, a4, a5) -> {
-			for (LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> p : predicates) {
-				if (!p.test(a1, a2, a3, a4, a5)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2, a3, a4, a5) -> !any(false, a1, a2, a3, a4, a5, predicates);
 	}
 
 	/**
@@ -1151,14 +1145,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	@Nonnull
 	public static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> or(@Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3, a4, a5) -> {
-			for (LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5> p : predicates) {
-				if (p.test(a1, a2, a3, a4, a5)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2, a3, a4, a5) -> any(true, a1, a2, a3, a4, a5, predicates);
 	}
 
 	/**
@@ -1182,6 +1169,37 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	// </editor-fold>
+
+	public static <T1, T2, T3, T4, T5> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull Collection<? extends LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>> predicates) {
+		return any(expected, a1, a2, a3, a4, a5, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2, T3, T4, T5> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull Stream<? extends LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>> predicates) {
+		return any(expected, a1, a2, a3, a4, a5, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2, T3, T4, T5> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull Iterator<? extends LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3, a4, a5)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static <T1, T2, T3, T4, T5> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<? super T1, ? super T2, ? super T3, ? super T4, ? super T5>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3, a4, a5)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

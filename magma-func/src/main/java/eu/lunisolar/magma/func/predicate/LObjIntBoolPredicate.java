@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -913,14 +914,7 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 	@Nonnull
 	public static <T> LObjIntBoolPredicate<T> and(@Nonnull LObjIntBoolPredicate<? super T>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LObjIntBoolPredicate<? super T> p : predicates) {
-				if (!p.test(a1, a2, a3)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2, a3) -> !any(false, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -936,14 +930,7 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 	@Nonnull
 	public static <T> LObjIntBoolPredicate<T> or(@Nonnull LObjIntBoolPredicate<? super T>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LObjIntBoolPredicate<? super T> p : predicates) {
-				if (p.test(a1, a2, a3)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2, a3) -> any(true, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -966,6 +953,37 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 	}
 
 	// </editor-fold>
+
+	public static <T> boolean any(boolean expected, T a1, int a2, boolean a3, @Nonnull Collection<? extends LObjIntBoolPredicate<? super T>> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T> boolean any(boolean expected, T a1, int a2, boolean a3, @Nonnull Stream<? extends LObjIntBoolPredicate<? super T>> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T> boolean any(boolean expected, T a1, int a2, boolean a3, @Nonnull Iterator<? extends LObjIntBoolPredicate<? super T>> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static <T> boolean any(boolean expected, T a1, int a2, boolean a3, @Nonnull LObjIntBoolPredicate<? super T>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -894,14 +895,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	public static LBiCharPredicate and(@Nonnull LBiCharPredicate... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2) -> {
-			for (LBiCharPredicate p : predicates) {
-				if (!p.test(a1, a2)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2) -> !any(false, a1, a2, predicates);
 	}
 
 	/**
@@ -917,14 +911,7 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	@Nonnull
 	public static LBiCharPredicate or(@Nonnull LBiCharPredicate... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2) -> {
-			for (LBiCharPredicate p : predicates) {
-				if (p.test(a1, a2)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2) -> any(true, a1, a2, predicates);
 	}
 
 	/**
@@ -947,6 +934,37 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	// </editor-fold>
+
+	public static boolean any(boolean expected, char a1, char a2, @Nonnull Collection<? extends LBiCharPredicate> predicates) {
+		return any(expected, a1, a2, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, char a1, char a2, @Nonnull Stream<? extends LBiCharPredicate> predicates) {
+		return any(expected, a1, a2, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, char a1, char a2, @Nonnull Iterator<? extends LBiCharPredicate> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean any(boolean expected, char a1, char a2, @Nonnull LBiCharPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

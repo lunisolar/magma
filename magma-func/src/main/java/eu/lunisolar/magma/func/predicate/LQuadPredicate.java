@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -1131,14 +1132,7 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	@Nonnull
 	public static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> and(@Nonnull LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3, a4) -> {
-			for (LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4> p : predicates) {
-				if (!p.test(a1, a2, a3, a4)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2, a3, a4) -> !any(false, a1, a2, a3, a4, predicates);
 	}
 
 	/**
@@ -1154,14 +1148,7 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	@Nonnull
 	public static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> or(@Nonnull LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3, a4) -> {
-			for (LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4> p : predicates) {
-				if (p.test(a1, a2, a3, a4)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2, a3, a4) -> any(true, a1, a2, a3, a4, predicates);
 	}
 
 	/**
@@ -1184,6 +1171,37 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	}
 
 	// </editor-fold>
+
+	public static <T1, T2, T3, T4> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull Collection<? extends LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>> predicates) {
+		return any(expected, a1, a2, a3, a4, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2, T3, T4> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull Stream<? extends LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>> predicates) {
+		return any(expected, a1, a2, a3, a4, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2, T3, T4> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull Iterator<? extends LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3, a4)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static <T1, T2, T3, T4> boolean any(boolean expected, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadPredicate<? super T1, ? super T2, ? super T3, ? super T4>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3, a4)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

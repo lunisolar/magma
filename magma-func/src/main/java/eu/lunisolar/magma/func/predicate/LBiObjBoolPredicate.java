@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -921,14 +922,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	@Nonnull
 	public static <T1, T2> LBiObjBoolPredicate<T1, T2> and(@Nonnull LBiObjBoolPredicate<? super T1, ? super T2>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LBiObjBoolPredicate<? super T1, ? super T2> p : predicates) {
-				if (!p.test(a1, a2, a3)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2, a3) -> !any(false, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -944,14 +938,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	@Nonnull
 	public static <T1, T2> LBiObjBoolPredicate<T1, T2> or(@Nonnull LBiObjBoolPredicate<? super T1, ? super T2>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LBiObjBoolPredicate<? super T1, ? super T2> p : predicates) {
-				if (p.test(a1, a2, a3)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2, a3) -> any(true, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -974,6 +961,37 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 	}
 
 	// </editor-fold>
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, boolean a3, @Nonnull Collection<? extends LBiObjBoolPredicate<? super T1, ? super T2>> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, boolean a3, @Nonnull Stream<? extends LBiObjBoolPredicate<? super T1, ? super T2>> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, boolean a3, @Nonnull Iterator<? extends LBiObjBoolPredicate<? super T1, ? super T2>> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, boolean a3, @Nonnull LBiObjBoolPredicate<? super T1, ? super T2>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

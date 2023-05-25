@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -727,14 +728,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	@Nonnull
 	public static LSrtPredicate and(@Nonnull LSrtPredicate... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return a -> {
-			for (LSrtPredicate p : predicates) {
-				if (!p.test(a)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return a -> !any(false, a, predicates);
 	}
 
 	/**
@@ -750,14 +744,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	@Nonnull
 	public static LSrtPredicate or(@Nonnull LSrtPredicate... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return a -> {
-			for (LSrtPredicate p : predicates) {
-				if (p.test(a)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return a -> any(true, a, predicates);
 	}
 
 	/**
@@ -780,6 +767,37 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	}
 
 	// </editor-fold>
+
+	public static boolean any(boolean expected, short a, @Nonnull Collection<? extends LSrtPredicate> predicates) {
+		return any(expected, a, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, short a, @Nonnull Stream<? extends LSrtPredicate> predicates) {
+		return any(expected, a, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, short a, @Nonnull Iterator<? extends LSrtPredicate> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean any(boolean expected, short a, @Nonnull LSrtPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

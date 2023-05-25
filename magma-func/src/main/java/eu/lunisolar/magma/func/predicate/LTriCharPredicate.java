@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -896,14 +897,7 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@Nonnull
 	public static LTriCharPredicate and(@Nonnull LTriCharPredicate... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LTriCharPredicate p : predicates) {
-				if (!p.test(a1, a2, a3)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2, a3) -> !any(false, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -919,14 +913,7 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 	@Nonnull
 	public static LTriCharPredicate or(@Nonnull LTriCharPredicate... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2, a3) -> {
-			for (LTriCharPredicate p : predicates) {
-				if (p.test(a1, a2, a3)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2, a3) -> any(true, a1, a2, a3, predicates);
 	}
 
 	/**
@@ -949,6 +936,37 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 	}
 
 	// </editor-fold>
+
+	public static boolean any(boolean expected, char a1, char a2, char a3, @Nonnull Collection<? extends LTriCharPredicate> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, char a1, char a2, char a3, @Nonnull Stream<? extends LTriCharPredicate> predicates) {
+		return any(expected, a1, a2, a3, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static boolean any(boolean expected, char a1, char a2, char a3, @Nonnull Iterator<? extends LTriCharPredicate> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean any(boolean expected, char a1, char a2, char a3, @Nonnull LTriCharPredicate... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2, a3)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 

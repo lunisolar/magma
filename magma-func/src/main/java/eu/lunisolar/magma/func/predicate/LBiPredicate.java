@@ -40,6 +40,7 @@ import java.util.concurrent.*; // NOSONAR
 import java.util.function.*; // NOSONAR
 import java.util.*; // NOSONAR
 import java.lang.reflect.*; // NOSONAR
+import java.util.stream.Stream; // NOSONAR
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -1222,14 +1223,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	@Nonnull
 	public static <T1, T2> LBiPredicate<T1, T2> and(@Nonnull LBiPredicate<? super T1, ? super T2>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2) -> {
-			for (LBiPredicate<? super T1, ? super T2> p : predicates) {
-				if (!p.test(a1, a2)) {
-					return false;
-				}
-			}
-			return true;
-		};
+		return (a1, a2) -> !any(false, a1, a2, predicates);
 	}
 
 	/**
@@ -1245,14 +1239,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	@Nonnull
 	public static <T1, T2> LBiPredicate<T1, T2> or(@Nonnull LBiPredicate<? super T1, ? super T2>... predicates) {
 		Null.nonNullArg(predicates, "predicates");
-		return (a1, a2) -> {
-			for (LBiPredicate<? super T1, ? super T2> p : predicates) {
-				if (p.test(a1, a2)) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return (a1, a2) -> any(true, a1, a2, predicates);
 	}
 
 	/**
@@ -1275,6 +1262,37 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	}
 
 	// </editor-fold>
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, @Nonnull Collection<? extends LBiPredicate<? super T1, ? super T2>> predicates) {
+		return any(expected, a1, a2, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, @Nonnull Stream<? extends LBiPredicate<? super T1, ? super T2>> predicates) {
+		return any(expected, a1, a2, Null.nonNullArg(predicates, "predicates").iterator());
+	}
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, @Nonnull Iterator<? extends LBiPredicate<? super T1, ? super T2>> predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var it = predicates; it.hasNext();) {
+			var pred = it.next();
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static <T1, T2> boolean any(boolean expected, T1 a1, T2 a2, @Nonnull LBiPredicate<? super T1, ? super T2>... predicates) {
+		Null.nonNullArg(predicates, "predicates");
+		for (var pred : predicates) {
+			Null.nonNullArg(pred, "pred");
+			if (expected == pred.test(a1, a2)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// <editor-fold desc="compose (functional)">
 
