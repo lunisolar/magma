@@ -290,7 +290,7 @@ public final class Checks implements FluentSyntax {
 			Null.nonNullArg(clazz, "clazz");
 			T obj = get();
 			if (!Is.instanceOf(obj, clazz)) {
-				fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+				fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj == null ? null : obj.getClass(), clazz);
 			}
 			return (Check) this;
 		}
@@ -312,7 +312,7 @@ public final class Checks implements FluentSyntax {
 			Null.nonNullArg(clazz, "clazz");
 			T obj = get();
 			if (!Is.exactlyInstanceOf(obj, clazz)) {
-				fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+				fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj == null ? null : obj.getClass(), clazz);
 			}
 			return (Check) this;
 		}

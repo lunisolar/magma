@@ -22,11 +22,13 @@ import eu.lunisolar.magma.asserts.Attest;
 import org.testng.annotations.Test;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
+import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
 public class P_Assignable_Test {
 
     public static final Class<?> BASE = Number.class;
     public static final Class<?> SPEC = Integer.class;
+    public static final Class<?> NULL = null;
 
     @Test void sanityTest() {
         
@@ -41,6 +43,9 @@ public class P_Assignable_Test {
 
         attest(SPEC).mustEx(Be::notAssignableFromEx, BASE);
         attest(SPEC).mustEx(BASE, Be::notAssignableFromEx);
+
+        attestThrownBy(()-> Be.assignableFromEx(null, SPEC)).mustEx(Have::msgEqualEx, "Argument 'clazz' must not be null.");
+        attestThrownBy(()-> Be.notAssignableFromEx(null, SPEC)).mustEx(Have::msgEqualEx, "Argument 'clazz' must not be null.");
     }
 
     @Test void specAssignableToBase() {
@@ -49,6 +54,9 @@ public class P_Assignable_Test {
 
         attest(BASE).mustEx(Be::notAssignableToEx, SPEC);
         attest(BASE).mustEx(SPEC, Be::notAssignableToEx);
+
+        attestThrownBy(()-> Be.assignableToEx(null, SPEC)).mustEx(Have::msgEqualEx, "Argument 'clazz' must not be null.");
+        attestThrownBy(()-> Be.notAssignableToEx(null, SPEC)).mustEx(Have::msgEqualEx, "Argument 'clazz' must not be null.");
     }
 
     @Test void baseAssignableFromSpec_negative() {

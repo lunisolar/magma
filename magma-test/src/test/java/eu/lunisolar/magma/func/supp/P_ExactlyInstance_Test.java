@@ -31,10 +31,12 @@ public class P_ExactlyInstance_Test {
         attest(P.exactlyInstanceOf(new Object(), Object.class)).mustEx(Be::TrueEx);
         attest(P.exactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
         attest(P.exactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
+        attest(P.exactlyInstanceOf(null, Object.class)).mustEx(Be::FalseEx);
 
         attest(P.notExactlyInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
         attest(P.notExactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
         attest(P.notExactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
+        attest(P.notExactlyInstanceOf(null, Object.class)).mustEx(Be::TrueEx);
     }
 
     @Test void exactlyInstanceOf_Be() {

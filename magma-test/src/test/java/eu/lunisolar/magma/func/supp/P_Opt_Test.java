@@ -18,9 +18,12 @@
 
 package eu.lunisolar.magma.func.supp;
 
+import eu.lunisolar.magma.basics.exceptions.IllegalValueException;
 import eu.lunisolar.magma.func.supp.opt.Opt;
 import eu.lunisolar.magma.func.supp.opt.OptTrait;
 import org.testng.annotations.Test;
+
+import java.util.NoSuchElementException;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 import static eu.lunisolar.magma.func.supp.check.Checks.check;
@@ -118,6 +121,60 @@ public class P_Opt_Test {
         attestThrownBy(() -> check(VOID).mustEx(Be::notVoidEx))
                 .mustEx(Be::instanceOfEx, IllegalStateException.class)
                 .mustEx(Have::msgEqualEx, "Check [?]: Optional <Opt.empty> must NOT be void.");
+    }
+
+    @Test
+    public void test_mustBeInstanceOf() {
+        try {
+            Opt.obj(null).mustBeInstanceOf(Integer.class);
+            throw new AssertionError("Nothing happened!");
+        } catch (Throwable e) {
+            if (!(e instanceof NoSuchElementException)) {
+                throw new AssertionError("Wrong exception class!: " + e.getClass());
+            }
+
+            if (!"No value present.".equals(e.getMessage())) {
+                throw new AssertionError("Wrong exception message!: " + e.getMessage());
+            }
+        }
+
+    }
+
+    @Test
+    public void test_shouldBeInstanceOf() {
+        try {
+            Opt.obj(null).shouldBeInstanceOf(Integer.class);
+        } catch (Throwable e) {
+            throw new AssertionError("No exception should be thrown.");
+        }
+
+        try {
+            Opt.obj("text").shouldBeInstanceOf(Integer.class);
+            throw new AssertionError("Nothing happened!");
+        } catch (Throwable e) {
+            if (!(e instanceof IllegalValueException)) {
+                throw new AssertionError("Wrong exception class!: " + e.getClass());
+            }
+
+            if (!"Opt [?]: Value <text> of actual class <class java.lang.String> must be instance of class <class java.lang.Integer> but is not.".equals(e.getMessage())) {
+                throw new AssertionError("Wrong exception message!: " + e.getMessage());
+            }
+        }
+    }
+
+    @Test
+    public void test_mustEx() {
+        try {
+            Opt.obj(null).mustEx(__-> null);
+        } catch (Throwable e) {
+            if (!(e instanceof NoSuchElementException)) {
+                throw new AssertionError("Wrong exception class!: " + e.getClass());
+            }
+
+            if (!"No value present.".equals(e.getMessage())) {
+                throw new AssertionError("Wrong exception message!: " + e.getMessage());
+            }
+        }
     }
 
 }

@@ -30,7 +30,7 @@ import static eu.lunisolar.magma.func.supp.MsgVerbosity.ALL;
 import static eu.lunisolar.magma.func.supp.MsgVerbosity.MIN;
 import static eu.lunisolar.magma.func.supp.check.Checks.arg;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
-import static java.util.Arrays.*;
+import static java.util.Arrays.asList;
 
 public class Check_Test {
 
@@ -122,6 +122,23 @@ public class Check_Test {
             Assert.assertSame(e.getClass(), clazz);
             Assert.assertEquals(e.getMessage(), message);
         }
+    }
+
+    @Test
+    public void test_mustBeInstanceOf() {
+        try {
+            Checks.attest(null).mustBeInstanceOf(Integer.class);
+            throw new AssertionError("Nothing happened!");
+        } catch (Throwable e) {
+            if (!(e instanceof AssertionError)) {
+                throw new AssertionError("Wrong exception class!: " + e.getClass());
+            }
+
+            if (!"Check/attest [?=='null']: Value <null> of actual class <null> must be instance of class <class java.lang.Integer> but is not.".equals(e.getMessage())) {
+                throw new AssertionError("Wrong exception message!: " + e.getMessage());
+            }
+        }
+
     }
 
 }

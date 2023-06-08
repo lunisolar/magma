@@ -31,10 +31,12 @@ public class P_Instance_Test {
         attest(P.instanceOf(new Object(), Object.class)).mustEx(Be::TrueEx);
         attest(P.instanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
         attest(P.instanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
+        attest(P.instanceOf(null, String.class)).mustEx(Be::FalseEx);
 
         attest(P.notInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
         attest(P.notInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
         attest(P.notInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
+        attest(P.notInstanceOf(null, String.class)).mustEx(Be::TrueEx);
     }
 
     @Test void instanceOf_Be() {
@@ -53,6 +55,9 @@ public class P_Instance_Test {
 
         attest(P.instanceOfEx(new Integer(1), Object.class)).mustEx(Be::NullEx);
         attest(P.notInstanceOfEx(new Integer(1), Object.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be instance of <class java.lang.Object>.");
+
+        attest(P.instanceOfEx(null, Object.class)).mustBeEqual("Object <null> of class <null> must be instance of <class java.lang.Object>.");
+        attest(P.notInstanceOfEx(null, Object.class)).mustEx(Be::NullEx);
     }
 
 }

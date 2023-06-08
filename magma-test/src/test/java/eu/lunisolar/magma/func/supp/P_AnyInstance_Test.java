@@ -33,10 +33,12 @@ public class P_AnyInstance_Test {
         attest(P.instanceOfAny(new Object(), Object.class)).mustEx(Be::TrueEx);
         attest(P.instanceOfAny(new Object(), Integer.class)).mustEx(Be::FalseEx);
         attest(P.instanceOfAny(new Integer(1), Object.class)).mustEx(Be::TrueEx);
+        attest(P.instanceOfAny(null, Object.class)).mustEx(Be::FalseEx);
 
         attest(P.notInstanceOfAny(new Object(), Object.class)).mustEx(Be::FalseEx);
         attest(P.notInstanceOfAny(new Object(), Integer.class)).mustEx(Be::TrueEx);
         attest(P.notInstanceOfAny(new Integer(1), Object.class)).mustEx(Be::FalseEx);
+        attest(P.notInstanceOfAny(null, Object.class)).mustEx(Be::TrueEx);
 
         //
 
@@ -63,6 +65,10 @@ public class P_AnyInstance_Test {
 
         attest(P.instanceOfAnyEx(new Integer(1), Object.class)).mustEx(Be::NullEx);
         attest(P.notInstanceOfAnyEx(new Integer(1), Object.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be instance of any <[class java.lang.Object]>.");
+
+        attest(P.instanceOfAnyEx(null, Integer.class)).mustBeEqual("Object <null> of class <null> must be instance of any <[class java.lang.Integer]>.");
+        attest(P.notInstanceOfAnyEx(null, Integer.class)).mustBeNull();
+
     }
 
 }

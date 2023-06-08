@@ -3940,7 +3940,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Object <%s> of class <%s> must be instance of <%s>.*/
 	public static boolean instanceOf(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
-		return clazz.isInstance(object);
+		return object != null && clazz.isInstance(object);
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
@@ -3963,6 +3963,9 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Object <%s> of class <%s> must be instance of any <%s>.*/
 	public static boolean instanceOfAny(Object object, Class<?>... classes) {
 		Null.nonNullArg(classes, "classes");
+		if (object == null) {
+			return false;
+		}
 		for (Class<?> c : classes) {
 			if (c.isInstance(object)) {
 				return true;
@@ -4015,46 +4018,54 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Class <%s> must be assignable from <%s>.*/
 	public static boolean assignableFrom(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return clazz.isAssignableFrom(from);
 	}
 
 	/** "Special" predicate: Class <%s> must be assignable from <%s>. */
 	public static @Nullable String assignableFromEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return assignableFrom(clazz, from) ? null : String.format("Class <%s> must be assignable from <%s>.", clazz, from);
 	}
 	/** Predicate: Class <%s> must NOT be assignable from <%s>..*/
 	public static boolean notAssignableFrom(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return !assignableFrom(clazz, from);
 	}
 
 	/** "Special" predicate: Class <%s> must NOT be assignable from <%s>. */
 	public static @Nullable String notAssignableFromEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return notAssignableFrom(clazz, from) ? null : String.format("Class <%s> must NOT be assignable from <%s>.", clazz, from);
 	}
 
 	/** Predicate: Class <%s> must be assignable to <%s>.*/
 	public static boolean assignableTo(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return from.isAssignableFrom(clazz);
 	}
 
 	/** "Special" predicate: Class <%s> must be assignable to <%s>. */
 	public static @Nullable String assignableToEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return assignableTo(clazz, from) ? null : String.format("Class <%s> must be assignable to <%s>.", clazz, from);
 	}
 	/** Predicate: Class <%s> must NOT be assignable to <%s>..*/
 	public static boolean notAssignableTo(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return !assignableTo(clazz, from);
 	}
 
 	/** "Special" predicate: Class <%s> must NOT be assignable to <%s>. */
 	public static @Nullable String notAssignableToEx(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return notAssignableTo(clazz, from) ? null : String.format("Class <%s> must NOT be assignable to <%s>.", clazz, from);
 	}
 

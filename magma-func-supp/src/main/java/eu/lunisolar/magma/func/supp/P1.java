@@ -3347,46 +3347,54 @@ public class P1 implements FluentSyntax {
 	/** Predicate: Class <%s> must be assignable from <%s>.*/
 	public static <MP1> boolean assignableFrom(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.assignableFrom(clazz, from);
 	}
 
 	/** "Special" predicate: Class <%s> must be assignable from <%s>. */
 	public static <MP1> @Nullable String assignableFromEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.assignableFromEx(clazz, from);
 	}
 	/** Predicate: Class <%s> must NOT be assignable from <%s>..*/
 	public static <MP1> boolean notAssignableFrom(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notAssignableFrom(clazz, from);
 	}
 
 	/** "Special" predicate: Class <%s> must NOT be assignable from <%s>. */
 	public static <MP1> @Nullable String notAssignableFromEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notAssignableFromEx(clazz, from);
 	}
 
 	/** Predicate: Class <%s> must be assignable to <%s>.*/
 	public static <MP1> boolean assignableTo(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.assignableTo(clazz, from);
 	}
 
 	/** "Special" predicate: Class <%s> must be assignable to <%s>. */
 	public static <MP1> @Nullable String assignableToEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.assignableToEx(clazz, from);
 	}
 	/** Predicate: Class <%s> must NOT be assignable to <%s>..*/
 	public static <MP1> boolean notAssignableTo(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notAssignableTo(clazz, from);
 	}
 
 	/** "Special" predicate: Class <%s> must NOT be assignable to <%s>. */
 	public static <MP1> @Nullable String notAssignableToEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly) {
 		Null.nonNullArg(from, "from");
+		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notAssignableToEx(clazz, from);
 	}
 

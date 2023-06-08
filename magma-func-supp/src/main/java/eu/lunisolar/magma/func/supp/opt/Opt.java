@@ -287,7 +287,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		Null.nonNullArg(clazz, "clazz");
 		T obj = get();
 		if (!Is.instanceOf(obj, clazz)) {
-			fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+			fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj == null ? null : obj.getClass(), clazz);
 		}
 		return (Opt) this;
 	}
@@ -309,7 +309,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		Null.nonNullArg(clazz, "clazz");
 		T obj = get();
 		if (!Is.exactlyInstanceOf(obj, clazz)) {
-			fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+			fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj == null ? null : obj.getClass(), clazz);
 		}
 		return (Opt) this;
 	}
@@ -336,7 +336,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		if (isPresent()) {
 			T obj = get();
 			if (!Is.instanceOf(obj, clazz)) {
-				fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+				fails("Value <%s> of actual class <%s> must be instance of class <%s> but is not.", obj, obj == null ? null : obj.getClass(), clazz);
 			}
 		}
 		return (Opt) this;
@@ -364,7 +364,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		if (isPresent()) {
 			T obj = get();
 			if (!Is.exactlyInstanceOf(obj, clazz)) {
-				fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj.getClass(), clazz);
+				fails("Value <%s> of actual class <%s> must be exactly instance of class <%s> but is not.", obj, obj == null ? null : obj.getClass(), clazz);
 			}
 		}
 		return (Opt) this;

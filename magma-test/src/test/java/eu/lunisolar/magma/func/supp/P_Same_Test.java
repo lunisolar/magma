@@ -33,6 +33,9 @@ public class P_Same_Test {
 
         attest(P.same(I1, I2)).mustEx(Be::FalseEx);
         attest(P.notSame(I1, I2)).mustEx(Be::TrueEx);
+
+        attest(P.same(null, null)).mustEx(Be::TrueEx);
+        attest(P.notSame(null, null)).mustEx(Be::FalseEx);
     }
 
     @Test void same_Be() {
