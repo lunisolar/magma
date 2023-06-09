@@ -125,6 +125,17 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 		return activity("Then", description, block);
 	}
 
+	public TestFlow<SUT> expect(@Nullable String description) {
+		return expect(description, sut -> {
+		});
+	}
+	public TestFlow<SUT> expect(LConsumer<SUT> block) {
+		return expect(DEFAULT_DESCRIPTION, block);
+	}
+	public TestFlow<SUT> expect(@Nullable String description, LConsumer<SUT> block) {
+		return activity("Expect", description, block);
+	}
+
 	public TestFlow<SUT> continuing() {
 		return continuing(DEFAULT_DESCRIPTION, sut -> {
 		});
@@ -151,21 +162,57 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 		return activity("Aftermath", description, block);
 	}
 
-	// <editor-fold desc="step">
+	public TestFlow<SUT> sanityCheck(@Nullable String description) {
+		return sanityCheck(description, sut -> {
+		});
+	}
+	public TestFlow<SUT> sanityCheck(LConsumer<SUT> block) {
+		return sanityCheck(DEFAULT_DESCRIPTION, block);
+	}
+	public TestFlow<SUT> sanityCheck(@Nullable String description, LConsumer<SUT> block) {
+		return activity("Sanity check", description, block);
+	}
 
-	public TestFlow<SUT> step_(@Nonnull String step, @Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		arg(step).mustEx(Be::notNullEx);
-		log(step + ": " + description);
+	public TestFlow<SUT> flow(@Nonnull String phase, @Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
+		arg(phase).mustEx(Be::notNullEx);
+		log(phase + ": " + description);
 		consumer.shovingAccept(this);
 		return this;
 	}
-	// </editor-fold>
 
 	public TestFlow<SUT> step(LConsumer<TestFlow<SUT>> consumer) {
 		return step(DEFAULT_DESCRIPTION, consumer);
 	}
 	public TestFlow<SUT> step(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		return step_("STEP", description, consumer);
+		return flow("STEP", description, consumer);
+	}
+
+	public TestFlow<SUT> phase(LConsumer<TestFlow<SUT>> consumer) {
+		return step(DEFAULT_DESCRIPTION, consumer);
+	}
+	public TestFlow<SUT> phase(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
+		return flow("PHASE", description, consumer);
+	}
+
+	public TestFlow<SUT> focus(LConsumer<TestFlow<SUT>> consumer) {
+		return focus(DEFAULT_DESCRIPTION, consumer);
+	}
+	public TestFlow<SUT> focus(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
+		return flow("FOCUS", description, consumer);
+	}
+
+	public TestFlow<SUT> aspect(LConsumer<TestFlow<SUT>> consumer) {
+		return focus(DEFAULT_DESCRIPTION, consumer);
+	}
+	public TestFlow<SUT> aspect(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
+		return flow("ASPECT", description, consumer);
+	}
+
+	public TestFlow<SUT> junction(LConsumer<TestFlow<SUT>> consumer) {
+		return focus(DEFAULT_DESCRIPTION, consumer);
+	}
+	public TestFlow<SUT> junction(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
+		return flow("JUNCTION", description, consumer);
 	}
 
 }
