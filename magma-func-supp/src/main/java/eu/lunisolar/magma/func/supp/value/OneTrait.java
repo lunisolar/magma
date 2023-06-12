@@ -44,6 +44,10 @@ public interface OneTrait<T> {
 	@Nullable
 	T nullable();
 
+	default @Nullable T any() {
+		return nullable();
+	}
+
 	default @Nonnull T nonnull() {
 		return state(nullable()).must(Be::notNull, "Value cannot be null!").value();
 	}
