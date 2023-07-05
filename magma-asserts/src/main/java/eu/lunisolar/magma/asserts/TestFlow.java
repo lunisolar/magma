@@ -173,6 +173,28 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 		return activity("Sanity check", description, block);
 	}
 
+	public TestFlow<SUT> setup(@Nullable String description) {
+		return setup(description, sut -> {
+		});
+	}
+	public TestFlow<SUT> setup(LConsumer<SUT> block) {
+		return setup(DEFAULT_DESCRIPTION, block);
+	}
+	public TestFlow<SUT> setup(@Nullable String description, LConsumer<SUT> block) {
+		return activity("Setup", description, block);
+	}
+
+	public TestFlow<SUT> cleanup(@Nullable String description) {
+		return cleanup(description, sut -> {
+		});
+	}
+	public TestFlow<SUT> cleanup(LConsumer<SUT> block) {
+		return cleanup(DEFAULT_DESCRIPTION, block);
+	}
+	public TestFlow<SUT> cleanup(@Nullable String description, LConsumer<SUT> block) {
+		return activity("Cleanup", description, block);
+	}
+
 	public TestFlow<SUT> flow(@Nonnull String phase, @Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
 		arg(phase).mustEx(Be::notNullEx);
 		log(phase + ": " + description);
