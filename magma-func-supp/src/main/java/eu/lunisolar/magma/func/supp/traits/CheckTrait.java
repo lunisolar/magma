@@ -6988,16 +6988,16 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 	default @Nonnull SELF mustBeNotNull(String message) {
 		return mustEx0(Be::notNullEx, message);
 	}
-	default @Nonnull SELF mustBeSame(T expected) {
+	default @Nonnull SELF mustBeSame(Object expected) {
 		return mustEx(Be::sameEx, expected);
 	}
-	default @Nonnull SELF mustBeSame(T expected, String message) {
+	default @Nonnull SELF mustBeSame(Object expected, String message) {
 		return mustEx0(Be::sameEx, expected, message);
 	}
-	default @Nonnull SELF mustBeNotSame(T expected) {
+	default @Nonnull SELF mustBeNotSame(Object expected) {
 		return mustEx(Be::notSameEx, expected);
 	}
-	default @Nonnull SELF mustBeNotSame(T expected, String message) {
+	default @Nonnull SELF mustBeNotSame(Object expected, String message) {
 		return mustEx0(Be::notSameEx, expected, message);
 	}
 
