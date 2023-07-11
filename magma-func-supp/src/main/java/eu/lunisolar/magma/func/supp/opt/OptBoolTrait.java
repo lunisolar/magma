@@ -569,6 +569,16 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
+	default <K1> SELF ifPresentOrWith(K1 a1, @Nonnull LObjBoolConsumer<? super K1> action, @Nonnull LConsumer<K1> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, get());
+		} else {
+			emptyAction.accept(a1);
+		}
+		return fluentCtx();
+	}
+
 	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LBiObjBoolConsumer<? super K1, ? super K2> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
@@ -583,6 +593,16 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 			action.accept(a1, a2, get());
 		} else {
 			emptyAction.execute();
+		}
+		return fluentCtx();
+	}
+
+	default <K1, K2> SELF ifPresentOrWith(K1 a1, K2 a2, @Nonnull LBiObjBoolConsumer<? super K1, ? super K2> action, @Nonnull LBiConsumer<K1, K2> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, a2, get());
+		} else {
+			emptyAction.accept(a1, a2);
 		}
 		return fluentCtx();
 	}

@@ -1183,6 +1183,16 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return fluentCtx();
 	}
 
+	default <K1> SELF ifPresentOr(K1 a2, @Nonnull LBiConsumer<? super T, ? super K1> action, @Nonnull LConsumer<K1> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(get(), a2);
+		} else {
+			emptyAction.accept(a2);
+		}
+		return fluentCtx();
+	}
+
 	default <K1, K2> SELF ifPresent(K1 a2, K2 a3, @Nonnull LTriConsumer<? super T, ? super K1, ? super K2> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
@@ -1201,6 +1211,16 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return fluentCtx();
 	}
 
+	default <K1, K2> SELF ifPresentOr(K1 a2, K2 a3, @Nonnull LTriConsumer<? super T, ? super K1, ? super K2> action, @Nonnull LBiConsumer<K1, K2> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(get(), a2, a3);
+		} else {
+			emptyAction.accept(a2, a3);
+		}
+		return fluentCtx();
+	}
+
 	default <K1, K3, K4> SELF ifPresent(K1 a2, K3 a3, K4 a4, @Nonnull LQuadConsumer<? super T, ? super K1, ? super K3, ? super K4> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
@@ -1215,6 +1235,16 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 			action.accept(get(), a2, a3, a4);
 		} else {
 			emptyAction.execute();
+		}
+		return fluentCtx();
+	}
+
+	default <K1, K3, K4> SELF ifPresentOr(K1 a2, K3 a3, K4 a4, @Nonnull LQuadConsumer<? super T, ? super K1, ? super K3, ? super K4> action, @Nonnull LTriConsumer<K1, K3, K4> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(get(), a2, a3, a4);
+		} else {
+			emptyAction.accept(a2, a3, a4);
 		}
 		return fluentCtx();
 	}
@@ -1255,6 +1285,16 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return fluentCtx();
 	}
 
+	default <K1> SELF ifPresentOrWith(K1 a1, @Nonnull LBiConsumer<? super K1, ? super T> action, @Nonnull LConsumer<K1> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, get());
+		} else {
+			emptyAction.accept(a1);
+		}
+		return fluentCtx();
+	}
+
 	default <K1, K2> SELF ifPresentWith(K1 a1, K2 a2, @Nonnull LTriConsumer<? super K1, ? super K2, ? super T> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
@@ -1273,6 +1313,16 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return fluentCtx();
 	}
 
+	default <K1, K2> SELF ifPresentOrWith(K1 a1, K2 a2, @Nonnull LTriConsumer<? super K1, ? super K2, ? super T> action, @Nonnull LBiConsumer<K1, K2> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, a2, get());
+		} else {
+			emptyAction.accept(a1, a2);
+		}
+		return fluentCtx();
+	}
+
 	default <K1, K3, K4> SELF ifPresentWith(K1 a1, K3 a2, K4 a3, @Nonnull LQuadConsumer<? super K1, ? super K3, ? super K4, ? super T> action) {
 		Null.nonNullArg(action, "action");
 		if (isPresent()) {
@@ -1287,6 +1337,16 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 			action.accept(a1, a2, a3, get());
 		} else {
 			emptyAction.execute();
+		}
+		return fluentCtx();
+	}
+
+	default <K1, K3, K4> SELF ifPresentOrWith(K1 a1, K3 a2, K4 a3, @Nonnull LQuadConsumer<? super K1, ? super K3, ? super K4, ? super T> action, @Nonnull LTriConsumer<K1, K3, K4> emptyAction) {
+		Null.nonNullArg(action, "action");
+		if (isPresent()) {
+			action.accept(a1, a2, a3, get());
+		} else {
+			emptyAction.accept(a1, a2, a3);
 		}
 		return fluentCtx();
 	}
