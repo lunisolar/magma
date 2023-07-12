@@ -517,7 +517,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(byte n, byte a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -669,7 +669,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(short n, short a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -821,7 +821,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(int n, int a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -973,7 +973,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(long n, long a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -1125,7 +1125,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(float n, float a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -1277,7 +1277,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(double n, double a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -1429,7 +1429,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(char n, char a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -1581,7 +1581,7 @@ public class Predicates implements FluentSyntax {
 	}
 	/** Predicate: %s must NOT be equal to %s..*/
 	public static boolean notEqual(boolean n, boolean a1) {
-		return !equal(n, a1);
+		return n != a1;
 	}
 
 	/** "Special" predicate: %s must NOT be equal to %s. */
@@ -3983,7 +3983,16 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Object <%s> of class <%s> must NOT be instance of any <%s>..*/
 	public static boolean notInstanceOfAny(Object object, Class<?>... classes) {
 		Null.nonNullArg(classes, "classes");
-		return !instanceOfAny(object, classes);
+		if (object == null) {
+			return true;
+		}
+		for (Class<?> c : classes) {
+			if (c.isInstance(object)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of any <%s>. */
@@ -4002,17 +4011,6 @@ public class Predicates implements FluentSyntax {
 	public static @Nullable String exactlyInstanceOfEx(Object object, Class<?> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return exactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
-	}
-	/** Predicate: Object <%s> of class <%s> must NOT be exactly instance of <%s>..*/
-	public static boolean notExactlyInstanceOf(Object object, Class<?> clazz) {
-		Null.nonNullArg(clazz, "clazz");
-		return !exactlyInstanceOf(object, clazz);
-	}
-
-	/** "Special" predicate: Object <%s> of class <%s> must NOT be exactly instance of <%s>. */
-	public static @Nullable String notExactlyInstanceOfEx(Object object, Class<?> clazz) {
-		Null.nonNullArg(clazz, "clazz");
-		return notExactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
 	/** Predicate: Class <%s> must be assignable from <%s>.*/
@@ -4117,6 +4115,47 @@ public class Predicates implements FluentSyntax {
 	public static @Nullable String noCauseEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return noCause(e) ? null : String.format("Exception <%s> must NOT have cause.", e);
+	}
+
+	/** Predicate: Object <%s> of class <%s> must be instance of <%s>.*/
+	public static boolean causeInstanceOf(@Nonnull Throwable e, Class<?> clazz) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(clazz, "clazz");
+		return instanceOf(e.getCause(), clazz);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
+	public static @Nullable String causeInstanceOfEx(@Nonnull Throwable e, Class<?> clazz) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(clazz, "clazz");
+		return causeInstanceOf(e, clazz) ? null : String.format("Object <%s> of class <%s> must be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
+	}
+	/** Predicate: Object <%s> of class <%s> must NOT be instance of <%s>..*/
+	public static boolean causeNotInstanceOf(@Nonnull Throwable e, Class<?> clazz) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(clazz, "clazz");
+		return !causeInstanceOf(e, clazz);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>. */
+	public static @Nullable String causeNotInstanceOfEx(@Nonnull Throwable e, Class<?> clazz) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(clazz, "clazz");
+		return causeNotInstanceOf(e, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
+	}
+
+	/** Predicate: Object <%s> of class <%s> must be instance of <%s>.*/
+	public static boolean causeExactlyInstanceOf(@Nonnull Throwable e, Class<?> clazz) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(clazz, "clazz");
+		return exactlyInstanceOf(e.getCause(), clazz);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
+	public static @Nullable String causeExactlyInstanceOfEx(@Nonnull Throwable e, Class<?> clazz) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(clazz, "clazz");
+		return causeExactlyInstanceOf(e, clazz) ? null : String.format("Object <%s> of class <%s> must be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
 	}
 
 	/** Predicate: Exception <%s> must have suspended other exceptions.*/
@@ -4356,7 +4395,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptBoolTrait<?> opt, boolean expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4379,7 +4418,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull BoolValueTrait<?> opt, boolean expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4471,7 +4510,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean notSameValue(@Nonnull ValueTrait<?, ?> opt, V expected) {
 		Null.nonNullArg(opt, "opt");
-		return !sameValue(opt, expected);
+		return opt.nullable() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4540,7 +4579,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptByteTrait<?> opt, byte expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4563,7 +4602,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull ByteValueTrait<?> opt, byte expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4632,7 +4671,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptDblTrait<?> opt, double expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4655,7 +4694,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull DblValueTrait<?> opt, double expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4724,7 +4763,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptCharTrait<?> opt, char expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4747,7 +4786,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull CharValueTrait<?> opt, char expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4816,7 +4855,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptSrtTrait<?> opt, short expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4839,7 +4878,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull SrtValueTrait<?> opt, short expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4908,7 +4947,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptFltTrait<?> opt, float expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -4931,7 +4970,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull FltValueTrait<?> opt, float expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -5000,7 +5039,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptIntTrait<?> opt, int expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -5023,7 +5062,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull IntValueTrait<?> opt, int expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -5092,7 +5131,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull OptLongTrait<?> opt, long expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.isPresent() && opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
@@ -5115,7 +5154,7 @@ public class Predicates implements FluentSyntax {
 	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
 	public static <V> boolean valueNotEqual(@Nonnull LongValueTrait<?> opt, long expected) {
 		Null.nonNullArg(opt, "opt");
-		return !valueEqual(opt, expected);
+		return opt.value() != expected;
 	}
 
 	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */

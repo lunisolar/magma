@@ -32,29 +32,18 @@ public class P_ExactlyInstance_Test {
         attest(P.exactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
         attest(P.exactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
         attest(P.exactlyInstanceOf(null, Object.class)).mustEx(Be::FalseEx);
-
-        attest(P.notExactlyInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
-        attest(P.notExactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
-        attest(P.notExactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
-        attest(P.notExactlyInstanceOf(null, Object.class)).mustEx(Be::TrueEx);
     }
 
     @Test void exactlyInstanceOf_Be() {
         attest(Be.exactlyInstanceOf(new Object(), Object.class)).mustEx(Be::TrueEx);
         attest(Be.exactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::FalseEx);
         attest(Be.exactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::FalseEx);
-
-        attest(Be.notExactlyInstanceOf(new Object(), Object.class)).mustEx(Be::FalseEx);
-        attest(Be.notExactlyInstanceOf(new Object(), Integer.class)).mustEx(Be::TrueEx);
-        attest(Be.notExactlyInstanceOf(new Integer(1), Object.class)).mustEx(Be::TrueEx);
     }
 
     @Test void exactlyInstanceOfEx() {
         attest(P.exactlyInstanceOfEx(new Integer(1), Integer.class)).mustEx(Be::NullEx);
-        attest(P.notExactlyInstanceOfEx(new Integer(1), Integer.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must NOT be exactly instance of <class java.lang.Integer>.");
 
         attest(P.exactlyInstanceOfEx(new Integer(1), Object.class)).mustEx(Be::equalEx, "Object <1> of class <class java.lang.Integer> must be exactly instance of <class java.lang.Object>.");
-        attest(P.notExactlyInstanceOfEx(new Integer(1), Object.class)).mustEx(Be::NullEx);
     }
 
 }
