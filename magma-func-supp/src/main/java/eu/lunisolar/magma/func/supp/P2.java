@@ -3321,6 +3321,52 @@ public class P2 implements FluentSyntax {
 		return Predicates.notInstanceOfEx(object, clazz);
 	}
 
+	/** Predicate: Object <%s> of class <%s> must have simple class name equal <%s>.*/
+	public static <MP1, MP2> boolean classSimpleName(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.classSimpleName(object, name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must have simple class name equal <%s>. */
+	public static <MP1, MP2> @Nullable String classSimpleNameEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.classSimpleNameEx(object, name);
+	}
+	/** Predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>..*/
+	public static <MP1, MP2> boolean classSimpleNameOtherThan(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.classSimpleNameOtherThan(object, name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>. */
+	public static <MP1, MP2> @Nullable String classSimpleNameOtherThanEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.classSimpleNameOtherThanEx(object, name);
+	}
+
+	/** Predicate: Object <%s> of class <%s> must have class name equal <%s>.*/
+	public static <MP1, MP2> boolean className(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.className(object, name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must have class name equal <%s>. */
+	public static <MP1, MP2> @Nullable String classNameEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.classNameEx(object, name);
+	}
+	/** Predicate: Object <%s> of class <%s> must NOT have class name equal <%s>..*/
+	public static <MP1, MP2> boolean classNameOtherThan(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.classNameOtherThan(object, name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT have class name equal <%s>. */
+	public static <MP1, MP2> @Nullable String classNameOtherThanEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(name, "name");
+		return Predicates.classNameOtherThanEx(object, name);
+	}
+
 	/** Predicate: Object <%s> of class <%s> must be exactly instance of <%s>.*/
 	public static <MP1, MP2> boolean exactlyInstanceOf(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
@@ -3437,41 +3483,41 @@ public class P2 implements FluentSyntax {
 		return Predicates.noCauseEx(e);
 	}
 
-	/** Predicate: Object <%s> of class <%s> must be instance of <%s>.*/
+	/** Predicate: Cause of the exception <%s> must be instance of <%s>.*/
 	public static <MP1, MP2> boolean causeInstanceOf(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.causeInstanceOf(e, clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must be instance of <%s>. */
 	public static <MP1, MP2> @Nullable String causeInstanceOfEx(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.causeInstanceOfEx(e, clazz);
 	}
-	/** Predicate: Object <%s> of class <%s> must NOT be instance of <%s>..*/
+	/** Predicate: Cause of the exception <%s> must NOT be instance of <%s>..*/
 	public static <MP1, MP2> boolean causeNotInstanceOf(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.causeNotInstanceOf(e, clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must NOT be instance of <%s>. */
 	public static <MP1, MP2> @Nullable String causeNotInstanceOfEx(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.causeNotInstanceOfEx(e, clazz);
 	}
 
-	/** Predicate: Object <%s> of class <%s> must be instance of <%s>.*/
+	/** Predicate: Cause of the exception <%s> must be instance exactly of <%s>.*/
 	public static <MP1, MP2> boolean causeExactlyInstanceOf(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.causeExactlyInstanceOf(e, clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must be instance exactly of <%s>. */
 	public static <MP1, MP2> @Nullable String causeExactlyInstanceOfEx(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");

@@ -3960,6 +3960,52 @@ public class Predicates implements FluentSyntax {
 		return notInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
+	/** Predicate: Object <%s> of class <%s> must have simple class name equal <%s>.*/
+	public static boolean classSimpleName(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return object != null && object.getClass().getSimpleName().equals(name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must have simple class name equal <%s>. */
+	public static @Nullable String classSimpleNameEx(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return classSimpleName(object, name) ? null : String.format("Object <%s> of class <%s> must have simple class name equal <%s>.", object, object != null ? object.getClass() : null, name);
+	}
+	/** Predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>..*/
+	public static boolean classSimpleNameOtherThan(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return !classSimpleName(object, name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>. */
+	public static @Nullable String classSimpleNameOtherThanEx(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return classSimpleNameOtherThan(object, name) ? null : String.format("Object <%s> of class <%s> must NOT have simple class name equal <%s>.", object, object != null ? object.getClass() : null, name);
+	}
+
+	/** Predicate: Object <%s> of class <%s> must have class name equal <%s>.*/
+	public static boolean className(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return object != null && object.getClass().getName().equals(name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must have class name equal <%s>. */
+	public static @Nullable String classNameEx(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return className(object, name) ? null : String.format("Object <%s> of class <%s> must have class name equal <%s>.", object, object != null ? object.getClass() : null, name);
+	}
+	/** Predicate: Object <%s> of class <%s> must NOT have class name equal <%s>..*/
+	public static boolean classNameOtherThan(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return !className(object, name);
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT have class name equal <%s>. */
+	public static @Nullable String classNameOtherThanEx(Object object, String name) {
+		Null.nonNullArg(name, "name");
+		return classNameOtherThan(object, name) ? null : String.format("Object <%s> of class <%s> must NOT have class name equal <%s>.", object, object != null ? object.getClass() : null, name);
+	}
+
 	/** Predicate: Object <%s> of class <%s> must be instance of any <%s>.*/
 	public static boolean instanceOfAny(Object object, Class<?>... classes) {
 		Null.nonNullArg(classes, "classes");
@@ -4117,45 +4163,45 @@ public class Predicates implements FluentSyntax {
 		return noCause(e) ? null : String.format("Exception <%s> must NOT have cause.", e);
 	}
 
-	/** Predicate: Object <%s> of class <%s> must be instance of <%s>.*/
+	/** Predicate: Cause of the exception <%s> must be instance of <%s>.*/
 	public static boolean causeInstanceOf(@Nonnull Throwable e, Class<?> clazz) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return instanceOf(e.getCause(), clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must be instance of <%s>. */
 	public static @Nullable String causeInstanceOfEx(@Nonnull Throwable e, Class<?> clazz) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
-		return causeInstanceOf(e, clazz) ? null : String.format("Object <%s> of class <%s> must be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
+		return causeInstanceOf(e, clazz) ? null : String.format("Cause of the exception <%s> must be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
 	}
-	/** Predicate: Object <%s> of class <%s> must NOT be instance of <%s>..*/
+	/** Predicate: Cause of the exception <%s> must NOT be instance of <%s>..*/
 	public static boolean causeNotInstanceOf(@Nonnull Throwable e, Class<?> clazz) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return !causeInstanceOf(e, clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must NOT be instance of <%s>. */
 	public static @Nullable String causeNotInstanceOfEx(@Nonnull Throwable e, Class<?> clazz) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
-		return causeNotInstanceOf(e, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
+		return causeNotInstanceOf(e, clazz) ? null : String.format("Cause of the exception <%s> must NOT be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
 	}
 
-	/** Predicate: Object <%s> of class <%s> must be instance of <%s>.*/
+	/** Predicate: Cause of the exception <%s> must be instance exactly of <%s>.*/
 	public static boolean causeExactlyInstanceOf(@Nonnull Throwable e, Class<?> clazz) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return exactlyInstanceOf(e.getCause(), clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must be instance exactly of <%s>. */
 	public static @Nullable String causeExactlyInstanceOfEx(@Nonnull Throwable e, Class<?> clazz) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
-		return causeExactlyInstanceOf(e, clazz) ? null : String.format("Object <%s> of class <%s> must be instance of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
+		return causeExactlyInstanceOf(e, clazz) ? null : String.format("Cause of the exception <%s> must be instance exactly of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
 	}
 
 	/** Predicate: Exception <%s> must have suspended other exceptions.*/
