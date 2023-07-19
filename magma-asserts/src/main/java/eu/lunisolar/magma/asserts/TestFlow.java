@@ -56,6 +56,14 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	// <editor-fold desc="Given">
 
+	public <SUT> TestFlow<SUT> given(SUT given) {
+		return given(() -> given);
+	}
+
+	public <SUT> TestFlow<SUT> given(@Nullable String description, SUT given) {
+		return given(description, () -> given);
+	}
+
 	public <SUT> TestFlow<SUT> given(LSupplier<SUT> givenBlock) {
 		return given(DEFAULT_DESCRIPTION, givenBlock);
 	}
