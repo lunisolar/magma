@@ -145,7 +145,7 @@ public class X implements FluentSyntax {
         return new UnknownCaseException(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public static @Nullable Throwable getRootCause(Throwable throwable) {
+    public static @Nullable Throwable rootCause(Throwable throwable) {
         if (throwable.getCause() == null) {
             return null;
         }
