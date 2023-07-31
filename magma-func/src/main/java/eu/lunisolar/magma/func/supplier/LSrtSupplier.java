@@ -287,7 +287,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	}
 
 	/** Change function to one that ignores output. */
-	default LAction toConsumer() {
+	default LAction toAction() {
 		return this::getAsSrt;
 	}
 

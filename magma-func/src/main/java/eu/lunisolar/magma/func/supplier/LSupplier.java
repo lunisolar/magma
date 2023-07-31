@@ -291,7 +291,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	/** Change function to one that ignores output. */
-	default LAction toConsumer() {
+	default LAction toAction() {
 		return this::get;
 	}
 

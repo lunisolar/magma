@@ -287,7 +287,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	}
 
 	/** Change function to one that ignores output. */
-	default LAction toConsumer() {
+	default LAction toAction() {
 		return this::getAsLong;
 	}
 

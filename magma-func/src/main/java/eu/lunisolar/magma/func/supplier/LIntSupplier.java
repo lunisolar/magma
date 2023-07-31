@@ -287,7 +287,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	}
 
 	/** Change function to one that ignores output. */
-	default LAction toConsumer() {
+	default LAction toAction() {
 		return this::getAsInt;
 	}
 

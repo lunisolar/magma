@@ -297,7 +297,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	/** Change function to one that ignores output. */
-	default LAction toConsumer() {
+	default LAction toAction() {
 		return this::getAsBool;
 	}
 

@@ -287,7 +287,7 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 	}
 
 	/** Change function to one that ignores output. */
-	default LAction toConsumer() {
+	default LAction toAction() {
 		return this::getAsByte;
 	}
 
