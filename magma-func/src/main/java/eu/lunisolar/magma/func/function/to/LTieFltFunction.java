@@ -309,7 +309,7 @@ public interface LTieFltFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return (T a1, int a2, float a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTieFltConsumer<T> toConsumer() {
 		return this::applyAsInt;
 	}

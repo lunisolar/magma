@@ -303,7 +303,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return orElse;
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsInt;
 	}

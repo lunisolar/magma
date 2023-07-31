@@ -294,7 +294,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (char a1, char a2, char a3) -> func.apply(a1).apply(a2).applyAsChar(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriCharConsumer toConsumer() {
 		return this::applyAsChar;
 	}

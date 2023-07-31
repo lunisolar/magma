@@ -311,7 +311,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return (T1 a1, T2 a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::apply;
 	}

@@ -344,7 +344,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return (T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) -> func.apply(a1).apply(a2).apply(a3).apply(a4).test(a5);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LQuintConsumer<T1, T2, T3, T4, T5> toConsumer() {
 		return this::test;
 	}

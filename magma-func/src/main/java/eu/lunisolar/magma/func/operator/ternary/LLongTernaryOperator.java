@@ -294,7 +294,7 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (long a1, long a2, long a3) -> func.apply(a1).apply(a2).applyAsLong(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriLongConsumer toConsumer() {
 		return this::applyAsLong;
 	}

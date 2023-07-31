@@ -294,7 +294,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return (byte a1, byte a2, byte a3) -> func.apply(a1).apply(a2).applyAsByte(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriByteConsumer toConsumer() {
 		return this::applyAsByte;
 	}

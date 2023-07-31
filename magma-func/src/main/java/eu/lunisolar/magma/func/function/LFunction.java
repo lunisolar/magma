@@ -307,7 +307,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return null;
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::apply;
 	}

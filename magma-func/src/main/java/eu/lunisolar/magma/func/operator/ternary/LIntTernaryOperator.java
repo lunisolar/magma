@@ -294,7 +294,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (int a1, int a2, int a3) -> func.apply(a1).apply(a2).applyAsInt(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriIntConsumer toConsumer() {
 		return this::applyAsInt;
 	}

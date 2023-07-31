@@ -330,7 +330,7 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return (float a1, float a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiFltConsumer toConsumer() {
 		return this::test;
 	}

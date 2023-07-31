@@ -343,7 +343,7 @@ public interface LBiObjBoolPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return (T1 a1, T2 a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiObjBoolConsumer<T1, T2> toConsumer() {
 		return this::test;
 	}

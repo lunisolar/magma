@@ -304,7 +304,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return (double a1, double a2) -> func.apply(a1).applyAsDbl(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiDblConsumer toConsumer() {
 		return this::applyAsDbl;
 	}

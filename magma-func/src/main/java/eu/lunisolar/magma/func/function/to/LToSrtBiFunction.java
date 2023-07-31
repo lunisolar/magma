@@ -307,7 +307,7 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsSrt(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsSrt;
 	}

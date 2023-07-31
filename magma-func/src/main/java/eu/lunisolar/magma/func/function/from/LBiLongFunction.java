@@ -298,7 +298,7 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (long a1, long a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiLongConsumer toConsumer() {
 		return this::apply;
 	}

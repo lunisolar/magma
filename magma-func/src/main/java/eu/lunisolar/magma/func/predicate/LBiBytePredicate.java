@@ -330,7 +330,7 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (byte a1, byte a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiByteConsumer toConsumer() {
 		return this::test;
 	}

@@ -343,7 +343,7 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 		return (T a1, int a2, char a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTieCharConsumer<T> toConsumer() {
 		return this::test;
 	}

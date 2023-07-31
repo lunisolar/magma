@@ -303,7 +303,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return orElse;
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsLong;
 	}

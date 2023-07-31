@@ -298,7 +298,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (short a1, short a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiSrtConsumer toConsumer() {
 		return this::apply;
 	}

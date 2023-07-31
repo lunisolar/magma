@@ -363,7 +363,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return (T1 a1, T2 a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::test;
 	}

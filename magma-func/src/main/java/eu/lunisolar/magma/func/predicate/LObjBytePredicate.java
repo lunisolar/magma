@@ -353,7 +353,7 @@ public interface LObjBytePredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return (T a1, byte a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LObjByteConsumer<T> toConsumer() {
 		return this::test;
 	}

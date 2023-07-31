@@ -298,7 +298,7 @@ public interface LTriFltFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (float a1, float a2, float a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriFltConsumer toConsumer() {
 		return this::apply;
 	}

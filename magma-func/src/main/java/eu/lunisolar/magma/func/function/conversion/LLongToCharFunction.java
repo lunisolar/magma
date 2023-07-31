@@ -288,7 +288,7 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_a, func);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LLongConsumer toConsumer() {
 		return this::applyAsChar;
 	}

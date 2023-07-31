@@ -311,7 +311,7 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 		return (T a1, int a2, short a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTieSrtConsumer<T> toConsumer() {
 		return this::apply;
 	}

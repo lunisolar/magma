@@ -349,7 +349,7 @@ public interface LSrtIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (short a1, int a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LSrtIntConsumer toConsumer() {
 		return this::test;
 	}

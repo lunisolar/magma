@@ -294,7 +294,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (byte a1, byte a2) -> func.apply(a1).applyAsByte(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiByteConsumer toConsumer() {
 		return this::applyAsByte;
 	}

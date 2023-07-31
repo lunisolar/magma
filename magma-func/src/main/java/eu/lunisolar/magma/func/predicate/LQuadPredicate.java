@@ -353,7 +353,7 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return (T1 a1, T2 a2, T3 a3, T4 a4) -> func.apply(a1).apply(a2).apply(a3).test(a4);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LQuadConsumer<T1, T2, T3, T4> toConsumer() {
 		return this::test;
 	}

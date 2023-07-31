@@ -353,7 +353,7 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return (T a1, long a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LObjLongConsumer<T> toConsumer() {
 		return this::test;
 	}

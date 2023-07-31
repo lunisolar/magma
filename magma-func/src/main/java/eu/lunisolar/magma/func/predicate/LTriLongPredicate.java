@@ -330,7 +330,7 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 		return (long a1, long a2, long a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriLongConsumer toConsumer() {
 		return this::test;
 	}

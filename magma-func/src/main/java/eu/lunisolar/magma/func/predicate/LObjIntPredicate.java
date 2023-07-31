@@ -374,7 +374,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return (T a1, int a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LObjIntConsumer<T> toConsumer() {
 		return this::test;
 	}

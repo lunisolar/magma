@@ -340,7 +340,7 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (long a1, long a2) -> func.apply(a1).test(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiLongConsumer toConsumer() {
 		return this::test;
 	}

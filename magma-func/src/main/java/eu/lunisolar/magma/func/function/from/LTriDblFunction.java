@@ -298,7 +298,7 @@ public interface LTriDblFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (double a1, double a2, double a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriDblConsumer toConsumer() {
 		return this::apply;
 	}

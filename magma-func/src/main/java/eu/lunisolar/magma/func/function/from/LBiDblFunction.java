@@ -298,7 +298,7 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return (double a1, double a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiDblConsumer toConsumer() {
 		return this::apply;
 	}

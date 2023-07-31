@@ -295,7 +295,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return (T a1, T a2, T a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriConsumer<T, T, T> toConsumer() {
 		return this::apply;
 	}

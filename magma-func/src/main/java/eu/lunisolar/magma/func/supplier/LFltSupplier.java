@@ -286,7 +286,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		fromTill(0, max_i, func);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LAction toConsumer() {
 		return this::getAsFlt;
 	}

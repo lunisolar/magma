@@ -343,7 +343,7 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 		return (T1 a1, T2 a2, int a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiObjIntConsumer<T1, T2> toConsumer() {
 		return this::test;
 	}

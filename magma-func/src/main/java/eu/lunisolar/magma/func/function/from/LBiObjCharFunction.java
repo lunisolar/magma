@@ -311,7 +311,7 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return (T1 a1, T2 a2, char a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiObjCharConsumer<T1, T2> toConsumer() {
 		return this::apply;
 	}

@@ -343,7 +343,7 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return (T a1, int a2, double a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTieDblConsumer<T> toConsumer() {
 		return this::test;
 	}

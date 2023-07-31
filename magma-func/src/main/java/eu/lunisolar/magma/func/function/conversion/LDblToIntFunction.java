@@ -288,7 +288,7 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 		fromTill(0, max_i, a, func);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LDblConsumer toConsumer() {
 		return this::applyAsInt;
 	}

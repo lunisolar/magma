@@ -343,7 +343,7 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 		return (T1 a1, int a2, T2 a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTieConsumer<T1, T2> toConsumer() {
 		return this::test;
 	}

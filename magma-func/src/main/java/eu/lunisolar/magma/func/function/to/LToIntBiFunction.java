@@ -307,7 +307,7 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsInt(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsInt;
 	}

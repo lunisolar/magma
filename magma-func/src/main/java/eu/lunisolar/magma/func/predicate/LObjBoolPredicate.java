@@ -353,7 +353,7 @@ public interface LObjBoolPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 		return (T a1, boolean a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LObjBoolConsumer<T> toConsumer() {
 		return this::test;
 	}

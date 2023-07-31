@@ -298,7 +298,7 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return (boolean a1, boolean a2, boolean a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriBoolConsumer toConsumer() {
 		return this::apply;
 	}

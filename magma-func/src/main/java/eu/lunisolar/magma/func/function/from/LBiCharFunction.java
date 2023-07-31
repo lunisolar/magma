@@ -298,7 +298,7 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return (char a1, char a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiCharConsumer toConsumer() {
 		return this::apply;
 	}

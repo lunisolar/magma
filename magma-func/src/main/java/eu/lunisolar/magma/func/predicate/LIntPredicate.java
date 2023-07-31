@@ -363,7 +363,7 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 		fromTill(0, max_a, func);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LIntConsumer toConsumer() {
 		return this::test;
 	}

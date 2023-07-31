@@ -311,7 +311,7 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return (T a1, long a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LObjLongConsumer<T> toConsumer() {
 		return this::apply;
 	}

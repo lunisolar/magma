@@ -294,7 +294,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (double a1, double a2, double a3) -> func.apply(a1).apply(a2).applyAsDbl(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriDblConsumer toConsumer() {
 		return this::applyAsDbl;
 	}

@@ -311,7 +311,7 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return (T a1, byte a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LObjByteConsumer<T> toConsumer() {
 		return this::apply;
 	}

@@ -388,7 +388,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return false;
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::test;
 	}

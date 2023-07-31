@@ -294,7 +294,7 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return (short a1, short a2, short a3) -> func.apply(a1).apply(a2).applyAsSrt(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriSrtConsumer toConsumer() {
 		return this::applyAsSrt;
 	}

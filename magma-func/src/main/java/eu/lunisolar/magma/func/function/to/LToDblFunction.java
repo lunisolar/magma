@@ -313,7 +313,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return orElse;
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LConsumer<T> toConsumer() {
 		return this::applyAsDbl;
 	}

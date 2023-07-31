@@ -311,7 +311,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return (T1 a1, T2 a2, T3 a3) -> func.apply(a1).apply(a2).apply(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriConsumer<T1, T2, T3> toConsumer() {
 		return this::apply;
 	}

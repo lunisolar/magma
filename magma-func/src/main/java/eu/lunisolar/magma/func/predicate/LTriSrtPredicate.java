@@ -330,7 +330,7 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return (short a1, short a2, short a3) -> func.apply(a1).apply(a2).test(a3);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LTriSrtConsumer toConsumer() {
 		return this::test;
 	}

@@ -307,7 +307,7 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return (T1 a1, T2 a2) -> func.apply(a1).applyAsLong(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LBiConsumer<T1, T2> toConsumer() {
 		return this::applyAsLong;
 	}

@@ -311,7 +311,7 @@ public interface LObjSrtFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return (T a1, short a2) -> func.apply(a1).apply(a2);
 	}
 
-	/** Change function to consumer that ignores output. */
+	/** Change function to one that ignores output. */
 	default LObjSrtConsumer<T> toConsumer() {
 		return this::apply;
 	}
