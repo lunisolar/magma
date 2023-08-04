@@ -343,6 +343,14 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LIntPredicate _with(long a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LLongPredicate with(int a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LLongIntPredicate uncurry(@Nonnull LLongFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

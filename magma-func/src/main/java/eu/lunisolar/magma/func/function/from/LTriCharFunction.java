@@ -292,6 +292,22 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiCharFunction<R> _with(char a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiCharFunction<R> with(char a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LCharFunction<R> _with(char a1, char a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LCharFunction<R> with(char a2, char a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriCharFunction<R> uncurry(@Nonnull LCharFunction<LCharFunction<LCharFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -291,6 +291,18 @@ public interface LTieLongConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LObjIntConsumer<T> with(long a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LLongConsumer _with(T a1, int a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LConsumer<T> with(int a2, long a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieLongConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLongConsumer>> func) {
 		Null.nonNullArg(func, "func");

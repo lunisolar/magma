@@ -305,6 +305,18 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 		return null;
 	}
 
+	default LOiFunction<T, R> with(char a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LCharFunction<R> _with(T a1, int a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LFunction<T, R> with(int a2, char a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T, R> LObjIntCharFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LCharFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

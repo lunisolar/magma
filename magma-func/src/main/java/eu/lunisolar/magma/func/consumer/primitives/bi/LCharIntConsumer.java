@@ -282,6 +282,14 @@ public interface LCharIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntConsumer _with(char a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LCharConsumer with(int a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LCharIntConsumer uncurry(@Nonnull LCharFunction<LIntConsumer> func) {
 		Null.nonNullArg(func, "func");

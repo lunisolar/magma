@@ -289,6 +289,14 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		return null;
 	}
 
+	default LUnaryOperator<T> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LUnaryOperator<T> with(T a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T> LBinaryOperator<T> uncurry(@Nonnull LFunction<T, LUnaryOperator<T>> func) {
 		Null.nonNullArg(func, "func");

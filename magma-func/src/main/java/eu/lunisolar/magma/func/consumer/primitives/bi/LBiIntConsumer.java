@@ -282,6 +282,14 @@ public interface LBiIntConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LIntConsumer _with(int a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LIntConsumer with(int a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiIntConsumer uncurry(@Nonnull LIntFunction<LIntConsumer> func) {
 		Null.nonNullArg(func, "func");

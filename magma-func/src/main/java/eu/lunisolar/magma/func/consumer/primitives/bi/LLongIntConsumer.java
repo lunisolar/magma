@@ -282,6 +282,14 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LIntConsumer _with(long a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LLongConsumer with(int a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LLongIntConsumer uncurry(@Nonnull LLongFunction<LIntConsumer> func) {
 		Null.nonNullArg(func, "func");

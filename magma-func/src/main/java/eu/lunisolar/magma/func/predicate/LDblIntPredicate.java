@@ -343,6 +343,14 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntPredicate _with(double a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LDblPredicate with(int a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LDblIntPredicate uncurry(@Nonnull LDblFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

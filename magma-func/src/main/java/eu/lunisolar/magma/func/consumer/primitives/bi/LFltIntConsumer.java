@@ -282,6 +282,14 @@ public interface LFltIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntConsumer _with(float a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LFltConsumer with(int a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LFltIntConsumer uncurry(@Nonnull LFltFunction<LIntConsumer> func) {
 		Null.nonNullArg(func, "func");

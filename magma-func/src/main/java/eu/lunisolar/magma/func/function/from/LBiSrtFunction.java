@@ -292,6 +292,14 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LSrtFunction<R> _with(short a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LSrtFunction<R> with(short a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiSrtFunction<R> uncurry(@Nonnull LSrtFunction<LSrtFunction<R>> func) {
 		Null.nonNullArg(func, "func");

@@ -307,6 +307,14 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 		return null;
 	}
 
+	default LIntFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(int a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LOiFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<R>> func) {
 		Null.nonNullArg(func, "func");

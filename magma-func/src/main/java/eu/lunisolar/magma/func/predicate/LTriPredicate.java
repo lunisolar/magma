@@ -347,6 +347,22 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return false;
 	}
 
+	default LBiPredicate<T2, T3> _with(T1 a1) {
+		return (a2, a3) -> test(a1, a2, a3);
+	}
+
+	default LBiPredicate<T1, T2> with(T3 a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LPredicate<T3> _with(T1 a1, T2 a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LPredicate<T1> with(T2 a2, T3 a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> uncurry(@Nonnull LFunction<T1, LFunction<T2, LPredicate<T3>>> func) {
 		Null.nonNullArg(func, "func");

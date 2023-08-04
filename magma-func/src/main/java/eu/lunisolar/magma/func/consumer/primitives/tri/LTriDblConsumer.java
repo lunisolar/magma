@@ -282,6 +282,22 @@ public interface LTriDblConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiDblConsumer _with(double a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiDblConsumer with(double a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LDblConsumer _with(double a1, double a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LDblConsumer with(double a2, double a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriDblConsumer uncurry(@Nonnull LDblFunction<LDblFunction<LDblConsumer>> func) {
 		Null.nonNullArg(func, "func");

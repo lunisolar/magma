@@ -292,6 +292,14 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LCharFunction<R> _with(char a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LCharFunction<R> with(char a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiCharFunction<R> uncurry(@Nonnull LCharFunction<LCharFunction<R>> func) {
 		Null.nonNullArg(func, "func");

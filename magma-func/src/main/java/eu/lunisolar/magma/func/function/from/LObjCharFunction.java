@@ -305,6 +305,14 @@ public interface LObjCharFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
+	default LCharFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(char a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LObjCharFunction<T, R> uncurry(@Nonnull LFunction<T, LCharFunction<R>> func) {
 		Null.nonNullArg(func, "func");

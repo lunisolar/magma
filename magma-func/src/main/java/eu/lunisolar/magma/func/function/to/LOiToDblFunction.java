@@ -303,6 +303,14 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	default LIntToDblFunction _with(T a1) {
+		return a2 -> applyAsDbl(a1, a2);
+	}
+
+	default LToDblFunction<T> with(int a2) {
+		return a1 -> applyAsDbl(a1, a2);
+	}
+
 	/**  */
 	public static <T> LOiToDblFunction<T> uncurry(@Nonnull LFunction<T, LIntToDblFunction> func) {
 		Null.nonNullArg(func, "func");

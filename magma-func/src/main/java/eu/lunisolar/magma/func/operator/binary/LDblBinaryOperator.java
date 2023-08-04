@@ -298,6 +298,14 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LDblUnaryOperator _with(double a1) {
+		return a2 -> applyAsDbl(a1, a2);
+	}
+
+	default LDblUnaryOperator with(double a2) {
+		return a1 -> applyAsDbl(a1, a2);
+	}
+
 	/**  */
 	public static LDblBinaryOperator uncurry(@Nonnull LDblFunction<LDblUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

@@ -292,6 +292,14 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LBoolFunction<R> _with(boolean a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LBoolFunction<R> with(boolean a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiBoolFunction<R> uncurry(@Nonnull LBoolFunction<LBoolFunction<R>> func) {
 		Null.nonNullArg(func, "func");

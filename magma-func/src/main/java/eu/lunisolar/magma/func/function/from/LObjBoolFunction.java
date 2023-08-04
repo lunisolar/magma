@@ -305,6 +305,14 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
+	default LBoolFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(boolean a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LObjBoolFunction<T, R> uncurry(@Nonnull LFunction<T, LBoolFunction<R>> func) {
 		Null.nonNullArg(func, "func");

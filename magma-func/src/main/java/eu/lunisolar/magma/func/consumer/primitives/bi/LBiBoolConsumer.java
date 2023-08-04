@@ -282,6 +282,14 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LBoolConsumer _with(boolean a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LBoolConsumer with(boolean a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiBoolConsumer uncurry(@Nonnull LBoolFunction<LBoolConsumer> func) {
 		Null.nonNullArg(func, "func");

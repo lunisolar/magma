@@ -324,6 +324,22 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiSrtPredicate _with(short a1) {
+		return (a2, a3) -> test(a1, a2, a3);
+	}
+
+	default LBiSrtPredicate with(short a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LSrtPredicate _with(short a1, short a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LSrtPredicate with(short a2, short a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriSrtPredicate uncurry(@Nonnull LSrtFunction<LSrtFunction<LSrtPredicate>> func) {
 		Null.nonNullArg(func, "func");

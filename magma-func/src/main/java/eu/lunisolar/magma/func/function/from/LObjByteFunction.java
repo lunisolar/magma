@@ -305,6 +305,14 @@ public interface LObjByteFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
+	default LByteFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(byte a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LObjByteFunction<T, R> uncurry(@Nonnull LFunction<T, LByteFunction<R>> func) {
 		Null.nonNullArg(func, "func");

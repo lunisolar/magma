@@ -288,6 +288,14 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LIntUnaryOperator _with(int a1) {
+		return a2 -> applyAsInt(a1, a2);
+	}
+
+	default LIntUnaryOperator with(int a2) {
+		return a1 -> applyAsInt(a1, a2);
+	}
+
 	/**  */
 	public static LIntBinaryOperator uncurry(@Nonnull LIntFunction<LIntUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

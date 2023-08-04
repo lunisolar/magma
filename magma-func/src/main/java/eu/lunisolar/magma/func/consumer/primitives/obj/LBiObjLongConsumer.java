@@ -282,6 +282,22 @@ public interface LBiObjLongConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 		fromTill(0, max_a3, a1, a2, func);
 	}
 
+	default LObjLongConsumer<T2> _with(T1 a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiConsumer<T1, T2> with(long a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LLongConsumer _with(T1 a1, T2 a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LConsumer<T1> with(T2 a2, long a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T1, T2> LBiObjLongConsumer<T1, T2> uncurry(@Nonnull LFunction<T1, LFunction<T2, LLongConsumer>> func) {
 		Null.nonNullArg(func, "func");

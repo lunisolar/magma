@@ -347,6 +347,14 @@ public interface LObjDblPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return false;
 	}
 
+	default LDblPredicate _with(T a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LPredicate<T> with(double a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static <T> LObjDblPredicate<T> uncurry(@Nonnull LFunction<T, LDblPredicate> func) {
 		Null.nonNullArg(func, "func");

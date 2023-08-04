@@ -282,6 +282,14 @@ public interface LBiDblConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LDblConsumer _with(double a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LDblConsumer with(double a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiDblConsumer uncurry(@Nonnull LDblFunction<LDblConsumer> func) {
 		Null.nonNullArg(func, "func");

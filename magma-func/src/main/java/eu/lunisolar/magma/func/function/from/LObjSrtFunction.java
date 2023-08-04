@@ -305,6 +305,14 @@ public interface LObjSrtFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return null;
 	}
 
+	default LSrtFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(short a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LObjSrtFunction<T, R> uncurry(@Nonnull LFunction<T, LSrtFunction<R>> func) {
 		Null.nonNullArg(func, "func");

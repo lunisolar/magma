@@ -291,6 +291,22 @@ public interface LTieIntConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiIntConsumer _with(T a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LObjIntConsumer<T> with(int a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LIntConsumer _with(T a1, int a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LConsumer<T> with(int a2, int a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieIntConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LIntConsumer>> func) {
 		Null.nonNullArg(func, "func");

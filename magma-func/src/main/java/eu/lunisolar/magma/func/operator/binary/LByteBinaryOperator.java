@@ -288,6 +288,14 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LByteUnaryOperator _with(byte a1) {
+		return a2 -> applyAsByte(a1, a2);
+	}
+
+	default LByteUnaryOperator with(byte a2) {
+		return a1 -> applyAsByte(a1, a2);
+	}
+
 	/**  */
 	public static LByteBinaryOperator uncurry(@Nonnull LByteFunction<LByteUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

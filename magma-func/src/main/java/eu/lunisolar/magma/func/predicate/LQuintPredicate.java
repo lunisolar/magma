@@ -338,6 +338,38 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return false;
 	}
 
+	default LQuadPredicate<T2, T3, T4, T5> _with(T1 a1) {
+		return (a2, a3, a4, a5) -> test(a1, a2, a3, a4, a5);
+	}
+
+	default LQuadPredicate<T1, T2, T3, T4> with(T5 a5) {
+		return (a1, a2, a3, a4) -> test(a1, a2, a3, a4, a5);
+	}
+
+	default LTriPredicate<T3, T4, T5> _with(T1 a1, T2 a2) {
+		return (a3, a4, a5) -> test(a1, a2, a3, a4, a5);
+	}
+
+	default LTriPredicate<T1, T2, T3> with(T4 a4, T5 a5) {
+		return (a1, a2, a3) -> test(a1, a2, a3, a4, a5);
+	}
+
+	default LBiPredicate<T4, T5> _with(T1 a1, T2 a2, T3 a3) {
+		return (a4, a5) -> test(a1, a2, a3, a4, a5);
+	}
+
+	default LBiPredicate<T1, T2> with(T3 a3, T4 a4, T5 a5) {
+		return (a1, a2) -> test(a1, a2, a3, a4, a5);
+	}
+
+	default LPredicate<T5> _with(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return a5 -> test(a1, a2, a3, a4, a5);
+	}
+
+	default LPredicate<T1> with(T2 a2, T3 a3, T4 a4, T5 a5) {
+		return a1 -> test(a1, a2, a3, a4, a5);
+	}
+
 	/**  */
 	public static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LFunction<T4, LPredicate<T5>>>>> func) {
 		Null.nonNullArg(func, "func");

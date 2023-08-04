@@ -305,6 +305,14 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 		return null;
 	}
 
+	default LLongFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(long a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LObjLongFunction<T, R> uncurry(@Nonnull LFunction<T, LLongFunction<R>> func) {
 		Null.nonNullArg(func, "func");

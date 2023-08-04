@@ -303,6 +303,14 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	default LIntToFltFunction _with(T a1) {
+		return a2 -> applyAsFlt(a1, a2);
+	}
+
+	default LToFltFunction<T> with(int a2) {
+		return a1 -> applyAsFlt(a1, a2);
+	}
+
 	/**  */
 	public static <T> LOiToFltFunction<T> uncurry(@Nonnull LFunction<T, LIntToFltFunction> func) {
 		Null.nonNullArg(func, "func");

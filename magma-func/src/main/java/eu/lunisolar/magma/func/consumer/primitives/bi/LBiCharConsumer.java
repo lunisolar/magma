@@ -282,6 +282,14 @@ public interface LBiCharConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LCharConsumer _with(char a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LCharConsumer with(char a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiCharConsumer uncurry(@Nonnull LCharFunction<LCharConsumer> func) {
 		Null.nonNullArg(func, "func");

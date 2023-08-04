@@ -357,6 +357,14 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		return false;
 	}
 
+	default LPredicate<T2> _with(T1 a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LPredicate<T1> with(T2 a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static <T1, T2> LBiPredicate<T1, T2> uncurry(@Nonnull LFunction<T1, LPredicate<T2>> func) {
 		Null.nonNullArg(func, "func");

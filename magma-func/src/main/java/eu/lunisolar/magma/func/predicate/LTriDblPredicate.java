@@ -324,6 +324,22 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiDblPredicate _with(double a1) {
+		return (a2, a3) -> test(a1, a2, a3);
+	}
+
+	default LBiDblPredicate with(double a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LDblPredicate _with(double a1, double a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LDblPredicate with(double a2, double a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriDblPredicate uncurry(@Nonnull LDblFunction<LDblFunction<LDblPredicate>> func) {
 		Null.nonNullArg(func, "func");

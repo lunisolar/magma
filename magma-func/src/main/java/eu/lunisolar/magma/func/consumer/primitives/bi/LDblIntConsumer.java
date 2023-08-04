@@ -282,6 +282,14 @@ public interface LDblIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntConsumer _with(double a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LDblConsumer with(int a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LDblIntConsumer uncurry(@Nonnull LDblFunction<LIntConsumer> func) {
 		Null.nonNullArg(func, "func");

@@ -305,6 +305,18 @@ public interface LObjIntSrtFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
+	default LOiFunction<T, R> with(short a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LSrtFunction<R> _with(T a1, int a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LFunction<T, R> with(int a2, short a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T, R> LObjIntSrtFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LSrtFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -284,6 +284,14 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LBoolConsumer _with(T a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LConsumer<T> with(boolean a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static <T> LObjBoolConsumer<T> uncurry(@Nonnull LFunction<T, LBoolConsumer> func) {
 		Null.nonNullArg(func, "func");

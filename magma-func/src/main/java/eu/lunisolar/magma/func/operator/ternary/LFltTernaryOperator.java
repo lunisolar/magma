@@ -288,6 +288,22 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LFltBinaryOperator _with(float a1) {
+		return (a2, a3) -> applyAsFlt(a1, a2, a3);
+	}
+
+	default LFltBinaryOperator with(float a3) {
+		return (a1, a2) -> applyAsFlt(a1, a2, a3);
+	}
+
+	default LFltUnaryOperator _with(float a1, float a2) {
+		return a3 -> applyAsFlt(a1, a2, a3);
+	}
+
+	default LFltUnaryOperator with(float a2, float a3) {
+		return a1 -> applyAsFlt(a1, a2, a3);
+	}
+
 	/**  */
 	public static LFltTernaryOperator uncurry(@Nonnull LFltFunction<LFltFunction<LFltUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

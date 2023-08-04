@@ -324,6 +324,14 @@ public interface LBiCharPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LCharPredicate _with(char a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LCharPredicate with(char a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LBiCharPredicate uncurry(@Nonnull LCharFunction<LCharPredicate> func) {
 		Null.nonNullArg(func, "func");

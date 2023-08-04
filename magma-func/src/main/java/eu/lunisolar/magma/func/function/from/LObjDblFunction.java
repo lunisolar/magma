@@ -305,6 +305,14 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return null;
 	}
 
+	default LDblFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(double a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LObjDblFunction<T, R> uncurry(@Nonnull LFunction<T, LDblFunction<R>> func) {
 		Null.nonNullArg(func, "func");

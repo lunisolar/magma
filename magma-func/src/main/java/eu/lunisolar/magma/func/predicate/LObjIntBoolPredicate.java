@@ -337,6 +337,18 @@ public interface LObjIntBoolPredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
+	default LObjIntPredicate<T> with(boolean a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LLogicalOperator _with(T a1, int a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LPredicate<T> with(int a2, boolean a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LObjIntBoolPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLogicalOperator>> func) {
 		Null.nonNullArg(func, "func");

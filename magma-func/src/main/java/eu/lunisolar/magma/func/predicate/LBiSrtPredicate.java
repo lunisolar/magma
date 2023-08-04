@@ -324,6 +324,14 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LSrtPredicate _with(short a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LSrtPredicate with(short a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LBiSrtPredicate uncurry(@Nonnull LSrtFunction<LSrtPredicate> func) {
 		Null.nonNullArg(func, "func");

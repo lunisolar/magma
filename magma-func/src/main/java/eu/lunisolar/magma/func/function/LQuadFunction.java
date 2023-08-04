@@ -305,6 +305,30 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return null;
 	}
 
+	default LTriFunction<T2, T3, T4, R> _with(T1 a1) {
+		return (a2, a3, a4) -> apply(a1, a2, a3, a4);
+	}
+
+	default LTriFunction<T1, T2, T3, R> with(T4 a4) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, a4);
+	}
+
+	default LBiFunction<T3, T4, R> _with(T1 a1, T2 a2) {
+		return (a3, a4) -> apply(a1, a2, a3, a4);
+	}
+
+	default LBiFunction<T1, T2, R> with(T3 a3, T4 a4) {
+		return (a1, a2) -> apply(a1, a2, a3, a4);
+	}
+
+	default LFunction<T4, R> _with(T1 a1, T2 a2, T3 a3) {
+		return a4 -> apply(a1, a2, a3, a4);
+	}
+
+	default LFunction<T1, R> with(T2 a2, T3 a3, T4 a4) {
+		return a1 -> apply(a1, a2, a3, a4);
+	}
+
 	/**  */
 	public static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LFunction<T4, R>>>> func) {
 		Null.nonNullArg(func, "func");

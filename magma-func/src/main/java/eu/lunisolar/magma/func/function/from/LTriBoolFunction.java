@@ -292,6 +292,22 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiBoolFunction<R> _with(boolean a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiBoolFunction<R> with(boolean a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LBoolFunction<R> _with(boolean a1, boolean a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LBoolFunction<R> with(boolean a2, boolean a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriBoolFunction<R> uncurry(@Nonnull LBoolFunction<LBoolFunction<LBoolFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

@@ -282,6 +282,22 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiBoolConsumer _with(boolean a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiBoolConsumer with(boolean a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LBoolConsumer _with(boolean a1, boolean a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LBoolConsumer with(boolean a2, boolean a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriBoolConsumer uncurry(@Nonnull LBoolFunction<LBoolFunction<LBoolConsumer>> func) {
 		Null.nonNullArg(func, "func");

@@ -282,6 +282,22 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiFltConsumer _with(float a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiFltConsumer with(float a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LFltConsumer _with(float a1, float a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LFltConsumer with(float a2, float a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriFltConsumer uncurry(@Nonnull LFltFunction<LFltFunction<LFltConsumer>> func) {
 		Null.nonNullArg(func, "func");

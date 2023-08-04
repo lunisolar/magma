@@ -282,6 +282,22 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiLongConsumer _with(T a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LObjLongConsumer<T> with(long a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LLongConsumer _with(T a1, long a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LConsumer<T> with(long a2, long a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LObjBiLongConsumer<T> uncurry(@Nonnull LFunction<T, LLongFunction<LLongConsumer>> func) {
 		Null.nonNullArg(func, "func");

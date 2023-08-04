@@ -337,6 +337,18 @@ public interface LObjIntSrtPredicate<T> extends MetaPredicate, MetaInterface.Non
 		return false;
 	}
 
+	default LObjIntPredicate<T> with(short a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LSrtPredicate _with(T a1, int a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LPredicate<T> with(int a2, short a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LObjIntSrtPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LSrtPredicate>> func) {
 		Null.nonNullArg(func, "func");

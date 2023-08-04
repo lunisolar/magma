@@ -324,6 +324,22 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiIntPredicate _with(int a1) {
+		return (a2, a3) -> test(a1, a2, a3);
+	}
+
+	default LBiIntPredicate with(int a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LIntPredicate _with(int a1, int a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LIntPredicate with(int a2, int a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriIntPredicate uncurry(@Nonnull LIntFunction<LIntFunction<LIntPredicate>> func) {
 		Null.nonNullArg(func, "func");

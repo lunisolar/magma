@@ -303,6 +303,18 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
+	default LOiToIntFunction<T1> with(T2 a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T2> _with(T1 a1, int a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T1> with(int a2, T2 a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T1, T2> LTieFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LIntFunction<LToIntFunction<T2>>> func) {
 		Null.nonNullArg(func, "func");

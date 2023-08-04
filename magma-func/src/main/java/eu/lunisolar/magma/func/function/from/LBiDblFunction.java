@@ -292,6 +292,14 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LDblFunction<R> _with(double a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LDblFunction<R> with(double a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiDblFunction<R> uncurry(@Nonnull LDblFunction<LDblFunction<R>> func) {
 		Null.nonNullArg(func, "func");

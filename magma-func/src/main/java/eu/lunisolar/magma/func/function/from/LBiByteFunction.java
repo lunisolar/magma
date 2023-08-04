@@ -292,6 +292,14 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LByteFunction<R> _with(byte a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LByteFunction<R> with(byte a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiByteFunction<R> uncurry(@Nonnull LByteFunction<LByteFunction<R>> func) {
 		Null.nonNullArg(func, "func");

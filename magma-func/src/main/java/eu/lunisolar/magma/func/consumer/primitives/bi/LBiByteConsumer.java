@@ -282,6 +282,14 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LByteConsumer _with(byte a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LByteConsumer with(byte a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiByteConsumer uncurry(@Nonnull LByteFunction<LByteConsumer> func) {
 		Null.nonNullArg(func, "func");

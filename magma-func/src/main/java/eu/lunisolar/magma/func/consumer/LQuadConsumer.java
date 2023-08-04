@@ -282,6 +282,30 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 		fromTill(0, max_i, a1, a2, a3, a4, func);
 	}
 
+	default LTriConsumer<T2, T3, T4> _with(T1 a1) {
+		return (a2, a3, a4) -> accept(a1, a2, a3, a4);
+	}
+
+	default LTriConsumer<T1, T2, T3> with(T4 a4) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, a4);
+	}
+
+	default LBiConsumer<T3, T4> _with(T1 a1, T2 a2) {
+		return (a3, a4) -> accept(a1, a2, a3, a4);
+	}
+
+	default LBiConsumer<T1, T2> with(T3 a3, T4 a4) {
+		return (a1, a2) -> accept(a1, a2, a3, a4);
+	}
+
+	default LConsumer<T4> _with(T1 a1, T2 a2, T3 a3) {
+		return a4 -> accept(a1, a2, a3, a4);
+	}
+
+	default LConsumer<T1> with(T2 a2, T3 a3, T4 a4) {
+		return a1 -> accept(a1, a2, a3, a4);
+	}
+
 	/**  */
 	public static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LConsumer<T4>>>> func) {
 		Null.nonNullArg(func, "func");

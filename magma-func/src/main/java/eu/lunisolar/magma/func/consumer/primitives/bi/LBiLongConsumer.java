@@ -282,6 +282,14 @@ public interface LBiLongConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LLongConsumer _with(long a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LLongConsumer with(long a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiLongConsumer uncurry(@Nonnull LLongFunction<LLongConsumer> func) {
 		Null.nonNullArg(func, "func");

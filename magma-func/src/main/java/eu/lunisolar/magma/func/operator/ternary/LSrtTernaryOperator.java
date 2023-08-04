@@ -288,6 +288,22 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LSrtBinaryOperator _with(short a1) {
+		return (a2, a3) -> applyAsSrt(a1, a2, a3);
+	}
+
+	default LSrtBinaryOperator with(short a3) {
+		return (a1, a2) -> applyAsSrt(a1, a2, a3);
+	}
+
+	default LSrtUnaryOperator _with(short a1, short a2) {
+		return a3 -> applyAsSrt(a1, a2, a3);
+	}
+
+	default LSrtUnaryOperator with(short a2, short a3) {
+		return a1 -> applyAsSrt(a1, a2, a3);
+	}
+
 	/**  */
 	public static LSrtTernaryOperator uncurry(@Nonnull LSrtFunction<LSrtFunction<LSrtUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

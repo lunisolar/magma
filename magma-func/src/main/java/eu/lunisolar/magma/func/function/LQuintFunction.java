@@ -306,6 +306,38 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 		return null;
 	}
 
+	default LQuadFunction<T2, T3, T4, T5, R> _with(T1 a1) {
+		return (a2, a3, a4, a5) -> apply(a1, a2, a3, a4, a5);
+	}
+
+	default LQuadFunction<T1, T2, T3, T4, R> with(T5 a5) {
+		return (a1, a2, a3, a4) -> apply(a1, a2, a3, a4, a5);
+	}
+
+	default LTriFunction<T3, T4, T5, R> _with(T1 a1, T2 a2) {
+		return (a3, a4, a5) -> apply(a1, a2, a3, a4, a5);
+	}
+
+	default LTriFunction<T1, T2, T3, R> with(T4 a4, T5 a5) {
+		return (a1, a2, a3) -> apply(a1, a2, a3, a4, a5);
+	}
+
+	default LBiFunction<T4, T5, R> _with(T1 a1, T2 a2, T3 a3) {
+		return (a4, a5) -> apply(a1, a2, a3, a4, a5);
+	}
+
+	default LBiFunction<T1, T2, R> with(T3 a3, T4 a4, T5 a5) {
+		return (a1, a2) -> apply(a1, a2, a3, a4, a5);
+	}
+
+	default LFunction<T5, R> _with(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return a5 -> apply(a1, a2, a3, a4, a5);
+	}
+
+	default LFunction<T1, R> with(T2 a2, T3 a3, T4 a4, T5 a5) {
+		return a1 -> apply(a1, a2, a3, a4, a5);
+	}
+
 	/**  */
 	public static <T1, T2, T3, T4, T5, R> LQuintFunction<T1, T2, T3, T4, T5, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LFunction<T4, LFunction<T5, R>>>>> func) {
 		Null.nonNullArg(func, "func");

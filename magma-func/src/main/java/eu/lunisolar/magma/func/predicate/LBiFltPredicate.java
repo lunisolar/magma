@@ -324,6 +324,14 @@ public interface LBiFltPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LFltPredicate _with(float a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LFltPredicate with(float a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LBiFltPredicate uncurry(@Nonnull LFltFunction<LFltPredicate> func) {
 		Null.nonNullArg(func, "func");

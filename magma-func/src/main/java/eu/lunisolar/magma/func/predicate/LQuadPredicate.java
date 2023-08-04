@@ -347,6 +347,30 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		return false;
 	}
 
+	default LTriPredicate<T2, T3, T4> _with(T1 a1) {
+		return (a2, a3, a4) -> test(a1, a2, a3, a4);
+	}
+
+	default LTriPredicate<T1, T2, T3> with(T4 a4) {
+		return (a1, a2, a3) -> test(a1, a2, a3, a4);
+	}
+
+	default LBiPredicate<T3, T4> _with(T1 a1, T2 a2) {
+		return (a3, a4) -> test(a1, a2, a3, a4);
+	}
+
+	default LBiPredicate<T1, T2> with(T3 a3, T4 a4) {
+		return (a1, a2) -> test(a1, a2, a3, a4);
+	}
+
+	default LPredicate<T4> _with(T1 a1, T2 a2, T3 a3) {
+		return a4 -> test(a1, a2, a3, a4);
+	}
+
+	default LPredicate<T1> with(T2 a2, T3 a3, T4 a4) {
+		return a1 -> test(a1, a2, a3, a4);
+	}
+
 	/**  */
 	public static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LPredicate<T4>>>> func) {
 		Null.nonNullArg(func, "func");

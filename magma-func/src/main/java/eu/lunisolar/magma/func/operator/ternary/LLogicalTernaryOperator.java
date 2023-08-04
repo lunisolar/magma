@@ -323,6 +323,22 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LLogicalBinaryOperator _with(boolean a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LLogicalBinaryOperator with(boolean a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LLogicalOperator _with(boolean a1, boolean a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LLogicalOperator with(boolean a2, boolean a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static LLogicalTernaryOperator uncurry(@Nonnull LBoolFunction<LBoolFunction<LLogicalOperator>> func) {
 		Null.nonNullArg(func, "func");

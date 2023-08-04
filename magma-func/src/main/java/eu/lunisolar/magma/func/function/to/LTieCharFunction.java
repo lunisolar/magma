@@ -303,6 +303,18 @@ public interface LTieCharFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	default LOiToIntFunction<T> with(char a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LCharToIntFunction _with(T a1, int a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T> with(int a2, char a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieCharFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LCharToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

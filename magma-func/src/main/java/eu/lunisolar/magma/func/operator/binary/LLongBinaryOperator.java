@@ -288,6 +288,14 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LLongUnaryOperator _with(long a1) {
+		return a2 -> applyAsLong(a1, a2);
+	}
+
+	default LLongUnaryOperator with(long a2) {
+		return a1 -> applyAsLong(a1, a2);
+	}
+
 	/**  */
 	public static LLongBinaryOperator uncurry(@Nonnull LLongFunction<LLongUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

@@ -292,6 +292,14 @@ public interface LBiIntFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LIntFunction<R> _with(int a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LIntFunction<R> with(int a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiIntFunction<R> uncurry(@Nonnull LIntFunction<LIntFunction<R>> func) {
 		Null.nonNullArg(func, "func");

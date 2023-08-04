@@ -305,6 +305,22 @@ public interface LBiObjLongFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 		return null;
 	}
 
+	default LObjLongFunction<T2, R> _with(T1 a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiFunction<T1, T2, R> with(long a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LLongFunction<R> _with(T1 a1, T2 a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LFunction<T1, R> with(T2 a2, long a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T1, T2, R> LBiObjLongFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, LLongFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

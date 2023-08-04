@@ -305,6 +305,14 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 		return null;
 	}
 
+	default LFltFunction<R> _with(T a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T, R> with(float a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T, R> LObjFltFunction<T, R> uncurry(@Nonnull LFunction<T, LFltFunction<R>> func) {
 		Null.nonNullArg(func, "func");

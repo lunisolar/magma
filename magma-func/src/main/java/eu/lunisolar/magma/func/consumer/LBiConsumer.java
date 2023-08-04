@@ -284,6 +284,14 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LConsumer<T2> _with(T1 a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LConsumer<T1> with(T2 a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static <T1, T2> LBiConsumer<T1, T2> uncurry(@Nonnull LFunction<T1, LConsumer<T2>> func) {
 		Null.nonNullArg(func, "func");

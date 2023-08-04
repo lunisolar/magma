@@ -305,6 +305,18 @@ public interface LObjIntDblFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
+	default LOiFunction<T, R> with(double a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LDblFunction<R> _with(T a1, int a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LFunction<T, R> with(int a2, double a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T, R> LObjIntDblFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LDblFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

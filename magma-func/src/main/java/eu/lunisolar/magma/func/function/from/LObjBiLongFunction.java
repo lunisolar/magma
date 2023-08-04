@@ -305,6 +305,22 @@ public interface LObjBiLongFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
+	default LBiLongFunction<R> _with(T a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LObjLongFunction<T, R> with(long a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LLongFunction<R> _with(T a1, long a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LFunction<T, R> with(long a2, long a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T, R> LObjBiLongFunction<T, R> uncurry(@Nonnull LFunction<T, LLongFunction<LLongFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

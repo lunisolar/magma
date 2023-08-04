@@ -292,6 +292,14 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LFltFunction<R> _with(float a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFltFunction<R> with(float a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiFltFunction<R> uncurry(@Nonnull LFltFunction<LFltFunction<R>> func) {
 		Null.nonNullArg(func, "func");

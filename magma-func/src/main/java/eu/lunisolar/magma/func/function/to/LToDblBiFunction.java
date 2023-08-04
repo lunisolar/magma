@@ -311,6 +311,14 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 		return orElse;
 	}
 
+	default LToDblFunction<T2> _with(T1 a1) {
+		return a2 -> applyAsDbl(a1, a2);
+	}
+
+	default LToDblFunction<T1> with(T2 a2) {
+		return a1 -> applyAsDbl(a1, a2);
+	}
+
 	/**  */
 	public static <T1, T2> LToDblBiFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LToDblFunction<T2>> func) {
 		Null.nonNullArg(func, "func");

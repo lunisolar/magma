@@ -282,6 +282,22 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiSrtConsumer _with(short a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiSrtConsumer with(short a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LSrtConsumer _with(short a1, short a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LSrtConsumer with(short a2, short a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriSrtConsumer uncurry(@Nonnull LSrtFunction<LSrtFunction<LSrtConsumer>> func) {
 		Null.nonNullArg(func, "func");

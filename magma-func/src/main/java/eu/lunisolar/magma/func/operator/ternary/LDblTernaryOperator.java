@@ -288,6 +288,22 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LDblBinaryOperator _with(double a1) {
+		return (a2, a3) -> applyAsDbl(a1, a2, a3);
+	}
+
+	default LDblBinaryOperator with(double a3) {
+		return (a1, a2) -> applyAsDbl(a1, a2, a3);
+	}
+
+	default LDblUnaryOperator _with(double a1, double a2) {
+		return a3 -> applyAsDbl(a1, a2, a3);
+	}
+
+	default LDblUnaryOperator with(double a2, double a3) {
+		return a1 -> applyAsDbl(a1, a2, a3);
+	}
+
 	/**  */
 	public static LDblTernaryOperator uncurry(@Nonnull LDblFunction<LDblFunction<LDblUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

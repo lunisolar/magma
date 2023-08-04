@@ -282,6 +282,22 @@ public interface LTriIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiIntConsumer _with(int a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiIntConsumer with(int a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LIntConsumer _with(int a1, int a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LIntConsumer with(int a2, int a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriIntConsumer uncurry(@Nonnull LIntFunction<LIntFunction<LIntConsumer>> func) {
 		Null.nonNullArg(func, "func");

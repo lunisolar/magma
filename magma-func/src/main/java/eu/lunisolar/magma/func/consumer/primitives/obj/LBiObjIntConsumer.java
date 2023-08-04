@@ -282,6 +282,22 @@ public interface LBiObjIntConsumer<T1, T2> extends MetaConsumer, MetaInterface.N
 		fromTill(0, max_a3, a1, a2, func);
 	}
 
+	default LObjIntConsumer<T2> _with(T1 a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiConsumer<T1, T2> with(int a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LIntConsumer _with(T1 a1, T2 a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LConsumer<T1> with(T2 a2, int a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T1, T2> LBiObjIntConsumer<T1, T2> uncurry(@Nonnull LFunction<T1, LFunction<T2, LIntConsumer>> func) {
 		Null.nonNullArg(func, "func");

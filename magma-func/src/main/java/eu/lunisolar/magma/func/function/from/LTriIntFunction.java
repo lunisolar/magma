@@ -292,6 +292,22 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiIntFunction<R> _with(int a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiIntFunction<R> with(int a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LIntFunction<R> _with(int a1, int a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LIntFunction<R> with(int a2, int a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriIntFunction<R> uncurry(@Nonnull LIntFunction<LIntFunction<LIntFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

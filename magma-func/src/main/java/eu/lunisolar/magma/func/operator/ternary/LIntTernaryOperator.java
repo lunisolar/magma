@@ -288,6 +288,22 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LIntBinaryOperator _with(int a1) {
+		return (a2, a3) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LIntBinaryOperator with(int a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LIntUnaryOperator _with(int a1, int a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LIntUnaryOperator with(int a2, int a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static LIntTernaryOperator uncurry(@Nonnull LIntFunction<LIntFunction<LIntUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

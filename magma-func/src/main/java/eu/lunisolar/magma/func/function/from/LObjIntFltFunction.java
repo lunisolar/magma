@@ -305,6 +305,18 @@ public interface LObjIntFltFunction<T, R> extends MetaFunction, MetaInterface.No
 		return null;
 	}
 
+	default LOiFunction<T, R> with(float a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LFltFunction<R> _with(T a1, int a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LFunction<T, R> with(int a2, float a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T, R> LObjIntFltFunction<T, R> uncurry(@Nonnull LFunction<T, LIntFunction<LFltFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

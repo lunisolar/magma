@@ -343,6 +343,14 @@ public interface LFltIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntPredicate _with(float a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LFltPredicate with(int a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LFltIntPredicate uncurry(@Nonnull LFltFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

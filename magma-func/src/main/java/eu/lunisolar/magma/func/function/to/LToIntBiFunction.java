@@ -301,6 +301,14 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 		return orElse;
 	}
 
+	default LToIntFunction<T2> _with(T1 a1) {
+		return a2 -> applyAsInt(a1, a2);
+	}
+
+	default LToIntFunction<T1> with(T2 a2) {
+		return a1 -> applyAsInt(a1, a2);
+	}
+
 	/**  */
 	public static <T1, T2> LToIntBiFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LToIntFunction<T2>> func) {
 		Null.nonNullArg(func, "func");

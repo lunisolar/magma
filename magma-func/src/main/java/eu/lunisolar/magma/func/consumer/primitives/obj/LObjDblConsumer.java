@@ -284,6 +284,14 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LDblConsumer _with(T a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LConsumer<T> with(double a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static <T> LObjDblConsumer<T> uncurry(@Nonnull LFunction<T, LDblConsumer> func) {
 		Null.nonNullArg(func, "func");

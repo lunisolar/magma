@@ -301,6 +301,14 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 		return orElse;
 	}
 
+	default LToLongFunction<T2> _with(T1 a1) {
+		return a2 -> applyAsLong(a1, a2);
+	}
+
+	default LToLongFunction<T1> with(T2 a2) {
+		return a1 -> applyAsLong(a1, a2);
+	}
+
 	/**  */
 	public static <T1, T2> LToLongBiFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LToLongFunction<T2>> func) {
 		Null.nonNullArg(func, "func");

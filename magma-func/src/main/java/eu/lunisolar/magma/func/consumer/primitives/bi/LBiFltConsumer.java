@@ -282,6 +282,14 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LFltConsumer _with(float a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LFltConsumer with(float a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiFltConsumer uncurry(@Nonnull LFltFunction<LFltConsumer> func) {
 		Null.nonNullArg(func, "func");

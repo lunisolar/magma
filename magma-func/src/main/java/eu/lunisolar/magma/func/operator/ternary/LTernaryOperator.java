@@ -289,6 +289,22 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return null;
 	}
 
+	default LBinaryOperator<T> _with(T a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBinaryOperator<T> with(T a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LUnaryOperator<T> _with(T a1, T a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LUnaryOperator<T> with(T a2, T a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTernaryOperator<T> uncurry(@Nonnull LFunction<T, LFunction<T, LUnaryOperator<T>>> func) {
 		Null.nonNullArg(func, "func");

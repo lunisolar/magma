@@ -284,6 +284,14 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntConsumer _with(T a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LConsumer<T> with(int a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static <T> LObjIntConsumer<T> uncurry(@Nonnull LFunction<T, LIntConsumer> func) {
 		Null.nonNullArg(func, "func");

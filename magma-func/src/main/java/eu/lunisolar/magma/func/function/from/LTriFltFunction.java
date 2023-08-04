@@ -292,6 +292,22 @@ public interface LTriFltFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiFltFunction<R> _with(float a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiFltFunction<R> with(float a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LFltFunction<R> _with(float a1, float a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LFltFunction<R> with(float a2, float a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriFltFunction<R> uncurry(@Nonnull LFltFunction<LFltFunction<LFltFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

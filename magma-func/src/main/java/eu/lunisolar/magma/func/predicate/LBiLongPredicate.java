@@ -334,6 +334,14 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LLongPredicate _with(long a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LLongPredicate with(long a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LBiLongPredicate uncurry(@Nonnull LLongFunction<LLongPredicate> func) {
 		Null.nonNullArg(func, "func");

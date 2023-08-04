@@ -303,6 +303,14 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	default LIntUnaryOperator _with(T a1) {
+		return a2 -> applyAsInt(a1, a2);
+	}
+
+	default LToIntFunction<T> with(int a2) {
+		return a1 -> applyAsInt(a1, a2);
+	}
+
 	/**  */
 	public static <T> LOiToIntFunction<T> uncurry(@Nonnull LFunction<T, LIntUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

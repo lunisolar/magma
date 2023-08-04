@@ -323,6 +323,14 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LLogicalOperator _with(boolean a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LLogicalOperator with(boolean a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static LLogicalBinaryOperator uncurry(@Nonnull LBoolFunction<LLogicalOperator> func) {
 		Null.nonNullArg(func, "func");

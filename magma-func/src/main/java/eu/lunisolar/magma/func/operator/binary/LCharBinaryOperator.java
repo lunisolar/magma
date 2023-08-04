@@ -288,6 +288,14 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LCharUnaryOperator _with(char a1) {
+		return a2 -> applyAsChar(a1, a2);
+	}
+
+	default LCharUnaryOperator with(char a2) {
+		return a1 -> applyAsChar(a1, a2);
+	}
+
 	/**  */
 	public static LCharBinaryOperator uncurry(@Nonnull LCharFunction<LCharUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

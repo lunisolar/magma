@@ -324,6 +324,14 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LBytePredicate _with(byte a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LBytePredicate with(byte a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LBiBytePredicate uncurry(@Nonnull LByteFunction<LBytePredicate> func) {
 		Null.nonNullArg(func, "func");

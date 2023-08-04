@@ -305,6 +305,14 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return null;
 	}
 
+	default LFunction<T2, R> _with(T1 a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LFunction<T1, R> with(T2 a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <T1, T2, R> LBiFunction<T1, T2, R> uncurry(@Nonnull LFunction<T1, LFunction<T2, R>> func) {
 		Null.nonNullArg(func, "func");

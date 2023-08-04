@@ -288,6 +288,14 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LFltUnaryOperator _with(float a1) {
+		return a2 -> applyAsFlt(a1, a2);
+	}
+
+	default LFltUnaryOperator with(float a2) {
+		return a1 -> applyAsFlt(a1, a2);
+	}
+
 	/**  */
 	public static LFltBinaryOperator uncurry(@Nonnull LFltFunction<LFltUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

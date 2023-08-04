@@ -303,6 +303,14 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
+	default LIntToCharFunction _with(T a1) {
+		return a2 -> applyAsChar(a1, a2);
+	}
+
+	default LToCharFunction<T> with(int a2) {
+		return a1 -> applyAsChar(a1, a2);
+	}
+
 	/**  */
 	public static <T> LOiToCharFunction<T> uncurry(@Nonnull LFunction<T, LIntToCharFunction> func) {
 		Null.nonNullArg(func, "func");

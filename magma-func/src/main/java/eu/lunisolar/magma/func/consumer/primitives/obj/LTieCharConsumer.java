@@ -291,6 +291,18 @@ public interface LTieCharConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 		fromTill(0, max_a2, a1, a3, func);
 	}
 
+	default LObjIntConsumer<T> with(char a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LCharConsumer _with(T a1, int a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LConsumer<T> with(int a2, char a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieCharConsumer<T> uncurry(@Nonnull LFunction<T, LIntFunction<LCharConsumer>> func) {
 		Null.nonNullArg(func, "func");

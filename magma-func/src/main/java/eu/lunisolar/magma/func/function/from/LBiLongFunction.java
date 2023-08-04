@@ -292,6 +292,14 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LLongFunction<R> _with(long a1) {
+		return a2 -> apply(a1, a2);
+	}
+
+	default LLongFunction<R> with(long a2) {
+		return a1 -> apply(a1, a2);
+	}
+
 	/**  */
 	public static <R> LBiLongFunction<R> uncurry(@Nonnull LLongFunction<LLongFunction<R>> func) {
 		Null.nonNullArg(func, "func");

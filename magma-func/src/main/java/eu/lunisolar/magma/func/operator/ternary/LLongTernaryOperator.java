@@ -288,6 +288,22 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LLongBinaryOperator _with(long a1) {
+		return (a2, a3) -> applyAsLong(a1, a2, a3);
+	}
+
+	default LLongBinaryOperator with(long a3) {
+		return (a1, a2) -> applyAsLong(a1, a2, a3);
+	}
+
+	default LLongUnaryOperator _with(long a1, long a2) {
+		return a3 -> applyAsLong(a1, a2, a3);
+	}
+
+	default LLongUnaryOperator with(long a2, long a3) {
+		return a1 -> applyAsLong(a1, a2, a3);
+	}
+
 	/**  */
 	public static LLongTernaryOperator uncurry(@Nonnull LLongFunction<LLongFunction<LLongUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

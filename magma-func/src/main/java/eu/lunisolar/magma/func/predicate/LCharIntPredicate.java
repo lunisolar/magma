@@ -343,6 +343,14 @@ public interface LCharIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntPredicate _with(char a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LCharPredicate with(int a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LCharIntPredicate uncurry(@Nonnull LCharFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

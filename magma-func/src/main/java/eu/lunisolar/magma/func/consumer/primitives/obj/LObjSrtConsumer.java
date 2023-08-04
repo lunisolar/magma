@@ -284,6 +284,14 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LSrtConsumer _with(T a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LConsumer<T> with(short a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static <T> LObjSrtConsumer<T> uncurry(@Nonnull LFunction<T, LSrtConsumer> func) {
 		Null.nonNullArg(func, "func");

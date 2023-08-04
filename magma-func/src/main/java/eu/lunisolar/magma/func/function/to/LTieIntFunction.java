@@ -303,6 +303,22 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
+	default LIntBinaryOperator _with(T a1) {
+		return (a2, a3) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LOiToIntFunction<T> with(int a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LIntUnaryOperator _with(T a1, int a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T> with(int a2, int a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieIntFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LIntUnaryOperator>> func) {
 		Null.nonNullArg(func, "func");

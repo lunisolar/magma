@@ -282,6 +282,14 @@ public interface LBiSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LSrtConsumer _with(short a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LSrtConsumer with(short a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBiSrtConsumer uncurry(@Nonnull LSrtFunction<LSrtConsumer> func) {
 		Null.nonNullArg(func, "func");

@@ -292,6 +292,22 @@ public interface LTriLongFunction<R> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiLongFunction<R> _with(long a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiLongFunction<R> with(long a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LLongFunction<R> _with(long a1, long a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LLongFunction<R> with(long a2, long a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriLongFunction<R> uncurry(@Nonnull LLongFunction<LLongFunction<LLongFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

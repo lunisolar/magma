@@ -303,6 +303,18 @@ public interface LTieDblFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
+	default LOiToIntFunction<T> with(double a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LDblToIntFunction _with(T a1, int a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T> with(int a2, double a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieDblFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LDblToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

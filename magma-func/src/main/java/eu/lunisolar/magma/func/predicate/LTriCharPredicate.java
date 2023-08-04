@@ -324,6 +324,22 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiCharPredicate _with(char a1) {
+		return (a2, a3) -> test(a1, a2, a3);
+	}
+
+	default LBiCharPredicate with(char a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LCharPredicate _with(char a1, char a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LCharPredicate with(char a2, char a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriCharPredicate uncurry(@Nonnull LCharFunction<LCharFunction<LCharPredicate>> func) {
 		Null.nonNullArg(func, "func");

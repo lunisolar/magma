@@ -368,6 +368,14 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return false;
 	}
 
+	default LIntPredicate _with(T a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LPredicate<T> with(int a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static <T> LObjIntPredicate<T> uncurry(@Nonnull LFunction<T, LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

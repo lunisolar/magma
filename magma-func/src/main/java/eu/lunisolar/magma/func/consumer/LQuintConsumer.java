@@ -283,6 +283,38 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		fromTill(0, max_i, a1, a2, a3, a4, a5, func);
 	}
 
+	default LQuadConsumer<T2, T3, T4, T5> _with(T1 a1) {
+		return (a2, a3, a4, a5) -> accept(a1, a2, a3, a4, a5);
+	}
+
+	default LQuadConsumer<T1, T2, T3, T4> with(T5 a5) {
+		return (a1, a2, a3, a4) -> accept(a1, a2, a3, a4, a5);
+	}
+
+	default LTriConsumer<T3, T4, T5> _with(T1 a1, T2 a2) {
+		return (a3, a4, a5) -> accept(a1, a2, a3, a4, a5);
+	}
+
+	default LTriConsumer<T1, T2, T3> with(T4 a4, T5 a5) {
+		return (a1, a2, a3) -> accept(a1, a2, a3, a4, a5);
+	}
+
+	default LBiConsumer<T4, T5> _with(T1 a1, T2 a2, T3 a3) {
+		return (a4, a5) -> accept(a1, a2, a3, a4, a5);
+	}
+
+	default LBiConsumer<T1, T2> with(T3 a3, T4 a4, T5 a5) {
+		return (a1, a2) -> accept(a1, a2, a3, a4, a5);
+	}
+
+	default LConsumer<T5> _with(T1 a1, T2 a2, T3 a3, T4 a4) {
+		return a5 -> accept(a1, a2, a3, a4, a5);
+	}
+
+	default LConsumer<T1> with(T2 a2, T3 a3, T4 a4, T5 a5) {
+		return a1 -> accept(a1, a2, a3, a4, a5);
+	}
+
 	/**  */
 	public static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> uncurry(@Nonnull LFunction<T1, LFunction<T2, LFunction<T3, LFunction<T4, LConsumer<T5>>>>> func) {
 		Null.nonNullArg(func, "func");

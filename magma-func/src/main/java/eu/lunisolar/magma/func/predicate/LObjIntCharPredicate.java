@@ -337,6 +337,18 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
+	default LObjIntPredicate<T> with(char a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LCharPredicate _with(T a1, int a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LPredicate<T> with(int a2, char a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LObjIntCharPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LCharPredicate>> func) {
 		Null.nonNullArg(func, "func");

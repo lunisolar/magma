@@ -292,6 +292,22 @@ public interface LTriByteFunction<R> extends MetaFunction, MetaInterface.NonThro
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiByteFunction<R> _with(byte a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiByteFunction<R> with(byte a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LByteFunction<R> _with(byte a1, byte a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LByteFunction<R> with(byte a2, byte a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriByteFunction<R> uncurry(@Nonnull LByteFunction<LByteFunction<LByteFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

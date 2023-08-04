@@ -363,6 +363,14 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LIntPredicate _with(int a1) {
+		return a2 -> test(a1, a2);
+	}
+
+	default LIntPredicate with(int a2) {
+		return a1 -> test(a1, a2);
+	}
+
 	/**  */
 	public static LBiIntPredicate uncurry(@Nonnull LIntFunction<LIntPredicate> func) {
 		Null.nonNullArg(func, "func");

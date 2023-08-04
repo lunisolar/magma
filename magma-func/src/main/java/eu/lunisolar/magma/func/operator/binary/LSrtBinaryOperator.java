@@ -288,6 +288,14 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, func);
 	}
 
+	default LSrtUnaryOperator _with(short a1) {
+		return a2 -> applyAsSrt(a1, a2);
+	}
+
+	default LSrtUnaryOperator with(short a2) {
+		return a1 -> applyAsSrt(a1, a2);
+	}
+
 	/**  */
 	public static LSrtBinaryOperator uncurry(@Nonnull LSrtFunction<LSrtUnaryOperator> func) {
 		Null.nonNullArg(func, "func");

@@ -303,6 +303,18 @@ public interface LTieBoolFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	default LOiToIntFunction<T> with(boolean a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LBoolToIntFunction _with(T a1, int a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T> with(int a2, boolean a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieBoolFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LBoolToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

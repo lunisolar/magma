@@ -292,6 +292,22 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiSrtFunction<R> _with(short a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiSrtFunction<R> with(short a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LSrtFunction<R> _with(short a1, short a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LSrtFunction<R> with(short a2, short a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriSrtFunction<R> uncurry(@Nonnull LSrtFunction<LSrtFunction<LSrtFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

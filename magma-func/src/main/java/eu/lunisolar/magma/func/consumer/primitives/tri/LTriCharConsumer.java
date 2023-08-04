@@ -282,6 +282,22 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiCharConsumer _with(char a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiCharConsumer with(char a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LCharConsumer _with(char a1, char a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LCharConsumer with(char a2, char a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriCharConsumer uncurry(@Nonnull LCharFunction<LCharFunction<LCharConsumer>> func) {
 		Null.nonNullArg(func, "func");

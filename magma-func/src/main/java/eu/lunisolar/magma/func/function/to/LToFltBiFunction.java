@@ -301,6 +301,14 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 		return orElse;
 	}
 
+	default LToFltFunction<T2> _with(T1 a1) {
+		return a2 -> applyAsFlt(a1, a2);
+	}
+
+	default LToFltFunction<T1> with(T2 a2) {
+		return a1 -> applyAsFlt(a1, a2);
+	}
+
 	/**  */
 	public static <T1, T2> LToFltBiFunction<T1, T2> uncurry(@Nonnull LFunction<T1, LToFltFunction<T2>> func) {
 		Null.nonNullArg(func, "func");

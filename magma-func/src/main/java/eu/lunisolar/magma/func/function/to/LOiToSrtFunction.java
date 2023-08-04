@@ -303,6 +303,14 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return orElse;
 	}
 
+	default LIntToSrtFunction _with(T a1) {
+		return a2 -> applyAsSrt(a1, a2);
+	}
+
+	default LToSrtFunction<T> with(int a2) {
+		return a1 -> applyAsSrt(a1, a2);
+	}
+
 	/**  */
 	public static <T> LOiToSrtFunction<T> uncurry(@Nonnull LFunction<T, LIntToSrtFunction> func) {
 		Null.nonNullArg(func, "func");

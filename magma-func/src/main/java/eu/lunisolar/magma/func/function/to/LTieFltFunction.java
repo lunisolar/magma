@@ -303,6 +303,18 @@ public interface LTieFltFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return orElse;
 	}
 
+	default LOiToIntFunction<T> with(float a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LFltToIntFunction _with(T a1, int a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T> with(int a2, float a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LTieFltFunction<T> uncurry(@Nonnull LFunction<T, LIntFunction<LFltToIntFunction>> func) {
 		Null.nonNullArg(func, "func");

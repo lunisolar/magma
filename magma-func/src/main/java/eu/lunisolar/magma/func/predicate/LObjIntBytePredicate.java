@@ -337,6 +337,18 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
+	default LObjIntPredicate<T> with(byte a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LBytePredicate _with(T a1, int a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LPredicate<T> with(int a2, byte a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LObjIntBytePredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LBytePredicate>> func) {
 		Null.nonNullArg(func, "func");

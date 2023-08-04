@@ -303,6 +303,14 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
+	default LIntToLongFunction _with(T a1) {
+		return a2 -> applyAsLong(a1, a2);
+	}
+
+	default LToLongFunction<T> with(int a2) {
+		return a1 -> applyAsLong(a1, a2);
+	}
+
 	/**  */
 	public static <T> LOiToLongFunction<T> uncurry(@Nonnull LFunction<T, LIntToLongFunction> func) {
 		Null.nonNullArg(func, "func");

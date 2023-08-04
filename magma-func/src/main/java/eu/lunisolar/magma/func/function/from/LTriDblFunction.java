@@ -292,6 +292,22 @@ public interface LTriDblFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiDblFunction<R> _with(double a1) {
+		return (a2, a3) -> apply(a1, a2, a3);
+	}
+
+	default LBiDblFunction<R> with(double a3) {
+		return (a1, a2) -> apply(a1, a2, a3);
+	}
+
+	default LDblFunction<R> _with(double a1, double a2) {
+		return a3 -> apply(a1, a2, a3);
+	}
+
+	default LDblFunction<R> with(double a2, double a3) {
+		return a1 -> apply(a1, a2, a3);
+	}
+
 	/**  */
 	public static <R> LTriDblFunction<R> uncurry(@Nonnull LDblFunction<LDblFunction<LDblFunction<R>>> func) {
 		Null.nonNullArg(func, "func");

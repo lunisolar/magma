@@ -301,6 +301,22 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 		return orElse;
 	}
 
+	default LToIntBiFunction<T2, T3> _with(T1 a1) {
+		return (a2, a3) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntBiFunction<T1, T2> with(T3 a3) {
+		return (a1, a2) -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T3> _with(T1 a1, T2 a2) {
+		return a3 -> applyAsInt(a1, a2, a3);
+	}
+
+	default LToIntFunction<T1> with(T2 a2, T3 a3) {
+		return a1 -> applyAsInt(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T1, T2, T3> LToIntTriFunction<T1, T2, T3> uncurry(@Nonnull LFunction<T1, LFunction<T2, LToIntFunction<T3>>> func) {
 		Null.nonNullArg(func, "func");

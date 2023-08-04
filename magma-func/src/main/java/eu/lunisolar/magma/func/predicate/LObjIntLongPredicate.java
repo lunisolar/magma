@@ -337,6 +337,18 @@ public interface LObjIntLongPredicate<T> extends MetaPredicate, MetaInterface.No
 		return false;
 	}
 
+	default LObjIntPredicate<T> with(long a3) {
+		return (a1, a2) -> test(a1, a2, a3);
+	}
+
+	default LLongPredicate _with(T a1, int a2) {
+		return a3 -> test(a1, a2, a3);
+	}
+
+	default LPredicate<T> with(int a2, long a3) {
+		return a1 -> test(a1, a2, a3);
+	}
+
 	/**  */
 	public static <T> LObjIntLongPredicate<T> uncurry(@Nonnull LFunction<T, LIntFunction<LLongPredicate>> func) {
 		Null.nonNullArg(func, "func");

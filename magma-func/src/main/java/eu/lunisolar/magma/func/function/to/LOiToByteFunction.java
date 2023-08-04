@@ -303,6 +303,14 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 		return orElse;
 	}
 
+	default LIntToByteFunction _with(T a1) {
+		return a2 -> applyAsByte(a1, a2);
+	}
+
+	default LToByteFunction<T> with(int a2) {
+		return a1 -> applyAsByte(a1, a2);
+	}
+
 	/**  */
 	public static <T> LOiToByteFunction<T> uncurry(@Nonnull LFunction<T, LIntToByteFunction> func) {
 		Null.nonNullArg(func, "func");

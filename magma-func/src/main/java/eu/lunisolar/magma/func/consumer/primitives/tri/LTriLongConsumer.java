@@ -282,6 +282,22 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_i, a1, a2, a3, func);
 	}
 
+	default LBiLongConsumer _with(long a1) {
+		return (a2, a3) -> accept(a1, a2, a3);
+	}
+
+	default LBiLongConsumer with(long a3) {
+		return (a1, a2) -> accept(a1, a2, a3);
+	}
+
+	default LLongConsumer _with(long a1, long a2) {
+		return a3 -> accept(a1, a2, a3);
+	}
+
+	default LLongConsumer with(long a2, long a3) {
+		return a1 -> accept(a1, a2, a3);
+	}
+
 	/**  */
 	public static LTriLongConsumer uncurry(@Nonnull LLongFunction<LLongFunction<LLongConsumer>> func) {
 		Null.nonNullArg(func, "func");

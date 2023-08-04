@@ -282,6 +282,14 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		fromTill(0, max_a2, a1, func);
 	}
 
+	default LIntConsumer _with(boolean a1) {
+		return a2 -> accept(a1, a2);
+	}
+
+	default LBoolConsumer with(int a2) {
+		return a1 -> accept(a1, a2);
+	}
+
 	/**  */
 	public static LBoolIntConsumer uncurry(@Nonnull LBoolFunction<LIntConsumer> func) {
 		Null.nonNullArg(func, "func");
