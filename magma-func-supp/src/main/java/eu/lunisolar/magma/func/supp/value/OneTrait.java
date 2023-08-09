@@ -64,116 +64,143 @@ public interface OneTrait<T> {
 		return (R) theValue();
 	}
 
-	/** Expectation: there MUST be a value, it MUST be of specific type */
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull <R> R theValue(@Nonnull Class<R> clazz) {
 		Null.nonNullArg(clazz, "clazz");
 		return (R) state(theValue()).must1(Be::instanceOf, clazz, "Value is not of expected class", clazz).value();
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Byte theByte() {
 		return theValue(Byte.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Short theSrt() {
 		return theValue(Short.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Integer theInt() {
 		return theValue(Integer.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Long theLong() {
 		return theValue(Long.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Float theFlt() {
 		return theValue(Float.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Double theDbl() {
 		return theValue(Double.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Character theChar() {
 		return theValue(Character.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Boolean theBool() {
 		return theValue(Boolean.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull String theStr() {
 		return theValue(String.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull BigInteger theBigInt() {
 		return theValue(BigInteger.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull BigDecimal theBigDec() {
 		return theValue(BigDecimal.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull LocalDateTime theDateTime() {
 		return theValue(LocalDateTime.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull LocalDate theDate() {
 		return theValue(LocalDate.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull LocalTime theTime() {
 		return theValue(LocalTime.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull OffsetDateTime theOffsetDateTime() {
 		return theValue(OffsetDateTime.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull OffsetTime theOffsetTime() {
 		return theValue(OffsetTime.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull ZonedDateTime theZonedDateTime() {
 		return theValue(ZonedDateTime.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Temporal theTemporal() {
 		return theValue(Temporal.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Duration theDuration() {
 		return theValue(Duration.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Period thePeriod() {
 		return theValue(Period.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Instant theInstant() {
 		return theValue(Instant.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull MonthDay theMonthDay() {
 		return theValue(MonthDay.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull DayOfWeek theDayOfWeek() {
 		return theValue(DayOfWeek.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Month theMonth() {
 		return theValue(Month.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull Year theYear() {
 		return theValue(Year.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull YearMonth theYearMonth() {
 		return theValue(YearMonth.class);
 	}
 
+	/** Expectation: there MUST be a value, it MUST be of specific type. */
 	default @Nonnull byte[] theByteArr() {
 		return theValue(byte[].class);
 	}
@@ -198,110 +225,137 @@ public interface OneTrait<T> {
 		return (Opt) aValue().ifExists(clazz, (__, c) -> __.must1(Be::instanceOf, c, "Value is not of expected class", c));
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptByte aByte() {
 		return aValue(Byte.class).mapToByte(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptSrt aSrt() {
 		return aValue(Short.class).mapToSrt(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptInt aInt() {
 		return aValue(Integer.class).mapToInt(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptLong aLong() {
 		return aValue(Long.class).mapToLong(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptFlt aFlt() {
 		return aValue(Float.class).mapToFlt(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptDbl aDbl() {
 		return aValue(Double.class).mapToDbl(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptChar aChar() {
 		return aValue(Character.class).mapToChar(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull OptBool aBool() {
 		return aValue(Boolean.class).mapToBool(v -> v);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<String> aStr() {
 		return aValue(String.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<BigInteger> aBigInt() {
 		return aValue(BigInteger.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<BigDecimal> aBigDec() {
 		return aValue(BigDecimal.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<LocalDateTime> aDateTime() {
 		return aValue(LocalDateTime.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<LocalDate> aDate() {
 		return aValue(LocalDate.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<LocalTime> aTime() {
 		return aValue(LocalTime.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<OffsetDateTime> aOffsetDateTime() {
 		return aValue(OffsetDateTime.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<OffsetTime> aOffsetTime() {
 		return aValue(OffsetTime.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<ZonedDateTime> aZonedDateTime() {
 		return aValue(ZonedDateTime.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<Temporal> aTemporal() {
 		return aValue(Temporal.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<Duration> aDuration() {
 		return aValue(Duration.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<Period> aPeriod() {
 		return aValue(Period.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<Instant> aInstant() {
 		return aValue(Instant.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<MonthDay> aMonthDay() {
 		return aValue(MonthDay.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<DayOfWeek> aDayOfWeek() {
 		return aValue(DayOfWeek.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<Month> aMonth() {
 		return aValue(Month.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<Year> aYear() {
 		return aValue(Year.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<YearMonth> aYearMonth() {
 		return aValue(YearMonth.class);
 	}
 
+	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull Opt<byte[]> aByteArr() {
 		return aValue(byte[].class);
 	}
@@ -316,110 +370,137 @@ public interface OneTrait<T> {
 		return aValue().filterAndMap(clazz);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptByte aSafeByte() {
 		return aSafeValue(Byte.class).mapToByte(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptSrt aSafeSrt() {
 		return aSafeValue(Short.class).mapToSrt(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptInt aSafeInt() {
 		return aSafeValue(Integer.class).mapToInt(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptLong aSafeLong() {
 		return aSafeValue(Long.class).mapToLong(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptFlt aSafeFlt() {
 		return aSafeValue(Float.class).mapToFlt(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptDbl aSafeDbl() {
 		return aSafeValue(Double.class).mapToDbl(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptChar aSafeChar() {
 		return aSafeValue(Character.class).mapToChar(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull OptBool aSafeBool() {
 		return aSafeValue(Boolean.class).mapToBool(v -> v);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<String> aSafeStr() {
 		return aSafeValue(String.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<BigInteger> aSafeBigInt() {
 		return aSafeValue(BigInteger.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<BigDecimal> aSafeBigDec() {
 		return aSafeValue(BigDecimal.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<LocalDateTime> aSafeDateTime() {
 		return aSafeValue(LocalDateTime.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<LocalDate> aSafeDate() {
 		return aSafeValue(LocalDate.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<LocalTime> aSafeTime() {
 		return aSafeValue(LocalTime.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<OffsetDateTime> aSafeOffsetDateTime() {
 		return aSafeValue(OffsetDateTime.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<OffsetTime> aSafeOffsetTime() {
 		return aSafeValue(OffsetTime.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<ZonedDateTime> aSafeZonedDateTime() {
 		return aSafeValue(ZonedDateTime.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<Temporal> aSafeTemporal() {
 		return aSafeValue(Temporal.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<Duration> aSafeDuration() {
 		return aSafeValue(Duration.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<Period> aSafePeriod() {
 		return aSafeValue(Period.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<Instant> aSafeInstant() {
 		return aSafeValue(Instant.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<MonthDay> aSafeMonthDay() {
 		return aSafeValue(MonthDay.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<DayOfWeek> aSafeDayOfWeek() {
 		return aSafeValue(DayOfWeek.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<Month> aSafeMonth() {
 		return aSafeValue(Month.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<Year> aSafeYear() {
 		return aSafeValue(Year.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<YearMonth> aSafeYearMonth() {
 		return aSafeValue(YearMonth.class);
 	}
 
+	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull Opt<byte[]> aSafeByteArr() {
 		return aSafeValue(byte[].class);
 	}
