@@ -42,6 +42,13 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	}
 
+	/**
+	 * Optional marker for a SUT/State of Unit Test objects.
+	 */
+	public static class Stage extends State {
+
+	}
+
 	public TestFlow(SUT sut, @Nonnull LConsumer<String> logger) {
 		super(sut, logger);
 	}
