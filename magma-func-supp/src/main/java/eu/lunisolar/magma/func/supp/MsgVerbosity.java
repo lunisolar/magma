@@ -28,6 +28,9 @@ import static java.lang.String.*;
  */
 public enum MsgVerbosity {
 
+	/** Nothing will be added to the message of failed check. */
+	ZERO(M, M, M, M, UM, UM, UM, UM, MUM, MUM, MUM, MUM),
+
 	MIN(MINf + C + M, MINf + C + M, MINf + C + M, MINf + C + M, MINf + C + UM, MINf + C + UM, MINf + C + UM, MINf + C + UM, MINf + C + MUM, MINf + C + MUM, MINf + C + MUM, MINf + C + MUM),
 
 	/** Only actual value (value under check) will be part of the message (others need to be explicitly included in custom part of the message) */
@@ -92,10 +95,10 @@ public enum MsgVerbosity {
 		public static final String ALL_3f = format("%%%d$s [%%%d$s=='%%s'](params: '%%s', '%%s')", TYPEi, NAMEi);
 		public static final String ALL_4f = format("%%%d$s [%%%d$s=='%%s'](params: '%%s', '%%s', '%%s')", TYPEi, NAMEi);
 
-		public static final String C = ":";
-		public static final String M = format(" %%%d$s", M1i);
-		public static final String UM = format(" %%%d$s", M2i);
-		public static final String MUM = format(" %%%d$s - %%%d$s", M1i, M2i);
+		public static final String C = ": ";
+		public static final String M = format("%%%d$s", M1i);
+		public static final String UM = format("%%%d$s", M2i);
+		public static final String MUM = format("%%%d$s - %%%d$s", M1i, M2i);
 	}
 
 	@Nonnull

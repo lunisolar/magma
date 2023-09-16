@@ -26,8 +26,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static eu.lunisolar.magma.func.supp.MsgVerbosity.ALL;
-import static eu.lunisolar.magma.func.supp.MsgVerbosity.MIN;
+import static eu.lunisolar.magma.func.supp.MsgVerbosity.*;
 import static eu.lunisolar.magma.func.supp.check.Checks.arg;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static java.util.Arrays.asList;
@@ -75,6 +74,8 @@ public class Check_Test {
                       "Check/attest [result1=='false']: >MyMsg<"),
                 case_(v -> attest(v, "result1").verbosity(MIN).must(Be::True, ">MyMsg<"), true, false, AssertionError.class,
                       "Check/attest [result1]: >MyMsg<"),
+                case_(v -> attest(v, "result1").verbosity(ZERO).must(Be::True, ">MyMsg<"), true, false, AssertionError.class,
+                      ">MyMsg<"),
                 case_(v -> attest(v).mustEx(Be::TrueEx), true, false, AssertionError.class,
                       "Check/attest [?=='false']: <false> must be true."),
 
