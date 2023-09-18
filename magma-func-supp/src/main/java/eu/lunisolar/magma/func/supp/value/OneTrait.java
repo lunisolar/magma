@@ -510,8 +510,8 @@ public interface OneTrait<T> {
 	// <editor-fold desc="or...">
 
 	default T orElse(@Nullable T defaultValue) {
-		Opt<T> o = (Opt) aValue(defaultValue.getClass());
-		return o.orElse(defaultValue);
+		var value = nullable();
+		return value == null ? defaultValue : value;
 	}
 
 	default T orElseObj(@Nullable T defaultValue) {
@@ -765,12 +765,13 @@ public interface OneTrait<T> {
 
 	// <editor-fold desc="orSafe...">
 
-	default T orSafeElse(@Nullable T defaultValue) {
+	default T orSafeElse(@Nonnull T defaultValue) {
+		Null.nonNullArg(defaultValue, "defaultValue");
 		Opt<T> o = (Opt) aSafeValue(defaultValue.getClass());
 		return o.orElse(defaultValue);
 	}
 
-	default T orSafeElseObj(@Nullable T defaultValue) {
+	default T orSafeElseObj(@Nonnull T defaultValue) {
 		return orSafeElse(defaultValue);
 	}
 
