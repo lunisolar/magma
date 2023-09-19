@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func;
 
+import eu.lunisolar.magma.basics.Null;
+import eu.lunisolar.magma.basics.exceptions.Handling;
+import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.basics.meta.aType;
 import eu.lunisolar.magma.basics.meta.aType.*;
 import eu.lunisolar.magma.basics.meta.functional.SequentialRead;
@@ -33,6 +36,8 @@ import eu.lunisolar.magma.func.predicate.*;
 import javax.annotation.Nonnull;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.*;
 
 import static eu.lunisolar.magma.func.consumer.LBiConsumer.biCons;
@@ -423,6 +428,46 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 	/** Sequential access to byte[] (Elements are boxed/unboxed) */
 	public static <I extends Iterator<Byte>, A extends a<Byte>> SA<byte[], I, A> byteArrayObj() {
 		return (SA) The.BYTE_ARRAY_OBJ;
+	}
+
+	public static <E, C> @Nonnull Iterator<E> toIterator(@Nonnull SequentialRead<C, ?, a<E>> sequentialRead, @Nonnull C container) {
+
+		Null.nonNullArg("sequentialRead", sequentialRead);
+		Null.nonNullArg("container", container);
+
+		Function<C, ?> adapter = sequentialRead.adapter();
+
+		Object iteratorArchetype = adapter.apply(container);
+
+		Iterator<E> iterator;
+
+		if (iteratorArchetype instanceof Iterator) {
+			iterator = (Iterator<E>) iteratorArchetype;
+		} else {
+			Function<Object, E> next;
+			Predicate<Object> test;
+
+			try {
+				next = sequentialRead.supplier();
+				test = sequentialRead.tester();
+			} catch (ClassCastException e) {
+				throw Handling.wrap(e, X::arg, "Argument [sequentialRead] is not compatible (e.g. supports only primitive types).");
+			}
+
+			iterator = new Iterator<E>() {
+				@Override
+				public boolean hasNext() {
+					return test.test(iteratorArchetype);
+				}
+
+				@Override
+				public E next() {
+					return next.apply(iteratorArchetype);
+				}
+			};
+		}
+
+		return iterator;
 	}
 
 }

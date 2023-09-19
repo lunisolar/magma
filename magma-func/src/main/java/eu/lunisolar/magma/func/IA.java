@@ -18,6 +18,9 @@
 
 package eu.lunisolar.magma.func;
 
+import eu.lunisolar.magma.basics.Null;
+import eu.lunisolar.magma.basics.exceptions.Handling;
+import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.basics.meta.aType;
 import eu.lunisolar.magma.basics.meta.aType.*;
 import eu.lunisolar.magma.basics.meta.functional.IndexedRead;
@@ -25,8 +28,10 @@ import eu.lunisolar.magma.basics.meta.functional.IndexedWrite;
 import eu.lunisolar.magma.basics.meta.functional.type.OiFunction;
 import eu.lunisolar.magma.basics.meta.functional.type.TieConsumer;
 import eu.lunisolar.magma.basics.meta.functional.type.TieFunction;
+import eu.lunisolar.magma.func.function.from.LOiFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -318,4 +323,35 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 
 	// </editor-fold>
 
+	public static <E, C> @Nonnull List<E> toList(@Nonnull IndexedRead<C, a<E>> indexedRead, @Nonnull C container) {
+		try {
+			LToIntFunction<C> size = indexedRead.sizeFunc();
+			LOiFunction<C, E> getter = indexedRead.getter();
+			return new IndexedReadWrapper<>(container, size, getter);
+		} catch (ClassCastException e) {
+			throw Handling.wrap(e, X::arg, "Argument [indexedRead] is not compatible (e.g. supports only primitive types).");
+		}
+	}
+
+	final class IndexedReadWrapper<C, E> extends AbstractList<E> implements RandomAccess {
+
+		private final C container;
+		private final LToIntFunction<C> size;
+		private final LOiFunction<C, E> getter;
+
+		private IndexedReadWrapper(C container, @Nonnull LToIntFunction<C> size, @Nonnull LOiFunction<C, E> getter) {
+			this.container = Null.nonNullArg(container, "container");
+			this.size = Null.nonNullArg(size, "size");
+			this.getter = Null.nonNullArg(getter, "getter");
+		}
+
+		@Override
+		public E get(int index) {
+			return (E) getter.apply(container, index);
+		}
+		@Override
+		public int size() {
+			return size.applyAsInt(container);
+		}
+	}
 }

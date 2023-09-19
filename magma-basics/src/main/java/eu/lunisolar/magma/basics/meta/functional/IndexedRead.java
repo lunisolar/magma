@@ -18,8 +18,18 @@
 
 package eu.lunisolar.magma.basics.meta.functional;
 
+import eu.lunisolar.magma.basics.exceptions.Handling;
+import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.basics.meta.aType;
+import eu.lunisolar.magma.basics.meta.aType.a;
 import eu.lunisolar.magma.basics.meta.functional.type.OiFunction;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
 
 @SuppressWarnings("unchecked")
 public interface IndexedRead<C, E extends aType> extends SizeMeasure<C, E> {
@@ -29,4 +39,7 @@ public interface IndexedRead<C, E extends aType> extends SizeMeasure<C, E> {
     default <F extends OiFunction<C, E>> F getter() {
         return (F) genericGetter();
     }
+
+
+
 }

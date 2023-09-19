@@ -68,6 +68,16 @@ public class JMH {
         return this;
     }
 
+    public JMH javaServerArgs() {
+        opt.jvmArgs(
+                "-server",
+                "-XX:+UseTLAB",
+                "-XX:+AggressiveOpts",
+                "-XX:+UseBiasedLocking"
+        );
+        return this;
+    }
+
     public JMH iterations(int warmupTimes, TimeValue warmupDuration, int measurementsTimes, TimeValue measurementsDurations) {
         opt.warmupIterations(warmupTimes)
            .warmupTime(warmupDuration)

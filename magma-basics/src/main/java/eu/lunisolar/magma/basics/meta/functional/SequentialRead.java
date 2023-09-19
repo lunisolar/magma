@@ -18,10 +18,18 @@
 
 package eu.lunisolar.magma.basics.meta.functional;
 
+import eu.lunisolar.magma.basics.Null;
+import eu.lunisolar.magma.basics.exceptions.Handling;
+import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.basics.meta.aType;
 import eu.lunisolar.magma.basics.meta.aType.a;
 import eu.lunisolar.magma.basics.meta.aType.aBool;
 import eu.lunisolar.magma.basics.meta.functional.type.OFunction;
+
+import javax.annotation.Nonnull;
+import java.util.Iterator;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  *
@@ -46,5 +54,5 @@ public interface SequentialRead<C, I, E extends aType> extends SizeMeasure<C, E>
     default <F extends OFunction<I, E>> F supplier() {
         return (F) genericSupplier();
     }
-    
+
 }
