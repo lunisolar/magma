@@ -145,6 +145,39 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		return value == null ? empty() : new Opt(value);
 	}
 
+	public static <T> Opt<T> notNull(@Nullable T value) {
+		Null.nonNullArg(value, "value");
+		return new Opt(value);
+	}
+
+	public static <T> Opt<T> notNull(@Nullable T value, ExMF<RuntimeException> factory, String msg) {
+		if (value == null) {
+			throw Handling.create(factory, msg);
+		}
+		return new Opt(value);
+	}
+
+	public static <T> Opt<T> notNull(@Nullable T value, ExMF<RuntimeException> factory, String msg, Object param1) {
+		if (value == null) {
+			throw Handling.create(factory, msg, param1);
+		}
+		return new Opt(value);
+	}
+
+	public static <T> Opt<T> notNull(@Nullable T value, ExMF<RuntimeException> factory, String msg, Object param1, Object param2) {
+		if (value == null) {
+			throw Handling.create(factory, msg, param1, param2);
+		}
+		return new Opt(value);
+	}
+
+	public static <T> Opt<T> notNull(@Nullable T value, ExMF<RuntimeException> factory, String msg, Object... params) {
+		if (value == null) {
+			throw Handling.create(factory, msg, params);
+		}
+		return new Opt(value);
+	}
+
 	public static <T> Opt<T> opt(@Nullable T value) {
 		return value == null ? empty() : new Opt(value);
 	}

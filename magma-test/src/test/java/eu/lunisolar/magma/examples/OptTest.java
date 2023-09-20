@@ -18,17 +18,43 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.supp.Be;
+import eu.lunisolar.magma.func.supp.Have;
 import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.opt.Opt;
 import org.testng.annotations.Test;
 
+import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.*;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
+import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
 @SuppressWarnings("unchecked")
-public class OptConditionsTest {
+public class OptTest {
+
+    @Test void notNull() {
+        attestThrownBy(()-> Opt.notNull(null))
+                .mustBeExactlyInstanceOf(NullPointerException.class)
+                .mustEx(Have::msgEqualEx, "Argument 'value' must not be null.");
+
+        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1"))
+                .mustBeExactlyInstanceOf(NoSuchElementException.class)
+                .mustEx(Have::msgEqualEx, "Message1");
+
+        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1 %s", "p1"))
+                .mustBeExactlyInstanceOf(NoSuchElementException.class)
+                .mustEx(Have::msgEqualEx, "Message1 p1");
+
+        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1 %s %s", "p1", "p2"))
+                .mustBeExactlyInstanceOf(NoSuchElementException.class)
+                .mustEx(Have::msgEqualEx, "Message1 p1 p2");
+
+        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1 %s - %s - %s", "p1", "p2", "p3"))
+                .mustBeExactlyInstanceOf(NoSuchElementException.class)
+                .mustEx(Have::msgEqualEx, "Message1 p1 - p2 - p3");
+    }
 
     @Test
     public void filterAndMap() {
