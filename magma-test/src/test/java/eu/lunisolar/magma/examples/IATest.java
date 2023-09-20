@@ -37,15 +37,18 @@ import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
 @SuppressWarnings({"unchecked", "rawtypes"}) public class IATest {
 
-    @Test void toIterator_array() {
+    @Test void toList_array() {
         var list = IA.toList(IA.array(), new Integer[]{1, 2, 3, 4});
         var target = list.stream().collect(Collectors.toList());
 
+        list.set(2, 33);
+
         attest(target).mustAEx(P::containExactlyEx, 1, 2, 3, 4);
+        attest(list).mustAEx(P::containExactlyEx, 1, 2, 33, 4);
     }
 
 
-    @Test void toIterator_intArray() {
+    @Test void toList_intArray() {
         attestThrownBy(() -> {
             IA.toList((IndexedRead) new IndexedRead<Object, aInt>(){
 

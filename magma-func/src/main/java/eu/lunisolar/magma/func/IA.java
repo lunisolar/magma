@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.functional.IndexedWrite;
 import eu.lunisolar.magma.basics.meta.functional.type.OiFunction;
 import eu.lunisolar.magma.basics.meta.functional.type.TieConsumer;
 import eu.lunisolar.magma.basics.meta.functional.type.TieFunction;
+import eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer;
 import eu.lunisolar.magma.func.function.from.LOiFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 
@@ -333,11 +334,22 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		}
 	}
 
-	final class IndexedReadWrapper<C, E> extends AbstractList<E> implements RandomAccess {
+	public static <E, C> @Nonnull List<E> toList(@Nonnull IA<C, a<E>> ia, @Nonnull C container) {
+		try {
+			LToIntFunction<C> size = ia.sizeFunc();
+			LOiFunction<C, E> getter = ia.getter();
+			LTieConsumer<C, E> setter = ia.setter();
+			return new IAWrapper<>(container, size, getter, setter);
+		} catch (ClassCastException e) {
+			throw Handling.wrap(e, X::arg, "Argument [indexedRead] is not compatible (e.g. supports only primitive types).");
+		}
+	}
 
-		private final C container;
-		private final LToIntFunction<C> size;
-		private final LOiFunction<C, E> getter;
+	class IndexedReadWrapper<C, E> extends AbstractList<E> implements RandomAccess {
+
+		protected final C container;
+		protected final LToIntFunction<C> size;
+		protected final LOiFunction<C, E> getter;
 
 		private IndexedReadWrapper(C container, @Nonnull LToIntFunction<C> size, @Nonnull LOiFunction<C, E> getter) {
 			this.container = Null.nonNullArg(container, "container");
@@ -352,6 +364,23 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		@Override
 		public int size() {
 			return size.applyAsInt(container);
+		}
+	}
+
+	class IAWrapper<C, E> extends IndexedReadWrapper<C, E> {
+
+		protected final LTieConsumer<C, E> setter;
+
+		private IAWrapper(C container, @Nonnull LToIntFunction<C> size, @Nonnull LOiFunction<C, E> getter, @Nonnull LTieConsumer<C, E> setter) {
+			super(container, size, getter);
+			this.setter = Null.nonNullArg(setter, "setter");
+		}
+
+		@Override
+		public E set(int index, E element) {
+			var oldElement = get(index);
+			setter.accept(container, index, element);
+			return oldElement;
 		}
 	}
 }
