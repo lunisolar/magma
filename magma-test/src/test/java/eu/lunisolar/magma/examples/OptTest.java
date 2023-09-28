@@ -25,9 +25,11 @@ import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.opt.Opt;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.*;
 
+import static eu.lunisolar.magma.asserts.TestFlow.test;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
@@ -35,23 +37,23 @@ import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 public class OptTest {
 
     @Test void notNull() {
-        attestThrownBy(()-> Opt.notNull(null))
+        attestThrownBy(() -> Opt.notNull(null))
                 .mustBeExactlyInstanceOf(NullPointerException.class)
                 .mustEx(Have::msgEqualEx, "Argument 'value' must not be null.");
 
-        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1"))
+        attestThrownBy(() -> Opt.notNull(null, X::noSuchElement, "Message1"))
                 .mustBeExactlyInstanceOf(NoSuchElementException.class)
                 .mustEx(Have::msgEqualEx, "Message1");
 
-        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1 %s", "p1"))
+        attestThrownBy(() -> Opt.notNull(null, X::noSuchElement, "Message1 %s", "p1"))
                 .mustBeExactlyInstanceOf(NoSuchElementException.class)
                 .mustEx(Have::msgEqualEx, "Message1 p1");
 
-        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1 %s %s", "p1", "p2"))
+        attestThrownBy(() -> Opt.notNull(null, X::noSuchElement, "Message1 %s %s", "p1", "p2"))
                 .mustBeExactlyInstanceOf(NoSuchElementException.class)
                 .mustEx(Have::msgEqualEx, "Message1 p1 p2");
 
-        attestThrownBy(()-> Opt.notNull(null, X::noSuchElement, "Message1 %s - %s - %s", "p1", "p2", "p3"))
+        attestThrownBy(() -> Opt.notNull(null, X::noSuchElement, "Message1 %s - %s - %s", "p1", "p2", "p3"))
                 .mustBeExactlyInstanceOf(NoSuchElementException.class)
                 .mustEx(Have::msgEqualEx, "Message1 p1 - p2 - p3");
     }
@@ -99,6 +101,37 @@ public class OptTest {
         });
 
         attest(result).mustEx(P.haveEx(AtomicReference::get, P::equalEx, "done"));
+    }
+
+    @Test
+    public void iterator_empty() {
+
+        Opt<Object> opt = Opt.obj(null);
+        attest(opt.iterator())
+                .check(Iterator::hasNext, hasNext -> hasNext.mustBeEqual(false));
+
+        attestThrownBy(() -> opt.iterator().next())
+                .mustBeExactlyInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    public void iterator_not_empty() {
+        test().given(new Object() {
+            Integer value = Integer.valueOf(45);
+            Opt<Integer> opt = Opt.obj(value);
+            Iterator<Integer> iterator = opt.iterator();
+            Integer next;
+        }).precondition(stage -> {
+            attest(stage.iterator).check(Iterator::hasNext, hasNext -> hasNext.mustBeEqual(true));
+        }).when(stage -> {
+            stage.next = stage.iterator.next();
+        }).when(stage -> {
+            attest(stage.next).mustBeSame(stage.value);
+        }).aftermath(stage -> {
+            attest(stage.iterator).check(Iterator::hasNext, hasNext -> hasNext.mustBeEqual(false));
+            attestThrownBy(() -> stage.iterator.next())
+                    .mustBeExactlyInstanceOf(NoSuchElementException.class);
+        });
     }
 
 }

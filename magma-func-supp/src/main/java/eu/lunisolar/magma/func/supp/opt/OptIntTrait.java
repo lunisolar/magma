@@ -963,4 +963,35 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		}
 	}
 
+	default @Nonnull PrimitiveIterator.OfInt iterator() {
+		if (isPresent()) {
+			final var value = this.get();
+			return new PrimitiveIterator.OfInt() {
+				private boolean spent = false;
+				@Override
+				public boolean hasNext() {
+					return !spent;
+				}
+				@Override
+				public int nextInt() {
+					if (spent)
+						throw X.noSuchElement();
+					spent = true;
+					return value;
+				}
+			};
+		} else {
+			return new PrimitiveIterator.OfInt() {
+				@Override
+				public boolean hasNext() {
+					return false;
+				}
+				@Override
+				public int nextInt() {
+					throw X.noSuchElement();
+				}
+			};
+		}
+	}
+
 }

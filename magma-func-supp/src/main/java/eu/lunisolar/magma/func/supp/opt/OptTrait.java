@@ -1681,4 +1681,35 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		}
 	}
 
+	default @Nonnull Iterator<T> iterator() {
+		if (isPresent()) {
+			final var value = this.get();
+			return new Iterator<T>() {
+				private boolean spent = false;
+				@Override
+				public boolean hasNext() {
+					return !spent;
+				}
+				@Override
+				public T next() {
+					if (spent)
+						throw X.noSuchElement();
+					spent = true;
+					return value;
+				}
+			};
+		} else {
+			return new Iterator<T>() {
+				@Override
+				public boolean hasNext() {
+					return false;
+				}
+				@Override
+				public T next() {
+					throw X.noSuchElement();
+				}
+			};
+		}
+	}
+
 }

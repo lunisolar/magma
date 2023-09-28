@@ -930,4 +930,35 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		}
 	}
 
+	default @Nonnull PrimitiveIterator.OfDouble iterator() {
+		if (isPresent()) {
+			final var value = this.get();
+			return new PrimitiveIterator.OfDouble() {
+				private boolean spent = false;
+				@Override
+				public boolean hasNext() {
+					return !spent;
+				}
+				@Override
+				public double nextDouble() {
+					if (spent)
+						throw X.noSuchElement();
+					spent = true;
+					return value;
+				}
+			};
+		} else {
+			return new PrimitiveIterator.OfDouble() {
+				@Override
+				public boolean hasNext() {
+					return false;
+				}
+				@Override
+				public double nextDouble() {
+					throw X.noSuchElement();
+				}
+			};
+		}
+	}
+
 }

@@ -930,4 +930,35 @@ public interface OptLongTrait<SELF extends OptLongTrait<SELF>> extends FluentTra
 		}
 	}
 
+	default @Nonnull PrimitiveIterator.OfLong iterator() {
+		if (isPresent()) {
+			final var value = this.get();
+			return new PrimitiveIterator.OfLong() {
+				private boolean spent = false;
+				@Override
+				public boolean hasNext() {
+					return !spent;
+				}
+				@Override
+				public long nextLong() {
+					if (spent)
+						throw X.noSuchElement();
+					spent = true;
+					return value;
+				}
+			};
+		} else {
+			return new PrimitiveIterator.OfLong() {
+				@Override
+				public boolean hasNext() {
+					return false;
+				}
+				@Override
+				public long nextLong() {
+					throw X.noSuchElement();
+				}
+			};
+		}
+	}
+
 }
