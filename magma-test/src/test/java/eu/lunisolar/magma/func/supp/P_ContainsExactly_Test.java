@@ -53,8 +53,7 @@ public class P_ContainsExactly_Test {
 
         var array = new Integer[]{1, 2, 3};
 
-        attest(Has.lengthEx(array, 5)).mustEx(Be::equalEx, "Array <[1, 2, 3]> must be of size 5.");
-        attest(Is.ofLengthEx(array, 5)).mustEx(Be::equalEx, "Array <[1, 2, 3]> must be of size 5.");
+        attest(Has.lengthEx(array, 5)).mustEx(Be::equalEx, "Array <[1, 2, 3]> must be of size 5 (actual: 3).");
 
         attest(P.containExactlyEx(asList(array), 5, 6, 7)).mustEx(Be::equalEx, "Collection <[1, 2, 3]> must contain exactly elements in order: <[5, 6, 7]>.");
 

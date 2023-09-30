@@ -70,16 +70,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.same(n, other);
 	}
 
-	/** "Special" predicate: Object <%s> must be the same as <%s>. */
+	/** "Special" predicate: Object <%s> must be the same as <%s>.*/
 	public static <MP1, MP2> @Nullable String sameEx(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.sameEx(n, other);
 	}
-	/** Predicate: Object <%s> must NOT be the same as <%s>..*/
+	/** Predicate: Object <%s> must NOT be the same as <%s>.*/
 	public static <MP1, MP2> boolean notSame(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notSame(n, other);
 	}
 
-	/** "Special" predicate: Object <%s> must NOT be the same as <%s>. */
+	/** "Special" predicate: Object <%s> must NOT be the same as <%s>.*/
 	public static <MP1, MP2> @Nullable String notSameEx(@Nullable Object n, @Nullable Object other, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notSameEx(n, other);
 	}
@@ -89,68 +89,45 @@ public class P2 implements FluentSyntax {
 		return Predicates.Null(n);
 	}
 
-	/** "Special" predicate: Reference must be null, currently is pointing to <%s>. */
+	/** "Special" predicate: Reference must be null, currently is pointing to <%s>.*/
 	public static <MP1, MP2> @Nullable String NullEx(@Nullable Object n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.NullEx(n);
 	}
-	/** Predicate: Reference must NOT be null, currently is pointing to <%s>..*/
+	/** Predicate: Reference must NOT be null, currently is pointing to <%s>.*/
 	public static <MP1, MP2> boolean notNull(@Nullable Object n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNull(n);
 	}
 
-	/** "Special" predicate: Reference must NOT be null, currently is pointing to <%s>. */
+	/** "Special" predicate: Reference must NOT be null, currently is pointing to <%s>.*/
 	public static <MP1, MP2> @Nullable String notNullEx(@Nullable Object n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullEx(n);
 	}
 
 	// </editor-fold>
 
-	// <editor-fold desc="`String`">
+	// <editor-fold desc="'String'">
 
-	/** Predicate: String <'%s'> must be <%d> characters long.*/
+	/** Predicate: String <%s> must be %d characters long (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(s, "s");
 		return Predicates.length(s, size);
 	}
 
-	/** "Special" predicate: String <'%s'> must be <%d> characters long. */
+	/** "Special" predicate: String <%s> must be %d characters long (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(s, "s");
 		return Predicates.lengthEx(s, size);
 	}
-	/** Predicate: String <'%s'> must NOT be <%d> characters long..*/
-	public static <MP1, MP2> boolean notLength(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	/** Predicate: String <%s> must NOT be %d characters long (actual: %d).*/
+	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(s, "s");
-		return Predicates.notLength(s, size);
+		return Predicates.lengthOtherThan(s, size);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. */
-	public static <MP1, MP2> @Nullable String notLengthEx(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	/** "Special" predicate: String <%s> must NOT be %d characters long (actual: %d).*/
+	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(s, "s");
-		return Predicates.notLengthEx(s, size);
-	}
-
-	/** Predicate: String <'%s'> must be <%d> characters long.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(s, "s");
-		return Predicates.ofLength(s, size);
-	}
-
-	/** "Special" predicate: String <'%s'> must be <%d> characters long. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(s, "s");
-		return Predicates.ofLengthEx(s, size);
-	}
-	/** Predicate: String <'%s'> must NOT be <%d> characters long..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(s, "s");
-		return Predicates.notOfLength(s, size);
-	}
-
-	/** "Special" predicate: String <'%s'> must NOT be <%d> characters long. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull CharSequence s, int size, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(s, "s");
-		return Predicates.notOfLengthEx(s, size);
+		return Predicates.lengthOtherThanEx(s, size);
 	}
 
 	/** Predicate: String <'%s'> must start with <'%s'>.*/
@@ -160,20 +137,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.startWith(n, a1);
 	}
 
-	/** "Special" predicate: String <'%s'> must start with <'%s'>. */
+	/** "Special" predicate: String <'%s'> must start with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String startWithEx(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.startWithEx(n, a1);
 	}
-	/** Predicate: String <'%s'> must NOT start with <'%s'>..*/
+	/** Predicate: String <'%s'> must NOT start with <'%s'>.*/
 	public static <MP1, MP2> boolean notStartWith(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.notStartWith(n, a1);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT start with <'%s'>. */
+	/** "Special" predicate: String <'%s'> must NOT start with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String notStartWithEx(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
@@ -187,20 +164,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.endWith(n, a1);
 	}
 
-	/** "Special" predicate: String <'%s'> must end with <'%s'>. */
+	/** "Special" predicate: String <'%s'> must end with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String endWithEx(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.endWithEx(n, a1);
 	}
-	/** Predicate: String <'%s'> must NOT end with <'%s'>..*/
+	/** Predicate: String <'%s'> must NOT end with <'%s'>.*/
 	public static <MP1, MP2> boolean notEndWith(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.notEndWith(n, a1);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT end with <'%s'>. */
+	/** "Special" predicate: String <'%s'> must NOT end with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String notEndWithEx(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
@@ -214,106 +191,106 @@ public class P2 implements FluentSyntax {
 		return Predicates.contain(n, a1);
 	}
 
-	/** "Special" predicate: String <'%s'> must contain string <'%s'>. But does not. */
+	/** "Special" predicate: String <'%s'> must contain string <'%s'>. But does not.*/
 	public static <MP1, MP2> @Nullable String containEx(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.containEx(n, a1);
 	}
-	/** Predicate: String <'%s'> must NOT contain string <'%s'>. But does not..*/
+	/** Predicate: String <'%s'> must NOT contain string <'%s'>. But does not.*/
 	public static <MP1, MP2> boolean notContain(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.notContain(n, a1);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT contain string <'%s'>. But does not. */
+	/** "Special" predicate: String <'%s'> must NOT contain string <'%s'>. But does not.*/
 	public static <MP1, MP2> @Nullable String notContainEx(@Nonnull String n, @Nonnull String a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.notContainEx(n, a1);
 	}
 
-	/** Predicate: String <'%s'> must be empty.*/
+	/** Predicate: String <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.empty(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must be empty. */
+	/** "Special" predicate: String <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.emptyEx(n);
 	}
-	/** Predicate: String <'%s'> must NOT be empty..*/
+	/** Predicate: String <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.notEmpty(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be empty. */
+	/** "Special" predicate: String <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.notEmptyEx(n);
 	}
 
-	/** Predicate: String <'%s'> must be blank (empty or consisting of only white characters).*/
+	/** Predicate: String <%s> must be blank (empty or consisting of only white characters; actual: %d).*/
 	public static <MP1, MP2> boolean blank(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.blank(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must be blank (empty or consisting of only white characters). */
+	/** "Special" predicate: String <%s> must be blank (empty or consisting of only white characters; actual: %d).*/
 	public static <MP1, MP2> @Nullable String blankEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.blankEx(n);
 	}
-	/** Predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters)..*/
+	/** Predicate: String <%s> must NOT be blank (empty or consisting of only white characters; actual: %d).*/
 	public static <MP1, MP2> boolean notBlank(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.notBlank(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be blank (empty or consisting of only white characters). */
+	/** "Special" predicate: String <%s> must NOT be blank (empty or consisting of only white characters; actual: %d).*/
 	public static <MP1, MP2> @Nullable String notBlankEx(@Nonnull String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(n, "n");
 		return Predicates.notBlankEx(n);
 	}
 
-	/** Predicate: String <'%s'> must be null or empty.*/
+	/** Predicate: String <%s> must be null or empty (actual: %d).*/
 	public static <MP1, MP2> boolean nullOrEmpty(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must be null or empty. */
+	/** "Special" predicate: String <%s> must be null or empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(n);
 	}
-	/** Predicate: String <'%s'> must NOT be null or empty..*/
+	/** Predicate: String <%s> must NOT be null or empty (actual: %d).*/
 	public static <MP1, MP2> boolean notNullNorEmpty(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmpty(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be null or empty. */
+	/** "Special" predicate: String <%s> must NOT be null or empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notNullNorEmptyEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmptyEx(n);
 	}
 
-	/** Predicate: String <'%s'> must be null or blank.*/
+	/** Predicate: String <%s> must be null or blank (actual %d).*/
 	public static <MP1, MP2> boolean nullOrBlank(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrBlank(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must be null or blank. */
+	/** "Special" predicate: String <%s> must be null or blank (actual %d).*/
 	public static <MP1, MP2> @Nullable String nullOrBlankEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrBlankEx(n);
 	}
-	/** Predicate: String <'%s'> must NOT be null or blank..*/
+	/** Predicate: String <%s> must NOT be null or blank (actual %d).*/
 	public static <MP1, MP2> boolean notNullNorBlank(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorBlank(n);
 	}
 
-	/** "Special" predicate: String <'%s'> must NOT be null or blank. */
+	/** "Special" predicate: String <%s> must NOT be null or blank (actual %d).*/
 	public static <MP1, MP2> @Nullable String notNullNorBlankEx(String n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorBlankEx(n);
 	}
@@ -327,7 +304,7 @@ public class P2 implements FluentSyntax {
 		return Predicates.and(op1, op2);
 	}
 
-	/** "Special" predicate: AND */
+	/** "Special" predicate: AND*/
 	public static <MP1, MP2> @Nullable String andEx(boolean op1, boolean op2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.andEx(op1, op2);
 	}
@@ -337,7 +314,7 @@ public class P2 implements FluentSyntax {
 		return Predicates.or(op1, op2);
 	}
 
-	/** "Special" predicate: OR */
+	/** "Special" predicate: OR*/
 	public static <MP1, MP2> @Nullable String orEx(boolean op1, boolean op2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.orEx(op1, op2);
 	}
@@ -347,7 +324,7 @@ public class P2 implements FluentSyntax {
 		return Predicates.xor(op1, op2);
 	}
 
-	/** "Special" predicate: XOR */
+	/** "Special" predicate: XOR*/
 	public static <MP1, MP2> @Nullable String xorEx(boolean op1, boolean op2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.xorEx(op1, op2);
 	}
@@ -361,16 +338,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(o1, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(o1, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqual(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(o1, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(o1, o2);
 	}
@@ -380,16 +357,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.objEqual(o1, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String objEqualEx(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.objEqualEx(o1, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean objNotEqual(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.objNotEqual(o1, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String objNotEqualEx(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.objNotEqualEx(o1, o2);
 	}
@@ -399,16 +376,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(byte n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(byte n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(byte n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -418,16 +395,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -437,16 +414,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be > %s. */
+	/** "Special" predicate: %s must be > %s.*/
 	public static <MP1, MP2> @Nullable String gtEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEx(n, a1);
 	}
-	/** Predicate: %s must NOT be > %s..*/
+	/** Predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> boolean notGt(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be > %s. */
+	/** "Special" predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> @Nullable String notGtEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEx(n, a1);
 	}
@@ -456,16 +433,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.lt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be < %s. */
+	/** "Special" predicate: %s must be < %s.*/
 	public static <MP1, MP2> @Nullable String ltEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEx(n, a1);
 	}
-	/** Predicate: %s must NOT be < %s..*/
+	/** Predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> boolean notLt(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be < %s. */
+	/** "Special" predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> @Nullable String notLtEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEx(n, a1);
 	}
@@ -475,16 +452,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be >= %s. */
+	/** "Special" predicate: %s must be >= %s.*/
 	public static <MP1, MP2> @Nullable String gtEqEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be >= %s..*/
+	/** Predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> boolean notGtEq(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be >= %s. */
+	/** "Special" predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> @Nullable String notGtEqEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEqEx(n, a1);
 	}
@@ -494,16 +471,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.ltEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be <= %s. */
+	/** "Special" predicate: %s must be <= %s.*/
 	public static <MP1, MP2> @Nullable String ltEqEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be <= %s..*/
+	/** Predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> boolean notLtEq(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be <= %s. */
+	/** "Special" predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> @Nullable String notLtEqEx(byte n, byte a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEqEx(n, a1);
 	}
@@ -513,16 +490,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonNegative(n);
 	}
 
-	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
+	/** "Special" predicate: %s must be >= 0 (must be non-negative).*/
 	public static <MP1, MP2> @Nullable String nonNegativeEx(byte n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonNegativeEx(n);
 	}
-	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
+	/** Predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> boolean negative(byte n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negative(n);
 	}
 
-	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
+	/** "Special" predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> @Nullable String negativeEx(byte n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negativeEx(n);
 	}
@@ -532,16 +509,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonPositive(n);
 	}
 
-	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
+	/** "Special" predicate: %s must be <= 0 (must be non-positive).*/
 	public static <MP1, MP2> @Nullable String nonPositiveEx(byte n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonPositiveEx(n);
 	}
-	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
+	/** Predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> boolean positive(byte n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positive(n);
 	}
 
-	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
+	/** "Special" predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> @Nullable String positiveEx(byte n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positiveEx(n);
 	}
@@ -551,16 +528,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(short n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(short n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(short n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -570,16 +547,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -589,16 +566,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be > %s. */
+	/** "Special" predicate: %s must be > %s.*/
 	public static <MP1, MP2> @Nullable String gtEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEx(n, a1);
 	}
-	/** Predicate: %s must NOT be > %s..*/
+	/** Predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> boolean notGt(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be > %s. */
+	/** "Special" predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> @Nullable String notGtEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEx(n, a1);
 	}
@@ -608,16 +585,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.lt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be < %s. */
+	/** "Special" predicate: %s must be < %s.*/
 	public static <MP1, MP2> @Nullable String ltEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEx(n, a1);
 	}
-	/** Predicate: %s must NOT be < %s..*/
+	/** Predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> boolean notLt(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be < %s. */
+	/** "Special" predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> @Nullable String notLtEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEx(n, a1);
 	}
@@ -627,16 +604,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be >= %s. */
+	/** "Special" predicate: %s must be >= %s.*/
 	public static <MP1, MP2> @Nullable String gtEqEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be >= %s..*/
+	/** Predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> boolean notGtEq(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be >= %s. */
+	/** "Special" predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> @Nullable String notGtEqEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEqEx(n, a1);
 	}
@@ -646,16 +623,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.ltEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be <= %s. */
+	/** "Special" predicate: %s must be <= %s.*/
 	public static <MP1, MP2> @Nullable String ltEqEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be <= %s..*/
+	/** Predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> boolean notLtEq(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be <= %s. */
+	/** "Special" predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> @Nullable String notLtEqEx(short n, short a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEqEx(n, a1);
 	}
@@ -665,16 +642,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonNegative(n);
 	}
 
-	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
+	/** "Special" predicate: %s must be >= 0 (must be non-negative).*/
 	public static <MP1, MP2> @Nullable String nonNegativeEx(short n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonNegativeEx(n);
 	}
-	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
+	/** Predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> boolean negative(short n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negative(n);
 	}
 
-	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
+	/** "Special" predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> @Nullable String negativeEx(short n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negativeEx(n);
 	}
@@ -684,16 +661,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonPositive(n);
 	}
 
-	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
+	/** "Special" predicate: %s must be <= 0 (must be non-positive).*/
 	public static <MP1, MP2> @Nullable String nonPositiveEx(short n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonPositiveEx(n);
 	}
-	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
+	/** Predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> boolean positive(short n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positive(n);
 	}
 
-	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
+	/** "Special" predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> @Nullable String positiveEx(short n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positiveEx(n);
 	}
@@ -703,16 +680,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(int n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(int n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(int n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -722,16 +699,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -741,16 +718,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be > %s. */
+	/** "Special" predicate: %s must be > %s.*/
 	public static <MP1, MP2> @Nullable String gtEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEx(n, a1);
 	}
-	/** Predicate: %s must NOT be > %s..*/
+	/** Predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> boolean notGt(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be > %s. */
+	/** "Special" predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> @Nullable String notGtEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEx(n, a1);
 	}
@@ -760,16 +737,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.lt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be < %s. */
+	/** "Special" predicate: %s must be < %s.*/
 	public static <MP1, MP2> @Nullable String ltEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEx(n, a1);
 	}
-	/** Predicate: %s must NOT be < %s..*/
+	/** Predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> boolean notLt(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be < %s. */
+	/** "Special" predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> @Nullable String notLtEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEx(n, a1);
 	}
@@ -779,16 +756,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be >= %s. */
+	/** "Special" predicate: %s must be >= %s.*/
 	public static <MP1, MP2> @Nullable String gtEqEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be >= %s..*/
+	/** Predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> boolean notGtEq(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be >= %s. */
+	/** "Special" predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> @Nullable String notGtEqEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEqEx(n, a1);
 	}
@@ -798,16 +775,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.ltEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be <= %s. */
+	/** "Special" predicate: %s must be <= %s.*/
 	public static <MP1, MP2> @Nullable String ltEqEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be <= %s..*/
+	/** Predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> boolean notLtEq(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be <= %s. */
+	/** "Special" predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> @Nullable String notLtEqEx(int n, int a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEqEx(n, a1);
 	}
@@ -817,16 +794,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonNegative(n);
 	}
 
-	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
+	/** "Special" predicate: %s must be >= 0 (must be non-negative).*/
 	public static <MP1, MP2> @Nullable String nonNegativeEx(int n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonNegativeEx(n);
 	}
-	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
+	/** Predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> boolean negative(int n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negative(n);
 	}
 
-	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
+	/** "Special" predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> @Nullable String negativeEx(int n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negativeEx(n);
 	}
@@ -836,16 +813,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonPositive(n);
 	}
 
-	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
+	/** "Special" predicate: %s must be <= 0 (must be non-positive).*/
 	public static <MP1, MP2> @Nullable String nonPositiveEx(int n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonPositiveEx(n);
 	}
-	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
+	/** Predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> boolean positive(int n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positive(n);
 	}
 
-	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
+	/** "Special" predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> @Nullable String positiveEx(int n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positiveEx(n);
 	}
@@ -855,16 +832,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(long n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(long n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(long n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -874,16 +851,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -893,16 +870,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be > %s. */
+	/** "Special" predicate: %s must be > %s.*/
 	public static <MP1, MP2> @Nullable String gtEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEx(n, a1);
 	}
-	/** Predicate: %s must NOT be > %s..*/
+	/** Predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> boolean notGt(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be > %s. */
+	/** "Special" predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> @Nullable String notGtEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEx(n, a1);
 	}
@@ -912,16 +889,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.lt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be < %s. */
+	/** "Special" predicate: %s must be < %s.*/
 	public static <MP1, MP2> @Nullable String ltEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEx(n, a1);
 	}
-	/** Predicate: %s must NOT be < %s..*/
+	/** Predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> boolean notLt(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be < %s. */
+	/** "Special" predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> @Nullable String notLtEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEx(n, a1);
 	}
@@ -931,16 +908,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be >= %s. */
+	/** "Special" predicate: %s must be >= %s.*/
 	public static <MP1, MP2> @Nullable String gtEqEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be >= %s..*/
+	/** Predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> boolean notGtEq(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be >= %s. */
+	/** "Special" predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> @Nullable String notGtEqEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEqEx(n, a1);
 	}
@@ -950,16 +927,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.ltEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be <= %s. */
+	/** "Special" predicate: %s must be <= %s.*/
 	public static <MP1, MP2> @Nullable String ltEqEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be <= %s..*/
+	/** Predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> boolean notLtEq(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be <= %s. */
+	/** "Special" predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> @Nullable String notLtEqEx(long n, long a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEqEx(n, a1);
 	}
@@ -969,16 +946,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonNegative(n);
 	}
 
-	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
+	/** "Special" predicate: %s must be >= 0 (must be non-negative).*/
 	public static <MP1, MP2> @Nullable String nonNegativeEx(long n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonNegativeEx(n);
 	}
-	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
+	/** Predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> boolean negative(long n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negative(n);
 	}
 
-	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
+	/** "Special" predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> @Nullable String negativeEx(long n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negativeEx(n);
 	}
@@ -988,16 +965,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonPositive(n);
 	}
 
-	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
+	/** "Special" predicate: %s must be <= 0 (must be non-positive).*/
 	public static <MP1, MP2> @Nullable String nonPositiveEx(long n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonPositiveEx(n);
 	}
-	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
+	/** Predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> boolean positive(long n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positive(n);
 	}
 
-	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
+	/** "Special" predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> @Nullable String positiveEx(long n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positiveEx(n);
 	}
@@ -1007,16 +984,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(float n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(float n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(float n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -1026,16 +1003,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -1045,16 +1022,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be > %s. */
+	/** "Special" predicate: %s must be > %s.*/
 	public static <MP1, MP2> @Nullable String gtEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEx(n, a1);
 	}
-	/** Predicate: %s must NOT be > %s..*/
+	/** Predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> boolean notGt(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be > %s. */
+	/** "Special" predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> @Nullable String notGtEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEx(n, a1);
 	}
@@ -1064,16 +1041,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.lt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be < %s. */
+	/** "Special" predicate: %s must be < %s.*/
 	public static <MP1, MP2> @Nullable String ltEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEx(n, a1);
 	}
-	/** Predicate: %s must NOT be < %s..*/
+	/** Predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> boolean notLt(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be < %s. */
+	/** "Special" predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> @Nullable String notLtEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEx(n, a1);
 	}
@@ -1083,16 +1060,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be >= %s. */
+	/** "Special" predicate: %s must be >= %s.*/
 	public static <MP1, MP2> @Nullable String gtEqEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be >= %s..*/
+	/** Predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> boolean notGtEq(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be >= %s. */
+	/** "Special" predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> @Nullable String notGtEqEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEqEx(n, a1);
 	}
@@ -1102,16 +1079,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.ltEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be <= %s. */
+	/** "Special" predicate: %s must be <= %s.*/
 	public static <MP1, MP2> @Nullable String ltEqEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be <= %s..*/
+	/** Predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> boolean notLtEq(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be <= %s. */
+	/** "Special" predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> @Nullable String notLtEqEx(float n, float a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEqEx(n, a1);
 	}
@@ -1121,16 +1098,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonNegative(n);
 	}
 
-	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
+	/** "Special" predicate: %s must be >= 0 (must be non-negative).*/
 	public static <MP1, MP2> @Nullable String nonNegativeEx(float n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonNegativeEx(n);
 	}
-	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
+	/** Predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> boolean negative(float n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negative(n);
 	}
 
-	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
+	/** "Special" predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> @Nullable String negativeEx(float n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negativeEx(n);
 	}
@@ -1140,16 +1117,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonPositive(n);
 	}
 
-	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
+	/** "Special" predicate: %s must be <= 0 (must be non-positive).*/
 	public static <MP1, MP2> @Nullable String nonPositiveEx(float n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonPositiveEx(n);
 	}
-	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
+	/** Predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> boolean positive(float n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positive(n);
 	}
 
-	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
+	/** "Special" predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> @Nullable String positiveEx(float n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positiveEx(n);
 	}
@@ -1159,16 +1136,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(double n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(double n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(double n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -1178,16 +1155,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -1197,16 +1174,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be > %s. */
+	/** "Special" predicate: %s must be > %s.*/
 	public static <MP1, MP2> @Nullable String gtEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEx(n, a1);
 	}
-	/** Predicate: %s must NOT be > %s..*/
+	/** Predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> boolean notGt(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be > %s. */
+	/** "Special" predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> @Nullable String notGtEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEx(n, a1);
 	}
@@ -1216,16 +1193,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.lt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be < %s. */
+	/** "Special" predicate: %s must be < %s.*/
 	public static <MP1, MP2> @Nullable String ltEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEx(n, a1);
 	}
-	/** Predicate: %s must NOT be < %s..*/
+	/** Predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> boolean notLt(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be < %s. */
+	/** "Special" predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> @Nullable String notLtEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEx(n, a1);
 	}
@@ -1235,16 +1212,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be >= %s. */
+	/** "Special" predicate: %s must be >= %s.*/
 	public static <MP1, MP2> @Nullable String gtEqEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be >= %s..*/
+	/** Predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> boolean notGtEq(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be >= %s. */
+	/** "Special" predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> @Nullable String notGtEqEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEqEx(n, a1);
 	}
@@ -1254,16 +1231,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.ltEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be <= %s. */
+	/** "Special" predicate: %s must be <= %s.*/
 	public static <MP1, MP2> @Nullable String ltEqEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be <= %s..*/
+	/** Predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> boolean notLtEq(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be <= %s. */
+	/** "Special" predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> @Nullable String notLtEqEx(double n, double a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEqEx(n, a1);
 	}
@@ -1273,16 +1250,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonNegative(n);
 	}
 
-	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
+	/** "Special" predicate: %s must be >= 0 (must be non-negative).*/
 	public static <MP1, MP2> @Nullable String nonNegativeEx(double n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonNegativeEx(n);
 	}
-	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
+	/** Predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> boolean negative(double n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negative(n);
 	}
 
-	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
+	/** "Special" predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> @Nullable String negativeEx(double n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negativeEx(n);
 	}
@@ -1292,16 +1269,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonPositive(n);
 	}
 
-	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
+	/** "Special" predicate: %s must be <= 0 (must be non-positive).*/
 	public static <MP1, MP2> @Nullable String nonPositiveEx(double n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonPositiveEx(n);
 	}
-	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
+	/** Predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> boolean positive(double n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positive(n);
 	}
 
-	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
+	/** "Special" predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> @Nullable String positiveEx(double n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positiveEx(n);
 	}
@@ -1311,16 +1288,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(char n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(char n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(char n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -1330,16 +1307,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -1349,16 +1326,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be > %s. */
+	/** "Special" predicate: %s must be > %s.*/
 	public static <MP1, MP2> @Nullable String gtEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEx(n, a1);
 	}
-	/** Predicate: %s must NOT be > %s..*/
+	/** Predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> boolean notGt(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be > %s. */
+	/** "Special" predicate: %s must NOT be > %s.*/
 	public static <MP1, MP2> @Nullable String notGtEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEx(n, a1);
 	}
@@ -1368,16 +1345,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.lt(n, a1);
 	}
 
-	/** "Special" predicate: %s must be < %s. */
+	/** "Special" predicate: %s must be < %s.*/
 	public static <MP1, MP2> @Nullable String ltEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEx(n, a1);
 	}
-	/** Predicate: %s must NOT be < %s..*/
+	/** Predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> boolean notLt(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLt(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be < %s. */
+	/** "Special" predicate: %s must NOT be < %s.*/
 	public static <MP1, MP2> @Nullable String notLtEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEx(n, a1);
 	}
@@ -1387,16 +1364,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.gtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be >= %s. */
+	/** "Special" predicate: %s must be >= %s.*/
 	public static <MP1, MP2> @Nullable String gtEqEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.gtEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be >= %s..*/
+	/** Predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> boolean notGtEq(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be >= %s. */
+	/** "Special" predicate: %s must NOT be >= %s.*/
 	public static <MP1, MP2> @Nullable String notGtEqEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notGtEqEx(n, a1);
 	}
@@ -1406,16 +1383,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.ltEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must be <= %s. */
+	/** "Special" predicate: %s must be <= %s.*/
 	public static <MP1, MP2> @Nullable String ltEqEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.ltEqEx(n, a1);
 	}
-	/** Predicate: %s must NOT be <= %s..*/
+	/** Predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> boolean notLtEq(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEq(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be <= %s. */
+	/** "Special" predicate: %s must NOT be <= %s.*/
 	public static <MP1, MP2> @Nullable String notLtEqEx(char n, char a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notLtEqEx(n, a1);
 	}
@@ -1425,16 +1402,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonNegative(n);
 	}
 
-	/** "Special" predicate: %s must be >= 0 (must be non-negative). */
+	/** "Special" predicate: %s must be >= 0 (must be non-negative).*/
 	public static <MP1, MP2> @Nullable String nonNegativeEx(char n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonNegativeEx(n);
 	}
-	/** Predicate: %s must NOT be >= 0 (must be negative)..*/
+	/** Predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> boolean negative(char n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negative(n);
 	}
 
-	/** "Special" predicate: %s must NOT be >= 0 (must be negative). */
+	/** "Special" predicate: %s must NOT be >= 0 (must be negative).*/
 	public static <MP1, MP2> @Nullable String negativeEx(char n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.negativeEx(n);
 	}
@@ -1444,16 +1421,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.nonPositive(n);
 	}
 
-	/** "Special" predicate: %s must be <= 0 (must be non-positive). */
+	/** "Special" predicate: %s must be <= 0 (must be non-positive).*/
 	public static <MP1, MP2> @Nullable String nonPositiveEx(char n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nonPositiveEx(n);
 	}
-	/** Predicate: %s must NOT be <= 0 (must be positive)..*/
+	/** Predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> boolean positive(char n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positive(n);
 	}
 
-	/** "Special" predicate: %s must NOT be <= 0 (must be positive). */
+	/** "Special" predicate: %s must NOT be <= 0 (must be positive).*/
 	public static <MP1, MP2> @Nullable String positiveEx(char n, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.positiveEx(n);
 	}
@@ -1463,16 +1440,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equalToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s>. */
+	/** "Special" predicate: <%s> must be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String equalToObjEx(boolean n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalToObjEx(n, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s>..*/
+	/** Predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> boolean notEqualToObj(boolean n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObj(n, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT be equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualToObjEx(boolean n, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualToObjEx(n, o2);
 	}
@@ -1482,16 +1459,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(n, a1);
 	}
 
-	/** "Special" predicate: %s must be equal to %s. */
+	/** "Special" predicate: %s must be equal to %s.*/
 	public static <MP1, MP2> @Nullable String equalEx(boolean n, boolean a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(n, a1);
 	}
-	/** Predicate: %s must NOT be equal to %s..*/
+	/** Predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> boolean notEqual(boolean n, boolean a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(n, a1);
 	}
 
-	/** "Special" predicate: %s must NOT be equal to %s. */
+	/** "Special" predicate: %s must NOT be equal to %s.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(boolean n, boolean a1, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(n, a1);
 	}
@@ -1501,16 +1478,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.between(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String betweenEx(byte n, byte a1, byte a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.betweenEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> boolean notBetween(byte n, byte a1, byte a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetween(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String notBetweenEx(byte n, byte a1, byte a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetweenEx(n, a1, a2);
 	}
@@ -1520,16 +1497,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.inRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String inRangeEx(byte n, byte a1, byte a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.inRangeEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> boolean notInRange(byte n, byte a1, byte a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String notInRangeEx(byte n, byte a1, byte a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRangeEx(n, a1, a2);
 	}
@@ -1539,16 +1516,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.between(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String betweenEx(short n, short a1, short a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.betweenEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> boolean notBetween(short n, short a1, short a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetween(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String notBetweenEx(short n, short a1, short a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetweenEx(n, a1, a2);
 	}
@@ -1558,16 +1535,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.inRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String inRangeEx(short n, short a1, short a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.inRangeEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> boolean notInRange(short n, short a1, short a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String notInRangeEx(short n, short a1, short a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRangeEx(n, a1, a2);
 	}
@@ -1577,16 +1554,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.between(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String betweenEx(int n, int a1, int a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.betweenEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> boolean notBetween(int n, int a1, int a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetween(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String notBetweenEx(int n, int a1, int a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetweenEx(n, a1, a2);
 	}
@@ -1596,16 +1573,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.inRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String inRangeEx(int n, int a1, int a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.inRangeEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> boolean notInRange(int n, int a1, int a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String notInRangeEx(int n, int a1, int a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRangeEx(n, a1, a2);
 	}
@@ -1615,16 +1592,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.between(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String betweenEx(long n, long a1, long a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.betweenEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> boolean notBetween(long n, long a1, long a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetween(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String notBetweenEx(long n, long a1, long a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetweenEx(n, a1, a2);
 	}
@@ -1634,16 +1611,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.inRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String inRangeEx(long n, long a1, long a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.inRangeEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> boolean notInRange(long n, long a1, long a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String notInRangeEx(long n, long a1, long a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRangeEx(n, a1, a2);
 	}
@@ -1653,16 +1630,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.between(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String betweenEx(float n, float a1, float a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.betweenEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> boolean notBetween(float n, float a1, float a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetween(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String notBetweenEx(float n, float a1, float a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetweenEx(n, a1, a2);
 	}
@@ -1672,16 +1649,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.inRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String inRangeEx(float n, float a1, float a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.inRangeEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> boolean notInRange(float n, float a1, float a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String notInRangeEx(float n, float a1, float a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRangeEx(n, a1, a2);
 	}
@@ -1691,16 +1668,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.between(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String betweenEx(double n, double a1, double a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.betweenEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> boolean notBetween(double n, double a1, double a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetween(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String notBetweenEx(double n, double a1, double a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetweenEx(n, a1, a2);
 	}
@@ -1710,16 +1687,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.inRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String inRangeEx(double n, double a1, double a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.inRangeEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> boolean notInRange(double n, double a1, double a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String notInRangeEx(double n, double a1, double a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRangeEx(n, a1, a2);
 	}
@@ -1729,16 +1706,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.between(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String betweenEx(char n, char a1, char a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.betweenEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> boolean notBetween(char n, char a1, char a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetween(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s < %1$s < %3$s.*/
 	public static <MP1, MP2> @Nullable String notBetweenEx(char n, char a1, char a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notBetweenEx(n, a1, a2);
 	}
@@ -1748,16 +1725,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.inRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String inRangeEx(char n, char a1, char a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.inRangeEx(n, a1, a2);
 	}
-	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s..*/
+	/** Predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> boolean notInRange(char n, char a1, char a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRange(n, a1, a2);
 	}
 
-	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s. */
+	/** "Special" predicate: %1$s must NOT be: %2$s <= %1$s <= %3$s.*/
 	public static <MP1, MP2> @Nullable String notInRangeEx(char n, char a1, char a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notInRangeEx(n, a1, a2);
 	}
@@ -1767,16 +1744,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.True(v);
 	}
 
-	/** "Special" predicate: <%s> must be true. */
+	/** "Special" predicate: <%s> must be true.*/
 	public static <MP1, MP2> @Nullable String TrueEx(boolean v, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.TrueEx(v);
 	}
-	/** Predicate: <%s> must be false..*/
+	/** Predicate: <%s> must be false.*/
 	public static <MP1, MP2> boolean False(boolean v, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.False(v);
 	}
 
-	/** "Special" predicate: <%s> must be false. */
+	/** "Special" predicate: <%s> must be false.*/
 	public static <MP1, MP2> @Nullable String FalseEx(boolean v, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.FalseEx(v);
 	}
@@ -1785,112 +1762,89 @@ public class P2 implements FluentSyntax {
 
 	// <editor-fold desc="arrays">
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull boolean[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull boolean[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -1901,126 +1855,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(boolean[] a1, boolean[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(boolean[] a1, boolean[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(boolean[] a1, boolean[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull byte[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull byte[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2031,126 +1962,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(byte[] a1, byte[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(byte[] a1, byte[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(byte[] a1, byte[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull double[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull double[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2161,126 +2069,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(double[] a1, double[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(double[] a1, double[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(double[] a1, double[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull char[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull char[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2291,126 +2176,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(char[] a1, char[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(char[] a1, char[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(char[] a1, char[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull short[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull short[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2421,126 +2283,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(short[] a1, short[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(short[] a1, short[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(short[] a1, short[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull float[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull float[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2551,126 +2390,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(float[] a1, float[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(float[] a1, float[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(float[] a1, float[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull int[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull int[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2681,126 +2497,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(int[] a1, int[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(int[] a1, int[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(int[] a1, int[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean length(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthEx(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> boolean lengthOtherThan(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <MP1, MP2> boolean ofLength(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <MP1, MP2> @Nullable String ofLengthEx(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <MP1, MP2> boolean notOfLength(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <MP1, MP2> @Nullable String notOfLengthEx(@Nonnull long[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> boolean notNullNotEmpty(@Nullable long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean singleton(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull long[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2811,126 +2604,103 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String equalEx(long[] a1, long[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> boolean notEqual(long[] a1, long[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <MP1, MP2> @Nullable String notEqualEx(long[] a1, long[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
+	/** Predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <T, MP1, MP2> boolean length(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.length(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must be of size %s. */
+	/** "Special" predicate: Array <%s> must be of size %d (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String lengthEx(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthEx(array, i);
 	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
+	/** Predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <T, MP1, MP2> boolean lengthOtherThan(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThan(array, i);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
+	/** "Special" predicate: Array <%s> must NOT be of size %d (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String lengthOtherThanEx(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.lengthOtherThanEx(array, i);
 	}
 
-	/** Predicate: Array <%s> must be of size %s.*/
-	public static <T, MP1, MP2> boolean ofLength(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must be of size %s. */
-	public static <T, MP1, MP2> @Nullable String ofLengthEx(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.ofLengthEx(array, i);
-	}
-	/** Predicate: Array <%s> must NOT be of size %s..*/
-	public static <T, MP1, MP2> boolean notOfLength(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLength(array, i);
-	}
-
-	/** "Special" predicate: Array <%s> must NOT be of size %s. */
-	public static <T, MP1, MP2> @Nullable String notOfLengthEx(@Nonnull T[] array, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(array, "array");
-		return Predicates.notOfLengthEx(array, i);
-	}
-
-	/** Predicate: Array <%s> must be empty.*/
+	/** Predicate: Array <%s> must be empty (actual: %d).*/
 	public static <T, MP1, MP2> boolean empty(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.empty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be empty. */
+	/** "Special" predicate: Array <%s> must be empty (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String emptyEx(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.emptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be empty..*/
+	/** Predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <T, MP1, MP2> boolean notEmpty(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be empty. */
+	/** "Special" predicate: Array <%s> must NOT be empty (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String notEmptyEx(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be null or empty.*/
+	/** Predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <T, MP1, MP2> boolean nullOrEmpty(@Nullable T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be null or empty. */
+	/** "Special" predicate: Array <%s> must be null or empty (actual: %s).*/
 	public static <T, MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be null or empty..*/
+	/** Predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <T, MP1, MP2> boolean notNullNotEmpty(@Nullable T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmpty(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be null or empty. */
+	/** "Special" predicate: Array <%s> must NOT be null or empty (actual: %s).*/
 	public static <T, MP1, MP2> @Nullable String notNullNotEmptyEx(@Nullable T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNotEmptyEx(array);
 	}
 
-	/** Predicate: Array <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <T, MP1, MP2> boolean singleton(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must be exactly of size 1 (singleton; actual:%d)*/
 	public static <T, MP1, MP2> @Nullable String singletonEx(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.singletonEx(array);
 	}
-	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <T, MP1, MP2> boolean notSingleton(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingleton(array);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Array <%s> must NOT be exactly of size 1 (singleton; actual:%d)*/
 	public static <T, MP1, MP2> @Nullable String notSingletonEx(@Nonnull T[] array, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(array, "array");
 		return Predicates.notSingletonEx(array);
@@ -2941,16 +2711,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.equal(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must be equal to array <%s>.*/
 	public static <T, MP1, MP2> @Nullable String equalEx(T[] a1, T[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.equalEx(a1, a2);
 	}
-	/** Predicate: Array <%s> must NOT be equal to array <%s>..*/
+	/** Predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <T, MP1, MP2> boolean notEqual(T[] a1, T[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqual(a1, a2);
 	}
 
-	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>. */
+	/** "Special" predicate: Array <%s> must NOT be equal to array <%s>.*/
 	public static <T, MP1, MP2> @Nullable String notEqualEx(T[] a1, T[] a2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notEqualEx(a1, a2);
 	}
@@ -2965,18 +2735,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.contain(collection, element);
 	}
 
-	/** "Special" predicate: Collection <%s> must contain element <%s>. */
+	/** "Special" predicate: Collection <%s> must contain element <%s>.*/
 	public static <T, MP1, MP2> @Nullable String containEx(@Nonnull Collection<? extends T> collection, T element, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.containEx(collection, element);
 	}
-	/** Predicate: Collection <%s> must NOT contain element <%s>..*/
+	/** Predicate: Collection <%s> must NOT contain element <%s>.*/
 	public static <T, MP1, MP2> boolean notContain(@Nonnull Collection<? extends T> collection, T element, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notContain(collection, element);
 	}
 
-	/** "Special" predicate: Collection <%s> must NOT contain element <%s>. */
+	/** "Special" predicate: Collection <%s> must NOT contain element <%s>.*/
 	public static <T, MP1, MP2> @Nullable String notContainEx(@Nonnull Collection<? extends T> collection, T element, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notContainEx(collection, element);
@@ -2988,18 +2758,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.containKey(map, key);
 	}
 
-	/** "Special" predicate: Map <%s> must contain key <%s>. */
+	/** "Special" predicate: Map <%s> must contain key <%s>.*/
 	public static <K, MP1, MP2> @Nullable String containKeyEx(@Nonnull Map<? extends K, ?> map, K key, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.containKeyEx(map, key);
 	}
-	/** Predicate: Map <%s> must NOT contain key <%s>..*/
+	/** Predicate: Map <%s> must NOT contain key <%s>.*/
 	public static <K, MP1, MP2> boolean notContainKey(@Nonnull Map<? extends K, ?> map, K key, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainKey(map, key);
 	}
 
-	/** "Special" predicate: Map <%s> must NOT contain key <%s>. */
+	/** "Special" predicate: Map <%s> must NOT contain key <%s>.*/
 	public static <K, MP1, MP2> @Nullable String notContainKeyEx(@Nonnull Map<? extends K, ?> map, K key, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainKeyEx(map, key);
@@ -3011,111 +2781,67 @@ public class P2 implements FluentSyntax {
 		return Predicates.containEntry(map, key, value);
 	}
 
-	/** "Special" predicate: Map <%s> must contain entry with key <%s> and value <%s>. */
+	/** "Special" predicate: Map <%s> must contain entry with key <%s> and value <%s>.*/
 	public static <K, V, MP1, MP2> @Nullable String containEntryEx(@Nonnull Map<? extends K, ? extends V> map, K key, V value, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.containEntryEx(map, key, value);
 	}
-	/** Predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>..*/
+	/** Predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>.*/
 	public static <K, V, MP1, MP2> boolean notContainEntry(@Nonnull Map<? extends K, ? extends V> map, K key, V value, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainEntry(map, key, value);
 	}
 
-	/** "Special" predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>. */
+	/** "Special" predicate: Map <%s> must NOT contain entry with key <%s> and value <%s>.*/
 	public static <K, V, MP1, MP2> @Nullable String notContainEntryEx(@Nonnull Map<? extends K, ? extends V> map, K key, V value, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notContainEntryEx(map, key, value);
 	}
 
-	/** Predicate: Collection <%s> must be of size %s.*/
+	/** Predicate: Collection <%s> must be of size %s (actual: %d).*/
 	public static <T, MP1, MP2> boolean size(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.size(collection, i);
 	}
 
-	/** "Special" predicate: Collection <%s> must be of size %s. */
+	/** "Special" predicate: Collection <%s> must be of size %s (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String sizeEx(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.sizeEx(collection, i);
 	}
-	/** Predicate: Collection <%s> must NOT be of size %s..*/
+	/** Predicate: Collection <%s> must NOT be of size %s (actual: %d).*/
 	public static <T, MP1, MP2> boolean sizeOtherThan(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.sizeOtherThan(collection, i);
 	}
 
-	/** "Special" predicate: Collection <%s> must NOT be of size %s. */
+	/** "Special" predicate: Collection <%s> must NOT be of size %s (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String sizeOtherThanEx(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.sizeOtherThanEx(collection, i);
 	}
-	/** Predicate: Collection <%s> must be of size %s.*/
-	public static <T, MP1, MP2> boolean ofSize(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(collection, "collection");
-		return Predicates.ofSize(collection, i);
-	}
 
-	/** "Special" predicate: Collection <%s> must be of size %s. */
-	public static <T, MP1, MP2> @Nullable String ofSizeEx(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(collection, "collection");
-		return Predicates.ofSizeEx(collection, i);
-	}
-	/** Predicate: Collection <%s> must NOT be of size %s..*/
-	public static <T, MP1, MP2> boolean notOfSize(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(collection, "collection");
-		return Predicates.notOfSize(collection, i);
-	}
-
-	/** "Special" predicate: Collection <%s> must NOT be of size %s. */
-	public static <T, MP1, MP2> @Nullable String notOfSizeEx(@Nonnull Collection<? extends T> collection, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(collection, "collection");
-		return Predicates.notOfSizeEx(collection, i);
-	}
-
-	/** Predicate: Map <%s> must be of size %s.*/
+	/** Predicate: Map <%s> must be of size %s (actual: %d).*/
 	public static <K, V, MP1, MP2> boolean size(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.size(map, i);
 	}
 
-	/** "Special" predicate: Map <%s> must be of size %s. */
+	/** "Special" predicate: Map <%s> must be of size %s (actual: %d).*/
 	public static <K, V, MP1, MP2> @Nullable String sizeEx(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.sizeEx(map, i);
 	}
-	/** Predicate: Map <%s> must NOT be of size %s..*/
+	/** Predicate: Map <%s> must NOT be of size %s (actual: %d).*/
 	public static <K, V, MP1, MP2> boolean sizeOtherThan(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.sizeOtherThan(map, i);
 	}
 
-	/** "Special" predicate: Map <%s> must NOT be of size %s. */
+	/** "Special" predicate: Map <%s> must NOT be of size %s (actual: %d).*/
 	public static <K, V, MP1, MP2> @Nullable String sizeOtherThanEx(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.sizeOtherThanEx(map, i);
-	}
-	/** Predicate: Map <%s> must be of size %s.*/
-	public static <K, V, MP1, MP2> boolean ofSize(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(map, "map");
-		return Predicates.ofSize(map, i);
-	}
-
-	/** "Special" predicate: Map <%s> must be of size %s. */
-	public static <K, V, MP1, MP2> @Nullable String ofSizeEx(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(map, "map");
-		return Predicates.ofSizeEx(map, i);
-	}
-	/** Predicate: Map <%s> must NOT be of size %s..*/
-	public static <K, V, MP1, MP2> boolean notOfSize(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(map, "map");
-		return Predicates.notOfSize(map, i);
-	}
-
-	/** "Special" predicate: Map <%s> must NOT be of size %s. */
-	public static <K, V, MP1, MP2> @Nullable String notOfSizeEx(@Nonnull Map<? extends K, ? extends V> map, int i, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(map, "map");
-		return Predicates.notOfSizeEx(map, i);
 	}
 
 	/** Predicate: <%s> must be part of <%s> collection.*/
@@ -3124,18 +2850,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.partOf(element, collection);
 	}
 
-	/** "Special" predicate: <%s> must be part of <%s> collection. */
+	/** "Special" predicate: <%s> must be part of <%s> collection.*/
 	public static <T, MP1, MP2> @Nullable String partOfEx(T element, @Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.partOfEx(element, collection);
 	}
-	/** Predicate: <%s> must NOT be part of <%s> collection..*/
+	/** Predicate: <%s> must NOT be part of <%s> collection.*/
 	public static <T, MP1, MP2> boolean notPartOf(T element, @Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notPartOf(element, collection);
 	}
 
-	/** "Special" predicate: <%s> must NOT be part of <%s> collection. */
+	/** "Special" predicate: <%s> must NOT be part of <%s> collection.*/
 	public static <T, MP1, MP2> @Nullable String notPartOfEx(T element, @Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notPartOfEx(element, collection);
@@ -3147,148 +2873,148 @@ public class P2 implements FluentSyntax {
 		return Predicates.aKeyIn(key, map);
 	}
 
-	/** "Special" predicate: <%s> must be key in <%s> map. */
+	/** "Special" predicate: <%s> must be key in <%s> map.*/
 	public static <K, MP1, MP2> @Nullable String aKeyInEx(K key, @Nonnull Map<? extends K, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.aKeyInEx(key, map);
 	}
-	/** Predicate: <%s> must NOT be key in <%s> map..*/
+	/** Predicate: <%s> must NOT be key in <%s> map.*/
 	public static <K, MP1, MP2> boolean notAKeyIn(K key, @Nonnull Map<? extends K, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notAKeyIn(key, map);
 	}
 
-	/** "Special" predicate: <%s> must NOT be key in <%s> map. */
+	/** "Special" predicate: <%s> must NOT be key in <%s> map.*/
 	public static <K, MP1, MP2> @Nullable String notAKeyInEx(K key, @Nonnull Map<? extends K, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notAKeyInEx(key, map);
 	}
 
-	/** Predicate: Collection <%s> must be empty.*/
+	/** Predicate: Collection <%s> must be empty (actual: %d).*/
 	public static <T, MP1, MP2> boolean empty(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.empty(collection);
 	}
 
-	/** "Special" predicate: Collection <%s> must be empty. */
+	/** "Special" predicate: Collection <%s> must be empty (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String emptyEx(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.emptyEx(collection);
 	}
-	/** Predicate: Collection <%s> must NOT be empty..*/
+	/** Predicate: Collection <%s> must NOT be empty (actual: %d).*/
 	public static <T, MP1, MP2> boolean notEmpty(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notEmpty(collection);
 	}
 
-	/** "Special" predicate: Collection <%s> must NOT be empty. */
+	/** "Special" predicate: Collection <%s> must NOT be empty (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String notEmptyEx(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notEmptyEx(collection);
 	}
 
-	/** Predicate: Collection <%s> must be empty.*/
+	/** Predicate: Collection <%s> must be null or empty (actual: %d).*/
 	public static <T, MP1, MP2> boolean nullOrEmpty(@Nullable Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(collection);
 	}
 
-	/** "Special" predicate: Collection <%s> must be empty. */
+	/** "Special" predicate: Collection <%s> must be null or empty (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(collection);
 	}
-	/** Predicate: Collection <%s> must NOT be empty..*/
+	/** Predicate: Collection <%s> must NOT be null or empty (actual: %d).*/
 	public static <T, MP1, MP2> boolean notNullNorEmpty(@Nullable Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmpty(collection);
 	}
 
-	/** "Special" predicate: Collection <%s> must NOT be empty. */
+	/** "Special" predicate: Collection <%s> must NOT be null or empty (actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String notNullNorEmptyEx(@Nullable Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmptyEx(collection);
 	}
 
-	/** Predicate: Collection <%s> must be exactly of size 1 (singleton)..*/
+	/** Predicate: Collection <%s> must be exactly of size 1 (singleton; actual: %d).*/
 	public static <T, MP1, MP2> boolean singleton(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.singleton(collection);
 	}
 
-	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton).. */
+	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton; actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String singletonEx(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.singletonEx(collection);
 	}
-	/** Predicate: Collection <%s> must NOT be exactly of size 1 (singleton)...*/
+	/** Predicate: Collection <%s> must NOT be exactly of size 1 (singleton; actual: %d).*/
 	public static <T, MP1, MP2> boolean notSingleton(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notSingleton(collection);
 	}
 
-	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton).. */
+	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton; actual: %d).*/
 	public static <T, MP1, MP2> @Nullable String notSingletonEx(@Nonnull Collection<? extends T> collection, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(collection, "collection");
 		return Predicates.notSingletonEx(collection);
 	}
 
-	/** Predicate: Map <%s> must be empty.*/
+	/** Predicate: Map <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> boolean empty(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.empty(map);
 	}
 
-	/** "Special" predicate: Map <%s> must be empty. */
+	/** "Special" predicate: Map <%s> must be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String emptyEx(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.emptyEx(map);
 	}
-	/** Predicate: Map <%s> must NOT be empty..*/
+	/** Predicate: Map <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> boolean notEmpty(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notEmpty(map);
 	}
 
-	/** "Special" predicate: Map <%s> must NOT be empty. */
+	/** "Special" predicate: Map <%s> must NOT be empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notEmptyEx(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notEmptyEx(map);
 	}
 
-	/** Predicate: Collection <%s> must be empty.*/
+	/** Predicate: Map <%s> must be null or empty (actual: %d).*/
 	public static <MP1, MP2> boolean nullOrEmpty(@Nullable Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmpty(map);
 	}
 
-	/** "Special" predicate: Collection <%s> must be empty. */
+	/** "Special" predicate: Map <%s> must be null or empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String nullOrEmptyEx(@Nullable Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.nullOrEmptyEx(map);
 	}
-	/** Predicate: Collection <%s> must NOT be empty..*/
+	/** Predicate: Map <%s> must NOT be null or empty (actual: %d).*/
 	public static <MP1, MP2> boolean notNullNorEmpty(@Nullable Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmpty(map);
 	}
 
-	/** "Special" predicate: Collection <%s> must NOT be empty. */
+	/** "Special" predicate: Map <%s> must NOT be null or empty (actual: %d).*/
 	public static <MP1, MP2> @Nullable String notNullNorEmptyEx(@Nullable Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.notNullNorEmptyEx(map);
 	}
 
-	/** Predicate: Collection <%s> must be exactly of size 1 (singleton).*/
+	/** Predicate: Map <%s> must be exactly of size 1 (singleton; actual: %d).*/
 	public static <MP1, MP2> boolean singleton(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.singleton(map);
 	}
 
-	/** "Special" predicate: Collection <%s> must be exactly of size 1 (singleton). */
+	/** "Special" predicate: Map <%s> must be exactly of size 1 (singleton; actual: %d).*/
 	public static <MP1, MP2> @Nullable String singletonEx(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.singletonEx(map);
 	}
-	/** Predicate: Collection <%s> must NOT be exactly of size 1 (singleton)..*/
+	/** Predicate: Map <%s> must NOT be exactly of size 1 (singleton; actual: %d).*/
 	public static <MP1, MP2> boolean notSingleton(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notSingleton(map);
 	}
 
-	/** "Special" predicate: Collection <%s> must NOT be exactly of size 1 (singleton). */
+	/** "Special" predicate: Map <%s> must NOT be exactly of size 1 (singleton; actual: %d).*/
 	public static <MP1, MP2> @Nullable String notSingletonEx(@Nonnull Map<?, ?> map, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(map, "map");
 		return Predicates.notSingletonEx(map);
@@ -3304,18 +3030,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.instanceOf(object, clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>. */
+	/** "Special" predicate: Object <%s> of class <%s> must be instance of <%s>.*/
 	public static <MP1, MP2> @Nullable String instanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.instanceOfEx(object, clazz);
 	}
-	/** Predicate: Object <%s> of class <%s> must NOT be instance of <%s>..*/
+	/** Predicate: Object <%s> of class <%s> must NOT be instance of <%s>.*/
 	public static <MP1, MP2> boolean notInstanceOf(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notInstanceOf(object, clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>. */
+	/** "Special" predicate: Object <%s> of class <%s> must NOT be instance of <%s>.*/
 	public static <MP1, MP2> @Nullable String notInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notInstanceOfEx(object, clazz);
@@ -3327,18 +3053,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.classSimpleName(object, name);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must have simple class name equal <%s>. */
+	/** "Special" predicate: Object <%s> of class <%s> must have simple class name equal <%s>.*/
 	public static <MP1, MP2> @Nullable String classSimpleNameEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(name, "name");
 		return Predicates.classSimpleNameEx(object, name);
 	}
-	/** Predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>..*/
+	/** Predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>.*/
 	public static <MP1, MP2> boolean classSimpleNameOtherThan(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(name, "name");
 		return Predicates.classSimpleNameOtherThan(object, name);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>. */
+	/** "Special" predicate: Object <%s> of class <%s> must NOT have simple class name equal <%s>.*/
 	public static <MP1, MP2> @Nullable String classSimpleNameOtherThanEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(name, "name");
 		return Predicates.classSimpleNameOtherThanEx(object, name);
@@ -3350,18 +3076,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.className(object, name);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must have class name equal <%s>. */
+	/** "Special" predicate: Object <%s> of class <%s> must have class name equal <%s>.*/
 	public static <MP1, MP2> @Nullable String classNameEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(name, "name");
 		return Predicates.classNameEx(object, name);
 	}
-	/** Predicate: Object <%s> of class <%s> must NOT have class name equal <%s>..*/
+	/** Predicate: Object <%s> of class <%s> must NOT have class name equal <%s>.*/
 	public static <MP1, MP2> boolean classNameOtherThan(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(name, "name");
 		return Predicates.classNameOtherThan(object, name);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must NOT have class name equal <%s>. */
+	/** "Special" predicate: Object <%s> of class <%s> must NOT have class name equal <%s>.*/
 	public static <MP1, MP2> @Nullable String classNameOtherThanEx(Object object, String name, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(name, "name");
 		return Predicates.classNameOtherThanEx(object, name);
@@ -3373,7 +3099,7 @@ public class P2 implements FluentSyntax {
 		return Predicates.exactlyInstanceOf(object, clazz);
 	}
 
-	/** "Special" predicate: Object <%s> of class <%s> must be exactly instance of <%s>. */
+	/** "Special" predicate: Object <%s> of class <%s> must be exactly instance of <%s>.*/
 	public static <MP1, MP2> @Nullable String exactlyInstanceOfEx(Object object, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.exactlyInstanceOfEx(object, clazz);
@@ -3386,20 +3112,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.assignableFrom(clazz, from);
 	}
 
-	/** "Special" predicate: Class <%s> must be assignable from <%s>. */
+	/** "Special" predicate: Class <%s> must be assignable from <%s>.*/
 	public static <MP1, MP2> @Nullable String assignableFromEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(from, "from");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.assignableFromEx(clazz, from);
 	}
-	/** Predicate: Class <%s> must NOT be assignable from <%s>..*/
+	/** Predicate: Class <%s> must NOT be assignable from <%s>.*/
 	public static <MP1, MP2> boolean notAssignableFrom(Class<?> clazz, Class<?> from, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(from, "from");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notAssignableFrom(clazz, from);
 	}
 
-	/** "Special" predicate: Class <%s> must NOT be assignable from <%s>. */
+	/** "Special" predicate: Class <%s> must NOT be assignable from <%s>.*/
 	public static <MP1, MP2> @Nullable String notAssignableFromEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(from, "from");
 		Null.nonNullArg(clazz, "clazz");
@@ -3413,20 +3139,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.assignableTo(clazz, from);
 	}
 
-	/** "Special" predicate: Class <%s> must be assignable to <%s>. */
+	/** "Special" predicate: Class <%s> must be assignable to <%s>.*/
 	public static <MP1, MP2> @Nullable String assignableToEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(from, "from");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.assignableToEx(clazz, from);
 	}
-	/** Predicate: Class <%s> must NOT be assignable to <%s>..*/
+	/** Predicate: Class <%s> must NOT be assignable to <%s>.*/
 	public static <MP1, MP2> boolean notAssignableTo(Class<?> clazz, Class<?> from, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(from, "from");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.notAssignableTo(clazz, from);
 	}
 
-	/** "Special" predicate: Class <%s> must NOT be assignable to <%s>. */
+	/** "Special" predicate: Class <%s> must NOT be assignable to <%s>.*/
 	public static <MP1, MP2> @Nullable String notAssignableToEx(Class<?> clazz, Class<?> from, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(from, "from");
 		Null.nonNullArg(clazz, "clazz");
@@ -3443,18 +3169,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.runtime(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must be instance of a RuntimeException. */
+	/** "Special" predicate: Exception <%s> must be instance of a RuntimeException.*/
 	public static <MP1, MP2> @Nullable String runtimeEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.runtimeEx(e);
 	}
-	/** Predicate: Exception <%s> must NOT be instance of a RuntimeException..*/
+	/** Predicate: Exception <%s> must NOT be instance of a RuntimeException.*/
 	public static <MP1, MP2> boolean notRuntime(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.notRuntime(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT be instance of a RuntimeException. */
+	/** "Special" predicate: Exception <%s> must NOT be instance of a RuntimeException.*/
 	public static <MP1, MP2> @Nullable String notRuntimeEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.notRuntimeEx(e);
@@ -3466,18 +3192,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.cause(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must have cause. */
+	/** "Special" predicate: Exception <%s> must have cause.*/
 	public static <MP1, MP2> @Nullable String causeEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.causeEx(e);
 	}
-	/** Predicate: Exception <%s> must NOT have cause..*/
+	/** Predicate: Exception <%s> must NOT have cause.*/
 	public static <MP1, MP2> boolean noCause(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.noCause(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have cause. */
+	/** "Special" predicate: Exception <%s> must NOT have cause.*/
 	public static <MP1, MP2> @Nullable String noCauseEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.noCauseEx(e);
@@ -3490,20 +3216,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.causeInstanceOf(e, clazz);
 	}
 
-	/** "Special" predicate: Cause of the exception <%s> must be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must be instance of <%s>.*/
 	public static <MP1, MP2> @Nullable String causeInstanceOfEx(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.causeInstanceOfEx(e, clazz);
 	}
-	/** Predicate: Cause of the exception <%s> must NOT be instance of <%s>..*/
+	/** Predicate: Cause of the exception <%s> must NOT be instance of <%s>.*/
 	public static <MP1, MP2> boolean causeNotInstanceOf(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
 		return Predicates.causeNotInstanceOf(e, clazz);
 	}
 
-	/** "Special" predicate: Cause of the exception <%s> must NOT be instance of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must NOT be instance of <%s>.*/
 	public static <MP1, MP2> @Nullable String causeNotInstanceOfEx(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
@@ -3517,7 +3243,7 @@ public class P2 implements FluentSyntax {
 		return Predicates.causeExactlyInstanceOf(e, clazz);
 	}
 
-	/** "Special" predicate: Cause of the exception <%s> must be instance exactly of <%s>. */
+	/** "Special" predicate: Cause of the exception <%s> must be instance exactly of <%s>.*/
 	public static <MP1, MP2> @Nullable String causeExactlyInstanceOfEx(@Nonnull Throwable e, Class<?> clazz, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(clazz, "clazz");
@@ -3530,18 +3256,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.suspended(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must have suspended other exceptions. */
+	/** "Special" predicate: Exception <%s> must have suspended other exceptions.*/
 	public static <MP1, MP2> @Nullable String suspendedEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.suspendedEx(e);
 	}
-	/** Predicate: Exception <%s> must NOT have suspended other exceptions..*/
+	/** Predicate: Exception <%s> must NOT have suspended other exceptions.*/
 	public static <MP1, MP2> boolean noSuspended(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.noSuspended(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have suspended other exceptions. */
+	/** "Special" predicate: Exception <%s> must NOT have suspended other exceptions.*/
 	public static <MP1, MP2> @Nullable String noSuspendedEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.noSuspendedEx(e);
@@ -3553,18 +3279,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.msgEqual(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
+	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgEqualEx(@Nonnull Throwable e, String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgEqualEx(e, text);
 	}
-	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'..*/
+	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
 	public static <MP1, MP2> boolean msgNotEqual(@Nonnull Throwable e, String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgNotEqual(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
+	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgNotEqualEx(@Nonnull Throwable e, String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgNotEqualEx(e, text);
@@ -3576,18 +3302,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.noMsg(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'. */
+	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'.*/
 	public static <MP1, MP2> @Nullable String noMsgEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.noMsgEx(e);
 	}
-	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'..*/
+	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
 	public static <MP1, MP2> boolean msgPresent(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgPresent(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'. */
+	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgPresentEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgPresentEx(e);
@@ -3600,20 +3326,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.msgStartWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message starting with <'%s>'. */
+	/** "Special" predicate: Exception <%s> must have message starting with <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgStartWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgStartWithEx(e, text);
 	}
-	/** Predicate: Exception <%s> must NOT have message starting with <'%s>'..*/
+	/** Predicate: Exception <%s> must NOT have message starting with <'%s>'.*/
 	public static <MP1, MP2> boolean msgNotStartWith(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotStartWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message starting with <'%s>'. */
+	/** "Special" predicate: Exception <%s> must NOT have message starting with <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgNotStartWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
@@ -3627,20 +3353,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.msgContain(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message containing <'%s>'. */
+	/** "Special" predicate: Exception <%s> must have message containing <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgContainEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgContainEx(e, text);
 	}
-	/** Predicate: Exception <%s> must NOT have message containing <'%s>'..*/
+	/** Predicate: Exception <%s> must NOT have message containing <'%s>'.*/
 	public static <MP1, MP2> boolean msgNotContain(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotContain(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message containing <'%s>'. */
+	/** "Special" predicate: Exception <%s> must NOT have message containing <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgNotContainEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
@@ -3654,20 +3380,20 @@ public class P2 implements FluentSyntax {
 		return Predicates.msgEndWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message ending with <'%s>'. */
+	/** "Special" predicate: Exception <%s> must have message ending with <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgEndWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgEndWithEx(e, text);
 	}
-	/** Predicate: Exception <%s> must NOT have message ending with <'%s>'..*/
+	/** Predicate: Exception <%s> must NOT have message ending with <'%s>'.*/
 	public static <MP1, MP2> boolean msgNotEndWith(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotEndWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message ending with <'%s>'. */
+	/** "Special" predicate: Exception <%s> must NOT have message ending with <'%s>'.*/
 	public static <MP1, MP2> @Nullable String msgNotEndWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
@@ -3680,18 +3406,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.suppressing(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must have suppressed other exceptions. */
+	/** "Special" predicate: Exception <%s> must have suppressed other exceptions.*/
 	public static <MP1, MP2> @Nullable String suppressingEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.suppressingEx(e);
 	}
-	/** Predicate: Exception <%s> must NOT have suppressed other exceptions..*/
+	/** Predicate: Exception <%s> must NOT have suppressed other exceptions.*/
 	public static <MP1, MP2> boolean notSuppressing(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.notSuppressing(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions. */
+	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions.*/
 	public static <MP1, MP2> @Nullable String notSuppressingEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.notSuppressingEx(e);
@@ -3707,18 +3433,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptBoolTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptBoolTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptBoolTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -3730,18 +3456,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptBoolTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptBoolTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptBoolTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -3753,18 +3479,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptBoolTrait<?> opt, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptBoolTrait<?> opt, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptBoolTrait<?> opt, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -3776,18 +3502,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull BoolValueTrait<?> opt, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull BoolValueTrait<?> opt, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull BoolValueTrait<?> opt, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -3799,18 +3525,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptTrait<?, ?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptTrait<?, ?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptTrait<?, ?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -3822,18 +3548,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptTrait<?, ?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptTrait<?, ?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptTrait<?, ?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -3845,18 +3571,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull ValueTrait<?, ?> opt, V expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull ValueTrait<?, ?> opt, V expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull ValueTrait<?, ?> opt, V expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -3868,18 +3594,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.sameValue(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String sameValueEx(@Nonnull ValueTrait<?, ?> opt, V expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.sameValueEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean notSameValue(@Nonnull ValueTrait<?, ?> opt, V expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notSameValue(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String notSameValueEx(@Nonnull ValueTrait<?, ?> opt, V expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notSameValueEx(opt, expected);
@@ -3891,18 +3617,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptByteTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptByteTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptByteTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -3914,18 +3640,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptByteTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptByteTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptByteTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -3937,18 +3663,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptByteTrait<?> opt, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptByteTrait<?> opt, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptByteTrait<?> opt, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -3960,18 +3686,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull ByteValueTrait<?> opt, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull ByteValueTrait<?> opt, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull ByteValueTrait<?> opt, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -3983,18 +3709,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptDblTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptDblTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptDblTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -4006,18 +3732,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptDblTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptDblTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptDblTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -4029,18 +3755,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptDblTrait<?> opt, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptDblTrait<?> opt, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptDblTrait<?> opt, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4052,18 +3778,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull DblValueTrait<?> opt, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull DblValueTrait<?> opt, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull DblValueTrait<?> opt, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4075,18 +3801,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptCharTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptCharTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptCharTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -4098,18 +3824,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptCharTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptCharTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptCharTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -4121,18 +3847,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptCharTrait<?> opt, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptCharTrait<?> opt, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptCharTrait<?> opt, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4144,18 +3870,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull CharValueTrait<?> opt, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull CharValueTrait<?> opt, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull CharValueTrait<?> opt, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4167,18 +3893,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptSrtTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptSrtTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptSrtTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -4190,18 +3916,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptSrtTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptSrtTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptSrtTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -4213,18 +3939,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptSrtTrait<?> opt, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptSrtTrait<?> opt, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptSrtTrait<?> opt, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4236,18 +3962,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull SrtValueTrait<?> opt, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull SrtValueTrait<?> opt, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull SrtValueTrait<?> opt, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4259,18 +3985,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptFltTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptFltTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptFltTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -4282,18 +4008,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptFltTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptFltTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptFltTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -4305,18 +4031,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptFltTrait<?> opt, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptFltTrait<?> opt, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptFltTrait<?> opt, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4328,18 +4054,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull FltValueTrait<?> opt, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull FltValueTrait<?> opt, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull FltValueTrait<?> opt, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4351,18 +4077,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptIntTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptIntTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptIntTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -4374,18 +4100,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptIntTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptIntTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptIntTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -4397,18 +4123,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptIntTrait<?> opt, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptIntTrait<?> opt, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptIntTrait<?> opt, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4420,18 +4146,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull IntValueTrait<?> opt, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull IntValueTrait<?> opt, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull IntValueTrait<?> opt, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4443,18 +4169,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value. */
+	/** "Special" predicate: Optional <%s> must have value.*/
 	public static <V, MP1, MP2> @Nullable String valuePresentEx(@Nonnull OptLongTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valuePresentEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT have value..*/
+	/** Predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> boolean noValuePresent(@Nonnull OptLongTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresent(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value. */
+	/** "Special" predicate: Optional <%s> must NOT have value.*/
 	public static <V, MP1, MP2> @Nullable String noValuePresentEx(@Nonnull OptLongTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.noValuePresentEx(opt);
@@ -4466,18 +4192,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.Void(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must be void. */
+	/** "Special" predicate: Optional <%s> must be void.*/
 	public static <V, MP1, MP2> @Nullable String VoidEx(@Nonnull OptLongTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.VoidEx(opt);
 	}
-	/** Predicate: Optional <%s> must NOT be void..*/
+	/** Predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> boolean notVoid(@Nonnull OptLongTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoid(opt);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT be void. */
+	/** "Special" predicate: Optional <%s> must NOT be void.*/
 	public static <V, MP1, MP2> @Nullable String notVoidEx(@Nonnull OptLongTrait<?> opt, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.notVoidEx(opt);
@@ -4489,18 +4215,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull OptLongTrait<?> opt, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull OptLongTrait<?> opt, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull OptLongTrait<?> opt, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4512,18 +4238,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.valueEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueEqualEx(@Nonnull LongValueTrait<?> opt, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueEqualEx(opt, expected);
 	}
-	/** Predicate: Optional <%s> must NOT have value equal <%s>..*/
+	/** Predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> boolean valueNotEqual(@Nonnull LongValueTrait<?> opt, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqual(opt, expected);
 	}
 
-	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>. */
+	/** "Special" predicate: Optional <%s> must NOT have value equal <%s>.*/
 	public static <V, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LongValueTrait<?> opt, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(opt, "opt");
 		return Predicates.valueNotEqualEx(opt, expected);
@@ -4536,16 +4262,16 @@ public class P2 implements FluentSyntax {
 		return Predicates.Equal(o1, o2);
 	}
 
-	/** "Special" predicate: <%s> must be equal to <%s> (including array elements). */
+	/** "Special" predicate: <%s> must be equal to <%s> (including array elements).*/
 	public static <MP1, MP2> @Nullable String EqualEx(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.EqualEx(o1, o2);
 	}
-	/** Predicate: <%s> must NOT be equal to <%s> (including array elements)..*/
+	/** Predicate: <%s> must NOT be equal to <%s> (including array elements).*/
 	public static <MP1, MP2> boolean NotEqual(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.NotEqual(o1, o2);
 	}
 
-	/** "Special" predicate: <%s> must NOT be equal to <%s> (including array elements). */
+	/** "Special" predicate: <%s> must NOT be equal to <%s> (including array elements).*/
 	public static <MP1, MP2> @Nullable String NotEqualEx(Object o1, Object o2, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		return Predicates.NotEqualEx(o1, o2);
 	}
@@ -4558,18 +4284,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.done(future);
 	}
 
-	/** "Special" predicate: <%s> must be done. */
+	/** "Special" predicate: <%s> must be done.*/
 	public static <MP1, MP2> @Nullable String doneEx(@Nonnull Future<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.doneEx(future);
 	}
-	/** Predicate: <%s> must NOT be done..*/
+	/** Predicate: <%s> must NOT be done.*/
 	public static <MP1, MP2> boolean notDone(@Nonnull Future<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notDone(future);
 	}
 
-	/** "Special" predicate: <%s> must NOT be done. */
+	/** "Special" predicate: <%s> must NOT be done.*/
 	public static <MP1, MP2> @Nullable String notDoneEx(@Nonnull Future<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notDoneEx(future);
@@ -4581,18 +4307,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.cancelled(future);
 	}
 
-	/** "Special" predicate: <%s> must be cancelled. */
+	/** "Special" predicate: <%s> must be cancelled.*/
 	public static <MP1, MP2> @Nullable String cancelledEx(@Nonnull Future<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.cancelledEx(future);
 	}
-	/** Predicate: <%s> must NOT be cancelled..*/
+	/** Predicate: <%s> must NOT be cancelled.*/
 	public static <MP1, MP2> boolean notCancelled(@Nonnull Future<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notCancelled(future);
 	}
 
-	/** "Special" predicate: <%s> must NOT be cancelled. */
+	/** "Special" predicate: <%s> must NOT be cancelled.*/
 	public static <MP1, MP2> @Nullable String notCancelledEx(@Nonnull Future<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notCancelledEx(future);
@@ -4604,18 +4330,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.completedExceptionally(future);
 	}
 
-	/** "Special" predicate: <%s> must be cancelled. */
+	/** "Special" predicate: <%s> must be cancelled.*/
 	public static <MP1, MP2> @Nullable String completedExceptionallyEx(@Nonnull CompletableFuture<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.completedExceptionallyEx(future);
 	}
-	/** Predicate: <%s> must NOT be cancelled..*/
+	/** Predicate: <%s> must NOT be cancelled.*/
 	public static <MP1, MP2> boolean notCompletedExceptionally(@Nonnull CompletableFuture<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notCompletedExceptionally(future);
 	}
 
-	/** "Special" predicate: <%s> must NOT be cancelled. */
+	/** "Special" predicate: <%s> must NOT be cancelled.*/
 	public static <MP1, MP2> @Nullable String notCompletedExceptionallyEx(@Nonnull CompletableFuture<?> future, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notCompletedExceptionallyEx(future);
@@ -4627,18 +4353,18 @@ public class P2 implements FluentSyntax {
 		return Predicates.produce(future, expected);
 	}
 
-	/** "Special" predicate: <%s> must produce value equal to <%s>. */
+	/** "Special" predicate: <%s> must produce value equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String produceEx(@Nonnull Future<?> future, Object expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.produceEx(future, expected);
 	}
-	/** Predicate: <%s> must NOT produce value equal to <%s>..*/
+	/** Predicate: <%s> must NOT produce value equal to <%s>.*/
 	public static <MP1, MP2> boolean notProduce(@Nonnull Future<?> future, Object expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notProduce(future, expected);
 	}
 
-	/** "Special" predicate: <%s> must NOT produce value equal to <%s>. */
+	/** "Special" predicate: <%s> must NOT produce value equal to <%s>.*/
 	public static <MP1, MP2> @Nullable String notProduceEx(@Nonnull Future<?> future, Object expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(future, "future");
 		return Predicates.notProduceEx(future, expected);
