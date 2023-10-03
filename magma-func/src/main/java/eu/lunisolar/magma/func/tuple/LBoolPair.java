@@ -282,8 +282,7 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
 
 
 
-
-  public static  MutBoolPair of() { 
+  public static  MutBoolPair of() {
       return of(  false ,  false );
   }
       
@@ -349,12 +348,11 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
 
 
 
-
-  public static  ImmBoolPair immutableOf(boolean a1,boolean a2){
+  public static  LBoolPair immutableOf(boolean a1,boolean a2){
         return new ImmBoolPair(a1,a2);
   }
 
-  public static  ImmBoolPair immutableCopyOf(LBoolPair tuple) {
+  public static  LBoolPair immutableCopyOf(LBoolPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -390,14 +388,14 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
 
 
     public static  Iterator<LBoolPair.MutBoolPair> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolPair::of);}
-    public static  Iterator<LBoolPair.ImmBoolPair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolPair::immutableOf);}
+    public static  Iterator<LBoolPair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolPair::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LBiBoolFunction<R> factory) {
 		return iterator(SA.booleanIterator(), items, factory);
 	}
 
     public static  Stream<LBoolPair.MutBoolPair> mutStream(IntStream items) { return stream(items, LBoolPair::of);}
-    public static  Stream<LBoolPair.ImmBoolPair> immStream(IntStream items) { return stream(items, LBoolPair::immutableOf);}
+    public static  Stream<LBoolPair> immStream(IntStream items) { return stream(items, LBoolPair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiBoolFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

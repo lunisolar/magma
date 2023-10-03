@@ -298,8 +298,7 @@ public interface LSrtPair extends LTuple<Short> , Comparable<LSrtPair>
 
 
 
-
-  public static  MutSrtPair of() { 
+  public static  MutSrtPair of() {
       return of(  (short)0 ,  (short)0 );
   }
       
@@ -365,12 +364,11 @@ public interface LSrtPair extends LTuple<Short> , Comparable<LSrtPair>
 
 
 
-
-  public static  ImmSrtPair immutableOf(short a1,short a2){
+  public static  LSrtPair immutableOf(short a1,short a2){
         return new ImmSrtPair(a1,a2);
   }
 
-  public static  ImmSrtPair immutableCopyOf(LSrtPair tuple) {
+  public static  LSrtPair immutableCopyOf(LSrtPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -406,14 +404,14 @@ public interface LSrtPair extends LTuple<Short> , Comparable<LSrtPair>
 
 
     public static  Iterator<LSrtPair.MutSrtPair> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LSrtPair::of);}
-    public static  Iterator<LSrtPair.ImmSrtPair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LSrtPair::immutableOf);}
+    public static  Iterator<LSrtPair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LSrtPair::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LBiSrtFunction<R> factory) {
 		return iterator(SA.shortIterator(), items, factory);
 	}
 
     public static  Stream<LSrtPair.MutSrtPair> mutStream(IntStream items) { return stream(items, LSrtPair::of);}
-    public static  Stream<LSrtPair.ImmSrtPair> immStream(IntStream items) { return stream(items, LSrtPair::immutableOf);}
+    public static  Stream<LSrtPair> immStream(IntStream items) { return stream(items, LSrtPair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiSrtFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

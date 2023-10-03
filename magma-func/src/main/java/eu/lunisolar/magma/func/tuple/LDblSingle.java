@@ -318,8 +318,7 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
 
 
 
-
-  public static  MutDblSingle of() { 
+  public static  MutDblSingle of() {
       return of(  0d );
   }
       
@@ -369,12 +368,11 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
 
 
 
-
-  public static  ImmDblSingle immutableOf(double a){
+  public static  LDblSingle immutableOf(double a){
         return new ImmDblSingle(a);
   }
 
-  public static  ImmDblSingle immutableCopyOf(LDblSingle tuple) {
+  public static  LDblSingle immutableCopyOf(LDblSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -404,8 +402,7 @@ public interface LDblSingle extends LTuple<Double> , Comparable<LDblSingle>
 
 
 
-
-  public static  AtomicDblSingle atomicOf() { 
+  public static  AtomicDblSingle atomicOf() {
       return atomicOf(  0d );
   }
       

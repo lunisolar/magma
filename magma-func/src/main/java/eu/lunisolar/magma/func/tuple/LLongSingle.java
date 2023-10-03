@@ -318,8 +318,7 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
 
 
 
-
-  public static  MutLongSingle of() { 
+  public static  MutLongSingle of() {
       return of(  0L );
   }
       
@@ -369,12 +368,11 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
 
 
 
-
-  public static  ImmLongSingle immutableOf(long a){
+  public static  LLongSingle immutableOf(long a){
         return new ImmLongSingle(a);
   }
 
-  public static  ImmLongSingle immutableCopyOf(LLongSingle tuple) {
+  public static  LLongSingle immutableCopyOf(LLongSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -404,8 +402,7 @@ public interface LLongSingle extends LTuple<Long> , Comparable<LLongSingle>
 
 
 
-
-  public static  AtomicLongSingle atomicOf() { 
+  public static  AtomicLongSingle atomicOf() {
       return atomicOf(  0L );
   }
       

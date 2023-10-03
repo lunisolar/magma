@@ -319,8 +319,7 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>
 
 
 
-
-  public static <T> MutObjIntCharTriple<T> of() { 
+  public static <T> MutObjIntCharTriple<T> of() {
       return of(  null ,  0 ,  '\u0000' );
   }
       
@@ -402,94 +401,11 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>
 
 
 
-  public static <T extends Comparable<? super T>> MutCompObjIntCharTriple<T> comparableOf() { 
-      return comparableOf(  null ,  0 ,  '\u0000' );
-  }
-      
-
-  public static <T extends Comparable<? super T>> MutCompObjIntCharTriple<T> comparableOf(T a1,int a2,char a3){
-        return new MutCompObjIntCharTriple(a1,a2,a3);
-  }
-
-  public static <T extends Comparable<? super T>> MutCompObjIntCharTriple<T> comparableCopyOf(LObjIntCharTriple<T> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompObjIntCharTriple<T extends Comparable<? super T>>  extends AbstractObjIntCharTriple<T> implements ComparableObjIntCharTriple<T>,Mut<T,MutCompObjIntCharTriple<T>>   {
-
-        private  T first;
-        private  int second;
-        private  char third;
-
-        public MutCompObjIntCharTriple(T a1,int a2,char a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override MutCompObjIntCharTriple<T> first(T first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompObjIntCharTriple<T> second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override char third() {
-            return third;
-        }
-
-        public @Override MutCompObjIntCharTriple<T> third(char third)    {
-            this.third = third;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T> ImmObjIntCharTriple<T> immutableOf(T a1,int a2,char a3){
+  public static <T> LObjIntCharTriple<T> immutableOf(T a1,int a2,char a3){
         return new ImmObjIntCharTriple(a1,a2,a3);
   }
 
-  public static <T> ImmObjIntCharTriple<T> immutableCopyOf(LObjIntCharTriple<T> tuple) {
+  public static <T> LObjIntCharTriple<T> immutableCopyOf(LObjIntCharTriple<T> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -505,54 +421,6 @@ public interface LObjIntCharTriple<T> extends LTuple<Object>
         private final char third;
 
         public ImmObjIntCharTriple(T a1,int a2,char a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override char third() {
-            return third;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T extends Comparable<? super T>> ImmCompObjIntCharTriple<T> immutableComparableOf(T a1,int a2,char a3){
-        return new ImmCompObjIntCharTriple(a1,a2,a3);
-  }
-
-  public static <T extends Comparable<? super T>> ImmCompObjIntCharTriple<T> immutableComparableCopyOf(LObjIntCharTriple<T> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompObjIntCharTriple<T extends Comparable<? super T>>  extends AbstractObjIntCharTriple<T> implements ComparableObjIntCharTriple<T>   {
-
-        private final T first;
-        private final int second;
-        private final char third;
-
-        public ImmCompObjIntCharTriple(T a1,int a2,char a3){
             this.first = a1;
             this.second = a2;
             this.third = a3;

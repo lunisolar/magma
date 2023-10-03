@@ -341,8 +341,7 @@ public interface LIntTriple extends LTuple<Integer> , Comparable<LIntTriple>
 
 
 
-
-  public static  MutIntTriple of() { 
+  public static  MutIntTriple of() {
       return of(  0 ,  0 ,  0 );
   }
       
@@ -424,12 +423,11 @@ public interface LIntTriple extends LTuple<Integer> , Comparable<LIntTriple>
 
 
 
-
-  public static  ImmIntTriple immutableOf(int a1,int a2,int a3){
+  public static  LIntTriple immutableOf(int a1,int a2,int a3){
         return new ImmIntTriple(a1,a2,a3);
   }
 
-  public static  ImmIntTriple immutableCopyOf(LIntTriple tuple) {
+  public static  LIntTriple immutableCopyOf(LIntTriple tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -471,14 +469,14 @@ public interface LIntTriple extends LTuple<Integer> , Comparable<LIntTriple>
 
 
     public static  Iterator<LIntTriple.MutIntTriple> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LIntTriple::of);}
-    public static  Iterator<LIntTriple.ImmIntTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LIntTriple::immutableOf);}
+    public static  Iterator<LIntTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LIntTriple::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LTriIntFunction<R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static  Stream<LIntTriple.MutIntTriple> mutStream(IntStream items) { return stream(items, LIntTriple::of);}
-    public static  Stream<LIntTriple.ImmIntTriple> immStream(IntStream items) { return stream(items, LIntTriple::immutableOf);}
+    public static  Stream<LIntTriple> immStream(IntStream items) { return stream(items, LIntTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriIntFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

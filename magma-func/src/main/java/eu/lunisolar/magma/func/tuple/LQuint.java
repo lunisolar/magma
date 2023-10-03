@@ -423,8 +423,7 @@ public interface LQuint<T1,T2,T3,T4,T5> extends LTuple<Object>
 
 
 
-
-  public static <T1,T2,T3,T4,T5> MutQuint<T1,T2,T3,T4,T5> of() { 
+  public static <T1,T2,T3,T4,T5> MutQuint<T1,T2,T3,T4,T5> of() {
       return of(  null ,  null ,  null ,  null ,  null );
   }
       
@@ -538,126 +537,11 @@ public interface LQuint<T1,T2,T3,T4,T5> extends LTuple<Object>
 
 
 
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>,T5 extends Comparable<? super T5>> MutCompQuint<T1,T2,T3,T4,T5> comparableOf() { 
-      return comparableOf(  null ,  null ,  null ,  null ,  null );
-  }
-      
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>,T5 extends Comparable<? super T5>> MutCompQuint<T1,T2,T3,T4,T5> comparableOf(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5){
-        return new MutCompQuint(a1,a2,a3,a4,a5);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>,T5 extends Comparable<? super T5>> MutCompQuint<T1,T2,T3,T4,T5> comparableCopyOf(LQuint<T1,T2,T3,T4,T5> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompQuint<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>,T5 extends Comparable<? super T5>>  extends AbstractQuint<T1,T2,T3,T4,T5> implements ComparableQuint<T1,T2,T3,T4,T5>,Mut<T1,T2,T3,T4,T5,MutCompQuint<T1,T2,T3,T4,T5>>   {
-
-        private  T1 first;
-        private  T2 second;
-        private  T3 third;
-        private  T4 fourth;
-        private  T5 fifth;
-
-        public MutCompQuint(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-            this.fourth = a4;
-            this.fifth = a5;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override MutCompQuint<T1,T2,T3,T4,T5> first(T1 first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override MutCompQuint<T1,T2,T3,T4,T5> second(T2 second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override T3 third() {
-            return third;
-        }
-
-        public @Override MutCompQuint<T1,T2,T3,T4,T5> third(T3 third)    {
-            this.third = third;
-            return this;
-        }
-            
-        public @Override T4 fourth() {
-            return fourth;
-        }
-
-        public @Override MutCompQuint<T1,T2,T3,T4,T5> fourth(T4 fourth)    {
-            this.fourth = fourth;
-            return this;
-        }
-            
-        public @Override T5 fifth() {
-            return fifth;
-        }
-
-        public @Override MutCompQuint<T1,T2,T3,T4,T5> fifth(T5 fifth)    {
-            this.fifth = fifth;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1,T2,T3,T4,T5> ImmQuint<T1,T2,T3,T4,T5> immutableOf(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5){
+  public static <T1,T2,T3,T4,T5> LQuint<T1,T2,T3,T4,T5> immutableOf(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5){
         return new ImmQuint(a1,a2,a3,a4,a5);
   }
 
-  public static <T1,T2,T3,T4,T5> ImmQuint<T1,T2,T3,T4,T5> immutableCopyOf(LQuint<T1,T2,T3,T4,T5> tuple) {
+  public static <T1,T2,T3,T4,T5> LQuint<T1,T2,T3,T4,T5> immutableCopyOf(LQuint<T1,T2,T3,T4,T5> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
   }
 
@@ -710,75 +594,15 @@ public interface LQuint<T1,T2,T3,T4,T5> extends LTuple<Object>
 
 
 
-
-
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>,T5 extends Comparable<? super T5>> ImmCompQuint<T1,T2,T3,T4,T5> immutableComparableOf(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5){
-        return new ImmCompQuint(a1,a2,a3,a4,a5);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>,T5 extends Comparable<? super T5>> ImmCompQuint<T1,T2,T3,T4,T5> immutableComparableCopyOf(LQuint<T1,T2,T3,T4,T5> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth(), tuple.fifth());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompQuint<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>,T5 extends Comparable<? super T5>>  extends AbstractQuint<T1,T2,T3,T4,T5> implements ComparableQuint<T1,T2,T3,T4,T5>   {
-
-        private final T1 first;
-        private final T2 second;
-        private final T3 third;
-        private final T4 fourth;
-        private final T5 fifth;
-
-        public ImmCompQuint(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-            this.fourth = a4;
-            this.fifth = a5;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override T3 third() {
-            return third;
-        }
-
-        public @Override T4 fourth() {
-            return fourth;
-        }
-
-        public @Override T5 fifth() {
-            return fifth;
-        }
-
-
-
-    }
-
-
-
-
     public static <T> Iterator<LQuint.MutQuint> mutIterator(Iterator<? extends T> items) { return iterator(items, LQuint::of);}
-    public static <T> Iterator<LQuint.ImmQuint> immIterator(Iterator<? extends T> items) { return iterator(items, LQuint::immutableOf);}
+    public static <T> Iterator<LQuint> immIterator(Iterator<? extends T> items) { return iterator(items, LQuint::immutableOf);}
 
    	public static <T,R> Iterator<R> iterator(Iterator<? extends T> items, LQuintFunction<T,T,T,T,T,R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static <T> Stream<LQuint.MutQuint> mutStream(Stream<? extends T> items) { return stream(items, LQuint::of);}
-    public static <T> Stream<LQuint.ImmQuint> immStream(Stream<? extends T> items) { return stream(items, LQuint::immutableOf);}
+    public static <T> Stream<LQuint> immStream(Stream<? extends T> items) { return stream(items, LQuint::immutableOf);}
 
 	public static <T,R> Stream<R> stream(Stream<? extends T> items, LQuintFunction<T,T,T,T,T,R> factory) {
        var pairs =  iterator(items.iterator(), factory);

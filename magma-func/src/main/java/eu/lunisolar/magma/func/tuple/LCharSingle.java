@@ -259,8 +259,7 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
 
 
 
-
-  public static  MutCharSingle of() { 
+  public static  MutCharSingle of() {
       return of(  '\u0000' );
   }
       
@@ -310,12 +309,11 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
 
 
 
-
-  public static  ImmCharSingle immutableOf(char a){
+  public static  LCharSingle immutableOf(char a){
         return new ImmCharSingle(a);
   }
 
-  public static  ImmCharSingle immutableCopyOf(LCharSingle tuple) {
+  public static  LCharSingle immutableCopyOf(LCharSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -345,8 +343,7 @@ public interface LCharSingle extends LTuple<Character> , Comparable<LCharSingle>
 
 
 
-
-  public static  AtomicCharSingle atomicOf() { 
+  public static  AtomicCharSingle atomicOf() {
       return atomicOf(  '\u0000' );
   }
       

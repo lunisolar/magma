@@ -319,8 +319,7 @@ public interface LBiObjLongTriple<T1,T2> extends LTuple<Object>
 
 
 
-
-  public static <T1,T2> MutBiObjLongTriple<T1,T2> of() { 
+  public static <T1,T2> MutBiObjLongTriple<T1,T2> of() {
       return of(  null ,  null ,  0L );
   }
       
@@ -402,94 +401,11 @@ public interface LBiObjLongTriple<T1,T2> extends LTuple<Object>
 
 
 
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompBiObjLongTriple<T1,T2> comparableOf() { 
-      return comparableOf(  null ,  null ,  0L );
-  }
-      
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompBiObjLongTriple<T1,T2> comparableOf(T1 a1,T2 a2,long a3){
-        return new MutCompBiObjLongTriple(a1,a2,a3);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompBiObjLongTriple<T1,T2> comparableCopyOf(LBiObjLongTriple<T1,T2> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompBiObjLongTriple<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>>  extends AbstractBiObjLongTriple<T1,T2> implements ComparableBiObjLongTriple<T1,T2>,Mut<T1,T2,MutCompBiObjLongTriple<T1,T2>>   {
-
-        private  T1 first;
-        private  T2 second;
-        private  long third;
-
-        public MutCompBiObjLongTriple(T1 a1,T2 a2,long a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override MutCompBiObjLongTriple<T1,T2> first(T1 first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override MutCompBiObjLongTriple<T1,T2> second(T2 second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override long third() {
-            return third;
-        }
-
-        public @Override MutCompBiObjLongTriple<T1,T2> third(long third)    {
-            this.third = third;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1,T2> ImmBiObjLongTriple<T1,T2> immutableOf(T1 a1,T2 a2,long a3){
+  public static <T1,T2> LBiObjLongTriple<T1,T2> immutableOf(T1 a1,T2 a2,long a3){
         return new ImmBiObjLongTriple(a1,a2,a3);
   }
 
-  public static <T1,T2> ImmBiObjLongTriple<T1,T2> immutableCopyOf(LBiObjLongTriple<T1,T2> tuple) {
+  public static <T1,T2> LBiObjLongTriple<T1,T2> immutableCopyOf(LBiObjLongTriple<T1,T2> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -505,54 +421,6 @@ public interface LBiObjLongTriple<T1,T2> extends LTuple<Object>
         private final long third;
 
         public ImmBiObjLongTriple(T1 a1,T2 a2,long a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override long third() {
-            return third;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> ImmCompBiObjLongTriple<T1,T2> immutableComparableOf(T1 a1,T2 a2,long a3){
-        return new ImmCompBiObjLongTriple(a1,a2,a3);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> ImmCompBiObjLongTriple<T1,T2> immutableComparableCopyOf(LBiObjLongTriple<T1,T2> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompBiObjLongTriple<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>>  extends AbstractBiObjLongTriple<T1,T2> implements ComparableBiObjLongTriple<T1,T2>   {
-
-        private final T1 first;
-        private final T2 second;
-        private final long third;
-
-        public ImmCompBiObjLongTriple(T1 a1,T2 a2,long a3){
             this.first = a1;
             this.second = a2;
             this.third = a3;

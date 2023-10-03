@@ -298,8 +298,7 @@ public interface LBytePair extends LTuple<Byte> , Comparable<LBytePair>
 
 
 
-
-  public static  MutBytePair of() { 
+  public static  MutBytePair of() {
       return of(  (byte)0 ,  (byte)0 );
   }
       
@@ -365,12 +364,11 @@ public interface LBytePair extends LTuple<Byte> , Comparable<LBytePair>
 
 
 
-
-  public static  ImmBytePair immutableOf(byte a1,byte a2){
+  public static  LBytePair immutableOf(byte a1,byte a2){
         return new ImmBytePair(a1,a2);
   }
 
-  public static  ImmBytePair immutableCopyOf(LBytePair tuple) {
+  public static  LBytePair immutableCopyOf(LBytePair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -406,14 +404,14 @@ public interface LBytePair extends LTuple<Byte> , Comparable<LBytePair>
 
 
     public static  Iterator<LBytePair.MutBytePair> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBytePair::of);}
-    public static  Iterator<LBytePair.ImmBytePair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBytePair::immutableOf);}
+    public static  Iterator<LBytePair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBytePair::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LBiByteFunction<R> factory) {
 		return iterator(SA.byteIterator(), items, factory);
 	}
 
     public static  Stream<LBytePair.MutBytePair> mutStream(IntStream items) { return stream(items, LBytePair::of);}
-    public static  Stream<LBytePair.ImmBytePair> immStream(IntStream items) { return stream(items, LBytePair::immutableOf);}
+    public static  Stream<LBytePair> immStream(IntStream items) { return stream(items, LBytePair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiByteFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

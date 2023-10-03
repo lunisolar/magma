@@ -381,8 +381,7 @@ public interface LQuad<T1,T2,T3,T4> extends LTuple<Object>
 
 
 
-
-  public static <T1,T2,T3,T4> MutQuad<T1,T2,T3,T4> of() { 
+  public static <T1,T2,T3,T4> MutQuad<T1,T2,T3,T4> of() {
       return of(  null ,  null ,  null ,  null );
   }
       
@@ -480,110 +479,11 @@ public interface LQuad<T1,T2,T3,T4> extends LTuple<Object>
 
 
 
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>> MutCompQuad<T1,T2,T3,T4> comparableOf() { 
-      return comparableOf(  null ,  null ,  null ,  null );
-  }
-      
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>> MutCompQuad<T1,T2,T3,T4> comparableOf(T1 a1,T2 a2,T3 a3,T4 a4){
-        return new MutCompQuad(a1,a2,a3,a4);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>> MutCompQuad<T1,T2,T3,T4> comparableCopyOf(LQuad<T1,T2,T3,T4> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompQuad<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>>  extends AbstractQuad<T1,T2,T3,T4> implements ComparableQuad<T1,T2,T3,T4>,Mut<T1,T2,T3,T4,MutCompQuad<T1,T2,T3,T4>>   {
-
-        private  T1 first;
-        private  T2 second;
-        private  T3 third;
-        private  T4 fourth;
-
-        public MutCompQuad(T1 a1,T2 a2,T3 a3,T4 a4){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-            this.fourth = a4;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override MutCompQuad<T1,T2,T3,T4> first(T1 first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override MutCompQuad<T1,T2,T3,T4> second(T2 second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override T3 third() {
-            return third;
-        }
-
-        public @Override MutCompQuad<T1,T2,T3,T4> third(T3 third)    {
-            this.third = third;
-            return this;
-        }
-            
-        public @Override T4 fourth() {
-            return fourth;
-        }
-
-        public @Override MutCompQuad<T1,T2,T3,T4> fourth(T4 fourth)    {
-            this.fourth = fourth;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1,T2,T3,T4> ImmQuad<T1,T2,T3,T4> immutableOf(T1 a1,T2 a2,T3 a3,T4 a4){
+  public static <T1,T2,T3,T4> LQuad<T1,T2,T3,T4> immutableOf(T1 a1,T2 a2,T3 a3,T4 a4){
         return new ImmQuad(a1,a2,a3,a4);
   }
 
-  public static <T1,T2,T3,T4> ImmQuad<T1,T2,T3,T4> immutableCopyOf(LQuad<T1,T2,T3,T4> tuple) {
+  public static <T1,T2,T3,T4> LQuad<T1,T2,T3,T4> immutableCopyOf(LQuad<T1,T2,T3,T4> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
   }
 
@@ -630,69 +530,15 @@ public interface LQuad<T1,T2,T3,T4> extends LTuple<Object>
 
 
 
-
-
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>> ImmCompQuad<T1,T2,T3,T4> immutableComparableOf(T1 a1,T2 a2,T3 a3,T4 a4){
-        return new ImmCompQuad(a1,a2,a3,a4);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>> ImmCompQuad<T1,T2,T3,T4> immutableComparableCopyOf(LQuad<T1,T2,T3,T4> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third(), tuple.fourth());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompQuad<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>,T4 extends Comparable<? super T4>>  extends AbstractQuad<T1,T2,T3,T4> implements ComparableQuad<T1,T2,T3,T4>   {
-
-        private final T1 first;
-        private final T2 second;
-        private final T3 third;
-        private final T4 fourth;
-
-        public ImmCompQuad(T1 a1,T2 a2,T3 a3,T4 a4){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-            this.fourth = a4;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override T3 third() {
-            return third;
-        }
-
-        public @Override T4 fourth() {
-            return fourth;
-        }
-
-
-
-    }
-
-
-
-
     public static <T> Iterator<LQuad.MutQuad> mutIterator(Iterator<? extends T> items) { return iterator(items, LQuad::of);}
-    public static <T> Iterator<LQuad.ImmQuad> immIterator(Iterator<? extends T> items) { return iterator(items, LQuad::immutableOf);}
+    public static <T> Iterator<LQuad> immIterator(Iterator<? extends T> items) { return iterator(items, LQuad::immutableOf);}
 
    	public static <T,R> Iterator<R> iterator(Iterator<? extends T> items, LQuadFunction<T,T,T,T,R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static <T> Stream<LQuad.MutQuad> mutStream(Stream<? extends T> items) { return stream(items, LQuad::of);}
-    public static <T> Stream<LQuad.ImmQuad> immStream(Stream<? extends T> items) { return stream(items, LQuad::immutableOf);}
+    public static <T> Stream<LQuad> immStream(Stream<? extends T> items) { return stream(items, LQuad::immutableOf);}
 
 	public static <T,R> Stream<R> stream(Stream<? extends T> items, LQuadFunction<T,T,T,T,R> factory) {
        var pairs =  iterator(items.iterator(), factory);

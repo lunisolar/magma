@@ -277,8 +277,7 @@ public interface LObjDblPair<T> extends LTuple<Object>
 
 
 
-
-  public static <T> MutObjDblPair<T> of() { 
+  public static <T> MutObjDblPair<T> of() {
       return of(  null ,  0d );
   }
       
@@ -344,78 +343,11 @@ public interface LObjDblPair<T> extends LTuple<Object>
 
 
 
-  public static <T extends Comparable<? super T>> MutCompObjDblPair<T> comparableOf() { 
-      return comparableOf(  null ,  0d );
-  }
-      
-
-  public static <T extends Comparable<? super T>> MutCompObjDblPair<T> comparableOf(T a1,double a2){
-        return new MutCompObjDblPair(a1,a2);
-  }
-
-  public static <T extends Comparable<? super T>> MutCompObjDblPair<T> comparableCopyOf(LObjDblPair<T> tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompObjDblPair<T extends Comparable<? super T>>  extends AbstractObjDblPair<T> implements ComparableObjDblPair<T>,Mut<T,MutCompObjDblPair<T>>   {
-
-        private  T first;
-        private  double second;
-
-        public MutCompObjDblPair(T a1,double a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override MutCompObjDblPair<T> first(T first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override double second() {
-            return second;
-        }
-
-        public @Override MutCompObjDblPair<T> second(double second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T> ImmObjDblPair<T> immutableOf(T a1,double a2){
+  public static <T> LObjDblPair<T> immutableOf(T a1,double a2){
         return new ImmObjDblPair(a1,a2);
   }
 
-  public static <T> ImmObjDblPair<T> immutableCopyOf(LObjDblPair<T> tuple) {
+  public static <T> LObjDblPair<T> immutableCopyOf(LObjDblPair<T> tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LObjDblPair<T> extends LTuple<Object>
         private final double second;
 
         public ImmObjDblPair(T a1,double a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override double second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T extends Comparable<? super T>> ImmCompObjDblPair<T> immutableComparableOf(T a1,double a2){
-        return new ImmCompObjDblPair(a1,a2);
-  }
-
-  public static <T extends Comparable<? super T>> ImmCompObjDblPair<T> immutableComparableCopyOf(LObjDblPair<T> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompObjDblPair<T extends Comparable<? super T>>  extends AbstractObjDblPair<T> implements ComparableObjDblPair<T>   {
-
-        private final T first;
-        private final double second;
-
-        public ImmCompObjDblPair(T a1,double a2){
             this.first = a1;
             this.second = a2;
         }

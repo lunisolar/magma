@@ -277,8 +277,7 @@ public interface LByteIntPair extends LTuple<Number>
 
 
 
-
-  public static  MutByteIntPair of() { 
+  public static  MutByteIntPair of() {
       return of(  (byte)0 ,  0 );
   }
       
@@ -344,78 +343,11 @@ public interface LByteIntPair extends LTuple<Number>
 
 
 
-  public static  MutCompByteIntPair comparableOf() { 
-      return comparableOf(  (byte)0 ,  0 );
-  }
-      
-
-  public static  MutCompByteIntPair comparableOf(byte a1,int a2){
-        return new MutCompByteIntPair(a1,a2);
-  }
-
-  public static  MutCompByteIntPair comparableCopyOf(LByteIntPair tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompByteIntPair  extends AbstractByteIntPair implements ComparableByteIntPair,Mut<MutCompByteIntPair>   {
-
-        private  byte first;
-        private  int second;
-
-        public MutCompByteIntPair(byte a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override byte first() {
-            return first;
-        }
-
-        public @Override MutCompByteIntPair first(byte first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompByteIntPair second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmByteIntPair immutableOf(byte a1,int a2){
+  public static  LByteIntPair immutableOf(byte a1,int a2){
         return new ImmByteIntPair(a1,a2);
   }
 
-  public static  ImmByteIntPair immutableCopyOf(LByteIntPair tuple) {
+  public static  LByteIntPair immutableCopyOf(LByteIntPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LByteIntPair extends LTuple<Number>
         private final int second;
 
         public ImmByteIntPair(byte a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override byte first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmCompByteIntPair immutableComparableOf(byte a1,int a2){
-        return new ImmCompByteIntPair(a1,a2);
-  }
-
-  public static  ImmCompByteIntPair immutableComparableCopyOf(LByteIntPair tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompByteIntPair  extends AbstractByteIntPair implements ComparableByteIntPair   {
-
-        private final byte first;
-        private final int second;
-
-        public ImmCompByteIntPair(byte a1,int a2){
             this.first = a1;
             this.second = a2;
         }

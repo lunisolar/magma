@@ -341,8 +341,7 @@ public interface LCharTriple extends LTuple<Character> , Comparable<LCharTriple>
 
 
 
-
-  public static  MutCharTriple of() { 
+  public static  MutCharTriple of() {
       return of(  '\u0000' ,  '\u0000' ,  '\u0000' );
   }
       
@@ -424,12 +423,11 @@ public interface LCharTriple extends LTuple<Character> , Comparable<LCharTriple>
 
 
 
-
-  public static  ImmCharTriple immutableOf(char a1,char a2,char a3){
+  public static  LCharTriple immutableOf(char a1,char a2,char a3){
         return new ImmCharTriple(a1,a2,a3);
   }
 
-  public static  ImmCharTriple immutableCopyOf(LCharTriple tuple) {
+  public static  LCharTriple immutableCopyOf(LCharTriple tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -471,14 +469,14 @@ public interface LCharTriple extends LTuple<Character> , Comparable<LCharTriple>
 
 
     public static  Iterator<LCharTriple.MutCharTriple> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LCharTriple::of);}
-    public static  Iterator<LCharTriple.ImmCharTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LCharTriple::immutableOf);}
+    public static  Iterator<LCharTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LCharTriple::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LTriCharFunction<R> factory) {
 		return iterator(SA.charIterator(), items, factory);
 	}
 
     public static  Stream<LCharTriple.MutCharTriple> mutStream(IntStream items) { return stream(items, LCharTriple::of);}
-    public static  Stream<LCharTriple.ImmCharTriple> immStream(IntStream items) { return stream(items, LCharTriple::immutableOf);}
+    public static  Stream<LCharTriple> immStream(IntStream items) { return stream(items, LCharTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriCharFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

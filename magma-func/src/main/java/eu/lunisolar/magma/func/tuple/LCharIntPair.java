@@ -277,8 +277,7 @@ public interface LCharIntPair extends LTuple<Object>
 
 
 
-
-  public static  MutCharIntPair of() { 
+  public static  MutCharIntPair of() {
       return of(  '\u0000' ,  0 );
   }
       
@@ -344,78 +343,11 @@ public interface LCharIntPair extends LTuple<Object>
 
 
 
-  public static  MutCompCharIntPair comparableOf() { 
-      return comparableOf(  '\u0000' ,  0 );
-  }
-      
-
-  public static  MutCompCharIntPair comparableOf(char a1,int a2){
-        return new MutCompCharIntPair(a1,a2);
-  }
-
-  public static  MutCompCharIntPair comparableCopyOf(LCharIntPair tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompCharIntPair  extends AbstractCharIntPair implements ComparableCharIntPair,Mut<MutCompCharIntPair>   {
-
-        private  char first;
-        private  int second;
-
-        public MutCompCharIntPair(char a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override char first() {
-            return first;
-        }
-
-        public @Override MutCompCharIntPair first(char first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompCharIntPair second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmCharIntPair immutableOf(char a1,int a2){
+  public static  LCharIntPair immutableOf(char a1,int a2){
         return new ImmCharIntPair(a1,a2);
   }
 
-  public static  ImmCharIntPair immutableCopyOf(LCharIntPair tuple) {
+  public static  LCharIntPair immutableCopyOf(LCharIntPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LCharIntPair extends LTuple<Object>
         private final int second;
 
         public ImmCharIntPair(char a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override char first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmCompCharIntPair immutableComparableOf(char a1,int a2){
-        return new ImmCompCharIntPair(a1,a2);
-  }
-
-  public static  ImmCompCharIntPair immutableComparableCopyOf(LCharIntPair tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompCharIntPair  extends AbstractCharIntPair implements ComparableCharIntPair   {
-
-        private final char first;
-        private final int second;
-
-        public ImmCompCharIntPair(char a1,int a2){
             this.first = a1;
             this.second = a2;
         }

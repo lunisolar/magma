@@ -297,8 +297,7 @@ public interface LPair<T1,T2> extends LTuple<Object>
 
 
 
-
-  public static <T1,T2> MutPair<T1,T2> of() { 
+  public static <T1,T2> MutPair<T1,T2> of() {
       return of(  null ,  null );
   }
       
@@ -364,78 +363,11 @@ public interface LPair<T1,T2> extends LTuple<Object>
 
 
 
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompPair<T1,T2> comparableOf() { 
-      return comparableOf(  null ,  null );
-  }
-      
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompPair<T1,T2> comparableOf(T1 a1,T2 a2){
-        return new MutCompPair(a1,a2);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompPair<T1,T2> comparableCopyOf(LPair<T1,T2> tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompPair<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>>  extends AbstractPair<T1,T2> implements ComparablePair<T1,T2>,Mut<T1,T2,MutCompPair<T1,T2>>   {
-
-        private  T1 first;
-        private  T2 second;
-
-        public MutCompPair(T1 a1,T2 a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override MutCompPair<T1,T2> first(T1 first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override MutCompPair<T1,T2> second(T2 second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1,T2> ImmPair<T1,T2> immutableOf(T1 a1,T2 a2){
+  public static <T1,T2> LPair<T1,T2> immutableOf(T1 a1,T2 a2){
         return new ImmPair(a1,a2);
   }
 
-  public static <T1,T2> ImmPair<T1,T2> immutableCopyOf(LPair<T1,T2> tuple) {
+  public static <T1,T2> LPair<T1,T2> immutableCopyOf(LPair<T1,T2> tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -470,57 +402,15 @@ public interface LPair<T1,T2> extends LTuple<Object>
 
 
 
-
-
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> ImmCompPair<T1,T2> immutableComparableOf(T1 a1,T2 a2){
-        return new ImmCompPair(a1,a2);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> ImmCompPair<T1,T2> immutableComparableCopyOf(LPair<T1,T2> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompPair<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>>  extends AbstractPair<T1,T2> implements ComparablePair<T1,T2>   {
-
-        private final T1 first;
-        private final T2 second;
-
-        public ImmCompPair(T1 a1,T2 a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override T2 second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
     public static <T> Iterator<LPair.MutPair> mutIterator(Iterator<? extends T> items) { return iterator(items, LPair::of);}
-    public static <T> Iterator<LPair.ImmPair> immIterator(Iterator<? extends T> items) { return iterator(items, LPair::immutableOf);}
+    public static <T> Iterator<LPair> immIterator(Iterator<? extends T> items) { return iterator(items, LPair::immutableOf);}
 
    	public static <T,R> Iterator<R> iterator(Iterator<? extends T> items, LBiFunction<T,T,R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static <T> Stream<LPair.MutPair> mutStream(Stream<? extends T> items) { return stream(items, LPair::of);}
-    public static <T> Stream<LPair.ImmPair> immStream(Stream<? extends T> items) { return stream(items, LPair::immutableOf);}
+    public static <T> Stream<LPair> immStream(Stream<? extends T> items) { return stream(items, LPair::immutableOf);}
 
 	public static <T,R> Stream<R> stream(Stream<? extends T> items, LBiFunction<T,T,R> factory) {
        var pairs =  iterator(items.iterator(), factory);

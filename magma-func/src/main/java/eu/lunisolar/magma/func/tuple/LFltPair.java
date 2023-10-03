@@ -298,8 +298,7 @@ public interface LFltPair extends LTuple<Float> , Comparable<LFltPair>
 
 
 
-
-  public static  MutFltPair of() { 
+  public static  MutFltPair of() {
       return of(  0f ,  0f );
   }
       
@@ -365,12 +364,11 @@ public interface LFltPair extends LTuple<Float> , Comparable<LFltPair>
 
 
 
-
-  public static  ImmFltPair immutableOf(float a1,float a2){
+  public static  LFltPair immutableOf(float a1,float a2){
         return new ImmFltPair(a1,a2);
   }
 
-  public static  ImmFltPair immutableCopyOf(LFltPair tuple) {
+  public static  LFltPair immutableCopyOf(LFltPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -406,14 +404,14 @@ public interface LFltPair extends LTuple<Float> , Comparable<LFltPair>
 
 
     public static  Iterator<LFltPair.MutFltPair> mutIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LFltPair::of);}
-    public static  Iterator<LFltPair.ImmFltPair> immIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LFltPair::immutableOf);}
+    public static  Iterator<LFltPair> immIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LFltPair::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfDouble items, LBiFltFunction<R> factory) {
 		return iterator(SA.floatIterator(), items, factory);
 	}
 
     public static  Stream<LFltPair.MutFltPair> mutStream(DoubleStream items) { return stream(items, LFltPair::of);}
-    public static  Stream<LFltPair.ImmFltPair> immStream(DoubleStream items) { return stream(items, LFltPair::immutableOf);}
+    public static  Stream<LFltPair> immStream(DoubleStream items) { return stream(items, LFltPair::immutableOf);}
 
 	public static <R> Stream<R> stream(DoubleStream items, LBiFltFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

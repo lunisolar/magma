@@ -277,8 +277,7 @@ public interface LSrtIntPair extends LTuple<Number>
 
 
 
-
-  public static  MutSrtIntPair of() { 
+  public static  MutSrtIntPair of() {
       return of(  (short)0 ,  0 );
   }
       
@@ -344,78 +343,11 @@ public interface LSrtIntPair extends LTuple<Number>
 
 
 
-  public static  MutCompSrtIntPair comparableOf() { 
-      return comparableOf(  (short)0 ,  0 );
-  }
-      
-
-  public static  MutCompSrtIntPair comparableOf(short a1,int a2){
-        return new MutCompSrtIntPair(a1,a2);
-  }
-
-  public static  MutCompSrtIntPair comparableCopyOf(LSrtIntPair tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompSrtIntPair  extends AbstractSrtIntPair implements ComparableSrtIntPair,Mut<MutCompSrtIntPair>   {
-
-        private  short first;
-        private  int second;
-
-        public MutCompSrtIntPair(short a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override short first() {
-            return first;
-        }
-
-        public @Override MutCompSrtIntPair first(short first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompSrtIntPair second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmSrtIntPair immutableOf(short a1,int a2){
+  public static  LSrtIntPair immutableOf(short a1,int a2){
         return new ImmSrtIntPair(a1,a2);
   }
 
-  public static  ImmSrtIntPair immutableCopyOf(LSrtIntPair tuple) {
+  public static  LSrtIntPair immutableCopyOf(LSrtIntPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LSrtIntPair extends LTuple<Number>
         private final int second;
 
         public ImmSrtIntPair(short a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override short first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmCompSrtIntPair immutableComparableOf(short a1,int a2){
-        return new ImmCompSrtIntPair(a1,a2);
-  }
-
-  public static  ImmCompSrtIntPair immutableComparableCopyOf(LSrtIntPair tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompSrtIntPair  extends AbstractSrtIntPair implements ComparableSrtIntPair   {
-
-        private final short first;
-        private final int second;
-
-        public ImmCompSrtIntPair(short a1,int a2){
             this.first = a1;
             this.second = a2;
         }

@@ -341,8 +341,7 @@ public interface LSrtTriple extends LTuple<Short> , Comparable<LSrtTriple>
 
 
 
-
-  public static  MutSrtTriple of() { 
+  public static  MutSrtTriple of() {
       return of(  (short)0 ,  (short)0 ,  (short)0 );
   }
       
@@ -424,12 +423,11 @@ public interface LSrtTriple extends LTuple<Short> , Comparable<LSrtTriple>
 
 
 
-
-  public static  ImmSrtTriple immutableOf(short a1,short a2,short a3){
+  public static  LSrtTriple immutableOf(short a1,short a2,short a3){
         return new ImmSrtTriple(a1,a2,a3);
   }
 
-  public static  ImmSrtTriple immutableCopyOf(LSrtTriple tuple) {
+  public static  LSrtTriple immutableCopyOf(LSrtTriple tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -471,14 +469,14 @@ public interface LSrtTriple extends LTuple<Short> , Comparable<LSrtTriple>
 
 
     public static  Iterator<LSrtTriple.MutSrtTriple> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LSrtTriple::of);}
-    public static  Iterator<LSrtTriple.ImmSrtTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LSrtTriple::immutableOf);}
+    public static  Iterator<LSrtTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LSrtTriple::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LTriSrtFunction<R> factory) {
 		return iterator(SA.shortIterator(), items, factory);
 	}
 
     public static  Stream<LSrtTriple.MutSrtTriple> mutStream(IntStream items) { return stream(items, LSrtTriple::of);}
-    public static  Stream<LSrtTriple.ImmSrtTriple> immStream(IntStream items) { return stream(items, LSrtTriple::immutableOf);}
+    public static  Stream<LSrtTriple> immStream(IntStream items) { return stream(items, LSrtTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriSrtFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

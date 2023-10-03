@@ -277,8 +277,7 @@ public interface LObjBoolPair<T> extends LTuple<Object>
 
 
 
-
-  public static <T> MutObjBoolPair<T> of() { 
+  public static <T> MutObjBoolPair<T> of() {
       return of(  null ,  false );
   }
       
@@ -344,78 +343,11 @@ public interface LObjBoolPair<T> extends LTuple<Object>
 
 
 
-  public static <T extends Comparable<? super T>> MutCompObjBoolPair<T> comparableOf() { 
-      return comparableOf(  null ,  false );
-  }
-      
-
-  public static <T extends Comparable<? super T>> MutCompObjBoolPair<T> comparableOf(T a1,boolean a2){
-        return new MutCompObjBoolPair(a1,a2);
-  }
-
-  public static <T extends Comparable<? super T>> MutCompObjBoolPair<T> comparableCopyOf(LObjBoolPair<T> tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompObjBoolPair<T extends Comparable<? super T>>  extends AbstractObjBoolPair<T> implements ComparableObjBoolPair<T>,Mut<T,MutCompObjBoolPair<T>>   {
-
-        private  T first;
-        private  boolean second;
-
-        public MutCompObjBoolPair(T a1,boolean a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override MutCompObjBoolPair<T> first(T first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override boolean second() {
-            return second;
-        }
-
-        public @Override MutCompObjBoolPair<T> second(boolean second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T> ImmObjBoolPair<T> immutableOf(T a1,boolean a2){
+  public static <T> LObjBoolPair<T> immutableOf(T a1,boolean a2){
         return new ImmObjBoolPair(a1,a2);
   }
 
-  public static <T> ImmObjBoolPair<T> immutableCopyOf(LObjBoolPair<T> tuple) {
+  public static <T> LObjBoolPair<T> immutableCopyOf(LObjBoolPair<T> tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LObjBoolPair<T> extends LTuple<Object>
         private final boolean second;
 
         public ImmObjBoolPair(T a1,boolean a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override boolean second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T extends Comparable<? super T>> ImmCompObjBoolPair<T> immutableComparableOf(T a1,boolean a2){
-        return new ImmCompObjBoolPair(a1,a2);
-  }
-
-  public static <T extends Comparable<? super T>> ImmCompObjBoolPair<T> immutableComparableCopyOf(LObjBoolPair<T> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompObjBoolPair<T extends Comparable<? super T>>  extends AbstractObjBoolPair<T> implements ComparableObjBoolPair<T>   {
-
-        private final T first;
-        private final boolean second;
-
-        public ImmCompObjBoolPair(T a1,boolean a2){
             this.first = a1;
             this.second = a2;
         }

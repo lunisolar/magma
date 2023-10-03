@@ -319,8 +319,7 @@ public interface LObjBiLongTriple<T> extends LTuple<Object>
 
 
 
-
-  public static <T> MutObjBiLongTriple<T> of() { 
+  public static <T> MutObjBiLongTriple<T> of() {
       return of(  null ,  0L ,  0L );
   }
       
@@ -402,94 +401,11 @@ public interface LObjBiLongTriple<T> extends LTuple<Object>
 
 
 
-  public static <T extends Comparable<? super T>> MutCompObjBiLongTriple<T> comparableOf() { 
-      return comparableOf(  null ,  0L ,  0L );
-  }
-      
-
-  public static <T extends Comparable<? super T>> MutCompObjBiLongTriple<T> comparableOf(T a1,long a2,long a3){
-        return new MutCompObjBiLongTriple(a1,a2,a3);
-  }
-
-  public static <T extends Comparable<? super T>> MutCompObjBiLongTriple<T> comparableCopyOf(LObjBiLongTriple<T> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompObjBiLongTriple<T extends Comparable<? super T>>  extends AbstractObjBiLongTriple<T> implements ComparableObjBiLongTriple<T>,Mut<T,MutCompObjBiLongTriple<T>>   {
-
-        private  T first;
-        private  long second;
-        private  long third;
-
-        public MutCompObjBiLongTriple(T a1,long a2,long a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override MutCompObjBiLongTriple<T> first(T first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override long second() {
-            return second;
-        }
-
-        public @Override MutCompObjBiLongTriple<T> second(long second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override long third() {
-            return third;
-        }
-
-        public @Override MutCompObjBiLongTriple<T> third(long third)    {
-            this.third = third;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T> ImmObjBiLongTriple<T> immutableOf(T a1,long a2,long a3){
+  public static <T> LObjBiLongTriple<T> immutableOf(T a1,long a2,long a3){
         return new ImmObjBiLongTriple(a1,a2,a3);
   }
 
-  public static <T> ImmObjBiLongTriple<T> immutableCopyOf(LObjBiLongTriple<T> tuple) {
+  public static <T> LObjBiLongTriple<T> immutableCopyOf(LObjBiLongTriple<T> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -505,54 +421,6 @@ public interface LObjBiLongTriple<T> extends LTuple<Object>
         private final long third;
 
         public ImmObjBiLongTriple(T a1,long a2,long a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override long second() {
-            return second;
-        }
-
-        public @Override long third() {
-            return third;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T extends Comparable<? super T>> ImmCompObjBiLongTriple<T> immutableComparableOf(T a1,long a2,long a3){
-        return new ImmCompObjBiLongTriple(a1,a2,a3);
-  }
-
-  public static <T extends Comparable<? super T>> ImmCompObjBiLongTriple<T> immutableComparableCopyOf(LObjBiLongTriple<T> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompObjBiLongTriple<T extends Comparable<? super T>>  extends AbstractObjBiLongTriple<T> implements ComparableObjBiLongTriple<T>   {
-
-        private final T first;
-        private final long second;
-        private final long third;
-
-        public ImmCompObjBiLongTriple(T a1,long a2,long a3){
             this.first = a1;
             this.second = a2;
             this.third = a3;

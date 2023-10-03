@@ -318,8 +318,7 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
 
 
 
-
-  public static  MutIntSingle of() { 
+  public static  MutIntSingle of() {
       return of(  0 );
   }
       
@@ -369,12 +368,11 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
 
 
 
-
-  public static  ImmIntSingle immutableOf(int a){
+  public static  LIntSingle immutableOf(int a){
         return new ImmIntSingle(a);
   }
 
-  public static  ImmIntSingle immutableCopyOf(LIntSingle tuple) {
+  public static  LIntSingle immutableCopyOf(LIntSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -404,8 +402,7 @@ public interface LIntSingle extends LTuple<Integer> , Comparable<LIntSingle>
 
 
 
-
-  public static  AtomicIntSingle atomicOf() { 
+  public static  AtomicIntSingle atomicOf() {
       return atomicOf(  0 );
   }
       

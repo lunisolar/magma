@@ -298,8 +298,7 @@ public interface LDblPair extends LTuple<Double> , Comparable<LDblPair>
 
 
 
-
-  public static  MutDblPair of() { 
+  public static  MutDblPair of() {
       return of(  0d ,  0d );
   }
       
@@ -365,12 +364,11 @@ public interface LDblPair extends LTuple<Double> , Comparable<LDblPair>
 
 
 
-
-  public static  ImmDblPair immutableOf(double a1,double a2){
+  public static  LDblPair immutableOf(double a1,double a2){
         return new ImmDblPair(a1,a2);
   }
 
-  public static  ImmDblPair immutableCopyOf(LDblPair tuple) {
+  public static  LDblPair immutableCopyOf(LDblPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -406,14 +404,14 @@ public interface LDblPair extends LTuple<Double> , Comparable<LDblPair>
 
 
     public static  Iterator<LDblPair.MutDblPair> mutIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LDblPair::of);}
-    public static  Iterator<LDblPair.ImmDblPair> immIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LDblPair::immutableOf);}
+    public static  Iterator<LDblPair> immIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LDblPair::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfDouble items, LBiDblFunction<R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static  Stream<LDblPair.MutDblPair> mutStream(DoubleStream items) { return stream(items, LDblPair::of);}
-    public static  Stream<LDblPair.ImmDblPair> immStream(DoubleStream items) { return stream(items, LDblPair::immutableOf);}
+    public static  Stream<LDblPair> immStream(DoubleStream items) { return stream(items, LDblPair::immutableOf);}
 
 	public static <R> Stream<R> stream(DoubleStream items, LBiDblFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

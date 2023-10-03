@@ -318,8 +318,7 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
 
 
 
-
-  public static  MutByteSingle of() { 
+  public static  MutByteSingle of() {
       return of(  (byte)0 );
   }
       
@@ -369,12 +368,11 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
 
 
 
-
-  public static  ImmByteSingle immutableOf(byte a){
+  public static  LByteSingle immutableOf(byte a){
         return new ImmByteSingle(a);
   }
 
-  public static  ImmByteSingle immutableCopyOf(LByteSingle tuple) {
+  public static  LByteSingle immutableCopyOf(LByteSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -404,8 +402,7 @@ public interface LByteSingle extends LTuple<Byte> , Comparable<LByteSingle>
 
 
 
-
-  public static  AtomicByteSingle atomicOf() { 
+  public static  AtomicByteSingle atomicOf() {
       return atomicOf(  (byte)0 );
   }
       

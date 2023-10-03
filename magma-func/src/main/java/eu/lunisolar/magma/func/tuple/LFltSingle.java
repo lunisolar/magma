@@ -318,8 +318,7 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
 
 
 
-
-  public static  MutFltSingle of() { 
+  public static  MutFltSingle of() {
       return of(  0f );
   }
       
@@ -369,12 +368,11 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
 
 
 
-
-  public static  ImmFltSingle immutableOf(float a){
+  public static  LFltSingle immutableOf(float a){
         return new ImmFltSingle(a);
   }
 
-  public static  ImmFltSingle immutableCopyOf(LFltSingle tuple) {
+  public static  LFltSingle immutableCopyOf(LFltSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -404,8 +402,7 @@ public interface LFltSingle extends LTuple<Float> , Comparable<LFltSingle>
 
 
 
-
-  public static  AtomicFltSingle atomicOf() { 
+  public static  AtomicFltSingle atomicOf() {
       return atomicOf(  0f );
   }
       

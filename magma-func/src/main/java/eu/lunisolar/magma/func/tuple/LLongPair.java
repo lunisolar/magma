@@ -298,8 +298,7 @@ public interface LLongPair extends LTuple<Long> , Comparable<LLongPair>
 
 
 
-
-  public static  MutLongPair of() { 
+  public static  MutLongPair of() {
       return of(  0L ,  0L );
   }
       
@@ -365,12 +364,11 @@ public interface LLongPair extends LTuple<Long> , Comparable<LLongPair>
 
 
 
-
-  public static  ImmLongPair immutableOf(long a1,long a2){
+  public static  LLongPair immutableOf(long a1,long a2){
         return new ImmLongPair(a1,a2);
   }
 
-  public static  ImmLongPair immutableCopyOf(LLongPair tuple) {
+  public static  LLongPair immutableCopyOf(LLongPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -406,14 +404,14 @@ public interface LLongPair extends LTuple<Long> , Comparable<LLongPair>
 
 
     public static  Iterator<LLongPair.MutLongPair> mutIterator(PrimitiveIterator.OfLong items) { return iterator(items, LLongPair::of);}
-    public static  Iterator<LLongPair.ImmLongPair> immIterator(PrimitiveIterator.OfLong items) { return iterator(items, LLongPair::immutableOf);}
+    public static  Iterator<LLongPair> immIterator(PrimitiveIterator.OfLong items) { return iterator(items, LLongPair::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfLong items, LBiLongFunction<R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static  Stream<LLongPair.MutLongPair> mutStream(LongStream items) { return stream(items, LLongPair::of);}
-    public static  Stream<LLongPair.ImmLongPair> immStream(LongStream items) { return stream(items, LLongPair::immutableOf);}
+    public static  Stream<LLongPair> immStream(LongStream items) { return stream(items, LLongPair::immutableOf);}
 
 	public static <R> Stream<R> stream(LongStream items, LBiLongFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

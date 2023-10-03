@@ -243,8 +243,7 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
 
 
 
-
-  public static  MutBoolSingle of() { 
+  public static  MutBoolSingle of() {
       return of(  false );
   }
       
@@ -294,12 +293,11 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
 
 
 
-
-  public static  ImmBoolSingle immutableOf(boolean a){
+  public static  LBoolSingle immutableOf(boolean a){
         return new ImmBoolSingle(a);
   }
 
-  public static  ImmBoolSingle immutableCopyOf(LBoolSingle tuple) {
+  public static  LBoolSingle immutableCopyOf(LBoolSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -329,8 +327,7 @@ public interface LBoolSingle extends LTuple<Boolean> , Comparable<LBoolSingle>
 
 
 
-
-  public static  AtomicBoolSingle atomicOf() { 
+  public static  AtomicBoolSingle atomicOf() {
       return atomicOf(  false );
   }
       

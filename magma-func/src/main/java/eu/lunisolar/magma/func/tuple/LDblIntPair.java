@@ -277,8 +277,7 @@ public interface LDblIntPair extends LTuple<Number>
 
 
 
-
-  public static  MutDblIntPair of() { 
+  public static  MutDblIntPair of() {
       return of(  0d ,  0 );
   }
       
@@ -344,78 +343,11 @@ public interface LDblIntPair extends LTuple<Number>
 
 
 
-  public static  MutCompDblIntPair comparableOf() { 
-      return comparableOf(  0d ,  0 );
-  }
-      
-
-  public static  MutCompDblIntPair comparableOf(double a1,int a2){
-        return new MutCompDblIntPair(a1,a2);
-  }
-
-  public static  MutCompDblIntPair comparableCopyOf(LDblIntPair tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompDblIntPair  extends AbstractDblIntPair implements ComparableDblIntPair,Mut<MutCompDblIntPair>   {
-
-        private  double first;
-        private  int second;
-
-        public MutCompDblIntPair(double a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override double first() {
-            return first;
-        }
-
-        public @Override MutCompDblIntPair first(double first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompDblIntPair second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmDblIntPair immutableOf(double a1,int a2){
+  public static  LDblIntPair immutableOf(double a1,int a2){
         return new ImmDblIntPair(a1,a2);
   }
 
-  public static  ImmDblIntPair immutableCopyOf(LDblIntPair tuple) {
+  public static  LDblIntPair immutableCopyOf(LDblIntPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LDblIntPair extends LTuple<Number>
         private final int second;
 
         public ImmDblIntPair(double a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override double first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmCompDblIntPair immutableComparableOf(double a1,int a2){
-        return new ImmCompDblIntPair(a1,a2);
-  }
-
-  public static  ImmCompDblIntPair immutableComparableCopyOf(LDblIntPair tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompDblIntPair  extends AbstractDblIntPair implements ComparableDblIntPair   {
-
-        private final double first;
-        private final int second;
-
-        public ImmCompDblIntPair(double a1,int a2){
             this.first = a1;
             this.second = a2;
         }

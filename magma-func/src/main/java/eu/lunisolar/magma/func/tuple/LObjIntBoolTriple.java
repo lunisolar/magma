@@ -319,8 +319,7 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object>
 
 
 
-
-  public static <T> MutObjIntBoolTriple<T> of() { 
+  public static <T> MutObjIntBoolTriple<T> of() {
       return of(  null ,  0 ,  false );
   }
       
@@ -402,94 +401,11 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object>
 
 
 
-  public static <T extends Comparable<? super T>> MutCompObjIntBoolTriple<T> comparableOf() { 
-      return comparableOf(  null ,  0 ,  false );
-  }
-      
-
-  public static <T extends Comparable<? super T>> MutCompObjIntBoolTriple<T> comparableOf(T a1,int a2,boolean a3){
-        return new MutCompObjIntBoolTriple(a1,a2,a3);
-  }
-
-  public static <T extends Comparable<? super T>> MutCompObjIntBoolTriple<T> comparableCopyOf(LObjIntBoolTriple<T> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompObjIntBoolTriple<T extends Comparable<? super T>>  extends AbstractObjIntBoolTriple<T> implements ComparableObjIntBoolTriple<T>,Mut<T,MutCompObjIntBoolTriple<T>>   {
-
-        private  T first;
-        private  int second;
-        private  boolean third;
-
-        public MutCompObjIntBoolTriple(T a1,int a2,boolean a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override MutCompObjIntBoolTriple<T> first(T first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompObjIntBoolTriple<T> second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override boolean third() {
-            return third;
-        }
-
-        public @Override MutCompObjIntBoolTriple<T> third(boolean third)    {
-            this.third = third;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T> ImmObjIntBoolTriple<T> immutableOf(T a1,int a2,boolean a3){
+  public static <T> LObjIntBoolTriple<T> immutableOf(T a1,int a2,boolean a3){
         return new ImmObjIntBoolTriple(a1,a2,a3);
   }
 
-  public static <T> ImmObjIntBoolTriple<T> immutableCopyOf(LObjIntBoolTriple<T> tuple) {
+  public static <T> LObjIntBoolTriple<T> immutableCopyOf(LObjIntBoolTriple<T> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -505,54 +421,6 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object>
         private final boolean third;
 
         public ImmObjIntBoolTriple(T a1,int a2,boolean a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override boolean third() {
-            return third;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T extends Comparable<? super T>> ImmCompObjIntBoolTriple<T> immutableComparableOf(T a1,int a2,boolean a3){
-        return new ImmCompObjIntBoolTriple(a1,a2,a3);
-  }
-
-  public static <T extends Comparable<? super T>> ImmCompObjIntBoolTriple<T> immutableComparableCopyOf(LObjIntBoolTriple<T> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompObjIntBoolTriple<T extends Comparable<? super T>>  extends AbstractObjIntBoolTriple<T> implements ComparableObjIntBoolTriple<T>   {
-
-        private final T first;
-        private final int second;
-        private final boolean third;
-
-        public ImmCompObjIntBoolTriple(T a1,int a2,boolean a3){
             this.first = a1;
             this.second = a2;
             this.third = a3;

@@ -277,8 +277,7 @@ public interface LObjCharPair<T> extends LTuple<Object>
 
 
 
-
-  public static <T> MutObjCharPair<T> of() { 
+  public static <T> MutObjCharPair<T> of() {
       return of(  null ,  '\u0000' );
   }
       
@@ -344,78 +343,11 @@ public interface LObjCharPair<T> extends LTuple<Object>
 
 
 
-  public static <T extends Comparable<? super T>> MutCompObjCharPair<T> comparableOf() { 
-      return comparableOf(  null ,  '\u0000' );
-  }
-      
-
-  public static <T extends Comparable<? super T>> MutCompObjCharPair<T> comparableOf(T a1,char a2){
-        return new MutCompObjCharPair(a1,a2);
-  }
-
-  public static <T extends Comparable<? super T>> MutCompObjCharPair<T> comparableCopyOf(LObjCharPair<T> tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompObjCharPair<T extends Comparable<? super T>>  extends AbstractObjCharPair<T> implements ComparableObjCharPair<T>,Mut<T,MutCompObjCharPair<T>>   {
-
-        private  T first;
-        private  char second;
-
-        public MutCompObjCharPair(T a1,char a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override MutCompObjCharPair<T> first(T first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override char second() {
-            return second;
-        }
-
-        public @Override MutCompObjCharPair<T> second(char second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T> ImmObjCharPair<T> immutableOf(T a1,char a2){
+  public static <T> LObjCharPair<T> immutableOf(T a1,char a2){
         return new ImmObjCharPair(a1,a2);
   }
 
-  public static <T> ImmObjCharPair<T> immutableCopyOf(LObjCharPair<T> tuple) {
+  public static <T> LObjCharPair<T> immutableCopyOf(LObjCharPair<T> tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LObjCharPair<T> extends LTuple<Object>
         private final char second;
 
         public ImmObjCharPair(T a1,char a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override T first() {
-            return first;
-        }
-
-        public @Override char second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T extends Comparable<? super T>> ImmCompObjCharPair<T> immutableComparableOf(T a1,char a2){
-        return new ImmCompObjCharPair(a1,a2);
-  }
-
-  public static <T extends Comparable<? super T>> ImmCompObjCharPair<T> immutableComparableCopyOf(LObjCharPair<T> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompObjCharPair<T extends Comparable<? super T>>  extends AbstractObjCharPair<T> implements ComparableObjCharPair<T>   {
-
-        private final T first;
-        private final char second;
-
-        public ImmCompObjCharPair(T a1,char a2){
             this.first = a1;
             this.second = a2;
         }

@@ -318,8 +318,7 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
 
 
 
-
-  public static  MutSrtSingle of() { 
+  public static  MutSrtSingle of() {
       return of(  (short)0 );
   }
       
@@ -369,12 +368,11 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
 
 
 
-
-  public static  ImmSrtSingle immutableOf(short a){
+  public static  LSrtSingle immutableOf(short a){
         return new ImmSrtSingle(a);
   }
 
-  public static  ImmSrtSingle immutableCopyOf(LSrtSingle tuple) {
+  public static  LSrtSingle immutableCopyOf(LSrtSingle tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -404,8 +402,7 @@ public interface LSrtSingle extends LTuple<Short> , Comparable<LSrtSingle>
 
 
 
-
-  public static  AtomicSrtSingle atomicOf() { 
+  public static  AtomicSrtSingle atomicOf() {
       return atomicOf(  (short)0 );
   }
       

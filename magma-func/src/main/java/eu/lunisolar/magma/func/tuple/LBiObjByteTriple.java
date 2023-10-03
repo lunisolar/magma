@@ -319,8 +319,7 @@ public interface LBiObjByteTriple<T1,T2> extends LTuple<Object>
 
 
 
-
-  public static <T1,T2> MutBiObjByteTriple<T1,T2> of() { 
+  public static <T1,T2> MutBiObjByteTriple<T1,T2> of() {
       return of(  null ,  null ,  (byte)0 );
   }
       
@@ -402,94 +401,11 @@ public interface LBiObjByteTriple<T1,T2> extends LTuple<Object>
 
 
 
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompBiObjByteTriple<T1,T2> comparableOf() { 
-      return comparableOf(  null ,  null ,  (byte)0 );
-  }
-      
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompBiObjByteTriple<T1,T2> comparableOf(T1 a1,T2 a2,byte a3){
-        return new MutCompBiObjByteTriple(a1,a2,a3);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> MutCompBiObjByteTriple<T1,T2> comparableCopyOf(LBiObjByteTriple<T1,T2> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompBiObjByteTriple<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>>  extends AbstractBiObjByteTriple<T1,T2> implements ComparableBiObjByteTriple<T1,T2>,Mut<T1,T2,MutCompBiObjByteTriple<T1,T2>>   {
-
-        private  T1 first;
-        private  T2 second;
-        private  byte third;
-
-        public MutCompBiObjByteTriple(T1 a1,T2 a2,byte a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override MutCompBiObjByteTriple<T1,T2> first(T1 first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override MutCompBiObjByteTriple<T1,T2> second(T2 second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override byte third() {
-            return third;
-        }
-
-        public @Override MutCompBiObjByteTriple<T1,T2> third(byte third)    {
-            this.third = third;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1,T2> ImmBiObjByteTriple<T1,T2> immutableOf(T1 a1,T2 a2,byte a3){
+  public static <T1,T2> LBiObjByteTriple<T1,T2> immutableOf(T1 a1,T2 a2,byte a3){
         return new ImmBiObjByteTriple(a1,a2,a3);
   }
 
-  public static <T1,T2> ImmBiObjByteTriple<T1,T2> immutableCopyOf(LBiObjByteTriple<T1,T2> tuple) {
+  public static <T1,T2> LBiObjByteTriple<T1,T2> immutableCopyOf(LBiObjByteTriple<T1,T2> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -505,54 +421,6 @@ public interface LBiObjByteTriple<T1,T2> extends LTuple<Object>
         private final byte third;
 
         public ImmBiObjByteTriple(T1 a1,T2 a2,byte a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override byte third() {
-            return third;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> ImmCompBiObjByteTriple<T1,T2> immutableComparableOf(T1 a1,T2 a2,byte a3){
-        return new ImmCompBiObjByteTriple(a1,a2,a3);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>> ImmCompBiObjByteTriple<T1,T2> immutableComparableCopyOf(LBiObjByteTriple<T1,T2> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompBiObjByteTriple<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>>  extends AbstractBiObjByteTriple<T1,T2> implements ComparableBiObjByteTriple<T1,T2>   {
-
-        private final T1 first;
-        private final T2 second;
-        private final byte third;
-
-        public ImmCompBiObjByteTriple(T1 a1,T2 a2,byte a3){
             this.first = a1;
             this.second = a2;
             this.third = a3;

@@ -341,8 +341,7 @@ public interface LByteTriple extends LTuple<Byte> , Comparable<LByteTriple>
 
 
 
-
-  public static  MutByteTriple of() { 
+  public static  MutByteTriple of() {
       return of(  (byte)0 ,  (byte)0 ,  (byte)0 );
   }
       
@@ -424,12 +423,11 @@ public interface LByteTriple extends LTuple<Byte> , Comparable<LByteTriple>
 
 
 
-
-  public static  ImmByteTriple immutableOf(byte a1,byte a2,byte a3){
+  public static  LByteTriple immutableOf(byte a1,byte a2,byte a3){
         return new ImmByteTriple(a1,a2,a3);
   }
 
-  public static  ImmByteTriple immutableCopyOf(LByteTriple tuple) {
+  public static  LByteTriple immutableCopyOf(LByteTriple tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -471,14 +469,14 @@ public interface LByteTriple extends LTuple<Byte> , Comparable<LByteTriple>
 
 
     public static  Iterator<LByteTriple.MutByteTriple> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LByteTriple::of);}
-    public static  Iterator<LByteTriple.ImmByteTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LByteTriple::immutableOf);}
+    public static  Iterator<LByteTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LByteTriple::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LTriByteFunction<R> factory) {
 		return iterator(SA.byteIterator(), items, factory);
 	}
 
     public static  Stream<LByteTriple.MutByteTriple> mutStream(IntStream items) { return stream(items, LByteTriple::of);}
-    public static  Stream<LByteTriple.ImmByteTriple> immStream(IntStream items) { return stream(items, LByteTriple::immutableOf);}
+    public static  Stream<LByteTriple> immStream(IntStream items) { return stream(items, LByteTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriByteFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

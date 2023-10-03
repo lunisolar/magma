@@ -325,8 +325,7 @@ public interface LBoolTriple extends LTuple<Boolean> , Comparable<LBoolTriple>
 
 
 
-
-  public static  MutBoolTriple of() { 
+  public static  MutBoolTriple of() {
       return of(  false ,  false ,  false );
   }
       
@@ -408,12 +407,11 @@ public interface LBoolTriple extends LTuple<Boolean> , Comparable<LBoolTriple>
 
 
 
-
-  public static  ImmBoolTriple immutableOf(boolean a1,boolean a2,boolean a3){
+  public static  LBoolTriple immutableOf(boolean a1,boolean a2,boolean a3){
         return new ImmBoolTriple(a1,a2,a3);
   }
 
-  public static  ImmBoolTriple immutableCopyOf(LBoolTriple tuple) {
+  public static  LBoolTriple immutableCopyOf(LBoolTriple tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -455,14 +453,14 @@ public interface LBoolTriple extends LTuple<Boolean> , Comparable<LBoolTriple>
 
 
     public static  Iterator<LBoolTriple.MutBoolTriple> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolTriple::of);}
-    public static  Iterator<LBoolTriple.ImmBoolTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolTriple::immutableOf);}
+    public static  Iterator<LBoolTriple> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LBoolTriple::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LTriBoolFunction<R> factory) {
 		return iterator(SA.booleanIterator(), items, factory);
 	}
 
     public static  Stream<LBoolTriple.MutBoolTriple> mutStream(IntStream items) { return stream(items, LBoolTriple::of);}
-    public static  Stream<LBoolTriple.ImmBoolTriple> immStream(IntStream items) { return stream(items, LBoolTriple::immutableOf);}
+    public static  Stream<LBoolTriple> immStream(IntStream items) { return stream(items, LBoolTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriBoolFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

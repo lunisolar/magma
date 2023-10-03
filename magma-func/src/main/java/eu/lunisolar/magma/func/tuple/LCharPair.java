@@ -298,8 +298,7 @@ public interface LCharPair extends LTuple<Character> , Comparable<LCharPair>
 
 
 
-
-  public static  MutCharPair of() { 
+  public static  MutCharPair of() {
       return of(  '\u0000' ,  '\u0000' );
   }
       
@@ -365,12 +364,11 @@ public interface LCharPair extends LTuple<Character> , Comparable<LCharPair>
 
 
 
-
-  public static  ImmCharPair immutableOf(char a1,char a2){
+  public static  LCharPair immutableOf(char a1,char a2){
         return new ImmCharPair(a1,a2);
   }
 
-  public static  ImmCharPair immutableCopyOf(LCharPair tuple) {
+  public static  LCharPair immutableCopyOf(LCharPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -406,14 +404,14 @@ public interface LCharPair extends LTuple<Character> , Comparable<LCharPair>
 
 
     public static  Iterator<LCharPair.MutCharPair> mutIterator(PrimitiveIterator.OfInt items) { return iterator(items, LCharPair::of);}
-    public static  Iterator<LCharPair.ImmCharPair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LCharPair::immutableOf);}
+    public static  Iterator<LCharPair> immIterator(PrimitiveIterator.OfInt items) { return iterator(items, LCharPair::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfInt items, LBiCharFunction<R> factory) {
 		return iterator(SA.charIterator(), items, factory);
 	}
 
     public static  Stream<LCharPair.MutCharPair> mutStream(IntStream items) { return stream(items, LCharPair::of);}
-    public static  Stream<LCharPair.ImmCharPair> immStream(IntStream items) { return stream(items, LCharPair::immutableOf);}
+    public static  Stream<LCharPair> immStream(IntStream items) { return stream(items, LCharPair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiCharFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

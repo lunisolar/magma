@@ -339,8 +339,7 @@ public interface LTriple<T1,T2,T3> extends LTuple<Object>
 
 
 
-
-  public static <T1,T2,T3> MutTriple<T1,T2,T3> of() { 
+  public static <T1,T2,T3> MutTriple<T1,T2,T3> of() {
       return of(  null ,  null ,  null );
   }
       
@@ -422,94 +421,11 @@ public interface LTriple<T1,T2,T3> extends LTuple<Object>
 
 
 
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>> MutCompTriple<T1,T2,T3> comparableOf() { 
-      return comparableOf(  null ,  null ,  null );
-  }
-      
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>> MutCompTriple<T1,T2,T3> comparableOf(T1 a1,T2 a2,T3 a3){
-        return new MutCompTriple(a1,a2,a3);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>> MutCompTriple<T1,T2,T3> comparableCopyOf(LTriple<T1,T2,T3> tuple) {
-        return comparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompTriple<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>>  extends AbstractTriple<T1,T2,T3> implements ComparableTriple<T1,T2,T3>,Mut<T1,T2,T3,MutCompTriple<T1,T2,T3>>   {
-
-        private  T1 first;
-        private  T2 second;
-        private  T3 third;
-
-        public MutCompTriple(T1 a1,T2 a2,T3 a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override MutCompTriple<T1,T2,T3> first(T1 first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override MutCompTriple<T1,T2,T3> second(T2 second)    {
-            this.second = second;
-            return this;
-        }
-            
-        public @Override T3 third() {
-            return third;
-        }
-
-        public @Override MutCompTriple<T1,T2,T3> third(T3 third)    {
-            this.third = third;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T1,T2,T3> ImmTriple<T1,T2,T3> immutableOf(T1 a1,T2 a2,T3 a3){
+  public static <T1,T2,T3> LTriple<T1,T2,T3> immutableOf(T1 a1,T2 a2,T3 a3){
         return new ImmTriple(a1,a2,a3);
   }
 
-  public static <T1,T2,T3> ImmTriple<T1,T2,T3> immutableCopyOf(LTriple<T1,T2,T3> tuple) {
+  public static <T1,T2,T3> LTriple<T1,T2,T3> immutableCopyOf(LTriple<T1,T2,T3> tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -550,63 +466,15 @@ public interface LTriple<T1,T2,T3> extends LTuple<Object>
 
 
 
-
-
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>> ImmCompTriple<T1,T2,T3> immutableComparableOf(T1 a1,T2 a2,T3 a3){
-        return new ImmCompTriple(a1,a2,a3);
-  }
-
-  public static <T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>> ImmCompTriple<T1,T2,T3> immutableComparableCopyOf(LTriple<T1,T2,T3> tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second(), tuple.third());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompTriple<T1 extends Comparable<? super T1>,T2 extends Comparable<? super T2>,T3 extends Comparable<? super T3>>  extends AbstractTriple<T1,T2,T3> implements ComparableTriple<T1,T2,T3>   {
-
-        private final T1 first;
-        private final T2 second;
-        private final T3 third;
-
-        public ImmCompTriple(T1 a1,T2 a2,T3 a3){
-            this.first = a1;
-            this.second = a2;
-            this.third = a3;
-        }
-
-
-        public @Override T1 first() {
-            return first;
-        }
-
-        public @Override T2 second() {
-            return second;
-        }
-
-        public @Override T3 third() {
-            return third;
-        }
-
-
-
-    }
-
-
-
-
     public static <T> Iterator<LTriple.MutTriple> mutIterator(Iterator<? extends T> items) { return iterator(items, LTriple::of);}
-    public static <T> Iterator<LTriple.ImmTriple> immIterator(Iterator<? extends T> items) { return iterator(items, LTriple::immutableOf);}
+    public static <T> Iterator<LTriple> immIterator(Iterator<? extends T> items) { return iterator(items, LTriple::immutableOf);}
 
    	public static <T,R> Iterator<R> iterator(Iterator<? extends T> items, LTriFunction<T,T,T,R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static <T> Stream<LTriple.MutTriple> mutStream(Stream<? extends T> items) { return stream(items, LTriple::of);}
-    public static <T> Stream<LTriple.ImmTriple> immStream(Stream<? extends T> items) { return stream(items, LTriple::immutableOf);}
+    public static <T> Stream<LTriple> immStream(Stream<? extends T> items) { return stream(items, LTriple::immutableOf);}
 
 	public static <T,R> Stream<R> stream(Stream<? extends T> items, LTriFunction<T,T,T,R> factory) {
        var pairs =  iterator(items.iterator(), factory);

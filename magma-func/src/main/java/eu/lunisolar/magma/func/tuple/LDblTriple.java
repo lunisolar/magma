@@ -341,8 +341,7 @@ public interface LDblTriple extends LTuple<Double> , Comparable<LDblTriple>
 
 
 
-
-  public static  MutDblTriple of() { 
+  public static  MutDblTriple of() {
       return of(  0d ,  0d ,  0d );
   }
       
@@ -424,12 +423,11 @@ public interface LDblTriple extends LTuple<Double> , Comparable<LDblTriple>
 
 
 
-
-  public static  ImmDblTriple immutableOf(double a1,double a2,double a3){
+  public static  LDblTriple immutableOf(double a1,double a2,double a3){
         return new ImmDblTriple(a1,a2,a3);
   }
 
-  public static  ImmDblTriple immutableCopyOf(LDblTriple tuple) {
+  public static  LDblTriple immutableCopyOf(LDblTriple tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -471,14 +469,14 @@ public interface LDblTriple extends LTuple<Double> , Comparable<LDblTriple>
 
 
     public static  Iterator<LDblTriple.MutDblTriple> mutIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LDblTriple::of);}
-    public static  Iterator<LDblTriple.ImmDblTriple> immIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LDblTriple::immutableOf);}
+    public static  Iterator<LDblTriple> immIterator(PrimitiveIterator.OfDouble items) { return iterator(items, LDblTriple::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfDouble items, LTriDblFunction<R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static  Stream<LDblTriple.MutDblTriple> mutStream(DoubleStream items) { return stream(items, LDblTriple::of);}
-    public static  Stream<LDblTriple.ImmDblTriple> immStream(DoubleStream items) { return stream(items, LDblTriple::immutableOf);}
+    public static  Stream<LDblTriple> immStream(DoubleStream items) { return stream(items, LDblTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(DoubleStream items, LTriDblFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

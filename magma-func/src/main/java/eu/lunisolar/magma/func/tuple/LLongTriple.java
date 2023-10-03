@@ -341,8 +341,7 @@ public interface LLongTriple extends LTuple<Long> , Comparable<LLongTriple>
 
 
 
-
-  public static  MutLongTriple of() { 
+  public static  MutLongTriple of() {
       return of(  0L ,  0L ,  0L );
   }
       
@@ -424,12 +423,11 @@ public interface LLongTriple extends LTuple<Long> , Comparable<LLongTriple>
 
 
 
-
-  public static  ImmLongTriple immutableOf(long a1,long a2,long a3){
+  public static  LLongTriple immutableOf(long a1,long a2,long a3){
         return new ImmLongTriple(a1,a2,a3);
   }
 
-  public static  ImmLongTriple immutableCopyOf(LLongTriple tuple) {
+  public static  LLongTriple immutableCopyOf(LLongTriple tuple) {
         return immutableOf(tuple.first(), tuple.second(), tuple.third());
   }
 
@@ -471,14 +469,14 @@ public interface LLongTriple extends LTuple<Long> , Comparable<LLongTriple>
 
 
     public static  Iterator<LLongTriple.MutLongTriple> mutIterator(PrimitiveIterator.OfLong items) { return iterator(items, LLongTriple::of);}
-    public static  Iterator<LLongTriple.ImmLongTriple> immIterator(PrimitiveIterator.OfLong items) { return iterator(items, LLongTriple::immutableOf);}
+    public static  Iterator<LLongTriple> immIterator(PrimitiveIterator.OfLong items) { return iterator(items, LLongTriple::immutableOf);}
 
    	public static <R> Iterator<R> iterator(PrimitiveIterator.OfLong items, LTriLongFunction<R> factory) {
 		return iterator(SA.sa(items), items, factory);
 	}
 
     public static  Stream<LLongTriple.MutLongTriple> mutStream(LongStream items) { return stream(items, LLongTriple::of);}
-    public static  Stream<LLongTriple.ImmLongTriple> immStream(LongStream items) { return stream(items, LLongTriple::immutableOf);}
+    public static  Stream<LLongTriple> immStream(LongStream items) { return stream(items, LLongTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(LongStream items, LTriLongFunction<R> factory) {
        var pairs =  iterator(items.iterator(), factory);

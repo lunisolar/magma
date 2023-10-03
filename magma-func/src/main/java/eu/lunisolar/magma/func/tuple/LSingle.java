@@ -239,8 +239,7 @@ public interface LSingle<T> extends LTuple<T>
 
 
 
-
-  public static <T> MutSingle<T> of() { 
+  public static <T> MutSingle<T> of() {
       return of(  null );
   }
       
@@ -290,62 +289,11 @@ public interface LSingle<T> extends LTuple<T>
 
 
 
-  public static <T extends Comparable<? super T>> MutCompSingle<T> comparableOf() { 
-      return comparableOf(  null );
-  }
-      
-
-  public static <T extends Comparable<? super T>> MutCompSingle<T> comparableOf(T a){
-        return new MutCompSingle(a);
-  }
-
-  public static <T extends Comparable<? super T>> MutCompSingle<T> comparableCopyOf(LSingle<T> tuple) {
-        return comparableOf(tuple.value());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompSingle<T extends Comparable<? super T>>  extends AbstractSingle<T> implements ComparableSingle<T>,Mut<T,MutCompSingle<T>>   {
-
-        private  T value;
-
-        public MutCompSingle(T a){
-            this.value = a;
-        }
-
-
-        public @Override T value() {
-            return value;
-        }
-
-        public @Override MutCompSingle<T> value(T value)    {
-            this.value = value;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static <T> ImmSingle<T> immutableOf(T a){
+  public static <T> LSingle<T> immutableOf(T a){
         return new ImmSingle(a);
   }
 
-  public static <T> ImmSingle<T> immutableCopyOf(LSingle<T> tuple) {
+  public static <T> LSingle<T> immutableCopyOf(LSingle<T> tuple) {
         return immutableOf(tuple.value());
   }
 
@@ -375,44 +323,7 @@ public interface LSingle<T> extends LTuple<T>
 
 
 
-
-
-  public static <T extends Comparable<? super T>> ImmCompSingle<T> immutableComparableOf(T a){
-        return new ImmCompSingle(a);
-  }
-
-  public static <T extends Comparable<? super T>> ImmCompSingle<T> immutableComparableCopyOf(LSingle<T> tuple) {
-        return immutableComparableOf(tuple.value());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompSingle<T extends Comparable<? super T>>  extends AbstractSingle<T> implements ComparableSingle<T>   {
-
-        private final T value;
-
-        public ImmCompSingle(T a){
-            this.value = a;
-        }
-
-
-        public @Override T value() {
-            return value;
-        }
-
-
-
-    }
-
-
-
-
-
-
-  public static <T> AtomicSingle<T> atomicOf() { 
+  public static <T> AtomicSingle<T> atomicOf() {
       return atomicOf(  null );
   }
       

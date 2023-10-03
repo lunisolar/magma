@@ -277,8 +277,7 @@ public interface LFltIntPair extends LTuple<Number>
 
 
 
-
-  public static  MutFltIntPair of() { 
+  public static  MutFltIntPair of() {
       return of(  0f ,  0 );
   }
       
@@ -344,78 +343,11 @@ public interface LFltIntPair extends LTuple<Number>
 
 
 
-  public static  MutCompFltIntPair comparableOf() { 
-      return comparableOf(  0f ,  0 );
-  }
-      
-
-  public static  MutCompFltIntPair comparableOf(float a1,int a2){
-        return new MutCompFltIntPair(a1,a2);
-  }
-
-  public static  MutCompFltIntPair comparableCopyOf(LFltIntPair tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompFltIntPair  extends AbstractFltIntPair implements ComparableFltIntPair,Mut<MutCompFltIntPair>   {
-
-        private  float first;
-        private  int second;
-
-        public MutCompFltIntPair(float a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override float first() {
-            return first;
-        }
-
-        public @Override MutCompFltIntPair first(float first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompFltIntPair second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmFltIntPair immutableOf(float a1,int a2){
+  public static  LFltIntPair immutableOf(float a1,int a2){
         return new ImmFltIntPair(a1,a2);
   }
 
-  public static  ImmFltIntPair immutableCopyOf(LFltIntPair tuple) {
+  public static  LFltIntPair immutableCopyOf(LFltIntPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LFltIntPair extends LTuple<Number>
         private final int second;
 
         public ImmFltIntPair(float a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override float first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmCompFltIntPair immutableComparableOf(float a1,int a2){
-        return new ImmCompFltIntPair(a1,a2);
-  }
-
-  public static  ImmCompFltIntPair immutableComparableCopyOf(LFltIntPair tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompFltIntPair  extends AbstractFltIntPair implements ComparableFltIntPair   {
-
-        private final float first;
-        private final int second;
-
-        public ImmCompFltIntPair(float a1,int a2){
             this.first = a1;
             this.second = a2;
         }

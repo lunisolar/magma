@@ -277,8 +277,7 @@ public interface LLongIntPair extends LTuple<Number>
 
 
 
-
-  public static  MutLongIntPair of() { 
+  public static  MutLongIntPair of() {
       return of(  0L ,  0 );
   }
       
@@ -344,78 +343,11 @@ public interface LLongIntPair extends LTuple<Number>
 
 
 
-  public static  MutCompLongIntPair comparableOf() { 
-      return comparableOf(  0L ,  0 );
-  }
-      
-
-  public static  MutCompLongIntPair comparableOf(long a1,int a2){
-        return new MutCompLongIntPair(a1,a2);
-  }
-
-  public static  MutCompLongIntPair comparableCopyOf(LLongIntPair tuple) {
-        return comparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Mutable, comparable tuple.
-     */
-
-    final  class  MutCompLongIntPair  extends AbstractLongIntPair implements ComparableLongIntPair,Mut<MutCompLongIntPair>   {
-
-        private  long first;
-        private  int second;
-
-        public MutCompLongIntPair(long a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override long first() {
-            return first;
-        }
-
-        public @Override MutCompLongIntPair first(long first)    {
-            this.first = first;
-            return this;
-        }
-            
-        public @Override int second() {
-            return second;
-        }
-
-        public @Override MutCompLongIntPair second(int second)    {
-            this.second = second;
-            return this;
-        }
-            
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmLongIntPair immutableOf(long a1,int a2){
+  public static  LLongIntPair immutableOf(long a1,int a2){
         return new ImmLongIntPair(a1,a2);
   }
 
-  public static  ImmLongIntPair immutableCopyOf(LLongIntPair tuple) {
+  public static  LLongIntPair immutableCopyOf(LLongIntPair tuple) {
         return immutableOf(tuple.first(), tuple.second());
   }
 
@@ -430,48 +362,6 @@ public interface LLongIntPair extends LTuple<Number>
         private final int second;
 
         public ImmLongIntPair(long a1,int a2){
-            this.first = a1;
-            this.second = a2;
-        }
-
-
-        public @Override long first() {
-            return first;
-        }
-
-        public @Override int second() {
-            return second;
-        }
-
-
-
-    }
-
-
-
-
-
-
-
-  public static  ImmCompLongIntPair immutableComparableOf(long a1,int a2){
-        return new ImmCompLongIntPair(a1,a2);
-  }
-
-  public static  ImmCompLongIntPair immutableComparableCopyOf(LLongIntPair tuple) {
-        return immutableComparableOf(tuple.first(), tuple.second());
-  }
-
-
-    /**
-     * Immutable, comparable tuple.
-     */
-@Immutable
-    final  class  ImmCompLongIntPair  extends AbstractLongIntPair implements ComparableLongIntPair   {
-
-        private final long first;
-        private final int second;
-
-        public ImmCompLongIntPair(long a1,int a2){
             this.first = a1;
             this.second = a2;
         }
