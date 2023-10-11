@@ -66,16 +66,16 @@ public abstract class OptIntBase<SELF extends OptIntBase<SELF>> implements OptIn
 		this.isPresent = true;
 	}
 
-	public final int get() {
+	public int get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 
-	public final boolean isPresent() {
+	public boolean isPresent() {
 		return isPresent;
 	}
 
-	public final boolean isVoid() {
+	public boolean isVoid() {
 		return !isPresent;
 	}
 

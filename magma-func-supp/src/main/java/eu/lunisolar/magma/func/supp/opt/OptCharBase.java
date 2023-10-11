@@ -66,16 +66,16 @@ public abstract class OptCharBase<SELF extends OptCharBase<SELF>> implements Opt
 		this.isPresent = true;
 	}
 
-	public final char get() {
+	public char get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 
-	public final boolean isPresent() {
+	public boolean isPresent() {
 		return isPresent;
 	}
 
-	public final boolean isVoid() {
+	public boolean isVoid() {
 		return !isPresent;
 	}
 

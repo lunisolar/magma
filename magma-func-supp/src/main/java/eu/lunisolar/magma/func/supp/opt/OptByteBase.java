@@ -66,16 +66,16 @@ public abstract class OptByteBase<SELF extends OptByteBase<SELF>> implements Opt
 		this.isPresent = true;
 	}
 
-	public final byte get() {
+	public byte get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 
-	public final boolean isPresent() {
+	public boolean isPresent() {
 		return isPresent;
 	}
 
-	public final boolean isVoid() {
+	public boolean isVoid() {
 		return !isPresent;
 	}
 

@@ -63,11 +63,11 @@ public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTr
 		this.value = value;
 	}
 
-	public final @Nullable T nullable() {
+	public @Nullable T nullable() {
 		return value;
 	}
 
-	public final boolean isVoid() {
+	public boolean isVoid() {
 		return value == null;
 	}
 

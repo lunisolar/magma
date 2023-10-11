@@ -66,16 +66,16 @@ public abstract class OptDblBase<SELF extends OptDblBase<SELF>> implements OptDb
 		this.isPresent = true;
 	}
 
-	public final double get() {
+	public double get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 
-	public final boolean isPresent() {
+	public boolean isPresent() {
 		return isPresent;
 	}
 
-	public final boolean isVoid() {
+	public boolean isVoid() {
 		return !isPresent;
 	}
 

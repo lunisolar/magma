@@ -66,16 +66,16 @@ public abstract class OptSrtBase<SELF extends OptSrtBase<SELF>> implements OptSr
 		this.isPresent = true;
 	}
 
-	public final short get() {
+	public short get() {
 		LLogicalOperator.throwIfNot(isPresent, Is::True, X::noSuchElement, "No value present.");
 		return value;
 	}
 
-	public final boolean isPresent() {
+	public boolean isPresent() {
 		return isPresent;
 	}
 
-	public final boolean isVoid() {
+	public boolean isVoid() {
 		return !isPresent;
 	}
 
