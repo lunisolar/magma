@@ -309,6 +309,12 @@ public class Example_Validations_Fluent_Test {
         attest(Checks.attest(45).toString()).mustEx(Be::equalEx, "Check/attest [?=='45'^^int]");
     }
 
+
+    @Test
+    public void checkThrown() {
+        attest(Opt.empty()).checkThrown(Opt::get, ch-> ch.mustBeExactlyInstanceOf(NoSuchElementException.class));
+    }
+
     //>inject<:generated
 
 }
