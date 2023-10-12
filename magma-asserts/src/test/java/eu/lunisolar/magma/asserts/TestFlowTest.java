@@ -65,7 +65,7 @@ public class TestFlowTest {
 
         StringBuilder sb = new StringBuilder();
 
-        test().logWith(m -> sb.append(m).append("\n")).given(() -> {
+        test(m -> sb.append(m).append("\n")).given(() -> {
             return 1;
         }).precondition("initial state is", sut -> {
 

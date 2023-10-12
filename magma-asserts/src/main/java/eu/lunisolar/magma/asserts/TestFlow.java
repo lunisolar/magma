@@ -31,7 +31,7 @@ import static eu.lunisolar.magma.func.supp.check.Checks.check;
 /**
  * @param <SUT> SUT - System Under Test / State of Unit Test
  */
-public final class TestFlow<SUT> extends Sut.Base<SUT> {
+public final class TestFlow<SUT> {
 
 	public static final String DEFAULT_DESCRIPTION = "...";
 
@@ -49,16 +49,36 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 
 	}
 
-	public TestFlow(SUT sut, @Nonnull LConsumer<String> logger) {
-		super(sut, logger);
-	}
-	public static TestFlow<?> test() {
-		return new TestFlow<>(null, System.out::println);
+	private final SUT sut;
+	private final LConsumer<String> logger;
+
+	private TestFlow(SUT sut, @Nonnull LConsumer<String> logger) {
+		arg(logger, "logger").mustEx(Be::notNullEx);
+		this.sut = sut;
+		this.logger = logger;
 	}
 
-	public TestFlow<?> logWith(@Nonnull LConsumer<String> logger) {
+	public static TestFlow<?> test(@Nonnull LConsumer<String> logger) {
 		arg(logger, "logger").mustEx(Be::notNullEx);
-		return new TestFlow<>(sut(), logger);
+		return new TestFlow<>(null, logger);
+	}
+
+	public static TestFlow<?> test(String description, @Nonnull LConsumer<String> logger) {
+		return test(logger).log("Test: " + description);
+	}
+
+	public static TestFlow<?> test(String description) {
+		return test(description, System.out::println);
+	}
+
+	public static TestFlow<?> test() {
+		return test(DEFAULT_DESCRIPTION, System.out::println);
+	}
+
+	public TestFlow<SUT> log(String message) {
+		arg(message, "message").mustEx(Be::notNullEx);
+		logger.accept(message);
+		return this;
 	}
 
 	// <editor-fold desc="Given">
@@ -79,7 +99,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 		log("Given: " + description);
 		arg(givenBlock).mustEx(Be::notNullEx);
 		var sut = givenBlock.shovingGet();
-		return new TestFlow<>(sut, logger());
+		return new TestFlow<>(sut, logger);
 	}
 
 	// </editor-fold>
@@ -90,7 +110,7 @@ public final class TestFlow<SUT> extends Sut.Base<SUT> {
 		arg(activity).mustEx(Be::notNullEx);
 		log(activity + ": " + description);
 		arg(block).mustEx(Be::notNullEx);
-		block.shovingAccept(sut());
+		block.shovingAccept(sut);
 		return this;
 	}
 
