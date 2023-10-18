@@ -391,6 +391,26 @@ public interface LByteIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LByteIntConsumer shoving() {
+
+		return new LByteIntConsumer() {
+
+			public void accept(byte a1, int a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(byte a1, int a2) throws Throwable {
+				LByteIntConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

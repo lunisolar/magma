@@ -538,6 +538,27 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 
 	// </editor-fold>
 
+	default LLongFunction<R> shoving() {
+
+		return new LLongFunction<R>() {
+
+			@Nullable
+			public R apply(long a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(long a) throws Throwable {
+				return LLongFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

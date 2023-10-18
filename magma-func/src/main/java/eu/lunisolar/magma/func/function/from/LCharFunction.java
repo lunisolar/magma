@@ -533,6 +533,27 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LCharFunction<R> shoving() {
+
+		return new LCharFunction<R>() {
+
+			@Nullable
+			public R apply(char a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(char a) throws Throwable {
+				return LCharFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

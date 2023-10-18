@@ -51,9 +51,9 @@ import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 /**
  * Exception Handling
  * ==============================
- *
+ * <p>
  * ### Abstract
- *
+ * <p>
  * Basic introduction (by example) to exception handling with functional interfaces from this library.
  */
 public class Example_ExceptionHandling_Test {
@@ -97,7 +97,7 @@ public class Example_ExceptionHandling_Test {
 
     /**
      * ### Examples
-     *
+     * <p>
      * Probably the most quick use of exception handling, provided that situation does not require actual handling of exception (and propagation of nested
      * exception is enough) would be:
      */
@@ -192,27 +192,24 @@ public class Example_ExceptionHandling_Test {
 
     // <editor-fold desc="simple">
 
-    @Test(expectedExceptions = NestedException.class)
-    public java.util.function.Function<Integer, Integer> example1() {
-
+    @Test
+    public void example1() {
         attest(throwingAlways).mustEx(Be::instanceOfEx, Function.class);
-
-        return throwingAlways;
     }
 
     @Test(expectedExceptions = NestedException.class)
-    public LFunction<Integer, Integer> example_nest() {
+    public void example_nest() {
         throwingAlways.nestingApply(0);   // TODO this seems not needed since it is default behaviour!
-
-        return throwingAlways;    // TODO better documentation description
     }
 
     @Test(expectedExceptions = CheckedException.class)
-    public LFunction<Integer, Integer> example_shove() {
+    public void example_shove() {
         throwingAlways.shovingApply(0);
+    }
 
-        //return throwingAlways.shovingFunc();  // TODO no longer exists
-        return null;
+    @Test(expectedExceptions = CheckedException.class)
+    public void example_shoving() {
+        throwingAlways.shoving().apply(0);
     }
 
     @Test(expectedExceptions = SomeRuntimeExcepton.class)

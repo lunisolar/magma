@@ -884,6 +884,26 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LBytePredicate shoving() {
+
+		return new LBytePredicate() {
+
+			public boolean test(byte a) {
+				try {
+					return this.testX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(byte a) throws Throwable {
+				return LBytePredicate.this.testX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

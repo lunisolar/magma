@@ -409,6 +409,26 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 
 	// </editor-fold>
 
+	default LObjBiLongConsumer<T> shoving() {
+
+		return new LObjBiLongConsumer<T>() {
+
+			public void accept(T a1, long a2, long a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T a1, long a2, long a3) throws Throwable {
+				LObjBiLongConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

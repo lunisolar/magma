@@ -538,6 +538,27 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 
 	// </editor-fold>
 
+	default LIntFunction<R> shoving() {
+
+		return new LIntFunction<R>() {
+
+			@Nullable
+			public R apply(int a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(int a) throws Throwable {
+				return LIntFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

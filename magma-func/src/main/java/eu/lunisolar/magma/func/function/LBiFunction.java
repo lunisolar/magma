@@ -843,6 +843,27 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 
 	// </editor-fold>
 
+	default LBiFunction<T1, T2, R> shoving() {
+
+		return new LBiFunction<T1, T2, R>() {
+
+			@Nullable
+			public R apply(T1 a1, T2 a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T1 a1, T2 a2) throws Throwable {
+				return LBiFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

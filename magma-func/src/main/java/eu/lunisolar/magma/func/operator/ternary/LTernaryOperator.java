@@ -769,6 +769,27 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LTernaryOperator<T> shoving() {
+
+		return new LTernaryOperator<T>() {
+
+			@Nullable
+			public T apply(T a1, T a2, T a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public T applyX(T a1, T a2, T a3) throws Throwable {
+				return LTernaryOperator.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

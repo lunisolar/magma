@@ -527,6 +527,26 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LCharToFltFunction shoving() {
+
+		return new LCharToFltFunction() {
+
+			public float applyAsFlt(char a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(char a) throws Throwable {
+				return LCharToFltFunction.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

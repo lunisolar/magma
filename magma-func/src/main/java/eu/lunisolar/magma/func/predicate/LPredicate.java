@@ -1201,6 +1201,26 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 
 	// </editor-fold>
 
+	default LPredicate<T> shoving() {
+
+		return new LPredicate<T>() {
+
+			public boolean test(T a) {
+				try {
+					return this.testX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T a) throws Throwable {
+				return LPredicate.this.testX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

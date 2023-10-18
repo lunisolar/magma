@@ -537,6 +537,26 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return a;
 	}
 
+	default LFltUnaryOperator shoving() {
+
+		return new LFltUnaryOperator() {
+
+			public float applyAsFlt(float a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(float a) throws Throwable {
+				return LFltUnaryOperator.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -533,6 +533,27 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LSrtFunction<R> shoving() {
+
+		return new LSrtFunction<R>() {
+
+			@Nullable
+			public R apply(short a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(short a) throws Throwable {
+				return LSrtFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

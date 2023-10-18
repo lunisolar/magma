@@ -537,6 +537,26 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return a;
 	}
 
+	default LSrtUnaryOperator shoving() {
+
+		return new LSrtUnaryOperator() {
+
+			public short applyAsSrt(short a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(short a) throws Throwable {
+				return LSrtUnaryOperator.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

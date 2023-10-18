@@ -527,6 +527,26 @@ public interface LSrtToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LSrtToCharFunction shoving() {
+
+		return new LSrtToCharFunction() {
+
+			public char applyAsChar(short a) {
+				try {
+					return this.applyAsCharX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(short a) throws Throwable {
+				return LSrtToCharFunction.this.applyAsCharX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

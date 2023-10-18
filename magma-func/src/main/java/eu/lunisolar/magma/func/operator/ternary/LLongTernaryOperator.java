@@ -502,6 +502,26 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LLongTernaryOperator shoving() {
+
+		return new LLongTernaryOperator() {
+
+			public long applyAsLong(long a1, long a2, long a3) {
+				try {
+					return this.applyAsLongX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(long a1, long a2, long a3) throws Throwable {
+				return LLongTernaryOperator.this.applyAsLongX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

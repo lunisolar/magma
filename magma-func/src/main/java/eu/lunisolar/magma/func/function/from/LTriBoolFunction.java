@@ -510,6 +510,27 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LTriBoolFunction<R> shoving() {
+
+		return new LTriBoolFunction<R>() {
+
+			@Nullable
+			public R apply(boolean a1, boolean a2, boolean a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(boolean a1, boolean a2, boolean a3) throws Throwable {
+				return LTriBoolFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

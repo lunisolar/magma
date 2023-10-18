@@ -527,6 +527,26 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LCharToIntFunction shoving() {
+
+		return new LCharToIntFunction() {
+
+			public int applyAsInt(char a) {
+				try {
+					return this.applyAsIntX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(char a) throws Throwable {
+				return LCharToIntFunction.this.applyAsIntX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

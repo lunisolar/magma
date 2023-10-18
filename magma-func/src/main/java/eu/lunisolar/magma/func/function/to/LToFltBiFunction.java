@@ -548,6 +548,26 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 	// </editor-fold>
 
+	default LToFltBiFunction<T1, T2> shoving() {
+
+		return new LToFltBiFunction<T1, T2>() {
+
+			public float applyAsFlt(T1 a1, T2 a2) {
+				try {
+					return this.applyAsFltX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(T1 a1, T2 a2) throws Throwable {
+				return LToFltBiFunction.this.applyAsFltX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

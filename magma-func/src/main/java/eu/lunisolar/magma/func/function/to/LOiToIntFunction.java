@@ -558,6 +558,26 @@ public interface LOiToIntFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LOiToIntFunction<T> shoving() {
+
+		return new LOiToIntFunction<T>() {
+
+			public int applyAsInt(T a1, int a2) {
+				try {
+					return this.applyAsIntX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(T a1, int a2) throws Throwable {
+				return LOiToIntFunction.this.applyAsIntX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

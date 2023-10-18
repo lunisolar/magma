@@ -507,6 +507,27 @@ public interface LBiCharFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LBiCharFunction<R> shoving() {
+
+		return new LBiCharFunction<R>() {
+
+			@Nullable
+			public R apply(char a1, char a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(char a1, char a2) throws Throwable {
+				return LBiCharFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

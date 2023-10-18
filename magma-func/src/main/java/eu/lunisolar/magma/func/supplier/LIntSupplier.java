@@ -503,6 +503,26 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 
 	// </editor-fold>
 
+	default LIntSupplier shoving() {
+
+		return new LIntSupplier() {
+
+			public int getAsInt() {
+				try {
+					return this.getAsIntX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int getAsIntX() throws Throwable {
+				return LIntSupplier.this.getAsIntX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

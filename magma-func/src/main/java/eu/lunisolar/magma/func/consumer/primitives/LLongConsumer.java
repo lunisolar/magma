@@ -388,6 +388,26 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 
 	// </editor-fold>
 
+	default LLongConsumer shoving() {
+
+		return new LLongConsumer() {
+
+			public void accept(long a) {
+				try {
+					this.acceptX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(long a) throws Throwable {
+				LLongConsumer.this.acceptX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

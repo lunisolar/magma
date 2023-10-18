@@ -542,6 +542,26 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		return a;
 	}
 
+	default LIntUnaryOperator shoving() {
+
+		return new LIntUnaryOperator() {
+
+			public int applyAsInt(int a) {
+				try {
+					return this.applyAsIntX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(int a) throws Throwable {
+				return LIntUnaryOperator.this.applyAsIntX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

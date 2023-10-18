@@ -507,6 +507,27 @@ public interface LBiDblFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LBiDblFunction<R> shoving() {
+
+		return new LBiDblFunction<R>() {
+
+			@Nullable
+			public R apply(double a1, double a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(double a1, double a2) throws Throwable {
+				return LBiDblFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

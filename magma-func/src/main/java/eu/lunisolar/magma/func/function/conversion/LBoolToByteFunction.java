@@ -527,6 +527,26 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LBoolToByteFunction shoving() {
+
+		return new LBoolToByteFunction() {
+
+			public byte applyAsByte(boolean a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(boolean a) throws Throwable {
+				return LBoolToByteFunction.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

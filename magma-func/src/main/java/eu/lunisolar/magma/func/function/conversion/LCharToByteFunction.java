@@ -527,6 +527,26 @@ public interface LCharToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LCharToByteFunction shoving() {
+
+		return new LCharToByteFunction() {
+
+			public byte applyAsByte(char a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(char a) throws Throwable {
+				return LCharToByteFunction.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -860,6 +860,26 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LLongIntPredicate shoving() {
+
+		return new LLongIntPredicate() {
+
+			public boolean test(long a1, int a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(long a1, int a2) throws Throwable {
+				return LLongIntPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

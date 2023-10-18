@@ -513,6 +513,27 @@ public interface LObjFltFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 
 	// </editor-fold>
 
+	default LObjFltFunction<T, R> shoving() {
+
+		return new LObjFltFunction<T, R>() {
+
+			@Nullable
+			public R apply(T a1, float a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T a1, float a2) throws Throwable {
+				return LObjFltFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

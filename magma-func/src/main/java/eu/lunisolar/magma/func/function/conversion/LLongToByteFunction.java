@@ -527,6 +527,26 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LLongToByteFunction shoving() {
+
+		return new LLongToByteFunction() {
+
+			public byte applyAsByte(long a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(long a) throws Throwable {
+				return LLongToByteFunction.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

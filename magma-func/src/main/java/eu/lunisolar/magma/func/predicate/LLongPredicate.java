@@ -889,6 +889,26 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 
 	// </editor-fold>
 
+	default LLongPredicate shoving() {
+
+		return new LLongPredicate() {
+
+			public boolean test(long a) {
+				try {
+					return this.testX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(long a) throws Throwable {
+				return LLongPredicate.this.testX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

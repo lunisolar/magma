@@ -502,6 +502,26 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LDblTernaryOperator shoving() {
+
+		return new LDblTernaryOperator() {
+
+			public double applyAsDbl(double a1, double a2, double a3) {
+				try {
+					return this.applyAsDblX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(double a1, double a2, double a3) throws Throwable {
+				return LDblTernaryOperator.this.applyAsDblX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

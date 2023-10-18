@@ -523,6 +523,27 @@ public interface LBiObjCharFunction<T1, T2, R> extends MetaFunction, MetaInterfa
 
 	// </editor-fold>
 
+	default LBiObjCharFunction<T1, T2, R> shoving() {
+
+		return new LBiObjCharFunction<T1, T2, R>() {
+
+			@Nullable
+			public R apply(T1 a1, T2 a2, char a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T1 a1, T2 a2, char a3) throws Throwable {
+				return LBiObjCharFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

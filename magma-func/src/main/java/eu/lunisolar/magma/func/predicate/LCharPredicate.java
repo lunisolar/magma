@@ -884,6 +884,26 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LCharPredicate shoving() {
+
+		return new LCharPredicate() {
+
+			public boolean test(char a) {
+				try {
+					return this.testX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(char a) throws Throwable {
+				return LCharPredicate.this.testX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

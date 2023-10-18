@@ -527,6 +527,26 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LLongToFltFunction shoving() {
+
+		return new LLongToFltFunction() {
+
+			public float applyAsFlt(long a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(long a) throws Throwable {
+				return LLongToFltFunction.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

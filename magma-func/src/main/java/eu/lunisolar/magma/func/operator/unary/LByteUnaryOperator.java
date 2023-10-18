@@ -537,6 +537,26 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return a;
 	}
 
+	default LByteUnaryOperator shoving() {
+
+		return new LByteUnaryOperator() {
+
+			public byte applyAsByte(byte a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(byte a) throws Throwable {
+				return LByteUnaryOperator.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

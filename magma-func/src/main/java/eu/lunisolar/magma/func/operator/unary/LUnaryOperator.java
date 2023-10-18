@@ -806,6 +806,27 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return a;
 	}
 
+	default LUnaryOperator<T> shoving() {
+
+		return new LUnaryOperator<T>() {
+
+			@Nullable
+			public T apply(T a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public T applyX(T a) throws Throwable {
+				return LUnaryOperator.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

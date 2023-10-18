@@ -840,6 +840,27 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return a;
 	}
 
+	default LFunction<T, R> shoving() {
+
+		return new LFunction<T, R>() {
+
+			@Nullable
+			public R apply(T a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T a) throws Throwable {
+				return LFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -550,6 +550,26 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 
 	// </editor-fold>
 
+	default LToDblFunction<T> shoving() {
+
+		return new LToDblFunction<T>() {
+
+			public double applyAsDbl(T a) {
+				try {
+					return this.applyAsDblX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(T a) throws Throwable {
+				return LToDblFunction.this.applyAsDblX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

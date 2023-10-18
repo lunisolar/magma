@@ -527,6 +527,26 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LBoolToCharFunction shoving() {
+
+		return new LBoolToCharFunction() {
+
+			public char applyAsChar(boolean a) {
+				try {
+					return this.applyAsCharX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(boolean a) throws Throwable {
+				return LBoolToCharFunction.this.applyAsCharX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -391,6 +391,26 @@ public interface LSrtIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LSrtIntConsumer shoving() {
+
+		return new LSrtIntConsumer() {
+
+			public void accept(short a1, int a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(short a1, int a2) throws Throwable {
+				LSrtIntConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

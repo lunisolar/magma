@@ -558,6 +558,26 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LOiToCharFunction<T> shoving() {
+
+		return new LOiToCharFunction<T>() {
+
+			public char applyAsChar(T a1, int a2) {
+				try {
+					return this.applyAsCharX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(T a1, int a2) throws Throwable {
+				return LOiToCharFunction.this.applyAsCharX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

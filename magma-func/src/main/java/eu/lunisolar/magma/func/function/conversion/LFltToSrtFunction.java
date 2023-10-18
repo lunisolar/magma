@@ -527,6 +527,26 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LFltToSrtFunction shoving() {
+
+		return new LFltToSrtFunction() {
+
+			public short applyAsSrt(float a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(float a) throws Throwable {
+				return LFltToSrtFunction.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

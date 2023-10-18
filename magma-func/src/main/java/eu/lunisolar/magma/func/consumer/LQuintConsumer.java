@@ -686,6 +686,26 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 
 	// </editor-fold>
 
+	default LQuintConsumer<T1, T2, T3, T4, T5> shoving() {
+
+		return new LQuintConsumer<T1, T2, T3, T4, T5>() {
+
+			public void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+				try {
+					this.acceptX(a1, a2, a3, a4, a5);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) throws Throwable {
+				LQuintConsumer.this.acceptX(a1, a2, a3, a4, a5);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

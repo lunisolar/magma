@@ -527,6 +527,26 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LCharToSrtFunction shoving() {
+
+		return new LCharToSrtFunction() {
+
+			public short applyAsSrt(char a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(char a) throws Throwable {
+				return LCharToSrtFunction.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

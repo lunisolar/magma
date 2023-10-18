@@ -409,6 +409,26 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LTriSrtConsumer shoving() {
+
+		return new LTriSrtConsumer() {
+
+			public void accept(short a1, short a2, short a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(short a1, short a2, short a3) throws Throwable {
+				LTriSrtConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

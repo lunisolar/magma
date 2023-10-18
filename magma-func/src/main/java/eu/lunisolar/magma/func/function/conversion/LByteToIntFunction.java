@@ -527,6 +527,26 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LByteToIntFunction shoving() {
+
+		return new LByteToIntFunction() {
+
+			public int applyAsInt(byte a) {
+				try {
+					return this.applyAsIntX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(byte a) throws Throwable {
+				return LByteToIntFunction.this.applyAsIntX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

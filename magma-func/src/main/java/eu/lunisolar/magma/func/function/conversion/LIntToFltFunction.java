@@ -527,6 +527,26 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LIntToFltFunction shoving() {
+
+		return new LIntToFltFunction() {
+
+			public float applyAsFlt(int a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(int a) throws Throwable {
+				return LIntToFltFunction.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

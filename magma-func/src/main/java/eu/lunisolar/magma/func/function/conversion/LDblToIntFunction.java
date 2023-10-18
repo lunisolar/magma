@@ -532,6 +532,26 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 
 	// </editor-fold>
 
+	default LDblToIntFunction shoving() {
+
+		return new LDblToIntFunction() {
+
+			public int applyAsInt(double a) {
+				try {
+					return this.applyAsIntX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(double a) throws Throwable {
+				return LDblToIntFunction.this.applyAsIntX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -558,6 +558,26 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LOiToSrtFunction<T> shoving() {
+
+		return new LOiToSrtFunction<T>() {
+
+			public short applyAsSrt(T a1, int a2) {
+				try {
+					return this.applyAsSrtX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(T a1, int a2) throws Throwable {
+				return LOiToSrtFunction.this.applyAsSrtX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

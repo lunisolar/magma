@@ -527,6 +527,26 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LByteToFltFunction shoving() {
+
+		return new LByteToFltFunction() {
+
+			public float applyAsFlt(byte a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(byte a) throws Throwable {
+				return LByteToFltFunction.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

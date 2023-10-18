@@ -1058,6 +1058,26 @@ public interface LBiIntPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LBiIntPredicate shoving() {
+
+		return new LBiIntPredicate() {
+
+			public boolean test(int a1, int a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(int a1, int a2) throws Throwable {
+				return LBiIntPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -517,6 +517,27 @@ public interface LTriByteFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LTriByteFunction<R> shoving() {
+
+		return new LTriByteFunction<R>() {
+
+			@Nullable
+			public R apply(byte a1, byte a2, byte a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(byte a1, byte a2, byte a3) throws Throwable {
+				return LTriByteFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

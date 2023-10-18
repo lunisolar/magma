@@ -527,6 +527,26 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LBoolToIntFunction shoving() {
+
+		return new LBoolToIntFunction() {
+
+			public int applyAsInt(boolean a) {
+				try {
+					return this.applyAsIntX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(boolean a) throws Throwable {
+				return LBoolToIntFunction.this.applyAsIntX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

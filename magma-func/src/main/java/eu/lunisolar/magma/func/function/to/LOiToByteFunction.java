@@ -558,6 +558,26 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LOiToByteFunction<T> shoving() {
+
+		return new LOiToByteFunction<T>() {
+
+			public byte applyAsByte(T a1, int a2) {
+				try {
+					return this.applyAsByteX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(T a1, int a2) throws Throwable {
+				return LOiToByteFunction.this.applyAsByteX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

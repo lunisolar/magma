@@ -535,6 +535,26 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LToFltFunction<T> shoving() {
+
+		return new LToFltFunction<T>() {
+
+			public float applyAsFlt(T a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(T a) throws Throwable {
+				return LToFltFunction.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

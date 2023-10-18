@@ -527,6 +527,26 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LByteToSrtFunction shoving() {
+
+		return new LByteToSrtFunction() {
+
+			public short applyAsSrt(byte a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(byte a) throws Throwable {
+				return LByteToSrtFunction.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

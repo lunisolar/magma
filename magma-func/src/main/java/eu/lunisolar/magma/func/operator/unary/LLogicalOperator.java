@@ -893,6 +893,26 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return a;
 	}
 
+	default LLogicalOperator shoving() {
+
+		return new LLogicalOperator() {
+
+			public boolean apply(boolean a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean applyX(boolean a) throws Throwable {
+				return LLogicalOperator.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

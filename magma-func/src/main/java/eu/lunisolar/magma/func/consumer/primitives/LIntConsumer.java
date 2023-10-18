@@ -388,6 +388,26 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 
 	// </editor-fold>
 
+	default LIntConsumer shoving() {
+
+		return new LIntConsumer() {
+
+			public void accept(int a) {
+				try {
+					this.acceptX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(int a) throws Throwable {
+				LIntConsumer.this.acceptX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

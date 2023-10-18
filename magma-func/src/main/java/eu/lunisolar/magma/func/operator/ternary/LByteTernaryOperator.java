@@ -502,6 +502,26 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LByteTernaryOperator shoving() {
+
+		return new LByteTernaryOperator() {
+
+			public byte applyAsByte(byte a1, byte a2, byte a3) {
+				try {
+					return this.applyAsByteX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(byte a1, byte a2, byte a3) throws Throwable {
+				return LByteTernaryOperator.this.applyAsByteX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

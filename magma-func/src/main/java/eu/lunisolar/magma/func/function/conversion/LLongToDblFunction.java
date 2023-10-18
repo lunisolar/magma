@@ -542,6 +542,26 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 
 	// </editor-fold>
 
+	default LLongToDblFunction shoving() {
+
+		return new LLongToDblFunction() {
+
+			public double applyAsDbl(long a) {
+				try {
+					return this.applyAsDblX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(long a) throws Throwable {
+				return LLongToDblFunction.this.applyAsDblX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

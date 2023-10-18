@@ -539,6 +539,26 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LFltBinaryOperator shoving() {
+
+		return new LFltBinaryOperator() {
+
+			public float applyAsFlt(float a1, float a2) {
+				try {
+					return this.applyAsFltX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(float a1, float a2) throws Throwable {
+				return LFltBinaryOperator.this.applyAsFltX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

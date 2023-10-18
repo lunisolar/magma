@@ -860,6 +860,26 @@ public interface LDblIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LDblIntPredicate shoving() {
+
+		return new LDblIntPredicate() {
+
+			public boolean test(double a1, int a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(double a1, int a2) throws Throwable {
+				return LDblIntPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

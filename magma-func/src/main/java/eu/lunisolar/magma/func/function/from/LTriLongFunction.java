@@ -517,6 +517,27 @@ public interface LTriLongFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LTriLongFunction<R> shoving() {
+
+		return new LTriLongFunction<R>() {
+
+			@Nullable
+			public R apply(long a1, long a2, long a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(long a1, long a2, long a3) throws Throwable {
+				return LTriLongFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -515,6 +515,26 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 
 	// </editor-fold>
 
+	default LToIntTriFunction<T1, T2, T3> shoving() {
+
+		return new LToIntTriFunction<T1, T2, T3>() {
+
+			public int applyAsInt(T1 a1, T2 a2, T3 a3) {
+				try {
+					return this.applyAsIntX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(T1 a1, T2 a2, T3 a3) throws Throwable {
+				return LToIntTriFunction.this.applyAsIntX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

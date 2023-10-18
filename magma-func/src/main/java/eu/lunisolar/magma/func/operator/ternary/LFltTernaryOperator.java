@@ -502,6 +502,26 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LFltTernaryOperator shoving() {
+
+		return new LFltTernaryOperator() {
+
+			public float applyAsFlt(float a1, float a2, float a3) {
+				try {
+					return this.applyAsFltX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(float a1, float a2, float a3) throws Throwable {
+				return LFltTernaryOperator.this.applyAsFltX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

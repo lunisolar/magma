@@ -409,6 +409,26 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LTriCharConsumer shoving() {
+
+		return new LTriCharConsumer() {
+
+			public void accept(char a1, char a2, char a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(char a1, char a2, char a3) throws Throwable {
+				LTriCharConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

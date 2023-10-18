@@ -527,6 +527,26 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LFltToDblFunction shoving() {
+
+		return new LFltToDblFunction() {
+
+			public double applyAsDbl(float a) {
+				try {
+					return this.applyAsDblX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(float a) throws Throwable {
+				return LFltToDblFunction.this.applyAsDblX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

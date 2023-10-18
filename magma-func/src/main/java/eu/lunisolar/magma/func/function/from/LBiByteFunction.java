@@ -507,6 +507,27 @@ public interface LBiByteFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LBiByteFunction<R> shoving() {
+
+		return new LBiByteFunction<R>() {
+
+			@Nullable
+			public R apply(byte a1, byte a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(byte a1, byte a2) throws Throwable {
+				return LBiByteFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

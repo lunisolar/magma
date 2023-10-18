@@ -399,6 +399,27 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 
 	// </editor-fold>
 
+	default LBiFltConsumer shoving() {
+	default LBiFltConsumer shoving() {
+
+		return new LBiFltConsumer() {
+
+			public void accept(float a1, float a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(float a1, float a2) throws Throwable {
+				LBiFltConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

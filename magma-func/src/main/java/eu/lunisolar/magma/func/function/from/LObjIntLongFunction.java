@@ -526,6 +526,27 @@ public interface LObjIntLongFunction<T, R> extends MetaFunction, MetaInterface.N
 
 	// </editor-fold>
 
+	default LObjIntLongFunction<T, R> shoving() {
+
+		return new LObjIntLongFunction<T, R>() {
+
+			@Nullable
+			public R apply(T a1, int a2, long a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T a1, int a2, long a3) throws Throwable {
+				return LObjIntLongFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

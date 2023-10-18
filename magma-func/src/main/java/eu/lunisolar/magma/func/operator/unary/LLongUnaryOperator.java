@@ -542,6 +542,26 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		return a;
 	}
 
+	default LLongUnaryOperator shoving() {
+
+		return new LLongUnaryOperator() {
+
+			public long applyAsLong(long a) {
+				try {
+					return this.applyAsLongX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(long a) throws Throwable {
+				return LLongUnaryOperator.this.applyAsLongX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

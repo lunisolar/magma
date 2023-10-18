@@ -383,6 +383,26 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 
 	// </editor-fold>
 
+	default LCharConsumer shoving() {
+
+		return new LCharConsumer() {
+
+			public void accept(char a) {
+				try {
+					this.acceptX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(char a) throws Throwable {
+				LCharConsumer.this.acceptX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

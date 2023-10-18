@@ -793,6 +793,27 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 
 	// </editor-fold>
 
+	default LSupplier<T> shoving() {
+
+		return new LSupplier<T>() {
+
+			@Nullable
+			public T get() {
+				try {
+					return this.getX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public T getX() throws Throwable {
+				return LSupplier.this.getX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

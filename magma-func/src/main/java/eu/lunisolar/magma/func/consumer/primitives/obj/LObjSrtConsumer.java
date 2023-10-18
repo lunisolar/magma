@@ -401,6 +401,26 @@ public interface LObjSrtConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LObjSrtConsumer<T> shoving() {
+
+		return new LObjSrtConsumer<T>() {
+
+			public void accept(T a1, short a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T a1, short a2) throws Throwable {
+				LObjSrtConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

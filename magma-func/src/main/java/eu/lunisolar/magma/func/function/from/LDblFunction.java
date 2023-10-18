@@ -538,6 +538,27 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 
 	// </editor-fold>
 
+	default LDblFunction<R> shoving() {
+
+		return new LDblFunction<R>() {
+
+			@Nullable
+			public R apply(double a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(double a) throws Throwable {
+				return LDblFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -527,6 +527,26 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LSrtToFltFunction shoving() {
+
+		return new LSrtToFltFunction() {
+
+			public float applyAsFlt(short a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(short a) throws Throwable {
+				return LSrtToFltFunction.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -1381,6 +1381,26 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 
 	// </editor-fold>
 
+	default LBiPredicate<T1, T2> shoving() {
+
+		return new LBiPredicate<T1, T2>() {
+
+			public boolean test(T1 a1, T2 a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T1 a1, T2 a2) throws Throwable {
+				return LBiPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

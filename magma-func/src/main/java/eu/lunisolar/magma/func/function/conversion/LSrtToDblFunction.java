@@ -527,6 +527,26 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LSrtToDblFunction shoving() {
+
+		return new LSrtToDblFunction() {
+
+			public double applyAsDbl(short a) {
+				try {
+					return this.applyAsDblX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(short a) throws Throwable {
+				return LSrtToDblFunction.this.applyAsDblX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

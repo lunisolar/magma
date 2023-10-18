@@ -527,6 +527,26 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LSrtToIntFunction shoving() {
+
+		return new LSrtToIntFunction() {
+
+			public int applyAsInt(short a) {
+				try {
+					return this.applyAsIntX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(short a) throws Throwable {
+				return LSrtToIntFunction.this.applyAsIntX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

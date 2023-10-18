@@ -535,6 +535,26 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LToCharFunction<T> shoving() {
+
+		return new LToCharFunction<T>() {
+
+			public char applyAsChar(T a) {
+				try {
+					return this.applyAsCharX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(T a) throws Throwable {
+				return LToCharFunction.this.applyAsCharX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

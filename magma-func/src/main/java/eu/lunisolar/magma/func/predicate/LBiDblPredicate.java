@@ -1019,6 +1019,26 @@ public interface LBiDblPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LBiDblPredicate shoving() {
+
+		return new LBiDblPredicate() {
+
+			public boolean test(double a1, double a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(double a1, double a2) throws Throwable {
+				return LBiDblPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

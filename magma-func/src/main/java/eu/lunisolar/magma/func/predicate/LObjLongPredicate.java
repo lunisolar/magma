@@ -1037,6 +1037,26 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 
 	// </editor-fold>
 
+	default LObjLongPredicate<T> shoving() {
+
+		return new LObjLongPredicate<T>() {
+
+			public boolean test(T a1, long a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T a1, long a2) throws Throwable {
+				return LObjLongPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

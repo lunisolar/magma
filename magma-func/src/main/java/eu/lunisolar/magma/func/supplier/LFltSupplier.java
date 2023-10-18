@@ -498,6 +498,26 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 	// </editor-fold>
 
+	default LFltSupplier shoving() {
+
+		return new LFltSupplier() {
+
+			public float getAsFlt() {
+				try {
+					return this.getAsFltX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float getAsFltX() throws Throwable {
+				return LFltSupplier.this.getAsFltX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

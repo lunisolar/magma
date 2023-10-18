@@ -563,6 +563,26 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 
 	// </editor-fold>
 
+	default LToDblBiFunction<T1, T2> shoving() {
+
+		return new LToDblBiFunction<T1, T2>() {
+
+			public double applyAsDbl(T1 a1, T2 a2) {
+				try {
+					return this.applyAsDblX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(T1 a1, T2 a2) throws Throwable {
+				return LToDblBiFunction.this.applyAsDblX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -388,6 +388,26 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 
 	// </editor-fold>
 
+	default LDblConsumer shoving() {
+
+		return new LDblConsumer() {
+
+			public void accept(double a) {
+				try {
+					this.acceptX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(double a) throws Throwable {
+				LDblConsumer.this.acceptX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

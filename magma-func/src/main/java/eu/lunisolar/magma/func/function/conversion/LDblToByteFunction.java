@@ -527,6 +527,26 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LDblToByteFunction shoving() {
+
+		return new LDblToByteFunction() {
+
+			public byte applyAsByte(double a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(double a) throws Throwable {
+				return LDblToByteFunction.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

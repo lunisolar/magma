@@ -502,6 +502,26 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LSrtTernaryOperator shoving() {
+
+		return new LSrtTernaryOperator() {
+
+			public short applyAsSrt(short a1, short a2, short a3) {
+				try {
+					return this.applyAsSrtX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(short a1, short a2, short a3) throws Throwable {
+				return LSrtTernaryOperator.this.applyAsSrtX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

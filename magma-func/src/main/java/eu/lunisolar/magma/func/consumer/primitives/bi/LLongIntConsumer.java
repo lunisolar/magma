@@ -391,6 +391,26 @@ public interface LLongIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LLongIntConsumer shoving() {
+
+		return new LLongIntConsumer() {
+
+			public void accept(long a1, int a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(long a1, int a2) throws Throwable {
+				LLongIntConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

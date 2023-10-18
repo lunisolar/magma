@@ -513,6 +513,26 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 
 	// </editor-fold>
 
+	default LDblSupplier shoving() {
+
+		return new LDblSupplier() {
+
+			public double getAsDbl() {
+				try {
+					return this.getAsDblX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double getAsDblX() throws Throwable {
+				return LDblSupplier.this.getAsDblX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

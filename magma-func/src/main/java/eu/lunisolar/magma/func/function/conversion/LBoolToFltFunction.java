@@ -527,6 +527,26 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LBoolToFltFunction shoving() {
+
+		return new LBoolToFltFunction() {
+
+			public float applyAsFlt(boolean a) {
+				try {
+					return this.applyAsFltX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public float applyAsFltX(boolean a) throws Throwable {
+				return LBoolToFltFunction.this.applyAsFltX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

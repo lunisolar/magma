@@ -1045,6 +1045,26 @@ public interface LBiObjSrtPredicate<T1, T2> extends MetaPredicate, MetaInterface
 
 	// </editor-fold>
 
+	default LBiObjSrtPredicate<T1, T2> shoving() {
+
+		return new LBiObjSrtPredicate<T1, T2>() {
+
+			public boolean test(T1 a1, T2 a2, short a3) {
+				try {
+					return this.testX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T1 a1, T2 a2, short a3) throws Throwable {
+				return LBiObjSrtPredicate.this.testX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

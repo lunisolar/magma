@@ -399,6 +399,26 @@ public interface LBiBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LBiBoolConsumer shoving() {
+
+		return new LBiBoolConsumer() {
+
+			public void accept(boolean a1, boolean a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(boolean a1, boolean a2) throws Throwable {
+				LBiBoolConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

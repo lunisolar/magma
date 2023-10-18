@@ -548,6 +548,26 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	// </editor-fold>
 
+	default LToByteBiFunction<T1, T2> shoving() {
+
+		return new LToByteBiFunction<T1, T2>() {
+
+			public byte applyAsByte(T1 a1, T2 a2) {
+				try {
+					return this.applyAsByteX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(T1 a1, T2 a2) throws Throwable {
+				return LToByteBiFunction.this.applyAsByteX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

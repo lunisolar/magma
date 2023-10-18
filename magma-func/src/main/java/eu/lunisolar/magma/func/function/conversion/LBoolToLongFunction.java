@@ -527,6 +527,26 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LBoolToLongFunction shoving() {
+
+		return new LBoolToLongFunction() {
+
+			public long applyAsLong(boolean a) {
+				try {
+					return this.applyAsLongX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(boolean a) throws Throwable {
+				return LBoolToLongFunction.this.applyAsLongX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

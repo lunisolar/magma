@@ -527,6 +527,26 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LBoolToDblFunction shoving() {
+
+		return new LBoolToDblFunction() {
+
+			public double applyAsDbl(boolean a) {
+				try {
+					return this.applyAsDblX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(boolean a) throws Throwable {
+				return LBoolToDblFunction.this.applyAsDblX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

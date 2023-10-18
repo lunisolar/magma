@@ -553,6 +553,26 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 
 	// </editor-fold>
 
+	default LToIntBiFunction<T1, T2> shoving() {
+
+		return new LToIntBiFunction<T1, T2>() {
+
+			public int applyAsInt(T1 a1, T2 a2) {
+				try {
+					return this.applyAsIntX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(T1 a1, T2 a2) throws Throwable {
+				return LToIntBiFunction.this.applyAsIntX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

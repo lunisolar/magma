@@ -527,6 +527,26 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LSrtToByteFunction shoving() {
+
+		return new LSrtToByteFunction() {
+
+			public byte applyAsByte(short a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(short a) throws Throwable {
+				return LSrtToByteFunction.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

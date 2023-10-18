@@ -554,6 +554,26 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 
 	// </editor-fold>
 
+	default LDblBinaryOperator shoving() {
+
+		return new LDblBinaryOperator() {
+
+			public double applyAsDbl(double a1, double a2) {
+				try {
+					return this.applyAsDblX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(double a1, double a2) throws Throwable {
+				return LDblBinaryOperator.this.applyAsDblX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -513,6 +513,27 @@ public interface LObjBoolFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 	// </editor-fold>
 
+	default LObjBoolFunction<T, R> shoving() {
+
+		return new LObjBoolFunction<T, R>() {
+
+			@Nullable
+			public R apply(T a1, boolean a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T a1, boolean a2) throws Throwable {
+				return LObjBoolFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

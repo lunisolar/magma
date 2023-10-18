@@ -391,6 +391,26 @@ public interface LFltIntConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LFltIntConsumer shoving() {
+
+		return new LFltIntConsumer() {
+
+			public void accept(float a1, int a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(float a1, int a2) throws Throwable {
+				LFltIntConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

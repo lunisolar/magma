@@ -1037,6 +1037,26 @@ public interface LObjCharPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 
 	// </editor-fold>
 
+	default LObjCharPredicate<T> shoving() {
+
+		return new LObjCharPredicate<T>() {
+
+			public boolean test(T a1, char a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T a1, char a2) throws Throwable {
+				return LObjCharPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

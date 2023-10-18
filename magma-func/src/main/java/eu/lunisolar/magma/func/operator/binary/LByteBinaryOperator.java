@@ -539,6 +539,26 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LByteBinaryOperator shoving() {
+
+		return new LByteBinaryOperator() {
+
+			public byte applyAsByte(byte a1, byte a2) {
+				try {
+					return this.applyAsByteX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(byte a1, byte a2) throws Throwable {
+				return LByteBinaryOperator.this.applyAsByteX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

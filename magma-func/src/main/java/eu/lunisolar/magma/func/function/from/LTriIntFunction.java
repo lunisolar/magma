@@ -517,6 +517,27 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LTriIntFunction<R> shoving() {
+
+		return new LTriIntFunction<R>() {
+
+			@Nullable
+			public R apply(int a1, int a2, int a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(int a1, int a2, int a3) throws Throwable {
+				return LTriIntFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

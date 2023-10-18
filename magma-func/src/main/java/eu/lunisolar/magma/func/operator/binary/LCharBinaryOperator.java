@@ -539,6 +539,26 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LCharBinaryOperator shoving() {
+
+		return new LCharBinaryOperator() {
+
+			public char applyAsChar(char a1, char a2) {
+				try {
+					return this.applyAsCharX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(char a1, char a2) throws Throwable {
+				return LCharBinaryOperator.this.applyAsCharX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

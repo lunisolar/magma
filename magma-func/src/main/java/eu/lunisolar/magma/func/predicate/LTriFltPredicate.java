@@ -1031,6 +1031,26 @@ public interface LTriFltPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LTriFltPredicate shoving() {
+
+		return new LTriFltPredicate() {
+
+			public boolean test(float a1, float a2, float a3) {
+				try {
+					return this.testX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(float a1, float a2, float a3) throws Throwable {
+				return LTriFltPredicate.this.testX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

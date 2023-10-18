@@ -552,6 +552,26 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 		return a;
 	}
 
+	default LDblUnaryOperator shoving() {
+
+		return new LDblUnaryOperator() {
+
+			public double applyAsDbl(double a) {
+				try {
+					return this.applyAsDblX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(double a) throws Throwable {
+				return LDblUnaryOperator.this.applyAsDblX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

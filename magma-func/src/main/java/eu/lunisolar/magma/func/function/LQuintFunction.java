@@ -726,6 +726,27 @@ public interface LQuintFunction<T1, T2, T3, T4, T5, R> extends MetaFunction, Met
 
 	// </editor-fold>
 
+	default LQuintFunction<T1, T2, T3, T4, T5, R> shoving() {
+
+		return new LQuintFunction<T1, T2, T3, T4, T5, R>() {
+
+			@Nullable
+			public R apply(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
+				try {
+					return this.applyX(a1, a2, a3, a4, a5);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) throws Throwable {
+				return LQuintFunction.this.applyX(a1, a2, a3, a4, a5);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

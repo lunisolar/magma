@@ -409,6 +409,26 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LTriByteConsumer shoving() {
+
+		return new LTriByteConsumer() {
+
+			public void accept(byte a1, byte a2, byte a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(byte a1, byte a2, byte a3) throws Throwable {
+				LTriByteConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

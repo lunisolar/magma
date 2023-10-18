@@ -714,6 +714,27 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 
 	// </editor-fold>
 
+	default LQuadFunction<T1, T2, T3, T4, R> shoving() {
+
+		return new LQuadFunction<T1, T2, T3, T4, R>() {
+
+			@Nullable
+			public R apply(T1 a1, T2 a2, T3 a3, T4 a4) {
+				try {
+					return this.applyX(a1, a2, a3, a4);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T1 a1, T2 a2, T3 a3, T4 a4) throws Throwable {
+				return LQuadFunction.this.applyX(a1, a2, a3, a4);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

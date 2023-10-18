@@ -647,6 +647,26 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LAction shoving() {
+
+		return new LAction() {
+
+			public void execute() {
+				try {
+					this.executeX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void executeX() throws Throwable {
+				LAction.this.executeX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

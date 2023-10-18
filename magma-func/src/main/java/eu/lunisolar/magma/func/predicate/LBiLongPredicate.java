@@ -1029,6 +1029,26 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LBiLongPredicate shoving() {
+
+		return new LBiLongPredicate() {
+
+			public boolean test(long a1, long a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(long a1, long a2) throws Throwable {
+				return LBiLongPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

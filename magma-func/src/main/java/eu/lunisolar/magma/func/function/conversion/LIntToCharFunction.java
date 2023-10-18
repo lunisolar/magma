@@ -527,6 +527,26 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LIntToCharFunction shoving() {
+
+		return new LIntToCharFunction() {
+
+			public char applyAsChar(int a) {
+				try {
+					return this.applyAsCharX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(int a) throws Throwable {
+				return LIntToCharFunction.this.applyAsCharX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

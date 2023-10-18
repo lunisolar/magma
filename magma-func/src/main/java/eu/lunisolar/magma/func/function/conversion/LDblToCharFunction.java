@@ -527,6 +527,26 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LDblToCharFunction shoving() {
+
+		return new LDblToCharFunction() {
+
+			public char applyAsChar(double a) {
+				try {
+					return this.applyAsCharX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(double a) throws Throwable {
+				return LDblToCharFunction.this.applyAsCharX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

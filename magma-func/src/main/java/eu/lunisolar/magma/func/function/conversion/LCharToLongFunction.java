@@ -527,6 +527,26 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LCharToLongFunction shoving() {
+
+		return new LCharToLongFunction() {
+
+			public long applyAsLong(char a) {
+				try {
+					return this.applyAsLongX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(char a) throws Throwable {
+				return LCharToLongFunction.this.applyAsLongX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

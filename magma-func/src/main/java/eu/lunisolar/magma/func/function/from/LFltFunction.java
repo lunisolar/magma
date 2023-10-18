@@ -533,6 +533,27 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LFltFunction<R> shoving() {
+
+		return new LFltFunction<R>() {
+
+			@Nullable
+			public R apply(float a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(float a) throws Throwable {
+				return LFltFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

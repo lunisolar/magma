@@ -414,6 +414,26 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LTieByteConsumer<T> shoving() {
+
+		return new LTieByteConsumer<T>() {
+
+			public void accept(T a1, int a2, byte a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T a1, int a2, byte a3) throws Throwable {
+				LTieByteConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

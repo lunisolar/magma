@@ -498,6 +498,26 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 	// </editor-fold>
 
+	default LByteSupplier shoving() {
+
+		return new LByteSupplier() {
+
+			public byte getAsByte() {
+				try {
+					return this.getAsByteX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte getAsByteX() throws Throwable {
+				return LByteSupplier.this.getAsByteX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

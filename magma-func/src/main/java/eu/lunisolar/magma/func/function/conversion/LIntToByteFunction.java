@@ -527,6 +527,26 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LIntToByteFunction shoving() {
+
+		return new LIntToByteFunction() {
+
+			public byte applyAsByte(int a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(int a) throws Throwable {
+				return LIntToByteFunction.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

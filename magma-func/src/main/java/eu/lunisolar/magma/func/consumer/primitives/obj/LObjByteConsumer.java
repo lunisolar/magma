@@ -401,6 +401,26 @@ public interface LObjByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LObjByteConsumer<T> shoving() {
+
+		return new LObjByteConsumer<T>() {
+
+			public void accept(T a1, byte a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T a1, byte a2) throws Throwable {
+				LObjByteConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

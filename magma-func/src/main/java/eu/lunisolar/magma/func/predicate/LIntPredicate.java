@@ -899,6 +899,26 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 
 	// </editor-fold>
 
+	default LIntPredicate shoving() {
+
+		return new LIntPredicate() {
+
+			public boolean test(int a) {
+				try {
+					return this.testX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(int a) throws Throwable {
+				return LIntPredicate.this.testX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

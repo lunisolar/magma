@@ -502,6 +502,26 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LCharTernaryOperator shoving() {
+
+		return new LCharTernaryOperator() {
+
+			public char applyAsChar(char a1, char a2, char a3) {
+				try {
+					return this.applyAsCharX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(char a1, char a2, char a3) throws Throwable {
+				return LCharTernaryOperator.this.applyAsCharX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

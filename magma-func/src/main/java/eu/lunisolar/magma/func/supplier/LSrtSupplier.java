@@ -498,6 +498,26 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 	// </editor-fold>
 
+	default LSrtSupplier shoving() {
+
+		return new LSrtSupplier() {
+
+			public short getAsSrt() {
+				try {
+					return this.getAsSrtX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short getAsSrtX() throws Throwable {
+				return LSrtSupplier.this.getAsSrtX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

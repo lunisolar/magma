@@ -1037,6 +1037,26 @@ public interface LObjDblPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LObjDblPredicate<T> shoving() {
+
+		return new LObjDblPredicate<T>() {
+
+			public boolean test(T a1, double a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T a1, double a2) throws Throwable {
+				return LObjDblPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

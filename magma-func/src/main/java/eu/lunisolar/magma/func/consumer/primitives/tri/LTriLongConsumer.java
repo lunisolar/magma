@@ -409,6 +409,26 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LTriLongConsumer shoving() {
+
+		return new LTriLongConsumer() {
+
+			public void accept(long a1, long a2, long a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(long a1, long a2, long a3) throws Throwable {
+				LTriLongConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

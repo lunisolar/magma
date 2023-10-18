@@ -682,6 +682,26 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 
 	// </editor-fold>
 
+	default LBiConsumer<T1, T2> shoving() {
+
+		return new LBiConsumer<T1, T2>() {
+
+			public void accept(T1 a1, T2 a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T1 a1, T2 a2) throws Throwable {
+				LBiConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

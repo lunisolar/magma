@@ -383,6 +383,26 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 
 	// </editor-fold>
 
+	default LBoolConsumer shoving() {
+
+		return new LBoolConsumer() {
+
+			public void accept(boolean a) {
+				try {
+					this.acceptX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(boolean a) throws Throwable {
+				LBoolConsumer.this.acceptX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -1044,6 +1044,26 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 
 	// </editor-fold>
 
+	default LObjIntBytePredicate<T> shoving() {
+
+		return new LObjIntBytePredicate<T>() {
+
+			public boolean test(T a1, int a2, byte a3) {
+				try {
+					return this.testX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T a1, int a2, byte a3) throws Throwable {
+				return LObjIntBytePredicate.this.testX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -527,6 +527,26 @@ public interface LLongToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LLongToSrtFunction shoving() {
+
+		return new LLongToSrtFunction() {
+
+			public short applyAsSrt(long a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(long a) throws Throwable {
+				return LLongToSrtFunction.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -540,6 +540,26 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 
 	// </editor-fold>
 
+	default LToIntFunction<T> shoving() {
+
+		return new LToIntFunction<T>() {
+
+			public int applyAsInt(T a) {
+				try {
+					return this.applyAsIntX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(T a) throws Throwable {
+				return LToIntFunction.this.applyAsIntX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

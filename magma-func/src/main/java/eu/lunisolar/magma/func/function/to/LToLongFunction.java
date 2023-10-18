@@ -540,6 +540,26 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 
 	// </editor-fold>
 
+	default LToLongFunction<T> shoving() {
+
+		return new LToLongFunction<T>() {
+
+			public long applyAsLong(T a) {
+				try {
+					return this.applyAsLongX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(T a) throws Throwable {
+				return LToLongFunction.this.applyAsLongX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -1039,6 +1039,26 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 
 	// </editor-fold>
 
+	default LLogicalBinaryOperator shoving() {
+
+		return new LLogicalBinaryOperator() {
+
+			public boolean apply(boolean a1, boolean a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean applyX(boolean a1, boolean a2) throws Throwable {
+				return LLogicalBinaryOperator.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

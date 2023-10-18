@@ -1253,6 +1253,26 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 
 	// </editor-fold>
 
+	default LQuadPredicate<T1, T2, T3, T4> shoving() {
+
+		return new LQuadPredicate<T1, T2, T3, T4>() {
+
+			public boolean test(T1 a1, T2 a2, T3 a3, T4 a4) {
+				try {
+					return this.testX(a1, a2, a3, a4);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T1 a1, T2 a2, T3 a3, T4 a4) throws Throwable {
+				return LQuadPredicate.this.testX(a1, a2, a3, a4);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -517,6 +517,27 @@ public interface LTriDblFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LTriDblFunction<R> shoving() {
+
+		return new LTriDblFunction<R>() {
+
+			@Nullable
+			public R apply(double a1, double a2, double a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(double a1, double a2, double a3) throws Throwable {
+				return LTriDblFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

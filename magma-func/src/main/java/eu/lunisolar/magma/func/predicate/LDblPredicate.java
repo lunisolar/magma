@@ -889,6 +889,26 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 
 	// </editor-fold>
 
+	default LDblPredicate shoving() {
+
+		return new LDblPredicate() {
+
+			public boolean test(double a) {
+				try {
+					return this.testX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(double a) throws Throwable {
+				return LDblPredicate.this.testX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

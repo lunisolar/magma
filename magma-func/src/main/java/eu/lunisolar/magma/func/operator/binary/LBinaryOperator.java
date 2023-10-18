@@ -828,6 +828,27 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 
 	// </editor-fold>
 
+	default LBinaryOperator<T> shoving() {
+
+		return new LBinaryOperator<T>() {
+
+			@Nullable
+			public T apply(T a1, T a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public T applyX(T a1, T a2) throws Throwable {
+				return LBinaryOperator.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -564,6 +564,27 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LOiFunction<T, R> shoving() {
+
+		return new LOiFunction<T, R>() {
+
+			@Nullable
+			public R apply(T a1, int a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(T a1, int a2) throws Throwable {
+				return LOiFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

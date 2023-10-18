@@ -511,6 +511,26 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LIntTernaryOperator shoving() {
+
+		return new LIntTernaryOperator() {
+
+			public int applyAsInt(int a1, int a2, int a3) {
+				try {
+					return this.applyAsIntX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(int a1, int a2, int a3) throws Throwable {
+				return LIntTernaryOperator.this.applyAsIntX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

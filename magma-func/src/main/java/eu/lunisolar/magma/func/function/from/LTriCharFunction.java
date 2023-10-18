@@ -517,6 +517,27 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LTriCharFunction<R> shoving() {
+
+		return new LTriCharFunction<R>() {
+
+			@Nullable
+			public R apply(char a1, char a2, char a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(char a1, char a2, char a3) throws Throwable {
+				return LTriCharFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

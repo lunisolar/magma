@@ -533,6 +533,27 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LBoolFunction<R> shoving() {
+
+		return new LBoolFunction<R>() {
+
+			@Nullable
+			public R apply(boolean a) {
+				try {
+					return this.applyX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(boolean a) throws Throwable {
+				return LBoolFunction.this.applyX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

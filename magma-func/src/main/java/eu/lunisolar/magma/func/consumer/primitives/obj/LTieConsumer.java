@@ -414,6 +414,26 @@ public interface LTieConsumer<T1, T2> extends MetaConsumer, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LTieConsumer<T1, T2> shoving() {
+
+		return new LTieConsumer<T1, T2>() {
+
+			public void accept(T1 a1, int a2, T2 a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T1 a1, int a2, T2 a3) throws Throwable {
+				LTieConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

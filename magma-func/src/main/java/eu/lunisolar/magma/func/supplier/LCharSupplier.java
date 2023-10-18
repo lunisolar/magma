@@ -498,6 +498,26 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 	// </editor-fold>
 
+	default LCharSupplier shoving() {
+
+		return new LCharSupplier() {
+
+			public char getAsChar() {
+				try {
+					return this.getAsCharX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char getAsCharX() throws Throwable {
+				return LCharSupplier.this.getAsCharX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

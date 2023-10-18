@@ -544,6 +544,26 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 
 	// </editor-fold>
 
+	default LIntBinaryOperator shoving() {
+
+		return new LIntBinaryOperator() {
+
+			public int applyAsInt(int a1, int a2) {
+				try {
+					return this.applyAsIntX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(int a1, int a2) throws Throwable {
+				return LIntBinaryOperator.this.applyAsIntX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

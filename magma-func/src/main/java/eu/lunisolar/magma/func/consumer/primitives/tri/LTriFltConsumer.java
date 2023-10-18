@@ -409,6 +409,26 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LTriFltConsumer shoving() {
+
+		return new LTriFltConsumer() {
+
+			public void accept(float a1, float a2, float a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(float a1, float a2, float a3) throws Throwable {
+				LTriFltConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -517,6 +517,27 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LTriSrtFunction<R> shoving() {
+
+		return new LTriSrtFunction<R>() {
+
+			@Nullable
+			public R apply(short a1, short a2, short a3) {
+				try {
+					return this.applyX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(short a1, short a2, short a3) throws Throwable {
+				return LTriSrtFunction.this.applyX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

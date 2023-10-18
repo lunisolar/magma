@@ -535,6 +535,26 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LToByteFunction<T> shoving() {
+
+		return new LToByteFunction<T>() {
+
+			public byte applyAsByte(T a) {
+				try {
+					return this.applyAsByteX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public byte applyAsByteX(T a) throws Throwable {
+				return LToByteFunction.this.applyAsByteX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

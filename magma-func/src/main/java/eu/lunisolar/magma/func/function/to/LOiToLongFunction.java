@@ -558,6 +558,26 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// </editor-fold>
 
+	default LOiToLongFunction<T> shoving() {
+
+		return new LOiToLongFunction<T>() {
+
+			public long applyAsLong(T a1, int a2) {
+				try {
+					return this.applyAsLongX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(T a1, int a2) throws Throwable {
+				return LOiToLongFunction.this.applyAsLongX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

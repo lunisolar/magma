@@ -553,6 +553,26 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 
 	// </editor-fold>
 
+	default LToLongBiFunction<T1, T2> shoving() {
+
+		return new LToLongBiFunction<T1, T2>() {
+
+			public long applyAsLong(T1 a1, T2 a2) {
+				try {
+					return this.applyAsLongX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(T1 a1, T2 a2) throws Throwable {
+				return LToLongBiFunction.this.applyAsLongX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

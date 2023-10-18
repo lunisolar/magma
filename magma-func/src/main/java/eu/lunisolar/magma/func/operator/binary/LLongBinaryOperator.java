@@ -544,6 +544,26 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 
 	// </editor-fold>
 
+	default LLongBinaryOperator shoving() {
+
+		return new LLongBinaryOperator() {
+
+			public long applyAsLong(long a1, long a2) {
+				try {
+					return this.applyAsLongX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(long a1, long a2) throws Throwable {
+				return LLongBinaryOperator.this.applyAsLongX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

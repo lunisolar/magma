@@ -797,6 +797,26 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 
 	// </editor-fold>
 
+	default LBoolSupplier shoving() {
+
+		return new LBoolSupplier() {
+
+			public boolean getAsBool() {
+				try {
+					return this.getAsBoolX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean getAsBoolX() throws Throwable {
+				return LBoolSupplier.this.getAsBoolX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

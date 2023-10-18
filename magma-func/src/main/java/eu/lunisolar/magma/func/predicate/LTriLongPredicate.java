@@ -1031,6 +1031,26 @@ public interface LTriLongPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LTriLongPredicate shoving() {
+
+		return new LTriLongPredicate() {
+
+			public boolean test(long a1, long a2, long a3) {
+				try {
+					return this.testX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(long a1, long a2, long a3) throws Throwable {
+				return LTriLongPredicate.this.testX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

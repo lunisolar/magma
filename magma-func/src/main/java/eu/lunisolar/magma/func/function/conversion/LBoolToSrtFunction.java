@@ -527,6 +527,26 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LBoolToSrtFunction shoving() {
+
+		return new LBoolToSrtFunction() {
+
+			public short applyAsSrt(boolean a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(boolean a) throws Throwable {
+				return LBoolToSrtFunction.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

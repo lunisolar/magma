@@ -409,6 +409,26 @@ public interface LBiObjCharConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 
 	// </editor-fold>
 
+	default LBiObjCharConsumer<T1, T2> shoving() {
+
+		return new LBiObjCharConsumer<T1, T2>() {
+
+			public void accept(T1 a1, T2 a2, char a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T1 a1, T2 a2, char a3) throws Throwable {
+				LBiObjCharConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

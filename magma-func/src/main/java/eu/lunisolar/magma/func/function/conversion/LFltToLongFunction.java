@@ -527,6 +527,26 @@ public interface LFltToLongFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LFltToLongFunction shoving() {
+
+		return new LFltToLongFunction() {
+
+			public long applyAsLong(float a) {
+				try {
+					return this.applyAsLongX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(float a) throws Throwable {
+				return LFltToLongFunction.this.applyAsLongX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

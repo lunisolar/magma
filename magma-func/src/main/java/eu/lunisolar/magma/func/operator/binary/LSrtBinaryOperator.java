@@ -539,6 +539,26 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LSrtBinaryOperator shoving() {
+
+		return new LSrtBinaryOperator() {
+
+			public short applyAsSrt(short a1, short a2) {
+				try {
+					return this.applyAsSrtX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(short a1, short a2) throws Throwable {
+				return LSrtBinaryOperator.this.applyAsSrtX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

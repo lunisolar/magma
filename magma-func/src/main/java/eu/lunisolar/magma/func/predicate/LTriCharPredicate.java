@@ -1031,6 +1031,26 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	// </editor-fold>
 
+	default LTriCharPredicate shoving() {
+
+		return new LTriCharPredicate() {
+
+			public boolean test(char a1, char a2, char a3) {
+				try {
+					return this.testX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(char a1, char a2, char a3) throws Throwable {
+				return LTriCharPredicate.this.testX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

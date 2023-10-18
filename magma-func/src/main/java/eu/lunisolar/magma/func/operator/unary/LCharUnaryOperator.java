@@ -537,6 +537,26 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return a;
 	}
 
+	default LCharUnaryOperator shoving() {
+
+		return new LCharUnaryOperator() {
+
+			public char applyAsChar(char a) {
+				try {
+					return this.applyAsCharX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(char a) throws Throwable {
+				return LCharUnaryOperator.this.applyAsCharX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

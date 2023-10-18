@@ -399,6 +399,26 @@ public interface LBiByteConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// </editor-fold>
 
+	default LBiByteConsumer shoving() {
+
+		return new LBiByteConsumer() {
+
+			public void accept(byte a1, byte a2) {
+				try {
+					this.acceptX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(byte a1, byte a2) throws Throwable {
+				LBiByteConsumer.this.acceptX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

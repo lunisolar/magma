@@ -1019,6 +1019,26 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LBiSrtPredicate shoving() {
+
+		return new LBiSrtPredicate() {
+
+			public boolean test(short a1, short a2) {
+				try {
+					return this.testX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(short a1, short a2) throws Throwable {
+				return LBiSrtPredicate.this.testX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

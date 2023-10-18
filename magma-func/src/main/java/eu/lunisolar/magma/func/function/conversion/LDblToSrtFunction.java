@@ -527,6 +527,26 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LDblToSrtFunction shoving() {
+
+		return new LDblToSrtFunction() {
+
+			public short applyAsSrt(double a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(double a) throws Throwable {
+				return LDblToSrtFunction.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

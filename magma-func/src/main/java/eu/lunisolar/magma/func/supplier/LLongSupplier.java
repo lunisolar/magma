@@ -503,6 +503,26 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 
 	// </editor-fold>
 
+	default LLongSupplier shoving() {
+
+		return new LLongSupplier() {
+
+			public long getAsLong() {
+				try {
+					return this.getAsLongX();
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long getAsLongX() throws Throwable {
+				return LLongSupplier.this.getAsLongX();
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

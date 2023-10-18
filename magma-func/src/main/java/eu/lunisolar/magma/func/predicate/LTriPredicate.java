@@ -1344,6 +1344,26 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 
 	// </editor-fold>
 
+	default LTriPredicate<T1, T2, T3> shoving() {
+
+		return new LTriPredicate<T1, T2, T3>() {
+
+			public boolean test(T1 a1, T2 a2, T3 a3) {
+				try {
+					return this.testX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(T1 a1, T2 a2, T3 a3) throws Throwable {
+				return LTriPredicate.this.testX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

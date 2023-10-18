@@ -548,6 +548,26 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 	// </editor-fold>
 
+	default LToSrtBiFunction<T1, T2> shoving() {
+
+		return new LToSrtBiFunction<T1, T2>() {
+
+			public short applyAsSrt(T1 a1, T2 a2) {
+				try {
+					return this.applyAsSrtX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(T1 a1, T2 a2) throws Throwable {
+				return LToSrtBiFunction.this.applyAsSrtX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

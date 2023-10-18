@@ -527,6 +527,26 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LIntToSrtFunction shoving() {
+
+		return new LIntToSrtFunction() {
+
+			public short applyAsSrt(int a) {
+				try {
+					return this.applyAsSrtX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public short applyAsSrtX(int a) throws Throwable {
+				return LIntToSrtFunction.this.applyAsSrtX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

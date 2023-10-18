@@ -542,6 +542,26 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 
 	// </editor-fold>
 
+	default LIntToDblFunction shoving() {
+
+		return new LIntToDblFunction() {
+
+			public double applyAsDbl(int a) {
+				try {
+					return this.applyAsDblX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(int a) throws Throwable {
+				return LIntToDblFunction.this.applyAsDblX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

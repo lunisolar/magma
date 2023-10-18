@@ -409,6 +409,26 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// </editor-fold>
 
+	default LTriBoolConsumer shoving() {
+
+		return new LTriBoolConsumer() {
+
+			public void accept(boolean a1, boolean a2, boolean a3) {
+				try {
+					this.acceptX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(boolean a1, boolean a2, boolean a3) throws Throwable {
+				LTriBoolConsumer.this.acceptX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -522,6 +522,26 @@ public interface LTieByteFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LTieByteFunction<T> shoving() {
+
+		return new LTieByteFunction<T>() {
+
+			public int applyAsInt(T a1, int a2, byte a3) {
+				try {
+					return this.applyAsIntX(a1, a2, a3);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public int applyAsIntX(T a1, int a2, byte a3) throws Throwable {
+				return LTieByteFunction.this.applyAsIntX(a1, a2, a3);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

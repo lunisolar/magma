@@ -558,6 +558,26 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// </editor-fold>
 
+	default LOiToDblFunction<T> shoving() {
+
+		return new LOiToDblFunction<T>() {
+
+			public double applyAsDbl(T a1, int a2) {
+				try {
+					return this.applyAsDblX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public double applyAsDblX(T a1, int a2) throws Throwable {
+				return LOiToDblFunction.this.applyAsDblX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -675,6 +675,26 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 
 	// </editor-fold>
 
+	default LQuadConsumer<T1, T2, T3, T4> shoving() {
+
+		return new LQuadConsumer<T1, T2, T3, T4>() {
+
+			public void accept(T1 a1, T2 a2, T3 a3, T4 a4) {
+				try {
+					this.acceptX(a1, a2, a3, a4);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public void acceptX(T1 a1, T2 a2, T3 a3, T4 a4) throws Throwable {
+				LQuadConsumer.this.acceptX(a1, a2, a3, a4);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -507,6 +507,27 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 	// </editor-fold>
 
+	default LBiSrtFunction<R> shoving() {
+
+		return new LBiSrtFunction<R>() {
+
+			@Nullable
+			public R apply(short a1, short a2) {
+				try {
+					return this.applyX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public R applyX(short a1, short a2) throws Throwable {
+				return LBiSrtFunction.this.applyX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

@@ -884,6 +884,26 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 
 	// </editor-fold>
 
+	default LSrtPredicate shoving() {
+
+		return new LSrtPredicate() {
+
+			public boolean test(short a) {
+				try {
+					return this.testX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public boolean testX(short a) throws Throwable {
+				return LSrtPredicate.this.testX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

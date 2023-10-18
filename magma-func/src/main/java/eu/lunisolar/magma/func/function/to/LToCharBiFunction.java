@@ -548,6 +548,26 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	// </editor-fold>
 
+	default LToCharBiFunction<T1, T2> shoving() {
+
+		return new LToCharBiFunction<T1, T2>() {
+
+			public char applyAsChar(T1 a1, T2 a2) {
+				try {
+					return this.applyAsCharX(a1, a2);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public char applyAsCharX(T1 a1, T2 a2) throws Throwable {
+				return LToCharBiFunction.this.applyAsCharX(a1, a2);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>

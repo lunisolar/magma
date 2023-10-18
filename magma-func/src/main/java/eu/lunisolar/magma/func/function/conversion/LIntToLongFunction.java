@@ -532,6 +532,26 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 
 	// </editor-fold>
 
+	default LIntToLongFunction shoving() {
+
+		return new LIntToLongFunction() {
+
+			public long applyAsLong(int a) {
+				try {
+					return this.applyAsLongX(a);
+				} catch (Throwable e) { // NOSONAR
+					Handling.handleErrors(e);
+					throw Handling.throwIt(e);
+				}
+			}
+
+			public long applyAsLongX(int a) throws Throwable {
+				return LIntToLongFunction.this.applyAsLongX(a);
+			}
+
+		};
+	}
+
 	// <editor-fold desc="variant conversions">
 
 	// </editor-fold>
