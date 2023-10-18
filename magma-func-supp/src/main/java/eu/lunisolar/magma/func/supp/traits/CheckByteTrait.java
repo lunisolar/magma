@@ -2010,10 +2010,10 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends FailP
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
 
-	default @Nonnull SELF mustBeGreater(byte value) {
+	default @Nonnull SELF mustBeGreaterThan(byte value) {
 		return mustEx(Be::gtEx, value);
 	}
-	default @Nonnull SELF mustBeGreater(byte value, String message) {
+	default @Nonnull SELF mustBeGreaterThan(byte value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
 	default @Nonnull SELF mustBeGreaterEqual(byte value) {

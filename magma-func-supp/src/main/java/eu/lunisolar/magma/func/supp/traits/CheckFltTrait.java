@@ -2010,10 +2010,10 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
 
-	default @Nonnull SELF mustBeGreater(float value) {
+	default @Nonnull SELF mustBeGreaterThan(float value) {
 		return mustEx(Be::gtEx, value);
 	}
-	default @Nonnull SELF mustBeGreater(float value, String message) {
+	default @Nonnull SELF mustBeGreaterThan(float value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
 	default @Nonnull SELF mustBeGreaterEqual(float value) {

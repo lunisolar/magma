@@ -1818,10 +1818,10 @@ public interface CheckIntTrait<SELF extends CheckIntTrait<SELF>> extends FailPoi
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
 
-	default @Nonnull SELF mustBeGreater(int value) {
+	default @Nonnull SELF mustBeGreaterThan(int value) {
 		return mustEx(Be::gtEx, value);
 	}
-	default @Nonnull SELF mustBeGreater(int value, String message) {
+	default @Nonnull SELF mustBeGreaterThan(int value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
 	default @Nonnull SELF mustBeGreaterEqual(int value) {

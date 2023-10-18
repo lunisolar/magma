@@ -2010,10 +2010,10 @@ public interface CheckDblTrait<SELF extends CheckDblTrait<SELF>> extends FailPoi
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
 
-	default @Nonnull SELF mustBeGreater(double value) {
+	default @Nonnull SELF mustBeGreaterThan(double value) {
 		return mustEx(Be::gtEx, value);
 	}
-	default @Nonnull SELF mustBeGreater(double value, String message) {
+	default @Nonnull SELF mustBeGreaterThan(double value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
 	default @Nonnull SELF mustBeGreaterEqual(double value) {

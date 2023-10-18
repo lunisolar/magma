@@ -2010,10 +2010,10 @@ public interface CheckSrtTrait<SELF extends CheckSrtTrait<SELF>> extends FailPoi
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
 
-	default @Nonnull SELF mustBeGreater(short value) {
+	default @Nonnull SELF mustBeGreaterThan(short value) {
 		return mustEx(Be::gtEx, value);
 	}
-	default @Nonnull SELF mustBeGreater(short value, String message) {
+	default @Nonnull SELF mustBeGreaterThan(short value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
 	default @Nonnull SELF mustBeGreaterEqual(short value) {

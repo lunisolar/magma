@@ -2010,10 +2010,10 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
 
-	default @Nonnull SELF mustBeGreater(long value) {
+	default @Nonnull SELF mustBeGreaterThan(long value) {
 		return mustEx(Be::gtEx, value);
 	}
-	default @Nonnull SELF mustBeGreater(long value, String message) {
+	default @Nonnull SELF mustBeGreaterThan(long value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
 	default @Nonnull SELF mustBeGreaterEqual(long value) {
