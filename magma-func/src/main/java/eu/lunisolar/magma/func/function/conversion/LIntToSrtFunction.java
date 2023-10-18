@@ -408,11 +408,15 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue(int a) {
+			return baseFunction.applyAsSrt(a);
+		}
 	}
 
 	// </editor-fold>

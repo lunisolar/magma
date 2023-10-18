@@ -841,11 +841,15 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(boolean a1, boolean a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

@@ -690,11 +690,15 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 
 		public T lastValue() {
 			return lastValue;
-		};
+		}
 
 		public T lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public T currentBaseValue(T a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

@@ -706,11 +706,15 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(T a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

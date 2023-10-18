@@ -408,11 +408,15 @@ public interface LCharToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(char a) {
+			return baseFunction.applyAsLong(a);
+		}
 	}
 
 	// </editor-fold>

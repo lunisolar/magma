@@ -408,11 +408,15 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(int a) {
+			return baseFunction.applyAsByte(a);
+		}
 	}
 
 	// </editor-fold>

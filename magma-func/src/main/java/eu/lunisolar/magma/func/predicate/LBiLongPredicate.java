@@ -848,11 +848,15 @@ public interface LBiLongPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(long a1, long a2) {
+			return baseFunction.test(a1, a2);
+		}
 	}
 
 	// </editor-fold>

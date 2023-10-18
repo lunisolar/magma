@@ -422,11 +422,15 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue(short a1, short a2) {
+			return baseFunction.applyAsSrt(a1, a2);
+		}
 	}
 
 	// </editor-fold>

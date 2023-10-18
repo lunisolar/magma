@@ -435,11 +435,15 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 		public char lastValue() {
 			return lastValue;
-		};
+		}
 
 		public char lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public char currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.applyAsChar(a1, a2);
+		}
 	}
 
 	// </editor-fold>

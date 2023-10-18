@@ -408,11 +408,15 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue(boolean a) {
+			return baseFunction.applyAsDbl(a);
+		}
 	}
 
 	// </editor-fold>

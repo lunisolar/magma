@@ -408,11 +408,15 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(int a) {
+			return baseFunction.applyAsLong(a);
+		}
 	}
 
 	// </editor-fold>

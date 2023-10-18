@@ -423,11 +423,15 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(T a) {
+			return baseFunction.applyAsLong(a);
+		}
 	}
 
 	// </editor-fold>

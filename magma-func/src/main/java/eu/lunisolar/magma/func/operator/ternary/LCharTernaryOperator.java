@@ -430,11 +430,15 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 		public char lastValue() {
 			return lastValue;
-		};
+		}
 
 		public char lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public char currentBaseValue(char a1, char a2, char a3) {
+			return baseFunction.applyAsChar(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

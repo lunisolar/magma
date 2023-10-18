@@ -421,11 +421,15 @@ public interface LBiBoolFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(boolean a1, boolean a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

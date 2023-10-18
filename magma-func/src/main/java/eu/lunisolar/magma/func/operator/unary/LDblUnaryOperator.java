@@ -418,11 +418,15 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue(double a) {
+			return baseFunction.applyAsDbl(a);
+		}
 	}
 
 	// </editor-fold>

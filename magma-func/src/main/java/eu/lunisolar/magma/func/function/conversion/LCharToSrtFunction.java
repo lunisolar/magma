@@ -408,11 +408,15 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue(char a) {
+			return baseFunction.applyAsSrt(a);
+		}
 	}
 
 	// </editor-fold>

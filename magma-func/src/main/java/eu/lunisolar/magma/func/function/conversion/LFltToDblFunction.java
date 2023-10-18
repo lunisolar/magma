@@ -408,11 +408,15 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue(float a) {
+			return baseFunction.applyAsDbl(a);
+		}
 	}
 
 	// </editor-fold>

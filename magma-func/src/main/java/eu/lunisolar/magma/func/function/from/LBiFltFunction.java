@@ -421,11 +421,15 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(float a1, float a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

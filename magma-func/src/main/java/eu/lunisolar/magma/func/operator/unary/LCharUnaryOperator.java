@@ -408,11 +408,15 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 		public char lastValue() {
 			return lastValue;
-		};
+		}
 
 		public char lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public char currentBaseValue(char a) {
+			return baseFunction.applyAsChar(a);
+		}
 	}
 
 	// </editor-fold>

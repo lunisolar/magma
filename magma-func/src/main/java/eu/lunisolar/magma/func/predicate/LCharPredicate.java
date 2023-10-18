@@ -663,11 +663,15 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(char a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

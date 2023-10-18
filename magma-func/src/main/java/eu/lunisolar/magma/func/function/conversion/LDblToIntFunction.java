@@ -408,11 +408,15 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(double a) {
+			return baseFunction.applyAsInt(a);
+		}
 	}
 
 	// </editor-fold>

@@ -437,11 +437,15 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(T a1, int a2) {
+			return baseFunction.applyAsLong(a1, a2);
+		}
 	}
 
 	// </editor-fold>

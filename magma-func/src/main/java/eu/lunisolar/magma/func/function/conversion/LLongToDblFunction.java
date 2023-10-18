@@ -418,11 +418,15 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue(long a) {
+			return baseFunction.applyAsDbl(a);
+		}
 	}
 
 	// </editor-fold>

@@ -662,11 +662,15 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(boolean a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

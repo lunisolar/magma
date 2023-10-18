@@ -397,11 +397,15 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue() {
+			return baseFunction.getAsSrt();
+		}
 	}
 
 	// </editor-fold>

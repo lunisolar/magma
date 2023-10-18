@@ -863,11 +863,15 @@ public interface LObjLongPredicate<T> extends MetaPredicate, MetaInterface.NonTh
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(T a1, long a2) {
+			return baseFunction.test(a1, a2);
+		}
 	}
 
 	// </editor-fold>

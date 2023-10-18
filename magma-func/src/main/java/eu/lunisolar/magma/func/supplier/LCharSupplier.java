@@ -397,11 +397,15 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 		public char lastValue() {
 			return lastValue;
-		};
+		}
 
 		public char lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public char currentBaseValue() {
+			return baseFunction.getAsChar();
+		}
 	}
 
 	// </editor-fold>

@@ -663,11 +663,15 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(long a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

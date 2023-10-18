@@ -400,7 +400,6 @@ public interface LBiFltConsumer extends MetaConsumer, MetaInterface.NonThrowing,
 	// </editor-fold>
 
 	default LBiFltConsumer shoving() {
-	default LBiFltConsumer shoving() {
 
 		return new LBiFltConsumer() {
 

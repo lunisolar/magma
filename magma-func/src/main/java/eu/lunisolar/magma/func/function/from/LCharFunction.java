@@ -407,11 +407,15 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(char a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

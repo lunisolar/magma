@@ -407,11 +407,15 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(double a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

@@ -407,11 +407,15 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(float a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

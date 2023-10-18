@@ -838,11 +838,15 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(byte a1, byte a2) {
+			return baseFunction.test(a1, a2);
+		}
 	}
 
 	// </editor-fold>

@@ -663,11 +663,15 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(double a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

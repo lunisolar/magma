@@ -408,11 +408,15 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(short a) {
+			return baseFunction.applyAsFlt(a);
+		}
 	}
 
 	// </editor-fold>

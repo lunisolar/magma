@@ -422,11 +422,15 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(float a1, float a2) {
+			return baseFunction.applyAsFlt(a1, a2);
+		}
 	}
 
 	// </editor-fold>

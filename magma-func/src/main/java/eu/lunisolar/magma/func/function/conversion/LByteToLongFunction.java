@@ -408,11 +408,15 @@ public interface LByteToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(byte a) {
+			return baseFunction.applyAsLong(a);
+		}
 	}
 
 	// </editor-fold>

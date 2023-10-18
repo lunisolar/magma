@@ -397,11 +397,15 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue() {
+			return baseFunction.getAsByte();
+		}
 	}
 
 	// </editor-fold>

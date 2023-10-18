@@ -435,11 +435,15 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.applyAsFlt(a1, a2);
+		}
 	}
 
 	// </editor-fold>

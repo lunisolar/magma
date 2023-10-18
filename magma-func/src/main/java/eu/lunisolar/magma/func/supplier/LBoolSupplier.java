@@ -691,11 +691,15 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue() {
+			return baseFunction.getAsBool();
+		}
 	}
 
 	// </editor-fold>

@@ -408,11 +408,15 @@ public interface LDblToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public char lastValue() {
 			return lastValue;
-		};
+		}
 
 		public char lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public char currentBaseValue(double a) {
+			return baseFunction.applyAsChar(a);
+		}
 	}
 
 	// </editor-fold>

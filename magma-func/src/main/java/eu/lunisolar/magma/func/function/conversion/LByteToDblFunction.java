@@ -408,11 +408,15 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue(byte a) {
+			return baseFunction.applyAsDbl(a);
+		}
 	}
 
 	// </editor-fold>

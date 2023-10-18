@@ -408,11 +408,15 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(boolean a) {
+			return baseFunction.applyAsInt(a);
+		}
 	}
 
 	// </editor-fold>

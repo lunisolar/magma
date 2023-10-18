@@ -397,11 +397,15 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue() {
+			return baseFunction.getAsFlt();
+		}
 	}
 
 	// </editor-fold>

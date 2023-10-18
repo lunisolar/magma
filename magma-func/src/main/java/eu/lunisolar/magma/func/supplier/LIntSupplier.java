@@ -397,11 +397,15 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue() {
+			return baseFunction.getAsInt();
+		}
 	}
 
 	// </editor-fold>

@@ -429,11 +429,15 @@ public interface LTriByteFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(byte a1, byte a2, byte a3) {
+			return baseFunction.apply(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

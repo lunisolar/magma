@@ -710,11 +710,15 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 
 		public T lastValue() {
 			return lastValue;
-		};
+		}
 
 		public T lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public T currentBaseValue(T a1, T a2, T a3) {
+			return baseFunction.apply(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

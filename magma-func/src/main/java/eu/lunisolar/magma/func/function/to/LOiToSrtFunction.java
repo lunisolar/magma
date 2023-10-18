@@ -437,11 +437,15 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue(T a1, int a2) {
+			return baseFunction.applyAsSrt(a1, a2);
+		}
 	}
 
 	// </editor-fold>

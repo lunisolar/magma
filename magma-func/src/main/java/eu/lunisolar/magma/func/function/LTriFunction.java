@@ -727,11 +727,15 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(T1 a1, T2 a2, T3 a3) {
+			return baseFunction.apply(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

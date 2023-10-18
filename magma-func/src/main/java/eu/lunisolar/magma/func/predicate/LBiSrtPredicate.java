@@ -838,11 +838,15 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(short a1, short a2) {
+			return baseFunction.test(a1, a2);
+		}
 	}
 
 	// </editor-fold>

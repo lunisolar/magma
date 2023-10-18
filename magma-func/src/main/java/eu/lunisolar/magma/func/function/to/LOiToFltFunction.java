@@ -437,11 +437,15 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(T a1, int a2) {
+			return baseFunction.applyAsFlt(a1, a2);
+		}
 	}
 
 	// </editor-fold>

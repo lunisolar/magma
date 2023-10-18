@@ -407,11 +407,15 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(long a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

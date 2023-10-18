@@ -430,11 +430,15 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(int a1, int a2, int a3) {
+			return baseFunction.applyAsInt(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

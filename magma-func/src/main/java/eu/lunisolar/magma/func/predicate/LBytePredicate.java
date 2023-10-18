@@ -663,11 +663,15 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(byte a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

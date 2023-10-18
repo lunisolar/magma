@@ -408,11 +408,15 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(float a) {
+			return baseFunction.applyAsInt(a);
+		}
 	}
 
 	// </editor-fold>

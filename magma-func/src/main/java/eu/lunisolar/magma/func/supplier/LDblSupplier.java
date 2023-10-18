@@ -407,11 +407,15 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue() {
+			return baseFunction.getAsDbl();
+		}
 	}
 
 	// </editor-fold>

@@ -846,11 +846,15 @@ public interface LTriIntPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(int a1, int a2, int a3) {
+			return baseFunction.test(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

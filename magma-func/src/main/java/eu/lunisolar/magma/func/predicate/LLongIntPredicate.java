@@ -693,11 +693,15 @@ public interface LLongIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(long a1, int a2) {
+			return baseFunction.test(a1, a2);
+		}
 	}
 
 	// </editor-fold>

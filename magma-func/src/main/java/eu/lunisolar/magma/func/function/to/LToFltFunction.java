@@ -423,11 +423,15 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(T a) {
+			return baseFunction.applyAsFlt(a);
+		}
 	}
 
 	// </editor-fold>

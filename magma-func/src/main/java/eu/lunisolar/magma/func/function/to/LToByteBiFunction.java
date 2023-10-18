@@ -435,11 +435,15 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.applyAsByte(a1, a2);
+		}
 	}
 
 	// </editor-fold>

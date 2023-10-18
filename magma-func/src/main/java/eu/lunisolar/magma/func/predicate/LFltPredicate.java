@@ -663,11 +663,15 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(float a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

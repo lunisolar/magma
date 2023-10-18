@@ -867,11 +867,15 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(T1 a1, T2 a2, int a3) {
+			return baseFunction.test(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

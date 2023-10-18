@@ -718,11 +718,15 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

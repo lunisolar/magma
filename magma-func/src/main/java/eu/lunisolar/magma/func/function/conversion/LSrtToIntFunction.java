@@ -408,11 +408,15 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(short a) {
+			return baseFunction.applyAsInt(a);
+		}
 	}
 
 	// </editor-fold>

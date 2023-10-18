@@ -408,11 +408,15 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue(float a) {
+			return baseFunction.applyAsSrt(a);
+		}
 	}
 
 	// </editor-fold>

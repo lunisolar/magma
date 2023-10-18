@@ -408,11 +408,15 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(boolean a) {
+			return baseFunction.applyAsByte(a);
+		}
 	}
 
 	// </editor-fold>

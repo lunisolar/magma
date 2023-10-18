@@ -680,11 +680,15 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 
 		public T lastValue() {
 			return lastValue;
-		};
+		}
 
 		public T lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public T currentBaseValue() {
+			return baseFunction.get();
+		}
 	}
 
 	// </editor-fold>

@@ -434,11 +434,15 @@ public interface LObjLongFunction<T, R> extends MetaFunction, MetaInterface.NonT
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(T a1, long a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

@@ -430,11 +430,15 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue(short a1, short a2, short a3) {
+			return baseFunction.applyAsSrt(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

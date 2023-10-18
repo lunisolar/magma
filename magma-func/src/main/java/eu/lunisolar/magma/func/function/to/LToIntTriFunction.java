@@ -443,11 +443,15 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(T1 a1, T2 a2, T3 a3) {
+			return baseFunction.applyAsInt(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

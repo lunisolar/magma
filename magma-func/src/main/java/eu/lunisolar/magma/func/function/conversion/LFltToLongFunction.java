@@ -408,11 +408,15 @@ public interface LFltToLongFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(float a) {
+			return baseFunction.applyAsLong(a);
+		}
 	}
 
 	// </editor-fold>

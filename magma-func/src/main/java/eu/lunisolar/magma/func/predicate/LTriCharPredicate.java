@@ -848,11 +848,15 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(char a1, char a2, char a3) {
+			return baseFunction.test(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

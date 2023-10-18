@@ -673,11 +673,15 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(int a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

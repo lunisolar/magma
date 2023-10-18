@@ -435,11 +435,15 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.applyAsLong(a1, a2);
+		}
 	}
 
 	// </editor-fold>

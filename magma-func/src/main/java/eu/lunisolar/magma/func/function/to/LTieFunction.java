@@ -441,11 +441,15 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(T1 a1, int a2, T2 a3) {
+			return baseFunction.applyAsInt(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

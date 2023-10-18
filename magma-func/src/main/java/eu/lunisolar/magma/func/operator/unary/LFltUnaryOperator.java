@@ -408,11 +408,15 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(float a) {
+			return baseFunction.applyAsFlt(a);
+		}
 	}
 
 	// </editor-fold>

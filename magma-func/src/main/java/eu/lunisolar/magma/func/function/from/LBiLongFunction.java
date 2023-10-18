@@ -421,11 +421,15 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(long a1, long a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

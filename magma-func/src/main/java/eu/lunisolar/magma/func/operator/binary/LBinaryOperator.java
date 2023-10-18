@@ -702,11 +702,15 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 
 		public T lastValue() {
 			return lastValue;
-		};
+		}
 
 		public T lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public T currentBaseValue(T a1, T a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

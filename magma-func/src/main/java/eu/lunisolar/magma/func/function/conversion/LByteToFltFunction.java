@@ -408,11 +408,15 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(byte a) {
+			return baseFunction.applyAsFlt(a);
+		}
 	}
 
 	// </editor-fold>

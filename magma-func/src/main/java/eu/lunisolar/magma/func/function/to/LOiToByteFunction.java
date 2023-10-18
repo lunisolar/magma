@@ -437,11 +437,15 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(T a1, int a2) {
+			return baseFunction.applyAsByte(a1, a2);
+		}
 	}
 
 	// </editor-fold>

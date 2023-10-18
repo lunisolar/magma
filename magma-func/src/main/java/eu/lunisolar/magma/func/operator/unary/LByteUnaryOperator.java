@@ -408,11 +408,15 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(byte a) {
+			return baseFunction.applyAsByte(a);
+		}
 	}
 
 	// </editor-fold>

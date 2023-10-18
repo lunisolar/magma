@@ -851,11 +851,15 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(boolean a1, boolean a2, boolean a3) {
+			return baseFunction.apply(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

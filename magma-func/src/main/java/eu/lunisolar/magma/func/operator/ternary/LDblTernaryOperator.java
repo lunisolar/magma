@@ -430,11 +430,15 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue(double a1, double a2, double a3) {
+			return baseFunction.applyAsDbl(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

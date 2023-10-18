@@ -430,11 +430,15 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(long a1, long a2, long a3) {
+			return baseFunction.applyAsLong(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

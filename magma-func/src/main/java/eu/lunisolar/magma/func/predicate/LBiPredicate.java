@@ -1161,11 +1161,15 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.test(a1, a2);
+		}
 	}
 
 	// </editor-fold>

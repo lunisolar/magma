@@ -429,11 +429,15 @@ public interface LTriLongFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(long a1, long a2, long a3) {
+			return baseFunction.apply(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

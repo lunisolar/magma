@@ -437,11 +437,15 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 		public double lastValue() {
 			return lastValue;
-		};
+		}
 
 		public double lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public double currentBaseValue(T a1, int a2) {
+			return baseFunction.applyAsDbl(a1, a2);
+		}
 	}
 
 	// </editor-fold>

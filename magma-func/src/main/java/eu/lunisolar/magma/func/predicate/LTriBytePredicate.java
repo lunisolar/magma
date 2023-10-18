@@ -848,11 +848,15 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(byte a1, byte a2, byte a3) {
+			return baseFunction.test(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

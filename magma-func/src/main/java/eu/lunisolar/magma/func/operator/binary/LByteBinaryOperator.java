@@ -422,11 +422,15 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(byte a1, byte a2) {
+			return baseFunction.applyAsByte(a1, a2);
+		}
 	}
 
 	// </editor-fold>

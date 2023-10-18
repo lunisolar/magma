@@ -408,11 +408,15 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(byte a) {
+			return baseFunction.applyAsInt(a);
+		}
 	}
 
 	// </editor-fold>

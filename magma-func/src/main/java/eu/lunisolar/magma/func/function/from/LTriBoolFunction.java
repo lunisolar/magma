@@ -429,11 +429,15 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(boolean a1, boolean a2, boolean a3) {
+			return baseFunction.apply(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

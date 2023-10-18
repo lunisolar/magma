@@ -397,11 +397,15 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue() {
+			return baseFunction.getAsLong();
+		}
 	}
 
 	// </editor-fold>

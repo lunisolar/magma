@@ -422,11 +422,15 @@ public interface LCharBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 		public char lastValue() {
 			return lastValue;
-		};
+		}
 
 		public char lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public char currentBaseValue(char a1, char a2) {
+			return baseFunction.applyAsChar(a1, a2);
+		}
 	}
 
 	// </editor-fold>

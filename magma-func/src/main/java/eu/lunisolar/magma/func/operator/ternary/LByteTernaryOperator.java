@@ -430,11 +430,15 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(byte a1, byte a2, byte a3) {
+			return baseFunction.applyAsByte(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

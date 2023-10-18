@@ -436,11 +436,15 @@ public interface LOiFunction<T, R> extends MetaFunction, MetaInterface.NonThrowi
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(T a1, int a2) {
+			return baseFunction.apply(a1, a2);
+		}
 	}
 
 	// </editor-fold>

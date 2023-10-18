@@ -435,11 +435,15 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.applyAsInt(a1, a2);
+		}
 	}
 
 	// </editor-fold>

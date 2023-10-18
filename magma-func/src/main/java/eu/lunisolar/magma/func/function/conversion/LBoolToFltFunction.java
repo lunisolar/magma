@@ -408,11 +408,15 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 		public float lastValue() {
 			return lastValue;
-		};
+		}
 
 		public float lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public float currentBaseValue(boolean a) {
+			return baseFunction.applyAsFlt(a);
+		}
 	}
 
 	// </editor-fold>

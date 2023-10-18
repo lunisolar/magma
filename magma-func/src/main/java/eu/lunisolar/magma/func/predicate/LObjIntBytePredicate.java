@@ -861,11 +861,15 @@ public interface LObjIntBytePredicate<T> extends MetaPredicate, MetaInterface.No
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(T a1, int a2, byte a3) {
+			return baseFunction.test(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

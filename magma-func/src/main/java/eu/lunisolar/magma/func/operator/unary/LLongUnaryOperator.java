@@ -408,11 +408,15 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 
 		public long lastValue() {
 			return lastValue;
-		};
+		}
 
 		public long lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public long currentBaseValue(long a) {
+			return baseFunction.applyAsLong(a);
+		}
 	}
 
 	// </editor-fold>

@@ -423,11 +423,15 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 		public byte lastValue() {
 			return lastValue;
-		};
+		}
 
 		public byte lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public byte currentBaseValue(T a) {
+			return baseFunction.applyAsByte(a);
+		}
 	}
 
 	// </editor-fold>

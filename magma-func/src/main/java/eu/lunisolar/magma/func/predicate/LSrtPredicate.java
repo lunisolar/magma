@@ -663,11 +663,15 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(short a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

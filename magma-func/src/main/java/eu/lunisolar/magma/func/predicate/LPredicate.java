@@ -982,11 +982,15 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 
 		public boolean lastValue() {
 			return lastValue;
-		};
+		}
 
 		public boolean lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public boolean currentBaseValue(T a) {
+			return baseFunction.test(a);
+		}
 	}
 
 	// </editor-fold>

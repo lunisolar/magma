@@ -408,11 +408,15 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 
 		public int lastValue() {
 			return lastValue;
-		};
+		}
 
 		public int lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public int currentBaseValue(int a) {
+			return baseFunction.applyAsInt(a);
+		}
 	}
 
 	// </editor-fold>

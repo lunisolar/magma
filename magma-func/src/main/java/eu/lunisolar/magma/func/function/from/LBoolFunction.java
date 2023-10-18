@@ -407,11 +407,15 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(boolean a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>

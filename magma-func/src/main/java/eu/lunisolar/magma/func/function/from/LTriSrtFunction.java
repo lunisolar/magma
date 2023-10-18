@@ -429,11 +429,15 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(short a1, short a2, short a3) {
+			return baseFunction.apply(a1, a2, a3);
+		}
 	}
 
 	// </editor-fold>

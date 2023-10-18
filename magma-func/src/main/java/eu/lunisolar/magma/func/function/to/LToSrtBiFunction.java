@@ -435,11 +435,15 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 		public short lastValue() {
 			return lastValue;
-		};
+		}
 
 		public short lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public short currentBaseValue(T1 a1, T2 a2) {
+			return baseFunction.applyAsSrt(a1, a2);
+		}
 	}
 
 	// </editor-fold>

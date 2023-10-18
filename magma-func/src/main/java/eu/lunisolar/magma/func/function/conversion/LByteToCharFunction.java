@@ -408,11 +408,15 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 
 		public char lastValue() {
 			return lastValue;
-		};
+		}
 
 		public char lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public char currentBaseValue(byte a) {
+			return baseFunction.applyAsChar(a);
+		}
 	}
 
 	// </editor-fold>

@@ -407,11 +407,15 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 
 		public R lastValue() {
 			return lastValue;
-		};
+		}
 
 		public R lastBaseValue() {
 			return lastBaseValue;
-		};
+		}
+
+		public R currentBaseValue(int a) {
+			return baseFunction.apply(a);
+		}
 	}
 
 	// </editor-fold>
