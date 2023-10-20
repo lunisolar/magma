@@ -2035,6 +2035,20 @@ public interface CheckByteTrait<SELF extends CheckByteTrait<SELF>> extends FailP
 		return mustEx0(Be::ltEqEx, value, message);
 	}
 
+	default @Nonnull SELF mustBeBetween(byte min, byte max) {
+		return mustEx(Be::betweenEx, min, max);
+	}
+	default @Nonnull SELF mustBeBetween(byte min, byte max, String message) {
+		return mustEx0(Be::betweenEx, min, max, message);
+	}
+
+	default @Nonnull SELF mustBeInRange(byte min, byte max) {
+		return mustEx(Be::inRangeEx, min, max);
+	}
+	default @Nonnull SELF mustBeInRange(byte min, byte max, String message) {
+		return mustEx0(Be::inRangeEx, min, max, message);
+	}
+
 	default @Nonnull SELF check(@Nonnull LConsumer<SELF> checks) {
 		Null.nonNullArg(checks, "checks");
 		checks.shovingAccept(fluentCtx());
