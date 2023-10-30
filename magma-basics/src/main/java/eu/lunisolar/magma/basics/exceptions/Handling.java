@@ -310,11 +310,11 @@ public final class Handling implements Serializable {
         throw e;
     }
 
-    public static <X extends Throwable> RuntimeException shoveIt(Throwable e) {
+    public static RuntimeException shoveIt(Throwable e) {
         return throwIt(e);
     }
 
-    public static <X extends Throwable> RuntimeException throwIt(Throwable e) {
+    public static RuntimeException throwIt(Throwable e) {
         Thrower<RuntimeException> thrower = (Thrower) THROWER;
         thrower.throwThe(e);
         throw shouldNeverBeenHere();
