@@ -76,7 +76,6 @@ public interface LBoolToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// float applyAsFlt(boolean a) ;
 	default float applyAsFlt(boolean a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

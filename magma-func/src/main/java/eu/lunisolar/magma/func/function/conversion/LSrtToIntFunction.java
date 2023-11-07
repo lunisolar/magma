@@ -76,7 +76,6 @@ public interface LSrtToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// int applyAsInt(short a) ;
 	default int applyAsInt(short a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

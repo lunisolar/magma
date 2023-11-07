@@ -77,7 +77,6 @@ public interface LDblFunction<R> extends DoubleFunction<R>, MetaFunction, MetaIn
 	@Nullable
 	// R apply(double a) ;
 	default R apply(double a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

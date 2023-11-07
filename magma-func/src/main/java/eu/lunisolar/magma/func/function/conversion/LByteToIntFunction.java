@@ -76,7 +76,6 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// int applyAsInt(byte a) ;
 	default int applyAsInt(byte a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

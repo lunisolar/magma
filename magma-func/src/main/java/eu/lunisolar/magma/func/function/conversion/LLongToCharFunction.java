@@ -76,7 +76,6 @@ public interface LLongToCharFunction extends MetaFunction, MetaInterface.NonThro
 
 	// char applyAsChar(long a) ;
 	default char applyAsChar(long a) {
-		// return nestingApplyAsChar(a);
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR

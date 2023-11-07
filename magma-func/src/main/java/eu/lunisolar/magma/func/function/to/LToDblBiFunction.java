@@ -86,7 +86,6 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 
 	// double applyAsDbl(T1 a1,T2 a2) ;
 	default double applyAsDbl(T1 a1, T2 a2) {
-		// return nestingApplyAsDbl(a1,a2);
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

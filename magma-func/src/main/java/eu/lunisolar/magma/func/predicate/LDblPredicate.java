@@ -76,7 +76,6 @@ public interface LDblPredicate extends DoublePredicate, MetaPredicate, MetaInter
 
 	// boolean test(double a) ;
 	default boolean test(double a) {
-		// return nestingTest(a);
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR

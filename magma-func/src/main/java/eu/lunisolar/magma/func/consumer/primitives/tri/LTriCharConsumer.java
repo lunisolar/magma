@@ -74,7 +74,6 @@ public interface LTriCharConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// void accept(char a1,char a2,char a3) ;
 	default void accept(char a1, char a2, char a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

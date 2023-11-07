@@ -76,7 +76,6 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 
 	// boolean test(T1 a1,T2 a2) ;
 	default boolean test(T1 a1, T2 a2) {
-		// return nestingTest(a1,a2);
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
@@ -782,6 +781,16 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2> LBiPredicate<T1, T2> biPred(@Nullable CallContext c1, final @Nonnull LBiPredicate<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LBiPredicate<T1, T2> withCC(@Nullable CallContext c1) {
+		return (a1, a2) -> LBiPredicate.shovingTest(c1, a1, a2, this);
+	}
 
 	static <T1, T2> boolean nestingTest(@Nullable CallContext c1, T1 a1, T2 a2, @Nonnull LBiPredicate<T1, T2> function) {
 		Null.nonNullArg(function, "function");

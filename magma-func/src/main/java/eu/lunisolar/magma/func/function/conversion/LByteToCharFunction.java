@@ -76,7 +76,6 @@ public interface LByteToCharFunction extends MetaFunction, MetaInterface.NonThro
 
 	// char applyAsChar(byte a) ;
 	default char applyAsChar(byte a) {
-		// return nestingApplyAsChar(a);
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR

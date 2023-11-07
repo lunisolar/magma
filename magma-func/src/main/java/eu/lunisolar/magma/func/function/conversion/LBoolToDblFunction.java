@@ -76,7 +76,6 @@ public interface LBoolToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// double applyAsDbl(boolean a) ;
 	default double applyAsDbl(boolean a) {
-		// return nestingApplyAsDbl(a);
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR

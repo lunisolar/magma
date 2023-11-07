@@ -76,7 +76,6 @@ public interface LIntToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// char applyAsChar(int a) ;
 	default char applyAsChar(int a) {
-		// return nestingApplyAsChar(a);
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR

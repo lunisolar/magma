@@ -77,7 +77,6 @@ public interface LFltFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	@Nullable
 	// R apply(float a) ;
 	default R apply(float a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

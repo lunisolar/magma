@@ -77,7 +77,6 @@ public interface LBiLongFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nullable
 	// R apply(long a1,long a2) ;
 	default R apply(long a1, long a2) {
-		// return nestingApply(a1,a2);
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

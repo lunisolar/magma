@@ -76,7 +76,6 @@ public interface LIntToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// float applyAsFlt(int a) ;
 	default float applyAsFlt(int a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

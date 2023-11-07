@@ -76,7 +76,6 @@ public interface LCharToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// short applyAsSrt(char a) ;
 	default short applyAsSrt(char a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

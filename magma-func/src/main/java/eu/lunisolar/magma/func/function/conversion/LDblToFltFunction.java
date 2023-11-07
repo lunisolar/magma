@@ -76,7 +76,6 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// float applyAsFlt(double a) ;
 	default float applyAsFlt(double a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

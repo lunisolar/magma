@@ -76,7 +76,6 @@ public interface LObjLongConsumer<T> extends ObjLongConsumer<T>, MetaConsumer, M
 
 	// void accept(T a1,long a2) ;
 	default void accept(T a1, long a2) {
-		// nestingAccept(a1,a2);
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

@@ -77,7 +77,6 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nullable
 	// R apply(int a1,int a2,int a3) ;
 	default R apply(int a1, int a2, int a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

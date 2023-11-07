@@ -77,7 +77,6 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	@Nullable
 	// R apply(T1 a1,T2 a2) ;
 	default R apply(T1 a1, T2 a2) {
-		// return nestingApply(a1,a2);
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
@@ -344,6 +343,16 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> biFunc(@Nullable CallContext c1, final @Nonnull LBiFunction<T1, T2, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LBiFunction<T1, T2, R> withCC(@Nullable CallContext c1) {
+		return (a1, a2) -> LBiFunction.shovingApply(c1, a1, a2, this);
+	}
 
 	static <T1, T2, R> R nestingApply(@Nullable CallContext c1, T1 a1, T2 a2, @Nonnull LBiFunction<T1, T2, R> function) {
 		Null.nonNullArg(function, "function");

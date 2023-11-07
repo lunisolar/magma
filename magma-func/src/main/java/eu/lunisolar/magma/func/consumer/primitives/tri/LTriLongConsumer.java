@@ -74,7 +74,6 @@ public interface LTriLongConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// void accept(long a1,long a2,long a3) ;
 	default void accept(long a1, long a2, long a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

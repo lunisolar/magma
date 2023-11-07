@@ -74,7 +74,6 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 
 	// void accept(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5) ;
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-		// nestingAccept(a1,a2,a3,a4,a5);
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
@@ -339,6 +338,16 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> quintCons(@Nullable CallContext c1, final @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3, a4, a5) -> LQuintConsumer.shovingAccept(c1, a1, a2, a3, a4, a5, this);
+	}
 
 	static <T1, T2, T3, T4, T5> void nestingAccept(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");

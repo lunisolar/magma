@@ -76,7 +76,6 @@ public interface LBoolToLongFunction extends MetaFunction, MetaInterface.NonThro
 
 	// long applyAsLong(boolean a) ;
 	default long applyAsLong(boolean a) {
-		// return nestingApplyAsLong(a);
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR

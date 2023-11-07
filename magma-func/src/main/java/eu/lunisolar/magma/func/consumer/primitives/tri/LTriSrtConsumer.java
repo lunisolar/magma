@@ -74,7 +74,6 @@ public interface LTriSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// void accept(short a1,short a2,short a3) ;
 	default void accept(short a1, short a2, short a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

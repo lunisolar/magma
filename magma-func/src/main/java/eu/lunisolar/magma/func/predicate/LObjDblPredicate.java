@@ -76,7 +76,6 @@ public interface LObjDblPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 
 	// boolean test(T a1,double a2) ;
 	default boolean test(T a1, double a2) {
-		// return nestingTest(a1,a2);
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

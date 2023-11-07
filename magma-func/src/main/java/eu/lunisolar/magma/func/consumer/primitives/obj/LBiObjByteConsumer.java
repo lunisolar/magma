@@ -74,7 +74,6 @@ public interface LBiObjByteConsumer<T1, T2> extends MetaConsumer, MetaInterface.
 
 	// void accept(T1 a1,T2 a2,byte a3) ;
 	default void accept(T1 a1, T2 a2, byte a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

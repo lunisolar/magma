@@ -74,7 +74,6 @@ public interface LTriFltConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// void accept(float a1,float a2,float a3) ;
 	default void accept(float a1, float a2, float a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

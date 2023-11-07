@@ -76,7 +76,6 @@ public interface LObjIntConsumer<T> extends ObjIntConsumer<T>, MetaConsumer, Met
 
 	// void accept(T a1,int a2) ;
 	default void accept(T a1, int a2) {
-		// nestingAccept(a1,a2);
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

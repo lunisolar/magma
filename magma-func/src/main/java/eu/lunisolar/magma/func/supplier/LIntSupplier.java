@@ -74,7 +74,6 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 
 	// int getAsInt() ;
 	default int getAsInt() {
-		// return nestingGetAsInt();
 		try {
 			return this.getAsIntX();
 		} catch (Throwable e) { // NOSONAR

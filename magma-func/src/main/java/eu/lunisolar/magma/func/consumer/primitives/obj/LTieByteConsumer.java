@@ -76,7 +76,6 @@ public interface LTieByteConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	// void accept(T a1,int a2,byte a3) ;
 	default void accept(T a1, int a2, byte a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

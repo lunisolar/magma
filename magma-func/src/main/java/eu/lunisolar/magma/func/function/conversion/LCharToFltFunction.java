@@ -76,7 +76,6 @@ public interface LCharToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// float applyAsFlt(char a) ;
 	default float applyAsFlt(char a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

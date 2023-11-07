@@ -76,7 +76,6 @@ public interface LByteToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// double applyAsDbl(byte a) ;
 	default double applyAsDbl(byte a) {
-		// return nestingApplyAsDbl(a);
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR

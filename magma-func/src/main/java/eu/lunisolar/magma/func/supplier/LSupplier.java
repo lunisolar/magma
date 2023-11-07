@@ -75,7 +75,6 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	@Nullable
 	// T get() ;
 	default T get() {
-		// return nestingGet();
 		try {
 			return this.getX();
 		} catch (Throwable e) { // NOSONAR
@@ -306,6 +305,16 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T> LSupplier<T> sup(@Nullable CallContext c1, final @Nonnull LSupplier<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LSupplier<T> withCC(@Nullable CallContext c1) {
+		return () -> LSupplier.shovingGet(c1, this);
+	}
 
 	static <T> T nestingGet(@Nullable CallContext c1, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(function, "function");

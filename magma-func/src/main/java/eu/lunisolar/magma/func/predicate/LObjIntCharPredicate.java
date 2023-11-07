@@ -76,7 +76,6 @@ public interface LObjIntCharPredicate<T> extends MetaPredicate, MetaInterface.No
 
 	// boolean test(T a1,int a2,char a3) ;
 	default boolean test(T a1, int a2, char a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

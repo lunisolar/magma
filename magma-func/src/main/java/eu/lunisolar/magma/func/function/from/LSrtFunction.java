@@ -77,7 +77,6 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	@Nullable
 	// R apply(short a) ;
 	default R apply(short a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

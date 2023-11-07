@@ -76,7 +76,6 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 
 	// boolean apply(boolean a1,boolean a2) ;
 	default boolean apply(boolean a1, boolean a2) {
-		// return nestingApply(a1,a2);
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

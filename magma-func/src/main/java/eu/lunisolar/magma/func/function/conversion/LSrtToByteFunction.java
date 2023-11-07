@@ -76,7 +76,6 @@ public interface LSrtToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// byte applyAsByte(short a) ;
 	default byte applyAsByte(short a) {
-		// return nestingApplyAsByte(a);
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR

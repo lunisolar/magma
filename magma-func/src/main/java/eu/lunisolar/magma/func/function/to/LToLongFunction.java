@@ -78,7 +78,6 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 
 	// long applyAsLong(T a) ;
 	default long applyAsLong(T a) {
-		// return nestingApplyAsLong(a);
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR

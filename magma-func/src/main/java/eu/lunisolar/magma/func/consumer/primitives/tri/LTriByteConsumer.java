@@ -74,7 +74,6 @@ public interface LTriByteConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// void accept(byte a1,byte a2,byte a3) ;
 	default void accept(byte a1, byte a2, byte a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

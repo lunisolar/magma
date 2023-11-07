@@ -76,7 +76,6 @@ public interface LIntToByteFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// byte applyAsByte(int a) ;
 	default byte applyAsByte(int a) {
-		// return nestingApplyAsByte(a);
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR

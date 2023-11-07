@@ -76,7 +76,6 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	// byte applyAsByte(byte a1,byte a2,byte a3) ;
 	default byte applyAsByte(byte a1, byte a2, byte a3) {
-		// return nestingApplyAsByte(a1,a2,a3);
 		try {
 			return this.applyAsByteX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

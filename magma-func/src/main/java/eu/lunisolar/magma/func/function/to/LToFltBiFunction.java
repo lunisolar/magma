@@ -76,7 +76,6 @@ public interface LToFltBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 	// float applyAsFlt(T1 a1,T2 a2) ;
 	default float applyAsFlt(T1 a1, T2 a2) {
-		// return nestingApplyAsFlt(a1,a2);
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

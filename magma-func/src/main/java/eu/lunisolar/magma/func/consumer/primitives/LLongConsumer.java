@@ -74,7 +74,6 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 
 	// void accept(long a) ;
 	default void accept(long a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

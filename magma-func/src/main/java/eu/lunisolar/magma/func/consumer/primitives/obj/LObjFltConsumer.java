@@ -76,7 +76,6 @@ public interface LObjFltConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	// void accept(T a1,float a2) ;
 	default void accept(T a1, float a2) {
-		// nestingAccept(a1,a2);
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

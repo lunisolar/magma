@@ -76,7 +76,6 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 
 	// boolean test(char a) ;
 	default boolean test(char a) {
-		// return nestingTest(a);
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR

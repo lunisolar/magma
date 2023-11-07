@@ -76,7 +76,6 @@ public interface LLongToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// short applyAsSrt(long a) ;
 	default short applyAsSrt(long a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

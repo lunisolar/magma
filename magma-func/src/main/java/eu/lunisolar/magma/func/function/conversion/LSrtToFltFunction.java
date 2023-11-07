@@ -76,7 +76,6 @@ public interface LSrtToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// float applyAsFlt(short a) ;
 	default float applyAsFlt(short a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

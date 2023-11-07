@@ -76,7 +76,6 @@ public interface LCharUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// char applyAsChar(char a) ;
 	default char applyAsChar(char a) {
-		// return nestingApplyAsChar(a);
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR

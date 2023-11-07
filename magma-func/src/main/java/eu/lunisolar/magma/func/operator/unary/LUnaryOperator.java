@@ -317,6 +317,16 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 
 	// <editor-fold desc="CallContext">
 
+	@Nonnull
+	static <T> LUnaryOperator<T> unaryOp(@Nullable CallContext c1, final @Nonnull LUnaryOperator<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LUnaryOperator<T> withCC(@Nullable CallContext c1) {
+		return a -> LUnaryOperator.shovingApply(c1, a, this);
+	}
+
 	static <T> T nestingApply(@Nullable CallContext c1, T a, @Nonnull LUnaryOperator<T> function) {
 		Null.nonNullArg(function, "function");
 		try {

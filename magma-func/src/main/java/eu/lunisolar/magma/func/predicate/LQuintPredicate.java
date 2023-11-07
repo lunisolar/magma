@@ -76,7 +76,6 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 
 	// boolean test(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5) ;
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
-		// return nestingTest(a1,a2,a3,a4,a5);
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
 		} catch (Throwable e) { // NOSONAR
@@ -807,6 +806,16 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> quintPred(@Nullable CallContext c1, final @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3, a4, a5) -> LQuintPredicate.shovingTest(c1, a1, a2, a3, a4, a5, this);
+	}
 
 	static <T1, T2, T3, T4, T5> boolean nestingTest(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> function) {
 		Null.nonNullArg(function, "function");

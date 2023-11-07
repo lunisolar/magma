@@ -76,7 +76,6 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 
 	// boolean apply(boolean a) ;
 	default boolean apply(boolean a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

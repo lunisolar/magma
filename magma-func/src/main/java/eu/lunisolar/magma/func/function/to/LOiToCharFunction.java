@@ -78,7 +78,6 @@ public interface LOiToCharFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// char applyAsChar(T a1,int a2) ;
 	default char applyAsChar(T a1, int a2) {
-		// return nestingApplyAsChar(a1,a2);
 		try {
 			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

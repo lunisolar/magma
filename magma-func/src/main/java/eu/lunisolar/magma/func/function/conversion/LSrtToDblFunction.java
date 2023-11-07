@@ -76,7 +76,6 @@ public interface LSrtToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// double applyAsDbl(short a) ;
 	default double applyAsDbl(short a) {
-		// return nestingApplyAsDbl(a);
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR

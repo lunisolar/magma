@@ -77,7 +77,6 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	@Nullable
 	// R apply(T1 a1,T2 a2,T3 a3,T4 a4) ;
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4) {
-		// return nestingApply(a1,a2,a3,a4);
 		try {
 			return this.applyX(a1, a2, a3, a4);
 		} catch (Throwable e) { // NOSONAR
@@ -360,6 +359,16 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> quadFunc(@Nullable CallContext c1, final @Nonnull LQuadFunction<T1, T2, T3, T4, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LQuadFunction<T1, T2, T3, T4, R> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3, a4) -> LQuadFunction.shovingApply(c1, a1, a2, a3, a4, this);
+	}
 
 	static <T1, T2, T3, T4, R> R nestingApply(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadFunction<T1, T2, T3, T4, R> function) {
 		Null.nonNullArg(function, "function");

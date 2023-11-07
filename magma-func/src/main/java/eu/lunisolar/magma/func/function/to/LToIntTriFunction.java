@@ -76,7 +76,6 @@ public interface LToIntTriFunction<T1, T2, T3> extends MetaFunction, MetaInterfa
 
 	// int applyAsInt(T1 a1,T2 a2,T3 a3) ;
 	default int applyAsInt(T1 a1, T2 a2, T3 a3) {
-		// return nestingApplyAsInt(a1,a2,a3);
 		try {
 			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

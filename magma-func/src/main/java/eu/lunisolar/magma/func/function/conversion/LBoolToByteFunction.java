@@ -76,7 +76,6 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 	// byte applyAsByte(boolean a) ;
 	default byte applyAsByte(boolean a) {
-		// return nestingApplyAsByte(a);
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR

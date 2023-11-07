@@ -76,7 +76,6 @@ public interface LFltBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// float applyAsFlt(float a1,float a2) ;
 	default float applyAsFlt(float a1, float a2) {
-		// return nestingApplyAsFlt(a1,a2);
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

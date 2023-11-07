@@ -76,7 +76,6 @@ public interface LToByteBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	// byte applyAsByte(T1 a1,T2 a2) ;
 	default byte applyAsByte(T1 a1, T2 a2) {
-		// return nestingApplyAsByte(a1,a2);
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

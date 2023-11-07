@@ -76,7 +76,6 @@ public interface LTieDblConsumer<T> extends MetaConsumer, MetaInterface.NonThrow
 
 	// void accept(T a1,int a2,double a3) ;
 	default void accept(T a1, int a2, double a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

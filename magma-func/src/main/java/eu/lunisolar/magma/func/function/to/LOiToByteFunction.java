@@ -78,7 +78,6 @@ public interface LOiToByteFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// byte applyAsByte(T a1,int a2) ;
 	default byte applyAsByte(T a1, int a2) {
-		// return nestingApplyAsByte(a1,a2);
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

@@ -78,7 +78,6 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 	// short applyAsSrt(T a) ;
 	default short applyAsSrt(T a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

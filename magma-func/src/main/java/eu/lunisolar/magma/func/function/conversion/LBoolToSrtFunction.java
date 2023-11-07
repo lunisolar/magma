@@ -76,7 +76,6 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// short applyAsSrt(boolean a) ;
 	default short applyAsSrt(boolean a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

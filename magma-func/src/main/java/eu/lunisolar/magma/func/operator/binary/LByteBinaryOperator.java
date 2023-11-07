@@ -76,7 +76,6 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// byte applyAsByte(byte a1,byte a2) ;
 	default byte applyAsByte(byte a1, byte a2) {
-		// return nestingApplyAsByte(a1,a2);
 		try {
 			return this.applyAsByteX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

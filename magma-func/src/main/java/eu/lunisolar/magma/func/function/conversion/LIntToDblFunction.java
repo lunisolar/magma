@@ -86,7 +86,6 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 
 	// double applyAsDbl(int a) ;
 	default double applyAsDbl(int a) {
-		// return nestingApplyAsDbl(a);
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR

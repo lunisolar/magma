@@ -76,7 +76,6 @@ public interface LToLongBiFunction<T1, T2> extends ToLongBiFunction<T1, T2>, Met
 
 	// long applyAsLong(T1 a1,T2 a2) ;
 	default long applyAsLong(T1 a1, T2 a2) {
-		// return nestingApplyAsLong(a1,a2);
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

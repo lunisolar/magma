@@ -76,7 +76,6 @@ public interface LByteUnaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// byte applyAsByte(byte a) ;
 	default byte applyAsByte(byte a) {
-		// return nestingApplyAsByte(a);
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR

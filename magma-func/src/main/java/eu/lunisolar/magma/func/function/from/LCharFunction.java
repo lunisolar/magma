@@ -77,7 +77,6 @@ public interface LCharFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	@Nullable
 	// R apply(char a) ;
 	default R apply(char a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

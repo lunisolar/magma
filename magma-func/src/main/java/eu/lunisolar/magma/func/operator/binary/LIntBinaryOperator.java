@@ -76,7 +76,6 @@ public interface LIntBinaryOperator extends IntBinaryOperator, MetaOperator, Met
 
 	// int applyAsInt(int a1,int a2) ;
 	default int applyAsInt(int a1, int a2) {
-		// return nestingApplyAsInt(a1,a2);
 		try {
 			return this.applyAsIntX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

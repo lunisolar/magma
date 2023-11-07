@@ -74,7 +74,6 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 
 	// void accept(boolean a) ;
 	default void accept(boolean a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

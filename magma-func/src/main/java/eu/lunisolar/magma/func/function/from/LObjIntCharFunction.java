@@ -77,7 +77,6 @@ public interface LObjIntCharFunction<T, R> extends MetaFunction, MetaInterface.N
 	@Nullable
 	// R apply(T a1,int a2,char a3) ;
 	default R apply(T a1, int a2, char a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

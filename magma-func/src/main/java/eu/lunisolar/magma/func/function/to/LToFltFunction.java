@@ -78,7 +78,6 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 
 	// float applyAsFlt(T a) ;
 	default float applyAsFlt(T a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

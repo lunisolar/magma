@@ -76,7 +76,6 @@ public interface LSrtTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// short applyAsSrt(short a1,short a2,short a3) ;
 	default short applyAsSrt(short a1, short a2, short a3) {
-		// return nestingApplyAsSrt(a1,a2,a3);
 		try {
 			return this.applyAsSrtX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

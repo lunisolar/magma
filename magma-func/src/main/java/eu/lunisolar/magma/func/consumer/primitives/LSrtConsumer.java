@@ -74,7 +74,6 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 
 	// void accept(short a) ;
 	default void accept(short a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -76,7 +76,6 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	// boolean test(double a1,double a2,double a3) ;
 	default boolean test(double a1, double a2, double a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

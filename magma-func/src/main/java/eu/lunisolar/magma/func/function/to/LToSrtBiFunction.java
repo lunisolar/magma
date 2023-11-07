@@ -76,7 +76,6 @@ public interface LToSrtBiFunction<T1, T2> extends MetaFunction, MetaInterface.No
 
 	// short applyAsSrt(T1 a1,T2 a2) ;
 	default short applyAsSrt(T1 a1, T2 a2) {
-		// return nestingApplyAsSrt(a1,a2);
 		try {
 			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

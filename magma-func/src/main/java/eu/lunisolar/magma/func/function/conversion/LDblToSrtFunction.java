@@ -76,7 +76,6 @@ public interface LDblToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// short applyAsSrt(double a) ;
 	default short applyAsSrt(double a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -76,7 +76,6 @@ public interface LDblToIntFunction extends DoubleToIntFunction, MetaFunction, Me
 
 	// int applyAsInt(double a) ;
 	default int applyAsInt(double a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

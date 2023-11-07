@@ -74,7 +74,6 @@ public interface LByteSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 	// byte getAsByte() ;
 	default byte getAsByte() {
-		// return nestingGetAsByte();
 		try {
 			return this.getAsByteX();
 		} catch (Throwable e) { // NOSONAR

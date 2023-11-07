@@ -76,7 +76,6 @@ public interface LCharToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// int applyAsInt(char a) ;
 	default int applyAsInt(char a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

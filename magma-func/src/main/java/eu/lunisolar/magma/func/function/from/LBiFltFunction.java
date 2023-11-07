@@ -77,7 +77,6 @@ public interface LBiFltFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	@Nullable
 	// R apply(float a1,float a2) ;
 	default R apply(float a1, float a2) {
-		// return nestingApply(a1,a2);
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

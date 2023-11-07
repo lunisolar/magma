@@ -76,7 +76,6 @@ public interface LObjIntObjPredicate<T1, T2> extends MetaPredicate, MetaInterfac
 
 	// boolean test(T1 a1,int a2,T2 a3) ;
 	default boolean test(T1 a1, int a2, T2 a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

@@ -76,7 +76,6 @@ public interface LTriCharPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	// boolean test(char a1,char a2,char a3) ;
 	default boolean test(char a1, char a2, char a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

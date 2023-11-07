@@ -76,7 +76,6 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 
 	// void accept(T a1,double a2) ;
 	default void accept(T a1, double a2) {
-		// nestingAccept(a1,a2);
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

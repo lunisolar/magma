@@ -77,7 +77,6 @@ public interface LBoolFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	@Nullable
 	// R apply(boolean a) ;
 	default R apply(boolean a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

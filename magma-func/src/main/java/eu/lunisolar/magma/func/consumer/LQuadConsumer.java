@@ -74,7 +74,6 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 
 	// void accept(T1 a1,T2 a2,T3 a3,T4 a4) ;
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4) {
-		// nestingAccept(a1,a2,a3,a4);
 		try {
 			this.acceptX(a1, a2, a3, a4);
 		} catch (Throwable e) { // NOSONAR
@@ -330,6 +329,16 @@ public interface LQuadConsumer<T1, T2, T3, T4> extends MetaConsumer, MetaInterfa
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, T3, T4> LQuadConsumer<T1, T2, T3, T4> quadCons(@Nullable CallContext c1, final @Nonnull LQuadConsumer<T1, T2, T3, T4> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LQuadConsumer<T1, T2, T3, T4> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3, a4) -> LQuadConsumer.shovingAccept(c1, a1, a2, a3, a4, this);
+	}
 
 	static <T1, T2, T3, T4> void nestingAccept(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadConsumer<T1, T2, T3, T4> function) {
 		Null.nonNullArg(function, "function");

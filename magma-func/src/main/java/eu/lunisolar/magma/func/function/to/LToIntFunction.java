@@ -78,7 +78,6 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 
 	// int applyAsInt(T a) ;
 	default int applyAsInt(T a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

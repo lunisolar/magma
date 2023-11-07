@@ -76,7 +76,6 @@ public interface LSrtUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 
 	// short applyAsSrt(short a) ;
 	default short applyAsSrt(short a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

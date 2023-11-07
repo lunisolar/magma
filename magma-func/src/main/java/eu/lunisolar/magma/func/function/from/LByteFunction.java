@@ -77,7 +77,6 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	@Nullable
 	// R apply(byte a) ;
 	default R apply(byte a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

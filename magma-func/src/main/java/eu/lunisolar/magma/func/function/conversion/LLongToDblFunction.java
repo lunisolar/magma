@@ -86,7 +86,6 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 
 	// double applyAsDbl(long a) ;
 	default double applyAsDbl(long a) {
-		// return nestingApplyAsDbl(a);
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR

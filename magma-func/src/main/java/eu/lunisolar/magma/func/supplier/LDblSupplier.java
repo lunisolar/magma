@@ -84,7 +84,6 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 
 	// double getAsDbl() ;
 	default double getAsDbl() {
-		// return nestingGetAsDbl();
 		try {
 			return this.getAsDblX();
 		} catch (Throwable e) { // NOSONAR

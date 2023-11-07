@@ -76,7 +76,6 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 
 	// float applyAsFlt(float a) ;
 	default float applyAsFlt(float a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -86,7 +86,6 @@ public interface LDblUnaryOperator extends DoubleUnaryOperator, MetaOperator, Me
 
 	// double applyAsDbl(double a) ;
 	default double applyAsDbl(double a) {
-		// return nestingApplyAsDbl(a);
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR

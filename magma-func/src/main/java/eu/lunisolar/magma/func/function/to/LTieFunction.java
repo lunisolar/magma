@@ -78,7 +78,6 @@ public interface LTieFunction<T1, T2> extends MetaFunction, MetaInterface.NonThr
 
 	// int applyAsInt(T1 a1,int a2,T2 a3) ;
 	default int applyAsInt(T1 a1, int a2, T2 a3) {
-		// return nestingApplyAsInt(a1,a2,a3);
 		try {
 			return this.applyAsIntX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

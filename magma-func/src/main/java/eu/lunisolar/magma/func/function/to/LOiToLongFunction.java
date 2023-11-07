@@ -78,7 +78,6 @@ public interface LOiToLongFunction<T> extends MetaFunction, MetaInterface.NonThr
 
 	// long applyAsLong(T a1,int a2) ;
 	default long applyAsLong(T a1, int a2) {
-		// return nestingApplyAsLong(a1,a2);
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

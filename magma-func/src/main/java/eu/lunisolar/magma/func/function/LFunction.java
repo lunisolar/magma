@@ -79,7 +79,6 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	@Nullable
 	// R apply(T a) ;
 	default R apply(T a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
@@ -332,6 +331,16 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T, R> LFunction<T, R> func(@Nullable CallContext c1, final @Nonnull LFunction<T, R> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LFunction<T, R> withCC(@Nullable CallContext c1) {
+		return a -> LFunction.shovingApply(c1, a, this);
+	}
 
 	static <T, R> R nestingApply(@Nullable CallContext c1, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(function, "function");

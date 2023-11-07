@@ -76,7 +76,6 @@ public interface LTriBytePredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	// boolean test(byte a1,byte a2,byte a3) ;
 	default boolean test(byte a1, byte a2, byte a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

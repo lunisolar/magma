@@ -86,7 +86,6 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 
 	// double applyAsDbl(double a1,double a2) ;
 	default double applyAsDbl(double a1, double a2) {
-		// return nestingApplyAsDbl(a1,a2);
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

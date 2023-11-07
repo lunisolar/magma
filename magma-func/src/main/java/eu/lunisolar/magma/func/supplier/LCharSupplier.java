@@ -74,7 +74,6 @@ public interface LCharSupplier extends MetaSupplier, MetaInterface.NonThrowing, 
 
 	// char getAsChar() ;
 	default char getAsChar() {
-		// return nestingGetAsChar();
 		try {
 			return this.getAsCharX();
 		} catch (Throwable e) { // NOSONAR

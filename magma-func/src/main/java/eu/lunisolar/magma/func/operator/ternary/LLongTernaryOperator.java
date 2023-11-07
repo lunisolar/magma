@@ -76,7 +76,6 @@ public interface LLongTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	// long applyAsLong(long a1,long a2,long a3) ;
 	default long applyAsLong(long a1, long a2, long a3) {
-		// return nestingApplyAsLong(a1,a2,a3);
 		try {
 			return this.applyAsLongX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

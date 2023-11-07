@@ -77,7 +77,6 @@ public interface LTriDblFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nullable
 	// R apply(double a1,double a2,double a3) ;
 	default R apply(double a1, double a2, double a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

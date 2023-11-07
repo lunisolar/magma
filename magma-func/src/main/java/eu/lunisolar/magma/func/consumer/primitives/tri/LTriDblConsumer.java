@@ -74,7 +74,6 @@ public interface LTriDblConsumer extends MetaConsumer, MetaInterface.NonThrowing
 
 	// void accept(double a1,double a2,double a3) ;
 	default void accept(double a1, double a2, double a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

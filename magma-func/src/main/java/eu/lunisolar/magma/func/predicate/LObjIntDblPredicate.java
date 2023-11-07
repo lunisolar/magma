@@ -76,7 +76,6 @@ public interface LObjIntDblPredicate<T> extends MetaPredicate, MetaInterface.Non
 
 	// boolean test(T a1,int a2,double a3) ;
 	default boolean test(T a1, int a2, double a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

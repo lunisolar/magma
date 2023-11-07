@@ -76,7 +76,6 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 
 	// long applyAsLong(double a) ;
 	default long applyAsLong(double a) {
-		// return nestingApplyAsLong(a);
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR

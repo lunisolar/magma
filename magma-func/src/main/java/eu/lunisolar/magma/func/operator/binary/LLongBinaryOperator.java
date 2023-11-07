@@ -76,7 +76,6 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 
 	// long applyAsLong(long a1,long a2) ;
 	default long applyAsLong(long a1, long a2) {
-		// return nestingApplyAsLong(a1,a2);
 		try {
 			return this.applyAsLongX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

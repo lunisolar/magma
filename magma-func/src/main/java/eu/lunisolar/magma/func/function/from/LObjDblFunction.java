@@ -77,7 +77,6 @@ public interface LObjDblFunction<T, R> extends MetaFunction, MetaInterface.NonTh
 	@Nullable
 	// R apply(T a1,double a2) ;
 	default R apply(T a1, double a2) {
-		// return nestingApply(a1,a2);
 		try {
 			return this.applyX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

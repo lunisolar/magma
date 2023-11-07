@@ -76,7 +76,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 
 	// void accept(T1 a1,T2 a2) ;
 	default void accept(T1 a1, T2 a2) {
-		// nestingAccept(a1,a2);
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR
@@ -316,6 +315,16 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2> LBiConsumer<T1, T2> biCons(@Nullable CallContext c1, final @Nonnull LBiConsumer<T1, T2> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LBiConsumer<T1, T2> withCC(@Nullable CallContext c1) {
+		return (a1, a2) -> LBiConsumer.shovingAccept(c1, a1, a2, this);
+	}
 
 	static <T1, T2> void nestingAccept(@Nullable CallContext c1, T1 a1, T2 a2, @Nonnull LBiConsumer<T1, T2> function) {
 		Null.nonNullArg(function, "function");

@@ -76,7 +76,6 @@ public interface LBoolIntPredicate extends MetaPredicate, MetaInterface.NonThrow
 
 	// boolean test(boolean a1,int a2) ;
 	default boolean test(boolean a1, int a2) {
-		// return nestingTest(a1,a2);
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

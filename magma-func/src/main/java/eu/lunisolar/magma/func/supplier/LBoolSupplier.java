@@ -84,7 +84,6 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 
 	// boolean getAsBool() ;
 	default boolean getAsBool() {
-		// return nestingGetAsBool();
 		try {
 			return this.getAsBoolX();
 		} catch (Throwable e) { // NOSONAR
@@ -312,6 +311,16 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static LBoolSupplier boolSup(@Nullable CallContext c1, final @Nonnull LBoolSupplier lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LBoolSupplier withCC(@Nullable CallContext c1) {
+		return () -> LBoolSupplier.shovingGetAsBool(c1, this);
+	}
 
 	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(function, "function");

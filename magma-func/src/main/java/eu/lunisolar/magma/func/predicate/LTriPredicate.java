@@ -76,7 +76,6 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 
 	// boolean test(T1 a1,T2 a2,T3 a3) ;
 	default boolean test(T1 a1, T2 a2, T3 a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
@@ -790,6 +789,16 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPred(@Nullable CallContext c1, final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LTriPredicate<T1, T2, T3> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3) -> LTriPredicate.shovingTest(c1, a1, a2, a3, this);
+	}
 
 	static <T1, T2, T3> boolean nestingTest(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriPredicate<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");

@@ -77,7 +77,6 @@ public interface LBiObjSrtFunction<T1, T2, R> extends MetaFunction, MetaInterfac
 	@Nullable
 	// R apply(T1 a1,T2 a2,short a3) ;
 	default R apply(T1 a1, T2 a2, short a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

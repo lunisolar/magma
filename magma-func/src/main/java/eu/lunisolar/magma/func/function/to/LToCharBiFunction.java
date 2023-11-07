@@ -76,7 +76,6 @@ public interface LToCharBiFunction<T1, T2> extends MetaFunction, MetaInterface.N
 
 	// char applyAsChar(T1 a1,T2 a2) ;
 	default char applyAsChar(T1 a1, T2 a2) {
-		// return nestingApplyAsChar(a1,a2);
 		try {
 			return this.applyAsCharX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

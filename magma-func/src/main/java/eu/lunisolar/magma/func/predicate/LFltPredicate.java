@@ -76,7 +76,6 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 
 	// boolean test(float a) ;
 	default boolean test(float a) {
-		// return nestingTest(a);
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR

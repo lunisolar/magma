@@ -74,7 +74,6 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 	// short getAsSrt() ;
 	default short getAsSrt() {
-		// return nestingGetAsSrt();
 		try {
 			return this.getAsSrtX();
 		} catch (Throwable e) { // NOSONAR

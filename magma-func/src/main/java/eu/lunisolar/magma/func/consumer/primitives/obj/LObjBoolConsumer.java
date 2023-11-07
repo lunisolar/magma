@@ -76,7 +76,6 @@ public interface LObjBoolConsumer<T> extends MetaConsumer, MetaInterface.NonThro
 
 	// void accept(T a1,boolean a2) ;
 	default void accept(T a1, boolean a2) {
-		// nestingAccept(a1,a2);
 		try {
 			this.acceptX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

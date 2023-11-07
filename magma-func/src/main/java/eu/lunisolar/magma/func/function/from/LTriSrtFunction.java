@@ -77,7 +77,6 @@ public interface LTriSrtFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	@Nullable
 	// R apply(short a1,short a2,short a3) ;
 	default R apply(short a1, short a2, short a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

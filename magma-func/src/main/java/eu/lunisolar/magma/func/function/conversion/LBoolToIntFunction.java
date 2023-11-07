@@ -76,7 +76,6 @@ public interface LBoolToIntFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// int applyAsInt(boolean a) ;
 	default int applyAsInt(boolean a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

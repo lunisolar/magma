@@ -76,7 +76,6 @@ public interface LLongToIntFunction extends LongToIntFunction, MetaFunction, Met
 
 	// int applyAsInt(long a) ;
 	default int applyAsInt(long a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

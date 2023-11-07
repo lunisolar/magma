@@ -76,7 +76,6 @@ public interface LSrtToLongFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// long applyAsLong(short a) ;
 	default long applyAsLong(short a) {
-		// return nestingApplyAsLong(a);
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR

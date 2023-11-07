@@ -76,7 +76,6 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 
 	// boolean test(short a) ;
 	default boolean test(short a) {
-		// return nestingTest(a);
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -76,7 +76,6 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 
 	// int applyAsInt(int a) ;
 	default int applyAsInt(int a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

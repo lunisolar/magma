@@ -76,7 +76,6 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 
 	// long applyAsLong(long a) ;
 	default long applyAsLong(long a) {
-		// return nestingApplyAsLong(a);
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -76,7 +76,6 @@ public interface LToIntBiFunction<T1, T2> extends ToIntBiFunction<T1, T2>, MetaF
 
 	// int applyAsInt(T1 a1,T2 a2) ;
 	default int applyAsInt(T1 a1, T2 a2) {
-		// return nestingApplyAsInt(a1,a2);
 		try {
 			return this.applyAsIntX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

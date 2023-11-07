@@ -74,7 +74,6 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	// void accept(T1 a1,T2 a2,T3 a3) ;
 	default void accept(T1 a1, T2 a2, T3 a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR
@@ -322,6 +321,16 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> triCons(@Nullable CallContext c1, final @Nonnull LTriConsumer<T1, T2, T3> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LTriConsumer<T1, T2, T3> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3) -> LTriConsumer.shovingAccept(c1, a1, a2, a3, this);
+	}
 
 	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(function, "function");

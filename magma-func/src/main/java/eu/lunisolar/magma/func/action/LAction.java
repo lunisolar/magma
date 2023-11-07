@@ -76,7 +76,6 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	// void execute() ;
 	default void execute() {
-		// nestingExecute();
 		try {
 			this.executeX();
 		} catch (Throwable e) { // NOSONAR
@@ -293,6 +292,16 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static LAction act(@Nullable CallContext c1, final @Nonnull LAction lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LAction withCC(@Nullable CallContext c1) {
+		return () -> LAction.shovingExecute(c1, this);
+	}
 
 	static void nestingExecute(@Nullable CallContext c1, @Nonnull LAction function) {
 		Null.nonNullArg(function, "function");

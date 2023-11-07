@@ -74,7 +74,6 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 
 	// void accept(byte a) ;
 	default void accept(byte a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

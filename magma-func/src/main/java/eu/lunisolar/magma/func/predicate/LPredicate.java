@@ -78,7 +78,6 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 
 	// boolean test(T a) ;
 	default boolean test(T a) {
-		// return nestingTest(a);
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR
@@ -603,6 +602,16 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T> LPredicate<T> pred(@Nullable CallContext c1, final @Nonnull LPredicate<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LPredicate<T> withCC(@Nullable CallContext c1) {
+		return a -> LPredicate.shovingTest(c1, a, this);
+	}
 
 	static <T> boolean nestingTest(@Nullable CallContext c1, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(function, "function");

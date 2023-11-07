@@ -76,7 +76,6 @@ public interface LFltToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// short applyAsSrt(float a) ;
 	default short applyAsSrt(float a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

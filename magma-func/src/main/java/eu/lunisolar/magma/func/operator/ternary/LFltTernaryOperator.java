@@ -76,7 +76,6 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// float applyAsFlt(float a1,float a2,float a3) ;
 	default float applyAsFlt(float a1, float a2, float a3) {
-		// return nestingApplyAsFlt(a1,a2,a3);
 		try {
 			return this.applyAsFltX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

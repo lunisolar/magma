@@ -76,7 +76,6 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 
 	// short applyAsSrt(short a1,short a2) ;
 	default short applyAsSrt(short a1, short a2) {
-		// return nestingApplyAsSrt(a1,a2);
 		try {
 			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

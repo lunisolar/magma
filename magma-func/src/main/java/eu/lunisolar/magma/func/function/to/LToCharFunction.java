@@ -78,7 +78,6 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	// char applyAsChar(T a) ;
 	default char applyAsChar(T a) {
-		// return nestingApplyAsChar(a);
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -76,7 +76,6 @@ public interface LBiObjIntPredicate<T1, T2> extends MetaPredicate, MetaInterface
 
 	// boolean test(T1 a1,T2 a2,int a3) ;
 	default boolean test(T1 a1, T2 a2, int a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

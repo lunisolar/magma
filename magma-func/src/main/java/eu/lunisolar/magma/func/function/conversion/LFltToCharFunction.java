@@ -76,7 +76,6 @@ public interface LFltToCharFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// char applyAsChar(float a) ;
 	default char applyAsChar(float a) {
-		// return nestingApplyAsChar(a);
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR

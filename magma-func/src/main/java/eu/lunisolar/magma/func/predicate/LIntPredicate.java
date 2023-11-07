@@ -76,7 +76,6 @@ public interface LIntPredicate extends IntPredicate, MetaPredicate, MetaInterfac
 
 	// boolean test(int a) ;
 	default boolean test(int a) {
-		// return nestingTest(a);
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR

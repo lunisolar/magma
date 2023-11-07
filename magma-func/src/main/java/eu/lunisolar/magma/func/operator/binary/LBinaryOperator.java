@@ -329,6 +329,16 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 
 	// <editor-fold desc="CallContext">
 
+	@Nonnull
+	static <T> LBinaryOperator<T> binaryOp(@Nullable CallContext c1, final @Nonnull LBinaryOperator<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LBinaryOperator<T> withCC(@Nullable CallContext c1) {
+		return (a1, a2) -> LBinaryOperator.shovingApply(c1, a1, a2, this);
+	}
+
 	static <T> T nestingApply(@Nullable CallContext c1, T a1, T a2, @Nonnull LBinaryOperator<T> function) {
 		Null.nonNullArg(function, "function");
 		try {

@@ -74,7 +74,6 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 
 	// long getAsLong() ;
 	default long getAsLong() {
-		// return nestingGetAsLong();
 		try {
 			return this.getAsLongX();
 		} catch (Throwable e) { // NOSONAR

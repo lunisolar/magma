@@ -76,7 +76,6 @@ public interface LIntToSrtFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// short applyAsSrt(int a) ;
 	default short applyAsSrt(int a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

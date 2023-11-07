@@ -337,6 +337,16 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 
 	// <editor-fold desc="CallContext">
 
+	@Nonnull
+	static <T> LTernaryOperator<T> ternaryOp(@Nullable CallContext c1, final @Nonnull LTernaryOperator<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LTernaryOperator<T> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3) -> LTernaryOperator.shovingApply(c1, a1, a2, a3, this);
+	}
+
 	static <T> T nestingApply(@Nullable CallContext c1, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
 		Null.nonNullArg(function, "function");
 		try {

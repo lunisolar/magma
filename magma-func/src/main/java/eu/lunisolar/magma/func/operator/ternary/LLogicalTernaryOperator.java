@@ -76,7 +76,6 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 
 	// boolean apply(boolean a1,boolean a2,boolean a3) ;
 	default boolean apply(boolean a1, boolean a2, boolean a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

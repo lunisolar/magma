@@ -77,7 +77,6 @@ public interface LTriBoolFunction<R> extends MetaFunction, MetaInterface.NonThro
 	@Nullable
 	// R apply(boolean a1,boolean a2,boolean a3) ;
 	default R apply(boolean a1, boolean a2, boolean a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

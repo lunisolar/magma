@@ -77,7 +77,6 @@ public interface LIntFunction<R> extends IntFunction<R>, MetaFunction, MetaInter
 	@Nullable
 	// R apply(int a) ;
 	default R apply(int a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR

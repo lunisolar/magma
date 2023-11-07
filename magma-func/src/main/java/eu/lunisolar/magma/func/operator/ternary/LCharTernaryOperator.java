@@ -76,7 +76,6 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 
 	// char applyAsChar(char a1,char a2,char a3) ;
 	default char applyAsChar(char a1, char a2, char a3) {
-		// return nestingApplyAsChar(a1,a2,a3);
 		try {
 			return this.applyAsCharX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

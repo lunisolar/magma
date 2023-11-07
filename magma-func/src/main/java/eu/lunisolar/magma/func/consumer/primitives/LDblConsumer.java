@@ -74,7 +74,6 @@ public interface LDblConsumer extends DoubleConsumer, MetaConsumer, MetaInterfac
 
 	// void accept(double a) ;
 	default void accept(double a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

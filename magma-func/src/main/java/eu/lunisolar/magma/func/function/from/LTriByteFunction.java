@@ -77,7 +77,6 @@ public interface LTriByteFunction<R> extends MetaFunction, MetaInterface.NonThro
 	@Nullable
 	// R apply(byte a1,byte a2,byte a3) ;
 	default R apply(byte a1, byte a2, byte a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

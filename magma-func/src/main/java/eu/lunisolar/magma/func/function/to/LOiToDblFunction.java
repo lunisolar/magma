@@ -78,7 +78,6 @@ public interface LOiToDblFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// double applyAsDbl(T a1,int a2) ;
 	default double applyAsDbl(T a1, int a2) {
-		// return nestingApplyAsDbl(a1,a2);
 		try {
 			return this.applyAsDblX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

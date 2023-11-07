@@ -76,7 +76,6 @@ public interface LLongPredicate extends LongPredicate, MetaPredicate, MetaInterf
 
 	// boolean test(long a) ;
 	default boolean test(long a) {
-		// return nestingTest(a);
 		try {
 			return this.testX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -78,7 +78,6 @@ public interface LOiToFltFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// float applyAsFlt(T a1,int a2) ;
 	default float applyAsFlt(T a1, int a2) {
-		// return nestingApplyAsFlt(a1,a2);
 		try {
 			return this.applyAsFltX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

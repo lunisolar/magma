@@ -76,7 +76,6 @@ public interface LLongToByteFunction extends MetaFunction, MetaInterface.NonThro
 
 	// byte applyAsByte(long a) ;
 	default byte applyAsByte(long a) {
-		// return nestingApplyAsByte(a);
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR

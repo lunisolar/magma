@@ -74,7 +74,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 
 	// void accept(T a) ;
 	default void accept(T a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR
@@ -300,6 +299,16 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T> LConsumer<T> cons(@Nullable CallContext c1, final @Nonnull LConsumer<T> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LConsumer<T> withCC(@Nullable CallContext c1) {
+		return a -> LConsumer.shovingAccept(c1, a, this);
+	}
 
 	static <T> void nestingAccept(@Nullable CallContext c1, T a, @Nonnull LConsumer<T> function) {
 		Null.nonNullArg(function, "function");

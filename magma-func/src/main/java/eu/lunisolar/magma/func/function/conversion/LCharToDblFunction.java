@@ -76,7 +76,6 @@ public interface LCharToDblFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// double applyAsDbl(char a) ;
 	default double applyAsDbl(char a) {
-		// return nestingApplyAsDbl(a);
 		try {
 			return this.applyAsDblX(a);
 		} catch (Throwable e) { // NOSONAR

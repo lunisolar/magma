@@ -74,7 +74,6 @@ public interface LIntConsumer extends IntConsumer, MetaConsumer, MetaInterface.N
 
 	// void accept(int a) ;
 	default void accept(int a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

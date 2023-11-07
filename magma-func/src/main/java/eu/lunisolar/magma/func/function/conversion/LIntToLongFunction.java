@@ -76,7 +76,6 @@ public interface LIntToLongFunction extends IntToLongFunction, MetaFunction, Met
 
 	// long applyAsLong(int a) ;
 	default long applyAsLong(int a) {
-		// return nestingApplyAsLong(a);
 		try {
 			return this.applyAsLongX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -77,7 +77,6 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	@Nullable
 	// R apply(char a1,char a2,char a3) ;
 	default R apply(char a1, char a2, char a3) {
-		// return nestingApply(a1,a2,a3);
 		try {
 			return this.applyX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

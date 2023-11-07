@@ -76,7 +76,6 @@ public interface LByteToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// short applyAsSrt(byte a) ;
 	default short applyAsSrt(byte a) {
-		// return nestingApplyAsSrt(a);
 		try {
 			return this.applyAsSrtX(a);
 		} catch (Throwable e) { // NOSONAR

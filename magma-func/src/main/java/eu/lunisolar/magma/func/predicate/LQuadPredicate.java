@@ -76,7 +76,6 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 
 	// boolean test(T1 a1,T2 a2,T3 a3,T4 a4) ;
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4) {
-		// return nestingTest(a1,a2,a3,a4);
 		try {
 			return this.testX(a1, a2, a3, a4);
 		} catch (Throwable e) { // NOSONAR
@@ -804,6 +803,16 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 	}
 
 	// <editor-fold desc="CallContext">
+
+	@Nonnull
+	static <T1, T2, T3, T4> LQuadPredicate<T1, T2, T3, T4> quadPred(@Nullable CallContext c1, final @Nonnull LQuadPredicate<T1, T2, T3, T4> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda.withCC(c1);
+	}
+
+	default @Nonnull LQuadPredicate<T1, T2, T3, T4> withCC(@Nullable CallContext c1) {
+		return (a1, a2, a3, a4) -> LQuadPredicate.shovingTest(c1, a1, a2, a3, a4, this);
+	}
 
 	static <T1, T2, T3, T4> boolean nestingTest(@Nullable CallContext c1, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadPredicate<T1, T2, T3, T4> function) {
 		Null.nonNullArg(function, "function");

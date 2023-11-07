@@ -74,7 +74,6 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 
 	// void accept(T a1,long a2,long a3) ;
 	default void accept(T a1, long a2, long a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

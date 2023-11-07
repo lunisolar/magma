@@ -76,7 +76,6 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 
 	// double applyAsDbl(double a1,double a2,double a3) ;
 	default double applyAsDbl(double a1, double a2, double a3) {
-		// return nestingApplyAsDbl(a1,a2,a3);
 		try {
 			return this.applyAsDblX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

@@ -76,7 +76,6 @@ public interface LLongToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// float applyAsFlt(long a) ;
 	default float applyAsFlt(long a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

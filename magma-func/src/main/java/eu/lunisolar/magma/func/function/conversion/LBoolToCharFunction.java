@@ -76,7 +76,6 @@ public interface LBoolToCharFunction extends MetaFunction, MetaInterface.NonThro
 
 	// char applyAsChar(boolean a) ;
 	default char applyAsChar(boolean a) {
-		// return nestingApplyAsChar(a);
 		try {
 			return this.applyAsCharX(a);
 		} catch (Throwable e) { // NOSONAR

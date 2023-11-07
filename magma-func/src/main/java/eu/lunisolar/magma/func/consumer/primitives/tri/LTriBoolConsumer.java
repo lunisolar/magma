@@ -74,7 +74,6 @@ public interface LTriBoolConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	// void accept(boolean a1,boolean a2,boolean a3) ;
 	default void accept(boolean a1, boolean a2, boolean a3) {
-		// nestingAccept(a1,a2,a3);
 		try {
 			this.acceptX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

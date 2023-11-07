@@ -76,7 +76,6 @@ public interface LFltToIntFunction extends MetaFunction, MetaInterface.NonThrowi
 
 	// int applyAsInt(float a) ;
 	default int applyAsInt(float a) {
-		// return nestingApplyAsInt(a);
 		try {
 			return this.applyAsIntX(a);
 		} catch (Throwable e) { // NOSONAR

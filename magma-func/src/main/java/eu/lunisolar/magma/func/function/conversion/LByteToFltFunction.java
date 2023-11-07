@@ -76,7 +76,6 @@ public interface LByteToFltFunction extends MetaFunction, MetaInterface.NonThrow
 
 	// float applyAsFlt(byte a) ;
 	default float applyAsFlt(byte a) {
-		// return nestingApplyAsFlt(a);
 		try {
 			return this.applyAsFltX(a);
 		} catch (Throwable e) { // NOSONAR

@@ -78,7 +78,6 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 
 	// short applyAsSrt(T a1,int a2) ;
 	default short applyAsSrt(T a1, int a2) {
-		// return nestingApplyAsSrt(a1,a2);
 		try {
 			return this.applyAsSrtX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

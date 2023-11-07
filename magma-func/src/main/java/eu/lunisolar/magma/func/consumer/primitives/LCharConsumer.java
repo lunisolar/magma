@@ -74,7 +74,6 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 
 	// void accept(char a) ;
 	default void accept(char a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

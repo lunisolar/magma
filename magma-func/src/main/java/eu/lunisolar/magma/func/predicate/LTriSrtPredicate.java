@@ -76,7 +76,6 @@ public interface LTriSrtPredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	// boolean test(short a1,short a2,short a3) ;
 	default boolean test(short a1, short a2, short a3) {
-		// return nestingTest(a1,a2,a3);
 		try {
 			return this.testX(a1, a2, a3);
 		} catch (Throwable e) { // NOSONAR

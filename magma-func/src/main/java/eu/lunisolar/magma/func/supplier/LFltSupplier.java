@@ -74,7 +74,6 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 
 	// float getAsFlt() ;
 	default float getAsFlt() {
-		// return nestingGetAsFlt();
 		try {
 			return this.getAsFltX();
 		} catch (Throwable e) { // NOSONAR

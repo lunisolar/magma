@@ -74,7 +74,6 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 
 	// void accept(float a) ;
 	default void accept(float a) {
-		// nestingAccept(a);
 		try {
 			this.acceptX(a);
 		} catch (Throwable e) { // NOSONAR

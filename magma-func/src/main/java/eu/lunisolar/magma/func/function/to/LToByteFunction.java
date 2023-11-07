@@ -78,7 +78,6 @@ public interface LToByteFunction<T> extends MetaFunction, MetaInterface.NonThrow
 
 	// byte applyAsByte(T a) ;
 	default byte applyAsByte(T a) {
-		// return nestingApplyAsByte(a);
 		try {
 			return this.applyAsByteX(a);
 		} catch (Throwable e) { // NOSONAR

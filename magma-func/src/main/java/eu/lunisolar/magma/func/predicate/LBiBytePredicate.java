@@ -76,7 +76,6 @@ public interface LBiBytePredicate extends MetaPredicate, MetaInterface.NonThrowi
 
 	// boolean test(byte a1,byte a2) ;
 	default boolean test(byte a1, byte a2) {
-		// return nestingTest(a1,a2);
 		try {
 			return this.testX(a1, a2);
 		} catch (Throwable e) { // NOSONAR

@@ -77,7 +77,6 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	@Nullable
 	// R apply(long a) ;
 	default R apply(long a) {
-		// return nestingApply(a);
 		try {
 			return this.applyX(a);
 		} catch (Throwable e) { // NOSONAR
