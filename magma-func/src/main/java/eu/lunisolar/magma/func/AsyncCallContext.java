@@ -21,13 +21,25 @@ package eu.lunisolar.magma.func;
 import eu.lunisolar.magma.func.action.LAction;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 
 public interface AsyncCallContext {
+
+	public static final @Nonnull AsyncCallContext COMMON_POOL = ctx(ForkJoinPool.commonPool());
 
 	void call(@Nonnull LAction functionCall);
 
 	static AsyncCallContext ctx(@Nonnull AsyncCallContext lambdaCapture) {
 		return lambdaCapture;
+	}
+
+	static @Nonnull AsyncCallContext ctx(@Nonnull ExecutorService service) {
+		return service::execute;
+	}
+
+	static @Nonnull AsyncCallContext commonPool() {
+		return COMMON_POOL;
 	}
 
 }
