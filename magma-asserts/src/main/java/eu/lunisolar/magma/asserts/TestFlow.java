@@ -230,6 +230,28 @@ public final class TestFlow<SUT> {
 		return activity("Cleanup", description, block);
 	}
 
+	public TestFlow<SUT> await(@Nullable String description) {
+		return await(description, sut -> {
+		});
+	}
+	public TestFlow<SUT> await(LConsumer<SUT> block) {
+		return await(DEFAULT_DESCRIPTION, block);
+	}
+	public TestFlow<SUT> await(@Nullable String description, LConsumer<SUT> block) {
+		return activity("Await", description, block);
+	}
+
+	public TestFlow<SUT> meantime(@Nullable String description) {
+		return meantime(description, sut -> {
+		});
+	}
+	public TestFlow<SUT> meantime(LConsumer<SUT> block) {
+		return meantime(DEFAULT_DESCRIPTION, block);
+	}
+	public TestFlow<SUT> meantime(@Nullable String description, LConsumer<SUT> block) {
+		return activity("Meantime", description, block);
+	}
+
 	public TestFlow<SUT> flow(@Nonnull String phase, @Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
 		arg(phase).mustEx(Be::notNullEx);
 		log(phase + ": " + description);
