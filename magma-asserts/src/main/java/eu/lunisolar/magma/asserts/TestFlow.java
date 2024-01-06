@@ -75,6 +75,23 @@ public final class TestFlow<SUT> {
 		return test(DEFAULT_DESCRIPTION, System.out::println);
 	}
 
+	public static TestFlow<?> scenario(@Nonnull LConsumer<String> logger) {
+		arg(logger, "logger").mustEx(Be::notNullEx);
+		return new TestFlow<>(null, logger);
+	}
+
+	public static TestFlow<?> scenario(String description, @Nonnull LConsumer<String> logger) {
+		return test(logger).log("Test: " + description);
+	}
+
+	public static TestFlow<?> scenario(String description) {
+		return test(description, System.out::println);
+	}
+
+	public static TestFlow<?> scenario() {
+		return test(DEFAULT_DESCRIPTION, System.out::println);
+	}
+
 	public TestFlow<SUT> log(String message) {
 		arg(message, "message").mustEx(Be::notNullEx);
 		logger.accept(message);
