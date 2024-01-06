@@ -1454,4 +1454,14 @@ public final class Checks implements FluentSyntax {
 		throw X.assertion("Expecting exception.");
 	}
 
+	/** Just alternative to writing comment line. */
+	public static void attestNoException(@Nonnull LAction action) {
+		Null.nonNullArg(action, "action");
+		try {
+			action.executeX();
+		} catch (Throwable e) {
+			throw X.assertion("Expecting no exception.", e);
+		}
+	}
+
 }
