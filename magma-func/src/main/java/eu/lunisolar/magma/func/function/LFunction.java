@@ -895,7 +895,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	*/
 	default <C0> void forEach(IndexedRead<C0, a<T>> ia, C0 source, LConsumer<? super R> consumer) {
 		int size = ia.size(source);
-		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
+		var oiFunc0 = IA.getter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			T a = oiFunc0.apply(source, i);
@@ -908,9 +908,9 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, a<T>> sa, C0 source, LConsumer<? super R> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LFunction<Object, T> nextFunc0 = (LFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.supplier(sa);
 		while (testFunc0.test(iterator0)) {
 			T a = nextFunc0.apply(iterator0);
 			consumer.accept(this.apply(a));

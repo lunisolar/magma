@@ -423,7 +423,7 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 	*/
 	public static <C0> int forEach(IndexedRead<C0, aLong> ia, C0 source, LLongConsumer consumer) {
 		int size = ia.size(source);
-		LOiToLongFunction<Object> oiFunc0 = (LOiToLongFunction) ia.getter();
+		var oiFunc0 = IA.longGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			long a = oiFunc0.applyAsLong(source, i);
@@ -439,9 +439,9 @@ public interface LLongConsumer extends LongConsumer, MetaConsumer, MetaInterface
 	* @returns iterations count
 	*/
 	public static <C0, I0> int iterate(SequentialRead<C0, I0, aLong> sa, C0 source, LLongConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.longSupplier(sa);
 		int i = 0;
 		while (testFunc0.test(iterator0)) {
 			long a = nextFunc0.applyAsLong(iterator0);

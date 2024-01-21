@@ -418,7 +418,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	*/
 	public static <C0> int forEach(IndexedRead<C0, aByte> ia, C0 source, LByteConsumer consumer) {
 		int size = ia.size(source);
-		LOiToByteFunction<Object> oiFunc0 = (LOiToByteFunction) ia.getter();
+		var oiFunc0 = IA.byteGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			byte a = oiFunc0.applyAsByte(source, i);
@@ -434,9 +434,9 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	* @returns iterations count
 	*/
 	public static <C0, I0> int iterate(SequentialRead<C0, I0, aByte> sa, C0 source, LByteConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.byteSupplier(sa);
 		int i = 0;
 		while (testFunc0.test(iterator0)) {
 			byte a = nextFunc0.applyAsByte(iterator0);

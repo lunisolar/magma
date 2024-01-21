@@ -580,7 +580,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	*/
 	default <C0> void forEach(IndexedRead<C0, aInt> ia, C0 source, LIntConsumer consumer) {
 		int size = ia.size(source);
-		LOiToIntFunction<Object> oiFunc0 = (LOiToIntFunction) ia.getter();
+		var oiFunc0 = IA.intGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			int a = oiFunc0.applyAsInt(source, i);
@@ -593,9 +593,9 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aInt> sa, C0 source, LIntConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToIntFunction<Object> nextFunc0 = (LToIntFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.intSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			int a = nextFunc0.applyAsInt(iterator0);
 			consumer.accept(this.applyAsInt(a));

@@ -479,25 +479,26 @@ public interface LLongTriple extends LTuple<Long> , Comparable<LLongTriple>
     public static  Stream<LLongTriple> immStream(LongStream items) { return stream(items, LLongTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(LongStream items, LTriLongFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aLong> sa, C source, LTriLongFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aLong> ia, C source, LTriLongFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aLong> sa, C source, LTriLongFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aLong> sa_, C source, LTriLongFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToLongFunction<C> nextFunc = (LToLongFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aLong>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.longSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -515,7 +516,7 @@ public interface LLongTriple extends LTuple<Long> , Comparable<LLongTriple>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aLong> ia, C source, LTriLongFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToLongFunction<C> oiFunc = (LOiToLongFunction<C>) ia.getter();
+        var oiFunc = IA.longGetter(ia);
 
         return new Iterator<R>() {
 

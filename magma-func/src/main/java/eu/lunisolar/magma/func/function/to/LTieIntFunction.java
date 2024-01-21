@@ -657,11 +657,11 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	*/
 	default <C1, C2, C3> void forEach(IndexedRead<C1, a<T>> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, IndexedRead<C3, aInt> ia3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
+		var oiFunc1 = IA.getter(ia1);
 		size = Integer.min(size, ia2.size(source2));
-		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
+		var oiFunc2 = IA.intGetter(ia2);
 		size = Integer.min(size, ia3.size(source3));
-		LOiToIntFunction<Object> oiFunc3 = (LOiToIntFunction) ia3.getter();
+		var oiFunc3 = IA.intGetter(ia3);
 		int i = 0;
 		for (; i < size; i++) {
 			T a1 = oiFunc1.apply(source1, i);
@@ -676,13 +676,13 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	* Thread safety, fail-fast, fail-safety of this method is not expected.
 	*/
 	default <C1, I1, C2, C3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, IndexedRead<C3, aInt> ia3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
 		int size = ia2.size(source2);
-		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
+		var oiFunc2 = IA.intGetter(ia2);
 		size = Integer.min(size, ia3.size(source3));
-		LOiToIntFunction<Object> oiFunc3 = (LOiToIntFunction) ia3.getter();
+		var oiFunc3 = IA.intGetter(ia3);
 		int i = 0;
 		while (testFunc1.test(iterator1) && i < size) {
 			T a1 = nextFunc1.apply(iterator1);
@@ -699,12 +699,12 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	*/
 	default <C1, C2, I2, C3> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, IndexedRead<C3, aInt> ia3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		var oiFunc1 = IA.getter(ia1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.intSupplier(sa2);
 		size = Integer.min(size, ia3.size(source3));
-		LOiToIntFunction<Object> oiFunc3 = (LOiToIntFunction) ia3.getter();
+		var oiFunc3 = IA.intGetter(ia3);
 		int i = 0;
 		while (i < size && testFunc2.test(iterator2)) {
 			T a1 = oiFunc1.apply(source1, i);
@@ -720,14 +720,14 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	* Thread safety, fail-fast, fail-safety of this method is not expected.
 	*/
 	default <C1, I1, C2, I2, C3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, IndexedRead<C3, aInt> ia3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.intSupplier(sa2);
 		int size = ia3.size(source3);
-		LOiToIntFunction<Object> oiFunc3 = (LOiToIntFunction) ia3.getter();
+		var oiFunc3 = IA.intGetter(ia3);
 		int i = 0;
 		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && i < size) {
 			T a1 = nextFunc1.apply(iterator1);
@@ -744,12 +744,12 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	*/
 	default <C1, C2, C3, I3> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, SequentialRead<C3, I3, aInt> sa3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
+		var oiFunc1 = IA.getter(ia1);
 		size = Integer.min(size, ia2.size(source2));
-		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
-		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToIntFunction<Object> nextFunc3 = (LToIntFunction) sa3.supplier();
+		var oiFunc2 = IA.intGetter(ia2);
+		var iterator3 = SA.adapter(sa3).apply(source3);
+		var testFunc3 = SA.tester(sa3);
+		var nextFunc3 = SA.intSupplier(sa3);
 		int i = 0;
 		while (i < size && testFunc3.test(iterator3)) {
 			T a1 = oiFunc1.apply(source1, i);
@@ -765,14 +765,14 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	* Thread safety, fail-fast, fail-safety of this method is not expected.
 	*/
 	default <C1, I1, C2, C3, I3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, IndexedRead<C2, aInt> ia2, C2 source2, SequentialRead<C3, I3, aInt> sa3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
 		int size = ia2.size(source2);
-		LOiToIntFunction<Object> oiFunc2 = (LOiToIntFunction) ia2.getter();
-		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
-		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToIntFunction<Object> nextFunc3 = (LToIntFunction) sa3.supplier();
+		var oiFunc2 = IA.intGetter(ia2);
+		var iterator3 = SA.adapter(sa3).apply(source3);
+		var testFunc3 = SA.tester(sa3);
+		var nextFunc3 = SA.intSupplier(sa3);
 		int i = 0;
 		while (testFunc1.test(iterator1) && i < size && testFunc3.test(iterator3)) {
 			T a1 = nextFunc1.apply(iterator1);
@@ -789,13 +789,13 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	*/
 	default <C1, C2, I2, C3, I3> void iterate(IndexedRead<C1, a<T>> ia1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, SequentialRead<C3, I3, aInt> sa3, C3 source3, LIntConsumer consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
-		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
-		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToIntFunction<Object> nextFunc3 = (LToIntFunction) sa3.supplier();
+		var oiFunc1 = IA.getter(ia1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.intSupplier(sa2);
+		var iterator3 = SA.adapter(sa3).apply(source3);
+		var testFunc3 = SA.tester(sa3);
+		var nextFunc3 = SA.intSupplier(sa3);
 		int i = 0;
 		while (i < size && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
 			T a1 = oiFunc1.apply(source1, i);
@@ -811,15 +811,15 @@ public interface LTieIntFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C1, I1, C2, I2, C3, I3> void iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, SequentialRead<C2, I2, aInt> sa2, C2 source2, SequentialRead<C3, I3, aInt> sa3, C3 source3, LIntConsumer consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToIntFunction<Object> nextFunc2 = (LToIntFunction) sa2.supplier();
-		Object iterator3 = ((LFunction) sa3.adapter()).apply(source3);
-		LPredicate<Object> testFunc3 = (LPredicate) sa3.tester();
-		LToIntFunction<Object> nextFunc3 = (LToIntFunction) sa3.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.intSupplier(sa2);
+		var iterator3 = SA.adapter(sa3).apply(source3);
+		var testFunc3 = SA.tester(sa3);
+		var nextFunc3 = SA.intSupplier(sa3);
 		while (testFunc1.test(iterator1) && testFunc2.test(iterator2) && testFunc3.test(iterator3)) {
 			T a1 = nextFunc1.apply(iterator1);
 			int a2 = nextFunc2.applyAsInt(iterator2);

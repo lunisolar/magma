@@ -414,25 +414,26 @@ public interface LSrtPair extends LTuple<Short> , Comparable<LSrtPair>
     public static  Stream<LSrtPair> immStream(IntStream items) { return stream(items, LSrtPair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiSrtFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aShort> sa, C source, LBiSrtFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aShort> ia, C source, LBiSrtFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aShort> sa, C source, LBiSrtFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aShort> sa_, C source, LBiSrtFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToSrtFunction<C> nextFunc = (LToSrtFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aShort>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.srtSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -449,7 +450,7 @@ public interface LSrtPair extends LTuple<Short> , Comparable<LSrtPair>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aShort> ia, C source, LBiSrtFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToSrtFunction<C> oiFunc = (LOiToSrtFunction<C>) ia.getter();
+        var oiFunc = IA.srtGetter(ia);
 
         return new Iterator<R>() {
 

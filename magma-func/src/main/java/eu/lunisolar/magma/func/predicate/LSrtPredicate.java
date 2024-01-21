@@ -929,7 +929,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	*/
 	default <C0> void filterForEach(IndexedRead<C0, aShort> ia, C0 source, LSrtConsumer consumer) {
 		int size = ia.size(source);
-		LOiToSrtFunction<Object> oiFunc0 = (LOiToSrtFunction) ia.getter();
+		var oiFunc0 = IA.srtGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			short a = oiFunc0.applyAsSrt(source, i);
@@ -942,9 +942,9 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void filterIterate(SequentialRead<C0, I0, aShort> sa, C0 source, LSrtConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToSrtFunction<Object> nextFunc0 = (LToSrtFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.srtSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			short a = nextFunc0.applyAsSrt(iterator0);
 			doIf(a, consumer);
@@ -958,7 +958,7 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	*/
 	default <V, C0> int tieForEach(V v, IndexedRead<C0, aShort> ia, C0 source, LTieSrtConsumer<V> consumer) {
 		int size = ia.size(source);
-		LOiToSrtFunction<Object> oiFunc0 = (LOiToSrtFunction) ia.getter();
+		var oiFunc0 = IA.srtGetter(ia);
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
@@ -975,9 +975,9 @@ public interface LSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	* @returns number of iterations that element (or tuple) was accepter by predicate.
 	*/
 	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, aShort> sa, C0 source, LTieSrtConsumer<V> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToSrtFunction<Object> nextFunc0 = (LToSrtFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.srtSupplier(sa);
 		int acceptedIndex = 0;
 		int i = 0;
 		while (testFunc0.test(iterator0)) {

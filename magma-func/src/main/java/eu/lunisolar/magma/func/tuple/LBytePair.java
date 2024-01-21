@@ -414,25 +414,26 @@ public interface LBytePair extends LTuple<Byte> , Comparable<LBytePair>
     public static  Stream<LBytePair> immStream(IntStream items) { return stream(items, LBytePair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiByteFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aByte> sa, C source, LBiByteFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aByte> ia, C source, LBiByteFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aByte> sa, C source, LBiByteFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aByte> sa_, C source, LBiByteFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToByteFunction<C> nextFunc = (LToByteFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aByte>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.byteSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -449,7 +450,7 @@ public interface LBytePair extends LTuple<Byte> , Comparable<LBytePair>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aByte> ia, C source, LBiByteFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToByteFunction<C> oiFunc = (LOiToByteFunction<C>) ia.getter();
+        var oiFunc = IA.byteGetter(ia);
 
         return new Iterator<R>() {
 

@@ -583,7 +583,7 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	*/
 	default <C0> void forEach(IndexedRead<C0, aLong> ia, C0 source, LConsumer<? super R> consumer) {
 		int size = ia.size(source);
-		LOiToLongFunction<Object> oiFunc0 = (LOiToLongFunction) ia.getter();
+		var oiFunc0 = IA.longGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			long a = oiFunc0.applyAsLong(source, i);
@@ -596,9 +596,9 @@ public interface LLongFunction<R> extends LongFunction<R>, MetaFunction, MetaInt
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aLong> sa, C0 source, LConsumer<? super R> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToLongFunction<Object> nextFunc0 = (LToLongFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.longSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			long a = nextFunc0.applyAsLong(iterator0);
 			consumer.accept(this.apply(a));

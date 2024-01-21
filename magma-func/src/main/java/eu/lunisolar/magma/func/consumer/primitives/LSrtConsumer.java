@@ -418,7 +418,7 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 	*/
 	public static <C0> int forEach(IndexedRead<C0, aShort> ia, C0 source, LSrtConsumer consumer) {
 		int size = ia.size(source);
-		LOiToSrtFunction<Object> oiFunc0 = (LOiToSrtFunction) ia.getter();
+		var oiFunc0 = IA.srtGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			short a = oiFunc0.applyAsSrt(source, i);
@@ -434,9 +434,9 @@ public interface LSrtConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 	* @returns iterations count
 	*/
 	public static <C0, I0> int iterate(SequentialRead<C0, I0, aShort> sa, C0 source, LSrtConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToSrtFunction<Object> nextFunc0 = (LToSrtFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.srtSupplier(sa);
 		int i = 0;
 		while (testFunc0.test(iterator0)) {
 			short a = nextFunc0.applyAsSrt(iterator0);

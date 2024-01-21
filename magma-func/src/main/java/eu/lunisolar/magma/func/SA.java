@@ -470,4 +470,59 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		return iterator;
 	}
 
+	public static @Nonnull <I, C> LPredicate<I> boolSupplier(@Nonnull SequentialRead<C, I, aBool> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LPredicate<I>) sa.supplier();
+	}
+
+	public static @Nonnull <I, C> LToByteFunction<I> byteSupplier(@Nonnull SequentialRead<C, I, aByte> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LToByteFunction<I>) sa.supplier();
+	}
+
+	public static @Nonnull <I, C> LToDblFunction<I> dblSupplier(@Nonnull SequentialRead<C, I, aDouble> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LToDblFunction<I>) sa.supplier();
+	}
+
+	public static @Nonnull <I, C> LToCharFunction<I> charSupplier(@Nonnull SequentialRead<C, I, aChar> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LToCharFunction<I>) sa.supplier();
+	}
+
+	public static @Nonnull <I, C> LToSrtFunction<I> srtSupplier(@Nonnull SequentialRead<C, I, aShort> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LToSrtFunction<I>) sa.supplier();
+	}
+
+	public static @Nonnull <I, C> LToFltFunction<I> fltSupplier(@Nonnull SequentialRead<C, I, aFloat> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LToFltFunction<I>) sa.supplier();
+	}
+
+	public static @Nonnull <I, C> LToIntFunction<I> intSupplier(@Nonnull SequentialRead<C, I, aInt> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LToIntFunction<I>) sa.supplier();
+	}
+
+	public static @Nonnull <I, C> LToLongFunction<I> longSupplier(@Nonnull SequentialRead<C, I, aLong> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LToLongFunction<I>) sa.supplier();
+	}
+
+	public static @Nonnull <C, I> LFunction<C, I> adapter(@Nonnull SequentialRead<C, I, ?> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LFunction<C, I>) sa.adapter();
+	}
+
+	public static @Nonnull <I, C> LPredicate<I> tester(@Nonnull SequentialRead<C, I, ?> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LPredicate<I>) sa.tester();
+	}
+
+	public static @Nonnull <I, V, C> LFunction<I, V> supplier(@Nonnull SequentialRead<C, I, a<V>> sa) {
+		Null.nonNullArg(sa, "sa");
+		return (LFunction<I, V>) sa.supplier();
+	}
+
 }

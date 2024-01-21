@@ -929,7 +929,7 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	*/
 	default <C0> void filterForEach(IndexedRead<C0, aFloat> ia, C0 source, LFltConsumer consumer) {
 		int size = ia.size(source);
-		LOiToFltFunction<Object> oiFunc0 = (LOiToFltFunction) ia.getter();
+		var oiFunc0 = IA.fltGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			float a = oiFunc0.applyAsFlt(source, i);
@@ -942,9 +942,9 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void filterIterate(SequentialRead<C0, I0, aFloat> sa, C0 source, LFltConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.fltSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			float a = nextFunc0.applyAsFlt(iterator0);
 			doIf(a, consumer);
@@ -958,7 +958,7 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	*/
 	default <V, C0> int tieForEach(V v, IndexedRead<C0, aFloat> ia, C0 source, LTieFltConsumer<V> consumer) {
 		int size = ia.size(source);
-		LOiToFltFunction<Object> oiFunc0 = (LOiToFltFunction) ia.getter();
+		var oiFunc0 = IA.fltGetter(ia);
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
@@ -975,9 +975,9 @@ public interface LFltPredicate extends MetaPredicate, MetaInterface.NonThrowing,
 	* @returns number of iterations that element (or tuple) was accepter by predicate.
 	*/
 	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, aFloat> sa, C0 source, LTieFltConsumer<V> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.fltSupplier(sa);
 		int acceptedIndex = 0;
 		int i = 0;
 		while (testFunc0.test(iterator0)) {

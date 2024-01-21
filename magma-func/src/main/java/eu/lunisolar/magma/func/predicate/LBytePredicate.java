@@ -929,7 +929,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	*/
 	default <C0> void filterForEach(IndexedRead<C0, aByte> ia, C0 source, LByteConsumer consumer) {
 		int size = ia.size(source);
-		LOiToByteFunction<Object> oiFunc0 = (LOiToByteFunction) ia.getter();
+		var oiFunc0 = IA.byteGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			byte a = oiFunc0.applyAsByte(source, i);
@@ -942,9 +942,9 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void filterIterate(SequentialRead<C0, I0, aByte> sa, C0 source, LByteConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.byteSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			byte a = nextFunc0.applyAsByte(iterator0);
 			doIf(a, consumer);
@@ -958,7 +958,7 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	*/
 	default <V, C0> int tieForEach(V v, IndexedRead<C0, aByte> ia, C0 source, LTieByteConsumer<V> consumer) {
 		int size = ia.size(source);
-		LOiToByteFunction<Object> oiFunc0 = (LOiToByteFunction) ia.getter();
+		var oiFunc0 = IA.byteGetter(ia);
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
@@ -975,9 +975,9 @@ public interface LBytePredicate extends MetaPredicate, MetaInterface.NonThrowing
 	* @returns number of iterations that element (or tuple) was accepter by predicate.
 	*/
 	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, aByte> sa, C0 source, LTieByteConsumer<V> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToByteFunction<Object> nextFunc0 = (LToByteFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.byteSupplier(sa);
 		int acceptedIndex = 0;
 		int i = 0;
 		while (testFunc0.test(iterator0)) {

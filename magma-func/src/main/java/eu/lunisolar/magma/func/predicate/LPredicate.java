@@ -1256,7 +1256,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	*/
 	default <C0> void filterForEach(IndexedRead<C0, a<T>> ia, C0 source, LConsumer<? super T> consumer) {
 		int size = ia.size(source);
-		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
+		var oiFunc0 = IA.getter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			T a = oiFunc0.apply(source, i);
@@ -1269,9 +1269,9 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void filterIterate(SequentialRead<C0, I0, a<T>> sa, C0 source, LConsumer<? super T> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LFunction<Object, T> nextFunc0 = (LFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.supplier(sa);
 		while (testFunc0.test(iterator0)) {
 			T a = nextFunc0.apply(iterator0);
 			doIf(a, consumer);
@@ -1285,7 +1285,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	*/
 	default <V, C0> int targetedForEach(V v, IndexedRead<C0, a<T>> ia, C0 source, LBiObjIntConsumer<V, T> consumer) {
 		int size = ia.size(source);
-		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
+		var oiFunc0 = IA.getter(ia);
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
@@ -1302,9 +1302,9 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	* @returns number of iterations that element (or tuple) was accepter by predicate.
 	*/
 	default <V, C0, I0> int targetedIterate(V v, SequentialRead<C0, I0, a<T>> sa, C0 source, LBiObjIntConsumer<V, T> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LFunction<Object, T> nextFunc0 = (LFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.supplier(sa);
 		int acceptedIndex = 0;
 		int i = 0;
 		while (testFunc0.test(iterator0)) {
@@ -1323,7 +1323,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	*/
 	default <V, C0> int tieForEach(V v, IndexedRead<C0, a<T>> ia, C0 source, LTieConsumer<V, T> consumer) {
 		int size = ia.size(source);
-		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
+		var oiFunc0 = IA.getter(ia);
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
@@ -1340,9 +1340,9 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	* @returns number of iterations that element (or tuple) was accepter by predicate.
 	*/
 	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, a<T>> sa, C0 source, LTieConsumer<V, T> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LFunction<Object, T> nextFunc0 = (LFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.supplier(sa);
 		int acceptedIndex = 0;
 		int i = 0;
 		while (testFunc0.test(iterator0)) {

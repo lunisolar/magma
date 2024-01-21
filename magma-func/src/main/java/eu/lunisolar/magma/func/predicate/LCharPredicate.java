@@ -929,7 +929,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	*/
 	default <C0> void filterForEach(IndexedRead<C0, aChar> ia, C0 source, LCharConsumer consumer) {
 		int size = ia.size(source);
-		LOiToCharFunction<Object> oiFunc0 = (LOiToCharFunction) ia.getter();
+		var oiFunc0 = IA.charGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			char a = oiFunc0.applyAsChar(source, i);
@@ -942,9 +942,9 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void filterIterate(SequentialRead<C0, I0, aChar> sa, C0 source, LCharConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.charSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			char a = nextFunc0.applyAsChar(iterator0);
 			doIf(a, consumer);
@@ -958,7 +958,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	*/
 	default <V, C0> int tieForEach(V v, IndexedRead<C0, aChar> ia, C0 source, LTieCharConsumer<V> consumer) {
 		int size = ia.size(source);
-		LOiToCharFunction<Object> oiFunc0 = (LOiToCharFunction) ia.getter();
+		var oiFunc0 = IA.charGetter(ia);
 		int acceptedIndex = 0;
 		int i = 0;
 		for (; i < size; i++) {
@@ -975,9 +975,9 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	* @returns number of iterations that element (or tuple) was accepter by predicate.
 	*/
 	default <V, C0, I0> int tieIterate(V v, SequentialRead<C0, I0, aChar> sa, C0 source, LTieCharConsumer<V> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToCharFunction<Object> nextFunc0 = (LToCharFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.charSupplier(sa);
 		int acceptedIndex = 0;
 		int i = 0;
 		while (testFunc0.test(iterator0)) {

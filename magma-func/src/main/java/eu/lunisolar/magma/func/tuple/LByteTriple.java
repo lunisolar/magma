@@ -479,25 +479,26 @@ public interface LByteTriple extends LTuple<Byte> , Comparable<LByteTriple>
     public static  Stream<LByteTriple> immStream(IntStream items) { return stream(items, LByteTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriByteFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aByte> sa, C source, LTriByteFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aByte> ia, C source, LTriByteFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aByte> sa, C source, LTriByteFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aByte> sa_, C source, LTriByteFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToByteFunction<C> nextFunc = (LToByteFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aByte>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.byteSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -515,7 +516,7 @@ public interface LByteTriple extends LTuple<Byte> , Comparable<LByteTriple>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aByte> ia, C source, LTriByteFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToByteFunction<C> oiFunc = (LOiToByteFunction<C>) ia.getter();
+        var oiFunc = IA.byteGetter(ia);
 
         return new Iterator<R>() {
 

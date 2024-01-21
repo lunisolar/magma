@@ -30,7 +30,9 @@ import eu.lunisolar.magma.basics.meta.functional.type.TieConsumer;
 import eu.lunisolar.magma.basics.meta.functional.type.TieFunction;
 import eu.lunisolar.magma.func.consumer.primitives.obj.LTieConsumer;
 import eu.lunisolar.magma.func.function.from.LOiFunction;
+import eu.lunisolar.magma.func.function.to.*;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
+import eu.lunisolar.magma.func.predicate.LObjIntPredicate;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.*;
@@ -383,4 +385,50 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 			return oldElement;
 		}
 	}
+
+	public static @Nonnull <C> LObjIntPredicate<C> boolGetter(@Nonnull IndexedRead<C, aBool> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LObjIntPredicate<C>) ia.getter();
+	}
+
+	public static @Nonnull <C> LOiToByteFunction<C> byteGetter(@Nonnull IndexedRead<C, aByte> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiToByteFunction<C>) ia.getter();
+	}
+
+	public static @Nonnull <C> LOiToDblFunction<C> dblGetter(@Nonnull IndexedRead<C, aDouble> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiToDblFunction<C>) ia.getter();
+	}
+
+	public static @Nonnull <C> LOiToCharFunction<C> charGetter(@Nonnull IndexedRead<C, aChar> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiToCharFunction<C>) ia.getter();
+	}
+
+	public static @Nonnull <C> LOiToSrtFunction<C> srtGetter(@Nonnull IndexedRead<C, aShort> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiToSrtFunction<C>) ia.getter();
+	}
+
+	public static @Nonnull <C> LOiToFltFunction<C> fltGetter(@Nonnull IndexedRead<C, aFloat> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiToFltFunction<C>) ia.getter();
+	}
+
+	public static @Nonnull <C> LOiToIntFunction<C> intGetter(@Nonnull IndexedRead<C, aInt> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiToIntFunction<C>) ia.getter();
+	}
+
+	public static @Nonnull <C> LOiToLongFunction<C> longGetter(@Nonnull IndexedRead<C, aLong> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiToLongFunction<C>) ia.getter();
+	}
+
+	public static @Nonnull <C, V> LOiFunction<C, V> getter(@Nonnull IndexedRead<C, a<V>> ia) {
+		Null.nonNullArg(ia, "ia");
+		return (LOiFunction<C, V>) ia.getter();
+	}
+
 }

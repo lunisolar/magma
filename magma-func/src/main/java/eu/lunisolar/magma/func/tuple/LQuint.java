@@ -605,25 +605,26 @@ public interface LQuint<T1,T2,T3,T4,T5> extends LTuple<Object>
     public static <T> Stream<LQuint> immStream(Stream<? extends T> items) { return stream(items, LQuint::immutableOf);}
 
 	public static <T,R> Stream<R> stream(Stream<? extends T> items, LQuintFunction<T,T,T,T,T,R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <T,C,R> Stream<R> stream(SequentialRead<C, ?, a<T>> sa, C source, LQuintFunction<T,T,T,T,T,R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <T,C,R> Stream<R> stream(IndexedRead<C, a<T>> ia, C source, LQuintFunction<T,T,T,T,T,R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <T,C,R> Iterator<R> iterator(SequentialRead<C, ?, a<T>> sa, C source, LQuintFunction<T,T,T,T,T,R> factory) {
+    public static <T,C,R> Iterator<R> iterator(SequentialRead<C, ?, a<T>> sa_, C source, LQuintFunction<T,T,T,T,T,R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LFunction<C,T> nextFunc = (LFunction<C,T>) sa.supplier();
+        var sa = (SequentialRead<C, Object, a<T>>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.supplier(sa);
 
         return new Iterator<R>() {
 
@@ -643,7 +644,7 @@ public interface LQuint<T1,T2,T3,T4,T5> extends LTuple<Object>
     public static <T,C,R> Iterator<R> iterator(IndexedRead<C, a<T>> ia, C source, LQuintFunction<T,T,T,T,T,R> factory) {
 
         int size = ia.size(source);
-        LOiFunction<C,T> oiFunc = (LOiFunction<C,T>) ia.getter();
+        var oiFunc = IA.getter(ia);
 
         return new Iterator<R>() {
 

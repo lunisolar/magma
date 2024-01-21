@@ -418,7 +418,7 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	*/
 	public static <C0> int forEach(IndexedRead<C0, aBool> ia, C0 source, LBoolConsumer consumer) {
 		int size = ia.size(source);
-		LObjIntPredicate<Object> oiFunc0 = (LObjIntPredicate) ia.getter();
+		var oiFunc0 = IA.boolGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			boolean a = oiFunc0.test(source, i);
@@ -434,9 +434,9 @@ public interface LBoolConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	* @returns iterations count
 	*/
 	public static <C0, I0> int iterate(SequentialRead<C0, I0, aBool> sa, C0 source, LBoolConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LPredicate<Object> nextFunc0 = (LPredicate) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.boolSupplier(sa);
 		int i = 0;
 		while (testFunc0.test(iterator0)) {
 			boolean a = nextFunc0.test(iterator0);

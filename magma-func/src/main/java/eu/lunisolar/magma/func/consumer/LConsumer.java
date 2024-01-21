@@ -710,7 +710,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	*/
 	public static <C0, T> int forEach(IndexedRead<C0, a<T>> ia, C0 source, LConsumer<? super T> consumer) {
 		int size = ia.size(source);
-		LOiFunction<Object, T> oiFunc0 = (LOiFunction) ia.getter();
+		var oiFunc0 = IA.getter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			T a = oiFunc0.apply(source, i);
@@ -726,9 +726,9 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	* @returns iterations count
 	*/
 	public static <C0, I0, T> int iterate(SequentialRead<C0, I0, a<T>> sa, C0 source, LConsumer<? super T> consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LFunction<Object, T> nextFunc0 = (LFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.supplier(sa);
 		int i = 0;
 		while (testFunc0.test(iterator0)) {
 			T a = nextFunc0.apply(iterator0);

@@ -414,25 +414,26 @@ public interface LLongPair extends LTuple<Long> , Comparable<LLongPair>
     public static  Stream<LLongPair> immStream(LongStream items) { return stream(items, LLongPair::immutableOf);}
 
 	public static <R> Stream<R> stream(LongStream items, LBiLongFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aLong> sa, C source, LBiLongFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aLong> ia, C source, LBiLongFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aLong> sa, C source, LBiLongFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aLong> sa_, C source, LBiLongFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToLongFunction<C> nextFunc = (LToLongFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aLong>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.longSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -449,7 +450,7 @@ public interface LLongPair extends LTuple<Long> , Comparable<LLongPair>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aLong> ia, C source, LBiLongFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToLongFunction<C> oiFunc = (LOiToLongFunction<C>) ia.getter();
+        var oiFunc = IA.longGetter(ia);
 
         return new Iterator<R>() {
 

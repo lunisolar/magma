@@ -418,7 +418,7 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 	*/
 	public static <C0> int forEach(IndexedRead<C0, aFloat> ia, C0 source, LFltConsumer consumer) {
 		int size = ia.size(source);
-		LOiToFltFunction<Object> oiFunc0 = (LOiToFltFunction) ia.getter();
+		var oiFunc0 = IA.fltGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			float a = oiFunc0.applyAsFlt(source, i);
@@ -434,9 +434,9 @@ public interface LFltConsumer extends MetaConsumer, MetaInterface.NonThrowing, C
 	* @returns iterations count
 	*/
 	public static <C0, I0> int iterate(SequentialRead<C0, I0, aFloat> sa, C0 source, LFltConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToFltFunction<Object> nextFunc0 = (LToFltFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.fltSupplier(sa);
 		int i = 0;
 		while (testFunc0.test(iterator0)) {
 			float a = nextFunc0.applyAsFlt(iterator0);

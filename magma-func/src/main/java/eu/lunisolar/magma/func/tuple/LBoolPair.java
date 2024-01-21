@@ -398,25 +398,26 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
     public static  Stream<LBoolPair> immStream(IntStream items) { return stream(items, LBoolPair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiBoolFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aBool> sa, C source, LBiBoolFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aBool> ia, C source, LBiBoolFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aBool> sa, C source, LBiBoolFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aBool> sa_, C source, LBiBoolFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LPredicate<C> nextFunc = (LPredicate<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aBool>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.boolSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -433,7 +434,7 @@ public interface LBoolPair extends LTuple<Boolean> , Comparable<LBoolPair>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aBool> ia, C source, LBiBoolFunction<R> factory) {
 
         int size = ia.size(source);
-        LObjIntPredicate<C> oiFunc = (LObjIntPredicate<C>) ia.getter();
+        var oiFunc = IA.boolGetter(ia);
 
         return new Iterator<R>() {
 

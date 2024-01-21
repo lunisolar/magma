@@ -414,25 +414,26 @@ public interface LDblPair extends LTuple<Double> , Comparable<LDblPair>
     public static  Stream<LDblPair> immStream(DoubleStream items) { return stream(items, LDblPair::immutableOf);}
 
 	public static <R> Stream<R> stream(DoubleStream items, LBiDblFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aDouble> sa, C source, LBiDblFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aDouble> ia, C source, LBiDblFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aDouble> sa, C source, LBiDblFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aDouble> sa_, C source, LBiDblFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToDblFunction<C> nextFunc = (LToDblFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aDouble>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.dblSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -449,7 +450,7 @@ public interface LDblPair extends LTuple<Double> , Comparable<LDblPair>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aDouble> ia, C source, LBiDblFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToDblFunction<C> oiFunc = (LOiToDblFunction<C>) ia.getter();
+        var oiFunc = IA.dblGetter(ia);
 
         return new Iterator<R>() {
 

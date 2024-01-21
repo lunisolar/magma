@@ -463,25 +463,26 @@ public interface LBoolTriple extends LTuple<Boolean> , Comparable<LBoolTriple>
     public static  Stream<LBoolTriple> immStream(IntStream items) { return stream(items, LBoolTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriBoolFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aBool> sa, C source, LTriBoolFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aBool> ia, C source, LTriBoolFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aBool> sa, C source, LTriBoolFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aBool> sa_, C source, LTriBoolFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LPredicate<C> nextFunc = (LPredicate<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aBool>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.boolSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -499,7 +500,7 @@ public interface LBoolTriple extends LTuple<Boolean> , Comparable<LBoolTriple>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aBool> ia, C source, LTriBoolFunction<R> factory) {
 
         int size = ia.size(source);
-        LObjIntPredicate<C> oiFunc = (LObjIntPredicate<C>) ia.getter();
+        var oiFunc = IA.boolGetter(ia);
 
         return new Iterator<R>() {
 

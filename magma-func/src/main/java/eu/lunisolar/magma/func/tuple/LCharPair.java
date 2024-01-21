@@ -414,25 +414,26 @@ public interface LCharPair extends LTuple<Character> , Comparable<LCharPair>
     public static  Stream<LCharPair> immStream(IntStream items) { return stream(items, LCharPair::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LBiCharFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aChar> sa, C source, LBiCharFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aChar> ia, C source, LBiCharFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aChar> sa, C source, LBiCharFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aChar> sa_, C source, LBiCharFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToCharFunction<C> nextFunc = (LToCharFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aChar>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.charSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -449,7 +450,7 @@ public interface LCharPair extends LTuple<Character> , Comparable<LCharPair>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aChar> ia, C source, LBiCharFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToCharFunction<C> oiFunc = (LOiToCharFunction<C>) ia.getter();
+        var oiFunc = IA.charGetter(ia);
 
         return new Iterator<R>() {
 

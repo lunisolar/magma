@@ -727,9 +727,9 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	*/
 	public static <C1, C2, T1, T2> int forEach(IndexedRead<C1, a<T1>> ia1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, LBiConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
+		var oiFunc1 = IA.getter(ia1);
 		size = Integer.min(size, ia2.size(source2));
-		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		var oiFunc2 = IA.getter(ia2);
 		int i = 0;
 		for (; i < size; i++) {
 			T1 a1 = oiFunc1.apply(source1, i);
@@ -746,11 +746,11 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	* @returns iterations count
 	*/
 	public static <C1, I1, C2, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, IndexedRead<C2, a<T2>> ia2, C2 source2, LBiConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
 		int size = ia2.size(source2);
-		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		var oiFunc2 = IA.getter(ia2);
 		int i = 0;
 		while (testFunc1.test(iterator1) && i < size) {
 			T1 a1 = nextFunc1.apply(iterator1);
@@ -769,10 +769,10 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	*/
 	public static <C1, C2, I2, T1, T2> int iterate(IndexedRead<C1, a<T1>> ia1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, LBiConsumer<? super T1, ? super T2> consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T1> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		var oiFunc1 = IA.getter(ia1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.supplier(sa2);
 		int i = 0;
 		while (i < size && testFunc2.test(iterator2)) {
 			T1 a1 = oiFunc1.apply(source1, i);
@@ -790,12 +790,12 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	* @returns iterations count
 	*/
 	public static <C1, I1, C2, I2, T1, T2> int iterate(SequentialRead<C1, I1, a<T1>> sa1, C1 source1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, LBiConsumer<? super T1, ? super T2> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T1> nextFunc1 = (LFunction) sa1.supplier();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.supplier(sa2);
 		int i = 0;
 		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
 			T1 a1 = nextFunc1.apply(iterator1);
@@ -814,7 +814,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	*/
 	public static <T1, C2, T2> T1 targetedForEach(T1 a1, IndexedRead<C2, a<T2>> ia2, C2 source2, LBiConsumer<? super T1, ? super T2> consumer) {
 		int size = ia2.size(source2);
-		LOiFunction<Object, T2> oiFunc2 = (LOiFunction) ia2.getter();
+		var oiFunc2 = IA.getter(ia2);
 		int i = 0;
 		for (; i < size; i++) {
 			T2 a2 = oiFunc2.apply(source2, i);
@@ -830,9 +830,9 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	* @returns 'target' object
 	*/
 	public static <T1, C2, I2, T2> T1 targetedIterate(T1 a1, SequentialRead<C2, I2, a<T2>> sa2, C2 source2, LBiConsumer<? super T1, ? super T2> consumer) {
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LFunction<Object, T2> nextFunc2 = (LFunction) sa2.supplier();
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.supplier(sa2);
 		while (testFunc2.test(iterator2)) {
 			T2 a2 = nextFunc2.apply(iterator2);
 			consumer.accept(a1, a2);

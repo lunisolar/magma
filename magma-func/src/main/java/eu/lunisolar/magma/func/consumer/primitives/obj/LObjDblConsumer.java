@@ -441,9 +441,9 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	*/
 	public static <C1, C2, T> int forEach(IndexedRead<C1, a<T>> ia1, C1 source1, IndexedRead<C2, aDouble> ia2, C2 source2, LObjDblConsumer<? super T> consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
+		var oiFunc1 = IA.getter(ia1);
 		size = Integer.min(size, ia2.size(source2));
-		LOiToDblFunction<Object> oiFunc2 = (LOiToDblFunction) ia2.getter();
+		var oiFunc2 = IA.dblGetter(ia2);
 		int i = 0;
 		for (; i < size; i++) {
 			T a1 = oiFunc1.apply(source1, i);
@@ -460,11 +460,11 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	* @returns iterations count
 	*/
 	public static <C1, I1, C2, T> int iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, IndexedRead<C2, aDouble> ia2, C2 source2, LObjDblConsumer<? super T> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
 		int size = ia2.size(source2);
-		LOiToDblFunction<Object> oiFunc2 = (LOiToDblFunction) ia2.getter();
+		var oiFunc2 = IA.dblGetter(ia2);
 		int i = 0;
 		while (testFunc1.test(iterator1) && i < size) {
 			T a1 = nextFunc1.apply(iterator1);
@@ -483,10 +483,10 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	*/
 	public static <C1, C2, I2, T> int iterate(IndexedRead<C1, a<T>> ia1, C1 source1, SequentialRead<C2, I2, aDouble> sa2, C2 source2, LObjDblConsumer<? super T> consumer) {
 		int size = ia1.size(source1);
-		LOiFunction<Object, T> oiFunc1 = (LOiFunction) ia1.getter();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToDblFunction<Object> nextFunc2 = (LToDblFunction) sa2.supplier();
+		var oiFunc1 = IA.getter(ia1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.dblSupplier(sa2);
 		int i = 0;
 		while (i < size && testFunc2.test(iterator2)) {
 			T a1 = oiFunc1.apply(source1, i);
@@ -504,12 +504,12 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	* @returns iterations count
 	*/
 	public static <C1, I1, C2, I2, T> int iterate(SequentialRead<C1, I1, a<T>> sa1, C1 source1, SequentialRead<C2, I2, aDouble> sa2, C2 source2, LObjDblConsumer<? super T> consumer) {
-		Object iterator1 = ((LFunction) sa1.adapter()).apply(source1);
-		LPredicate<Object> testFunc1 = (LPredicate) sa1.tester();
-		LFunction<Object, T> nextFunc1 = (LFunction) sa1.supplier();
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToDblFunction<Object> nextFunc2 = (LToDblFunction) sa2.supplier();
+		var iterator1 = SA.adapter(sa1).apply(source1);
+		var testFunc1 = SA.tester(sa1);
+		var nextFunc1 = SA.supplier(sa1);
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.dblSupplier(sa2);
 		int i = 0;
 		while (testFunc1.test(iterator1) && testFunc2.test(iterator2)) {
 			T a1 = nextFunc1.apply(iterator1);
@@ -528,7 +528,7 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	*/
 	public static <T, C2> T targetedForEach(T a1, IndexedRead<C2, aDouble> ia2, C2 source2, LObjDblConsumer<? super T> consumer) {
 		int size = ia2.size(source2);
-		LOiToDblFunction<Object> oiFunc2 = (LOiToDblFunction) ia2.getter();
+		var oiFunc2 = IA.dblGetter(ia2);
 		int i = 0;
 		for (; i < size; i++) {
 			double a2 = oiFunc2.applyAsDbl(source2, i);
@@ -544,9 +544,9 @@ public interface LObjDblConsumer<T> extends ObjDoubleConsumer<T>, MetaConsumer, 
 	* @returns 'target' object
 	*/
 	public static <T, C2, I2> T targetedIterate(T a1, SequentialRead<C2, I2, aDouble> sa2, C2 source2, LObjDblConsumer<? super T> consumer) {
-		Object iterator2 = ((LFunction) sa2.adapter()).apply(source2);
-		LPredicate<Object> testFunc2 = (LPredicate) sa2.tester();
-		LToDblFunction<Object> nextFunc2 = (LToDblFunction) sa2.supplier();
+		var iterator2 = SA.adapter(sa2).apply(source2);
+		var testFunc2 = SA.tester(sa2);
+		var nextFunc2 = SA.dblSupplier(sa2);
 		while (testFunc2.test(iterator2)) {
 			double a2 = nextFunc2.applyAsDbl(iterator2);
 			consumer.accept(a1, a2);

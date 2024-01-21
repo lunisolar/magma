@@ -479,25 +479,26 @@ public interface LIntTriple extends LTuple<Integer> , Comparable<LIntTriple>
     public static  Stream<LIntTriple> immStream(IntStream items) { return stream(items, LIntTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(IntStream items, LTriIntFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aInt> sa, C source, LTriIntFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aInt> ia, C source, LTriIntFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aInt> sa, C source, LTriIntFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aInt> sa_, C source, LTriIntFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToIntFunction<C> nextFunc = (LToIntFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aInt>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.intSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -515,7 +516,7 @@ public interface LIntTriple extends LTuple<Integer> , Comparable<LIntTriple>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aInt> ia, C source, LTriIntFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToIntFunction<C> oiFunc = (LOiToIntFunction<C>) ia.getter();
+        var oiFunc = IA.intGetter(ia);
 
         return new Iterator<R>() {
 

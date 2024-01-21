@@ -479,25 +479,26 @@ public interface LFltTriple extends LTuple<Float> , Comparable<LFltTriple>
     public static  Stream<LFltTriple> immStream(DoubleStream items) { return stream(items, LFltTriple::immutableOf);}
 
 	public static <R> Stream<R> stream(DoubleStream items, LTriFltFunction<R> factory) {
-       var pairs =  iterator(items.iterator(), factory);
+       var pairs = iterator(items.iterator(), factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(SequentialRead<C, ?, aFloat> sa, C source, LTriFltFunction<R> factory) {
-       var pairs =  iterator(sa, source, factory);
+       var pairs = iterator(sa, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
     public static <C,R> Stream<R> stream(IndexedRead<C, aFloat> ia, C source, LTriFltFunction<R> factory) {
-       var pairs =  iterator(ia, source, factory);
+       var pairs = iterator(ia, source, factory);
        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(pairs, Spliterator.ORDERED), false);
 	}
 
-    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aFloat> sa, C source, LTriFltFunction<R> factory) {
+    public static <C,R> Iterator<R> iterator(SequentialRead<C, ?, aFloat> sa_, C source, LTriFltFunction<R> factory) {
 
-        C iterator = (C) ((LFunction) sa.adapter()).apply(source);
-        LPredicate<C> testFunc = (LPredicate<C>) sa.tester();
-        LToFltFunction<C> nextFunc = (LToFltFunction<C>) sa.supplier();
+        var sa = (SequentialRead<C, Object, aFloat>) sa_;
+        var iterator = SA.adapter(sa).apply(source);
+        var testFunc = SA.tester(sa);
+        var nextFunc = SA.fltSupplier(sa);
 
         return new Iterator<R>() {
 
@@ -515,7 +516,7 @@ public interface LFltTriple extends LTuple<Float> , Comparable<LFltTriple>
     public static <C,R> Iterator<R> iterator(IndexedRead<C, aFloat> ia, C source, LTriFltFunction<R> factory) {
 
         int size = ia.size(source);
-        LOiToFltFunction<C> oiFunc = (LOiToFltFunction<C>) ia.getter();
+        var oiFunc = IA.fltGetter(ia);
 
         return new Iterator<R>() {
 

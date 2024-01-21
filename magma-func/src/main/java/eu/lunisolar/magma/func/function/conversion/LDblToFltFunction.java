@@ -565,7 +565,7 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	*/
 	default <C0> void forEach(IndexedRead<C0, aDouble> ia, C0 source, LFltConsumer consumer) {
 		int size = ia.size(source);
-		LOiToDblFunction<Object> oiFunc0 = (LOiToDblFunction) ia.getter();
+		var oiFunc0 = IA.dblGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			double a = oiFunc0.applyAsDbl(source, i);
@@ -578,9 +578,9 @@ public interface LDblToFltFunction extends MetaFunction, MetaInterface.NonThrowi
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aDouble> sa, C0 source, LFltConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LToDblFunction<Object> nextFunc0 = (LToDblFunction) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.dblSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			double a = nextFunc0.applyAsDbl(iterator0);
 			consumer.accept(this.applyAsFlt(a));

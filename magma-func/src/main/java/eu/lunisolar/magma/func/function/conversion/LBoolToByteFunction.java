@@ -565,7 +565,7 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 	*/
 	default <C0> void forEach(IndexedRead<C0, aBool> ia, C0 source, LByteConsumer consumer) {
 		int size = ia.size(source);
-		LObjIntPredicate<Object> oiFunc0 = (LObjIntPredicate) ia.getter();
+		var oiFunc0 = IA.boolGetter(ia);
 		int i = 0;
 		for (; i < size; i++) {
 			boolean a = oiFunc0.test(source, i);
@@ -578,9 +578,9 @@ public interface LBoolToByteFunction extends MetaFunction, MetaInterface.NonThro
 	* Thread safety, fail-fast, fail-safety of this method depends highly on the arguments.
 	*/
 	default <C0, I0> void iterate(SequentialRead<C0, I0, aBool> sa, C0 source, LByteConsumer consumer) {
-		Object iterator0 = ((LFunction) sa.adapter()).apply(source);
-		LPredicate<Object> testFunc0 = (LPredicate) sa.tester();
-		LPredicate<Object> nextFunc0 = (LPredicate) sa.supplier();
+		var iterator0 = SA.adapter(sa).apply(source);
+		var testFunc0 = SA.tester(sa);
+		var nextFunc0 = SA.boolSupplier(sa);
 		while (testFunc0.test(iterator0)) {
 			boolean a = nextFunc0.test(iterator0);
 			consumer.accept(this.applyAsByte(a));
