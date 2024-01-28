@@ -430,6 +430,10 @@ public interface SA<C, I, E extends aType> extends SequentialRead<C, I, E>, Sequ
 		return (SA) The.BYTE_ARRAY_OBJ;
 	}
 
+	public static <E, C> @Nonnull Iterable<E> toIterable(@Nonnull SequentialRead<C, ?, a<E>> sequentialRead, @Nonnull C container) {
+		return () -> toIterator(sequentialRead, container);
+	}
+
 	public static <E, C> @Nonnull Iterator<E> toIterator(@Nonnull SequentialRead<C, ?, a<E>> sequentialRead, @Nonnull C container) {
 
 		Null.nonNullArg("sequentialRead", sequentialRead);
