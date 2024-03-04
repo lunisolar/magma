@@ -3250,27 +3250,27 @@ public class P2 implements FluentSyntax {
 		return Predicates.causeExactlyInstanceOfEx(e, clazz);
 	}
 
-	/** Predicate: Exception <%s> must have suspended other exceptions.*/
-	public static <MP1, MP2> boolean suspended(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	/** Predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static <MP1, MP2> boolean suppressed(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
-		return Predicates.suspended(e);
+		return Predicates.suppressed(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must have suspended other exceptions.*/
-	public static <MP1, MP2> @Nullable String suspendedEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	/** "Special" predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static <MP1, MP2> @Nullable String suppressedEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
-		return Predicates.suspendedEx(e);
+		return Predicates.suppressedEx(e);
 	}
-	/** Predicate: Exception <%s> must NOT have suspended other exceptions.*/
-	public static <MP1, MP2> boolean noSuspended(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	/** Predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static <MP1, MP2> boolean noSuppressed(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
-		return Predicates.noSuspended(e);
+		return Predicates.noSuppressed(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have suspended other exceptions.*/
-	public static <MP1, MP2> @Nullable String noSuspendedEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static <MP1, MP2> @Nullable String noSuppressedEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
-		return Predicates.noSuspendedEx(e);
+		return Predicates.noSuppressedEx(e);
 	}
 
 	/** Predicate: Exception <%s> must have message equal to <'%s>'.*/

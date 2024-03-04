@@ -3785,6 +3785,47 @@ public class Predicates implements FluentSyntax {
 		return exactlyInstanceOf(object, clazz) ? null : String.format("Object <%s> of class <%s> must be exactly instance of <%s>.", object, object != null ? object.getClass() : null, clazz);
 	}
 
+	/** Predicate: Object <%s> of class <%s> must be exactly instance of any <%s>.*/
+	public static boolean exactlyInstanceOfAny(Object object, Class<?>... clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		if (object != null) {
+			var actualClass = object.getClass();
+			for (Class<?> c : clazz) {
+				if (c == actualClass) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must be exactly instance of any <%s>.*/
+	public static @Nullable String exactlyInstanceOfAnyEx(Object object, Class<?>... clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		return exactlyInstanceOfAny(object, clazz) ? null : String.format("Object <%s> of class <%s> must be exactly instance of any <%s>.", object, object != null ? object.getClass() : null, Arrays.toString(clazz));
+	}
+	/** Predicate: Object <%s> of class <%s> must NOT be exactly instance of any <%s>.*/
+	public static boolean notExactlyInstanceOfAny(Object object, Class<?>... clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		if (object != null) {
+			var actualClass = object.getClass();
+			for (Class<?> c : clazz) {
+				if (c == actualClass) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/** "Special" predicate: Object <%s> of class <%s> must NOT be exactly instance of any <%s>.*/
+	public static @Nullable String notExactlyInstanceOfAnyEx(Object object, Class<?>... clazz) {
+		Null.nonNullArg(clazz, "clazz");
+		return notExactlyInstanceOfAny(object, clazz) ? null : String.format("Object <%s> of class <%s> must NOT be exactly instance of any <%s>.", object, object != null ? object.getClass() : null, Arrays.toString(clazz));
+	}
+
 	/** Predicate: Class <%s> must be assignable from <%s>.*/
 	public static boolean assignableFrom(Class<?> clazz, Class<?> from) {
 		Null.nonNullArg(from, "from");
@@ -3930,27 +3971,27 @@ public class Predicates implements FluentSyntax {
 		return causeExactlyInstanceOf(e, clazz) ? null : String.format("Cause of the exception <%s> must be instance exactly of <%s>.", e.getCause(), e.getCause() != null ? e.getCause().getClass() : null, clazz);
 	}
 
-	/** Predicate: Exception <%s> must have suspended other exceptions.*/
-	public static boolean suspended(@Nonnull Throwable e) {
+	/** Predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static boolean suppressed(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
 		return e.getSuppressed().length != 0;
 	}
 
-	/** "Special" predicate: Exception <%s> must have suspended other exceptions.*/
-	public static @Nullable String suspendedEx(@Nonnull Throwable e) {
+	/** "Special" predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static @Nullable String suppressedEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
-		return suspended(e) ? null : String.format("Exception <%s> must have suspended other exceptions.", e);
+		return suppressed(e) ? null : String.format("Exception <%s> must have suppressed other exceptions.", e);
 	}
-	/** Predicate: Exception <%s> must NOT have suspended other exceptions.*/
-	public static boolean noSuspended(@Nonnull Throwable e) {
+	/** Predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static boolean noSuppressed(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
-		return !suspended(e);
+		return !suppressed(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have suspended other exceptions.*/
-	public static @Nullable String noSuspendedEx(@Nonnull Throwable e) {
+	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static @Nullable String noSuppressedEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
-		return noSuspended(e) ? null : String.format("Exception <%s> must NOT have suspended other exceptions.", e);
+		return noSuppressed(e) ? null : String.format("Exception <%s> must NOT have suppressed other exceptions.", e);
 	}
 
 	/** Predicate: Exception <%s> must have message equal to <'%s>'.*/

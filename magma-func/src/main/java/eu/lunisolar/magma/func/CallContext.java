@@ -117,8 +117,13 @@ public interface CallContext {
 		};
 	}
 
-	@Nullable
-	public static Object tryInit(Object potentialPrimaryException, @Nonnull CallContext notInitialized) {
+	/**
+	 * Subsequent calls to this method are working like start of  <code>try {} finally { }</code> block.
+	 * Works with {@link CallContext#tryFinish(Throwable, CallContext, Object)} as counterpart.
+	 * Requires to obey special contract considerations when calling (e.g. {@link LAction#executeX(CallContext, LAction)} X()}),
+	 * especially in regard to exception handling and propagation that is distributed between those two methods and a calling site.
+	 */
+	public static @Nullable Object tryInit(Object potentialPrimaryException, @Nonnull CallContext notInitialized) {
 		if (potentialPrimaryException instanceof Throwable) {
 			return potentialPrimaryException;
 		}
@@ -134,17 +139,28 @@ public interface CallContext {
 		}
 	}
 
-	public static Throwable tryFinish(Throwable primary, @Nonnull CallContext alreadyInitialized, Object state) {
+	/**
+	 * Subsequent calls to this method are working like <code>finally { }</code> block.
+	 * Works with {@link CallContext#tryInit(Object, CallContext)} as counterpart.
+	 * Requires to obey special contract considerations when calling (e.g. {@link LAction#executeX(CallContext, LAction)} X()}),
+	 * especially in regard to exception handling and propagation that is distributed between those two methods and a calling site.
+	 */
+	public static @Nullable Throwable tryFinish(Throwable primary, @Nonnull CallContext alreadyInitialized, Object state) {
 		if (state != null && state == primary) {
-			return primary;
+			return primary; // Context failed to initialize.
 		}
 
 		if (alreadyInitialized != null) {
 			try {
 				alreadyInitialized.end(state, primary);
 			} catch (Throwable e) {
+				// 'primary' is expected to be thrown by a call site.
 				if (primary != null) {
-					Handling.handleErrors(e);
+					if (e instanceof Error && !(primary instanceof Error)) {
+						// Error has precedence.
+						e.addSuppressed(primary);
+						return e;
+					}
 					primary.addSuppressed(e);
 				} else {
 					return e;
