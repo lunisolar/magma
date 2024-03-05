@@ -22,6 +22,7 @@ import eu.lunisolar.magma.CallContext_Perf.SomeNamedContextUtility.SomeSimpleCon
 import eu.lunisolar.magma.basics.exceptions.Handling;
 import eu.lunisolar.magma.func.AsyncCallContext;
 import eu.lunisolar.magma.func.CallContext;
+import eu.lunisolar.magma.func.CallContexts;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.operator.binary.LBinaryOperator;
 import eu.lunisolar.magma.func.operator.binary.LIntBinaryOperator;
@@ -150,7 +151,7 @@ public class CallContext_Perf {
 
         public void enterContext(long increment) {value += increment;}
 
-        public CallContext namedCtx(String name) {return CallContext.ctx(() -> name.length() /* something to hold on to */, l -> this.value += l);}
+        public CallContext namedCtx(String name) {return CallContexts.ctx(() -> name.length() /* something to hold on to */, l -> this.value += l);}
 
     }
 
@@ -170,10 +171,10 @@ public class CallContext_Perf {
         final Series<Integer> a1 = series(params().name("a1"));
         final Series<Integer> a2 = series(params().name("a2"));
 
-        CallContext CTX1 = CallContext.ctx(C1::enterContext, C1::exitContext);
-        CallContext CTX2 = CallContext.ctx(C2::enterContext, C2::exitContext);
-        CallContext CTX3 = CallContext.ctx(C3::enterContext, C3::exitContext);
-        CallContext CTX4 = CallContext.ctx(C4::enterContext, C4::exitContext);
+        CallContext CTX1 = CallContexts.ctx(C1::enterContext, C1::exitContext);
+        CallContext CTX2 = CallContexts.ctx(C2::enterContext, C2::exitContext);
+        CallContext CTX3 = CallContexts.ctx(C3::enterContext, C3::exitContext);
+        CallContext CTX4 = CallContexts.ctx(C4::enterContext, C4::exitContext);
 
         AsyncCallContext FAKE_ASYNC = LAction::execute;
 

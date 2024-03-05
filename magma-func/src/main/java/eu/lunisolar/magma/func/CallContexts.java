@@ -42,6 +42,155 @@ public final class CallContexts {
 	}
 	// </editor-fold>
 
+	// <editor-fold desc="ctx">
+
+	/** {@link CallContext} variant that is slightly easier to implement. */
+	@SuppressWarnings("unchecked")
+	public interface Easy<C> extends CallContext {
+
+		@Nullable
+		C doStart() throws Throwable;
+		void doEnd(@Nullable C obj, @Nullable Throwable e) throws Throwable;
+
+		@Override
+		default @Nullable Object start() throws Throwable {
+			return doStart();
+		}
+		@Override
+		default void end(@Nullable Object obj, @Nullable Throwable e) throws Throwable {
+			doEnd((C) obj, e);
+		}
+	}
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier<C> starter, @Nonnull LBiConsumer<C, Throwable> finisher) {
+		nonNullArg(starter, "[starter] cannot be null.");
+		nonNullArg(finisher, "[finisher] cannot be null.");
+		return new CallContexts.Easy<C>() {
+			@Override
+			public @Nullable C doStart() {
+				return starter.shovingGet();
+			}
+			@Override
+			public void doEnd(@Nullable C obj, @Nullable Throwable e) {
+				finisher.shovingAccept(obj, e);
+			}
+		};
+	}
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier<C> starter, @Nonnull LConsumer<C> finisher) {
+		nonNullArg(starter, "[starter] cannot be null.");
+		nonNullArg(finisher, "[finisher] cannot be null.");
+		return new CallContexts.Easy<C>() {
+			@Override
+			public @Nullable C doStart() {
+				return starter.shovingGet();
+			}
+			@Override
+			public void doEnd(@Nullable C obj, @Nullable Throwable e) {
+				finisher.shovingAccept(obj);
+			}
+		};
+	}
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static @Nonnull CallContext ctx(@Nonnull LAction starter, @Nonnull LAction finisher) {
+		nonNullArg(starter, "[starter] cannot be null.");
+		nonNullArg(finisher, "[finisher] cannot be null.");
+		return new CallContexts.Easy<Void>() {
+			@Override
+			public @Nullable Void doStart() {
+				starter.shovingExecute();
+				return null;
+			}
+			@Override
+			public void doEnd(@Nullable Void obj, @Nullable Throwable e) {
+				finisher.shovingExecute();
+			}
+		};
+	}
+
+	/**
+	 * Subsequent calls to this method are working like start of  <code>try {} finally { }</code> block.
+	 * Works with {@link CallContexts#tryFinish(Throwable, CallContext, Object)} as counterpart.
+	 * Requires to obey special contract considerations when calling (e.g. {@link LAction#executeX(CallContext, LAction)} X()}),
+	 * especially in regard to exception handling and propagation that is distributed between those two methods and a calling site.
+	 */
+	public static @Nullable Object tryInit(Object potentialPrimaryException, CallContext notInitialized) {
+		if (potentialPrimaryException instanceof Throwable) {
+			return potentialPrimaryException;
+		}
+
+		if (notInitialized != null) {
+			try {
+				return notInitialized.start();
+			} catch (Throwable e) {
+				return e; // new primary
+			}
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Subsequent calls to this method are working like <code>finally { }</code> block.
+	 * Works with {@link CallContexts#tryInit(Object, CallContext)} as counterpart.
+	 * Requires to obey special contract considerations when calling (e.g. {@link LAction#executeX(CallContext, LAction)} X()}),
+	 * especially in regard to exception handling and propagation that is distributed between those two methods and a calling site.
+	 */
+	public static @Nullable Throwable tryFinish(Throwable primary, CallContext alreadyInitialized, Object state) {
+		if (state != null && state == primary) {
+			return primary; // Context failed to initialize.
+		}
+
+		if (alreadyInitialized != null) {
+			try {
+				alreadyInitialized.end(state, primary);
+			} catch (Throwable e) {
+				// 'primary' is expected to be thrown by a call site.
+				if (primary != null) {
+					if (e instanceof Error && !(primary instanceof Error)) {
+						// Error has precedence.
+						e.addSuppressed(primary);
+						return e;
+					}
+					primary.addSuppressed(e);
+				} else {
+					return e;
+				}
+			}
+		}
+		return primary;
+	}
+
+	// </editor-fold>
+
+	// <editor-fold desc="No-Op">
+
+	private static final @Nonnull NoOpCallContext NO_OP_CALL_CONTEXT = new NoOpCallContext();
+
+	public static @Nonnull CallContext noOp() {
+		return NO_OP_CALL_CONTEXT;
+	}
+
+	private final static class NoOpCallContext implements CallContext {
+
+		@Nullable
+		@Override
+		public Object start() throws Throwable {
+			// NO-OP
+			return null;
+		}
+
+		@Override
+		public void end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable {
+			// NO-OP
+		}
+	}
+
+	// </editor-fold>
+
 	// <editor-fold desc="lock context">
 
 	public static CallContext lockContext(@Nonnull Lock lock) {
@@ -57,7 +206,7 @@ public final class CallContexts {
 		};
 	}
 
-	public static CallContext lockContext(@Nonnull Lock lock, long time, TimeUnit unit) {
+	public static @Nonnull CallContext lockContext(@Nonnull Lock lock, long time, TimeUnit unit) {
 		nonNullArg(lock, "lock");
 		nonNullArg(unit, "unit");
 		var timeoutNs = unit.toNanos(time);
@@ -97,7 +246,7 @@ public final class CallContexts {
 
 	// <editor-fold desc="Semaphore">
 
-	public static CallContext semaphoreContext(int permits, @Nonnull Semaphore semaphore) {
+	public static @Nonnull CallContext semaphoreContext(int permits, @Nonnull Semaphore semaphore) {
 		nonNullArg(semaphore, "semaphore");
 		return new SemaphoreContext(semaphore, permits) {
 			@Nullable

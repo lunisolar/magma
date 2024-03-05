@@ -22,6 +22,7 @@ import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.AsyncCallContext;
 import eu.lunisolar.magma.func.CallContext;
+import eu.lunisolar.magma.func.CallContexts;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.function.LBiFunction;
@@ -54,7 +55,7 @@ public class CallContextTest {
 
         // given
         l().clear();
-        var ctx = CallContext.ctx(() -> {
+        var ctx = CallContexts.ctx(() -> {
             i1.execute();
             return null;
         }, (c, x) -> f1.execute());
@@ -72,7 +73,7 @@ public class CallContextTest {
 
         // given
         l().clear();
-        var ctx = CallContext.ctx(i1, f1);
+        var ctx = CallContexts.ctx(i1, f1);
 
         // when
         var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
@@ -87,7 +88,7 @@ public class CallContextTest {
 
         // given
         l().clear();
-        var ctx = CallContext.ctx(i1, f1);
+        var ctx = CallContexts.ctx(i1, f1);
 
         // when
         LConsumer.nestingAccept(ctx, a1, str -> l().add(str));
@@ -101,8 +102,8 @@ public class CallContextTest {
 
         // given
         l().clear();
-        var ctx1 = CallContext.ctx(i1, f1);
-        var ctx2 = CallContext.ctx(i2, f2);
+        var ctx1 = CallContexts.ctx(i1, f1);
+        var ctx2 = CallContexts.ctx(i2, f2);
 
         // when
         var result = LBiFunction.nestingApply(ctx1, ctx2, a1, a2, FUNC);
@@ -116,7 +117,7 @@ public class CallContextTest {
     /** To enhance coverage for CallContext. */
     @Nonnull private CallContext ctxCreate_finisherWithThrowableArg(
             LAction init1, LAction finalize1) {
-        return CallContext.ctx(() -> {
+        return CallContexts.ctx(() -> {
             init1.executeX();
             return null;
         }, (ignored1, ignored2) -> finalize1.executeX());
@@ -366,8 +367,8 @@ public class CallContextTest {
     ) {
         // given
         l().clear();
-        var ctx1 = CallContext.ctx(init1, finish1);
-        var ctx2 = CallContext.ctx(init2, finish2);
+        var ctx1 = CallContexts.ctx(init1, finish1);
+        var ctx2 = CallContexts.ctx(init2, finish2);
 
         // when
         var check = attestThrownBy(() -> {
@@ -389,8 +390,8 @@ public class CallContextTest {
     ) {
         // given
         l().clear();
-        var ctx1 = CallContext.ctx(init1, finish1);
-        var ctx2 = CallContext.ctx(init2, finish2);
+        var ctx1 = CallContexts.ctx(init1, finish1);
+        var ctx2 = CallContexts.ctx(init2, finish2);
 
         // when
         var check = attestThrownBy(() -> {
@@ -455,7 +456,7 @@ public class CallContextTest {
         var               capturedL = l();
         capturedL.clear();
         var asyncCtx = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
-        var ctx1     = CallContext.ctx(() -> capturedL.add(i1Ex), () -> capturedL.add(f1Ex));
+        var ctx1     = CallContexts.ctx(() -> capturedL.add(i1Ex), () -> capturedL.add(f1Ex));
         var future   = LSupplier.asyncGet(asyncCtx, function);
 
         // when
@@ -479,7 +480,7 @@ public class CallContextTest {
         var capturedL = l();
         capturedL.clear();
         var asyncCtx = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
-        var ctx1     = CallContext.ctx(() -> new UnsupportedOperationException("unsupported"), obj -> {/*NOOP*/});
+        var ctx1     = CallContexts.ctx(() -> new UnsupportedOperationException("unsupported"), obj -> {/*NOOP*/});
 
         // when
         var check = attestThrownBy(() -> LSupplier.shovingGet(ctx1, Object::new));
@@ -501,7 +502,7 @@ public class CallContextTest {
         var capturedL = l();
         var otherL    = LValue.<List<String>>objValue(null);
         var asyncCtx  = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
-        var ctx1 = CallContext.ctx(() -> {
+        var ctx1 = CallContexts.ctx(() -> {
             capturedL.add(i1Ex);
             l().clear();
             l().add(i1Ex); // ThreadLocal means it will go to different list.
@@ -532,7 +533,7 @@ public class CallContextTest {
         var capturedL = l();
         var otherL    = LValue.<List<String>>objValue(null);
         var asyncCtx  = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
-        var ctx1 = CallContext.ctx(() -> {
+        var ctx1 = CallContexts.ctx(() -> {
             capturedL.add(i1Ex);
             l().clear();
             l().add(i1Ex); // ThreadLocal means it will go to different list.

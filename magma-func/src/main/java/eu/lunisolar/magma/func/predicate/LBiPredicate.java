@@ -814,7 +814,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
-		final Object s1 = last = CallContext.tryInit(last, c1);
+		final Object s1 = last = CallContexts.tryInit(last, c1); // try { c1?.start() ...
 
 		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
 		Object retval = null;
@@ -826,7 +826,7 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 			}
 		}
 
-		primary = CallContext.tryFinish(primary, c1, s1);
+		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
 		if (primary != null) {
 			throw Handling.throwIt(primary);
@@ -876,8 +876,8 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
-		final Object s1 = last = CallContext.tryInit(last, c1);
-		final Object s2 = last = CallContext.tryInit(last, c2);
+		final Object s1 = last = CallContexts.tryInit(last, c1); // try { c1?.start() ...
+		final Object s2 = last = CallContexts.tryInit(last, c2); // try { c2?.start() ...
 
 		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
 		Object retval = null;
@@ -889,8 +889,8 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 			}
 		}
 
-		primary = CallContext.tryFinish(primary, c2, s2);
-		primary = CallContext.tryFinish(primary, c1, s1);
+		primary = CallContexts.tryFinish(primary, c2, s2); // } finally { c2?.end(...) }
+		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
 		if (primary != null) {
 			throw Handling.throwIt(primary);
@@ -940,9 +940,9 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
-		final Object s1 = last = CallContext.tryInit(last, c1);
-		final Object s2 = last = CallContext.tryInit(last, c2);
-		final Object s3 = last = CallContext.tryInit(last, c3);
+		final Object s1 = last = CallContexts.tryInit(last, c1); // try { c1?.start() ...
+		final Object s2 = last = CallContexts.tryInit(last, c2); // try { c2?.start() ...
+		final Object s3 = last = CallContexts.tryInit(last, c3); // try { c3?.start() ...
 
 		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
 		Object retval = null;
@@ -954,9 +954,9 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 			}
 		}
 
-		primary = CallContext.tryFinish(primary, c3, s3);
-		primary = CallContext.tryFinish(primary, c2, s2);
-		primary = CallContext.tryFinish(primary, c1, s1);
+		primary = CallContexts.tryFinish(primary, c3, s3); // } finally { c3?.end(...) }
+		primary = CallContexts.tryFinish(primary, c2, s2); // } finally { c2?.end(...) }
+		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
 		if (primary != null) {
 			throw Handling.throwIt(primary);
@@ -1006,10 +1006,10 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
-		final Object s1 = last = CallContext.tryInit(last, c1);
-		final Object s2 = last = CallContext.tryInit(last, c2);
-		final Object s3 = last = CallContext.tryInit(last, c3);
-		final Object s4 = last = CallContext.tryInit(last, c4);
+		final Object s1 = last = CallContexts.tryInit(last, c1); // try { c1?.start() ...
+		final Object s2 = last = CallContexts.tryInit(last, c2); // try { c2?.start() ...
+		final Object s3 = last = CallContexts.tryInit(last, c3); // try { c3?.start() ...
+		final Object s4 = last = CallContexts.tryInit(last, c4); // try { c4?.start() ...
 
 		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
 		Object retval = null;
@@ -1021,10 +1021,10 @@ public interface LBiPredicate<T1, T2> extends BiPredicate<T1, T2>, MetaPredicate
 			}
 		}
 
-		primary = CallContext.tryFinish(primary, c4, s4);
-		primary = CallContext.tryFinish(primary, c3, s3);
-		primary = CallContext.tryFinish(primary, c2, s2);
-		primary = CallContext.tryFinish(primary, c1, s1);
+		primary = CallContexts.tryFinish(primary, c4, s4); // } finally { c4?.end(...) }
+		primary = CallContexts.tryFinish(primary, c3, s3); // } finally { c3?.end(...) }
+		primary = CallContexts.tryFinish(primary, c2, s2); // } finally { c2?.end(...) }
+		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
 		if (primary != null) {
 			throw Handling.throwIt(primary);
