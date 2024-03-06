@@ -18,24 +18,26 @@
 
 package eu.lunisolar.magma.func;
 
-import eu.lunisolar.magma.basics.exceptions.Handling;
 import eu.lunisolar.magma.func.action.LAction;
-import eu.lunisolar.magma.func.consumer.LBiConsumer;
-import eu.lunisolar.magma.func.consumer.LConsumer;
-import eu.lunisolar.magma.func.supplier.LSupplier;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static eu.lunisolar.magma.basics.Null.nonNullArg;
-
+/**
+ * Instance of CallContext is called before ({@link CallContext#start()}) and after ({@link CallContext#end(Object, Throwable)}) the call to the function.
+ * Instance(s) of the CallContext are on the call sites (e.g. calls to {@link LAction#nestingExecute(CallContext, LAction)}.
+ * {@link CallContext} implementation might provide, for example, logging, transactions, time measurements.
+ *
+ * Implementation of a call site ({@link LAction#nestingExecute(CallContext, LAction)}) allows potentially
+ * to reuse decoupled logic blocks and keep minimum object allocation while doing it (depends on CallContext implementation really).
+ * Logic blocks being: try-catch-finally and function implementation.
+ */
 public interface CallContext {
 
 	/**
-	 * Starting boundary of the context for the call. Returned object is hold for the duration of the call and then passed to the {@link
-	 * CallContext#end(Object, Throwable)}. If {@link CallContext#start()} will throw OR return exception the context is considered as not started and no call to the {@link
-	 * CallContext#end(Object, Throwable)}
-	 * is made.
+	 * Starting boundary of the context for the call. Returned object is hold for the duration of the call and then passed to the
+	 * {@link CallContext#end(Object, Throwable)}.
+	 * If {@link CallContext#start()} will throw OR return exception the context is considered as not started and no call to the
+	 * {@link CallContext#end(Object, Throwable)} is made.
 	 */
 	@Nullable
 	Object start() throws Throwable;
@@ -47,6 +49,8 @@ public interface CallContext {
 	 * @param primary Exception created either during the call or initialization of another (next in line) CallContext. Rethrow of this exception is
 	 *                carried elsewhere. It should be used only for information, e.g. things like: TX commit/rollback decision.
 	 *                {@link CallContext#end(Object, Throwable)} is allowed to throw its own exception.
+	 *                Propagation and suppression of exceptions is also carried outside of the {@link CallContext}
+	 *                (see {@link CallContexts#tryInit(Object, CallContext)} and {@link CallContexts#tryFinish(Throwable, CallContext, Object)}})
 	 */
 	void end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable;
 

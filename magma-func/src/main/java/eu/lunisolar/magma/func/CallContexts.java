@@ -26,7 +26,8 @@ import eu.lunisolar.magma.func.supplier.LSupplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -63,7 +64,7 @@ public final class CallContexts {
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier<C> starter, @Nonnull LBiConsumer<C, Throwable> finisher) {
+	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier</* ? extends */C> starter, @Nonnull LBiConsumer</* ? super */C, Throwable> finisher) {
 		nonNullArg(starter, "[starter] cannot be null.");
 		nonNullArg(finisher, "[finisher] cannot be null.");
 		return new CallContexts.Easy<C>() {
@@ -79,7 +80,7 @@ public final class CallContexts {
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier<C> starter, @Nonnull LConsumer<C> finisher) {
+	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier<? extends C> starter, @Nonnull LConsumer<? super C> finisher) {
 		nonNullArg(starter, "[starter] cannot be null.");
 		nonNullArg(finisher, "[finisher] cannot be null.");
 		return new CallContexts.Easy<C>() {
@@ -165,6 +166,90 @@ public final class CallContexts {
 	}
 
 	// </editor-fold>
+
+	public static @Nonnull CallContext merge(@Nonnull CallContext... contexts) {
+		return new MultiCallContext(contexts);
+	}
+
+	public static @Nonnull CallContext merge(@Nonnull Collection<CallContext> contexts) {
+		return new MultiCallContext(contexts);
+	}
+
+	/**
+	 * Reproduces logic (call sequence and exception handling) normally carried by call site (e.g. {@link LAction#nestingExecute(CallContext, LAction)},
+	 * {@link CallContexts#tryInit(Object, CallContext)} and {@link CallContexts#tryFinish(Throwable, CallContext, Object)}),
+	 * to merge two or more CallContext instances. Compared to using call site variant with two or more arguments for CallContext is
+	 * that keeping the state together (between start and end) requires additional object allocation (array storing state objects for each context).
+	 */
+	private static final class MultiCallContext implements CallContext {
+
+		private final CallContext[] contexts;
+
+		private MultiCallContext(@Nonnull CallContext[] contexts) {
+			nonNullArg(contexts, "contexts");
+			this.contexts = Arrays.copyOf(contexts, contexts.length);
+		}
+
+		private MultiCallContext(@Nonnull Collection<CallContext> contexts) {
+			nonNullArg(contexts, "contexts");
+			this.contexts = contexts.toArray(CallContext[]::new);
+		}
+
+		@Nullable
+		@Override
+		public Object start() throws Throwable {
+			Object[] state = null; // lazy allocation
+
+			Object last = null;
+			for (int i = 0; i < contexts.length; i++) {
+				CallContext c = contexts[i];
+
+				last = CallContexts.tryInit(last, c);
+				if (last != null) {
+					if (state == null) {
+						state = new Object[contexts.length]; // lazy allocation
+					}
+					state[i] = last;
+				}
+
+				Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+
+				if (primary != null) {
+					return tryFinish(i, primary, state);
+				}
+			}
+
+			return state;
+		}
+
+		@Nullable
+		private Throwable tryFinish(int i, Throwable primary, Object[] state) {
+			if (i > 0) {
+				// The outside logic does not know we have here multiple contexts that might be already initialized.
+				if (state != null) {
+					for (int rollbackIndex = i - 1; rollbackIndex >= 0; rollbackIndex--) {
+						primary = CallContexts.tryFinish(primary, contexts[rollbackIndex], state[rollbackIndex]);
+					}
+				} else {
+					for (int rollbackIndex = i - 1; rollbackIndex >= 0; rollbackIndex--) {
+						primary = CallContexts.tryFinish(primary, contexts[rollbackIndex], null);
+					}
+				}
+			}
+			return primary;
+		}
+
+		@Override
+		public void end(@Nullable Object obj, @Nullable Throwable argPrimary) throws Throwable {
+			Object[] state = (Object[]) obj;
+
+			var primary = tryFinish(contexts.length, argPrimary, state);
+
+			if (primary != null && primary != argPrimary) {
+				throw primary;
+			} // else - "primary" must be already being handled.
+		}
+	}
 
 	// <editor-fold desc="No-Op">
 

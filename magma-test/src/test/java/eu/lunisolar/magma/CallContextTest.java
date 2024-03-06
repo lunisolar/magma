@@ -21,9 +21,9 @@ package eu.lunisolar.magma;
 import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.AsyncCallContext;
-import eu.lunisolar.magma.func.CallContext;
 import eu.lunisolar.magma.func.CallContexts;
 import eu.lunisolar.magma.func.action.LAction;
+import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.function.LBiFunction;
 import eu.lunisolar.magma.func.function.LFunction;
@@ -37,11 +37,11 @@ import eu.lunisolar.magma.func.supplier.LSupplier;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 
+import static eu.lunisolar.magma.CallContextShared.*;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
 import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 
@@ -51,25 +51,7 @@ public class CallContextTest {
     public static Object[][] test1() {return new Object[][]{{"3", "4"}, {"2", "3"}};}
 
     @Test(dataProvider = "simpleTest")
-    public void simpleTestTwoStage(String a1, String a2) {
-
-        // given
-        l().clear();
-        var ctx = CallContexts.ctx(() -> {
-            i1.execute();
-            return null;
-        }, (c, x) -> f1.execute());
-
-        // when
-        var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
-
-        // then
-        attest(result).mustEx(Be::equalEx, a1 + a2);
-        attest(l()).mustAEx(P::containExactlyEx, i1Ex, a1, a2, f1Ex);
-    }
-
-    @Test(dataProvider = "simpleTest")
-    public void simpleTestTwoStage2(String a1, String a2) {
+    public void simpleTest(String a1, String a2) {
 
         // given
         l().clear();
@@ -80,7 +62,7 @@ public class CallContextTest {
 
         // then
         attest(result).mustEx(Be::equalEx, a1 + a2);
-        attest(l()).mustAEx(P::containExactlyEx, i1Ex, a1, a2, f1Ex);
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, a1, a2, f1Log);
     }
 
     @Test(dataProvider = "simpleTest")
@@ -94,11 +76,11 @@ public class CallContextTest {
         LConsumer.nestingAccept(ctx, a1, str -> l().add(str));
 
         // then
-        attest(l()).mustAEx(P::containExactlyEx, i1Ex, a1, f1Ex);
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, a1, f1Log);
     }
 
     @Test(dataProvider = "simpleTest")
-    public void combineTwoStage_executesStartsAndEndsInOrder(String a1, String a2) {
+    public void combine_executesStartsAndEndsInOrder(String a1, String a2) {
 
         // given
         l().clear();
@@ -109,258 +91,18 @@ public class CallContextTest {
         var result = LBiFunction.nestingApply(ctx1, ctx2, a1, a2, FUNC);
 
         // then
-        attest(l()).mustAEx(P::containExactlyEx, i1Ex, i2Ex, a1, a2, f2Ex, f1Ex);
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, i2Log, a1, a2, f2Log, f1Log);
     }
-
-    //<editor-fold desc="setup">
-
-    /** To enhance coverage for CallContext. */
-    @Nonnull private CallContext ctxCreate_finisherWithThrowableArg(
-            LAction init1, LAction finalize1) {
-        return CallContexts.ctx(() -> {
-            init1.executeX();
-            return null;
-        }, (ignored1, ignored2) -> finalize1.executeX());
-    }
-
-    private static final ThreadLocal<List<String>> L = ThreadLocal.withInitial(ArrayList::new);
-    private static List<String> l() {return L.get();}
-
-    private static Object[] p(
-            LAction init1, LAction finish1,
-            LAction init2, LAction finish2,
-            LBiFunction<String, String, String> function,
-            Consumer<Checks.Check<Throwable>> exChecker,
-            String... expectedLog
-    ) {
-        return new Object[]{init1, finish1, init2, finish2, function, exChecker, expectedLog};
-    }
-
-    private static final class MyError extends Error {
-        public MyError(String message) {super(message);}
-    }
-
-    public static final LBiFunction<String, String, String> FUNC    = (a1, a2) -> {
-        l().add("" + a1);
-        l().add("" + a2);
-        return a1 + a2;
-    };
-    public static final String                              ARG1    = "a1";
-    public static final String                              ARG2    = "a2";
-    public static final String                              ExEX_F  = "E1";
-    public static final LBiFunction<String, String, String> EX_FUNC = (a1, a2) -> {throw new Exception(ExEX_F);};
-    public static final LBiFunction<String, String, String> ERR_FUNC = (a1, a2) -> {throw new MyError(ExEX_F);};
-    public static final String                              i1Ex    = "C1.init";
-    public static final String                              i2Ex    = "C2.init";
-    public static final String                              f1Ex    = "C1.finalize";
-    public static final String                              f2Ex    = "C2.finalize";
-    public static final LAction                             i1      = () -> l().add(i1Ex);
-    public static final LAction                             i2      = () -> l().add(i2Ex);
-    public static final LAction                             f1      = () -> l().add(f1Ex);
-    public static final LAction                             f2      = () -> l().add(f2Ex);
-    public static final LAction                             EX_I1   = () -> {throw new Exception("I1");};
-    public static final LAction                             EX_F1   = () -> {throw new Exception("F1");};
-    public static final LAction                             EX_I2   = () -> {throw new Exception("I2");};
-    public static final LAction                             EX_F2   = () -> {throw new Exception("F2");};
-    public static final LAction                             ERR_I1  = () -> {throw new MyError("I1");};
-    public static final LAction                             ERR_F1  = () -> {throw new MyError("F1");};
-    public static final LAction                             ERR_I2  = () -> {throw new MyError("I2");};
-    public static final LAction                             ERR_F2  = () -> {throw new MyError("F2");};
-
-    //</editor-fold>
 
     @DataProvider(name = "exceptionHandling")
     public static Object[][] exceptionHandling() {
-        return new Object[][]{
-                p(i1, f1, i2, f2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, ExEX_F)
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuppressedEx),
-                  i1Ex, i2Ex, f2Ex, f1Ex
-                ),
-
-                //<editor-fold desc="single exception in context">
-                p(EX_I1, f1, i2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "I1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuppressedEx)
-                ),
-                p(i1, EX_F1, i2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "F1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuppressedEx),
-                  i1Ex, i2Ex, ARG1, ARG2, f2Ex
-                ),
-                p(i1, f1, EX_I2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "I2")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuppressedEx),
-                  i1Ex, f1Ex
-                ),
-                p(i1, f1, i2, EX_F2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "F2")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuppressedEx),
-                  i1Ex, i2Ex, ARG1, ARG2, f1Ex
-                ),
-                //</editor-fold>
-
-                //<editor-fold desc="both main function and finisher fails">
-                p(i1, EX_F1, i2, f2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::suppressedEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex, i2Ex, f2Ex
-                ),
-                p(i1, f1, i2, EX_F2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F2")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex, i2Ex, f1Ex
-                ),
-                //</editor-fold>
-
-                //<editor-fold desc="main function and both finisher fails">
-                p(i1, EX_F1, i2, EX_F2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F2")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  })
-                                  .check(e -> e.getSuppressed()[1], ch2 -> {
-                                      ch2.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                         .mustEx(Have::msgEqualEx, "F1")
-                                         .mustEx(Have::noCauseEx)
-                                         .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex, i2Ex
-                ),
-                //</editor-fold>
-
-                //<editor-fold desc="last initializer + first finisher fail">
-                p(i1, EX_F1, EX_I2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                  .mustEx(Have::msgEqualEx, "I2")
-                                  .mustEx(Have::noCauseEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex
-                ),
-                //</editor-fold>
-
-                //<editor-fold desc="Error always prevails">
-
-                p(i1, ERR_F1, EX_I2, f2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                  .mustEx(Have::msgEqualEx, "F1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::suppressedEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "I2")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex
-                ),
-
-                p(i1, ERR_F1, ERR_I2, f2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                  .mustEx(Have::msgEqualEx, "I2")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::suppressedEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex
-                ),
-
-                p(i1, EX_F1, ERR_I2, f2, EX_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                  .mustEx(Have::msgEqualEx, "I2")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::suppressedEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex
-                ),
-
-                p(i1, EX_F1, i2, f2, ERR_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::suppressedEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, Exception.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex, i2Ex, f2Ex
-                ),
-
-                p(i1, ERR_F1, i2, f2, ERR_FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                  .mustEx(Have::msgEqualEx, "E1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::suppressedEx)
-                                  .check(e -> e.getSuppressed()[0], ch -> {
-                                      ch.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                        .mustEx(Have::msgEqualEx, "F1")
-                                        .mustEx(Have::noCauseEx)
-                                        .mustEx(Have::noSuppressedEx);
-                                  }),
-                  i1Ex, i2Ex, f2Ex
-                ),
-
-                p(ERR_I1, f1, i2, f2, FUNC,
-                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, MyError.class)
-                                  .mustEx(Have::msgEqualEx, "I1")
-                                  .mustEx(Have::noCauseEx)
-                                  .mustEx(Have::noSuppressedEx)
-                ),
-
-                //</editor-fold>
-        };
+        return exceptionHandlingCases();
     }
 
     @Test(dataProvider = "exceptionHandling")
     public void combine_exceptionHandling_shoving(
-            LAction init1, LAction finish1,
-            LAction init2, LAction finish2,
+            LSupplier<Object> init1, LBiConsumer<Object, Throwable> finish1,
+            LSupplier<Object> init2, LBiConsumer<Object, Throwable> finish2,
             LBiFunction<String, String, String> function,
             Consumer<Checks.Check<Throwable>> exChecker,
             String... expectedLog
@@ -382,8 +124,8 @@ public class CallContextTest {
 
     @Test(dataProvider = "exceptionHandling")
     public void combine_exceptionHandling_nesting(
-            LAction init1, LAction finish1,
-            LAction init2, LAction finish2,
+            LSupplier<Object> init1, LBiConsumer<Object, Throwable> finish1,
+            LSupplier<Object> init2, LBiConsumer<Object, Throwable> finish2,
             LBiFunction<String, String, String> function,
             Consumer<Checks.Check<Throwable>> exChecker,
             String... expectedLog
@@ -411,29 +153,6 @@ public class CallContextTest {
         attest(l()).mustAEx(P::containExactlyEx, expectedLog);
     }
 
-    @Test(dataProvider = "exceptionHandling")
-    public void combine_exceptionHandling_finisherWithThrowableArg(
-            LAction init1, LAction finish1,
-            LAction init2, LAction finish2,
-            LBiFunction<String, String, String> function,
-            Consumer<Checks.Check<Throwable>> exChecker,
-            String... expectedLog
-    ) {
-        // given
-        l().clear();
-        var ctx1 = ctxCreate_finisherWithThrowableArg(init1, finish1);
-        var ctx2 = ctxCreate_finisherWithThrowableArg(init2, finish2);
-
-        // when
-        var check = attestThrownBy(() -> {
-            LBiFunction.shovingApply(ctx1, ctx2, ARG1, ARG2, function);
-        });
-
-        // then
-        exChecker.accept(check);
-        attest(l()).mustAEx(P::containExactlyEx, expectedLog);
-    }
-
     @Test
     public void asyncSupplier() {
         // given
@@ -456,7 +175,7 @@ public class CallContextTest {
         var               capturedL = l();
         capturedL.clear();
         var asyncCtx = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
-        var ctx1     = CallContexts.ctx(() -> capturedL.add(i1Ex), () -> capturedL.add(f1Ex));
+        var ctx1     = CallContexts.ctx(() -> capturedL.add(i1Log), () -> capturedL.add(f1Log));
         var future   = LSupplier.asyncGet(asyncCtx, function);
 
         // when
@@ -479,7 +198,6 @@ public class CallContextTest {
         // given
         var capturedL = l();
         capturedL.clear();
-        var asyncCtx = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1     = CallContexts.ctx(() -> new UnsupportedOperationException("unsupported"), obj -> {/*NOOP*/});
 
         // when
@@ -503,13 +221,13 @@ public class CallContextTest {
         var otherL    = LValue.<List<String>>objValue(null);
         var asyncCtx  = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1 = CallContexts.ctx(() -> {
-            capturedL.add(i1Ex);
+            capturedL.add(i1Log);
             l().clear();
-            l().add(i1Ex); // ThreadLocal means it will go to different list.
+            l().add(i1Log); // ThreadLocal means it will go to different list.
             otherL.value(l());
         }, () -> {
-            capturedL.add(f1Ex);
-            l().add(f1Ex); // ThreadLocal means it will go to different list.
+            capturedL.add(f1Log);
+            l().add(f1Log); // ThreadLocal means it will go to different list.
         });
 
         // when
@@ -518,8 +236,8 @@ public class CallContextTest {
 
         // then
 
-        attest(l()).mustAEx(P::containExactlyEx, i1Ex, "F", f1Ex);
-        attest(otherL.value()).mustAEx(P::containExactlyEx, i1Ex, f1Ex);
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, "F", f1Log);
+        attest(otherL.value()).mustAEx(P::containExactlyEx, i1Log, f1Log);
     }
 
     @Test(dataProvider = "simpleTest")
@@ -534,13 +252,13 @@ public class CallContextTest {
         var otherL    = LValue.<List<String>>objValue(null);
         var asyncCtx  = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1 = CallContexts.ctx(() -> {
-            capturedL.add(i1Ex);
+            capturedL.add(i1Log);
             l().clear();
-            l().add(i1Ex); // ThreadLocal means it will go to different list.
+            l().add(i1Log); // ThreadLocal means it will go to different list.
             otherL.value(l());
         }, () -> {
-            capturedL.add(f1Ex);
-            l().add(f1Ex); // ThreadLocal means it will go to different list.
+            capturedL.add(f1Log);
+            l().add(f1Log); // ThreadLocal means it will go to different list.
         });
 
         // when
@@ -549,10 +267,42 @@ public class CallContextTest {
 
         // then
 
-        attest(l()).mustAEx(P::containExactlyEx, i1Ex, f1Ex);
-        attest(otherL.value()).mustAEx(P::containExactlyEx, i1Ex, "F", f1Ex);
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, f1Log);
+        attest(otherL.value()).mustAEx(P::containExactlyEx, i1Log, "F", f1Log);
         attest(result).mustEx(Be::equalEx, a1 + a2);
 
+    }
+
+    @DataProvider(name = "simpleTest_statesData")
+    public static Object[][] simpleTest_statesData() {
+        return CallContextShared.simpleTest_statesData();
+    }
+
+    @Test(dataProvider = "simpleTest_statesData")
+    public void combine_state(String state1Value, String state2Value) {
+
+        // given
+        l().clear();
+        var ctx1 = CallContexts.ctx(() -> {
+            l().add(i1Log);
+            return state1Value;
+        }, (state, e) -> {
+            l().add(f1Log);
+            attest(state).mustBeSame(state1Value);
+        });
+        var ctx2= CallContexts.ctx(() -> {
+            l().add(i2Log);
+            return state2Value;
+        },  (state, e) -> {
+            l().add(f2Log);
+            attest(state).mustBeSame(state2Value);
+        });
+
+        // when
+        var result = LBiFunction.nestingApply(ctx1, ctx2, "1", "2", FUNC);
+
+        // then
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, i2Log, "1", "2", f2Log, f1Log);
     }
 
 }
