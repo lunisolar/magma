@@ -76,10 +76,9 @@ public interface LLongToDblFunction extends LongToDoubleFunction, MetaFunction, 
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LLongToDblFunction interface should be discouraged.
+	 * Calling this method via LLongToDblFunction interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default double applyAsDouble(long a) {
 		return this.applyAsDbl(a);
 	}

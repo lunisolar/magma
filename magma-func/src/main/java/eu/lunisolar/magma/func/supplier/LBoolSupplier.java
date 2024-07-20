@@ -74,10 +74,9 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LBoolSupplier interface should be discouraged.
+	 * Calling this method via LBoolSupplier interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default boolean getAsBoolean() {
 		return this.getAsBool();
 	}

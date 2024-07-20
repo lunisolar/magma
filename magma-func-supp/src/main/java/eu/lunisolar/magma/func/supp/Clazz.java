@@ -240,7 +240,6 @@ public final class Clazz {
 		return (CT) o;
 	}
 
-	@Deprecated
 	public static <CT extends Class<T>, CE extends Class<? super T>, T> CT supers(CE o) {
 		return (CT) o;
 	}

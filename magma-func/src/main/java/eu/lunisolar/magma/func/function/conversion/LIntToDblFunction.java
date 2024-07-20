@@ -76,10 +76,9 @@ public interface LIntToDblFunction extends IntToDoubleFunction, MetaFunction, Me
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LIntToDblFunction interface should be discouraged.
+	 * Calling this method via LIntToDblFunction interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default double applyAsDouble(int a) {
 		return this.applyAsDbl(a);
 	}

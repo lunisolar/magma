@@ -66,10 +66,9 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LAction interface should be discouraged.
+	 * Calling this method via LAction interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default void run() {
 		this.execute();
 	}

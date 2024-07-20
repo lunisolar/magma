@@ -76,10 +76,9 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LDblBinaryOperator interface should be discouraged.
+	 * Calling this method via LDblBinaryOperator interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default double applyAsDouble(double a1, double a2) {
 		return this.applyAsDbl(a1, a2);
 	}

@@ -78,10 +78,9 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LToDblFunction interface should be discouraged.
+	 * Calling this method via LToDblFunction interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default double applyAsDouble(T a) {
 		return this.applyAsDbl(a);
 	}

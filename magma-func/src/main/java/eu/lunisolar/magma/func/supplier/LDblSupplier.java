@@ -74,10 +74,9 @@ public interface LDblSupplier extends DoubleSupplier, MetaSupplier, MetaInterfac
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LDblSupplier interface should be discouraged.
+	 * Calling this method via LDblSupplier interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default double getAsDouble() {
 		return this.getAsDbl();
 	}

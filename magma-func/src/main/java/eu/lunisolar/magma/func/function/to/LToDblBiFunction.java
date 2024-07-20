@@ -76,10 +76,9 @@ public interface LToDblBiFunction<T1, T2> extends ToDoubleBiFunction<T1, T2>, Me
 
 	/**
 	 * Default implementation for JRE method that calls exception nesting method.
-	 * @deprecated Calling this method via LToDblBiFunction interface should be discouraged.
+	 * Calling this method via LToDblBiFunction interface should be discouraged.
 	 */
 	@Override
-	@Deprecated
 	default double applyAsDouble(T1 a1, T2 a2) {
 		return this.applyAsDbl(a1, a2);
 	}

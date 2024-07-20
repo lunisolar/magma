@@ -58,7 +58,6 @@ public interface Attest<SELF extends Attest<SELF, A>, A> extends FluentTrait<SEL
 	@Override
 	A get();
 
-	@Deprecated
 	@Nonnull
 	@Override
 	default SELF value(@Nullable A value) {
