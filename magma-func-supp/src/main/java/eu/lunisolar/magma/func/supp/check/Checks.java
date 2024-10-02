@@ -116,6 +116,10 @@ public final class Checks implements FluentSyntax {
 			return new CheckBool(value, name, factory, type, verbosity);
 		}
 
+		public @Nonnull CheckBool name(@Nullable String name) {
+			return new CheckBool(value, name, factory, type, verbosity);
+		}
+
 		public @Nonnull CheckBool verbosity(@Nonnull MsgVerbosity verbosity) {
 			Null.nonNullArg(verbosity, "verbosity");
 			return new CheckBool(value, name, factory, type, verbosity);
@@ -261,6 +265,10 @@ public final class Checks implements FluentSyntax {
 		}
 
 		public @Nonnull Check<T> value(@Nullable T value) {
+			return new Check(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull Check<T> name(@Nullable String name) {
 			return new Check(value, name, factory, type, verbosity);
 		}
 
@@ -456,6 +464,10 @@ public final class Checks implements FluentSyntax {
 			return new CheckByte(value, name, factory, type, verbosity);
 		}
 
+		public @Nonnull CheckByte name(@Nullable String name) {
+			return new CheckByte(value, name, factory, type, verbosity);
+		}
+
 		public @Nonnull CheckByte verbosity(@Nonnull MsgVerbosity verbosity) {
 			Null.nonNullArg(verbosity, "verbosity");
 			return new CheckByte(value, name, factory, type, verbosity);
@@ -601,6 +613,10 @@ public final class Checks implements FluentSyntax {
 		}
 
 		public @Nonnull CheckDbl value(double value) {
+			return new CheckDbl(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckDbl name(@Nullable String name) {
 			return new CheckDbl(value, name, factory, type, verbosity);
 		}
 
@@ -752,6 +768,10 @@ public final class Checks implements FluentSyntax {
 			return new CheckChar(value, name, factory, type, verbosity);
 		}
 
+		public @Nonnull CheckChar name(@Nullable String name) {
+			return new CheckChar(value, name, factory, type, verbosity);
+		}
+
 		public @Nonnull CheckChar verbosity(@Nonnull MsgVerbosity verbosity) {
 			Null.nonNullArg(verbosity, "verbosity");
 			return new CheckChar(value, name, factory, type, verbosity);
@@ -897,6 +917,10 @@ public final class Checks implements FluentSyntax {
 		}
 
 		public @Nonnull CheckSrt value(short value) {
+			return new CheckSrt(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckSrt name(@Nullable String name) {
 			return new CheckSrt(value, name, factory, type, verbosity);
 		}
 
@@ -1048,6 +1072,10 @@ public final class Checks implements FluentSyntax {
 			return new CheckFlt(value, name, factory, type, verbosity);
 		}
 
+		public @Nonnull CheckFlt name(@Nullable String name) {
+			return new CheckFlt(value, name, factory, type, verbosity);
+		}
+
 		public @Nonnull CheckFlt verbosity(@Nonnull MsgVerbosity verbosity) {
 			Null.nonNullArg(verbosity, "verbosity");
 			return new CheckFlt(value, name, factory, type, verbosity);
@@ -1196,6 +1224,10 @@ public final class Checks implements FluentSyntax {
 			return new CheckInt(value, name, factory, type, verbosity);
 		}
 
+		public @Nonnull CheckInt name(@Nullable String name) {
+			return new CheckInt(value, name, factory, type, verbosity);
+		}
+
 		public @Nonnull CheckInt verbosity(@Nonnull MsgVerbosity verbosity) {
 			Null.nonNullArg(verbosity, "verbosity");
 			return new CheckInt(value, name, factory, type, verbosity);
@@ -1341,6 +1373,10 @@ public final class Checks implements FluentSyntax {
 		}
 
 		public @Nonnull CheckLong value(long value) {
+			return new CheckLong(value, name, factory, type, verbosity);
+		}
+
+		public @Nonnull CheckLong name(@Nullable String name) {
 			return new CheckLong(value, name, factory, type, verbosity);
 		}
 
