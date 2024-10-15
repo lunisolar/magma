@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma.asserts;
 
+import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supplier.LSupplier;
@@ -26,12 +27,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static eu.lunisolar.magma.func.supp.check.Checks.arg;
-import static eu.lunisolar.magma.func.supp.check.Checks.check;
 
 /**
- * @param <SUT> SUT - System Under Test / State of Unit Test
+ * This class is intended to be used exclusively in a fluent way.
+ *
+ * @param <STAGE> Object representing the test stage. Could be just directly tested unit or more complex stage, with multiple tracked references and states.
  */
-public final class TestFlow<SUT> {
+public final class TestFlow<STAGE> implements TestFlowTraits.Junction<STAGE, TestFlow<STAGE>>, TestFlowTraits.Step<STAGE, TestFlow<STAGE>> {
 
 	public static final String DEFAULT_DESCRIPTION = "...";
 
@@ -49,50 +51,53 @@ public final class TestFlow<SUT> {
 
 	}
 
-	private final SUT sut;
+	private final STAGE stage;
 	private final LConsumer<String> logger;
 
-	private TestFlow(SUT sut, @Nonnull LConsumer<String> logger) {
+	private TestFlow(STAGE stage, @Nonnull LConsumer<String> logger) {
 		arg(logger, "logger").mustEx(Be::notNullEx);
-		this.sut = sut;
+		this.stage = stage;
 		this.logger = logger;
 	}
 
-	public static TestFlow<?> test(@Nonnull LConsumer<String> logger) {
+	private static @Nonnull TestFlow<?> testFlow(@Nonnull LConsumer<String> logger) {
 		arg(logger, "logger").mustEx(Be::notNullEx);
 		return new TestFlow<>(null, logger);
 	}
 
-	public static TestFlow<?> test(String description, @Nonnull LConsumer<String> logger) {
-		return test(logger).log("Test: " + description);
+	public static @Nonnull TestFlow<?> test(@Nonnull LConsumer<String> logger) {
+		return testFlow(logger);
 	}
 
-	public static TestFlow<?> test(String description) {
+	public static @Nonnull TestFlow<?> test(String description, @Nonnull LConsumer<String> logger) {
+		return testFlow(logger).log("Test: " + description);
+	}
+	public static @Nonnull TestFlow<?> test(String description) {
 		return test(description, System.out::println);
 	}
-
-	public static TestFlow<?> test() {
+	public static @Nonnull TestFlow<?> test() {
 		return test(DEFAULT_DESCRIPTION, System.out::println);
 	}
 
-	public static TestFlow<?> scenario(@Nonnull LConsumer<String> logger) {
-		arg(logger, "logger").mustEx(Be::notNullEx);
-		return new TestFlow<>(null, logger);
+	public static @Nonnull TestFlow<?> scenario(@Nonnull LConsumer<String> logger) {
+		return testFlow(logger);
+	}
+	public static @Nonnull TestFlow<?> scenario(String description, @Nonnull LConsumer<String> logger) {
+		return testFlow(logger).log("Test: " + description);
+	}
+	public static @Nonnull TestFlow<?> scenario(String description) {
+		return scenario(description, System.out::println);
+	}
+	public static @Nonnull TestFlow<?> scenario() {
+		return scenario(DEFAULT_DESCRIPTION, System.out::println);
 	}
 
-	public static TestFlow<?> scenario(String description, @Nonnull LConsumer<String> logger) {
-		return test(logger).log("Test: " + description);
+	@Override
+	public STAGE stage() {
+		return null;
 	}
 
-	public static TestFlow<?> scenario(String description) {
-		return test(description, System.out::println);
-	}
-
-	public static TestFlow<?> scenario() {
-		return test(DEFAULT_DESCRIPTION, System.out::println);
-	}
-
-	public TestFlow<SUT> log(String message) {
+	public @Nonnull TestFlow<STAGE> log(String message) {
 		arg(message, "message").mustEx(Be::notNullEx);
 		logger.accept(message);
 		return this;
@@ -100,19 +105,11 @@ public final class TestFlow<SUT> {
 
 	// <editor-fold desc="Given">
 
-	public <SUT> TestFlow<SUT> given(SUT given) {
-		return given(() -> given);
-	}
-
-	public <SUT> TestFlow<SUT> given(@Nullable String description, SUT given) {
-		return given(description, () -> given);
-	}
-
-	public <SUT> TestFlow<SUT> given(LSupplier<SUT> givenBlock) {
+	public <STAGE> @Nonnull TestFlow<STAGE> given(@Nonnull LSupplier<STAGE> givenBlock) {
 		return given(DEFAULT_DESCRIPTION, givenBlock);
 	}
 
-	public <SUT> TestFlow<SUT> given(@Nullable String description, LSupplier<SUT> givenBlock) {
+	public <SUT> @Nonnull TestFlow<SUT> given(@Nullable String description, @Nonnull LSupplier<SUT> givenBlock) {
 		log("Given: " + description);
 		arg(givenBlock).mustEx(Be::notNullEx);
 		var sut = givenBlock.shovingGet();
@@ -121,194 +118,54 @@ public final class TestFlow<SUT> {
 
 	// </editor-fold>
 
-	// <editor-fold desc="activity">
-
-	private TestFlow<SUT> activity(@Nonnull String activity, @Nullable String description, LConsumer<SUT> block) {
-		arg(activity).mustEx(Be::notNullEx);
-		log(activity + ": " + description);
-		arg(block).mustEx(Be::notNullEx);
-		block.shovingAccept(sut);
-		return this;
-	}
-
-	// </editor-fold>
-
-	public TestFlow<SUT> and(@Nullable String description) {
-		return and(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> and(@Nonnull LConsumer<SUT> block) {
-		return and(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> and(@Nullable String description, @Nonnull LConsumer<SUT> block) {
-		return activity("And", description, block);
-	}
-
-	public TestFlow<SUT> precondition(@Nullable String description) {
-		return precondition(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> precondition(LConsumer<SUT> block) {
-		return precondition(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> precondition(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Precondition", description, block);
-	}
-
-	public TestFlow<SUT> when(@Nullable String description) {
-		return when(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> when(LConsumer<SUT> block) {
-		return when(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> when(@Nullable String description, LConsumer<SUT> block) {
-		return activity("When", description, block);
-	}
-
-	public TestFlow<SUT> then(@Nullable String description) {
-		return then(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> then(LConsumer<SUT> block) {
-		return then(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> then(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Then", description, block);
-	}
-
-	public TestFlow<SUT> expect(@Nullable String description) {
-		return expect(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> expect(LConsumer<SUT> block) {
-		return expect(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> expect(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Expect", description, block);
-	}
-
-	public TestFlow<SUT> continuing() {
-		return continuing(DEFAULT_DESCRIPTION, sut -> {
-		});
-	}
-	public TestFlow<SUT> continuing(@Nullable String description) {
-		return continuing(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> continuing(@Nonnull LConsumer<SUT> block) {
-		return continuing(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> continuing(@Nullable String description, @Nonnull LConsumer<SUT> block) {
-		return activity("Continuing", description, block);
-	}
-
-	public TestFlow<SUT> aftermath(@Nullable String description) {
-		return aftermath(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> aftermath(LConsumer<SUT> block) {
-		return aftermath(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> aftermath(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Aftermath", description, block);
-	}
-
-	public TestFlow<SUT> sanityCheck(@Nullable String description) {
-		return sanityCheck(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> sanityCheck(LConsumer<SUT> block) {
-		return sanityCheck(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> sanityCheck(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Sanity check", description, block);
-	}
-
-	public TestFlow<SUT> setup(@Nullable String description) {
-		return setup(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> setup(LConsumer<SUT> block) {
-		return setup(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> setup(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Setup", description, block);
-	}
-
-	public TestFlow<SUT> cleanup(@Nullable String description) {
-		return cleanup(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> cleanup(LConsumer<SUT> block) {
-		return cleanup(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> cleanup(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Cleanup", description, block);
-	}
-
-	public TestFlow<SUT> await(@Nullable String description) {
-		return await(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> await(LConsumer<SUT> block) {
-		return await(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> await(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Await", description, block);
-	}
-
-	public TestFlow<SUT> meantime(@Nullable String description) {
-		return meantime(description, sut -> {
-		});
-	}
-	public TestFlow<SUT> meantime(LConsumer<SUT> block) {
-		return meantime(DEFAULT_DESCRIPTION, block);
-	}
-	public TestFlow<SUT> meantime(@Nullable String description, LConsumer<SUT> block) {
-		return activity("Meantime", description, block);
-	}
-
-	public TestFlow<SUT> flow(@Nonnull String phase, @Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
+	public @Nonnull TestFlow<STAGE> testFlow(@Nonnull String phase, @Nullable String description, LConsumer<TestFlowTraits.Step<STAGE, ?>> consumer) {
 		arg(phase).mustEx(Be::notNullEx);
 		log(phase + ": " + description);
 		consumer.shovingAccept(this);
 		return this;
 	}
 
-	public TestFlow<SUT> step(LConsumer<TestFlow<SUT>> consumer) {
-		return step(DEFAULT_DESCRIPTION, consumer);
-	}
-	public TestFlow<SUT> step(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		return flow("STEP", description, consumer);
+	public <STEP_STAGE> @Nonnull TestFlow<STAGE> testFlowWith(@Nonnull String phase, @Nullable String description, @Nonnull LSupplier<STEP_STAGE> stepStageBlock, LConsumer<TestFlowTraits.Step2<STAGE, STEP_STAGE, ?>> consumer) {
+		arg(phase).mustEx(Be::notNullEx);
+		log(phase + ": " + description);
+		var stepStage = stepStageBlock.shovingGet();
+		consumer.shovingAccept(new TS2<>() {
+
+			@Override
+			public STAGE stage() {
+				return TestFlow.this.stage();
+			}
+
+			@Override
+			public STEP_STAGE stepStage() {
+				return stepStage;
+			}
+
+			@Nonnull
+			public TS2<STAGE, STEP_STAGE> activity(@Nonnull String activity, @Nullable String description, @Nonnull LConsumer<STAGE> block) {
+				TestFlow.this.activity(activity, description, block);
+				return this;
+			}
+
+			@Nonnull
+			@Override
+			public TS2<STAGE, STEP_STAGE> activity(@Nonnull String activity, @Nullable String description, LBiConsumer<STAGE, STEP_STAGE> block) {
+				return activity(activity, description, stage -> block.accept(stage, stepStage));
+			}
+
+		});
+		return this;
 	}
 
-	public TestFlow<SUT> phase(LConsumer<TestFlow<SUT>> consumer) {
-		return step(DEFAULT_DESCRIPTION, consumer);
-	}
-	public TestFlow<SUT> phase(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		return flow("PHASE", description, consumer);
-	}
-
-	public TestFlow<SUT> focus(LConsumer<TestFlow<SUT>> consumer) {
-		return focus(DEFAULT_DESCRIPTION, consumer);
-	}
-	public TestFlow<SUT> focus(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		return flow("FOCUS", description, consumer);
+	public @Nonnull TestFlow<STAGE> activity(@Nonnull String activity, @Nullable String description, @Nonnull LConsumer<STAGE> block) {
+		arg(activity).mustEx(Be::notNullEx);
+		log(activity + ": " + description);
+		arg(block).mustEx(Be::notNullEx);
+		block.shovingAccept(stage);
+		return this;
 	}
 
-	public TestFlow<SUT> aspect(LConsumer<TestFlow<SUT>> consumer) {
-		return focus(DEFAULT_DESCRIPTION, consumer);
-	}
-	public TestFlow<SUT> aspect(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		return flow("ASPECT", description, consumer);
-	}
+	private static abstract class TS2<STAGE, STEP_STAGE> implements TestFlowTraits.Step2<STAGE, STEP_STAGE, TS2<STAGE, STEP_STAGE>> {
 
-	public TestFlow<SUT> junction(LConsumer<TestFlow<SUT>> consumer) {
-		return focus(DEFAULT_DESCRIPTION, consumer);
 	}
-	public TestFlow<SUT> junction(@Nullable String description, LConsumer<TestFlow<SUT>> consumer) {
-		return flow("JUNCTION", description, consumer);
-	}
-
 }

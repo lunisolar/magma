@@ -156,4 +156,27 @@ public class TestFlowTest {
         ).mustEx(Have::msgEqualEx, "Check/attest [?==''](param: 'otherValue'): <> must be equal to <otherValue>.");
     }
 
+    @Test public void stateWithOwnStage() {
+        var mainStage = new TestFlow.State() {
+            String someState = new String("11");
+        };
+        var stepStage = new TestFlow.State() {
+            String someState = new String("22");
+        };
+
+        test().given(()-> mainStage)
+                    .step(()-> stepStage, flow -> flow
+                        .when((main, step) -> {
+                            main.someState = "otherValue1";
+                            step.someState = "otherValue2";
+                        }).then((main, step) -> {
+                            attest(main.someState).mustEx(Be::equalEx, "otherValue1");
+                            attest(step.someState).mustEx(Be::equalEx, "otherValue2");
+                        })
+                );
+
+        attest(mainStage.someState).mustEx(Be::equalEx, "otherValue1");
+        attest(stepStage.someState).mustEx(Be::equalEx, "otherValue2");
+    }
+
 }

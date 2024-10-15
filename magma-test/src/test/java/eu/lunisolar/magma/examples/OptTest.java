@@ -116,7 +116,7 @@ public class OptTest {
 
     @Test
     public void iterator_not_empty() {
-        test().given(new Object() {
+        test().given(()-> new Object() {
             Integer value = Integer.valueOf(45);
             Opt<Integer> opt = Opt.obj(value);
             Iterator<Integer> iterator = opt.iterator();

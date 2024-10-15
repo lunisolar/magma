@@ -52,7 +52,7 @@ public class CallContextsTest {
     @Test
     public void lockContextWithTimeout() {
 
-        test().given(new TestFlow.Stage() {
+        test().given(()-> new TestFlow.Stage() {
             final Lock lock = new ReentrantLock();
             final CallContext callContext = CallContexts.lockContext(lock, 100, TimeUnit.MILLISECONDS);
             LIntSingle.Mut<?> count = LIntSingle.atomicOf();
@@ -97,7 +97,7 @@ public class CallContextsTest {
     @Test
     public void semaphoreContext() {
 
-        test().given(new TestFlow.Stage() {
+        test().given(()-> new TestFlow.Stage() {
             final Semaphore semaphore = new Semaphore(1);
             final CallContext callContext = CallContexts.semaphoreContext(1, semaphore, 100, TimeUnit.MILLISECONDS);
             LIntSingle.Mut<?> count = LIntSingle.atomicOf();
