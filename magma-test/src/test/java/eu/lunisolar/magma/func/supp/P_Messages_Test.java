@@ -63,6 +63,9 @@ import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
         attest(Is.nullOrEmptyEx(new TreeMap<>(Map.of(1, 1, 2, 2)))).mustBeEqual("Map <{1=1, 2=2}> must be null or empty (actual: 2).");
         attest(Is.nullOrEmptyEx((Map) null)).mustBeNull();
         attest(Is.singletonEx(new TreeMap<>(Map.of(1, 1, 2, 2)))).mustBeEqual("Map <{1=1, 2=2}> must be exactly of size 1 (singleton; actual: 2).");
+
+        attest(P.noMsgEx(new Exception("1"))).mustBeEqual("Exception <java.lang.Exception: 1> must NOT have message (any).");
+        attest(P.msgPresentEx(new Exception())).mustBeEqual("Exception <java.lang.Exception> must have message (any).");
     }
 
 

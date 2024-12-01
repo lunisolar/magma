@@ -3296,27 +3296,27 @@ public class P2 implements FluentSyntax {
 		return Predicates.msgNotEqualEx(e, text);
 	}
 
-	/** Predicate: Exception <%s> must have message equal to <'%s>'.*/
-	public static <MP1, MP2> boolean noMsg(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(e, "e");
-		return Predicates.noMsg(e);
-	}
-
-	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'.*/
-	public static <MP1, MP2> @Nullable String noMsgEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(e, "e");
-		return Predicates.noMsgEx(e);
-	}
-	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** Predicate: Exception <%s> must have message (any).*/
 	public static <MP1, MP2> boolean msgPresent(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgPresent(e);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message (any).*/
 	public static <MP1, MP2> @Nullable String msgPresentEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgPresentEx(e);
+	}
+	/** Predicate: Exception <%s> must NOT have message (any).*/
+	public static <MP1, MP2> boolean noMsg(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.noMsg(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message (any).*/
+	public static <MP1, MP2> @Nullable String noMsgEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.noMsgEx(e);
 	}
 
 	/** Predicate: Exception <%s> must have message starting with <'%s>'.*/

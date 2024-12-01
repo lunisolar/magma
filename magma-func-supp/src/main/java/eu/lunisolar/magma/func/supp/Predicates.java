@@ -4017,27 +4017,27 @@ public class Predicates implements FluentSyntax {
 		return msgNotEqual(e, text) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e, text);
 	}
 
-	/** Predicate: Exception <%s> must have message equal to <'%s>'.*/
-	public static boolean noMsg(@Nonnull Throwable e) {
-		Null.nonNullArg(e, "e");
-		return e.getMessage() == null;
-	}
-
-	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'.*/
-	public static @Nullable String noMsgEx(@Nonnull Throwable e) {
-		Null.nonNullArg(e, "e");
-		return noMsg(e) ? null : String.format("Exception <%s> must have message equal to <'%s>'.", e);
-	}
-	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** Predicate: Exception <%s> must have message (any).*/
 	public static boolean msgPresent(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
-		return !noMsg(e);
+		return e.getMessage() != null;
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message (any).*/
 	public static @Nullable String msgPresentEx(@Nonnull Throwable e) {
 		Null.nonNullArg(e, "e");
-		return msgPresent(e) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e);
+		return msgPresent(e) ? null : String.format("Exception <%s> must have message (any).", e);
+	}
+	/** Predicate: Exception <%s> must NOT have message (any).*/
+	public static boolean noMsg(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return !msgPresent(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message (any).*/
+	public static @Nullable String noMsgEx(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return noMsg(e) ? null : String.format("Exception <%s> must NOT have message (any).", e);
 	}
 
 	/** Predicate: Exception <%s> must have message starting with <'%s>'.*/
