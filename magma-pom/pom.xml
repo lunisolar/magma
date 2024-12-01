@@ -36,8 +36,8 @@
     <properties>
 
         <!-- Java -->
-        <java-version>11</java-version>
-        <java-target-version>11</java-target-version>
+        <java-version>17</java-version>
+        <java-target-version>17</java-target-version>
         <jmh.version>1.21</jmh.version>
 
         <!-- Maven -->

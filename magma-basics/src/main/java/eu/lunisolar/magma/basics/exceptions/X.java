@@ -108,8 +108,10 @@ public class X implements FluentSyntax {
     public static @Nonnull ArithmeticException ar()                             { return new ArithmeticException(); }
     public static @Nonnull ArithmeticException ar(String message)               { return new ArithmeticException(message);}
 
-    public static @Nonnull NoSuchElementException noSuchElement()               { return new NoSuchElementException(); }
-    public static @Nonnull NoSuchElementException noSuchElement(String message) { return new NoSuchElementException(message);}
+    public static @Nonnull NoSuchElementException noSuchElement()                                {return new NoSuchElementException();}
+    public static @Nonnull NoSuchElementException noSuchElement(String message)                  {return new NoSuchElementException(message);}
+    public static @Nonnull NoSuchElementException noSuchElement(String message, Throwable cause) {return new NoSuchElementException(message, cause);}
+    public static @Nonnull NoSuchElementException noSuchElement(Throwable cause)                 {return new NoSuchElementException(cause);}
 
     public static final WrapingHandler<AssertionError> assertion = handler(AssertionError.class, AssertionError::new, AssertionError::new);
 
