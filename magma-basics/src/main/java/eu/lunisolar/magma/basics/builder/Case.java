@@ -19,6 +19,7 @@
 package eu.lunisolar.magma.basics.builder;
 
 import eu.lunisolar.magma.basics.Null;
+import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
@@ -26,7 +27,7 @@ import javax.annotation.concurrent.ThreadSafe;
 
 @Immutable
 @ThreadSafe
-public final class Case<P, F> {
+public final class Case<P extends MetaFunctionalInterface, F extends MetaFunctionalInterface> {
 
     private final P casePredicate;
     private final F caseFunction;
@@ -39,7 +40,7 @@ public final class Case<P, F> {
     }
 
     @Nonnull
-    public static <P, F> Case<P, F> of(@Nonnull P casePredicate, @Nonnull F caseFunction) {
+    public static <P extends MetaFunctionalInterface, F extends MetaFunctionalInterface> Case<P, F> of(@Nonnull P casePredicate, @Nonnull F caseFunction) {
         return new Case<>(casePredicate, caseFunction);
     }
 

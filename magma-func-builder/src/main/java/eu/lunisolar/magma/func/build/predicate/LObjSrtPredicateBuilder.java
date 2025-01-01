@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -103,22 +104,38 @@ public final class LObjSrtPredicateBuilder<T> extends PerCaseBuilderWithBoolProd
 		return fluentCtx();
 	}
 
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> LObjSrtPredicateBuilder<T> forValue(T v1, short v2, LObjSrtPredicate<V> function) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2) -> Objects.equals(a1, v1) && a2 == v2);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> PartialCaseWithBoolProduct.The<LObjSrtPredicateBuilder<T>, LObjSrtPredicate<T>, LObjSrtPredicate<T>> forValue(T v1, short v2) {
+		return partialCaseFactoryMethod((a1, a2) -> Objects.equals(a1, v1) && a2 == v2);
+	}
+
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V extends T> LObjSrtPredicateBuilder<T> casesOf(Class<V> argC1, Consumer<LObjSrtPredicateBuilder<V>> pcpConsumer) {
 		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
-
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LObjSrtPredicateBuilder<T> aCase(Class<V> argC1, LObjSrtPredicate<V> function) {
+	public <V extends T> LObjSrtPredicateBuilder<T> forClass(Class<V> argC1, LObjSrtPredicate<V> function) {
 		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
-
 		pc.evaluate(function);
 		return fluentCtx();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> PartialCaseWithBoolProduct.The<LObjSrtPredicateBuilder<T>, LObjSrtPredicate<T>, LObjSrtPredicate<T>> forClass(Class<V> argC1) {
+		return partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

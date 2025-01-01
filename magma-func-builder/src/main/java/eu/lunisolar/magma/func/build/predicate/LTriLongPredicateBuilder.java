@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -101,6 +102,18 @@ public final class LTriLongPredicateBuilder extends PerCaseBuilderWithBoolProduc
 		}
 		this.handling = handling;
 		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public LTriLongPredicateBuilder forValue(long v1, long v2, long v3, LTriLongPredicate function) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> a1 == v1 && a2 == v2 && a3 == v3);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public PartialCaseWithBoolProduct.The<LTriLongPredicateBuilder, LTriLongPredicate, LTriLongPredicate> forValue(long v1, long v2, long v3) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> a1 == v1 && a2 == v2 && a3 == v3);
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

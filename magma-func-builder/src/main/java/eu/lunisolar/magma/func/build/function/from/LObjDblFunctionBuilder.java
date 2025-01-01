@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -103,22 +104,38 @@ public final class LObjDblFunctionBuilder<T, R> extends PerCaseBuilderWithProduc
 		return fluentCtx();
 	}
 
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> LObjDblFunctionBuilder<T, R> forValue(T v1, double v2, LObjDblFunction<V, R> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> Objects.equals(a1, v1) && a2 == v2);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> PartialCaseWithProduct.The<LObjDblFunctionBuilder<T, R>, LObjDblPredicate<T>, LObjDblFunction<T, R>, R> forValue(T v1, double v2) {
+		return partialCaseFactoryMethod((a1, a2) -> Objects.equals(a1, v1) && a2 == v2);
+	}
+
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V extends T> LObjDblFunctionBuilder<T, R> casesOf(Class<V> argC1, Consumer<LObjDblFunctionBuilder<V, R>> pcpConsumer) {
 		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
-
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LObjDblFunctionBuilder<T, R> aCase(Class<V> argC1, LObjDblFunction<V, R> function) {
+	public <V extends T> LObjDblFunctionBuilder<T, R> forClass(Class<V> argC1, LObjDblFunction<V, R> function) {
 		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
-
 		pc.evaluate(function);
 		return fluentCtx();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> PartialCaseWithProduct.The<LObjDblFunctionBuilder<T, R>, LObjDblPredicate<T>, LObjDblFunction<T, R>, R> forClass(Class<V> argC1) {
+		return partialCaseFactoryMethod((a1, a2) -> (argC1 == null || argC1.isInstance(a1)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -103,22 +104,38 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 		return fluentCtx();
 	}
 
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> LTernaryOperatorBuilder<T> forValue(T v1, T v2, T v3, LTernaryOperator<V> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> Objects.equals(a1, v1) && Objects.equals(a2, v2) && Objects.equals(a3, v3));
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> PartialCaseWithProduct.The<LTernaryOperatorBuilder<T>, LTriPredicate<T, T, T>, LTernaryOperator<T>, T> forValue(T v1, T v2, T v3) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> Objects.equals(a1, v1) && Objects.equals(a2, v2) && Objects.equals(a3, v3));
+	}
+
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V extends T> LTernaryOperatorBuilder<T> casesOf(Class<V> argC1, Class<V> argC2, Class<V> argC3, Consumer<LTernaryOperatorBuilder<V>> pcpConsumer) {
 		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
-
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LTernaryOperatorBuilder<T> aCase(Class<V> argC1, Class<V> argC2, Class<V> argC3, LTernaryOperator<V> function) {
+	public <V extends T> LTernaryOperatorBuilder<T> forClass(Class<V> argC1, Class<V> argC2, Class<V> argC3, LTernaryOperator<V> function) {
 		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
-
 		pc.evaluate(function);
 		return fluentCtx();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> PartialCaseWithProduct.The<LTernaryOperatorBuilder<T>, LTriPredicate<T, T, T>, LTernaryOperator<T>, T> forClass(Class<V> argC1, Class<V> argC2, Class<V> argC3) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

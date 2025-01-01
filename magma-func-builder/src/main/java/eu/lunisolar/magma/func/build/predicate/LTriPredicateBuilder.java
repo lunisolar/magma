@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -103,22 +104,38 @@ public final class LTriPredicateBuilder<T1, T2, T3> extends PerCaseBuilderWithBo
 		return fluentCtx();
 	}
 
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V1 extends T1, V2 extends T2, V3 extends T3> LTriPredicateBuilder<T1, T2, T3> forValue(T1 v1, T2 v2, T3 v3, LTriPredicate<V1, V2, V3> function) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> Objects.equals(a1, v1) && Objects.equals(a2, v2) && Objects.equals(a3, v3));
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V1 extends T1, V2 extends T2, V3 extends T3> PartialCaseWithBoolProduct.The<LTriPredicateBuilder<T1, T2, T3>, LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>> forValue(T1 v1, T2 v2, T3 v3) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> Objects.equals(a1, v1) && Objects.equals(a2, v2) && Objects.equals(a3, v3));
+	}
+
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V1 extends T1, V2 extends T2, V3 extends T3> LTriPredicateBuilder<T1, T2, T3> casesOf(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Consumer<LTriPredicateBuilder<V1, V2, V3>> pcpConsumer) {
 		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
-
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V1 extends T1, V2 extends T2, V3 extends T3> LTriPredicateBuilder<T1, T2, T3> aCase(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, LTriPredicate<V1, V2, V3> function) {
+	public <V1 extends T1, V2 extends T2, V3 extends T3> LTriPredicateBuilder<T1, T2, T3> forClass(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, LTriPredicate<V1, V2, V3> function) {
 		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
-
 		pc.evaluate(function);
 		return fluentCtx();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V1 extends T1, V2 extends T2, V3 extends T3> PartialCaseWithBoolProduct.The<LTriPredicateBuilder<T1, T2, T3>, LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>> forClass(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

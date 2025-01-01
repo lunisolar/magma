@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -103,22 +104,38 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 		return fluentCtx();
 	}
 
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> LToByteFunctionBuilder<T> forValue(T v, LToByteFunction<V> function) {
+		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a -> Objects.equals(a, v));
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> PartialCaseWithByteProduct.The<LToByteFunctionBuilder<T>, LPredicate<T>, LToByteFunction<T>> forValue(T v) {
+		return partialCaseFactoryMethod(a -> Objects.equals(a, v));
+	}
+
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V extends T> LToByteFunctionBuilder<T> casesOf(Class<V> argC, Consumer<LToByteFunctionBuilder<V>> pcpConsumer) {
 		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
-
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LToByteFunctionBuilder<T> aCase(Class<V> argC, LToByteFunction<V> function) {
+	public <V extends T> LToByteFunctionBuilder<T> forClass(Class<V> argC, LToByteFunction<V> function) {
 		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
-
 		pc.evaluate(function);
 		return fluentCtx();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> PartialCaseWithByteProduct.The<LToByteFunctionBuilder<T>, LPredicate<T>, LToByteFunction<T>> forClass(Class<V> argC) {
+		return partialCaseFactoryMethod(a -> (argC == null || argC.isInstance(a)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

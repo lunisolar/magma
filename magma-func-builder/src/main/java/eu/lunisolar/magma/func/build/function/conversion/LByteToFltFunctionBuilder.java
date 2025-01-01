@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -101,6 +102,18 @@ public final class LByteToFltFunctionBuilder extends PerCaseBuilderWithFltProduc
 		}
 		this.handling = handling;
 		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public LByteToFltFunctionBuilder forValue(byte v, LByteToFltFunction function) {
+		PartialCaseWithFltProduct.The pc = partialCaseFactoryMethod(a -> a == v);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public PartialCaseWithFltProduct.The<LByteToFltFunctionBuilder, LBytePredicate, LByteToFltFunction> forValue(byte v) {
+		return partialCaseFactoryMethod(a -> a == v);
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

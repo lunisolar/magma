@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -103,22 +104,38 @@ public final class LTieIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduc
 		return fluentCtx();
 	}
 
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> LTieIntFunctionBuilder<T> forValue(T v1, int v2, int v3, LTieIntFunction<V> function) {
+		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> Objects.equals(a1, v1) && a2 == v2 && a3 == v3);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V extends T> PartialCaseWithIntProduct.The<LTieIntFunctionBuilder<T>, LObjBiIntPredicate<T>, LTieIntFunction<T>> forValue(T v1, int v2, int v3) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> Objects.equals(a1, v1) && a2 == v2 && a3 == v3);
+	}
+
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V extends T> LTieIntFunctionBuilder<T> casesOf(Class<V> argC1, Consumer<LTieIntFunctionBuilder<V>> pcpConsumer) {
 		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)));
-
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V extends T> LTieIntFunctionBuilder<T> aCase(Class<V> argC1, LTieIntFunction<V> function) {
+	public <V extends T> LTieIntFunctionBuilder<T> forClass(Class<V> argC1, LTieIntFunction<V> function) {
 		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)));
-
 		pc.evaluate(function);
 		return fluentCtx();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V extends T> PartialCaseWithIntProduct.The<LTieIntFunctionBuilder<T>, LObjBiIntPredicate<T>, LTieIntFunction<T>> forClass(Class<V> argC1) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> (argC1 == null || argC1.isInstance(a1)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

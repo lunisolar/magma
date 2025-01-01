@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -103,26 +104,45 @@ public final class LQuintPredicateBuilder<T1, T2, T3, T4, T5> extends PerCaseBui
 		return fluentCtx();
 	}
 
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> LQuintPredicateBuilder<T1, T2, T3, T4, T5> forValue(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, LQuintPredicate<V1, V2, V3, V4, V5> function) {
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> Objects.equals(a1, v1) && Objects.equals(a2, v2) && Objects.equals(a3, v3) && Objects.equals(a4, v4) && Objects.equals(a5, v5));
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> PartialCaseWithBoolProduct.The<LQuintPredicateBuilder<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>> forValue(T1 v1,
+			T2 v2, T3 v3, T4 v4, T5 v5) {
+		return partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> Objects.equals(a1, v1) && Objects.equals(a2, v2) && Objects.equals(a3, v3) && Objects.equals(a4, v4) && Objects.equals(a5, v5));
+	}
+
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> LQuintPredicateBuilder<T1, T2, T3, T4, T5> casesOf(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Class<V5> argC5,
 			Consumer<LQuintPredicateBuilder<V1, V2, V3, V4, V5>> pcpConsumer) {
 		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3))
 				&& (argC4 == null || argC4.isInstance(a4)) && (argC5 == null || argC5.isInstance(a5)));
-
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
 
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
-	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> LQuintPredicateBuilder<T1, T2, T3, T4, T5> aCase(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Class<V5> argC5,
+	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> LQuintPredicateBuilder<T1, T2, T3, T4, T5> forClass(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Class<V5> argC5,
 			LQuintPredicate<V1, V2, V3, V4, V5> function) {
 		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3))
 				&& (argC4 == null || argC4.isInstance(a4)) && (argC5 == null || argC5.isInstance(a5)));
-
 		pc.evaluate(function);
 		return fluentCtx();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> PartialCaseWithBoolProduct.The<LQuintPredicateBuilder<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>> forClass(
+			Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Class<V5> argC5) {
+		return partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4))
+				&& (argC5 == null || argC5.isInstance(a5)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

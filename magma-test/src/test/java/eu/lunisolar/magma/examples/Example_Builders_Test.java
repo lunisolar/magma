@@ -19,19 +19,18 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.func.action.LAction;
+import eu.lunisolar.magma.func.build.action.LActionBuilder;
 import eu.lunisolar.magma.func.build.function.to.LToIntBiFunctionBuilder;
 import eu.lunisolar.magma.func.build.function.to.LToIntFunctionBuilder;
 import eu.lunisolar.magma.func.build.function.to.LToIntTriFunctionBuilder;
-import eu.lunisolar.magma.func.build.std.RunnableBuilder;
 import eu.lunisolar.magma.func.function.to.LToIntBiFunction;
 import eu.lunisolar.magma.func.function.to.LToIntFunction;
 import eu.lunisolar.magma.func.function.to.LToIntTriFunction;
-import eu.lunisolar.magma.func.predicate.LTriPredicate;
 import eu.lunisolar.magma.func.supp.Be;
 import eu.lunisolar.magma.func.supp.Have;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.atomic.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static eu.lunisolar.magma.asserts.func.FuncAttests.attestToIntBiFunc;
 import static eu.lunisolar.magma.asserts.func.FuncAttests.attestToIntFunc;
@@ -77,7 +76,7 @@ public class Example_Builders_Test {
 
         LToIntFunction<Object> function = LToIntFunctionBuilder
                 .toIntFunction()
-                .aCase(Number.class, Number::intValue)
+                .forClass(Number.class, Number::intValue)
                 .inCase(String.class::isInstance).evaluate(o -> Integer.parseInt((String) o))
                 .otherwise(o -> throwThe(new IllegalArgumentException()))
                 .build();
@@ -98,11 +97,15 @@ public class Example_Builders_Test {
         //>example<
         LToIntBiFunction<Object, Object> function = LToIntBiFunctionBuilder
                 .toIntBiFunction()
+                .forValue(100, 200, (_1, _2) -> 999)
+                .forValue(101, 200).produce(997)
+                .forClass(Short.class, null, (_1, _2) -> 998)
+                .forClass(Character.class, null).produce(44)
                 .casesOf(Long.class, null, pcp -> pcp
                         .inCase((l, a2) -> isInIntRange((long) l)).evaluate((a1, a2) -> a1.intValue())
                         .otherwise((l, o) -> throwThe(new IllegalArgumentException("To large for int."))))
                 .aCase((s, a2) -> s instanceof Short, (s, a2) -> ((Short) s).intValue())
-                .aCase(Number.class, null, (a1, a2) -> a1.intValue())
+                .forClass(Number.class, null, (a1, a2) -> a1.intValue())
                 .inCase((s, a2) -> s instanceof String).evaluate((s, a2) -> Integer.parseInt((String) s))
                 .otherwise((s, a2) -> throwThe(new IllegalArgumentException()))
                 .build();
@@ -135,6 +138,12 @@ public class Example_Builders_Test {
                 .toEqualTo(44)
                 .doesApplyAsInt(3_000L, null)
                 .toEqualTo(3000)
+                .doesApplyAsInt(100, 200)
+                .toEqualTo(999)
+                .doesApplyAsInt((short)100, 200)
+                .toEqualTo(998)
+                .doesApplyAsInt(101, 200)
+                .toEqualTo(997)
                 .doesApplyAsInt(3_000_000_000L, null)
                 .withException(a -> a.mustEx(Be::instanceOfEx, IllegalArgumentException.class).mustEx(Have::msgEqualEx, "To large for int."))
                 .doesApplyAsInt("-4", null)
@@ -197,12 +206,12 @@ public class Example_Builders_Test {
     @Test
     public void testBuildPrimitive() {
 
-        Runnable function = RunnableBuilder.actionFrom(b -> b
+        Runnable function = LActionBuilder.actionFrom(b -> b
                 .aCase(() -> GLOBAL_STATE.get(), () -> GLOBAL_STATE.set(false))
         );
 
         attest(function).mustEx(Be::instanceOfEx, Runnable.class)
-                        .mustEx(Be::notInstanceOfEx, LAction.class);
+                        .mustEx(Be::instanceOfEx, LAction.class);
 
     }
     //>example<

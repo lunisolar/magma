@@ -18,8 +18,11 @@
 
 package eu.lunisolar.magma.basics.builder;
 
+import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
+
 import javax.annotation.Nonnull;
-import java.util.function.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Abstract implementation of a per case builder of a complex implementation of a functional interface.
@@ -32,7 +35,7 @@ import java.util.function.*;
  * the input data. This default _eventually_ behavior can be overridden.
  */
 @SuppressWarnings("unchecked")
-public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithProduct<PCB, P, F, R, PC>, P, F, R, PC extends PartialCaseWithProduct<PC, PCB, P, F, R>> extends PerCaseBuilder<PCB, P, F, PC> {
+public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithProduct<PCB, P, F, R, PC>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface, R, PC extends PartialCaseWithProduct<PC, PCB, P, F, R>> extends PerCaseBuilder<PCB, P, F, PC> {
 
     protected @Nonnull final Function<R, F> directToFunction;
 
@@ -55,7 +58,7 @@ public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithPr
         return (PC) new PartialCaseWithProduct(PerCaseBuilderWithProduct.this, casePredicate, subCasesFactory);
     }
 
-    public static abstract class Base<SELF extends Base<SELF, P, F, R>, P, F, R> extends PerCaseBuilderWithProduct<SELF, P, F, R, PartialCaseWithProduct.The<SELF, P, F, R>> {
+    public static abstract class Base<SELF extends Base<SELF, P, F, R>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface, R> extends PerCaseBuilderWithProduct<SELF, P, F, R, PartialCaseWithProduct.The<SELF, P, F, R>> {
         protected Base(@Nonnull F eventually, @Nonnull Function<R, F> directToFunction, @Nonnull Supplier<SELF> subCasesFactory) {
             super(eventually, directToFunction, subCasesFactory);
         }

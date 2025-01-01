@@ -29,6 +29,8 @@ import java.util.function.*;
 
 import eu.lunisolar.magma.basics.builder.*;
 
+import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
+
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
@@ -56,7 +58,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * the input data. This default _otherwise_ behavior can be overridden.
  */
 @SuppressWarnings("unchecked")
-public abstract class PerCaseBuilderWithCharProduct<PCB extends PerCaseBuilderWithCharProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithCharProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
+public abstract class PerCaseBuilderWithCharProduct<PCB extends PerCaseBuilderWithCharProduct<PCB, P, F, PC>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface, PC extends PartialCaseWithCharProduct<PC, PCB, P, F>>
+		extends
+			PerCaseBuilder<PCB, P, F, PC> {
 
 	protected @Nonnull final LCharFunction<F> directToFunction;
 
@@ -79,7 +83,7 @@ public abstract class PerCaseBuilderWithCharProduct<PCB extends PerCaseBuilderWi
 		return (PC) new PartialCaseWithCharProduct(fluentCtx(), casePredicate, subCasesFactory);
 	}
 
-	public static abstract class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithCharProduct<SELF, P, F, PartialCaseWithCharProduct.The<SELF, P, F>> {
+	public static abstract class Base<SELF extends Base<SELF, P, F>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface> extends PerCaseBuilderWithCharProduct<SELF, P, F, PartialCaseWithCharProduct.The<SELF, P, F>> {
 		protected Base(@Nonnull F otherwise, @Nonnull LCharFunction<F> directToFunction, @Nonnull Supplier<SELF> subCasesFactory) {
 			super(otherwise, directToFunction, subCasesFactory);
 		}

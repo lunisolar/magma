@@ -20,10 +20,13 @@ package eu.lunisolar.magma.basics.builder;
 
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
+import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
 
 import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Abstract implementation of a per case builder of a complex implementation of a functional interface.
@@ -36,7 +39,7 @@ import java.util.function.*;
  * the input data. This default _otherwise_ behavior can be overridden.
  */
 @SuppressWarnings("unchecked")
-public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, P, F, PC extends PartialCase<PC, PCB, P, F>> implements Fluent<PCB> {
+public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface, PC extends PartialCase<PC, PCB, P, F>> implements Fluent<PCB> {
 
     protected @Nonnull final List<Case<P, F>> cases = new ArrayList<>();
     protected @Nonnull final Supplier<PCB> subCasesFactory;
@@ -89,7 +92,7 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, 
         return (PC) new PartialCase(PerCaseBuilder.this, casePredicate, subCasesFactory);
     }
 
-    public static abstract class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilder<SELF, P, F, PartialCase.The<SELF, P, F>> {
+    public static abstract class Base<SELF extends Base<SELF, P, F>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface> extends PerCaseBuilder<SELF, P, F, PartialCase.The<SELF, P, F>> {
         public Base(@Nonnull F otherwise, @Nonnull Supplier<SELF> subCasesFactory) {
             super(otherwise, subCasesFactory);
         }

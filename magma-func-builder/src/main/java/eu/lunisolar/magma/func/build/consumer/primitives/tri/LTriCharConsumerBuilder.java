@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -101,6 +102,18 @@ public final class LTriCharConsumerBuilder extends PerCaseBuilder.Base<LTriCharC
 		}
 		this.handling = handling;
 		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public LTriCharConsumerBuilder forValue(char v1, char v2, char v3, LTriCharConsumer function) {
+		PartialCase.The pc = partialCaseFactoryMethod((a1, a2, a3) -> a1 == v1 && a2 == v2 && a3 == v3);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public PartialCase.The<LTriCharConsumerBuilder, LTriCharPredicate, LTriCharConsumer> forValue(char v1, char v2, char v3) {
+		return partialCaseFactoryMethod((a1, a2, a3) -> a1 == v1 && a2 == v2 && a3 == v3);
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

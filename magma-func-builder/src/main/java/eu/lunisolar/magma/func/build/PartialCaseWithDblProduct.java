@@ -29,6 +29,8 @@ import java.util.function.*;
 
 import eu.lunisolar.magma.basics.builder.*;
 
+import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
+
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR
@@ -47,7 +49,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 @Immutable
 @ThreadSafe
-public class PartialCaseWithDblProduct<SELF extends PartialCaseWithDblProduct<SELF, PCB, P, F>, PCB extends PerCaseBuilderWithDblProduct<PCB, P, F, SELF>, P, F> extends PartialCase<SELF, PCB, P, F> {
+public class PartialCaseWithDblProduct<SELF extends PartialCaseWithDblProduct<SELF, PCB, P, F>, PCB extends PerCaseBuilderWithDblProduct<PCB, P, F, SELF>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface>
+		extends
+			PartialCase<SELF, PCB, P, F> {
 
 	public PartialCaseWithDblProduct(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
 		super(superContext, casePredicate, subCasesFactory);
@@ -58,7 +62,7 @@ public class PartialCaseWithDblProduct<SELF extends PartialCaseWithDblProduct<SE
 		return this.evaluate(superContext().directToFunction.apply(directValue));
 	}
 
-	public static final class The<PCB extends PerCaseBuilderWithDblProduct<PCB, P, F, The<PCB, P, F>>, P, F> extends PartialCaseWithDblProduct<The<PCB, P, F>, PCB, P, F> {
+	public static final class The<PCB extends PerCaseBuilderWithDblProduct<PCB, P, F, The<PCB, P, F>>, P extends MetaFunctionalInterface, F extends MetaFunctionalInterface> extends PartialCaseWithDblProduct<The<PCB, P, F>, PCB, P, F> {
 		public The(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
 			super(superContext, casePredicate, subCasesFactory);
 		}

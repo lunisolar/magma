@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -101,6 +102,18 @@ public final class LBiBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 		}
 		this.handling = handling;
 		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public LBiBoolFunctionBuilder<R> forValue(boolean v1, boolean v2, LBiBoolFunction<R> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((a1, a2) -> a1 == v1 && a2 == v2);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public PartialCaseWithProduct.The<LBiBoolFunctionBuilder<R>, LLogicalBinaryOperator, LBiBoolFunction<R>, R> forValue(boolean v1, boolean v2) {
+		return partialCaseFactoryMethod((a1, a2) -> a1 == v1 && a2 == v2);
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */

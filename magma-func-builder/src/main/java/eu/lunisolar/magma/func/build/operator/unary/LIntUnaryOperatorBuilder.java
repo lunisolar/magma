@@ -30,6 +30,7 @@ import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import java.util.function.*;
+import java.util.Objects;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -101,6 +102,18 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		}
 		this.handling = handling;
 		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public LIntUnaryOperatorBuilder forValue(int v, LIntUnaryOperator function) {
+		PartialCaseWithIntProduct.The pc = partialCaseFactoryMethod(a -> a == v);
+		pc.evaluate(function);
+		return fluentCtx();
+	}
+
+	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
+	public PartialCaseWithIntProduct.The<LIntUnaryOperatorBuilder, LIntPredicate, LIntUnaryOperator> forValue(int v) {
+		return partialCaseFactoryMethod(a -> a == v);
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
