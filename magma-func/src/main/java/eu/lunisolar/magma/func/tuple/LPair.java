@@ -46,7 +46,7 @@ import java.util.stream.*;
  */
 @SuppressWarnings("UnusedDeclaration")
 public interface LPair<T1,T2> extends LTuple<Object> 
- , Map.Entry<T2, T1> {
+ , Map.Entry<T1, T2> {
 
     int SIZE = 2;
 
@@ -75,27 +75,24 @@ public interface LPair<T1,T2> extends LTuple<Object>
         return SIZE;
     }
 
-    
-
         //<editor-fold desc="Map.Entry">
 
         /** Returns key as Entry.key() */
-        @Override default T2 getKey() {
-			return second();
-		}
-
-        /** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
-		@Override default T1 getValue() {
+        @Override default T1 getKey() {
 			return first();
 		}
 
-		@Override default T1 setValue(T1 value) {
+        /** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
+		@Override default T2 getValue() {
+			return second();
+		}
+
+		@Override default T2 setValue(T2 value) {
 			throw new UnsupportedOperationException();
 		}
 
 		//</editor-fold>
-		
-    
+
 
     /** Static hashCode() implementation method that takes same arguments as fields of the LPair and calculates hash from it. */
     static <T1,T2> int argHashCode(T1 a1,T2 a2) {
@@ -350,6 +347,12 @@ public interface LPair<T1,T2> extends LTuple<Object>
 
 
 
+
+        @Override public T2 setValue(T2 value) {
+            var old = second();
+            second(value);
+            return old;
+        }
 
 
 
